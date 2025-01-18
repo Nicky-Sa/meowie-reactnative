@@ -7,7 +7,10 @@ type Props = {
 
 export const GradientBg = ({ children, colors }: PropsWithChildren<Props>) => {
   return (
-    <LinearGradient colors={colors} className={"flex-1 h-full w-full bg-black"}>
+    <LinearGradient
+      colors={colors}
+      className={"flex-1 h-full w-full bg-black"}
+    >
       {children}
     </LinearGradient>
   );

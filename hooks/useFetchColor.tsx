@@ -7,17 +7,17 @@ export const useFetchColor = (imageUri: string) => {
   useEffect(() => {
     const fetchColors = async (imageUri: string) => {
       try {
-        const colors = await getColors(imageUri, {
+        const result = await getColors(imageUri, {
           fallback: "#000000",
           cache: true,
           key: imageUri,
         });
-        console.log(colors);
-        if (colors.platform === "android") {
-          setColors([colors.dominant]);
+        console.log({result});
+        if (result.platform === "android") {
+          setColors([result.dominant]);
         }
-        if (colors.platform === "ios") {
-          setColors([colors.primary]);
+        if (result.platform === "ios") {
+          setColors([result.primary]);
         }
       } catch (error) {
         console.error("Error fetching image colors:", error);
