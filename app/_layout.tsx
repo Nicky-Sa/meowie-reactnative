@@ -29,12 +29,16 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}>
+    <ThemeProvider
+      value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
+    >
       <Stack>
-        <Stack.Screen name="(home)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="index"
+          options={{ headerShown: false, title: "Meowie" }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
     </ThemeProvider>
   );
 }

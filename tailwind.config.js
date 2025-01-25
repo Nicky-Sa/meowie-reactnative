@@ -7,10 +7,14 @@ module.exports = {
     extend: {
       colors: {
         text: {
-          primary: "#FAFAFA",
+          primary: {
+            foreground: "#FAFAFA",
+          },
           "muted-foreground": "#A1A1AA",
         },
-        primary: "#4287f5",
+        primary: {
+          100: "#18181B",
+        },
       },
     },
   },

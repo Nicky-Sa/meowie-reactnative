@@ -47,3 +47,11 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+.text-default {
+  @apply text-text-muted-foreground font-normal text-lg; /* Tailwind utility classes */
+}
+
+.text-small {
+  @apply text-text-muted-foreground font-normal text-base; /* Tailwind utility classes */
+}

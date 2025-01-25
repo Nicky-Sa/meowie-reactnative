@@ -5,6 +5,7 @@ const { getDefaultConfig } = require("expo/metro-config");
 const config = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 });
+config.resolver.assetExts.push("png");
 
 // This is not needed for NativeWind, it is configuration for Metro to understand monorepos
 const projectRoot = __dirname;
@@ -18,13 +19,35 @@ config.resolver.nodeModulesPaths = [
 
 // 2. Enable NativeWind
 const { withNativeWind } = require("nativewind/metro");
-module.exports = withNativeWind(config, {
-  // 3. Set `input` to your CSS file with the Tailwind at-rules
-  input: "./styles/global.css",
-  // This is optional
-  projectRoot,
-  inlineRem: false,
-  features: {
-    transformPercentagePolyfill: true,
+
+// 3. Enable react-native-svg-transformer
+config.transformer = {
+  ...config.transformer,
+  babelTransformerPath: require.resolve("react-native-svg-transformer"),
+};
+config.resolver.assetExts = config.resolver.assetExts.filter(
+  (ext) => ext !== "svg",
+);
+config.resolver.sourceExts = [...config.resolver.sourceExts, "svg"];
+
+module.exports = withNativeWind(
+  {
+    ...config,
+    resolver: {
+      ...config.resolver,
+      alias: {
+        "@": __dirname, // Alias for the root directory
+      },
+    },
   },
-});
+  {
+    // 4. Set `input` to your CSS file with the Tailwind at-rules
+    input: "./styles/global.css",
+    // This is optional
+    projectRoot,
+    inlineRem: false,
+    features: {
+      transformPercentagePolyfill: true,
+    },
+  },
+);
