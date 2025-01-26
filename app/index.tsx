@@ -14,25 +14,15 @@ const TMDB_DATA_LIMIT = 20;
 export default function Movies() {
   const { data, setSize } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollY = useSharedValue(0); // Track scroll position
-  const [color, setColor] = useState("#9CDFFF");
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       const { contentOffset, layoutMeasurement } = event;
-      scrollY.value = contentOffset.y; // Update scroll position
+      const activeIndex = Math.floor(
+        contentOffset.y / layoutMeasurement.height,
+      );
 
-      // Calculate the current index based on scroll progress
-      const progress = contentOffset.y / layoutMeasurement.height;
-      const activeIndex = Math.floor(progress); // Current index
-      const fractionalIndex = progress - activeIndex; // Fractional part (0 to 1)
-
-      // Update currentIndex dynamically
-      if (fractionalIndex > 0.1) {
-        runOnJS(setCurrentIndex)(activeIndex + 1); // Next index
-      } else {
-        runOnJS(setCurrentIndex)(activeIndex); // Current index
-      }
+      runOnJS(setCurrentIndex)(activeIndex);
 
       // Trigger load more when near the bottom
       if (
@@ -48,7 +38,6 @@ export default function Movies() {
 
   return (
     <GestureHandlerRootView className={"flex-1"}>
-      <GradientBg colors={[`${color}75`, "transparent"]}>
         <Animated.ScrollView
           pagingEnabled
           scrollEventThrottle={16}
@@ -59,15 +48,11 @@ export default function Movies() {
             <Details
               key={index}
               id={id}
-              scrollY={scrollY}
-              setColor={setColor}
-              index={index}
               shouldPlay={index === currentIndex}
               shouldFetch={index === currentIndex || index === currentIndex + 1}
             />
           ))}
         </Animated.ScrollView>
-      </GradientBg>
     </GestureHandlerRootView>
   );
 }

@@ -7,8 +7,8 @@ import RottenTomatoLogo from "@/assets/images/ratings/Rotten_Tomatoes.svg";
 import Chip from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { useFetchColor } from "@/hooks/useFetchColor";
-import { memo, useEffect } from "react";
-import Animated, {
+import { memo } from "react";
+import {
   interpolate,
   SharedValue,
   useAnimatedStyle,
@@ -18,42 +18,15 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 type Props = {
   id: number;
-  scrollY: SharedValue<number>; // Scroll position
-  index: number;
-  setColor: (color: string) => void;
   shouldPlay: boolean;
   shouldFetch: boolean;
 };
 
 export const Details = memo(
-  ({ id, scrollY, index,setColor, shouldPlay, shouldFetch }: Props) => {
+  ({ id, shouldPlay, shouldFetch }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
-    console.log(index, shouldFetch, shouldPlay);
-
-
-    // useEffect(() => {
-    //   if (shouldPlay) setColor(color);
-    // }, [color, shouldPlay]);
     // const color = "#9CDFFF";
-
-    // Animate scale based on scroll position
-    // const animatedStyle = useAnimatedStyle(() => {
-    //   const scale = interpolate(
-    //     scrollY.value,
-    //     [
-    //       (index - 1) * SCREEN_HEIGHT, // Previous item
-    //       index * SCREEN_HEIGHT, // Current item
-    //       (index + 1) * SCREEN_HEIGHT, // Next item
-    //     ],
-    //     [1.5, 1, 0.8], // Scale values
-    //     { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-    //   );
-
-    //   return {
-    //     transform: [{ scale }],
-    //   };
-    // });
 
     if (isLoading || !data) {
       return (
@@ -62,25 +35,17 @@ export const Details = memo(
           style={{
             height: SCREEN_HEIGHT,
           }}
-        />
+        >
+          <Text>Loading...</Text>
+        </View>
       );
     }
 
-
     return (
-      <Animated.View
-        style={[
-          {
-            height: SCREEN_HEIGHT,
-          },
-          // animatedStyle,
-        ]}
-      >
+      <GradientBg colors={[`${color}75`, "transparent"]}>
         <View
-          className={cn(
-            `flex h-full w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12 transition-all duration-500`,
-            // shouldPlay ? "opacity-100" : "opacity-80",
-          )}
+          className={`flex w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12`}
+          style={{ height: SCREEN_HEIGHT }}
         >
           <Text className={"text-4xl font-bold text-text-primary-foreground"}>
             {data.title}
@@ -130,7 +95,7 @@ export const Details = memo(
             </Text>
           </View>
         </View>
-      </Animated.View>
+      </GradientBg>
     );
   },
 );
