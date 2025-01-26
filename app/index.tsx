@@ -21,9 +21,9 @@ export default function Movies() {
     onScroll: (event) => {
       const { contentOffset, layoutMeasurement } = event;
       const progress = contentOffset.y / layoutMeasurement.height;
+      scrollY.value = contentOffset.y; // Update shared value
       const activeIndex = Math.floor(progress);
 
-      scrollY.value = contentOffset.y; // Update shared value
       runOnJS(setCurrentIndex)(activeIndex);
 
       // Trigger load more when near the bottom

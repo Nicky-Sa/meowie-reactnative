@@ -74,9 +74,7 @@ export const Details = memo(
           style={{
             height: SCREEN_HEIGHT,
           }}
-        >
-          <Text>Loading...</Text>
-        </View>
+        />
       );
     }
 
