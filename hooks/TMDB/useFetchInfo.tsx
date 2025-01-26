@@ -1,4 +1,4 @@
-import { formatDuration } from "@/lib/utils";
+import { formatDuration, findTrailerKey } from "@/lib/utils";
 import {
   APIInfo as TMDB_APIInfo,
   RequiredInfo as TMDB_RequiredInfo,
@@ -9,7 +9,7 @@ import {
 } from "@/models/omdb/info";
 import useSWR, { Fetcher } from "swr";
 
-export const useFetchInfo = (id: number) => {
+export const useFetchInfo = (id: number, shouldFetch: boolean) => {
   let data: (TMDB_RequiredInfo & OMDB_RequiredInfo) | undefined = undefined;
   let error: any;
   let isLoading: boolean;
@@ -20,7 +20,9 @@ export const useFetchInfo = (id: number) => {
   const tmdbFetcher: Fetcher<TMDB_APIInfo> = (url: string) =>
     fetch(url).then((r) => r.json());
   const tmdbApiKey = "REDACTED";
-  const tmdbUrl = `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,keywords,release_dates&language=en-US&api_key=${tmdbApiKey}`;
+  const tmdbUrl = shouldFetch
+    ? `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,release_dates&language=en-US&api_key=${tmdbApiKey}`
+    : null;
   const tmdbResult = useSWR(tmdbUrl, tmdbFetcher);
 
   // OMDB API
@@ -76,16 +78,8 @@ export const useFetchInfo = (id: number) => {
         )?.release_dates[0].certification ||
           omdbResult.data?.Rated) ??
         "N/A",
-      trailerKey:
-        tmdbResult.data.videos.results.find(
-          (result) =>
-            result.type === "Trailer" &&
-            result.official &&
-            result.site === "YouTube",
-        )?.key ?? "",
-      keywords: tmdbResult.data.keywords.keywords.map(
-        (keyword) => keyword.name,
-      ),
+      trailerKey: findTrailerKey(tmdbResult.data.videos),
+      genres: tmdbResult.data.genres.map((genre) => genre.name),
       // omdb
       ratings:
         omdbResult.data?.Ratings.map((rating) => ({

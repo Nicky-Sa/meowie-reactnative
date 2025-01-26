@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { View, Pressable } from "react-native";
+import { View, Pressable, ActivityIndicator } from "react-native";
 import Icon from "@expo/vector-icons/Feather";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ type Props = {
 export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   const [playing, setPlaying] = useState(false);
   const playerRef = useRef<YoutubeIframeRef>(null);
+  const [isReady, setIsReady] = useState(false);
 
   const [mute, setMute] = useAtom(isMuteAtom);
   const [startFade, setStartFade] = useState(false);
@@ -46,39 +47,45 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   }, [shouldPlay]);
 
   return (
-    <Pressable
-      className={"relative mt-4 w-full rounded-xl"}
-      onPress={() => setMute((prev) => !prev)}
-    >
-      <View
+    <>
+      <Pressable
         className={cn(
-          "absolute right-0 top-0 z-10 flex h-full w-full items-center justify-center",
+          "relative mt-4 w-full rounded-xl",
+          !isReady ? "animate-pulse bg-primary-100" : "bg-transparent",
         )}
+        onPress={() => setMute((prev) => !prev)}
       >
-        <Icon
+        <View
           className={cn(
-            startFade ? "opacity-100" : "opacity-0",
-            "rounded-full bg-black/70 p-3 transition-all duration-200",
+            "absolute right-0 top-0 z-10 flex h-full w-full items-center justify-center",
           )}
-          name={mute ? "volume-x" : "volume-2"}
-          size={32}
-          color="white"
-        />
-      </View>
-      <View pointerEvents={"none"}>
-        <YoutubePlayer
-          ref={playerRef}
-          webViewStyle={{ borderRadius: 12 }}
-          height={200}
-          play={playing}
-          volume={30}
-          mute={mute}
-          forceAndroidAutoplay
-          initialPlayerParams={{ controls: false, loop: true }}
-          videoId={YTKey}
-          playList={[YTKey]}
-        />
-      </View>
-    </Pressable>
+        >
+          <Icon
+            className={cn(
+              startFade ? "opacity-100" : "opacity-0",
+              "rounded-full bg-black/70 p-3 transition-all duration-200",
+            )}
+            name={mute ? "volume-x" : "volume-2"}
+            size={32}
+            color="white"
+          />
+        </View>
+        <View pointerEvents={"none"}>
+          <YoutubePlayer
+            ref={playerRef}
+            webViewStyle={{ borderRadius: 12 }}
+            height={200}
+            play={playing}
+            volume={30}
+            mute={mute}
+            forceAndroidAutoplay
+            initialPlayerParams={{ controls: false, loop: true }}
+            videoId={YTKey}
+            playList={[YTKey]}
+            onReady={() => setIsReady(true)}
+          />
+        </View>
+      </Pressable>
+    </>
   );
 };

@@ -6,16 +6,20 @@ const getKey = (pageIndex: number, previousPageData: any) => {
   const apiKey = "REDACTED";
   const baseUrl = `https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=true&language=en-US&sort_by=popularity.desc&api_key=${apiKey}`;
 
-  if (previousPageData && !previousPageData.length) return null; // reached the end
+  // Stop fetching if there are no more results
+  if (previousPageData && !previousPageData.results.length) return null;
+
   return `${baseUrl}&page=${pageIndex + 1}`; // SWR key
 };
 
 export const useFetchMoviesIdList = () => {
   const fetcher: Fetcher<APIMoviesList> = (url: string) =>
     fetch(url).then((r) => r.json());
-  const { data, size, setSize } = useSWRInfinite(getKey, fetcher);
+  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
 
-  const idList = data ? data[0].results.map((result) => result.id) : [];
+  const idList = data
+    ? data.flatMap((page) => page.results.map((movie) => movie.id)) // Extract `id` from each movie
+    : [];
 
-  return { data: idList, size, setSize };
+  return { data: idList, size, setSize, isLoading };
 };

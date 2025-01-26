@@ -1,23 +1,30 @@
+import { isDarkColor } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { getColors } from "react-native-image-colors";
 
-export const useFetchColor = (imageUri: string) => {
-  const [colors, setColors] = useState<[string, ...string[]]>(["#737373"]);
+export const useFetchColor = (imageUri?: string) => {
+  const [color, setColor] = useState("#18181B");
 
   useEffect(() => {
+    if (!imageUri) {
+      return;
+    }
     const fetchColors = async (imageUri: string) => {
       try {
         const result = await getColors(imageUri, {
-          fallback: "#000000",
+          fallback: "#18181B",
           cache: true,
           key: imageUri,
         });
-        console.log({result});
         if (result.platform === "android") {
-          setColors([result.dominant]);
+          setColor(result.dominant);
         }
         if (result.platform === "ios") {
-          setColors([result.primary]);
+          isDarkColor(result.primary)
+            ? isDarkColor(result.secondary)
+              ? setColor(result.detail)
+              : setColor(result.secondary)
+            : setColor(result.primary);
         }
       } catch (error) {
         console.error("Error fetching image colors:", error);
@@ -27,5 +34,5 @@ export const useFetchColor = (imageUri: string) => {
     fetchColors(imageUri);
   }, [imageUri]);
 
-  return colors;
+  return color;
 };

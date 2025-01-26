@@ -6,17 +6,17 @@ export type RequiredInfo = {
   trailerKey: string;
   posterPath: string;
   overview: string;
-  keywords: string[];
+  genres: string[];
 };
 
 export type APIInfo = {
+  id: number;
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: BelongsToCollection;
   budget: number;
   genres: Genre[];
   homepage: string;
-  id: number;
   imdb_id: string;
   origin_country: string[];
   original_language: string;
@@ -37,7 +37,6 @@ export type APIInfo = {
   vote_average: number;
   vote_count: number;
   videos: Videos;
-  keywords: Keywords;
   release_dates: ReleaseDates;
 };
 
@@ -86,14 +85,6 @@ export type Videos = {
   }[];
 };
 
-export type Keywords = {
-  keywords: Keyword[];
-};
-
-export type Keyword = {
-  id: number;
-  name: string;
-};
 
 export interface ReleaseDates {
   results: { iso_3166_1: string; release_dates: ReleaseDate[] }[];
