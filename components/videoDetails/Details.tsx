@@ -8,7 +8,7 @@ import Chip from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo } from "react";
-import {
+import Animated, {
   interpolate,
   SharedValue,
   useAnimatedStyle,
@@ -20,13 +20,40 @@ type Props = {
   id: number;
   shouldPlay: boolean;
   shouldFetch: boolean;
+  index: number;
+  scrollY: SharedValue<number>;
 };
 
 export const Details = memo(
-  ({ id, shouldPlay, shouldFetch }: Props) => {
+  ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
-    // const color = "#9CDFFF";
+
+    // Animated styles for scaling and opacity
+    const animatedStyle = useAnimatedStyle(() => {
+      const inputRange = [
+        (index - 1) * SCREEN_HEIGHT,
+        index * SCREEN_HEIGHT,
+        (index + 1) * SCREEN_HEIGHT,
+      ];
+
+      const scale = interpolate(
+        scrollY.value,
+        inputRange,
+        [1.3, 1, 0.9], // Scale down as you scroll away
+      );
+
+      const opacity = interpolate(
+        scrollY.value,
+        inputRange,
+        [0.5, 1, 0.5], // Fade out as you scroll away
+      );
+
+      return {
+        transform: [{ scale }],
+        opacity,
+      };
+    });
 
     if (isLoading || !data) {
       return (
@@ -42,10 +69,15 @@ export const Details = memo(
     }
 
     return (
-      <GradientBg colors={[`${color}75`, "transparent"]}>
-        <View
+      <GradientBg colors={[`${color}75`, "transparent"]} scrollY={scrollY} index={index}>
+        <Animated.View
+          style={[
+            {
+              height: SCREEN_HEIGHT,
+            },
+            animatedStyle, // Apply animated styles
+          ]}
           className={`flex w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12`}
-          style={{ height: SCREEN_HEIGHT }}
         >
           <Text className={"text-4xl font-bold text-text-primary-foreground"}>
             {data.title}
@@ -94,7 +126,7 @@ export const Details = memo(
               {data.overview}
             </Text>
           </View>
-        </View>
+        </Animated.View>
       </GradientBg>
     );
   },
