@@ -7,7 +7,7 @@ import RottenTomatoLogo from "@/assets/images/ratings/Rotten_Tomatoes.svg";
 import Chip from "@/components/ui/Chip";
 import { cn } from "@/lib/utils";
 import { useFetchColor } from "@/hooks/useFetchColor";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Animated, {
   interpolate,
   SharedValue,
@@ -18,6 +18,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 type Props = {
   id: number;
+  setColor: (color: string) => void;
   shouldPlay: boolean;
   shouldFetch: boolean;
   index: number;
@@ -25,9 +26,12 @@ type Props = {
 };
 
 export const Details = memo(
-  ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
+  ({ id, setColor, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
+    useEffect(() => {
+      if (shouldPlay) setColor(color);
+    }, [color, shouldPlay]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
@@ -69,65 +73,63 @@ export const Details = memo(
     }
 
     return (
-      <GradientBg colors={[`${color}75`, "transparent"]} scrollY={scrollY} index={index}>
-        <Animated.View
-          style={[
-            {
-              height: SCREEN_HEIGHT,
-            },
-            animatedStyle, // Apply animated styles
-          ]}
-          className={`flex w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12`}
+      <Animated.View
+        style={[
+          {
+            height: SCREEN_HEIGHT,
+          },
+          animatedStyle, // Apply animated styles
+        ]}
+        className={`flex w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12`}
+      >
+        <Text className={"text-4xl font-bold text-text-primary-foreground"}>
+          {data.title}
+        </Text>
+        <View className={"flex flex-row gap-8"}>
+          <Text className={"text-default"}>{data.publishYear}</Text>
+          <Text className={"text-default"}>{data.certification}</Text>
+          <Text className={"text-default"}>{data.duration}</Text>
+        </View>
+        <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+        <View className={"mt-1 flex flex-row items-center gap-8"}>
+          <View className={"flex flex-row items-center gap-2"}>
+            <IMDBLogo />
+            <Text className={"text-default"}>{data.ratings[0].value}</Text>
+          </View>
+          <View className={"flex flex-row items-center gap-2"}>
+            <RottenTomatoLogo />
+            <Text className={"text-default"}>{data.ratings[1].value}</Text>
+          </View>
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className={"-mx-4 my-5 w-full grow-0"}
+          contentContainerClassName={"flex flex-row"}
         >
-          <Text className={"text-4xl font-bold text-text-primary-foreground"}>
-            {data.title}
-          </Text>
-          <View className={"flex flex-row gap-8"}>
-            <Text className={"text-default"}>{data.publishYear}</Text>
-            <Text className={"text-default"}>{data.certification}</Text>
-            <Text className={"text-default"}>{data.duration}</Text>
-          </View>
-          <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-          <View className={"mt-1 flex flex-row items-center gap-8"}>
-            <View className={"flex flex-row items-center gap-2"}>
-              <IMDBLogo />
-              <Text className={"text-default"}>{data.ratings[0].value}</Text>
-            </View>
-            <View className={"flex flex-row items-center gap-2"}>
-              <RottenTomatoLogo />
-              <Text className={"text-default"}>{data.ratings[1].value}</Text>
-            </View>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className={"-mx-4 my-5 w-full grow-0"}
-            contentContainerClassName={"flex flex-row"}
-          >
-            {data.genres.map((genre, index) => (
-              <View
-                className={cn(
-                  index === 0 ? "ml-4 mr-1" : "mx-1",
-                  index === data.genres.length - 1 ? "mr-4" : "",
-                )}
-                key={genre}
-              >
-                <Chip text={genre} />
-              </View>
-            ))}
-          </ScrollView>
-          <View className={"flex h-48 flex-row gap-4"}>
-            <Image src={data.posterPath} className={"h-full w-32 rounded-xl"} />
-            <Text
-              numberOfLines={7}
-              ellipsizeMode="tail"
-              className={"text-small flex-1 overflow-hidden"}
+          {data.genres.map((genre, index) => (
+            <View
+              className={cn(
+                index === 0 ? "ml-4 mr-1" : "mx-1",
+                index === data.genres.length - 1 ? "mr-4" : "",
+              )}
+              key={genre}
             >
-              {data.overview}
-            </Text>
-          </View>
-        </Animated.View>
-      </GradientBg>
+              <Chip text={genre} />
+            </View>
+          ))}
+        </ScrollView>
+        <View className={"flex h-48 flex-row gap-4"}>
+          <Image src={data.posterPath} className={"h-full w-32 rounded-xl"} />
+          <Text
+            numberOfLines={7}
+            ellipsizeMode="tail"
+            className={"text-small flex-1 overflow-hidden"}
+          >
+            {data.overview}
+          </Text>
+        </View>
+      </Animated.View>
     );
   },
 );
