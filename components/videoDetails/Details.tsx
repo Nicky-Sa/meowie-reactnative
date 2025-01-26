@@ -110,15 +110,11 @@ export const Details = memo(
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className={"-mx-4 my-5 w-full grow-0"}
-          contentContainerClassName={"flex flex-row"}
+          className={"my-5 w-full grow-0 overflow-visible"}
+          contentContainerClassName={"flex flex-row gap-2"}
         >
           {data.genres.map((genre, index) => (
             <View
-              className={cn(
-                index === 0 ? "ml-4 mr-1" : "mx-1",
-                index === data.genres.length - 1 ? "mr-4" : "",
-              )}
               key={genre}
             >
               <Chip text={genre} />

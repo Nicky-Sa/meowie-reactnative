@@ -8,6 +8,8 @@ import Animated, {
 import { useFetchMoviesIdList } from "@/hooks/TMDB/useFetchMoviesIdList";
 import { Details } from "@/components/videoDetails/Details";
 import { GradientBg } from "@/components/ui/GradientBg";
+import Logo from "@/assets/images/logo.svg";
+import { View } from "react-native";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -41,6 +43,9 @@ export default function Movies() {
   return (
     <GestureHandlerRootView className={"flex-1"}>
       <GradientBg color={`${color}90`}>
+        <View className={"flex items-center mt-8 bg-transparent"}>
+          <Logo />
+        </View>
         <Animated.ScrollView
           pagingEnabled
           scrollEventThrottle={16}
