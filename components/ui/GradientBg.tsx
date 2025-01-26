@@ -2,22 +2,21 @@ import { PropsWithChildren } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
-  colors: [string, string, ...string[]];
+  color: string
 };
 
 
-export const GradientBg = ({
-  children,
-  colors,
-}: PropsWithChildren<Props>) => {
-
+export const GradientBg = ({ children, color }: PropsWithChildren<Props>) => {
   return (
-      <LinearGradient
-        colors={colors}
-        className={"h-full w-full flex-1 bg-primary-100"}
-        locations={[0.5, 1]}
-      >
-        {children}
-      </LinearGradient>
+    <LinearGradient
+      colors={["transparent", "#000000"]}
+      className={"h-full w-full flex-1 transition-all"}
+      locations={[0.2, 1]}
+      style={{
+        backgroundColor: color,
+      }}
+    >
+      {children}
+    </LinearGradient>
   );
 };

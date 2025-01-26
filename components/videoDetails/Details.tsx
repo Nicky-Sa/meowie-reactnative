@@ -26,9 +26,17 @@ type Props = {
 };
 
 export const Details = memo(
-  ({ id, setColor, shouldPlay, shouldFetch, index, scrollY }: Props) => {
+  ({
+    id,
+    setColor,
+    shouldPlay,
+    shouldFetch,
+    index,
+    scrollY,
+  }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
+
     useEffect(() => {
       if (shouldPlay) setColor(color);
     }, [color, shouldPlay]);
@@ -50,7 +58,7 @@ export const Details = memo(
       const opacity = interpolate(
         scrollY.value,
         inputRange,
-        [0.5, 1, 0.5], // Fade out as you scroll away
+        [0.1, 1, 0.1], // Fade out as you scroll away
       );
 
       return {

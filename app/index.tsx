@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -15,14 +15,13 @@ export default function Movies() {
   const { data, setSize } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
-  const [color, setColor] = useState("#4287f5");
+  const [color, setColor] = useState("");
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       const { contentOffset, layoutMeasurement } = event;
-      const activeIndex = Math.floor(
-        contentOffset.y / layoutMeasurement.height,
-      );
+      const progress = contentOffset.y / layoutMeasurement.height;
+      const activeIndex = Math.floor(progress);
 
       scrollY.value = contentOffset.y; // Update shared value
       runOnJS(setCurrentIndex)(activeIndex);
@@ -41,7 +40,7 @@ export default function Movies() {
 
   return (
     <GestureHandlerRootView className={"flex-1"}>
-      <GradientBg colors={[`${color}75`, "transparent"]}>
+      <GradientBg color={`${color}90`}>
         <Animated.ScrollView
           pagingEnabled
           scrollEventThrottle={16}
