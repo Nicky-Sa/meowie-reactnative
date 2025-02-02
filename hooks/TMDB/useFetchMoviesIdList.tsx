@@ -4,7 +4,7 @@ import useSWRInfinite from "swr/infinite";
 
 const getKey = (pageIndex: number, previousPageData: any) => {
   const apiKey = "REDACTED";
-  const baseUrl = `https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=true&language=en-US&sort_by=popularity.desc&api_key=${apiKey}`;
+  const baseUrl = `https://api.themoviedb.org/3/discover/movie?include_adult=true&language=en-US&sort_by=popularity.desc&api_key=${apiKey}`;
 
   // Stop fetching if there are no more results
   if (previousPageData && !previousPageData.results.length) return null;

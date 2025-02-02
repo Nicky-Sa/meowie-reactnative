@@ -19,13 +19,11 @@ import {
 const TMDB_DATA_LIMIT = 20;
 
 export default function Movies() {
-  const { data, setSize } = useFetchMoviesIdList();
+  const { data, setSize, size } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
   const [color, setColor] = useState("#000000");
-  const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const AVAILABLE_HEIGHT = height - (insets.top + insets.bottom);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -41,9 +39,7 @@ export default function Movies() {
         contentOffset.y + layoutMeasurement.height >=
         layoutMeasurement.height * (data.length - 1)
       ) {
-        runOnJS(() =>
-          setSize(Math.floor((currentIndex + 2) / TMDB_DATA_LIMIT) + 1),
-        )();
+        runOnJS(setSize)(Math.floor((currentIndex + 2) / TMDB_DATA_LIMIT) + 1);
       }
     },
   });

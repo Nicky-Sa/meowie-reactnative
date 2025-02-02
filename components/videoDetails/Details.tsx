@@ -34,7 +34,6 @@ export const Details = memo(
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
     const { height: AVAILABLE_HEIGHT } = useWindowDimensions();
-  
 
     useEffect(() => {
       if (shouldPlay) setColor(color);
