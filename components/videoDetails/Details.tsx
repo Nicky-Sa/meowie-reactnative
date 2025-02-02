@@ -1,11 +1,16 @@
 import { GradientBg } from "@/components/ui/GradientBg";
 import { useFetchInfo } from "@/hooks/TMDB/useFetchInfo";
-import { View, Text, Dimensions, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 import { TrailerPlayer } from "@/components/videoDetails/TrailerPlayer";
 import IMDBLogo from "@/assets/images/ratings/IMDB.svg";
 import RottenTomatoLogo from "@/assets/images/ratings/Rotten_Tomatoes.svg";
 import Chip from "@/components/ui/Chip";
-import { cn } from "@/lib/utils";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -13,8 +18,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   id: number;
@@ -26,16 +30,12 @@ type Props = {
 };
 
 export const Details = memo(
-  ({
-    id,
-    setColor,
-    shouldPlay,
-    shouldFetch,
-    index,
-    scrollY,
-  }: Props) => {
+  ({ id, setColor, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
+    const { height: AVAILABLE_HEIGHT } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
+    // const AVAILABLE_HEIGHT = height - (insets.top + insets.bottom);
 
     useEffect(() => {
       if (shouldPlay) setColor(color);
@@ -44,15 +44,15 @@ export const Details = memo(
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
       const inputRange = [
-        (index - 1) * SCREEN_HEIGHT,
-        index * SCREEN_HEIGHT,
-        (index + 1) * SCREEN_HEIGHT,
+        (index - 1) * AVAILABLE_HEIGHT,
+        index * AVAILABLE_HEIGHT,
+        (index + 1) * AVAILABLE_HEIGHT,
       ];
 
       const scale = interpolate(
         scrollY.value,
         inputRange,
-        [1.3, 1, 0.9], // Scale down as you scroll away
+        [1.2, 1, 0.9], // Scale down as you scroll away
       );
 
       const opacity = interpolate(
@@ -72,7 +72,7 @@ export const Details = memo(
         <View
           className={"flex-1 items-center justify-center"}
           style={{
-            height: SCREEN_HEIGHT,
+            height: AVAILABLE_HEIGHT,
           }}
         />
       );
@@ -82,22 +82,23 @@ export const Details = memo(
       <Animated.View
         style={[
           {
-            height: SCREEN_HEIGHT,
+            height: AVAILABLE_HEIGHT,
           },
           animatedStyle, // Apply animated styles
         ]}
-        className={`flex w-full flex-1 flex-col items-start justify-center gap-1 p-4 pt-12`}
+        className={`flex w-full flex-1 flex-col items-start justify-center gap-2 px-4`}
       >
-        <Text className={"text-4xl font-bold text-text-primary-foreground"}>
-          {data.title}
-        </Text>
-        <View className={"flex flex-row gap-8"}>
-          <Text className={"text-default"}>{data.publishYear}</Text>
-          <Text className={"text-default"}>{data.certification}</Text>
-          <Text className={"text-default"}>{data.duration}</Text>
+        <View className={"flex flex-col"}>
+          <Text className={"text-title"}>{data.title}</Text>
+          <View className={"flex flex-row gap-8"}>
+            <Text className={"text-default"}>{data.publishYear}</Text>
+            <Text className={"text-default"}>{data.certification}</Text>
+            <Text className={"text-default"}>{data.duration}</Text>
+          </View>
         </View>
+
         <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-        <View className={"mt-1 flex flex-row items-center gap-8"}>
+        <View className={"-mt-1.5 flex flex-row items-center gap-8"}>
           <View className={"flex flex-row items-center gap-2"}>
             <IMDBLogo />
             <Text className={"text-default"}>{data.ratings[0].value}</Text>
@@ -107,22 +108,28 @@ export const Details = memo(
             <Text className={"text-default"}>{data.ratings[1].value}</Text>
           </View>
         </View>
+
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          className={"my-5 w-full grow-0 overflow-visible"}
+          className={"my-3 w-full grow-0 overflow-visible"}
           contentContainerClassName={"flex flex-row gap-2"}
         >
           {data.genres.map((genre, index) => (
-            <View
-              key={genre}
-            >
+            <View key={genre}>
               <Chip text={genre} />
             </View>
           ))}
         </ScrollView>
-        <View className={"flex h-48 flex-row gap-4"}>
-          <Image src={data.posterPath} className={"h-full w-32 rounded-xl"} />
+        <View className={"flex h-[20%] flex-row justify-start gap-4"}>
+          <Image
+            src={data.posterPath}
+            className={"basis-[28%] rounded-lg"}
+            style={{
+              aspectRatio: 2 / 3,
+            }}
+            resizeMode={"contain"}
+          />
           <Text
             numberOfLines={7}
             ellipsizeMode="tail"

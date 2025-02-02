@@ -48,10 +48,18 @@
   }
 }
 
+.text-title {
+  @apply text-4xl font-bold text-text-primary-foreground
+}
+
+.text-subtitle {
+  @apply text-3xl font-bold text-text-primary-foreground
+}
+
 .text-default {
-  @apply text-text-muted-foreground font-normal text-lg; /* Tailwind utility classes */
+  @apply text-text-muted-foreground font-normal text-lg;
 }
 
 .text-small {
-  @apply text-text-muted-foreground font-normal text-base; /* Tailwind utility classes */
+  @apply text-text-muted-foreground font-normal text-base;
 }

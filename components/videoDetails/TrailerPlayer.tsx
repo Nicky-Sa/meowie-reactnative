@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { View, Pressable, ActivityIndicator } from "react-native";
+import { View, Pressable, AppState } from "react-native";
 import Icon from "@expo/vector-icons/Feather";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { cn } from "@/lib/utils";
 import { useAtom } from "jotai";
 import { isMuteAtom } from "@/atoms";
+import { useAppState } from "@/hooks/useAppState";
 
 type Props = {
   YTKey: string;
@@ -21,6 +22,8 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   const [startFade, setStartFade] = useState(false);
   const isFirstLoad = useRef(true);
 
+  const appState = useAppState();
+
   useEffect(() => {
     if (isFirstLoad.current) {
       // Skip the effect on the first load
@@ -35,7 +38,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   }, [mute]);
 
   useEffect(() => {
-    if (shouldPlay) {
+    if (shouldPlay && appState === "active") {
       // Reset the video and play
       if (playerRef.current) {
         playerRef.current.seekTo(0, true); // Jump to the beginning (0 seconds)
@@ -44,13 +47,13 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
     } else {
       setPlaying(false);
     }
-  }, [shouldPlay]);
+  }, [shouldPlay, appState]);
 
   return (
     <>
       <Pressable
         className={cn(
-          "relative mt-4 w-full rounded-xl",
+          "relative min-h-fit w-full",
           !isReady ? "animate-pulse bg-primary-100" : "bg-transparent",
         )}
         onPress={() => setMute((prev) => !prev)}
@@ -73,8 +76,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         <View pointerEvents={"none"}>
           <YoutubePlayer
             ref={playerRef}
-            webViewStyle={{ borderRadius: 12 }}
-            height={200}
+            height={210}
             play={playing}
             volume={30}
             mute={mute}

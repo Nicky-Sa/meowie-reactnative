@@ -8,8 +8,13 @@ import Animated, {
 import { useFetchMoviesIdList } from "@/hooks/TMDB/useFetchMoviesIdList";
 import { Details } from "@/components/videoDetails/Details";
 import { GradientBg } from "@/components/ui/GradientBg";
-import Logo from "@/assets/images/logo.svg";
-import { View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
+import Rive from "rive-react-native";
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -18,6 +23,9 @@ export default function Movies() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
   const [color, setColor] = useState("");
+  const { height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const AVAILABLE_HEIGHT = height - (insets.top + insets.bottom);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -41,30 +49,46 @@ export default function Movies() {
   });
 
   return (
-    <GestureHandlerRootView className={"flex-1"}>
-      <GradientBg color={`${color}90`}>
-        <View className={"flex items-center mt-8 bg-transparent"}>
-          <Logo />
-        </View>
-        <Animated.ScrollView
-          pagingEnabled
-          scrollEventThrottle={16}
-          onScroll={scrollHandler}
-          showsVerticalScrollIndicator={false}
-        >
-          {data.map((id, index) => (
-            <Details
-              key={index}
-              id={id}
-              setColor={setColor}
-              shouldPlay={index === currentIndex}
-              shouldFetch={index === currentIndex || index === currentIndex + 1}
-              index={index}
-              scrollY={scrollY}
+    <SafeAreaProvider>
+      <GestureHandlerRootView className={"flex-1"}>
+        <GradientBg color={`${color}90`}>
+          <View
+            className={"absolute z-10 w-full flex-1 items-start px-2"}
+            style={{
+              marginTop: insets.top + 8,
+              height: insets.top + 32,
+            }}
+          >
+            <Rive
+              url="https://meowie-public.s3.eu-central-1.amazonaws.com/MeowieLogo.riv"
+              style={{
+                width: "40%",
+                height: "100%",
+              }}
             />
-          ))}
-        </Animated.ScrollView>
-      </GradientBg>
-    </GestureHandlerRootView>
+          </View>
+          <Animated.ScrollView
+            pagingEnabled
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}
+            showsVerticalScrollIndicator={false}
+          >
+            {data.map((id, index) => (
+              <Details
+                key={index}
+                id={id}
+                setColor={setColor}
+                shouldPlay={index === currentIndex}
+                shouldFetch={
+                  index === currentIndex || index === currentIndex + 1
+                }
+                index={index}
+                scrollY={scrollY}
+              />
+            ))}
+          </Animated.ScrollView>
+        </GradientBg>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }

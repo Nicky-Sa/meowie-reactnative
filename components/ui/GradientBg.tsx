@@ -2,9 +2,8 @@ import { PropsWithChildren } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
-  color: string
+  color: string;
 };
-
 
 export const GradientBg = ({ children, color }: PropsWithChildren<Props>) => {
   return (
