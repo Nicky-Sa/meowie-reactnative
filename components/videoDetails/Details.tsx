@@ -50,7 +50,7 @@ export const Details = memo(
       const scale = interpolate(
         scrollY.value,
         inputRange,
-        [1.2, 1, 0.9], // Scale down as you scroll away
+        [1.2, 1, 0.8], // Scale down as you scroll away
       );
 
       const opacity = interpolate(
