@@ -23,7 +23,6 @@ export const GradientBg = ({ children, color }: PropsWithChildren<Props>) => {
       prevColor.current = color; // Update the previous color
     }
   }, [color]);
-  console.log("color", color, "prevColor", prevColor.current, "backgroundColor", backgroundColor.value);
 
 
   const animatedStyle = useAnimatedStyle(() => ({

@@ -49,17 +49,17 @@
 }
 
 .text-title {
-  @apply text-4xl font-bold text-text-primary-foreground
+  @apply text-4xl font-bold text-slate-50
 }
 
 .text-subtitle {
-  @apply text-3xl font-bold text-text-primary-foreground
+  @apply text-3xl font-bold text-slate-50
 }
 
 .text-default {
-  @apply text-text-muted-foreground font-normal text-lg;
+  @apply text-slate-300 font-normal text-lg;
 }
 
 .text-small {
-  @apply text-text-muted-foreground font-normal text-base;
+  @apply text-slate-300 font-normal text-base;
 }

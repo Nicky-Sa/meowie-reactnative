@@ -34,8 +34,7 @@ export const Details = memo(
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
     const { height: AVAILABLE_HEIGHT } = useWindowDimensions();
-    const insets = useSafeAreaInsets();
-    // const AVAILABLE_HEIGHT = height - (insets.top + insets.bottom);
+  
 
     useEffect(() => {
       if (shouldPlay) setColor(color);
@@ -89,7 +88,15 @@ export const Details = memo(
         className={`flex w-full flex-1 flex-col items-start justify-center gap-2 px-4`}
       >
         <View className={"flex flex-col"}>
-          <Text className={"text-title"}>{data.title}</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className={"flex grow-0 -mx-4"}
+          >
+            <Text className={"text-title px-4"}>
+              {data.title}
+            </Text>
+          </ScrollView>
           <View className={"flex flex-row gap-8"}>
             <Text className={"text-default"}>{data.publishYear}</Text>
             <Text className={"text-default"}>{data.certification}</Text>
