@@ -22,7 +22,7 @@ export default function Movies() {
   const { data, setSize } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#000000");
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const AVAILABLE_HEIGHT = height - (insets.top + insets.bottom);
