@@ -12,7 +12,7 @@ export const useFetchColor = (imageUri?: string) => {
     const fetchColors = async (imageUri: string) => {
       try {
         const result = await getColors(imageUri, {
-          fallback: "#18181B",
+          fallback: "#1F3854",
           cache: true,
           key: imageUri,
         });

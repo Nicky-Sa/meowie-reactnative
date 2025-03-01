@@ -1,4 +1,4 @@
-import { GradientBg } from "@/components/ui/GradientBg";
+import { MainBg } from "@/components/ui/MainBg";
 import { useFetchInfo } from "@/hooks/TMDB/useFetchInfo";
 import {
   View,
@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { TrailerPlayer } from "@/components/videoDetails/TrailerPlayer";
 import IMDBLogo from "@/assets/images/ratings/IMDB.svg";
-import RottenTomatoLogo from "@/assets/images/ratings/Rotten_Tomatoes.svg";
-import Chip from "@/components/ui/Chip";
+import RottenTomatoLogo from "@/assets/images/ratings/RottenTomato.svg";
+import Google from "@/assets/images/icons/Google.svg";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -19,6 +19,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Bento from "@/components/ui/Bento";
 
 type Props = {
   id: number;
@@ -84,66 +85,78 @@ export const Details = memo(
           },
           animatedStyle, // Apply animated styles
         ]}
-        className={`flex w-full flex-1 flex-col items-start justify-center gap-2 px-4`}
+        className={`flex w-full flex-1 flex-col items-start justify-end gap-3 px-4 bg-blue-400`}
       >
-        <View className={"flex flex-col"}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className={"flex grow-0 -mx-4"}
-          >
-            <Text className={"text-title px-4"}>
-              {data.title}
-            </Text>
-          </ScrollView>
-          <View className={"flex flex-row gap-8"}>
-            <Text className={"text-default"}>{data.publishYear}</Text>
-            <Text className={"text-default"}>{data.certification}</Text>
-            <Text className={"text-default"}>{data.duration}</Text>
-          </View>
-        </View>
-
-        <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-        <View className={"-mt-1.5 flex flex-row items-center gap-8"}>
-          <View className={"flex flex-row items-center gap-2"}>
-            <IMDBLogo />
-            <Text className={"text-default"}>{data.ratings[0].value}</Text>
-          </View>
-          <View className={"flex flex-row items-center gap-2"}>
-            <RottenTomatoLogo />
-            <Text className={"text-default"}>{data.ratings[1].value}</Text>
-          </View>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className={"my-3 w-full grow-0 overflow-visible"}
-          contentContainerClassName={"flex flex-row gap-2"}
-        >
-          {data.genres.map((genre, index) => (
-            <View key={genre}>
-              <Chip text={genre} />
+        <Bento>
+          <View className={"flex flex-col gap-1"}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className={"-mx-4 flex grow-0"}
+            >
+              <Text className={"text-title px-4"}>{data.title}</Text>
+            </ScrollView>
+            <View className={"flex flex-row gap-8"}>
+              <Text className={"text-default"}>{data.publishYear}</Text>
+              <Text className={"text-default"}>{data.certification}</Text>
+              <Text className={"text-default"}>{data.duration}</Text>
             </View>
-          ))}
-        </ScrollView>
-        <View className={"flex h-[20%] flex-row justify-start gap-4"}>
-          <Image
-            src={data.posterPath}
-            className={"basis-[28%] rounded-lg"}
-            style={{
-              aspectRatio: 2 / 3,
-            }}
-            resizeMode={"contain"}
-          />
-          <Text
-            numberOfLines={7}
-            ellipsizeMode="tail"
-            className={"text-small flex-1 overflow-hidden"}
-          >
-            {data.overview}
-          </Text>
-        </View>
+          </View>
+        </Bento>
+
+        <Bento hasPadding={false}>
+          <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+        </Bento>
+
+        <Bento>
+          <View className={"flex flex-col gap-2"}>
+            <View className={"flex flex-row items-center gap-8"}>
+              <View className={"flex flex-row items-center gap-2"}>
+                <IMDBLogo />
+                <Text className={"text-default"}>{data.ratings[0].value}</Text>
+              </View>
+              <View className={"flex flex-row items-center gap-2"}>
+                <RottenTomatoLogo />
+                <Text className={"text-default"}>{data.ratings[1].value}</Text>
+              </View>
+            </View>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className={"w-full grow-0 overflow-visible"}
+              contentContainerClassName={"flex flex-row gap-6"}
+            >
+              {data.genres.map((genre, index) => (
+                <Text key={genre} className={"text-label"}>
+                  {genre}
+                </Text>
+              ))}
+            </ScrollView>
+          </View>
+        </Bento>
+
+        <Bento>
+          <View className={"flex flex-row justify-start gap-4"}>
+            <Image
+              src={data.posterPath}
+              className={"basis-[25%] rounded-lg"}
+              style={{
+                aspectRatio: 2 / 3,
+              }}
+              resizeMode={"contain"}
+            />
+            <Text
+              numberOfLines={5}
+              ellipsizeMode="tail"
+              className={"text-small flex-1 overflow-hidden"}
+            >
+              {data.overview}
+            </Text>
+          </View>
+        </Bento>
+        <Bento>
+          <Google />
+        </Bento>
       </Animated.View>
     );
   },

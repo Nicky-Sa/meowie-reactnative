@@ -76,7 +76,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         <View pointerEvents={"none"}>
           <YoutubePlayer
             ref={playerRef}
-            height={210}
+            height={195}
             play={playing}
             volume={30}
             mute={mute}

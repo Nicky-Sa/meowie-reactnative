@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useFetchMoviesIdList } from "@/hooks/TMDB/useFetchMoviesIdList";
 import { Details } from "@/components/videoDetails/Details";
-import { GradientBg } from "@/components/ui/GradientBg";
+import { MainBg } from "@/components/ui/MainBg";
 import { useWindowDimensions, View } from "react-native";
 import Rive from "rive-react-native";
 import {
@@ -47,16 +47,16 @@ export default function Movies() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView className={"flex-1"}>
-        <GradientBg color={`${color}90`}>
+        <MainBg color={`${color}`}>
           <View
-            className={"absolute z-10 w-full flex-1 items-start px-2"}
+            className={"absolute z-10 w-full flex-1 items-start px-2 bg-red-300"}
             style={{
-              marginTop: insets.top + 8,
-              height: insets.top + 32,
+              marginTop: insets.top,
+              height: insets.top + 24,
             }}
           >
             <Rive
-              url="https://meowie-public.s3.eu-central-1.amazonaws.com/MeowieLogo.riv"
+              url="https://meowie-public.s3.eu-central-1.amazonaws.com/Meowie-logo.riv"
               style={{
                 width: "40%",
                 height: "100%",
@@ -83,7 +83,7 @@ export default function Movies() {
               />
             ))}
           </Animated.ScrollView>
-        </GradientBg>
+        </MainBg>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

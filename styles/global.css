@@ -63,3 +63,7 @@
 .text-small {
   @apply text-slate-300 font-normal text-base;
 }
+
+.text-label {
+  @apply font-semibold text-text-muted-foreground text-lg;
+}
