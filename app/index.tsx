@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -13,11 +13,14 @@ import { DetailsContainer } from "@/components/item/details/container";
 import { Header } from "@/components/layout/header";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
+import { SplashScreenComponent } from "@/components/layout/splash";
+import { useSplash } from "@/hooks/useSplash";
 
 const TMDB_DATA_LIMIT = 20;
 
 export default function Movies() {
-  const { data, setSize, size } = useFetchMoviesIdList();
+  const { data, setSize, size, isLoading } = useFetchMoviesIdList();
+  const isReady = useSplash(isLoading);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
 
@@ -40,11 +43,15 @@ export default function Movies() {
     },
   });
 
+  if (!isReady) {
+    return <SplashScreenComponent />;
+  }
+
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView className={"flex-1"}>
         <MainBg>
-          <Header/>
+          <Header />
           <Animated.ScrollView
             pagingEnabled
             scrollEventThrottle={16}
