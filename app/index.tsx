@@ -8,15 +8,19 @@ import Animated, {
 import { useFetchMoviesIdList } from "@/hooks/tmdb/useFetchMoviesIdList";
 import { MainBg } from "@/components/layout/main-bg";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { tailwind } from "@/lib/utils";
 import { DetailsContainer } from "@/components/item/details/container";
 import { Header } from "@/components/layout/header";
-import { useAtom } from "jotai";
-import { colorAtom } from "@/atoms";
 import { SplashScreenComponent } from "@/components/layout/splash";
 import { useSplash } from "@/hooks/useSplash";
+import * as SplashScreen from "expo-splash-screen";
 
 const TMDB_DATA_LIMIT = 20;
+
+SplashScreen.preventAutoHideAsync();
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
 
 export default function Movies() {
   const { data, setSize, size, isLoading } = useFetchMoviesIdList();
