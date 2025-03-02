@@ -6,25 +6,19 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useFetchMoviesIdList } from "@/hooks/TMDB/useFetchMoviesIdList";
-import { Details } from "@/components/item/Details";
-import { MainBg } from "@/components/item/MainBg";
-import { useWindowDimensions, View } from "react-native";
-import Rive, { Alignment } from "rive-react-native";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { MainBg } from "@/components/layout/main-bg";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { tailwind } from "@/lib/utils";
+import { DetailsContainer } from "@/components/item/details/container";
+import { Header } from "@/components/layout/header";
 
 const TMDB_DATA_LIMIT = 20;
 
 export default function Movies() {
-  const { width } = useWindowDimensions();
   const { data, setSize, size } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
   const [color, setColor] = useState(tailwind.theme.colors.primary[300]);
-  const insets = useSafeAreaInsets();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -49,22 +43,7 @@ export default function Movies() {
     <SafeAreaProvider>
       <GestureHandlerRootView className={"flex-1"}>
         <MainBg color={`${color}`}>
-          <View
-            className={"absolute w-full z-10 flex-1 items-start px-4"}
-            style={{
-              marginTop: insets.top,
-              height: insets.top + 32,
-            }}
-          >
-            <Rive
-              url="https://meowie-public.s3.eu-central-1.amazonaws.com/Meowie-logo.riv"
-              style={{
-                width: "40%",
-                height: "100%",
-              }}
-              alignment={Alignment.CenterLeft}
-            />
-          </View>
+          <Header />
           <Animated.ScrollView
             pagingEnabled
             scrollEventThrottle={16}
@@ -72,7 +51,7 @@ export default function Movies() {
             showsVerticalScrollIndicator={false}
           >
             {data.map((id, index) => (
-              <Details
+              <DetailsContainer
                 key={index}
                 id={id}
                 setColor={setColor}

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { View, Pressable, AppState } from "react-native";
+import { View, Pressable } from "react-native";
 import Icon from "@expo/vector-icons/Feather";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { cn } from "@/lib/utils";

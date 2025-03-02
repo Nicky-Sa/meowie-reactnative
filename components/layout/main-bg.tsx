@@ -5,7 +5,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { View } from "react-native";
-import { ColoredEllipse } from "@/components/common/ColoredEllipse";
+import { ColoredEllipse } from "@/components/layout/colored-ellipse";
 
 type Props = {
   color: string;

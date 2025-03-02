@@ -1,4 +1,4 @@
-import { MainBg } from "@/components/item/MainBg";
+import { MainBg } from "@/components/layout/main-bg";
 import { useFetchInfo } from "@/hooks/TMDB/useFetchInfo";
 import {
   View,
@@ -6,8 +6,10 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
+  Pressable,
+  Linking,
 } from "react-native";
-import { TrailerPlayer } from "@/components/item/TrailerPlayer";
+import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/images/ratings/IMDB.svg";
 import RottenTomatoLogo from "@/assets/images/ratings/RottenTomato.svg";
 import Google from "@/assets/images/icons/Google.svg";
@@ -18,8 +20,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import Bento from "@/components/common/Bento";
-import { useTailwindBreakpoint } from "@/hooks/useTailwindBreakpoint";
+import Bento from "@/components/common/bento";
 
 type Props = {
   id: number;
@@ -30,7 +31,7 @@ type Props = {
   scrollY: SharedValue<number>;
 };
 
-export const Details = memo(
+export const DetailsContainer = memo(
   ({ id, setColor, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
     const color = useFetchColor(data?.posterPath);
@@ -158,7 +159,7 @@ export const Details = memo(
                 resizeMode={"contain"}
               />
               <Text
-                numberOfLines={5}
+                numberOfLines={6}
                 ellipsizeMode="tail"
                 className={"text-small flex-1 overflow-hidden"}
               >
@@ -167,7 +168,18 @@ export const Details = memo(
             </View>
           </Bento>
           <Bento>
-            <Google />
+            <Pressable
+              onPress={() => {
+                const encodedQuery = encodeURIComponent(data.title);
+                const url = `https://www.google.com/search?q=${encodedQuery}`;
+
+                Linking.openURL(url).catch((err) =>
+                  console.error("Failed to open URL", err),
+                );
+              }}
+            >
+              <Google />
+            </Pressable>
           </Bento>
         </View>
       </Animated.View>
