@@ -1,5 +1,5 @@
 import { MainBg } from "@/components/layout/main-bg";
-import { useFetchInfo } from "@/hooks/TMDB/useFetchInfo";
+import { useFetchInfo } from "@/hooks/tmdb/useFetchInfo";
 import {
   View,
   Text,
@@ -10,9 +10,9 @@ import {
   Linking,
 } from "react-native";
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
-import IMDBLogo from "@/assets/images/ratings/IMDB.svg";
-import RottenTomatoLogo from "@/assets/images/ratings/RottenTomato.svg";
-import Google from "@/assets/images/icons/Google.svg";
+import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
+import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";
+import Google from "@/assets/icons/google.svg";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -21,10 +21,11 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import Bento from "@/components/common/bento";
+import { useAtom } from "jotai";
+import { colorAtom } from "@/atoms";
 
 type Props = {
   id: number;
-  setColor: (color: string) => void;
   shouldPlay: boolean;
   shouldFetch: boolean;
   index: number;
@@ -32,14 +33,16 @@ type Props = {
 };
 
 export const DetailsContainer = memo(
-  ({ id, setColor, shouldPlay, shouldFetch, index, scrollY }: Props) => {
+  ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
-    const color = useFetchColor(data?.posterPath);
+    const fetchedColor = useFetchColor(data?.posterPath);
+    const [, setColor] = useAtom(colorAtom);
+
     const { height, width } = useWindowDimensions();
 
     useEffect(() => {
-      if (shouldPlay) setColor(color);
-    }, [color, shouldPlay]);
+      if (shouldPlay) setColor(fetchedColor);
+    }, [fetchedColor, shouldPlay]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
@@ -90,7 +93,7 @@ export const DetailsContainer = memo(
       >
         <View
           className={
-            "xs:gap-3 flex w-full flex-col items-start justify-center gap-1.5 px-4"
+            "flex w-full flex-col items-start justify-center gap-1.5 px-4 xs:gap-3"
           }
           style={{
             height: height * 0.9,

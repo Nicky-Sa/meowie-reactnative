@@ -6,12 +6,11 @@ import Animated, {
 } from "react-native-reanimated";
 import { View } from "react-native";
 import { ColoredEllipse } from "@/components/layout/colored-ellipse";
+import { useAtom } from "jotai";
+import { colorAtom } from "@/atoms";
 
-type Props = {
-  color: string;
-};
-
-export const MainBg = ({ children, color }: PropsWithChildren<Props>) => {
+export const MainBg = ({ children }: PropsWithChildren<{}>) => {
+  const [color] = useAtom(colorAtom);
   const prevColor = useRef(color); // Store the previous color
   const backgroundColor = useSharedValue(prevColor.current); // Initialize with the current color
 
@@ -31,7 +30,7 @@ export const MainBg = ({ children, color }: PropsWithChildren<Props>) => {
 
   return (
     // <Animated.View style={[animatedStyle]}>
-    <View className={"bg-primary-200 relative h-full w-full flex-1"}>
+    <View className={"relative h-full w-full flex-1 bg-primary-200"}>
       <View className={"absolute -top-40 flex h-full w-full items-center"}>
         <ColoredEllipse color={color} />
       </View>
