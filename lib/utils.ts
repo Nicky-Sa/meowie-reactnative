@@ -1,6 +1,10 @@
 import { Videos } from "@/models/tmdb/info";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "@/tailwind.config";
+
+export const tailwind = resolveConfig(tailwindConfig);
 
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
@@ -55,3 +59,5 @@ export const findTrailerKey = (videoList: Videos): string => {
   // 3. Return the first video in the list (if any)
   return youtubeVideos.length > 0 ? youtubeVideos[0].key : "";
 };
+
+

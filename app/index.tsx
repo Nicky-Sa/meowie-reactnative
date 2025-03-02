@@ -6,23 +6,24 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useFetchMoviesIdList } from "@/hooks/TMDB/useFetchMoviesIdList";
-import { Details } from "@/components/videoDetails/Details";
-import { MainBg } from "@/components/ui/MainBg";
+import { Details } from "@/components/item/Details";
+import { MainBg } from "@/components/item/MainBg";
 import { useWindowDimensions, View } from "react-native";
-import Rive from "rive-react-native";
+import Rive, { Alignment } from "rive-react-native";
 import {
   SafeAreaProvider,
-  SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { tailwind } from "@/lib/utils";
 
 const TMDB_DATA_LIMIT = 20;
 
 export default function Movies() {
+  const { width } = useWindowDimensions();
   const { data, setSize, size } = useFetchMoviesIdList();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
-  const [color, setColor] = useState("#000000");
+  const [color, setColor] = useState(tailwind.theme.colors.primary[300]);
   const insets = useSafeAreaInsets();
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -49,10 +50,10 @@ export default function Movies() {
       <GestureHandlerRootView className={"flex-1"}>
         <MainBg color={`${color}`}>
           <View
-            className={"absolute z-10 w-full flex-1 items-start px-2 bg-red-300"}
+            className={"absolute w-full z-10 flex-1 items-start px-4"}
             style={{
               marginTop: insets.top,
-              height: insets.top + 24,
+              height: insets.top + 32,
             }}
           >
             <Rive
@@ -61,6 +62,7 @@ export default function Movies() {
                 width: "40%",
                 height: "100%",
               }}
+              alignment={Alignment.CenterLeft}
             />
           </View>
           <Animated.ScrollView
