@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -10,21 +10,13 @@ import { MainBg } from "@/components/layout/main-bg";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DetailsContainer } from "@/components/item/details/container";
 import { Header } from "@/components/layout/header";
-import { SplashScreenComponent } from "@/components/layout/splash";
-import { useSplash } from "@/hooks/useSplash";
-import * as SplashScreen from "expo-splash-screen";
+import { SplashScreen } from "@/components/layout/splash-screen";
 
 const TMDB_DATA_LIMIT = 20;
 
-SplashScreen.preventAutoHideAsync();
-SplashScreen.setOptions({
-  duration: 1000,
-  fade: true,
-});
-
 export default function Movies() {
   const { data, setSize, size, isLoading } = useFetchMoviesIdList();
-  const isReady = useSplash(isLoading);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
 
@@ -47,13 +39,10 @@ export default function Movies() {
     },
   });
 
-  if (!isReady) {
-    return <SplashScreenComponent />;
-  }
-
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView className={"flex-1"}>
+      <GestureHandlerRootView className={"relative flex-1"}>
+        <SplashScreen isLoading={isLoading} />
         <MainBg>
           <Header />
           <Animated.ScrollView
