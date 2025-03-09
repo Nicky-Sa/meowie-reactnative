@@ -9,8 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { tailwind } from "@/lib/utils";
 
-
-export const MainBg = ({ children }: PropsWithChildren<{}>) => {
+export const MainBg = ({ children }: PropsWithChildren) => {
   const [color] = useAtom(colorAtom);
   const mildColor = color + "80"; // 50% opacity
   const prevColor = useRef(mildColor); // Store the previous color
@@ -24,7 +23,7 @@ export const MainBg = ({ children }: PropsWithChildren<{}>) => {
       });
       prevColor.current = mildColor; // Update the previous color
     }
-  }, [mildColor]);
+  }, [backgroundColor, mildColor]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value, // Apply the animated background color

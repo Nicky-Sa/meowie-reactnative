@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
-import { useFetchMoviesIdList } from "@/hooks/tmdb/useFetchMoviesIdList";
+import { useFetchMoviesIds } from "@/hooks/tmdb/useFetchMoviesIdList";
 import { MainBg } from "@/components/layout/main-bg";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DetailsContainer } from "@/components/item/details/container";
@@ -15,7 +15,7 @@ import { SplashScreen } from "@/components/layout/splash-screen";
 const TMDB_DATA_LIMIT = 20;
 
 export default function Movies() {
-  const { data, setSize, size, isLoading } = useFetchMoviesIdList();
+  const { data, setSize, isLoading } = useFetchMoviesIds();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position

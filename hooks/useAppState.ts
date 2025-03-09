@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AppState } from "react-native";
 
 export const useAppState = () => {
-const appStateRef = useRef(AppState.currentState);
+  const appStateRef = useRef(AppState.currentState);
   const [appState, setAppState] = useState(appStateRef.current);
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -16,4 +16,4 @@ const appStateRef = useRef(AppState.currentState);
   }, []);
 
   return appState;
-}
+};

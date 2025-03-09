@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Rive, { Alignment, Fit } from "rive-react-native";
+import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";
-import Bento from "@/components/common/bento"
+import Bento from "@/components/common/bento";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
@@ -17,7 +17,7 @@ export const Header = () => {
         height: insets.top + 28,
       }}
     >
-      <View className={"w-[144px] -mt-1"}>
+      <View className={"-mt-1 w-[144px]"}>
         <Rive
           url="https://meowie-public.s3.eu-central-1.amazonaws.com/Meowie-logo.riv"
           alignment={Alignment.TopLeft}

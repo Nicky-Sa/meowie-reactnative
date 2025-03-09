@@ -3,15 +3,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { tailwind } from "@/lib/utils";
 import { useTailwindBreakpoint } from "@/hooks/useTailwindBreakpoint";
 
-
 type Props = {
   hasPadding?: boolean;
 };
 
-const Bento = ({
-  children,
-  hasPadding = true,
-}: PropsWithChildren<Props>) => {
+const Bento = ({ children, hasPadding = true }: PropsWithChildren<Props>) => {
   const size = useTailwindBreakpoint();
 
   return (

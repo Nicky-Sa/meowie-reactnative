@@ -1,19 +1,24 @@
-import { APIMoviesList } from "@/models/moviesList";
+import { TMDB_MoviesList } from "@/models/tmdb/moviesList";
+import { useCallback, useState } from "react";
 import { Fetcher } from "swr";
 import useSWRInfinite from "swr/infinite";
 
-const getKey = (pageIndex: number, previousPageData: any) => {
-  const apiKey = "REDACTED";
-  const baseUrl = `https://api.themoviedb.org/3/discover/movie?include_adult=true&language=en-US&sort_by=popularity.desc&api_key=${apiKey}`;
+export const useFetchMoviesIds = () => {
+  const [initialPage] = useState(() => Math.floor(Math.random() * 100) + 1); // Random page from 1 to 100
 
-  // Stop fetching if there are no more results
-  if (previousPageData && !previousPageData.results.length) return null;
+  const getKey = useCallback(
+    (pageIndex: number, previousPageData: any) => {
+      const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/movies/ids`;
 
-  return `${baseUrl}&page=${pageIndex + 1}`; // SWR key
-};
+      // Stop fetching if there are no more results
+      if (previousPageData && !previousPageData.results.length) return null;
 
-export const useFetchMoviesIdList = () => {
-  const fetcher: Fetcher<APIMoviesList> = (url: string) =>
+      return `${baseUrl}?page=${pageIndex + initialPage}`; // SWR key
+    },
+    [initialPage],
+  );
+
+  const fetcher: Fetcher<TMDB_MoviesList> = (url: string) =>
     fetch(url).then((r) => r.json());
   const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
 

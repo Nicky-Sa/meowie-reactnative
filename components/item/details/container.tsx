@@ -1,4 +1,3 @@
-import { MainBg } from "@/components/layout/main-bg";
 import { useFetchInfo } from "@/hooks/tmdb/useFetchInfo";
 import {
   View,
@@ -6,8 +5,6 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
-  Pressable,
-  Linking,
 } from "react-native";
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
@@ -22,7 +19,6 @@ import Animated, {
 import Bento from "@/components/common/bento";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { openBrowserAsync } from "expo-web-browser";
 import { GoogleIt } from "@/components/item/details/google-it";
 
 type Props = {
@@ -35,15 +31,15 @@ type Props = {
 
 export const DetailsContainer = memo(
   ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
-    const { isLoading, data, error } = useFetchInfo(id, shouldFetch);
+    const { isLoading, data } = useFetchInfo(id, shouldFetch);
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
 
-    const { height, width } = useWindowDimensions();
+    const { height } = useWindowDimensions();
 
     useEffect(() => {
       if (shouldPlay) setColor(fetchedColor);
-    }, [fetchedColor, shouldPlay]);
+    }, [fetchedColor, setColor, shouldPlay]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
@@ -179,3 +175,4 @@ export const DetailsContainer = memo(
     );
   },
 );
+DetailsContainer.displayName = "DetailsContainer";
