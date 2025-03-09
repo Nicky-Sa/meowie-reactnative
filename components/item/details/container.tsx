@@ -12,7 +12,6 @@ import {
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
 import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";
-import Google from "@/assets/icons/google.svg";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -23,6 +22,8 @@ import Animated, {
 import Bento from "@/components/common/bento";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
+import { openBrowserAsync } from "expo-web-browser";
+import { GoogleIt } from "@/components/item/details/google-it";
 
 type Props = {
   id: number;
@@ -171,18 +172,7 @@ export const DetailsContainer = memo(
             </View>
           </Bento>
           <Bento>
-            <Pressable
-              onPress={() => {
-                const encodedQuery = encodeURIComponent(data.title);
-                const url = `https://www.google.com/search?q=${encodedQuery}`;
-
-                Linking.openURL(url).catch((err) =>
-                  console.error("Failed to open URL", err),
-                );
-              }}
-            >
-              <Google />
-            </Pressable>
+            <GoogleIt title={data.title} />
           </Bento>
         </View>
       </Animated.View>
