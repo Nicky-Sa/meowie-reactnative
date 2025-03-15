@@ -3,6 +3,7 @@ import { PlatformPressable } from "@react-navigation/elements";
 import * as Haptics from "expo-haptics";
 import { Platform, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { cn, tailwind } from "@/lib/utils";
 
 export const Button = (props: BottomTabBarButtonProps) => {
   return (
@@ -17,7 +18,10 @@ export const Button = (props: BottomTabBarButtonProps) => {
       }}
     >
       <LinearGradient
-        colors={["#FAFAFA", "#BEBEBE"]}
+        colors={[
+          tailwind.theme.backgroundColor.neutral["1"].default,
+          tailwind.theme.backgroundColor.neutral["7"].default,
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={{
@@ -25,12 +29,18 @@ export const Button = (props: BottomTabBarButtonProps) => {
           paddingHorizontal: 24,
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 12,
-          borderColor: "red",
+          borderRadius: Number(tailwind.theme.borderRadius.xl),
+          borderColor: tailwind.theme.borderColor.neutral["7"].default,
           borderWidth: 1,
         }}
       >
-        <Text className={"text-default"}>{props.children}</Text>
+        {typeof props.children === "string" ? (
+          <Text className={"text-neutral-1-default body-b1-strong"}>
+            {props.children}
+          </Text>
+        ) : (
+          props.children
+        )}
       </LinearGradient>
     </PlatformPressable>
   );

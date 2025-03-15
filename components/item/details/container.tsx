@@ -81,7 +81,7 @@ export const DetailsContainer = memo(
       );
     }
 
-    if (!error) {
+    if (error) {
       return (
         <Animated.View
           style={[
@@ -90,17 +90,18 @@ export const DetailsContainer = memo(
             },
             animatedStyle, // Apply animated styles
           ]}
-          className={"w-full flex-1 flex-col items-center justify-center"}
+          className={"flex-col items-center justify-center gap-10"}
         >
-          <View className={"-mt-1 h-[50%] w-[50%]"}>
+          <View className={"flex h-[25%] w-full flex-col gap-4"}>
             <Rive
               url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-error-state.riv"
               alignment={Alignment.Center}
             />
+            <Text className={"text-neutral-5-default body-b1 text-center"}>
+              We have a problem, please try again
+            </Text>
           </View>
-
-          <Text className={"body-b1"}>We have a problem, please try again</Text>
-          <Button>Retry</Button>
+          <Button onPress={() => mutate()}>Retry</Button>
         </Animated.View>
       );
     }
@@ -155,7 +156,7 @@ export const DetailsContainer = memo(
           </Bento>
 
           <Bento>
-            <View className={"flex flex-col gap-2"}>
+            <View className={"gap-2.5 flex flex-col"}>
               <View className={"flex flex-row items-center gap-8"}>
                 <View className={"flex flex-row items-center gap-2"}>
                   <IMDBLogo />
@@ -182,6 +183,9 @@ export const DetailsContainer = memo(
                   </Text>
                 </View>
               </View>
+              <View
+                className={"h-[0.7px] w-full rounded-full bg-neutral-12-hover"}
+              />
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}

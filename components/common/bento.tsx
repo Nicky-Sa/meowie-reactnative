@@ -22,9 +22,9 @@ export const Bento = ({
       start={{ x: 0, y: 0.5 }}
       end={{ x: 1, y: 0.5 }}
       style={{
-        borderRadius: tailwind.theme.borderRadius.xl,
+        borderRadius: Number(tailwind.theme.borderRadius.xl),
         borderWidth: 1.5,
-        borderColor: tailwind.theme.borderColor.neutral[3].default.concat("90"),
+        borderColor: tailwind.theme.borderColor.neutral[3].default,
         width: "100%",
         padding: hasPadding
           ? size === "xs"
