@@ -55,7 +55,7 @@ export const GoogleIt = ({ title }: Props) => {
 
       {Platform.OS === "android" && visible && (
         <Modal animationType="slide" transparent={false} visible={visible}>
-          <View className="h-12 flex-row items-center bg-gray-100 px-4">
+          <View className="h-12 flex-row items-center bg-neutral-12-default px-4">
             <TouchableOpacity onPress={() => setVisible(false)}>
               <Google width={24} height={24} />
             </TouchableOpacity>

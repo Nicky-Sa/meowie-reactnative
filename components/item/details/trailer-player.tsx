@@ -59,13 +59,15 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
       }
     >
       <NoTrailer width="60" height="60" />
-      <Text className={"text-muted"}>No trailer available!</Text>
+      <Text className={"body-b1 text-neutral-6-default"}>
+        No trailer available!
+      </Text>
     </View>
   ) : (
     <Pressable
       className={cn(
         "relative min-h-fit w-full",
-        !isReady ? "animate-pulse bg-primary-100" : "bg-transparent",
+        !isReady ? "bg-neutral-12-default animate-pulse" : "bg-transparent",
       )}
       onPress={() => setMute((prev) => !prev)}
     >
@@ -77,7 +79,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         <Icon
           className={cn(
             startFade ? "opacity-100" : "opacity-0",
-            "rounded-full bg-black/70 p-3 transition-all duration-200",
+            "bg-black/70 rounded-full p-3 transition-all duration-200",
           )}
           name={mute ? "volume-x" : "volume-2"}
           size={32}

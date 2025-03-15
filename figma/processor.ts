@@ -34,26 +34,10 @@ export const primitivesProcessor = (rawPrimitives: string) => {
 };
 
 export const variablesProcessor = (
-  processedPrimitives: NestedObject,
+  primitives: NestedObject,
   rawVariables: string,
 ) => {
-  // const primitives = rawPrimitives
-  //   .replaceAll("--", "")
-  //   .replaceAll(",", ".")
-  //   .replaceAll(";", "")
-  //   .split("\n")
-  //   .filter((item) => item.length > 1)
-  //   .map((item) => {
-  //     const [key, value] = item.split(": ");
-  //     return {
-  //       [key]: value,
-  //     };
-  //   })
-  //   .reduce((acc, currentValue) => {
-  //     return { ...acc, ...currentValue };
-  //   }, {});
-
-  return rawVariables
+  const initialVariables = rawVariables
     .replaceAll("--", "")
     .replaceAll(",", ".")
     .replaceAll(";", "")
@@ -84,10 +68,18 @@ export const variablesProcessor = (
       }, acc);
       return acc;
     }, {});
+  initialVariables["fontSize"] = (primitives["typography"] as NestedObject)[
+    "size"
+  ];
+  initialVariables["fontWeight"] = (primitives["typography"] as NestedObject)[
+    "weight"
+  ];
+  return initialVariables;
 };
 
 const primitives = primitivesProcessor(rawPrimitives);
 const variables = variablesProcessor(primitives, rawVariables);
+
 fs.writeFileSync(
   "./figma/output.ts",
   `const primitives = ${JSON.stringify(primitives, null, 2)}

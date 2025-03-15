@@ -5,7 +5,6 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
-  Pressable,
 } from "react-native";
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
@@ -100,9 +99,7 @@ export const DetailsContainer = memo(
             />
           </View>
 
-          <Text className={"text-default"}>
-            We have a problem, please try again
-          </Text>
+          <Text className={"body-b1"}>We have a problem, please try again</Text>
           <Button>Retry</Button>
         </Animated.View>
       );
@@ -120,7 +117,7 @@ export const DetailsContainer = memo(
       >
         <View
           className={
-            "flex w-full flex-col items-start justify-center gap-1.5 px-4 xs:gap-3"
+            "gap-1.5 flex w-full flex-col items-start justify-center px-4 xs:gap-3"
           }
           style={{
             height: height * 0.9,
@@ -133,12 +130,22 @@ export const DetailsContainer = memo(
                 showsHorizontalScrollIndicator={false}
                 className={"-mx-4 flex grow-0"}
               >
-                <Text className={"text-title px-4"}>{data.title}</Text>
+                <Text
+                  className={"title-t1-strong text-neutral-10-default px-4"}
+                >
+                  {data.title}
+                </Text>
               </ScrollView>
               <View className={"flex flex-row gap-8"}>
-                <Text className={"text-default"}>{data.publishYear}</Text>
-                <Text className={"text-default"}>{data.certification}</Text>
-                <Text className={"text-default"}>{data.duration}</Text>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.publishYear}
+                </Text>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.certification}
+                </Text>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.duration}
+                </Text>
               </View>
             </View>
           </Bento>
@@ -152,7 +159,7 @@ export const DetailsContainer = memo(
               <View className={"flex flex-row items-center gap-8"}>
                 <View className={"flex flex-row items-center gap-2"}>
                   <IMDBLogo />
-                  <Text className={"text-default"}>
+                  <Text className={"body-b1 text-neutral-5-default"}>
                     {data.ratings.find(
                       (rating) => rating.source === "Internet Movie Database",
                     )?.value ?? "N/A"}
@@ -160,7 +167,7 @@ export const DetailsContainer = memo(
                 </View>
                 <View className={"flex flex-row items-center gap-2"}>
                   <RottenTomatoLogo />
-                  <Text className={"text-default"}>
+                  <Text className={"body-b1 text-neutral-5-default"}>
                     {data.ratings.find(
                       (rating) => rating.source === "Rotten Tomatoes",
                     )?.value ?? "N/A"}
@@ -168,7 +175,7 @@ export const DetailsContainer = memo(
                 </View>
                 <View className={"flex flex-row items-center gap-2"}>
                   <MetacriticLogo />
-                  <Text className={"text-default"}>
+                  <Text className={"body-b1 text-neutral-5-default"}>
                     {data.ratings.find(
                       (rating) => rating.source === "Metacritic",
                     )?.value ?? "N/A"}
@@ -182,7 +189,10 @@ export const DetailsContainer = memo(
                 contentContainerClassName={"flex flex-row gap-6"}
               >
                 {data.genres.map((genre, index) => (
-                  <Text key={genre} className={"text-label"}>
+                  <Text
+                    key={genre}
+                    className={"body-b2-strong text-neutral-5-default"}
+                  >
                     {genre}
                   </Text>
                 ))}
@@ -203,7 +213,9 @@ export const DetailsContainer = memo(
               <Text
                 numberOfLines={6}
                 ellipsizeMode="tail"
-                className={"text-small flex-1 overflow-hidden"}
+                className={
+                  "body-b2 text-neutral-10-default flex-1 overflow-hidden"
+                }
               >
                 {data.overview}
               </Text>

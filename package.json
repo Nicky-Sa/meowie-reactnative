@@ -10,7 +10,8 @@
     "ios": "expo run:ios --device",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "generate-variables": "npx ts-node figma/processor.ts"
   },
   "jest": {
     "preset": "jest-expo"

@@ -15,7 +15,7 @@ import { SWRConfig } from "swr";
 
 const TMDB_DATA_LIMIT = 20;
 
-export default function App() {
+export default function Movies() {
   const { data, setSize, isLoading } = useFetchMoviesIds();
 
   const [currentIndex, setCurrentIndex] = useState(0);

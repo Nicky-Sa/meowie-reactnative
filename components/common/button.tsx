@@ -1,7 +1,7 @@
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { PlatformPressable } from "@react-navigation/elements";
 import * as Haptics from "expo-haptics";
-import { Platform, Text, View } from "react-native";
+import { Platform, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const Button = (props: BottomTabBarButtonProps) => {
