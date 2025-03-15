@@ -22,11 +22,15 @@ export const Bento = ({
       start={{ x: 0, y: 0.5 }}
       end={{ x: 1, y: 0.5 }}
       style={{
-        borderRadius: 12,
+        borderRadius: tailwind.theme.borderRadius.xl,
         borderWidth: 1.5,
         borderColor: tailwind.theme.borderColor.neutral[3].default.concat("90"),
         width: "100%",
-        padding: hasPadding ? (size === "xs" ? 8 : 12) : 0,
+        padding: hasPadding
+          ? size === "xs"
+            ? Number(tailwind.theme.spacing["2"])
+            : Number(tailwind.theme.spacing["3"])
+          : 0,
       }}
     >
       {children}

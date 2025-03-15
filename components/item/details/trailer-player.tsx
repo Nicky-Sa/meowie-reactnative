@@ -55,7 +55,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   return canNotPaly ? (
     <View
       className={
-        "flex h-[195px] flex-col items-center justify-center gap-4 bg-[#404040]"
+        "flex h-[195px] flex-col items-center justify-center gap-4 bg-neutral-10-default"
       }
     >
       <NoTrailer width="60" height="60" />
@@ -67,7 +67,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
     <Pressable
       className={cn(
         "relative min-h-fit w-full",
-        !isReady ? "bg-neutral-12-default animate-pulse" : "bg-transparent",
+        !isReady ? "animate-pulse bg-neutral-12-default" : "bg-transparent",
       )}
       onPress={() => setMute((prev) => !prev)}
     >
@@ -79,7 +79,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         <Icon
           className={cn(
             startFade ? "opacity-100" : "opacity-0",
-            "bg-black/70 rounded-full p-3 transition-all duration-200",
+            "bg-neutral-12-default/70 rounded-full p-3 transition-all duration-200",
           )}
           name={mute ? "volume-x" : "volume-2"}
           size={32}
@@ -98,7 +98,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
           videoId={YTKey}
           playList={[YTKey]}
           onReady={() => setIsReady(true)}
-          onError={(e) => setCanNotPaly(true)}
+          onError={() => setCanNotPaly(true)}
         />
       </View>
     </Pressable>

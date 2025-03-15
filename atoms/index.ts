@@ -3,4 +3,6 @@ import { atom } from "jotai";
 
 export const isMuteAtom = atom(false);
 export const isYTPlayingAtom = atom(true);
-export const colorAtom = atom(tailwind.theme.colors.primary[300]);
+export const colorAtom = atom(
+  tailwind.theme.backgroundColor.neutral[11].default,
+);

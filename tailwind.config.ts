@@ -710,7 +710,7 @@ export default {
         "3xl": primitives["radius"]["1.5"],
         full: primitives["radius"]["circular"],
       },
-      gap: {
+      spacing: {
         "0": primitives["spacing"]["0"],
         "1": primitives["spacing"]["0.25"],
         "2": primitives["spacing"]["0.50"],

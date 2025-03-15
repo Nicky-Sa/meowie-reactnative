@@ -515,17 +515,17 @@ export const rawVariables = `
 --rounded-full: var(--radius-circular);
 
 
---gap-0: var(--spacing-0);
---gap-0,5: var(--spacing-0,125);
---gap-1: var(--spacing-0,25);
---gap-2: var(--spacing-0,50);
---gap-3: var(--spacing-0,75);
---gap-4: var(--spacing-1);
---gap-6: var(--spacing-1,5);
---gap-8: var(--spacing-2);
---gap-10: var(--spacing-2,5);
---gap-12: var(--spacing-3);
---gap-16: var(--spacing-4);
---gap-20: var(--spacing-5);
---gap-24: var(--spacing-6);
+--spacing-0: var(--spacing-0);
+--spacing-0,5: var(--spacing-0,125);
+--spacing-1: var(--spacing-0,25);
+--spacing-2: var(--spacing-0,50);
+--spacing-3: var(--spacing-0,75);
+--spacing-4: var(--spacing-1);
+--spacing-6: var(--spacing-1,5);
+--spacing-8: var(--spacing-2);
+--spacing-10: var(--spacing-2,5);
+--spacing-12: var(--spacing-3);
+--spacing-16: var(--spacing-4);
+--spacing-20: var(--spacing-5);
+--spacing-24: var(--spacing-6);
 ` as const;
