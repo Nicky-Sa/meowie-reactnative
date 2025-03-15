@@ -7,7 +7,10 @@ type Props = {
   hasPadding?: boolean;
 };
 
-const Bento = ({ children, hasPadding = true }: PropsWithChildren<Props>) => {
+export const Bento = ({
+  children,
+  hasPadding = true,
+}: PropsWithChildren<Props>) => {
   const size = useTailwindBreakpoint();
 
   return (
@@ -30,4 +33,3 @@ const Bento = ({ children, hasPadding = true }: PropsWithChildren<Props>) => {
     </LinearGradient>
   );
 };
-export default Bento;

@@ -1,10 +1,11 @@
-import { useFetchInfo } from "@/hooks/tmdb/useFetchInfo";
+import { useFetchInfo } from "@/hooks/data/useFetchInfo";
 import {
   View,
   Text,
   Image,
   ScrollView,
   useWindowDimensions,
+  Pressable,
 } from "react-native";
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
@@ -17,10 +18,12 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import Bento from "@/components/common/bento";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
 import { GoogleIt } from "@/components/item/details/google-it";
+import { Bento } from "@/components/common/bento";
+import Rive, { Alignment } from "rive-react-native";
+import { Button } from "@/components/common/button";
 
 type Props = {
   id: number;
@@ -32,7 +35,7 @@ type Props = {
 
 export const DetailsContainer = memo(
   ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
-    const { isLoading, data } = useFetchInfo(id, shouldFetch);
+    const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
 
@@ -76,6 +79,32 @@ export const DetailsContainer = memo(
             height,
           }}
         />
+      );
+    }
+
+    if (!error) {
+      return (
+        <Animated.View
+          style={[
+            {
+              height,
+            },
+            animatedStyle, // Apply animated styles
+          ]}
+          className={"w-full flex-1 flex-col items-center justify-center"}
+        >
+          <View className={"-mt-1 h-[50%] w-[50%]"}>
+            <Rive
+              url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-error-state.riv"
+              alignment={Alignment.Center}
+            />
+          </View>
+
+          <Text className={"text-default"}>
+            We have a problem, please try again
+          </Text>
+          <Button>Retry</Button>
+        </Animated.View>
       );
     }
 
