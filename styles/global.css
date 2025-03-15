@@ -2,72 +2,308 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-  }
-
-  .dark:root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-  }
+/* Figma _primitives */
+:root {
+    --color-brand-0: #000000FF;
+    --color-brand-2: #030309FF;
+    --color-brand-4: #05050FFF;
+    --color-brand-6: #090918FF;
+    --color-brand-8: #121230FF;
+    --color-brand-10: #1B1B48FF;
+    --color-brand-20: #242460FF;
+    --color-brand-25: #2D2E78FF;
+    --color-brand-30: #35378FFF;
+    --color-brand-35: #3E40A7FF;
+    --color-brand-40: #4749BFFF;
+    --color-brand-45: #5052D7FF;
+    --color-brand-50: #595BEFFF;
+    --color-brand-55: #6A6BF1FF;
+    --color-brand-60: #7A7CF2FF;
+    --color-brand-65: #8B8CF4FF;
+    --color-brand-70: #9B9DF5FF;
+    --color-brand-80: #ACADF7FF;
+    --color-brand-90: #BDBDF9FF;
+    --color-brand-92: #CDCEFAFF;
+    --color-brand-94: #DEDEFCFF;
+    --color-brand-96: #EEEFFDFF;
+    --color-brand-98: #EFF0F8FF;
+    --color-brand-99: #F3F4F9FF;
+    --color-brand-100: #FFFFFFFF;
+    --color-brand-subtle-0: #595BEF00;
+    --color-brand-subtle-5: #595BEF0D;
+    --color-brand-subtle-10: #595BEF1A;
+    --color-brand-subtle-15: #595BEF26;
+    --color-brand-subtle-20: #595BEF33;
+    --color-brand-subtle-25: #595BEF40;
+    --color-brand-subtle-30: #595BEF4D;
+    --color-brand-subtle-35: #595BEF59;
+    --color-brand-subtle-40: #595BEF66;
+    --color-brand-subtle-45: #595BEF73;
+    --color-brand-subtle-50: #595BEF80;
+    --color-orange-0: #000000FF;
+    --color-orange-2: #060201FF;
+    --color-orange-4: #0B0402FF;
+    --color-orange-6: #110604FF;
+    --color-orange-8: #160805FF;
+    --color-orange-10: #1C0A06FF;
+    --color-orange-15: #39140CFF;
+    --color-orange-20: #551E12FF;
+    --color-orange-25: #712818FF;
+    --color-orange-30: #8E321EFF;
+    --color-orange-35: #AA3C24FF;
+    --color-orange-40: #C6462AFF;
+    --color-orange-45: #E35030FF;
+    --color-orange-50: #FF5A36FF;
+    --color-orange-55: #FF6C4CFF;
+    --color-orange-60: #FF7F63FF;
+    --color-orange-65: #FF9179FF;
+    --color-orange-70: #FFA38FFF;
+    --color-orange-75: #FFB6A6FF;
+    --color-orange-80: #FFC8BCFF;
+    --color-orange-85: #FFDAD2FF;
+    --color-orange-90: #FFEDE9FF;
+    --color-orange-92: #FFF1EDFF;
+    --color-orange-94: #FFF4F2FF;
+    --color-orange-96: #FFF8F6FF;
+    --color-orange-98: #FFFBFBFF;
+    --color-orange-100: #FFFFFFFF;
+    --color-neutral-0: #0A0A0AFF;
+    --color-neutral-2: #171717FF;
+    --color-neutral-4: #151515FF;
+    --color-neutral-6: #181818FF;
+    --color-neutral-8: #262626FF;
+    --color-neutral-10: #333333FF;
+    --color-neutral-15: #404040FF;
+    --color-neutral-20: #474747FF;
+    --color-neutral-25: #525252FF;
+    --color-neutral-30: #626262FF;
+    --color-neutral-35: #737373FF;
+    --color-neutral-40: #7D7D7DFF;
+    --color-neutral-45: #8F8F8FFF;
+    --color-neutral-50: #A1A1A1FF;
+    --color-neutral-55: #B3B3B3FF;
+    --color-neutral-60: #BEBEBEFF;
+    --color-neutral-65: #C9C9C9FF;
+    --color-neutral-70: #D4D4D4FF;
+    --color-neutral-75: #D8D8D8FF;
+    --color-neutral-80: #E2E2E2FF;
+    --color-neutral-85: #E5E5E5FF;
+    --color-neutral-90: #EAEAEAFF;
+    --color-neutral-92: #EDEDEDFF;
+    --color-neutral-94: #F5F5F5FF;
+    --color-neutral-96: #F6F6F6FF;
+    --color-neutral-98: #F8F8F8FF;
+    --color-neutral-100: #FAFAFAFF;
+    --color-neutral-subtle-dark-0: #00000000;
+    --color-neutral-subtle-dark-5: #0000000D;
+    --color-neutral-subtle-dark-10: #0000001A;
+    --color-neutral-subtle-dark-15: #00000026;
+    --color-neutral-subtle-dark-20: #00000033;
+    --color-neutral-subtle-dark-25: #00000040;
+    --color-neutral-subtle-dark-30: #0000004D;
+    --color-neutral-subtle-dark-35: #00000059;
+    --color-neutral-subtle-dark-40: #00000066;
+    --color-neutral-subtle-dark-45: #00000073;
+    --color-neutral-subtle-dark-50: #00000080;
+    --color-neutral-subtle-light-0: #FFFFFF00;
+    --color-neutral-subtle-light-5: #FFFFFF0D;
+    --color-neutral-subtle-light-10: #FFFFFF1A;
+    --color-neutral-subtle-light-15: #FFFFFF26;
+    --color-neutral-subtle-light-20: #FFFFFF33;
+    --color-neutral-subtle-light-25: #FFFFFF40;
+    --color-neutral-subtle-light-30: #FFFFFF4D;
+    --color-neutral-subtle-light-35: #FFFFFF59;
+    --color-neutral-subtle-light-40: #FFFFFF66;
+    --color-neutral-subtle-light-45: #FFFFFF73;
+    --color-neutral-subtle-light-50: #FFFFFF80;
+    --color-red-0: #000000FF;
+    --color-red-2: #0A0000FF;
+    --color-red-4: #140101FF;
+    --color-red-6: #1D0101FF;
+    --color-red-8: #270202FF;
+    --color-red-10: #310202FF;
+    --color-red-15: #380000FF;
+    --color-red-20: #620404FF;
+    --color-red-25: #7B0505FF;
+    --color-red-30: #940505FF;
+    --color-red-35: #AD0707FF;
+    --color-red-40: #C50808FF;
+    --color-red-45: #DE0909FF;
+    --color-red-50: #F60A0AFF;
+    --color-red-55: #F72222FF;
+    --color-red-60: #F83A3AFF;
+    --color-red-65: #F95353FF;
+    --color-red-70: #FA6B6BFF;
+    --color-red-75: #FF8E8EFF;
+    --color-red-80: #FFAAAAFF;
+    --color-red-85: #FFC6C6FF;
+    --color-red-90: #FFE3E3FF;
+    --color-red-92: #FFE9E9FF;
+    --color-red-94: #FFEEEEFF;
+    --color-red-96: #FFF4F4FF;
+    --color-red-98: #FFF9F9FF;
+    --color-red-100: #FFFFFFFF;
+    --color-red-subtle-0: #F60A0A00;
+    --color-red-subtle-5: #F60A0A00;
+    --color-red-subtle-10: #F60A0A1A;
+    --color-red-subtle-15: #F60A0A26;
+    --color-red-subtle-20: #F60A0A33;
+    --color-red-subtle-25: #F60A0A40;
+    --color-red-subtle-30: #F60A0A4D;
+    --color-red-subtle-35: #F60A0A59;
+    --color-red-subtle-40: #F60A0A66;
+    --color-red-subtle-45: #F60A0A73;
+    --color-red-subtle-50: #F60A0A80;
+    --color-yellow-0: #000000FF;
+    --color-yellow-2: #060500FF;
+    --color-yellow-4: #0B0A00FF;
+    --color-yellow-6: #110E00FF;
+    --color-yellow-8: #161300FF;
+    --color-yellow-10: #1C1800FF;
+    --color-yellow-15: #393000FF;
+    --color-yellow-20: #554800FF;
+    --color-yellow-25: #716000FF;
+    --color-yellow-30: #8E7800FF;
+    --color-yellow-35: #AA9000FF;
+    --color-yellow-40: #C6A800FF;
+    --color-yellow-45: #E3C000FF;
+    --color-yellow-50: #FFD800FF;
+    --color-yellow-55: #FFDC1CFF;
+    --color-yellow-60: #FFE139FF;
+    --color-yellow-65: #FFE555FF;
+    --color-yellow-70: #FFE971FF;
+    --color-yellow-75: #FFEE8EFF;
+    --color-yellow-80: #FFF2AAFF;
+    --color-yellow-85: #FFF6C6FF;
+    --color-yellow-90: #FFFBE3FF;
+    --color-yellow-92: #FFFCE9FF;
+    --color-yellow-94: #FFFDEEFF;
+    --color-yellow-96: #FFFDF4FF;
+    --color-yellow-98: #FFFEF9FF;
+    --color-yellow-100: #FFFFFFFF;
+    --color-green-0: #000000FF;
+    --color-green-2: #000401FF;
+    --color-green-4: #000803FF;
+    --color-green-6: #000D04FF;
+    --color-green-8: #001106FF;
+    --color-green-10: #001507FF;
+    --color-green-15: #012B0DFF;
+    --color-green-20: #014014FF;
+    --color-green-25: #01551BFF;
+    --color-green-30: #026B21FF;
+    --color-green-35: #028028FF;
+    --color-green-40: #02952FFF;
+    --color-green-45: #03AB35FF;
+    --color-green-50: #03C03CFF;
+    --color-green-55: #1FC752FF;
+    --color-green-60: #3BCE67FF;
+    --color-green-65: #57D57DFF;
+    --color-green-70: #73DC93FF;
+    --color-green-75: #8FE3A8FF;
+    --color-green-80: #ABEABEFF;
+    --color-green-85: #C7F1D4FF;
+    --color-green-90: #E3F8E9FF;
+    --color-green-92: #E9F9EDFF;
+    --color-green-94: #EEFBF2FF;
+    --color-green-96: #F4FCF6FF;
+    --color-green-98: #F9FEFCFF;
+    --color-green-100: #FFFFFFFF;
+    --color-purple-0: #000000FF;
+    --color-purple-2: #020006FF;
+    --color-purple-4: #05000BFF;
+    --color-purple-6: #070011FF;
+    --color-purple-8: #0A0016FF;
+    --color-purple-10: #0C001CFF;
+    --color-purple-15: #190039FF;
+    --color-purple-20: #250055FF;
+    --color-purple-25: #310071FF;
+    --color-purple-30: #3E008EFF;
+    --color-purple-35: #4A00AAFF;
+    --color-purple-40: #5600C6FF;
+    --color-purple-45: #6300E3FF;
+    --color-purple-50: #6F00FFFF;
+    --color-purple-55: #7F1CFFFF;
+    --color-purple-60: #8F39FFFF;
+    --color-purple-65: #9F55FFFF;
+    --color-purple-70: #AF71FFFF;
+    --color-purple-75: #BF8EFFFF;
+    --color-purple-80: #CFAAFFFF;
+    --color-purple-85: #DFC6FFFF;
+    --color-purple-90: #EFE3FFFF;
+    --color-purple-92: #F2E9FFFF;
+    --color-purple-94: #F5EEFFFF;
+    --color-purple-96: #F9F4FFFF;
+    --color-purple-98: #FCF9FFFF;
+    --color-purple-100: #FFFFFFFF;
+    --spacing-0: 0px;
+    --spacing-1: 16px;
+    --spacing-2: 32px;
+    --spacing-3: 48px;
+    --spacing-4: 64px;
+    --spacing-5: 80px;
+    --spacing-6: 96px;
+    --spacing-0-125: 2px;
+    --spacing-0-25: 4px;
+    --spacing-0-375: 6px;
+    --spacing-0-50: 8px;
+    --spacing-0-75: 12px;
+    --spacing-1-5: 24px;
+    --spacing-2-5: 40px;
+    --radius-0: 0px;
+    --radius-1: 16px;
+    --radius-2: 32px;
+    --radius-6: 96px;
+    --radius-0-125: 2px;
+    --radius-0-25: 4px;
+    --radius-0-375: 6px;
+    --radius-0-50: 8px;
+    --radius-0-75: 12px;
+    --radius-1-5: 24px;
+    --radius-circular: 9999px;
+    --typography-size-2xs: 10px;
+    --typography-size-xs: 12px;
+    --typography-size-sm: 14px;
+    --typography-size-base: 16px;
+    --typography-size-lg: 18px;
+    --typography-size-xl: 20px;
+    --typography-size-2xl: 28px;
+    --typography-size-3xl: 30px;
+    --typography-size-4xl: 36px;
+    --typography-size-5xl: 48px;
+    --typography-size-6xl: 60px;
+    --typography-size-7xl: 72px;
+    --typography-size-8xl: 96px;
+    --typography-size-9xl: 128px;
+    --typography-weight-regular: 400px;
+    --typography-weight-medium: 500px;
+    --typography-weight-semibold: 600px;
+    --typography-weight-bold: 700px;
+    --typography-weight-black: 900px;
+    --spacing-0-85: 20px;
 }
 
-.text-title {
-  @apply text-4xl font-bold text-slate-50
-}
+@layer components {
+    .text-title {
+        @apply text-4xl font-bold text-slate-50
+    }
 
-.text-subtitle {
-  @apply text-3xl font-bold text-slate-50
-}
+    .text-subtitle {
+        @apply text-3xl font-bold text-slate-50
+    }
 
-.text-default {
-  @apply text-slate-300 font-normal text-lg;
-}
+    .text-default {
+        @apply text-slate-300 font-normal text-lg;
+    }
 
-.text-small {
-  @apply text-slate-300 font-normal text-base;
-}
+    .text-small {
+        @apply text-slate-300 font-normal text-base;
+    }
 
-.text-label {
-  @apply font-semibold text-text-muted-foreground text-lg;
-}
+    .text-label {
+        @apply font-semibold text-text-muted-foreground text-lg;
+    }
 
-.text-muted {
-  @apply text-[#C9C9C9] font-normal text-lg;
+    .text-muted {
+        @apply text-[#C9C9C9] font-normal text-lg;
+    }
 }

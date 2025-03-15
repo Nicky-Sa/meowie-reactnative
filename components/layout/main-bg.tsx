@@ -39,7 +39,10 @@ export const MainBg = ({ children }: PropsWithChildren) => {
       ]}
     >
       <LinearGradient
-        colors={["transparent", tailwind.theme.colors.primary[200]]}
+        colors={[
+          "transparent",
+          tailwind.theme.backgroundColor["neutral-13-default"],
+        ]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 0.15 }}
         style={{
