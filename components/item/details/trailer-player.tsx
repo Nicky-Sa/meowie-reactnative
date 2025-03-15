@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { View, Pressable } from "react-native";
+import { View, Pressable, Text } from "react-native";
 import Icon from "@expo/vector-icons/Feather";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { cn } from "@/lib/utils";
 import { useAtom } from "jotai";
-import { isMuteAtom } from "@/atoms";
+import { isMuteAtom, isYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
+import NoTrailer from "@/assets/images/no-trailer.svg";
 
 type Props = {
   YTKey: string;
@@ -14,10 +15,12 @@ type Props = {
 };
 
 export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
-  const [playing, setPlaying] = useState(false);
   const playerRef = useRef<YoutubeIframeRef>(null);
   const [isReady, setIsReady] = useState(false);
 
+  const [canNotPaly, setCanNotPaly] = useState(false);
+  const [playing, setPlaying] = useState(false); // local state
+  const [isYTPlaying] = useAtom(isYTPlayingAtom); // global state
   const [mute, setMute] = useAtom(isMuteAtom);
   const [startFade, setStartFade] = useState(false);
   const isFirstLoad = useRef(true);
@@ -49,45 +52,53 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
     }
   }, [shouldPlay, appState]);
 
-  return (
-    <>
-      <Pressable
+  return canNotPaly ? (
+    <View
+      className={
+        "flex h-[195px] flex-col items-center justify-center gap-4 bg-[#404040]"
+      }
+    >
+      <NoTrailer width="60" height="60" />
+      <Text className={"text-muted"}>No trailer available!</Text>
+    </View>
+  ) : (
+    <Pressable
+      className={cn(
+        "relative min-h-fit w-full",
+        !isReady ? "animate-pulse bg-primary-100" : "bg-transparent",
+      )}
+      onPress={() => setMute((prev) => !prev)}
+    >
+      <View
         className={cn(
-          "relative min-h-fit w-full",
-          !isReady ? "animate-pulse bg-primary-100" : "bg-transparent",
+          "absolute right-0 top-0 z-10 flex h-full w-full items-center justify-center",
         )}
-        onPress={() => setMute((prev) => !prev)}
       >
-        <View
+        <Icon
           className={cn(
-            "absolute right-0 top-0 z-10 flex h-full w-full items-center justify-center",
+            startFade ? "opacity-100" : "opacity-0",
+            "rounded-full bg-black/70 p-3 transition-all duration-200",
           )}
-        >
-          <Icon
-            className={cn(
-              startFade ? "opacity-100" : "opacity-0",
-              "rounded-full bg-black/70 p-3 transition-all duration-200",
-            )}
-            name={mute ? "volume-x" : "volume-2"}
-            size={32}
-            color="white"
-          />
-        </View>
-        <View pointerEvents={"none"}>
-          <YoutubePlayer
-            ref={playerRef}
-            height={195}
-            play={playing}
-            volume={30}
-            mute={mute}
-            forceAndroidAutoplay
-            initialPlayerParams={{ controls: false, loop: true }}
-            videoId={YTKey}
-            playList={[YTKey]}
-            onReady={() => setIsReady(true)}
-          />
-        </View>
-      </Pressable>
-    </>
+          name={mute ? "volume-x" : "volume-2"}
+          size={32}
+          color="white"
+        />
+      </View>
+      <View pointerEvents={"none"}>
+        <YoutubePlayer
+          ref={playerRef}
+          height={195}
+          play={playing && isYTPlaying}
+          volume={30}
+          mute={mute}
+          forceAndroidAutoplay
+          initialPlayerParams={{ controls: false, loop: true }}
+          videoId={YTKey}
+          playList={[YTKey]}
+          onReady={() => setIsReady(true)}
+          onError={(e) => setCanNotPaly(true)}
+        />
+      </View>
+    </Pressable>
   );
 };

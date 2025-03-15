@@ -67,3 +67,7 @@
 .text-label {
   @apply font-semibold text-text-muted-foreground text-lg;
 }
+
+.text-muted {
+  @apply text-[#C9C9C9] font-normal text-lg;
+}

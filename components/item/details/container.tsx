@@ -9,6 +9,7 @@ import {
 import { TrailerPlayer } from "@/components/item/details/trailer-player";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
 import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";
+import MetacriticLogo from "@/assets/icons/ratings/metacritic.svg";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -123,13 +124,25 @@ export const DetailsContainer = memo(
                 <View className={"flex flex-row items-center gap-2"}>
                   <IMDBLogo />
                   <Text className={"text-default"}>
-                    {data.ratings[0].value}
+                    {data.ratings.find(
+                      (rating) => rating.source === "Internet Movie Database",
+                    )?.value ?? "N/A"}
                   </Text>
                 </View>
                 <View className={"flex flex-row items-center gap-2"}>
                   <RottenTomatoLogo />
                   <Text className={"text-default"}>
-                    {data.ratings[1].value}
+                    {data.ratings.find(
+                      (rating) => rating.source === "Rotten Tomatoes",
+                    )?.value ?? "N/A"}
+                  </Text>
+                </View>
+                <View className={"flex flex-row items-center gap-2"}>
+                  <MetacriticLogo />
+                  <Text className={"text-default"}>
+                    {data.ratings.find(
+                      (rating) => rating.source === "Metacritic",
+                    )?.value ?? "N/A"}
                   </Text>
                 </View>
               </View>
