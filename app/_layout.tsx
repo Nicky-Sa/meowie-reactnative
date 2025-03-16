@@ -35,7 +35,7 @@ export default function RootLayout() {
           >
             <Stack.Screen name="index" options={{ title: "Meowie" }} />
             <Stack.Screen
-              name="filters"
+              name="filters/index"
               options={{
                 animation: "slide_from_right",
               }}

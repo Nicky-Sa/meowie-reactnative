@@ -8,7 +8,7 @@ import { cn, tailwind } from "@/lib/utils";
 type Props = BottomTabBarButtonProps & {
   haptic?: boolean;
   variant?: "primary" | "secondary";
-  size?: "lg" | "md" | "sm";
+  size?: "full" | "lg" | "md" | "sm";
   square?: boolean;
 };
 
@@ -30,6 +30,11 @@ const variants = {
 } as const;
 
 const sizes = {
+  full: {
+    borderRadius: Number(tailwind.theme.borderRadius.xl),
+    paddingVertical: Number(tailwind.theme.spacing["4"]),
+    paddingHorizontal: Number(tailwind.theme.spacing["4"]),
+  },
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),

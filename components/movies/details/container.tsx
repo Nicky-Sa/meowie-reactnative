@@ -6,10 +6,7 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import { TrailerPlayer } from "@/components/item/details/trailer-player";
-import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
-import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";
-import MetacriticLogo from "@/assets/icons/ratings/metacritic.svg";
+import { TrailerPlayer } from "@/components/movies/details/trailer-player";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -19,10 +16,11 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { GoogleIt } from "@/components/item/details/google-it";
+import { GoogleIt } from "@/components/movies/details/google-it";
 import { Bento } from "@/components/common/bento";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
+import { Ratings } from "@/components/movies/details/ratings";
 
 type Props = {
   id: number;
@@ -159,32 +157,7 @@ export const DetailsContainer = memo(
 
           <Bento>
             <View className={"flex flex-col gap-2.5"}>
-              <View className={"flex flex-row items-center gap-8"}>
-                <View className={"flex flex-row items-center gap-2"}>
-                  <IMDBLogo />
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.ratings.find(
-                      (rating) => rating.source === "Internet Movie Database",
-                    )?.value ?? "N/A"}
-                  </Text>
-                </View>
-                <View className={"flex flex-row items-center gap-2"}>
-                  <RottenTomatoLogo />
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.ratings.find(
-                      (rating) => rating.source === "Rotten Tomatoes",
-                    )?.value ?? "N/A"}
-                  </Text>
-                </View>
-                <View className={"flex flex-row items-center gap-2"}>
-                  <MetacriticLogo />
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.ratings.find(
-                      (rating) => rating.source === "Metacritic",
-                    )?.value ?? "N/A"}
-                  </Text>
-                </View>
-              </View>
+              <Ratings ratings={data.ratings} />
               <View
                 className={"h-[0.7px] w-full rounded-full bg-neutral-12-hover"}
               />
