@@ -1,11 +1,13 @@
-import { Pressable, View } from "react-native";
+import { View, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";
-import { Bento } from "@/components/common/bento";
+import { useRouter } from "expo-router";
+import { Button } from "@/components/common/button";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   return (
     <View
@@ -23,11 +25,14 @@ export const Header = () => {
           alignment={Alignment.TopLeft}
         />
       </View>
-      <Pressable>
-        <Bento>
-          <Filter />
-        </Bento>
-      </Pressable>
+      <Button
+        onPress={() => router.push("/filters")}
+        variant={"secondary"}
+        size={"md"}
+        square
+      >
+        <Filter />
+      </Button>
     </View>
   );
 };

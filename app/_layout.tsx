@@ -3,45 +3,47 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import "react-native-reanimated";
 import "@/styles/global.css";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { SWRConfig } from "swr";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
 
   return (
     <ThemeProvider
       value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
     >
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{ headerShown: false, title: "Meowie" }}
-        />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <SWRConfig
+        value={{
+          revalidateOnFocus: true,
+          revalidateOnReconnect: true,
+          shouldRetryOnError: true,
+          errorRetryInterval: 3000,
+          errorRetryCount: 3,
+        }}
+      >
+        <SafeAreaProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="index" options={{ title: "Meowie" }} />
+            <Stack.Screen
+              name="filters"
+              options={{
+                animation: "slide_from_right",
+              }}
+            />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </SafeAreaProvider>
+      </SWRConfig>
     </ThemeProvider>
   );
 }

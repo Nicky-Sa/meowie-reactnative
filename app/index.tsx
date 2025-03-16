@@ -7,11 +7,9 @@ import Animated, {
 } from "react-native-reanimated";
 import { useFetchMoviesIds } from "@/hooks/data/useFetchMoviesIds";
 import { MainBg } from "@/components/layout/main-bg";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DetailsContainer } from "@/components/item/details/container";
 import { Header } from "@/components/layout/header";
 import { SplashScreen } from "@/components/layout/splash-screen";
-import { SWRConfig } from "swr";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -41,42 +39,30 @@ export default function Movies() {
   });
 
   return (
-    <SWRConfig
-      value={{
-        revalidateOnFocus: true,
-        revalidateOnReconnect: true,
-        shouldRetryOnError: true,
-        errorRetryInterval: 3000,
-        errorRetryCount: 3,
-      }}
-    >
-      <SafeAreaProvider>
-        <GestureHandlerRootView className={"relative flex-1"}>
-          <SplashScreen isLoading={isLoading} />
-          <MainBg>
-            <Header />
-            <Animated.ScrollView
-              pagingEnabled
-              scrollEventThrottle={16}
-              onScroll={scrollHandler}
-              showsVerticalScrollIndicator={false}
-            >
-              {data.map((id, index) => (
-                <DetailsContainer
-                  key={index}
-                  id={id}
-                  shouldPlay={index === currentIndex}
-                  shouldFetch={
-                    index === currentIndex || index === currentIndex + 1
-                  }
-                  index={index}
-                  scrollY={scrollY}
-                />
-              ))}
-            </Animated.ScrollView>
-          </MainBg>
-        </GestureHandlerRootView>
-      </SafeAreaProvider>
-    </SWRConfig>
+      <GestureHandlerRootView className={"relative flex-1"}>
+        <SplashScreen isLoading={isLoading} />
+        <MainBg>
+          <Header />
+          <Animated.ScrollView
+            pagingEnabled
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}
+            showsVerticalScrollIndicator={false}
+          >
+            {data.map((id, index) => (
+              <DetailsContainer
+                key={index}
+                id={id}
+                shouldPlay={index === currentIndex}
+                shouldFetch={
+                  index === currentIndex || index === currentIndex + 1
+                }
+                index={index}
+                scrollY={scrollY}
+              />
+            ))}
+          </Animated.ScrollView>
+        </MainBg>
+      </GestureHandlerRootView>
   );
 }

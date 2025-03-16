@@ -97,11 +97,13 @@ export const DetailsContainer = memo(
               url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-error-state.riv"
               alignment={Alignment.Center}
             />
-            <Text className={"text-neutral-5-default body-b1 text-center"}>
+            <Text className={"body-b1 text-center text-neutral-5-default"}>
               We have a problem, please try again
             </Text>
           </View>
-          <Button onPress={() => mutate()}>Retry</Button>
+          <Button haptic onPress={() => mutate()} variant={"primary"}>
+            Retry
+          </Button>
         </Animated.View>
       );
     }
@@ -118,7 +120,7 @@ export const DetailsContainer = memo(
       >
         <View
           className={
-            "gap-1.5 flex w-full flex-col items-start justify-center px-4 xs:gap-3"
+            "flex w-full flex-col items-start justify-center gap-1.5 px-4 xs:gap-3"
           }
           style={{
             height: height * 0.9,
@@ -132,7 +134,7 @@ export const DetailsContainer = memo(
                 className={"-mx-4 flex grow-0"}
               >
                 <Text
-                  className={"title-t1-strong text-neutral-10-default px-4"}
+                  className={"title-t1-strong px-4 text-neutral-10-default"}
                 >
                   {data.title}
                 </Text>
@@ -156,7 +158,7 @@ export const DetailsContainer = memo(
           </Bento>
 
           <Bento>
-            <View className={"gap-2.5 flex flex-col"}>
+            <View className={"flex flex-col gap-2.5"}>
               <View className={"flex flex-row items-center gap-8"}>
                 <View className={"flex flex-row items-center gap-2"}>
                   <IMDBLogo />
@@ -192,7 +194,7 @@ export const DetailsContainer = memo(
                 className={"w-full grow-0 overflow-visible"}
                 contentContainerClassName={"flex flex-row gap-6"}
               >
-                {data.genres.map((genre, index) => (
+                {data.genres.map((genre) => (
                   <Text
                     key={genre}
                     className={"body-b2-strong text-neutral-5-default"}
@@ -218,7 +220,7 @@ export const DetailsContainer = memo(
                 numberOfLines={6}
                 ellipsizeMode="tail"
                 className={
-                  "body-b2 text-neutral-10-default flex-1 overflow-hidden"
+                  "body-b2 flex-1 overflow-hidden text-neutral-10-default"
                 }
               >
                 {data.overview}

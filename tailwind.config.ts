@@ -725,6 +725,9 @@ export default {
         "24": primitives["spacing"]["6"],
         "0.5": primitives["spacing"]["0.125"],
       },
+      fontFamily: {
+        SFPro: ["SFPro"],
+      },
       fontSize: {
         "2xs": "10",
         xs: "12",

@@ -6,90 +6,90 @@
 @layer components {
     /* Text Styles  */
     .headline-h1 {
-        @apply text-8xl font-regular;
+        @apply text-8xl font-regular font-SFPro;
     }
 
     .headline-h1-strong {
-        @apply text-8xl font-bold;
+        @apply text-8xl font-bold font-SFPro;
     }
 
     .headline-h2 {
-        @apply text-7xl font-regular;
+        @apply text-7xl font-regular font-SFPro;
     }
 
     .headline-h2-strong {
-        @apply text-7xl font-bold;
+        @apply text-7xl font-bold font-SFPro;
     }
 
     .headline-h3 {
-        @apply text-6xl font-regular;
+        @apply text-6xl font-regular font-SFPro;
     }
 
     .headline-h3-strong {
-        @apply text-6xl font-bold;
+        @apply text-6xl font-bold font-SFPro;
     }
 
     .headline-h4 {
-        @apply text-5xl font-regular;
+        @apply text-5xl font-regular font-SFPro;
     }
 
     .headline-h4-strong {
-        @apply text-5xl font-bold;
+        @apply text-5xl font-bold font-SFPro;
     }
 
     .headline-h5 {
-        @apply text-3xl font-regular;
+        @apply text-3xl font-regular font-SFPro;
     }
 
     .headline-h5-strong {
-        @apply text-3xl font-bold;
+        @apply text-3xl font-bold font-SFPro;
     }
 
     .title-t1 {
-        @apply text-2xl font-regular;
+        @apply text-2xl font-regular font-SFPro;
     }
 
     .title-t1-strong {
-        @apply text-2xl font-bold;
+        @apply text-2xl font-bold font-SFPro;
     }
 
     .title-t2 {
-        @apply text-xl font-regular;
+        @apply text-xl font-regular font-SFPro;
     }
 
     .title-t2-strong {
-        @apply text-xl font-bold;
+        @apply text-xl font-bold font-SFPro;
     }
 
     .title-t3 {
-        @apply text-lg font-regular;
+        @apply text-lg font-regular font-SFPro;
     }
 
     .title-t3-strong {
-        @apply text-lg font-bold;
+        @apply text-lg font-bold font-SFPro;
     }
 
     .body-b1 {
-        @apply text-base font-regular;
+        @apply text-base font-regular font-SFPro;
     }
 
     .body-b1-strong {
-        @apply text-base font-bold;
+        @apply text-base font-bold font-SFPro;
     }
 
     .body-b2 {
-        @apply text-sm font-regular;
+        @apply text-sm font-regular font-SFPro;
     }
 
     .body-b2-strong {
-        @apply text-sm font-bold;
+        @apply text-sm font-bold font-SFPro;
     }
 
     .caption-c1 {
-        @apply text-xs font-regular;
+        @apply text-xs font-regular font-SFPro;
     }
 
     .caption-c1-strong {
-        @apply text-xs font-bold;
+        @apply text-xs font-bold font-SFPro;
     }
 }
