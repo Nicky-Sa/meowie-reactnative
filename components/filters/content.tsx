@@ -3,20 +3,24 @@ import { View, Text, SafeAreaView } from "react-native";
 import { Button } from "@/components/common/button";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
+import { BottomSheet } from "@/components/common/bottom-sheet";
 
-const filters = {
-  genre: {
+const filters = [
+  {
     title: "Genre",
   },
-  year: {
+  {
     title: "Year (decade)",
   },
-  language: {
+  {
     title: "Language",
   },
-};
+  {
+    title: "TMDB Rating",
+  },
+];
 
-export default function Content() {
+export const Content = () => {
   const router = useRouter();
 
   return (
@@ -38,17 +42,29 @@ export default function Content() {
               Filters
             </Text>
           </View>
+          <BottomSheet title={"TITLE"}>
+            <Text>LALAL</Text>
+          </BottomSheet>
           <View className={"flex w-full flex-col gap-2"}>
-            <Button onPress={router.back} variant={"secondary"} size={"full"}>
-              <View
-                className={"flex w-full flex-row items-center justify-between"}
+            {filters.map((filter) => (
+              <Button
+                key={filter.title}
+                onPress={router.back}
+                variant={"secondary"}
+                size={"full"}
               >
-                <Text className={"body-b1-strong text-neutral-10-default"}>
-                  Genre
-                </Text>
-                <AltArrowRight />
-              </View>
-            </Button>
+                <View
+                  className={
+                    "flex w-full flex-row items-center justify-between"
+                  }
+                >
+                  <Text className={"body-b1-strong text-neutral-10-default"}>
+                    {filter.title}
+                  </Text>
+                  <AltArrowRight />
+                </View>
+              </Button>
+            ))}
           </View>
         </View>
       </SafeAreaView>

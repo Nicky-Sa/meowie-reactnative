@@ -39,7 +39,7 @@ export const Content = () => {
   });
 
   return (
-    <GestureHandlerRootView className={"relative flex-1"}>
+    <>
       <SplashScreen isLoading={isLoading} />
       <MainBg>
         <Header />
@@ -61,6 +61,6 @@ export const Content = () => {
           ))}
         </Animated.ScrollView>
       </MainBg>
-    </GestureHandlerRootView>
+    </>
   );
 };
