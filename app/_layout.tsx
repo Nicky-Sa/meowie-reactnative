@@ -6,7 +6,7 @@ import {
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
-
+import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SWRConfig } from "swr";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -30,6 +30,7 @@ export default function RootLayout() {
         }}
       >
         <SafeAreaProvider>
+          <StatusBar translucent backgroundColor="transparent" style="light" />
           <GestureHandlerRootView className={"flex-1"}>
             <BottomSheetModalProvider>
               <Stack
@@ -37,7 +38,7 @@ export default function RootLayout() {
                   headerShown: false,
                 }}
               >
-                <Stack.Screen name="index" options={{ title: "Meowie" }} />
+                <Stack.Screen name="index" />
                 <Stack.Screen
                   name="filters/index"
                   options={{

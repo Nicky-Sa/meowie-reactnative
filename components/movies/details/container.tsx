@@ -5,6 +5,7 @@ import {
   Image,
   ScrollView,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { TrailerPlayer } from "@/components/movies/details/trailer-player";
 import { useFetchColor } from "@/hooks/useFetchColor";
@@ -21,6 +22,7 @@ import { Bento } from "@/components/common/bento";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
 import { Ratings } from "@/components/movies/details/ratings";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   id: number;
@@ -35,8 +37,10 @@ export const DetailsContainer = memo(
     const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
+    const insets = useSafeAreaInsets();
 
-    const { height } = useWindowDimensions();
+    const { height: h } = useWindowDimensions();
+    const height = h + (Platform.OS === "android" ? insets.top : 0);
 
     useEffect(() => {
       if (shouldPlay) setColor(fetchedColor);

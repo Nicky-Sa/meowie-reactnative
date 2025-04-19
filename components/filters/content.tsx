@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "@/components/common/button";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { BottomSheet } from "@/components/common/bottom-sheet";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const filters = [
   {
@@ -70,4 +71,4 @@ export const Content = () => {
       </SafeAreaView>
     </View>
   );
-}
+};

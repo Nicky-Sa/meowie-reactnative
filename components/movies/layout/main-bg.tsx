@@ -44,7 +44,7 @@ export const MainBg = ({ children }: PropsWithChildren) => {
           tailwind.theme.backgroundColor.neutral[13].default,
         ]}
         start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 0.15 }}
+        end={{ x: 0.5, y: 0.2 }}
         style={{
           width: "100%",
           height: "100%",

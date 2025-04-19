@@ -45,22 +45,20 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
       </Text>
     </View>
   ) : (
-    <View>
-      <YoutubePlayer
-        ref={playerRef}
-        height={195}
-        play={playing && isYTPlaying}
-        volume={30}
-        forceAndroidAutoplay
-        initialPlayerParams={{
-          controls: false,
-          loop: true,
-          preventFullScreen: true,
-        }}
-        videoId={YTKey}
-        playList={[YTKey]}
-        onError={() => setCanNotPlay(true)}
-      />
-    </View>
+    <YoutubePlayer
+      ref={playerRef}
+      height={190}
+      play={playing && isYTPlaying}
+      volume={30}
+      forceAndroidAutoplay
+      initialPlayerParams={{
+        controls: false,
+        loop: true,
+        preventFullScreen: true,
+      }}
+      videoId={YTKey}
+      playList={[YTKey]}
+      onError={() => setCanNotPlay(true)}
+    />
   );
 };

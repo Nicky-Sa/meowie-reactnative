@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   useAnimatedScrollHandler,
