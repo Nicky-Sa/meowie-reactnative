@@ -6,9 +6,9 @@
     "start": "expo start --clear",
     "prebuild": "expo prebuild --clean ",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo run:android --device",
-    "ios": "expo run:ios --device",
-    "web": "expo start --web",
+    "eas-build:android": "eas build --platform android --profile development",
+    "eas-build:ios-simulator": "eas build --platform ios --profile ios-simulator",
+    "eas-build:ios-device": "eas build --platform ios --profile development",
     "test": "jest --watchAll",
     "lint": "expo lint",
     "generate-variables": "npx ts-node figma/processor.ts"

@@ -10,41 +10,43 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. (Build and) Start the app:
 
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo: 
    ```bash
-    npx expo start
+    npm run start
    ```
+  and then scan the QR code with the Expo Go app.
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/): can be done for android (both device and emulator at the same time) and ios-simulator and ios-device.
+  - **[Android](https://docs.expo.dev/tutorial/eas/android-development-build/)**: 
+    - Device
+      - Connect your Android device to the android-studio using Wi-Fi, pair the device using the 'Running Devices' option on the right panel.
+    - [Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+      - Make sure you've downloaded at least one Android simulator in the Android Studio.
+    - Open the "Orbit" on Mac and select the detected device or simulator (its icon should have a blue background). 
+    - Create a build:
+       ```bash
+      npm run eas-build:android
+        ```
+    - Select Y at the end of build to open the emulator or Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'. 
+    - Have the app running via:
+        ```bash
+          npm run start
+        ```
+    - Select the local server on the device or emulator.
+  - **[iOS simulator](https://docs.expo.dev/tutorial/eas/ios-development-build-for-simulators/)**: 
+    - Create a build:
+       ```bash
+      npm run eas-build:ios-simulator
+        ```
+    - Select Y at the end of build to open the simulator or Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'.
+  - **[iOS device](https://docs.expo.dev/tutorial/eas/ios-development-build-for-devices/)**: 
+    - Create a build:
+       ```bash
+      npm run eas-build:ios-device
+        ```
+    - Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit' or scan the QR code.
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

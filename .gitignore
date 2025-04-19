@@ -39,7 +39,6 @@ yarn-error.*
 
 app-example
 /.idea/.gitignore
-/.idea/material_theme_project_new.xml
-/.idea/vcs.xml
+/.idea
 
 /figma/output.ts
