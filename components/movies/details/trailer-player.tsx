@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, useWindowDimensions } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
 import { isYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/no-trailer.svg";
+import { tailwind } from "@/lib/utils";
 
 type Props = {
   YTKey: string;
@@ -18,6 +19,9 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   const [canNotPlay, setCanNotPlay] = useState(false); // local state
   const [playing, setPlaying] = useState(false); // local state
   const [isYTPlaying] = useAtom(isYTPlayingAtom); // global state
+
+  const { width: w } = useWindowDimensions();
+  const width = w - 2.5 * Number(tailwind.theme.spacing[4]);
 
   const appState = useAppState();
 
@@ -36,7 +40,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   return canNotPlay ? (
     <View
       className={
-        "flex h-[195px] flex-col items-center justify-center gap-4 bg-neutral-10-default"
+        "flex h-[200px] w-full flex-col items-center justify-center gap-4 rounded-xl bg-neutral-10-default"
       }
     >
       <NoTrailer width="60" height="60" />
@@ -45,20 +49,27 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
       </Text>
     </View>
   ) : (
-    <YoutubePlayer
-      ref={playerRef}
-      height={190}
-      play={playing && isYTPlaying}
-      volume={30}
-      forceAndroidAutoplay
-      initialPlayerParams={{
-        controls: false,
-        loop: true,
-        preventFullScreen: true,
-      }}
-      videoId={YTKey}
-      playList={[YTKey]}
-      onError={() => setCanNotPlay(true)}
-    />
+    <View
+      className={
+        "border-1.5 mx-auto flex h-[208px] w-full items-center justify-center rounded-xl border-neutral-3-default bg-black"
+      }
+    >
+      <YoutubePlayer
+        ref={playerRef}
+        height={195}
+        width={width}
+        play={playing && isYTPlaying}
+        volume={30}
+        forceAndroidAutoplay
+        initialPlayerParams={{
+          controls: false,
+          loop: true,
+          preventFullScreen: true,
+        }}
+        videoId={YTKey}
+        playList={[YTKey]}
+        onError={() => setCanNotPlay(true)}
+      />
+    </View>
   );
 };

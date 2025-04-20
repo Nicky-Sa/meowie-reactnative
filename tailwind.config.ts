@@ -710,6 +710,9 @@ export default {
         "3xl": primitives["radius"]["1.5"],
         full: primitives["radius"]["circular"],
       },
+      borderWidth: {
+        "1.5": "1.5",
+      },
       spacing: {
         "0": primitives["spacing"]["0"],
         "1": primitives["spacing"]["0.25"],

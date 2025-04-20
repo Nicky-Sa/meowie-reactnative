@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";
@@ -15,7 +15,7 @@ export const Header = () => {
         "absolute z-10 flex w-full flex-1 flex-row items-start justify-between px-4"
       }
       style={{
-        marginTop: insets.top,
+        marginTop: insets.top + (Platform.OS === "android" ? 10 : 0),
         height: insets.top + 28,
       }}
     >

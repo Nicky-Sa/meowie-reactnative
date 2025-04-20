@@ -28,7 +28,7 @@ const ratingsItems = [
 
 export const Ratings = ({ ratings }: Props) => {
   return (
-    <View className={"flex flex-row items-center gap-6"}>
+    <View className={"flex flex-row items-center gap-5"}>
       {ratingsItems.map((item) => (
         <View className={"flex flex-row items-center gap-2"} key={item.title}>
           {item.logo}

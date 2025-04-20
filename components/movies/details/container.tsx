@@ -23,6 +23,7 @@ import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
 import { Ratings } from "@/components/movies/details/ratings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { tailwind } from "@/lib/utils";
 
 type Props = {
   id: number;
@@ -133,10 +134,12 @@ export const DetailsContainer = memo(
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                className={"-mx-4 flex grow-0"}
+                className={"grow-0"}
               >
                 <Text
-                  className={"title-t1-strong px-4 text-neutral-10-default"}
+                  className={
+                    "title-t1-strong -mx-4 px-4 text-neutral-10-default"
+                  }
                 >
                   {data.title}
                 </Text>
@@ -155,9 +158,7 @@ export const DetailsContainer = memo(
             </View>
           </Bento>
 
-          <Bento hasPadding={false}>
-            <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-          </Bento>
+          <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
 
           <Bento>
             <View className={"flex flex-col gap-2.5"}>
@@ -168,8 +169,8 @@ export const DetailsContainer = memo(
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                className={"w-full grow-0 overflow-visible"}
                 contentContainerClassName={"flex flex-row gap-6"}
+                className={"grow-0"}
               >
                 {data.genres.map((genre) => (
                   <Text
