@@ -1,13 +1,6 @@
 import { useFetchInfo } from "@/hooks/data/useFetchInfo";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  useWindowDimensions,
-  Platform,
-} from "react-native";
-import { TrailerPlayer } from "@/components/movies/details/trailer-player";
+import { View, Text, Image, useWindowDimensions, Platform } from "react-native";
+import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -17,13 +10,14 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { GoogleIt } from "@/components/movies/details/google-it";
+import { GoogleIt } from "@/components/movies/elements/google-it";
 import { Bento } from "@/components/common/bento";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
-import { Ratings } from "@/components/movies/details/ratings";
+import { Ratings } from "@/components/movies/elements/ratings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { tailwind } from "@/lib/utils";
+import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   id: number;

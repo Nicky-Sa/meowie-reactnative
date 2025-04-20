@@ -24,6 +24,10 @@ const variants = {
     backgroundColor: ["transparent", "transparent"],
     borderColor: "transparent",
   },
+  outline: {
+    backgroundColor: ["transparent", "transparent"],
+    borderColor: tailwind.theme.borderColor.neutral[3].default,
+  },
 } as const;
 
 const sizes = {
@@ -75,6 +79,7 @@ export const Button = ({
     borderRadius: sizes[size].borderRadius,
     borderWidth: 1,
     borderColor: variants[variant].borderColor,
+    ...(props.style as object),
   };
 
   return (

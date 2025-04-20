@@ -5,13 +5,17 @@ import {
 } from "@/components/common/bottom-sheet";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { Button } from "@/components/common/button";
-import { useRef } from "react";
+import { PropsWithChildren, useRef } from "react";
+import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   title: string;
 };
 
-export const FilterItem = ({ title }: Props) => {
+export const FilterItemWrapper = ({
+  title,
+  children,
+}: PropsWithChildren<Props>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
   return (
@@ -30,7 +34,7 @@ export const FilterItem = ({ title }: Props) => {
       </Button>
 
       <BottomSheet ref={bottomSheetRef} title={title}>
-        <Text>LALAL</Text>
+        {children}
       </BottomSheet>
     </>
   );

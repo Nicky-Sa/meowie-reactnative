@@ -8,7 +8,7 @@ import { View, Text, Platform } from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetView,
+  BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import Close from "@/assets/icons/close.svg";
 import { Button } from "@/components/common/button";
@@ -21,6 +21,7 @@ type Props = {
 export type ExposedBottomSheetModalRef = {
   present: () => void;
   dismiss: () => void;
+  snapToIndex: (index: number | "latest") => void;
 };
 
 export const BottomSheet = forwardRef<
@@ -28,7 +29,7 @@ export const BottomSheet = forwardRef<
   PropsWithChildren<Props>
 >(({ children, title }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["25%", "50%", "90%"];
+  const snapPoints = ["50%", "90%"];
 
   useImperativeHandle(ref, () => ({
     present: () => {
@@ -37,18 +38,27 @@ export const BottomSheet = forwardRef<
     dismiss: () => {
       bottomSheetRef.current?.dismiss();
     },
+    snapToIndex: (index: number | string) => {
+      if (typeof index === "number") {
+        bottomSheetRef.current?.snapToIndex(index);
+      }
+      if (index === "latest") {
+        bottomSheetRef.current?.snapToIndex(snapPoints.length - 1);
+      }
+    },
   }));
 
   return (
     <>
       <BottomSheetModal
-        index={Platform.select({ android: 1, ios: 2 })}
+        index={0}
         ref={bottomSheetRef}
+        enableDynamicSizing={false}
         snapPoints={snapPoints}
         animationConfigs={{
           duration: Platform.select({
-            android: 400, // Slower animation for Android
-            ios: 300, // Default iOS duration
+            android: 400,
+            ios: 300,
           }),
         }}
         backgroundStyle={{
@@ -74,10 +84,10 @@ export const BottomSheet = forwardRef<
           />
         )}
       >
-        <BottomSheetView
-          className={"flex flex-1 flex-col bg-neutral-14-default p-4"}
-        >
-          <View className={"flex w-full flex-row items-center justify-between"}>
+        <View className={"flex flex-1 flex-col bg-neutral-14-default p-4 pt-0"}>
+          <View
+            className={"flex w-full flex-row items-center justify-between pb-4"}
+          >
             <Text className={"title-t2 text-neutral-10-default"}>{title}</Text>
             <Button
               onPress={() => bottomSheetRef.current?.dismiss()}
@@ -88,9 +98,10 @@ export const BottomSheet = forwardRef<
               <Close />
             </Button>
           </View>
-
-          {children}
-        </BottomSheetView>
+          <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+            {children}
+          </BottomSheetScrollView>
+        </View>
       </BottomSheetModal>
     </>
   );

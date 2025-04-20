@@ -6,7 +6,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useFetchMoviesIds } from "@/hooks/data/useFetchMoviesIds";
 import { MainBg } from "@/components/movies/layout/main-bg";
-import { DetailsContainer } from "@/components/movies/details/container";
+import { DetailsContainer } from "@/components/movies/elements/container";
 import { Header } from "@/components/movies/layout/header";
 import { SplashScreen } from "@/components/movies/layout/splash-screen";
 
