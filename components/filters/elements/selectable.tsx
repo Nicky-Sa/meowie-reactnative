@@ -16,23 +16,24 @@ export const Selectable = ({
   setCurrentValues,
   multiple,
 }: Props) => {
-
   return (
     <Button
       variant={currentValues.includes(item) ? "secondary" : "outline"}
       size={"full"}
       onPress={() => {
         setCurrentValues((draft) => {
+          const index = draft.indexOf(item);
           if (multiple) {
-            const index = draft.indexOf(item);
-            if (index !== -1) {
-              draft.splice(index, 1);
-            } else {
+            if (index === -1) {
               draft.push(item);
+            } else {
+              draft.splice(index, 1);
             }
           } else {
-            draft.length = 0; // Clear the array
-            draft.push(item);
+            draft.length = 0;
+            if (index === -1) {
+              draft.push(item);
+            }
           }
         });
       }}

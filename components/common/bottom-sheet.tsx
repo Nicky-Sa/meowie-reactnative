@@ -19,6 +19,7 @@ import { tailwind } from "@/lib/utils";
 type Props = {
   title: string;
   footer?: React.ReactNode;
+  onDismiss?: () => void;
 };
 
 export type ExposedBottomSheetModalRef = {
@@ -30,9 +31,9 @@ export type ExposedBottomSheetModalRef = {
 export const BottomSheet = forwardRef<
   ExposedBottomSheetModalRef,
   PropsWithChildren<Props>
->(({ children, footer, title }, ref) => {
+>(({ children, footer, title, onDismiss }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["50%", "90%"];
+  const snapPoints = ["60%", "90%"];
 
   useImperativeHandle(ref, () => ({
     present: () => {
@@ -58,6 +59,7 @@ export const BottomSheet = forwardRef<
         ref={bottomSheetRef}
         enableDynamicSizing={false}
         snapPoints={snapPoints}
+        onDismiss={onDismiss}
         animationConfigs={{
           duration: Platform.select({
             android: 400,

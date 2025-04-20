@@ -15,17 +15,19 @@ type Props = {
   title: string;
   filterKey: keyof Filters;
   currentValues: string[];
+  setCurrentValues: Updater<string[]>;
 };
 
 export const FilterItemWrapper = ({
   title,
   filterKey,
   currentValues,
+  setCurrentValues,
   children,
 }: PropsWithChildren<Props>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const insets = useSafeAreaInsets();
-  const [, setFilters] = useAtom(filtersAtom);
+  const [filters, setFilters] = useAtom(filtersAtom);
 
   return (
     <>
@@ -67,6 +69,10 @@ export const FilterItemWrapper = ({
             </Button>
           </View>
         }
+        onDismiss={() => {
+          // rest the current values to the previous values if not applied
+          setCurrentValues(filters[filterKey]);
+        }}
       >
         {children}
       </BottomSheet>

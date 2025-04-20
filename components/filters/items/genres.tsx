@@ -36,6 +36,7 @@ export const Genres = () => {
       title={"Genres"}
       filterKey={"genres"}
       currentValues={currentValues}
+      setCurrentValues={setCurrentValues}
     >
       <View className={"flex flex-row flex-wrap gap-2"}>
         {genres.map((genre) => (
