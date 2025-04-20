@@ -99,7 +99,11 @@ export const Button = ({
           ...(Platform.OS === "android" && styles),
           overflow: "hidden",
         }}
-        className={cn(focused && "opacity-50")}
+        className={cn(
+          focused && "opacity-50",
+          props.className,
+          size === "full" && "w-full",
+        )}
       >
         <LinearGradient
           colors={variants[variant].backgroundColor}
@@ -111,12 +115,15 @@ export const Button = ({
             paddingHorizontal: square
               ? sizes[size].paddingVertical
               : sizes[size].paddingHorizontal,
-            // alignItems: "center",
-            // justifyContent: "center",
           }}
         >
           {typeof children === "string" ? (
-            <Text className={"body-b1-strong text-neutral-1-default"}>
+            <Text
+              className={cn(
+                "body-b1-strong text-neutral-1-default",
+                props.className,
+              )}
+            >
               {children}
             </Text>
           ) : (

@@ -4,6 +4,7 @@ import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
 import { useCallback } from "react";
+import { useImmer } from "use-immer";
 
 const languages = [
   "English",
@@ -30,11 +31,23 @@ const languages = [
 ];
 
 export const Languages = () => {
+  const [filters] = useAtom(filtersAtom);
+  const [currentValues, setCurrentValues] = useImmer(filters.language);
+
   return (
-    <FilterItemWrapper title={"Languages"}>
+    <FilterItemWrapper
+      title={"Languages"}
+      filterKey={"language"}
+      currentValues={currentValues}
+    >
       <View className={"flex w-full flex-col gap-2"}>
         {languages.map((lang) => (
-          <Selectable key={lang} item={lang} filterKey={"language"} />
+          <Selectable
+            key={lang}
+            item={lang}
+            currentValues={currentValues}
+            setCurrentValues={setCurrentValues}
+          />
         ))}
       </View>
     </FilterItemWrapper>

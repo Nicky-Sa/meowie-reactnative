@@ -16,7 +16,6 @@ import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
 import { Ratings } from "@/components/movies/elements/ratings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { tailwind } from "@/lib/utils";
 import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {

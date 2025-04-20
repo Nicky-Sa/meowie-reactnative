@@ -3,10 +3,12 @@ import React, {
   PropsWithChildren,
   forwardRef,
   useImperativeHandle,
+  useEffect,
 } from "react";
 import { View, Text, Platform } from "react-native";
 import {
   BottomSheetBackdrop,
+  BottomSheetFooter,
   BottomSheetModal,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
@@ -16,6 +18,7 @@ import { tailwind } from "@/lib/utils";
 
 type Props = {
   title: string;
+  footer?: React.ReactNode;
 };
 
 export type ExposedBottomSheetModalRef = {
@@ -27,7 +30,7 @@ export type ExposedBottomSheetModalRef = {
 export const BottomSheet = forwardRef<
   ExposedBottomSheetModalRef,
   PropsWithChildren<Props>
->(({ children, title }, ref) => {
+>(({ children, footer, title }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["50%", "90%"];
 
@@ -82,6 +85,9 @@ export const BottomSheet = forwardRef<
               borderRadius: Number(tailwind.theme.borderRadius.xl),
             }}
           />
+        )}
+        footerComponent={(props) => (
+          <BottomSheetFooter {...props}>{footer}</BottomSheetFooter>
         )}
       >
         <View className={"flex flex-1 flex-col bg-neutral-14-default p-4 pt-0"}>

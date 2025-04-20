@@ -1,40 +1,43 @@
 import { Button } from "@/components/common/button";
 import { tailwind } from "@/lib/utils";
 import { Text } from "react-native";
-import { useAtom } from "jotai/index";
-import { Filters, filtersAtom } from "@/atoms";
+import { Updater } from "use-immer/dist";
 
 type Props = {
   item: string;
-  filterKey: keyof Filters;
+  currentValues: string[];
+  setCurrentValues: Updater<string[]>;
   multiple?: boolean;
 };
 
-export const Selectable = ({ item, filterKey, multiple }: Props) => {
-  const [filters, setFilters] = useAtom(filtersAtom);
+export const Selectable = ({
+  item,
+  currentValues,
+  setCurrentValues,
+  multiple,
+}: Props) => {
 
   return (
     <Button
-      variant={filters[filterKey].includes(item) ? "secondary" : "outline"}
+      variant={currentValues.includes(item) ? "secondary" : "outline"}
       size={"full"}
       onPress={() => {
-        setFilters((draft) => {
-          if(multiple){
-            if (draft[filterKey].includes(item)) {
-              draft[filterKey] = draft[filterKey].filter(
-                (value) => value !== item,
-              );
+        setCurrentValues((draft) => {
+          if (multiple) {
+            const index = draft.indexOf(item);
+            if (index !== -1) {
+              draft.splice(index, 1);
             } else {
-              draft[filterKey].push(item);
+              draft.push(item);
             }
-          }
-          else{
-            draft[filterKey] = [item];
+          } else {
+            draft.length = 0; // Clear the array
+            draft.push(item);
           }
         });
       }}
       style={{
-        ...(filters[filterKey].includes(item) && {
+        ...(currentValues.includes(item) && {
           borderColor: tailwind.theme.borderColor.brand[1].default,
         }),
       }}

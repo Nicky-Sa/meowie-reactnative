@@ -5,18 +5,27 @@ import {
 } from "@/components/common/bottom-sheet";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { Button } from "@/components/common/button";
-import { PropsWithChildren, useRef } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+import React, { PropsWithChildren, useEffect, useRef } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAtom } from "jotai/index";
+import { Filters, filtersAtom } from "@/atoms";
+import { Updater } from "use-immer";
 
 type Props = {
   title: string;
+  filterKey: keyof Filters;
+  currentValues: string[];
 };
 
 export const FilterItemWrapper = ({
   title,
+  filterKey,
+  currentValues,
   children,
 }: PropsWithChildren<Props>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const insets = useSafeAreaInsets();
+  const [, setFilters] = useAtom(filtersAtom);
 
   return (
     <>
@@ -33,7 +42,32 @@ export const FilterItemWrapper = ({
         </View>
       </Button>
 
-      <BottomSheet ref={bottomSheetRef} title={title}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        title={title}
+        footer={
+          <View
+            className={"w-full bg-neutral-14-default p-4"}
+            style={{
+              paddingBottom: insets.bottom,
+            }}
+          >
+            <Button
+              variant={"primary"}
+              size={"full"}
+              className={"text-center"}
+              onPress={() => {
+                setFilters((draft) => {
+                  draft[filterKey] = currentValues;
+                });
+                bottomSheetRef.current?.dismiss();
+              }}
+            >
+              Apply
+            </Button>
+          </View>
+        }
+      >
         {children}
       </BottomSheet>
     </>
