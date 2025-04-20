@@ -1,8 +1,13 @@
-import React, { useRef, useCallback, PropsWithChildren } from "react";
-import { View, Text } from "react-native";
-import GorhomBottomSheet, {
+import React, {
+  useRef,
+  PropsWithChildren,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { View, Text, Platform } from "react-native";
+import {
   BottomSheetBackdrop,
-  BottomSheetModalProvider,
+  BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import Close from "@/assets/icons/close.svg";
@@ -13,33 +18,39 @@ type Props = {
   title: string;
 };
 
-export const BottomSheet = ({ children, title }: PropsWithChildren<Props>) => {
-  // ref
-  const bottomSheetRef = useRef<GorhomBottomSheet>(null);
+export type ExposedBottomSheetModalRef = {
+  present: () => void;
+  dismiss: () => void;
+};
+
+export const BottomSheet = forwardRef<
+  ExposedBottomSheetModalRef,
+  PropsWithChildren<Props>
+>(({ children, title }, ref) => {
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = ["25%", "50%", "90%"];
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  useImperativeHandle(ref, () => ({
+    present: () => {
+      bottomSheetRef.current?.present();
+    },
+    dismiss: () => {
+      bottomSheetRef.current?.dismiss();
+    },
+  }));
 
-  const handleOpen = useCallback(() => {
-    bottomSheetRef.current?.expand();
-  }, []);
-
-  const handleClose = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
-  // renders
   return (
-    <View className={"flex-1"}>
-      <Button onPress={handleOpen}>Open Bottom Sheet</Button>
-      <GorhomBottomSheet
-        index={-1}
+    <>
+      <BottomSheetModal
+        index={Platform.select({ android: 1, ios: 2 })}
         ref={bottomSheetRef}
-        onChange={handleSheetChanges}
         snapPoints={snapPoints}
+        animationConfigs={{
+          duration: Platform.select({
+            android: 400, // Slower animation for Android
+            ios: 300, // Default iOS duration
+          }),
+        }}
         backgroundStyle={{
           backgroundColor: tailwind.theme.backgroundColor.neutral["14"].default,
         }}
@@ -49,8 +60,12 @@ export const BottomSheet = ({ children, title }: PropsWithChildren<Props>) => {
         backdropComponent={(props) => (
           <BottomSheetBackdrop
             {...props}
-            appearsOnIndex={1}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
             opacity={0.8}
+            pressBehavior="close"
+            enableTouchThrough={false}
+            animatedIndex={props.animatedIndex}
             style={{
               backgroundColor:
                 tailwind.theme.backgroundColor.neutral["10"].default,
@@ -65,7 +80,7 @@ export const BottomSheet = ({ children, title }: PropsWithChildren<Props>) => {
           <View className={"flex w-full flex-row items-center justify-between"}>
             <Text className={"title-t2 text-neutral-10-default"}>{title}</Text>
             <Button
-              onPress={handleClose}
+              onPress={() => bottomSheetRef.current?.dismiss()}
               variant={"secondary"}
               size={"md"}
               square
@@ -76,7 +91,7 @@ export const BottomSheet = ({ children, title }: PropsWithChildren<Props>) => {
 
           {children}
         </BottomSheetView>
-      </GorhomBottomSheet>
-    </View>
+      </BottomSheetModal>
+    </>
   );
-};
+});

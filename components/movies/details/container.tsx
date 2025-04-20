@@ -41,7 +41,7 @@ export const DetailsContainer = memo(
     const insets = useSafeAreaInsets();
 
     const { height: h } = useWindowDimensions();
-    const height = h + (Platform.OS === "android" ? insets.top : 0);
+    const height = h + (Platform.select({ android: insets.top, ios: 0 }) ?? 0);
 
     useEffect(() => {
       if (shouldPlay) setColor(fetchedColor);

@@ -2,7 +2,8 @@ import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
 import { Platform, Pressable, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { tailwind } from "@/lib/utils";
+import { cn, tailwind } from "@/lib/utils";
+import { useState } from "react";
 
 const variants = {
   primary: {
@@ -68,6 +69,8 @@ export const Button = ({
   children,
   ...props
 }: Props) => {
+  const [focused, setFocused] = useState(false);
+
   const styles = {
     borderRadius: sizes[size].borderRadius,
     borderWidth: 1,
@@ -78,17 +81,20 @@ export const Button = ({
     <Pressable
       {...props}
       onPressIn={async (ev) => {
+        setFocused(true);
         if (haptic) {
           await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
         props.onPressIn?.(ev);
       }}
+      onPressOut={() => setFocused(false)}
     >
       <View
         style={{
           ...(Platform.OS === "android" && styles),
           overflow: "hidden",
         }}
+        className={cn(focused && "opacity-50")}
       >
         <LinearGradient
           colors={variants[variant].backgroundColor}

@@ -69,6 +69,13 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         videoId={YTKey}
         playList={[YTKey]}
         onError={() => setCanNotPlay(true)}
+        webViewProps={{
+          injectedJavaScript: `
+            var element = document.getElementsByClassName('container')[0];
+            element.style.position = 'unset';
+            true;
+          `,
+        }}
       />
     </View>
   );

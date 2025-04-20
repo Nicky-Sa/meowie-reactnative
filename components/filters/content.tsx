@@ -5,6 +5,7 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { BottomSheet } from "@/components/common/bottom-sheet";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { FilterItem } from "@/components/filters/item";
 
 const filters = [
   {
@@ -43,28 +44,10 @@ export const Content = () => {
               Filters
             </Text>
           </View>
-          <BottomSheet title={"TITLE"}>
-            <Text>LALAL</Text>
-          </BottomSheet>
+
           <View className={"flex w-full flex-col gap-2"}>
             {filters.map((filter) => (
-              <Button
-                key={filter.title}
-                onPress={router.back}
-                variant={"secondary"}
-                size={"full"}
-              >
-                <View
-                  className={
-                    "flex w-full flex-row items-center justify-between"
-                  }
-                >
-                  <Text className={"body-b1-strong text-neutral-10-default"}>
-                    {filter.title}
-                  </Text>
-                  <AltArrowRight />
-                </View>
-              </Button>
+              <FilterItem key={filter.title} title={filter.title} />
             ))}
           </View>
         </View>
