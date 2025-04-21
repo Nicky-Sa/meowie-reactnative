@@ -10,6 +10,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAtom } from "jotai/index";
 import { Filters, filtersAtom } from "@/atoms";
 import { Updater } from "use-immer";
+import Close from "@/assets/icons/close.svg";
+import Chip from "@/components/common/chip";
 
 type Props = {
   title: string;
@@ -40,7 +42,41 @@ export const FilterItemWrapper = ({
           <Text className={"body-b1-strong text-neutral-10-default"}>
             {title}
           </Text>
-          <AltArrowRight />
+          {filters[filterKey].length > 0 ? (
+            <View className={"flex flex-row items-center justify-center"}>
+              <Chip
+                text={
+                  filters[filterKey].length === 1
+                    ? filters[filterKey][0]
+                    : `${filters[filterKey].length}`
+                }
+              />
+              <Button
+                variant={"ghost"}
+                size={"unset"}
+                onPress={() => {
+                  setFilters((draft) => {
+                    draft[filterKey] = [];
+                  });
+                  setCurrentValues([]);
+                }}
+                style={{
+                  borderWidth: 0,
+                  paddingLeft: 8,
+                }}
+              >
+                <Close />
+              </Button>
+            </View>
+          ) : (
+            <View className={"flex flex-row"}>
+              {/*The chip is here to preserve the same height as the other button*/}
+              <View className={"invisible"}>
+                <Chip text={"0"} />
+              </View>
+              <AltArrowRight />
+            </View>
+          )}
         </View>
       </Button>
 

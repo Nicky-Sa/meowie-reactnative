@@ -711,6 +711,7 @@ export default {
         full: primitives["radius"]["circular"],
       },
       borderWidth: {
+        0: "0",
         "1.5": "1.5",
       },
       spacing: {

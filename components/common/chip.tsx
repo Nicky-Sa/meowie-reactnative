@@ -6,8 +6,8 @@ type Props = {
 
 const Chip = ({ text }: Props) => {
   return (
-    <View className={"rounded-full bg-neutral-10-default px-3 py-1"}>
-      <Text className={"font-bold text-neutral-10-default"}>{text}</Text>
+    <View className={"rounded-full bg-neutral-11-default px-2.5 py-1"}>
+      <Text className={"body-b2 text-neutral-6-default"}>{text}</Text>
     </View>
   );
 };

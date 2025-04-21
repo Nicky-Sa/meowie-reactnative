@@ -5,6 +5,7 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Genres } from "@/components/filters/items/genres";
 import { Languages } from "@/components/filters/items/languages";
+import { YearDecades } from "@/components/filters/items/year-decades";
 
 export const Content = () => {
   const router = useRouter();
@@ -32,6 +33,7 @@ export const Content = () => {
           <View className={"flex w-full flex-col gap-2"}>
             <Genres />
             <Languages />
+            <YearDecades />
           </View>
         </View>
       </SafeAreaView>

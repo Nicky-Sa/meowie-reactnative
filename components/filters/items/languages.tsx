@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
-import { useCallback } from "react";
 import { useImmer } from "use-immer";
 
 const languages = [
@@ -32,12 +31,12 @@ const languages = [
 
 export const Languages = () => {
   const [filters] = useAtom(filtersAtom);
-  const [currentValues, setCurrentValues] = useImmer(filters.language);
+  const [currentValues, setCurrentValues] = useImmer(filters.languages);
 
   return (
     <FilterItemWrapper
       title={"Languages"}
-      filterKey={"language"}
+      filterKey={"languages"}
       currentValues={currentValues}
       setCurrentValues={setCurrentValues}
     >
