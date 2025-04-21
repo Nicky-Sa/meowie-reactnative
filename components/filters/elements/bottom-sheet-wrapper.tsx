@@ -20,7 +20,7 @@ type Props<T extends keyof Filters> = {
   currentValues: Filters[T];
   setCurrentValues: Updater<Filters[T]>;
   chipText: string;
-  noScroll?: boolean;
+  enableContentPanningGesture?: boolean;
   index?: number;
 };
 
@@ -30,7 +30,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
   currentValues,
   setCurrentValues,
   chipText,
-  noScroll,
+  enableContentPanningGesture,
   index,
   children,
 }: PropsWithChildren<Props<T>>) => {
@@ -109,7 +109,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             </Button>
           </View>
         }
-        noScroll={noScroll}
+        enableContentPanningGesture={enableContentPanningGesture}
         index={index}
         onDismiss={() => {
           // rest the current values to the previous values if not applied

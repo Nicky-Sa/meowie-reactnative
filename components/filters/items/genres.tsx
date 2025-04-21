@@ -4,6 +4,7 @@ import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { useImmer } from "use-immer";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const genres = [
   "💥 Action",
@@ -43,17 +44,19 @@ export const Genres = () => {
           : `${filters.genres.length}`
       }
     >
-      <View className={"flex flex-row flex-wrap gap-2"}>
-        {genres.map((genre) => (
-          <Selectable
-            key={genre}
-            item={genre}
-            currentValues={currentValues}
-            setCurrentValues={setCurrentValues}
-            multiple
-          />
-        ))}
-      </View>
+      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+        <View className={"flex flex-row flex-wrap gap-2"}>
+          {genres.map((genre) => (
+            <Selectable
+              key={genre}
+              item={genre}
+              currentValues={currentValues}
+              setCurrentValues={setCurrentValues}
+              multiple
+            />
+          ))}
+        </View>
+      </BottomSheetScrollView>
     </BottomSheetWrapper>
   );
 };

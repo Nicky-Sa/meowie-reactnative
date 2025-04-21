@@ -4,6 +4,7 @@ import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
 import { useImmer } from "use-immer";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const languages = [
   "English",
@@ -41,16 +42,18 @@ export const Languages = () => {
       setCurrentValues={setCurrentValues}
       chipText={filters.languages[0]}
     >
-      <View className={"flex w-full flex-col gap-2"}>
-        {languages.map((lang) => (
-          <Selectable
-            key={lang}
-            item={lang}
-            currentValues={currentValues}
-            setCurrentValues={setCurrentValues}
-          />
-        ))}
-      </View>
+      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+        <View className={"flex w-full flex-col gap-2"}>
+          {languages.map((lang) => (
+            <Selectable
+              key={lang}
+              item={lang}
+              currentValues={currentValues}
+              setCurrentValues={setCurrentValues}
+            />
+          ))}
+        </View>
+      </BottomSheetScrollView>
     </BottomSheetWrapper>
   );
 };

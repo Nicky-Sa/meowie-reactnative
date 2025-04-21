@@ -17,7 +17,7 @@ export const TMDBRating = () => {
       currentValues={currentValues}
       setCurrentValues={setCurrentValues}
       chipText={`${filters.tmdbRatings[0]} - ${filters.tmdbRatings[1]}`}
-      noScroll
+      enableContentPanningGesture={false}
       index={0}
     >
       <View>
