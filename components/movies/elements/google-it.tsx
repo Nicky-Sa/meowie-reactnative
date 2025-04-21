@@ -46,7 +46,7 @@ export const GoogleIt = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"ghost"} size={"unset"} square>
+      <Button onPress={openLink} variant={"ghost"} size={"unset"}>
         <Google />
       </Button>
 

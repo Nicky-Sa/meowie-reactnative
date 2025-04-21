@@ -17,6 +17,11 @@ export const YearDecades = () => {
       filterKey={"decades"}
       currentValues={currentValues}
       setCurrentValues={setCurrentValues}
+      chipText={
+        filters.decades.length === 1
+          ? `${filters.decades[0]}`
+          : `${filters.decades.length}`
+      }
     >
       <View className={"flex w-full flex-col gap-2"}>
         {decades.map((dec) => (

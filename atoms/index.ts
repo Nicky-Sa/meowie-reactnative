@@ -15,12 +15,14 @@ export type Filters = {
   genres: string[];
   languages: string[];
   decades: string[];
+  tmdbRatings: number[];
 };
 
 export const initialFiltersValue: Filters = {
   genres: [],
   languages: [],
   decades: [],
+  tmdbRatings: [0, 10],
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);

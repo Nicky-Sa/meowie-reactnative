@@ -37,6 +37,11 @@ export const Genres = () => {
       filterKey={"genres"}
       currentValues={currentValues}
       setCurrentValues={setCurrentValues}
+      chipText={
+        filters.genres.length === 1
+          ? `${filters.genres[0]}`
+          : `${filters.genres.length}`
+      }
     >
       <View className={"flex flex-row flex-wrap gap-2"}>
         {genres.map((genre) => (

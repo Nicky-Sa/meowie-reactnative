@@ -1,0 +1,58 @@
+import React from "react";
+import { View, Text, useWindowDimensions } from "react-native";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import { tailwind } from "@/lib/utils";
+import { Updater } from "use-immer";
+
+const CustomMarker = ({ currentValue }: { currentValue: number }) => (
+  <View className={"flex flex-col items-center justify-center gap-2"}>
+    <View
+      className={
+        "h-6 w-6 rounded-full border-2 border-neutral-10-default bg-neutral-15-default"
+      }
+    />
+    <Text className={"body-b1 text-neutral-5-default"}>{currentValue}</Text>
+  </View>
+);
+
+type Props = {
+  currentValues: number[];
+  setCurrentValues: Updater<number[]>;
+  min: number;
+  max: number;
+  step?: number;
+};
+
+export const Slider = ({
+  currentValues,
+  setCurrentValues,
+  min,
+  max,
+  step = 1,
+}: Props) => {
+  const { width } = useWindowDimensions();
+
+  return (
+    <View className={"flex w-full flex-col items-start px-4"}>
+      <MultiSlider
+        values={currentValues}
+        min={min}
+        max={max}
+        step={step}
+        onValuesChange={setCurrentValues}
+        selectedStyle={{
+          backgroundColor: tailwind.theme.backgroundColor.brand[1].default,
+          height: 8,
+        }}
+        unselectedStyle={{
+          backgroundColor: tailwind.theme.backgroundColor.neutral[10].default,
+          height: 8,
+          borderRadius: Number(tailwind.theme.borderRadius.sm),
+        }}
+        markerOffsetY={18}
+        sliderLength={width * 0.83}
+        customMarker={(e) => <CustomMarker currentValue={e.currentValue} />}
+      />
+    </View>
+  );
+};

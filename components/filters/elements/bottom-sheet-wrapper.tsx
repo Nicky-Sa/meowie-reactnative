@@ -8,25 +8,32 @@ import { Button } from "@/components/common/button";
 import React, { PropsWithChildren, useEffect, useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAtom } from "jotai/index";
-import { Filters, filtersAtom } from "@/atoms";
+import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import { Updater } from "use-immer";
 import Close from "@/assets/icons/close.svg";
 import Chip from "@/components/common/chip";
+import _ from "lodash";
 
-type Props = {
+type Props<T extends keyof Filters> = {
   title: string;
-  filterKey: keyof Filters;
-  currentValues: string[];
-  setCurrentValues: Updater<string[]>;
+  filterKey: T;
+  currentValues: Filters[T];
+  setCurrentValues: Updater<Filters[T]>;
+  chipText: string;
+  noScroll?: boolean;
+  index?: number;
 };
 
-export const BottomSheetWrapper = ({
+export const BottomSheetWrapper = <T extends keyof Filters>({
   title,
   filterKey,
   currentValues,
   setCurrentValues,
+  chipText,
+  noScroll,
+  index,
   children,
-}: PropsWithChildren<Props>) => {
+}: PropsWithChildren<Props<T>>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const insets = useSafeAreaInsets();
   const [filters, setFilters] = useAtom(filtersAtom);
@@ -46,21 +53,15 @@ export const BottomSheetWrapper = ({
           <Text className={"body-b1-strong text-neutral-10-default"}>
             {title}
           </Text>
-          {filters[filterKey].length > 0 ? (
+          {!_.isEqual(filters[filterKey], initialFiltersValue[filterKey]) ? (
             <View className={"flex flex-row items-center justify-center"}>
-              <Chip
-                text={
-                  filters[filterKey].length === 1
-                    ? filters[filterKey][0]
-                    : `${filters[filterKey].length}`
-                }
-              />
+              <Chip text={chipText} />
               <Button
                 variant={"ghost"}
                 size={"unset"}
                 onPress={() => {
                   setFilters((draft) => {
-                    draft[filterKey] = [];
+                    draft[filterKey] = initialFiltersValue[filterKey];
                   });
                 }}
                 style={{
@@ -108,6 +109,8 @@ export const BottomSheetWrapper = ({
             </Button>
           </View>
         }
+        noScroll={noScroll}
+        index={index}
         onDismiss={() => {
           // rest the current values to the previous values if not applied
           setCurrentValues(filters[filterKey]);

@@ -24,8 +24,3 @@ export const isDarkColor = (hexColor: string): boolean => {
   // Return true if the luminance is less than 0.5 (dark color)
   return luminance < 0.5;
 };
-
-
-export const objectHasSomeValues = (obj: Record<string, unknown[]>): boolean => {
-  return Object.values(obj).some((value) => value.length > 0);
-}

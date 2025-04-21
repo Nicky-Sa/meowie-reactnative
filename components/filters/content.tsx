@@ -10,14 +10,16 @@ import Close from "@/assets/icons/close.svg";
 import React, { useMemo } from "react";
 import { useAtom } from "jotai/index";
 import { filtersAtom, initialFiltersValue } from "@/atoms";
-import { objectHasSomeValues } from "@/lib/utils";
-import { Slider } from "@/components/filters/elements/slider";
 import { TMDBRating } from "@/components/filters/items/tmdb-rating";
+import _ from "lodash";
 
 export const Content = () => {
   const router = useRouter();
   const [filters, setFilters] = useAtom(filtersAtom);
-  const filterApplied = useMemo(() => objectHasSomeValues(filters), [filters]);
+  const filterApplied = useMemo(
+    () => !_.isEqual(filters, initialFiltersValue),
+    [filters],
+  );
 
   return (
     <View className={"flex-1 bg-neutral-13-default"}>

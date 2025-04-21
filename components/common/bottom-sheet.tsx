@@ -19,6 +19,8 @@ import { tailwind } from "@/lib/utils";
 type Props = {
   title: string;
   footer?: React.ReactNode;
+  noScroll?: boolean;
+  index?: number;
   onDismiss?: () => void;
 };
 
@@ -31,9 +33,9 @@ export type ExposedBottomSheetModalRef = {
 export const BottomSheet = forwardRef<
   ExposedBottomSheetModalRef,
   PropsWithChildren<Props>
->(({ children, footer, title, onDismiss }, ref) => {
+>(({ children, title, footer, noScroll, index = 1, onDismiss }, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["60%", "90%"];
+  const snapPoints = ["35%", "60%", "90%"];
 
   useImperativeHandle(ref, () => ({
     present: () => {
@@ -55,9 +57,11 @@ export const BottomSheet = forwardRef<
   return (
     <>
       <BottomSheetModal
-        index={0}
+        index={index}
         ref={bottomSheetRef}
+        enablePanDownToClose
         enableDynamicSizing={false}
+        enableContentPanningGesture={!noScroll}
         snapPoints={snapPoints}
         onDismiss={onDismiss}
         animationConfigs={{

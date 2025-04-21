@@ -39,6 +39,7 @@ export const Languages = () => {
       filterKey={"languages"}
       currentValues={currentValues}
       setCurrentValues={setCurrentValues}
+      chipText={filters.languages[0]}
     >
       <View className={"flex w-full flex-col gap-2"}>
         {languages.map((lang) => (

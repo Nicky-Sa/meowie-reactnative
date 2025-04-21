@@ -5,15 +5,18 @@ import Filter from "@/assets/icons/filter.svg";
 import { useRouter } from "expo-router";
 import { Button } from "@/components/common/button";
 import { useMemo } from "react";
-import { objectHasSomeValues } from "@/lib/utils";
 import { useAtom } from "jotai/index";
-import { filtersAtom } from "@/atoms";
+import { filtersAtom, initialFiltersValue } from "@/atoms";
+import _ from "lodash";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const [filters] = useAtom(filtersAtom);
-  const filterApplied = useMemo(() => objectHasSomeValues(filters), [filters]);
+  const filterApplied = useMemo(
+    () => !_.isEqual(filters, initialFiltersValue),
+    [filters],
+  );
 
   return (
     <View
