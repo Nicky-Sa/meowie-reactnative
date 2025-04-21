@@ -1,4 +1,4 @@
-import { FilterItemWrapper } from "@/components/filters/elements/wrapper";
+import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
@@ -34,7 +34,7 @@ export const Languages = () => {
   const [currentValues, setCurrentValues] = useImmer(filters.languages);
 
   return (
-    <FilterItemWrapper
+    <BottomSheetWrapper
       title={"Languages"}
       filterKey={"languages"}
       currentValues={currentValues}
@@ -50,6 +50,6 @@ export const Languages = () => {
           />
         ))}
       </View>
-    </FilterItemWrapper>
+    </BottomSheetWrapper>
   );
 };

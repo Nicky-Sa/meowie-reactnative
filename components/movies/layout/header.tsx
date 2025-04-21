@@ -4,10 +4,16 @@ import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";
 import { useRouter } from "expo-router";
 import { Button } from "@/components/common/button";
+import { useMemo } from "react";
+import { objectHasSomeValues } from "@/lib/utils";
+import { useAtom } from "jotai/index";
+import { filtersAtom } from "@/atoms";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const [filters] = useAtom(filtersAtom);
+  const filterApplied = useMemo(() => objectHasSomeValues(filters), [filters]);
 
   return (
     <View
@@ -30,6 +36,7 @@ export const Header = () => {
         variant={"secondary"}
         size={"md"}
         square
+        hasIndicator={filterApplied}
       >
         <Filter />
       </Button>

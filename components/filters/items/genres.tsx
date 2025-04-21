@@ -1,4 +1,4 @@
-import { FilterItemWrapper } from "@/components/filters/elements/wrapper";
+import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai";
@@ -32,7 +32,7 @@ export const Genres = () => {
   const [currentValues, setCurrentValues] = useImmer(filters.genres);
 
   return (
-    <FilterItemWrapper
+    <BottomSheetWrapper
       title={"Genres"}
       filterKey={"genres"}
       currentValues={currentValues}
@@ -49,6 +49,6 @@ export const Genres = () => {
           />
         ))}
       </View>
-    </FilterItemWrapper>
+    </BottomSheetWrapper>
   );
 };

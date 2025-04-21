@@ -20,7 +20,7 @@ type Props = {
   setCurrentValues: Updater<string[]>;
 };
 
-export const FilterItemWrapper = ({
+export const BottomSheetWrapper = ({
   title,
   filterKey,
   currentValues,
@@ -30,6 +30,10 @@ export const FilterItemWrapper = ({
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const insets = useSafeAreaInsets();
   const [filters, setFilters] = useAtom(filtersAtom);
+
+  useEffect(() => {
+    setCurrentValues(filters[filterKey]);
+  }, [filters]);
 
   return (
     <>
@@ -58,7 +62,6 @@ export const FilterItemWrapper = ({
                   setFilters((draft) => {
                     draft[filterKey] = [];
                   });
-                  setCurrentValues([]);
                 }}
                 style={{
                   borderWidth: 0,

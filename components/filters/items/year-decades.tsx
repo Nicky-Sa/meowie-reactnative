@@ -1,4 +1,4 @@
-import { FilterItemWrapper } from "@/components/filters/elements/wrapper";
+import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
@@ -12,7 +12,7 @@ export const YearDecades = () => {
   const [currentValues, setCurrentValues] = useImmer(filters.decades);
 
   return (
-    <FilterItemWrapper
+    <BottomSheetWrapper
       title={"Decades"}
       filterKey={"decades"}
       currentValues={currentValues}
@@ -29,6 +29,6 @@ export const YearDecades = () => {
           />
         ))}
       </View>
-    </FilterItemWrapper>
+    </BottomSheetWrapper>
   );
 };

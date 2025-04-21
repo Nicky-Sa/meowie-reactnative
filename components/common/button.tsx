@@ -34,35 +34,42 @@ const sizes = {
   full: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["4"]),
+    paddingRight: Number(tailwind.theme.spacing["4"]),
+    paddingLeft: Number(tailwind.theme.spacing["4"]),
   },
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["8"]),
+    paddingRight: Number(tailwind.theme.spacing["8"]),
+    paddingLeft: Number(tailwind.theme.spacing["8"]),
   },
   md: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["3"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["6"]),
+    paddingRight: Number(tailwind.theme.spacing["6"]),
+    paddingLeft: Number(tailwind.theme.spacing["6"]),
   },
   sm: {
     borderRadius: Number(tailwind.theme.borderRadius.lg),
     paddingVertical: Number(tailwind.theme.spacing["2"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["3"]),
+    paddingRight: Number(tailwind.theme.spacing["3"]),
+    paddingLeft: Number(tailwind.theme.spacing["3"]),
   },
   unset: {
     borderRadius: 0,
     paddingVertical: 0,
-    paddingHorizontal: 0,
+    paddingRight: 0,
+    paddingLeft: 0,
   },
 };
 
 type Props = BottomTabBarButtonProps & {
-  haptic?: boolean;
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   square?: boolean;
+  haptic?: boolean;
+  iconPosition?: "left" | "right";
+  hasIndicator?: boolean;
 };
 
 export const Button = ({
@@ -70,6 +77,8 @@ export const Button = ({
   size = "lg",
   square = false,
   haptic = true,
+  iconPosition,
+  hasIndicator,
   children,
   ...props
 }: Props) => {
@@ -83,54 +92,70 @@ export const Button = ({
   };
 
   return (
-    <Pressable
-      {...props}
-      onPressIn={async (ev) => {
-        setFocused(true);
-        if (haptic) {
-          await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
-        props.onPressIn?.(ev);
-      }}
-      onPressOut={() => setFocused(false)}
-    >
-      <View
-        style={{
-          ...(Platform.OS === "android" && styles),
-          overflow: "hidden",
+    <View>
+      <Pressable
+        {...props}
+        onPressIn={async (ev) => {
+          setFocused(true);
+          if (haptic) {
+            await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+          props.onPressIn?.(ev);
         }}
-        className={cn(
-          focused && "opacity-50",
-          props.className,
-          size === "full" && "w-full",
-        )}
+        onPressOut={() => setFocused(false)}
       >
-        <LinearGradient
-          colors={variants[variant].backgroundColor}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+        <View
           style={{
-            ...(Platform.OS === "ios" && styles),
-            paddingVertical: sizes[size].paddingVertical,
-            paddingHorizontal: square
-              ? sizes[size].paddingVertical
-              : sizes[size].paddingHorizontal,
+            ...(Platform.OS === "android" && styles),
+            overflow: "hidden",
           }}
-        >
-          {typeof children === "string" ? (
-            <Text
-              className={cn(
-                "body-b1-strong text-neutral-1-default",
-                props.className,
-              )}
-            >
-              {children}
-            </Text>
-          ) : (
-            children
+          className={cn(
+            focused && "opacity-50",
+            props.className,
+            size === "full" && "w-full",
           )}
-        </LinearGradient>
-      </View>
-    </Pressable>
+        >
+          <LinearGradient
+            colors={variants[variant].backgroundColor}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              ...(Platform.OS === "ios" && styles),
+              paddingVertical: sizes[size].paddingVertical,
+              paddingRight: square
+                ? sizes[size].paddingVertical
+                : iconPosition === "right"
+                  ? sizes[size].paddingRight - 8
+                  : sizes[size].paddingRight,
+              paddingLeft: square
+                ? sizes[size].paddingVertical
+                : iconPosition === "left"
+                  ? sizes[size].paddingLeft - 8
+                  : sizes[size].paddingLeft,
+            }}
+          >
+            {typeof children === "string" ? (
+              <Text
+                className={cn(
+                  "body-b1-strong text-neutral-1-default",
+                  props.className,
+                )}
+              >
+                {children}
+              </Text>
+            ) : (
+              children
+            )}
+          </LinearGradient>
+        </View>
+      </Pressable>
+      {hasIndicator && (
+        <View
+          className={
+            "border-1.5 absolute left-0 top-0 h-2.5 w-2.5 rounded-full border-neutral-10-default bg-red-700"
+          }
+        />
+      )}
+    </View>
   );
 };
