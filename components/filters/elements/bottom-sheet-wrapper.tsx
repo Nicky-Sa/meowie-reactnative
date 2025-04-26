@@ -5,7 +5,7 @@ import {
 } from "@/components/common/bottom-sheet";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { Button } from "@/components/common/button";
-import React, { PropsWithChildren, useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAtom } from "jotai/index";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
@@ -40,7 +40,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
 
   useEffect(() => {
     setCurrentValues(filters[filterKey]);
-  }, [filters]);
+  }, [filterKey, filters, setCurrentValues]);
 
   return (
     <>

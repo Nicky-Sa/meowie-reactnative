@@ -36,30 +36,35 @@ const sizes = {
     paddingVertical: Number(tailwind.theme.spacing["4"]),
     paddingRight: Number(tailwind.theme.spacing["4"]),
     paddingLeft: Number(tailwind.theme.spacing["4"]),
+    iconOffset: 8,
   },
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
     paddingRight: Number(tailwind.theme.spacing["8"]),
     paddingLeft: Number(tailwind.theme.spacing["8"]),
+    iconOffset: 8,
   },
   md: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["3"]),
     paddingRight: Number(tailwind.theme.spacing["6"]),
     paddingLeft: Number(tailwind.theme.spacing["6"]),
+    iconOffset: 8,
   },
   sm: {
     borderRadius: Number(tailwind.theme.borderRadius.lg),
     paddingVertical: Number(tailwind.theme.spacing["2"]),
     paddingRight: Number(tailwind.theme.spacing["3"]),
     paddingLeft: Number(tailwind.theme.spacing["3"]),
+    iconOffset: 4,
   },
   unset: {
     borderRadius: 0,
     paddingVertical: 0,
     paddingRight: 0,
     paddingLeft: 0,
+    iconOffset: 0,
   },
 };
 
@@ -125,12 +130,12 @@ export const Button = ({
               paddingRight: square
                 ? sizes[size].paddingVertical
                 : iconPosition === "right"
-                  ? sizes[size].paddingRight - 8
+                  ? sizes[size].paddingRight - sizes[size].iconOffset
                   : sizes[size].paddingRight,
               paddingLeft: square
                 ? sizes[size].paddingVertical
                 : iconPosition === "left"
-                  ? sizes[size].paddingLeft - 8
+                  ? sizes[size].paddingLeft - sizes[size].iconOffset
                   : sizes[size].paddingLeft,
             }}
           >
@@ -152,7 +157,7 @@ export const Button = ({
       {hasIndicator && (
         <View
           className={
-            "border-1.5 absolute left-0 top-0 h-2.5 w-2.5 rounded-full border-neutral-10-default bg-red-700"
+            "absolute left-0 top-0 h-2.5 w-2.5 rounded-full border-1.5 border-neutral-10-default bg-red-700"
           }
         />
       )}

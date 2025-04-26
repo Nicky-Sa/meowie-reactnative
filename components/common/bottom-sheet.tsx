@@ -8,6 +8,7 @@ import React, {
 import { View, Text, Platform } from "react-native";
 import {
   BottomSheetBackdrop,
+  BottomSheetBackdropProps,
   BottomSheetFooter,
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
@@ -89,7 +90,7 @@ export const BottomSheet = forwardRef<
             backgroundColor:
               tailwind.theme.backgroundColor.neutral["10"].default,
           }}
-          backdropComponent={(props) => (
+          backdropComponent={(props: BottomSheetBackdropProps) => (
             <BottomSheetBackdrop
               {...props}
               appearsOnIndex={0}
@@ -150,3 +151,5 @@ export const BottomSheet = forwardRef<
     );
   },
 );
+
+BottomSheet.displayName = "BottomSheet";

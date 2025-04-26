@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";

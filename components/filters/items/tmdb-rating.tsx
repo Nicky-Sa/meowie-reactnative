@@ -1,4 +1,3 @@
-import React from "react";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";

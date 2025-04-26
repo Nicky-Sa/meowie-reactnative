@@ -4,7 +4,7 @@ import {
   WebBrowserPresentationStyle,
   WebBrowserResult,
 } from "expo-web-browser";
-import { Pressable, Modal, View, Platform, Text } from "react-native";
+import { Modal, View, Platform, Text } from "react-native";
 import { WebView } from "react-native-webview";
 import Google from "@/assets/icons/google.svg";
 import { isYTPlayingAtom } from "@/atoms";

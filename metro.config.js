@@ -1,7 +1,9 @@
-const path = require("path");
-const { getDefaultConfig } = require("expo/metro-config");
+import path from "path";
+import { getDefaultConfig } from "expo/metro-config";
+// 1. Enable NativeWind
+import { withNativeWind } from "nativewind/metro";
 
-// 1. Enable CSS for Expo.
+// 2. Enable CSS for Expo.
 const config = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 });
@@ -16,9 +18,6 @@ config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),
   path.resolve(workspaceRoot, "node_modules"),
 ];
-
-// 2. Enable NativeWind
-const { withNativeWind } = require("nativewind/metro");
 
 // 3. Enable react-native-svg-transformer
 config.transformer = {

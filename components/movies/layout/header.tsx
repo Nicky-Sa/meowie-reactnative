@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";

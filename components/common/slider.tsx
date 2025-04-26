@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, useWindowDimensions } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { tailwind } from "@/lib/utils";

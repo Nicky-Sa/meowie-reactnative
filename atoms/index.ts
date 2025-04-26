@@ -26,4 +26,3 @@ export const initialFiltersValue: Filters = {
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
-

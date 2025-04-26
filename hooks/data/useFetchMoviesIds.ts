@@ -7,7 +7,12 @@ export const useFetchMoviesIds = () => {
   const [initialPage] = useState(() => Math.floor(Math.random() * 100) + 1); // Random page from 1 to 100
 
   const getKey = useCallback(
-    (pageIndex: number, previousPageData: any) => {
+    (
+      pageIndex: number,
+      previousPageData: {
+        results: TMDB_MoviesList["results"];
+      },
+    ) => {
       const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/movies/ids`;
 
       // Stop fetching if there are no more results

@@ -7,7 +7,7 @@ import { Genres } from "@/components/filters/items/genres";
 import { Languages } from "@/components/filters/items/languages";
 import { YearDecades } from "@/components/filters/items/year-decades";
 import Close from "@/assets/icons/close.svg";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useAtom } from "jotai/index";
 import { filtersAtom, initialFiltersValue } from "@/atoms";
 import { TMDBRating } from "@/components/filters/items/tmdb-rating";
