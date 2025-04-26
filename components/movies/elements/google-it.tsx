@@ -4,12 +4,11 @@ import {
   WebBrowserPresentationStyle,
   WebBrowserResult,
 } from "expo-web-browser";
-import { Pressable, Modal, View, Platform } from "react-native";
+import { Pressable, Modal, View, Platform, Text } from "react-native";
 import { WebView } from "react-native-webview";
 import Google from "@/assets/icons/google.svg";
 import { isYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
-import * as Haptics from "expo-haptics";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import { Button } from "@/components/common/button";
 
@@ -46,13 +45,18 @@ export const GoogleIt = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"ghost"} size={"unset"}>
+      <Button
+        onPress={openLink}
+        variant={"ghost"}
+        size={"unset"}
+        className={"self-start"}
+      >
         <Google />
       </Button>
 
       {Platform.OS === "android" && visible && (
         <Modal animationType="slide" visible={visible}>
-          <View className="flex-row items-center bg-neutral-12-default p-2">
+          <View className="flex-row items-center gap-4 bg-neutral-12-default p-2">
             <Button
               onPress={() => setVisible(false)}
               variant={"secondary"}
@@ -61,6 +65,9 @@ export const GoogleIt = ({ title }: Props) => {
             >
               <ArrowLeft />
             </Button>
+            <Text className={"body-b1-strong text-neutral-10-default"}>
+              Back to app
+            </Text>
           </View>
           <WebView source={{ uri }} />
         </Modal>
