@@ -1,13 +1,12 @@
-import { isDarkColor } from "@/lib/utils";
+import { isDarkColor, isUrl } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { getColors } from "react-native-image-colors";
 
-export const useFetchColor = (imageUri?: string) => {
+export const useFetchColor = (imageUri: string | undefined) => {
   const fallbackColor = "#1F3854";
   const [color, setColor] = useState(fallbackColor);
-
   useEffect(() => {
-    if (!imageUri) {
+    if (!imageUri || !isUrl(imageUri)) {
       return;
     }
     const fetchColors = async (imageUri: string) => {
@@ -36,7 +35,7 @@ export const useFetchColor = (imageUri?: string) => {
       }
     };
 
-    fetchColors(imageUri);
+    fetchColors(imageUri).then();
   }, [imageUri]);
 
   return color;

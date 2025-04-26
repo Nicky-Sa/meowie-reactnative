@@ -22,7 +22,7 @@ export const initialFiltersValue: Filters = {
   genres: [],
   languages: [],
   decade: [],
-  tmdbRatings: [7, 10],
+  tmdbRatings: [0, 10],
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);

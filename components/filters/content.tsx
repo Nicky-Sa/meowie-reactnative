@@ -10,6 +10,7 @@ import Close from "@/assets/icons/close.svg";
 import { useMemo } from "react";
 import { useAtom } from "jotai/index";
 import {
+  Filters,
   filtersAtom,
   filtersQueryParamsAtom,
   initialFiltersValue,
@@ -30,6 +31,10 @@ export const Content = () => {
   const handleExit = () => {
     setFiltersQueryParams(
       `${Object.entries(filters)
+        .filter(
+          ([key, value]) =>
+            !_.isEqual(value, initialFiltersValue[key as keyof Filters]),
+        )
         .map(([key, value]) => `${key}=${value.toString()}`)
         .join("&")}`,
     );

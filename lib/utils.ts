@@ -24,3 +24,12 @@ export const isDarkColor = (hexColor: string): boolean => {
   // Return true if the luminance is less than 0.5 (dark color)
   return luminance < 0.5;
 };
+
+export const isUrl = (text: string): boolean => {
+  try {
+    const url = new URL(text);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+};

@@ -8,7 +8,9 @@ type Props = {
 };
 
 export const useFetchMoviesIds = ({ queryParams }: Props) => {
-  const [initialPage] = useState(() => Math.floor(Math.random() * 100) + 1); // Random page from 1 to 100
+  const [initialRandomPage] = useState(
+    () => Math.floor(Math.random() * 100) + 1,
+  ); // Random page from 1 to 100
 
   const getKey = useCallback(
     (
@@ -22,9 +24,9 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
       // Stop fetching if there are no more results
       if (previousPageData && !previousPageData.results.length) return null;
 
-      return `${baseUrl}?page=${pageIndex + initialPage}&${queryParams}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + (queryParams ? 1 : initialRandomPage)}&${queryParams}`; // SWR key
     },
-    [initialPage, queryParams],
+    [initialRandomPage, queryParams],
   );
 
   const fetcher: Fetcher<TMDB_MoviesList> = (url: string) =>
