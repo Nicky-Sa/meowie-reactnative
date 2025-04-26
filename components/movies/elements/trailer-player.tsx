@@ -6,8 +6,6 @@ import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/no-trailer.svg";
 import { tailwind } from "@/lib/utils";
-import Restart from "@/assets/icons/restart.svg";
-import { Button } from "@/components/common/button";
 
 type Props = {
   YTKey: string;
@@ -69,19 +67,6 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
       <Text className={"body-b1 text-neutral-6-default"}>
         Failed to load the trailer
       </Text>
-      <Button
-        onPress={handleReload}
-        variant={"secondary"}
-        size={"md"}
-        iconPosition={"left"}
-      >
-        <View className={"flex flex-row items-center justify-center gap-2"}>
-          <Restart />
-          <Text className={"body-b1-strong text-neutral-10-default"}>
-            Reload
-          </Text>
-        </View>
-      </Button>
     </View>
   ) : (
     <View
