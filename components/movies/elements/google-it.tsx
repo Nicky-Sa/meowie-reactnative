@@ -7,7 +7,7 @@ import {
 import { Modal, View, Platform, Text } from "react-native";
 import { WebView } from "react-native-webview";
 import Google from "@/assets/icons/google.svg";
-import { isYTPlayingAtom } from "@/atoms";
+import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import { Button } from "@/components/common/button";
@@ -23,16 +23,16 @@ export const GoogleIt = ({ title }: Props) => {
   );
   const encodedQuery = encodeURIComponent(title);
   const uri = `https://www.google.com/search?q=${encodedQuery}`;
-  const [, setPlaying] = useAtom(isYTPlayingAtom);
+  const [, setAllowYTPlaying] = useAtom(allowYTPlayingAtom);
 
   useEffect(() => {
     if (browserResult) {
-      setPlaying(true);
+      setAllowYTPlaying(true);
     }
-  }, [browserResult, setPlaying]);
+  }, [browserResult, setAllowYTPlaying]);
 
   const openLink = useCallback(async () => {
-    setPlaying(false);
+    setAllowYTPlaying(false);
     if (Platform.OS === "ios") {
       const result = await openBrowserAsync(uri, {
         presentationStyle: WebBrowserPresentationStyle.PAGE_SHEET,
@@ -41,7 +41,7 @@ export const GoogleIt = ({ title }: Props) => {
     } else {
       setVisible(true); // Open modal on Android
     }
-  }, [setPlaying, uri]);
+  }, [setAllowYTPlaying, uri]);
 
   return (
     <>

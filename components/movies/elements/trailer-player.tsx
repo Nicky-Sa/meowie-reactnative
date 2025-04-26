@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import { View, Text, useWindowDimensions } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
-import { isYTPlayingAtom } from "@/atoms";
+import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/no-trailer.svg";
 import { tailwind } from "@/lib/utils";
@@ -22,7 +22,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
 
   const [canNotPlay, setCanNotPlay] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [isYTPlaying] = useAtom(isYTPlayingAtom);
+  const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
 
   const { width: w } = useWindowDimensions();
   const width = w - 2.5 * Number(tailwind.theme.spacing[4]);
@@ -38,7 +38,6 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   }, []);
 
   const handleError = useCallback(() => {
-    setPlaying(false);
     setCanNotPlay(true);
   }, []);
 
@@ -94,7 +93,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         ref={playerRef}
         height={195}
         width={width}
-        play={playing && isYTPlaying}
+        play={playing && allowYTPlaying}
         volume={30}
         forceAndroidAutoplay
         initialPlayerParams={{

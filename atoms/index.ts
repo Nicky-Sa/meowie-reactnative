@@ -2,8 +2,8 @@ import { tailwind } from "@/lib/utils";
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 
-// A YT video playing
-export const isYTPlayingAtom = atom(true);
+// It's allowed to play YT videos
+export const allowYTPlayingAtom = atom(true);
 
 // Color based on the movie poster
 export const colorAtom = atom(
