@@ -14,15 +14,17 @@ export const colorAtom = atom(
 export type Filters = {
   genres: string[];
   languages: string[];
-  decades: string[];
+  decade: string[];
   tmdbRatings: number[];
 };
 
 export const initialFiltersValue: Filters = {
   genres: [],
   languages: [],
-  decades: [],
-  tmdbRatings: [0, 10],
+  decade: [],
+  tmdbRatings: [7, 10],
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
+
+export const filtersQueryParamsAtom = atom("");

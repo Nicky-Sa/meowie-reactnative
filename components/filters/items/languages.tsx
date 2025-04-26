@@ -1,55 +1,61 @@
 import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { Selectable } from "@/components/filters/elements/selectable";
+import {
+  FilterItem,
+  Selectable,
+} from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
 import { useImmer } from "use-immer";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-const languages = [
-  "English",
-  "French",
-  "German",
-  "Italian",
-  "Spanish",
-  "Japanese",
-  "Chinese",
-  "Korean",
-  "Russian",
-  "Arabic",
-  "Hindi",
-  "Portuguese",
-  "Turkish",
-  "Dutch",
-  "Polish",
-  "Swedish",
-  "Danish",
-  "Norwegian",
-  "Finnish",
-  "Greek",
-  "Hungarian",
+const languages: FilterItem[] = [
+  { id: "en", name: "English" },
+  { id: "es", name: "Spanish" },
+  { id: "fr", name: "French" },
+  { id: "de", name: "German" },
+  { id: "zh", name: "Mandarin" },
+  { id: "hi", name: "Hindi" },
+  { id: "ja", name: "Japanese" },
+  { id: "ru", name: "Russian" },
+  { id: "it", name: "Italian" },
+  { id: "ko", name: "Korean" },
+  { id: "pt", name: "Portuguese" },
+  { id: "ar", name: "Arabic" },
+  { id: "nl", name: "Dutch" },
+  { id: "tr", name: "Turkish" },
+  { id: "fa", name: "Persian" },
+  { id: "pl", name: "Polish" },
+  { id: "sv", name: "Swedish" },
+  { id: "th", name: "Thai" },
+  { id: "vi", name: "Vietnamese" },
+  { id: "he", name: "Hebrew" },
 ];
-
 export const Languages = () => {
   const [filters] = useAtom(filtersAtom);
-  const [currentValues, setCurrentValues] = useImmer(filters.languages);
+  const [currentIds, setCurrentIds] = useImmer(filters.languages);
 
   return (
     <BottomSheetWrapper
       title={"Languages"}
       filterKey={"languages"}
-      currentValues={currentValues}
-      setCurrentValues={setCurrentValues}
-      chipText={filters.languages[0]}
+      currentValues={currentIds}
+      setCurrentValues={setCurrentIds}
+      chipText={
+        filters.languages.length === 1
+          ? `${languages.find((lang) => lang.id === filters.languages[0])?.name}`
+          : `${filters.languages.length}`
+      }
     >
       <BottomSheetScrollView showsVerticalScrollIndicator={false}>
         <View className={"flex w-full flex-col gap-2"}>
           {languages.map((lang) => (
             <Selectable
-              key={lang}
+              key={lang.id}
               item={lang}
-              currentValues={currentValues}
-              setCurrentValues={setCurrentValues}
+              currentValues={currentIds}
+              setCurrentValues={setCurrentIds}
+              multiple
             />
           ))}
         </View>

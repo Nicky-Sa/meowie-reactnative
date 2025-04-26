@@ -3,7 +3,11 @@ import { useCallback, useState } from "react";
 import { Fetcher } from "swr";
 import useSWRInfinite from "swr/infinite";
 
-export const useFetchMoviesIds = () => {
+type Props = {
+  queryParams: string;
+};
+
+export const useFetchMoviesIds = ({ queryParams }: Props) => {
   const [initialPage] = useState(() => Math.floor(Math.random() * 100) + 1); // Random page from 1 to 100
 
   const getKey = useCallback(
@@ -18,9 +22,9 @@ export const useFetchMoviesIds = () => {
       // Stop fetching if there are no more results
       if (previousPageData && !previousPageData.results.length) return null;
 
-      return `${baseUrl}?page=${pageIndex + initialPage}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + initialPage}&${queryParams}`; // SWR key
     },
-    [initialPage],
+    [initialPage, queryParams],
   );
 
   const fetcher: Fetcher<TMDB_MoviesList> = (url: string) =>

@@ -9,17 +9,32 @@ import { YearDecades } from "@/components/filters/items/year-decades";
 import Close from "@/assets/icons/close.svg";
 import { useMemo } from "react";
 import { useAtom } from "jotai/index";
-import { filtersAtom, initialFiltersValue } from "@/atoms";
+import {
+  filtersAtom,
+  filtersQueryParamsAtom,
+  initialFiltersValue,
+} from "@/atoms";
 import { TMDBRating } from "@/components/filters/items/tmdb-rating";
 import _ from "lodash";
 
 export const Content = () => {
   const router = useRouter();
   const [filters, setFilters] = useAtom(filtersAtom);
-  const filterApplied = useMemo(
+  const [, setFiltersQueryParams] = useAtom(filtersQueryParamsAtom);
+
+  const hasSelectedFilter = useMemo(
     () => !_.isEqual(filters, initialFiltersValue),
     [filters],
   );
+
+  const handleExit = () => {
+    setFiltersQueryParams(
+      `${Object.entries(filters)
+        .map(([key, value]) => `${key}=${value.toString()}`)
+        .join("&")}`,
+    );
+    router.back();
+  };
 
   return (
     <View className={"flex-1 bg-neutral-13-default"}>
@@ -28,7 +43,7 @@ export const Content = () => {
           <View className={"flex w-full flex-row items-center justify-between"}>
             <View className={"flex flex-row items-center justify-start gap-3"}>
               <Button
-                onPress={router.back}
+                onPress={handleExit}
                 variant={"secondary"}
                 size={"md"}
                 square
@@ -40,7 +55,7 @@ export const Content = () => {
               </Text>
             </View>
 
-            {filterApplied && (
+            {hasSelectedFilter && (
               <Button
                 onPress={() => {
                   setFilters(initialFiltersValue);
@@ -61,11 +76,21 @@ export const Content = () => {
             )}
           </View>
 
-          <View className={"flex w-full flex-col gap-2"}>
-            <Genres />
-            <Languages />
-            <YearDecades />
-            <TMDBRating />
+          <View className={"flex w-full flex-col gap-8"}>
+            <View className={"flex w-full flex-col gap-2"}>
+              <Genres />
+              <Languages />
+              <YearDecades />
+              <TMDBRating />
+            </View>
+            <Button
+              variant={"primary"}
+              size={"full"}
+              className={"text-center"}
+              onPress={handleExit}
+            >
+              Apply
+            </Button>
           </View>
         </View>
       </SafeAreaView>

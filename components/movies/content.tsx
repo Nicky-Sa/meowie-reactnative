@@ -9,11 +9,17 @@ import { MainBg } from "@/components/movies/layout/main-bg";
 import { DetailsContainer } from "@/components/movies/elements/container";
 import { Header } from "@/components/movies/layout/header";
 import { SplashScreen } from "@/components/movies/layout/splash-screen";
+import { useAtom } from "jotai/index";
+import { filtersQueryParamsAtom } from "@/atoms";
 
 const TMDB_DATA_LIMIT = 20;
 
 export const Content = () => {
-  const { data, setSize, isLoading } = useFetchMoviesIds();
+  const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
+
+  const { data, setSize, isLoading } = useFetchMoviesIds({
+    queryParams: filtersQueryParams,
+  });
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position

@@ -74,7 +74,6 @@ type Props = BottomTabBarButtonProps & {
   square?: boolean;
   haptic?: boolean;
   iconPosition?: "left" | "right";
-  hasIndicator?: boolean;
 };
 
 export const Button = ({
@@ -83,7 +82,6 @@ export const Button = ({
   square = false,
   haptic = true,
   iconPosition,
-  hasIndicator,
   children,
   ...props
 }: Props) => {
@@ -154,13 +152,6 @@ export const Button = ({
           </LinearGradient>
         </View>
       </Pressable>
-      {hasIndicator && (
-        <View
-          className={
-            "absolute left-0 top-0 h-2.5 w-2.5 rounded-full border-1.5 border-neutral-10-default bg-red-700"
-          }
-        />
-      )}
     </View>
   );
 };

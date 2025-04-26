@@ -7,22 +7,22 @@ import { View } from "react-native";
 
 export const TMDBRating = () => {
   const [filters] = useAtom(filtersAtom);
-  const [currentValues, setCurrentValues] = useImmer(filters.tmdbRatings);
+  const [currentRatings, setCurrentRatings] = useImmer(filters.tmdbRatings);
 
   return (
     <BottomSheetWrapper
       title={"Ratings (TMDB)"}
       filterKey={"tmdbRatings"}
-      currentValues={currentValues}
-      setCurrentValues={setCurrentValues}
+      currentValues={currentRatings}
+      setCurrentValues={setCurrentRatings}
       chipText={`${filters.tmdbRatings[0]} - ${filters.tmdbRatings[1]}`}
       enableContentPanningGesture={false}
       index={0}
     >
       <View>
         <Slider
-          currentValues={currentValues}
-          setCurrentValues={setCurrentValues}
+          currentValues={currentRatings}
+          setCurrentValues={setCurrentRatings}
           min={0}
           max={10}
         />

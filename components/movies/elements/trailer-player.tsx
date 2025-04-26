@@ -62,7 +62,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   return canNotPlay ? (
     <View
       className={
-        "flex h-[200px] w-full flex-col items-center justify-center gap-3 rounded-xl bg-neutral-10-default"
+        "flex h-[208px] w-full flex-col items-center justify-center gap-3 rounded-xl bg-neutral-10-default"
       }
     >
       <NoTrailer width="60" height="60" />
