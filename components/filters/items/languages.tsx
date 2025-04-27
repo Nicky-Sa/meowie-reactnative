@@ -6,7 +6,6 @@ import {
 } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
-import { useImmer } from "use-immer";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const languages: FilterItem[] = [
@@ -33,33 +32,32 @@ const languages: FilterItem[] = [
 ];
 export const Languages = () => {
   const [filters] = useAtom(filtersAtom);
-  const [currentIds, setCurrentIds] = useImmer(filters.languages);
 
   return (
     <BottomSheetWrapper
       title={"Languages"}
       filterKey={"languages"}
-      currentValues={currentIds}
-      setCurrentValues={setCurrentIds}
       chipText={
         filters.languages.length === 1
           ? `${languages.find((lang) => lang.id === filters.languages[0])?.name}`
           : `${filters.languages.length}`
       }
     >
-      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-        <View className={"flex w-full flex-col gap-2"}>
-          {languages.map((lang) => (
-            <Selectable
-              key={lang.id}
-              item={lang}
-              currentValues={currentIds}
-              setCurrentValues={setCurrentIds}
-              multiple
-            />
-          ))}
-        </View>
-      </BottomSheetScrollView>
+      {({ currentValues, setCurrentValues }) => (
+        <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+          <View className={"flex w-full flex-col gap-2"}>
+            {languages.map((lang) => (
+              <Selectable
+                key={lang.id}
+                item={lang}
+                currentValues={currentValues}
+                setCurrentValues={setCurrentValues}
+                multiple
+              />
+            ))}
+          </View>
+        </BottomSheetScrollView>
+      )}
     </BottomSheetWrapper>
   );
 };

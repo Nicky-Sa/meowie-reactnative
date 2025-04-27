@@ -3,7 +3,6 @@ import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
-import { useImmer } from "use-immer";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const decades = [
@@ -23,28 +22,27 @@ const decades = [
 ];
 export const YearDecades = () => {
   const [filters] = useAtom(filtersAtom);
-  const [currentIds, setCurrentIds] = useImmer(filters.decade);
 
   return (
     <BottomSheetWrapper
       title={"Decade"}
       filterKey={"decade"}
-      currentValues={currentIds}
-      setCurrentValues={setCurrentIds}
       chipText={`${decades.find((dec) => dec.id === filters.decade[0])?.name}`}
     >
-      <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-        <View className={"flex w-full flex-col gap-2"}>
-          {decades.map((dec) => (
-            <Selectable
-              key={dec.id}
-              item={dec}
-              currentValues={currentIds}
-              setCurrentValues={setCurrentIds}
-            />
-          ))}
-        </View>
-      </BottomSheetScrollView>
+      {({ currentValues, setCurrentValues }) => (
+        <BottomSheetScrollView showsVerticalScrollIndicator={false}>
+          <View className={"flex w-full flex-col gap-2"}>
+            {decades.map((dec) => (
+              <Selectable
+                key={dec.id}
+                item={dec}
+                currentValues={currentValues}
+                setCurrentValues={setCurrentValues}
+              />
+            ))}
+          </View>
+        </BottomSheetScrollView>
+      )}
     </BottomSheetWrapper>
   );
 };

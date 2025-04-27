@@ -5,11 +5,11 @@ import {
 } from "@/components/common/bottom-sheet";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { Button } from "@/components/common/button";
-import { PropsWithChildren, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
-import { Updater } from "use-immer";
+import { Updater, useImmer } from "use-immer";
 import Close from "@/assets/icons/close.svg";
 import Chip from "@/components/common/chip";
 import _ from "lodash";
@@ -17,30 +17,36 @@ import _ from "lodash";
 type Props<T extends keyof Filters> = {
   title: string;
   filterKey: T;
-  currentValues: Filters[T];
-  setCurrentValues: Updater<Filters[T]>;
   chipText: string;
   enableContentPanningGesture?: boolean;
   index?: number;
+  children: (props: {
+    currentValues: Filters[T];
+    setCurrentValues: Updater<Filters[T]>;
+  }) => ReactNode;
 };
 
 export const BottomSheetWrapper = <T extends keyof Filters>({
   title,
   filterKey,
-  currentValues,
-  setCurrentValues,
   chipText,
   enableContentPanningGesture,
   index,
   children,
-}: PropsWithChildren<Props<T>>) => {
+}: Props<T>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const insets = useSafeAreaInsets();
   const [filters, setFilters] = useAtom(filtersAtom);
 
+  // Local draft values for editing inside the BottomSheet
+  const [draftCurrentValues, setDraftCurrentValues] = useImmer(
+    filters[filterKey],
+  );
+
+  // Sync draft with atom whenever the BottomSheet opens or filters change externally
   useEffect(() => {
-    setCurrentValues(filters[filterKey]);
-  }, [filterKey, filters, setCurrentValues]);
+    setDraftCurrentValues(filters[filterKey]);
+  }, [filters, filterKey, setDraftCurrentValues]);
 
   return (
     <>
@@ -49,16 +55,17 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         variant={"secondary"}
         size={"full"}
       >
-        <View className={"flex w-full flex-row items-center justify-between"}>
-          <Text className={"body-b1-strong text-neutral-10-default"}>
+        <View className="flex w-full flex-row items-center justify-between">
+          <Text className="body-b1-strong text-neutral-10-default">
             {title}
           </Text>
+
           {!_.isEqual(filters[filterKey], initialFiltersValue[filterKey]) ? (
-            <View className={"flex flex-row items-center justify-center"}>
+            <View className="flex flex-row items-center justify-center">
               <Chip text={chipText} />
               <Button
-                variant={"ghost"}
-                size={"unset"}
+                variant="ghost"
+                size="unset"
                 onPress={() => {
                   setFilters((draft) => {
                     draft[filterKey] = initialFiltersValue[filterKey];
@@ -73,10 +80,10 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
               </Button>
             </View>
           ) : (
-            <View className={"flex flex-row"}>
-              {/*The chip is here to preserve the same height as the other button*/}
-              <View className={"invisible"}>
-                <Chip text={"0"} />
+            <View className="flex flex-row">
+              {/* Empty chip for consistent layout height */}
+              <View className="invisible">
+                <Chip text="0" />
               </View>
               <AltArrowRight />
             </View>
@@ -89,18 +96,19 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         title={title}
         footer={
           <View
-            className={"w-full bg-neutral-14-default p-4"}
+            className="w-full bg-neutral-14-default p-4"
             style={{
               paddingBottom: insets.bottom,
             }}
           >
             <Button
-              variant={"primary"}
-              size={"full"}
-              className={"text-center"}
+              variant="primary"
+              size="full"
+              className="text-center"
               onPress={() => {
+                // Commit local draft to filtersAtom
                 setFilters((draft) => {
-                  draft[filterKey] = currentValues;
+                  draft[filterKey] = draftCurrentValues;
                 });
                 bottomSheetRef.current?.dismiss();
               }}
@@ -112,11 +120,15 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         enableContentPanningGesture={enableContentPanningGesture}
         index={index}
         onDismiss={() => {
-          // rest the current values to the previous values if not applied
-          setCurrentValues(filters[filterKey]);
+          // Reset draft if user closes the BottomSheet without applying
+          setDraftCurrentValues(filters[filterKey]);
         }}
       >
-        {children}
+        {/* Pass local state to children */}
+        {children({
+          currentValues: draftCurrentValues,
+          setCurrentValues: setDraftCurrentValues,
+        })}
       </BottomSheet>
     </>
   );
