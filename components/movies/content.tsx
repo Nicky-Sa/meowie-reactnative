@@ -11,13 +11,15 @@ import { Header } from "@/components/movies/layout/header";
 import { SplashScreen } from "@/components/movies/layout/splash-screen";
 import { useAtom } from "jotai/index";
 import { filtersQueryParamsAtom } from "@/atoms";
+import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
+import { MoviesErrorState } from "@/components/movies/elements/error-state";
 
 const TMDB_DATA_LIMIT = 20;
 
 export const Content = () => {
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
-  const { data, setSize, isLoading } = useFetchMoviesIds({
+  const { data, setSize, isLoading, error, mutate } = useFetchMoviesIds({
     queryParams: filtersQueryParams,
   });
 
@@ -43,28 +45,43 @@ export const Content = () => {
     },
   });
 
+  if (error) {
+    return (
+      <MainBg>
+        <MoviesErrorState tryAgain={mutate} />
+      </MainBg>
+    );
+  }
+
   return (
     <>
       <SplashScreen isLoading={isLoading} />
       <MainBg>
         <Header />
-        <Animated.ScrollView
-          pagingEnabled
-          scrollEventThrottle={16}
-          onScroll={scrollHandler}
-          showsVerticalScrollIndicator={false}
-        >
-          {data.map((id, index) => (
-            <DetailsContainer
-              key={index}
-              id={id}
-              shouldPlay={index === currentIndex}
-              shouldFetch={index === currentIndex || index === currentIndex + 1}
-              index={index}
-              scrollY={scrollY}
-            />
-          ))}
-        </Animated.ScrollView>
+        {/*This loading happens after applying filters*/}
+        {isLoading ? (
+          <MoviesSkeleton />
+        ) : (
+          <Animated.ScrollView
+            pagingEnabled
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}
+            showsVerticalScrollIndicator={false}
+          >
+            {data.map((id, index) => (
+              <DetailsContainer
+                key={index}
+                id={id}
+                shouldPlay={index === currentIndex}
+                shouldFetch={
+                  index === currentIndex || index === currentIndex + 1
+                }
+                index={index}
+                scrollY={scrollY}
+              />
+            ))}
+          </Animated.ScrollView>
+        )}
       </MainBg>
     </>
   );

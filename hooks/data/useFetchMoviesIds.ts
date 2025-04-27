@@ -31,11 +31,14 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
 
   const fetcher: Fetcher<TMDB_MoviesList> = (url: string) =>
     fetch(url).then((r) => r.json());
-  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher);
+  const { data, size, setSize, isLoading, error, mutate } = useSWRInfinite(
+    getKey,
+    fetcher,
+  );
 
-  const idList = data
+  const idList = Array.isArray(data)
     ? data.flatMap((page) => page.results.map((movie) => movie.id)) // Extract `id` from each movie
     : [];
 
-  return { data: idList, size, setSize, isLoading };
+  return { data: idList, size, setSize, isLoading, error, mutate };
 };

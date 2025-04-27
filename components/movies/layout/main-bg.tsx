@@ -48,6 +48,7 @@ export const MainBg = ({ children }: PropsWithChildren) => {
         style={{
           width: "100%",
           height: "100%",
+          paddingHorizontal: Number(tailwind.theme.spacing["4"]),
         }}
       >
         {children}

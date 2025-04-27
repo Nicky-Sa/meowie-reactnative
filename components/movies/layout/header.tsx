@@ -21,10 +21,10 @@ export const Header = () => {
   return (
     <View
       className={
-        "absolute z-10 flex w-full flex-1 flex-row items-start justify-between px-4"
+        "absolute left-4 z-10 flex w-full flex-1 flex-row items-start justify-between"
       }
       style={{
-        marginTop: insets.top + (Platform.select({ android: 10, ios: 0 }) ?? 0),
+        marginTop: insets.top + (Platform.select({ android: 10, ios: 2 }) ?? 0),
         height: insets.top + 28,
       }}
     >

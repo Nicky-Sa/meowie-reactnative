@@ -1,5 +1,5 @@
 import { useFetchInfo } from "@/hooks/data/useFetchInfo";
-import { View, Text, Image, useWindowDimensions, Platform } from "react-native";
+import { View, Text, Image } from "react-native";
 import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
 import { useFetchColor } from "@/hooks/useFetchColor";
 import { memo, useEffect } from "react";
@@ -12,11 +12,10 @@ import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
 import { GoogleIt } from "@/components/movies/elements/google-it";
 import { Bento } from "@/components/common/bento";
-import Rive, { Alignment } from "rive-react-native";
-import { Button } from "@/components/common/button";
 import { Ratings } from "@/components/movies/elements/ratings";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
+import { MoviesErrorState } from "@/components/movies/elements/error-state";
+import { useMoviesScreenHeight } from "@/components/movies/elements/hooks";
 
 type Props = {
   id: number;
@@ -31,10 +30,8 @@ export const DetailsContainer = memo(
     const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
-    const insets = useSafeAreaInsets();
 
-    const { height: h } = useWindowDimensions();
-    const height = h + (Platform.select({ android: insets.top, ios: 0 }) ?? 0);
+    const height = useMoviesScreenHeight();
 
     useEffect(() => {
       if (shouldPlay) setColor(fetchedColor);
@@ -78,30 +75,7 @@ export const DetailsContainer = memo(
     }
 
     if (error) {
-      return (
-        <Animated.View
-          style={[
-            {
-              height,
-            },
-            animatedStyle, // Apply animated styles
-          ]}
-          className={"flex-col items-center justify-center gap-10"}
-        >
-          <View className={"flex h-[25%] w-full flex-col gap-4"}>
-            <Rive
-              url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-error-state.riv"
-              alignment={Alignment.Center}
-            />
-            <Text className={"body-b1 text-center text-neutral-5-default"}>
-              We have a problem, please try again
-            </Text>
-          </View>
-          <Button haptic onPress={() => mutate()} variant={"primary"}>
-            Retry
-          </Button>
-        </Animated.View>
-      );
+      return <MoviesErrorState tryAgain={mutate} />;
     }
 
     return (
@@ -112,11 +86,11 @@ export const DetailsContainer = memo(
           },
           animatedStyle, // Apply animated styles
         ]}
-        className={`w-full flex-1 justify-end`}
+        className={"w-full flex-1 justify-end"}
       >
         <View
           className={
-            "flex w-full flex-col items-start justify-center gap-1.5 px-4 xs:gap-3"
+            "flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
           }
           style={{
             height: height * 0.9,
