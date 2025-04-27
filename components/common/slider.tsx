@@ -2,6 +2,8 @@ import { View, Text, useWindowDimensions } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { tailwind } from "@/lib/utils";
 import { Updater } from "use-immer";
+import { useMemo } from "react";
+import _ from "lodash";
 
 const CustomMarker = ({ currentValue }: { currentValue: number }) => (
   <View className={"flex flex-col items-center justify-center gap-2"}>
@@ -31,6 +33,15 @@ export const Slider = ({
 }: Props) => {
   const { width } = useWindowDimensions();
 
+  // Create a debounced setter
+  const debouncedSetCurrentValues = useMemo(
+    () =>
+      _.debounce((values: number[]) => {
+        setCurrentValues(values);
+      }, 200),
+    [setCurrentValues],
+  );
+
   return (
     <View className={"flex w-full flex-col items-start px-4"}>
       <MultiSlider
@@ -38,7 +49,9 @@ export const Slider = ({
         min={min}
         max={max}
         step={step}
-        onValuesChange={setCurrentValues}
+        onValuesChange={(values) => {
+          debouncedSetCurrentValues(values);
+        }}
         selectedStyle={{
           backgroundColor: tailwind.theme.backgroundColor.brand[1].default,
           height: 8,
@@ -50,6 +63,7 @@ export const Slider = ({
         }}
         markerOffsetY={18}
         sliderLength={width * 0.83}
+        snapped
         customMarker={(e) => <CustomMarker currentValue={e.currentValue} />}
       />
     </View>
