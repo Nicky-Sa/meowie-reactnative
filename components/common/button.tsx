@@ -41,16 +41,16 @@ const sizes = {
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingRight: Number(tailwind.theme.spacing["8"]),
-    paddingLeft: Number(tailwind.theme.spacing["8"]),
+    paddingRight: Number(tailwind.theme.spacing["6"]),
+    paddingLeft: Number(tailwind.theme.spacing["6"]),
     iconOffset: 8,
   },
   md: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["3"]),
-    paddingRight: Number(tailwind.theme.spacing["6"]),
-    paddingLeft: Number(tailwind.theme.spacing["6"]),
-    iconOffset: 8,
+    paddingRight: Number(tailwind.theme.spacing["4"]),
+    paddingLeft: Number(tailwind.theme.spacing["4"]),
+    iconOffset: 4,
   },
   sm: {
     borderRadius: Number(tailwind.theme.borderRadius.lg),
