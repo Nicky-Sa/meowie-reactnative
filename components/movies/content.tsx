@@ -13,6 +13,7 @@ import { useAtom } from "jotai/index";
 import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
+import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -61,7 +62,7 @@ export const Content = () => {
         {/*This loading happens after applying filters*/}
         {isLoading ? (
           <MoviesSkeleton />
-        ) : (
+        ) : data.length > 0 ? (
           <Animated.ScrollView
             pagingEnabled
             scrollEventThrottle={16}
@@ -81,6 +82,8 @@ export const Content = () => {
               />
             ))}
           </Animated.ScrollView>
+        ) : (
+          <MoviesEmptyState />
         )}
       </MainBg>
     </>
