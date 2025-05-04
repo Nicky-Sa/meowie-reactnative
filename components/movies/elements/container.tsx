@@ -16,6 +16,7 @@ import { Ratings } from "@/components/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { useMoviesScreenHeight } from "@/components/movies/elements/hooks";
+import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 
 type Props = {
   id: number;
@@ -63,17 +64,6 @@ export const DetailsContainer = memo(
       };
     });
 
-    if (isLoading || !data) {
-      return (
-        <View
-          className={"flex-1 items-center justify-center"}
-          style={{
-            height,
-          }}
-        />
-      );
-    }
-
     if (error) {
       return <MoviesErrorState tryAgain={mutate} />;
     }
@@ -88,94 +78,100 @@ export const DetailsContainer = memo(
         ]}
         className={"w-full flex-1 justify-end"}
       >
-        <View
-          className={
-            "flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
-          }
-          style={{
-            height: height * 0.9,
-          }}
-        >
-          <Bento>
-            <View className={"flex flex-col gap-1"}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                className={"grow-0"}
-              >
-                <Text
+        {isLoading || !data ? (
+          <MoviesSkeleton />
+        ) : (
+          <View
+            className={
+              "flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
+            }
+            style={{
+              height: height * 0.9,
+            }}
+          >
+            <Bento>
+              <View className={"flex flex-col gap-1"}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className={"grow-0"}
+                >
+                  <Text
+                    className={
+                      "title-t1-strong -mx-4 px-4 text-neutral-10-default"
+                    }
+                  >
+                    {data.title}
+                  </Text>
+                </ScrollView>
+                <View className={"flex flex-row gap-8"}>
+                  <Text className={"body-b1 text-neutral-5-default"}>
+                    {data.publishYear}
+                  </Text>
+                  <Text className={"body-b1 text-neutral-5-default"}>
+                    {data.certification}
+                  </Text>
+                  <Text className={"body-b1 text-neutral-5-default"}>
+                    {data.duration}
+                  </Text>
+                </View>
+              </View>
+            </Bento>
+
+            <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+
+            <Bento>
+              <View className={"flex flex-col gap-2.5"}>
+                <Ratings ratings={data.ratings} />
+                <View
                   className={
-                    "title-t1-strong -mx-4 px-4 text-neutral-10-default"
+                    "h-[0.7px] w-full rounded-full bg-neutral-12-hover"
+                  }
+                />
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerClassName={"flex flex-row gap-6"}
+                  className={"grow-0"}
+                >
+                  {data.genres.map((genre) => (
+                    <Text
+                      key={genre}
+                      className={"body-b2-strong text-neutral-5-default"}
+                    >
+                      {genre}
+                    </Text>
+                  ))}
+                </ScrollView>
+              </View>
+            </Bento>
+
+            <Bento>
+              <View className={"flex flex-row justify-start gap-4"}>
+                <Image
+                  src={data.posterPath}
+                  className={"basis-[25%] rounded-lg"}
+                  style={{
+                    aspectRatio: 2 / 3,
+                  }}
+                  resizeMode={"contain"}
+                />
+                <Text
+                  numberOfLines={6}
+                  ellipsizeMode="tail"
+                  className={
+                    "body-b2 flex-1 overflow-hidden text-neutral-10-default"
                   }
                 >
-                  {data.title}
-                </Text>
-              </ScrollView>
-              <View className={"flex flex-row gap-8"}>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.publishYear}
-                </Text>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.certification}
-                </Text>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.duration}
+                  {data.overview}
                 </Text>
               </View>
-            </View>
-          </Bento>
-
-          <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-
-          <Bento>
-            <View className={"flex flex-col gap-2.5"}>
-              <Ratings ratings={data.ratings} />
-              <View
-                className={"h-[0.7px] w-full rounded-full bg-neutral-12-hover"}
-              />
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerClassName={"flex flex-row gap-6"}
-                className={"grow-0"}
-              >
-                {data.genres.map((genre) => (
-                  <Text
-                    key={genre}
-                    className={"body-b2-strong text-neutral-5-default"}
-                  >
-                    {genre}
-                  </Text>
-                ))}
-              </ScrollView>
-            </View>
-          </Bento>
-
-          <Bento>
-            <View className={"flex flex-row justify-start gap-4"}>
-              <Image
-                src={data.posterPath}
-                className={"basis-[25%] rounded-lg"}
-                style={{
-                  aspectRatio: 2 / 3,
-                }}
-                resizeMode={"contain"}
-              />
-              <Text
-                numberOfLines={6}
-                ellipsizeMode="tail"
-                className={
-                  "body-b2 flex-1 overflow-hidden text-neutral-10-default"
-                }
-              >
-                {data.overview}
-              </Text>
-            </View>
-          </Bento>
-          <Bento>
-            <GoogleIt title={data.title} />
-          </Bento>
-        </View>
+            </Bento>
+            <Bento>
+              <GoogleIt title={data.title} />
+            </Bento>
+          </View>
+        )}
       </Animated.View>
     );
   },
