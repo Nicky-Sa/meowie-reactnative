@@ -4,9 +4,13 @@ const { getSentryExpoConfig } = require("@sentry/react-native/metro");
 const { env } = require("./env.ts");
 
 console.log(
-  "env variables loaded: ",
+  "Custom env variables loaded: ",
   Object.entries(env).map(
     ([key, value]) => `${key}: ${value.toString().slice(0, 3)}***`,
+  ),
+  "Other env variables: ",
+  Object.entries(process.env).map(
+    ([key, value]) => `${key}: ${value.toString().slice(0, 8)}***`,
   ),
 );
 
