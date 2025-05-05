@@ -12,7 +12,7 @@
     "eas-update": "eas update --auto && npx sentry-expo-upload-sourcemaps dist",
     "generate-sentry": "node ./scripts/generate-sentry-properties.mjs",
     "eas-build-post-install": "npm run generate-sentry",
-    "eas-build-on-success": "npm run eas-update",
+    "eas-build-on-success": "node ./scripts/eas-build-on-success.mjs",
     "test": "jest --watchAll",
     "lint": "expo lint",
     "generate-figma-variables": "npx ts-node figma/processor.ts",
@@ -76,6 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
+    "@sentry/cli": "^2.44.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.3",
     "@types/react": "~19.0.10",

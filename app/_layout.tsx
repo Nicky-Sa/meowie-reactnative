@@ -12,15 +12,22 @@ import { SWRConfig } from "swr";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import * as Sentry from "@sentry/react-native";
 import { PostHogProvider } from "posthog-react-native";
+import { useNavigationContainerRef } from "expo-router";
+import { isRunningInExpoGo } from "expo";
+import * as Sentry from "@sentry/react-native";
+import { useEffect } from "react";
+
+const navigationIntegration = Sentry.reactNavigationIntegration({
+  enableTimeToInitialDisplay: !isRunningInExpoGo(),
+});
 
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
   // enabled: process.env.EXPO_PUBLIC_BUILD_ENV !== "local",
   environment: process.env.EXPO_PUBLIC_BUILD_ENV,
   debug: process.env.EXPO_PUBLIC_BUILD_ENV === "local",
-  enableNativeFramesTracking: true,
+  enableNativeFramesTracking: !isRunningInExpoGo(),
 
   // Configure Session Replay
   replaysSessionSampleRate:
@@ -43,6 +50,7 @@ Sentry.init({
       maskAllVectors: false,
     }),
     Sentry.reactNativeTracingIntegration(),
+    navigationIntegration,
   ],
 
   // uncomment the line below to enable Spotlight (https://spotlightjs.com)
@@ -51,6 +59,12 @@ Sentry.init({
 
 export default Sentry.wrap(function RootLayout() {
   const colorScheme = useColorScheme();
+  const ref = useNavigationContainerRef();
+  useEffect(() => {
+    if (ref) {
+      navigationIntegration.registerNavigationContainer(ref);
+    }
+  }, [ref]);
 
   return (
     <PostHogProvider

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 
-// Load environment variables
+// Load environment variables for local runs
 dotenv.config({ path: ".env.local" });
 
 const SENTRY_ORG = process.env.SENTRY_ORG;
