@@ -48,6 +48,13 @@ export const Content = () => {
           <View className={"flex w-full flex-row items-center justify-between"}>
             <View className={"flex flex-row items-center justify-start gap-3"}>
               <Button
+                onPress={() => {
+                  throw new Error("test");
+                }}
+              >
+                Error
+              </Button>
+              <Button
                 onPress={handleExit}
                 variant={"secondary"}
                 size={"md"}

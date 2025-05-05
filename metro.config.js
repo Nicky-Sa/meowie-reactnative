@@ -1,8 +1,16 @@
 const path = require("path");
-const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
+const { getSentryExpoConfig } = require("@sentry/react-native/metro");
+const { env } = require("./env.ts");
 
-// 1. Enable CSS for Expo.
-const config = getDefaultConfig(__dirname, {
+console.log(
+  "env variables loaded: ",
+  Object.entries(env).map(
+    ([key, value]) => `${key}: ${value.toString().slice(0, 3)}***`,
+  ),
+);
+
+const config = getSentryExpoConfig(__dirname, {
   isCSSEnabled: true,
 });
 config.resolver.assetExts.push("png");
@@ -16,11 +24,13 @@ config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),
   path.resolve(workspaceRoot, "node_modules"),
 ];
+config.resolver.unstable_enablePackageExports = true;
+config.resolver.unstable_conditionNames = [
+  "require",
+  "react-native",
+  "default",
+];
 
-// 2. Enable NativeWind
-const { withNativeWind } = require("nativewind/metro");
-
-// 3. Enable react-native-svg-transformer
 config.transformer = {
   ...config.transformer,
   babelTransformerPath: require.resolve("react-native-svg-transformer"),

@@ -50,3 +50,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     - Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit' or scan the QR code.
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+
+Note to self:
+
+You can create builds for EAS in 2 ways: local (using your own laptop resources), cloud (using EAS resources).
+- local: follow, interrupt and see logs of the build in your terminal. Use `--local` in any of the build commands.
+- cloud: follow, interrupt and see logs of the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds)
+
+There are many hooks than can run commands before and after the build. Follow them [here](https://docs.expo.dev/build-reference/npm-hooks/)
