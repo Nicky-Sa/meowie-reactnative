@@ -56,7 +56,6 @@ export const Content = () => {
 
   return (
     <>
-      <SplashScreen isLoading={isLoading} />
       <MainBg>
         <Header />
         {/*This loading happens after applying filters*/}

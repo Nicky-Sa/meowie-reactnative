@@ -26,7 +26,7 @@ Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
   // enabled: process.env.EXPO_PUBLIC_BUILD_ENV !== "local",
   environment: process.env.EXPO_PUBLIC_BUILD_ENV,
-  debug: process.env.EXPO_PUBLIC_BUILD_ENV === "local",
+  // debug: process.env.EXPO_PUBLIC_BUILD_ENV === "local",
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
   // Configure Session Replay
@@ -59,6 +59,7 @@ Sentry.init({
 
 export default Sentry.wrap(function RootLayout() {
   const colorScheme = useColorScheme();
+
   const ref = useNavigationContainerRef();
   useEffect(() => {
     if (ref) {
@@ -98,11 +99,18 @@ export default Sentry.wrap(function RootLayout() {
                     headerShown: false,
                   }}
                 >
-                  <Stack.Screen name="index" />
+                  <Stack.Screen name="(home)/index" />
+                  <Stack.Screen name="movies/index" />
                   <Stack.Screen
                     name="filters/index"
                     options={{
                       animation: "slide_from_right",
+                    }}
+                  />
+                  <Stack.Screen
+                    name="onboarding/index"
+                    options={{
+                      animation: "slide_from_bottom",
                     }}
                   />
                   <Stack.Screen name="+not-found" />

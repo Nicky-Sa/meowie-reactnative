@@ -15,7 +15,7 @@ import { Bento } from "@/components/common/bento";
 import { Ratings } from "@/components/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
-import { useMoviesScreenHeight } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/elements/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 
 type Props = {
@@ -32,7 +32,7 @@ export const DetailsContainer = memo(
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
 
-    const height = useMoviesScreenHeight();
+    const { height } = useContentScreenSize();
 
     useEffect(() => {
       if (shouldPlay) setColor(fetchedColor);

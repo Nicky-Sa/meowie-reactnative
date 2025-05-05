@@ -9,10 +9,11 @@ import Animated, {
 import Rive, { Alignment } from "rive-react-native";
 
 type Props = {
-  isLoading: boolean;
+  isLoading?: boolean;
+  onFinish?: () => void;
 };
 
-export const SplashScreen = ({ isLoading }: Props) => {
+export const SplashScreen = ({ isLoading, onFinish }: Props) => {
   const fadeOutAnim = useSharedValue(1); // Controls splash fade-out
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export const SplashScreen = ({ isLoading }: Props) => {
           easing: Easing.ease,
         }); // Fade out splash screen
       }
+      onFinish?.();
     }, 2000); // Minimum time for splash screen
 
     return () => clearTimeout(timeout);

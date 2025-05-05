@@ -85,7 +85,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
               <View className="invisible">
                 <Chip text="0" />
               </View>
-              <AltArrowRight />
+              <AltArrowRight color={"#FAFAFA"} />
             </View>
           )}
         </View>

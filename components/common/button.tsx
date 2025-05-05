@@ -1,9 +1,8 @@
-import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, PressableProps, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { cn, tailwind } from "@/lib/utils";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 
 const variants = {
   primary: {
@@ -68,7 +67,7 @@ const sizes = {
   },
 };
 
-type Props = BottomTabBarButtonProps & {
+type Props = PressableProps & {
   variant?: keyof typeof variants;
   size?: keyof typeof sizes;
   square?: boolean;
@@ -84,7 +83,7 @@ export const Button = ({
   iconPosition,
   children,
   ...props
-}: Props) => {
+}: PropsWithChildren<Props>) => {
   const [focused, setFocused] = useState(false);
 
   const styles = {
@@ -105,7 +104,10 @@ export const Button = ({
           }
           props.onPressIn?.(ev);
         }}
-        onPressOut={() => setFocused(false)}
+        onPressOut={(ev) => {
+          setFocused(false);
+          props.onPressOut?.(ev);
+        }}
       >
         <View
           style={{

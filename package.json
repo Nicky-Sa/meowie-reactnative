@@ -6,7 +6,7 @@
   "scripts": {
     "start": "expo start --clear",
     "prebuild": "expo prebuild --clean",
-    "eas-build-dev:android": "eas build --platform android --profile development --clear-cache",
+    "eas-build-dev:android": "eas build --platform android --profile development --clear-cache --local",
     "eas-build-dev:ios-simulator": "eas build --platform ios --profile ios-simulator --clear-cache --local",
     "eas-build-dev:ios-device": "eas build --platform ios --profile development --clear-cache",
     "eas-update": "eas update --auto && npx sentry-expo-upload-sourcemaps dist",

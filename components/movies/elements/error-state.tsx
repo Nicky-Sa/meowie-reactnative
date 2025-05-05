@@ -1,14 +1,14 @@
 import { Text, View } from "react-native";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
-import { useMoviesScreenHeight } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/elements/hooks";
 
 type Props = {
   tryAgain: () => void;
 };
 
 export const MoviesErrorState = ({ tryAgain }: Props) => {
-  const height = useMoviesScreenHeight();
+  const { height } = useContentScreenSize();
 
   return (
     <View

@@ -1,9 +1,9 @@
 import { View } from "react-native";
 import { Bento } from "@/components/common/bento";
-import { useMoviesScreenHeight } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/elements/hooks";
 
 export const MoviesSkeleton = () => {
-  const height = useMoviesScreenHeight();
+  const { height } = useContentScreenSize();
 
   return (
     <View className={"w-full flex-1 justify-end"}>
