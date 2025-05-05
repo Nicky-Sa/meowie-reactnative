@@ -13,6 +13,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import * as Sentry from "@sentry/react-native";
+import { PostHogProvider } from "posthog-react-native";
 
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
@@ -52,40 +53,51 @@ export default Sentry.wrap(function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider
-      value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
+    <PostHogProvider
+      apiKey="phc_SHWFIM2UDh10qn2gAWM3pQ3hOnrGprRDGceKCJXGlEn"
+      options={{
+        host: "https://us.i.posthog.com",
+      }}
     >
-      <SWRConfig
-        value={{
-          revalidateOnFocus: true,
-          revalidateOnReconnect: true,
-          shouldRetryOnError: true,
-          errorRetryInterval: 3000,
-          errorRetryCount: 3,
-        }}
+      <ThemeProvider
+        value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
       >
-        <SafeAreaProvider>
-          <StatusBar translucent backgroundColor="transparent" style="light" />
-          <GestureHandlerRootView className={"flex-1"}>
-            <BottomSheetModalProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Stack.Screen name="index" />
-                <Stack.Screen
-                  name="filters/index"
-                  options={{
-                    animation: "slide_from_right",
+        <SWRConfig
+          value={{
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            shouldRetryOnError: true,
+            errorRetryInterval: 3000,
+            errorRetryCount: 3,
+          }}
+        >
+          <SafeAreaProvider>
+            <StatusBar
+              translucent
+              backgroundColor="transparent"
+              style="light"
+            />
+            <GestureHandlerRootView className={"flex-1"}>
+              <BottomSheetModalProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
                   }}
-                />
-                <Stack.Screen name="+not-found" />
-              </Stack>
-            </BottomSheetModalProvider>
-          </GestureHandlerRootView>
-        </SafeAreaProvider>
-      </SWRConfig>
-    </ThemeProvider>
+                >
+                  <Stack.Screen name="index" />
+                  <Stack.Screen
+                    name="filters/index"
+                    options={{
+                      animation: "slide_from_right",
+                    }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
+          </SafeAreaProvider>
+        </SWRConfig>
+      </ThemeProvider>
+    </PostHogProvider>
   );
 });
