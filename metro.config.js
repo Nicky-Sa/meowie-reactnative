@@ -1,19 +1,6 @@
 const path = require("path");
 const { withNativeWind } = require("nativewind/metro");
 const { getSentryExpoConfig } = require("@sentry/react-native/metro");
-const { env } = require("./env.ts");
-
-// 🌱 Log envs (for verification/debugging)
-console.log(
-  "Custom env variables loaded: ",
-  Object.entries(env).map(
-    ([key, value]) => `${key}: ${value?.toString().slice(0, 3)}***`,
-  ),
-  "Other env variables: ",
-  Object.entries(process.env).map(
-    ([key, value]) => `${key}: ${value?.toString().slice(0, 8)}***`,
-  ),
-);
 
 // 📦 Get base Sentry config (with Expo + Debug ID support)
 const config = getSentryExpoConfig(__dirname, {
@@ -48,6 +35,14 @@ config.resolver.alias = {
   ...config.resolver.alias,
   "@": __dirname,
 };
+
+// 🌱 Log envs (for verification/debugging)
+console.log(
+  "Env variables: ",
+  Object.entries(process.env).map(
+    ([key, value]) => `${key}: ${value?.toString().slice(0, 8)}***`,
+  ),
+);
 
 // 🌈 Combine with NativeWind
 module.exports = withNativeWind(config, {

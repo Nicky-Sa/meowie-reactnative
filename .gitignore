@@ -43,4 +43,5 @@ app-example
 
 /figma/output.ts
 
-local-build/
+local-builds/
+/.sentryclirc

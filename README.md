@@ -58,3 +58,10 @@ You can create builds for EAS in 2 ways: local (using your own laptop resources)
 - cloud: follow, interrupt and see logs of the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds)
 
 There are many hooks than can run commands before and after the build. Follow them [here](https://docs.expo.dev/build-reference/npm-hooks/)
+
+## Upload sourcemap to Sentry
+Make sure the ./sentryclirc file is configured correctly:
+```
+[auth]
+token=sntrys_...
+```

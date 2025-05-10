@@ -1,8 +1,46 @@
 import { ExpoConfig } from "expo/config";
 import { withSentry } from "@sentry/react-native/expo";
 
+const APP_VARIANT = process.env.APP_VARIANT;
+
+const getUniqueIdentifier = () => {
+  let bundleIdentifier: string;
+
+  switch (APP_VARIANT) {
+    case "development":
+      bundleIdentifier = "com.nicky-sa.meowie.dev";
+      break;
+    case "preview":
+      bundleIdentifier = "com.nicky-sa.meowie.preview";
+      break;
+    default:
+      bundleIdentifier = "com.nicky-sa.meowie";
+  }
+
+  console.log({ bundleIdentifier });
+  return bundleIdentifier;
+};
+
+const getAppName = () => {
+  let appName: string;
+
+  switch (APP_VARIANT) {
+    case "development":
+      appName = "Meowie (dev)";
+      break;
+    case "preview":
+      appName = "Meowie (preview)";
+      break;
+    default:
+      appName = "Meowie";
+  }
+
+  console.log({ appName });
+  return appName;
+};
+
 const config: ExpoConfig = {
-  name: "Meowie",
+  name: getAppName(),
   slug: "meowie",
   version: "1.0.0",
   orientation: "portrait",
@@ -12,7 +50,7 @@ const config: ExpoConfig = {
   newArchEnabled: true,
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.nicky-sa.meowie",
+    bundleIdentifier: getUniqueIdentifier(),
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
@@ -22,7 +60,7 @@ const config: ExpoConfig = {
       foregroundImage: "./assets/images/logo.png",
       backgroundColor: "#ffffff",
     },
-    package: "com.nicky_sa.meowie",
+    package: getUniqueIdentifier(),
   },
   web: {
     bundler: "metro",

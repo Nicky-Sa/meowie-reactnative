@@ -24,54 +24,49 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
-  // enabled: process.env.EXPO_PUBLIC_BUILD_ENV !== "local",
-  environment: process.env.EXPO_PUBLIC_BUILD_ENV,
-  // debug: process.env.EXPO_PUBLIC_BUILD_ENV === "local",
+  environment: process.env.APP_VARIANT,
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
-  // Configure Session Replay
+  sendDefaultPii: true,
   replaysSessionSampleRate:
-    process.env.EXPO_PUBLIC_BUILD_ENV === "local" ? 1.0 : 0.1,
+    process.env.APP_VARIANT === "development" ? 1.0 : 0.1,
   replaysOnErrorSampleRate: 1.0,
 
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-  // We recommend adjusting this value in production.
-  // Learn more at
-  // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
-  tracesSampleRate: process.env.EXPO_PUBLIC_BUILD_ENV === "local" ? 1.0 : 0.5,
+  tracesSampleRate: process.env.APP_VARIANT === "development" ? 1.0 : 0.5,
+  tracePropagationTargets: [/.*?/],
   // profilesSampleRate is relative to tracesSampleRate.
   // Here, we'll capture profiles for 100% of transactions.
   profilesSampleRate: 1.0,
 
   integrations: [
+    navigationIntegration,
     Sentry.mobileReplayIntegration({
       maskAllText: false,
       maskAllImages: false,
       maskAllVectors: false,
     }),
     Sentry.reactNativeTracingIntegration(),
-    navigationIntegration,
   ],
 
-  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
-  // spotlight: __DEV__,
+  spotlight: __DEV__,
 });
 
-export default Sentry.wrap(function RootLayout() {
+function RootLayout() {
   const colorScheme = useColorScheme();
 
   const ref = useNavigationContainerRef();
   useEffect(() => {
-    if (ref) {
+    if (ref?.current) {
       navigationIntegration.registerNavigationContainer(ref);
     }
   }, [ref]);
 
   return (
     <PostHogProvider
-      apiKey="phc_SHWFIM2UDh10qn2gAWM3pQ3hOnrGprRDGceKCJXGlEn"
+      apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
       options={{
-        host: "https://us.i.posthog.com",
+        host: "https://eu.i.posthog.com",
       }}
     >
       <ThemeProvider
@@ -122,4 +117,6 @@ export default Sentry.wrap(function RootLayout() {
       </ThemeProvider>
     </PostHogProvider>
   );
-});
+}
+
+export default Sentry.wrap(RootLayout);
