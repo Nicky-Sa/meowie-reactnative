@@ -53,6 +53,9 @@ const config: ExpoConfig = {
     bundleIdentifier: getUniqueIdentifier(),
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
+      NSAppTransportSecurity: {
+        NSAllowsArbitraryLoads: true,
+      },
     },
   },
   android: {
@@ -77,6 +80,14 @@ const config: ExpoConfig = {
         imageWidth: 250,
         resizeMode: "contain",
         backgroundColor: "#151515",
+      },
+    ],
+    [
+      "expo-build-properties",
+      {
+        android: {
+          usesCleartextTraffic: true,
+        },
       },
     ],
   ],
