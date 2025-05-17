@@ -8,7 +8,7 @@ import { Languages } from "@/components/filters/items/languages";
 import { YearDecades } from "@/components/filters/items/year-decades";
 import Close from "@/assets/icons/close.svg";
 import { useMemo } from "react";
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import {
   Filters,
   filtersAtom,

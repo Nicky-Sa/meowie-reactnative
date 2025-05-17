@@ -4,7 +4,7 @@ import {
   FilterItem,
   Selectable,
 } from "@/components/filters/elements/selectable";
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 

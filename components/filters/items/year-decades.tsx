@@ -1,7 +1,7 @@
 import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { Selectable } from "@/components/filters/elements/selectable";
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 

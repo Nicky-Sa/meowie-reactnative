@@ -4,7 +4,7 @@ import Rive, { Alignment } from "rive-react-native";
 import Filter from "@/assets/icons/filter.svg";
 import { useRouter } from "expo-router";
 import { Button } from "@/components/common/button";
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import Chip from "@/components/common/chip";
 import { tailwind } from "@/lib/utils";

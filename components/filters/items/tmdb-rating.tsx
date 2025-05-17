@@ -1,4 +1,4 @@
-import { useAtom } from "jotai/index";
+import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetWrapper } from "@/components/filters/elements/bottom-sheet-wrapper";
 import { Slider } from "@/components/common/slider";
