@@ -18,7 +18,7 @@ export const OnboardingItem = ({ riveUrl, title, body, height }: Props) => {
       >
         <Rive url={riveUrl} alignment={Alignment.Center} />
       </View>
-      <View className={"flex flex-col gap-4"}>
+      <View className={"flex flex-col gap-2"}>
         <Text className={"title-t1-strong text-neutral-10-default"}>
           {title}
         </Text>
