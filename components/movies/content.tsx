@@ -8,7 +8,6 @@ import { useFetchMoviesIds } from "@/hooks/data/useFetchMoviesIds";
 import { MainBg } from "@/components/movies/layout/main-bg";
 import { DetailsContainer } from "@/components/movies/elements/container";
 import { Header } from "@/components/movies/layout/header";
-import { SplashScreen } from "@/components/movies/layout/splash-screen";
 import { useAtom } from "jotai/index";
 import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";

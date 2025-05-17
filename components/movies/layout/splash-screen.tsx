@@ -29,7 +29,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
     }, 2000); // Minimum time for splash screen
 
     return () => clearTimeout(timeout);
-  }, [fadeOutAnim, isLoading]); // Re-run the effect when isLoading changes
+  }, [fadeOutAnim, isLoading, onFinish]); // Re-run the effect when isLoading changes
 
   const splashStyle = useAnimatedStyle(() => {
     return {

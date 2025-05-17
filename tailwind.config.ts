@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { Lato_100Thin, Lato_700Bold } from "@expo-google-fonts/lato";
 
 const primitives = {
   color: {
@@ -235,9 +236,6 @@ const primitives = {
     circular: "9999",
   },
   typography: {
-    fontfamily: {
-      font: '"SF Pro"',
-    },
     size: {
       "2xs": "10",
       xs: "12",
@@ -730,7 +728,16 @@ export default {
         "0.5": primitives["spacing"]["0.125"],
       },
       fontFamily: {
-        SFPro: ["SFPro"],
+        "Lato-100": ["Lato_100Thin"],
+        "Lato-100-italic": ["Lato_100Thin_Italic"],
+        "Lato-300": ["Lato_300Light"],
+        "Lato-300-italic": ["Lato_300Light_Italic"],
+        "Lato-400": ["Lato_400Regular"],
+        "Lato-400-italic": ["Lato_400Regular_Italic"],
+        "Lato-700": ["Lato_700Bold"],
+        "Lato-700-italic": ["Lato_700Bold_Italic"],
+        "Lato-900": ["Lato_900Black"],
+        "Lato-900-italic": ["Lato_900Black_Italic"],
       },
       fontSize: {
         "2xs": "10",

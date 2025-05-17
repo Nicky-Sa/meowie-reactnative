@@ -2,8 +2,11 @@ import { SplashScreen } from "@/components/movies/layout/splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useFonts } from "@expo-google-fonts/lato";
+import * as Lato from "@expo-google-fonts/lato"
 
 export default function Home() {
+  const [loaded] = useFonts(Lato);
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
 
@@ -23,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <SplashScreen onFinish={() => setSplashDone(true)} />
+      <SplashScreen onFinish={() => setSplashDone(true)} isLoading={!loaded} />
     </>
   );
 }
