@@ -8,13 +8,13 @@ const getUniqueIdentifier = () => {
 
   switch (APP_VARIANT) {
     case "development":
-      bundleIdentifier = "com.nicky-sa.meowie.dev";
+      bundleIdentifier = "com.meowie.app.dev";
       break;
     case "preview":
-      bundleIdentifier = "com.nicky-sa.meowie.preview";
+      bundleIdentifier = "com.meowie.app.preview";
       break;
     default:
-      bundleIdentifier = "com.nicky-sa.meowie";
+      bundleIdentifier = "com.meowie.app";
   }
 
   console.log({ bundleIdentifier });
