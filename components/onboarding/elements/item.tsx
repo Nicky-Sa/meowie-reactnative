@@ -10,7 +10,7 @@ type Props = {
 
 export const OnboardingItem = ({ riveUrl, title, body, height }: Props) => {
   return (
-    <View className={"flex h-full flex-col justify-between"}>
+    <View className={"flex h-full w-full flex-col justify-between px-6"}>
       <View
         style={{
           height,

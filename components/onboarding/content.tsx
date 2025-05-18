@@ -82,24 +82,23 @@ export const Content = () => {
   );
 
   return (
-    <View className={"h-full flex-1 justify-center bg-neutral-13-default p-4"}>
+    <View className={"h-full flex-1 justify-center bg-neutral-13-default"}>
       <SafeAreaView>
         <View className={"h-[90%] justify-start gap-6"}>
           <Carousel
             loop={false}
             ref={ref}
-            width={width * 0.95}
+            width={width}
             vertical={false}
             snapEnabled
             pagingEnabled
             data={items}
-            style={{ width: "100%" }}
             onProgressChange={progress}
             onSnapToItem={(index) => setCurrentIndex(index)}
             renderItem={({ index }) => <OnboardingItem {...items[index]} />}
           />
 
-          <View className={"flex flex-row items-center justify-between"}>
+          <View className={"flex flex-row items-center justify-between px-6"}>
             <Pagination.Custom
               progress={progress}
               data={items}
