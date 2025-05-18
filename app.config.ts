@@ -76,7 +76,7 @@ const config: ExpoConfig = {
     [
       "expo-asset",
       {
-        assets: ["./assets/images/no-internet-connection.png"],
+        assets: ["./assets"],
       },
     ],
     [

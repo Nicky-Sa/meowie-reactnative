@@ -3,6 +3,7 @@ import { Button } from "@/components/common/button";
 import { useContentScreenSize } from "@/components/movies/hooks";
 import { PropsWithChildren } from "react";
 import { useNetInfoInstance } from "@react-native-community/netinfo";
+import noInternetImg from "@/assets/images/no-internet.png";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
   const { height } = useContentScreenSize();
@@ -21,7 +22,9 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
     >
       <View className={"flex h-[25%] w-full flex-col items-center gap-4"}>
         <Image
-          source={{ uri: "no-internet-connection" }}
+          source={{
+            uri: Image.resolveAssetSource(noInternetImg).uri,
+          }}
           width={170}
           height={170}
           resizeMode={"contain"}
