@@ -17,6 +17,7 @@ import { useNavigationContainerRef } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
+import { InternetCheck } from "@/components/general/internet-check";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -24,12 +25,12 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
-  environment: process.env.APP_VARIANT,
+  environment: process.env.EXPO_PUBLIC_SENTRY_ENVIRONMENT,
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
   sendDefaultPii: true,
   replaysSessionSampleRate:
-    process.env.APP_VARIANT === "development" ? 1.0 : 0.1,
+    process.env.EXPO_PUBLIC_SENTRY_ENVIRONMENT === "development" ? 1.0 : 0.1,
   replaysOnErrorSampleRate: 1.0,
 
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
@@ -89,32 +90,34 @@ function RootLayout() {
             />
             <GestureHandlerRootView className={"flex-1"}>
               <BottomSheetModalProvider>
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                  }}
-                >
-                  <Stack.Screen name="(home)/index" />
-                  <Stack.Screen
-                    name="movies/index"
-                    options={{
-                      animation: "slide_from_bottom",
+                <InternetCheck>
+                  <Stack
+                    screenOptions={{
+                      headerShown: false,
                     }}
-                  />
-                  <Stack.Screen
-                    name="filters/index"
-                    options={{
-                      animation: "slide_from_right",
-                    }}
-                  />
-                  <Stack.Screen
-                    name="onboarding/index"
-                    options={{
-                      animation: "slide_from_bottom",
-                    }}
-                  />
-                  <Stack.Screen name="+not-found" />
-                </Stack>
+                  >
+                    <Stack.Screen name="(home)/index" />
+                    <Stack.Screen
+                      name="movies/index"
+                      options={{
+                        animation: "slide_from_bottom",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="filters/index"
+                      options={{
+                        animation: "slide_from_right",
+                      }}
+                    />
+                    <Stack.Screen
+                      name="onboarding/index"
+                      options={{
+                        animation: "slide_from_bottom",
+                      }}
+                    />
+                    <Stack.Screen name="+not-found" />
+                  </Stack>
+                </InternetCheck>
               </BottomSheetModalProvider>
             </GestureHandlerRootView>
           </SafeAreaProvider>

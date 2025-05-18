@@ -21,21 +21,21 @@ import { useRouter } from "expo-router";
 const items = [
   {
     riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-3.riv",
+      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-1.riv",
     title: "900,000+",
     body: "Movie suggestions, trailers, and ratings — all ready for you to explore.",
     height: "75%" as const,
   },
   {
     riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-1.riv",
+      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-2.riv",
     title: "Swipe to Discover",
     body: "Find movies you’ll love with a simple swipe.",
     height: "70%" as const,
   },
   {
     riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-2.riv",
+      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-3.riv",
     title: "Smart Filters",
     body: "Quickly zero in on what you want to watch.",
     height: "70%" as const,

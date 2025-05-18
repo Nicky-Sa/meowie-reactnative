@@ -74,10 +74,16 @@ const config: ExpoConfig = {
     "expo-router",
     "expo-localization",
     [
+      "expo-asset",
+      {
+        assets: ["./assets/images/no-internet-connection.png"],
+      },
+    ],
+    [
       "expo-splash-screen",
       {
         image: "./assets/images/logo-splash.png",
-        imageWidth: 100,
+        imageWidth: 150,
         resizeMode: "contain",
         backgroundColor: "#151515",
       },
