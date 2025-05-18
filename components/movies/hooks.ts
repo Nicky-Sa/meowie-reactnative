@@ -17,12 +17,12 @@ export const useRenderScrollIndicator = (currentIndex: number) => {
   const [render, setRender] = useState(false);
 
   useEffect(() => {
-    AsyncStorage.getItem("first-scroll-done").then((value) => {
+    AsyncStorage.getItem("first-scroll-doneq123").then((value) => {
       if (value === null) {
-        if (currentIndex === 0) {
+        if (currentIndex < 2) {
           setRender(true);
         } else {
-          AsyncStorage.setItem("first-scroll-done", "true").then(() => {
+          AsyncStorage.setItem("first-scroll-doneq123", "true").then(() => {
             setRender(false);
           });
         }

@@ -14,6 +14,7 @@ import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
 import { useRenderScrollIndicator } from "@/components/movies/hooks";
+import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -30,7 +31,6 @@ export const Content = () => {
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      // AsyncStorage.setItem("first-scroll", "true")
       const { contentOffset, layoutMeasurement } = event;
       const progress = contentOffset.y / layoutMeasurement.height;
       scrollY.value = contentOffset.y; // Update shared value
@@ -81,10 +81,12 @@ export const Content = () => {
                   }
                   index={index}
                   scrollY={scrollY}
-                  shouldRenderScrollIndicator={shouldRenderScrollIndicator}
                 />
               ))}
             </Animated.ScrollView>
+            {shouldRenderScrollIndicator && (
+              <ScrollIndicator shouldShow={currentIndex === 0} />
+            )}
           </>
         ) : (
           <MoviesEmptyState />
