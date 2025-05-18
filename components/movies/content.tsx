@@ -13,6 +13,7 @@ import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
+import { useRenderScrollIndicator } from "@/components/movies/hooks";
 
 const TMDB_DATA_LIMIT = 20;
 
@@ -25,9 +26,11 @@ export const Content = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
+  const shouldRenderScrollIndicator = useRenderScrollIndicator(currentIndex);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
+      // AsyncStorage.setItem("first-scroll", "true")
       const { contentOffset, layoutMeasurement } = event;
       const progress = contentOffset.y / layoutMeasurement.height;
       scrollY.value = contentOffset.y; // Update shared value
@@ -61,25 +64,28 @@ export const Content = () => {
         {isLoading ? (
           <MoviesSkeleton />
         ) : data.length > 0 ? (
-          <Animated.ScrollView
-            pagingEnabled
-            scrollEventThrottle={16}
-            onScroll={scrollHandler}
-            showsVerticalScrollIndicator={false}
-          >
-            {data.map((id, index) => (
-              <DetailsContainer
-                key={index}
-                id={id}
-                shouldPlay={index === currentIndex}
-                shouldFetch={
-                  index === currentIndex || index === currentIndex + 1
-                }
-                index={index}
-                scrollY={scrollY}
-              />
-            ))}
-          </Animated.ScrollView>
+          <>
+            <Animated.ScrollView
+              pagingEnabled
+              scrollEventThrottle={16}
+              onScroll={scrollHandler}
+              showsVerticalScrollIndicator={false}
+            >
+              {data.map((id, index) => (
+                <DetailsContainer
+                  key={index}
+                  id={id}
+                  shouldPlay={index === currentIndex}
+                  shouldFetch={
+                    index === currentIndex || index === currentIndex + 1
+                  }
+                  index={index}
+                  scrollY={scrollY}
+                  shouldRenderScrollIndicator={shouldRenderScrollIndicator}
+                />
+              ))}
+            </Animated.ScrollView>
+          </>
         ) : (
           <MoviesEmptyState />
         )}

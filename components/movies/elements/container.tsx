@@ -15,8 +15,9 @@ import { Bento } from "@/components/common/bento";
 import { Ratings } from "@/components/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
-import { useContentScreenSize } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
+import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 
 type Props = {
   id: number;
@@ -24,10 +25,18 @@ type Props = {
   shouldFetch: boolean;
   index: number;
   scrollY: SharedValue<number>;
+  shouldRenderScrollIndicator: boolean;
 };
 
 export const DetailsContainer = memo(
-  ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
+  ({
+    id,
+    shouldPlay,
+    shouldFetch,
+    index,
+    scrollY,
+    shouldRenderScrollIndicator,
+  }: Props) => {
     const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
     const fetchedColor = useFetchColor(data?.posterPath);
     const [, setColor] = useAtom(colorAtom);
@@ -83,7 +92,7 @@ export const DetailsContainer = memo(
         ) : (
           <View
             className={
-              "flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
+              "relative flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
             }
             style={{
               height: height * 0.9,
@@ -167,9 +176,12 @@ export const DetailsContainer = memo(
                 </Text>
               </View>
             </Bento>
+
             <Bento>
               <GoogleIt title={data.title} />
             </Bento>
+
+            {shouldRenderScrollIndicator && <ScrollIndicator />}
           </View>
         )}
       </Animated.View>

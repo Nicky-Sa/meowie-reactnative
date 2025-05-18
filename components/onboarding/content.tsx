@@ -5,7 +5,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { useCallback, useRef, useState } from "react";
 import { OnboardingItem } from "@/components/onboarding/elements/item";
-import { useContentScreenSize } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Extrapolation,

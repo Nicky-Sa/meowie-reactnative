@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { Bento } from "@/components/common/bento";
-import { useContentScreenSize } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/hooks";
 
 export const MoviesSkeleton = () => {
   const { height } = useContentScreenSize();

@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
-import { useContentScreenSize } from "@/components/movies/elements/hooks";
+import { useContentScreenSize } from "@/components/movies/hooks";
 
 type Props = {
   tryAgain: () => void;

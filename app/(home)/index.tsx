@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useFonts } from "@expo-google-fonts/lato";
-import * as Lato from "@expo-google-fonts/lato"
+import * as Lato from "@expo-google-fonts/lato";
 
 export default function Home() {
   const [loaded] = useFonts(Lato);
