@@ -6,7 +6,7 @@ import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const decades = [
-  { id: "2020", name: "2020–2029" },
+  { id: "2020", name: "2020–Now" },
   { id: "2010", name: "2010–2019" },
   { id: "2000", name: "2000–2009" },
   { id: "1990", name: "1990–1999" },
