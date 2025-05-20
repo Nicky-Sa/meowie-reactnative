@@ -1,8 +1,7 @@
 import { useFetchInfo } from "@/hooks/data/useFetchInfo";
 import { View, Text, Image } from "react-native";
 import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
-import { useFetchColor } from "@/hooks/useFetchColor";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 import Animated, {
   interpolate,
   SharedValue,
@@ -29,14 +28,17 @@ type Props = {
 export const DetailsContainer = memo(
   ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
     const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
-    const fetchedColor = useFetchColor(data?.posterPath);
+    const randomColor = useMemo(
+      () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+      [],
+    );
     const [, setColor] = useAtom(colorAtom);
 
     const { height } = useContentScreenSize();
 
     useEffect(() => {
-      if (shouldPlay) setColor(fetchedColor);
-    }, [fetchedColor, setColor, shouldPlay]);
+      if (shouldPlay) setColor(randomColor);
+    }, [randomColor, setColor, shouldPlay]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
