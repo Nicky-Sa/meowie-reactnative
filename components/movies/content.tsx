@@ -13,12 +13,16 @@ import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
-import { useRenderScrollIndicator } from "@/components/movies/hooks";
+import {
+  useContentScreenSize,
+  useRenderScrollIndicator,
+} from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 
 const TMDB_DATA_LIMIT = 20;
 
 export const Content = () => {
+  const { height } = useContentScreenSize();
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
   const { data, setSize, isLoading, error, mutate } = useFetchMoviesIds({
@@ -65,13 +69,10 @@ export const Content = () => {
           <MoviesSkeleton />
         ) : data.length > 0 ? (
           <>
-            <Animated.ScrollView
-              pagingEnabled
-              scrollEventThrottle={16}
-              onScroll={scrollHandler}
-              showsVerticalScrollIndicator={false}
-            >
-              {data.map((id, index) => (
+            <Animated.FlatList
+              data={data}
+              keyExtractor={(id, index) => `movie-${id}-${index}`}
+              renderItem={({ item: id, index }) => (
                 <DetailsContainer
                   key={index}
                   id={id}
@@ -82,8 +83,21 @@ export const Content = () => {
                   index={index}
                   scrollY={scrollY}
                 />
-              ))}
-            </Animated.ScrollView>
+              )}
+              pagingEnabled
+              scrollEventThrottle={16}
+              onScroll={scrollHandler}
+              showsVerticalScrollIndicator={false}
+              removeClippedSubviews
+              maxToRenderPerBatch={3}
+              windowSize={5}
+              initialNumToRender={2}
+              getItemLayout={(_, index) => ({
+                length: height,
+                offset: height * index,
+                index,
+              })}
+            />
             {shouldRenderScrollIndicator && (
               <ScrollIndicator shouldShow={currentIndex === 0} />
             )}
