@@ -1,21 +1,22 @@
-#!/bin.bash
+#!/bin/bash
 set -e
-echo "Running ci_post_clone.sh"
 
-# cd out of ios/ci_scripts into main project directory
-cd ../../
+echo "🛠 Running ci_post_clone.sh"
 
-# install node and cocoapods
-brew install node cocoapods
-
-# install node modules
+# Install Node modules
+echo "📦 Installing npm dependencies..."
 npm install
 
-# See note above about patching for GetEnv Issue
+# Patch dependencies
+echo "🩹 Applying patches..."
 npm i patch-package
 npx patch-package
 
-# xcode cloud sets `CI` env var to 'TRUE':
-# This causes a crash: Error: GetEnv.NoBoolean: TRUE is not a boolean.
-# This is a workaround for that issue.
-CI="true" npx expo prebuild
+# Run Expo prebuild with CI workaround
+echo "⚙️ Running Expo prebuild..."
+CI="true" npx expo prebuild --platform ios
+
+# Install CocoaPods dependencies
+echo "📚 Running pod install..."
+cd ios
+pod install
