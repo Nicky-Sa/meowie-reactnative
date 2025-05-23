@@ -17,7 +17,6 @@
     "generate-figma-variables": "npx ts-node figma/processor.ts",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "prepare-testflight-build": "eas env:pull --environment preview; rm -rf ios; npx expo prebuild --platform ios",
     "prepare": "husky"
   },
   "dependencies": {
