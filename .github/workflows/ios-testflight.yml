@@ -3,11 +3,11 @@ name: iOS Build & Upload to TestFlight
 on:
   push:
     branches:
-      - ios
+      - develop
 
 jobs:
   build-and-upload:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     steps:
       - name: Checkout code
