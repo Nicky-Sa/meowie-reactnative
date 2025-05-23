@@ -68,6 +68,18 @@ function RootLayout() {
       apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
       options={{
         host: "https://eu.i.posthog.com",
+        captureNativeAppLifecycleEvents: true,
+        enableSessionReplay: true,
+        sessionReplayConfig: {
+          maskAllTextInputs: false,
+          maskAllImages: false,
+          maskAllSandboxedViews: false,
+        },
+      }}
+      autocapture={{
+        captureTouches: true,
+        captureScreens: true,
+        captureLifecycleEvents: true,
       }}
     >
       <ThemeProvider
