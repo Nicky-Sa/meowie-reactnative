@@ -1,12 +1,16 @@
-#!/bin.bash
-set -e
-echo "Running ci_post_clone.sh"
+#!/bin/zsh
 
-# install node and cocoapods
-brew install node cocoapods
+echo "===== Installling CocoaPods ====="
+export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+brew install cocoapods
+echo "===== Installing Node.js ====="
+brew install node@21
+echo "===== Installing yarn ====="
+brew install yarn
 
-# install node modules
-npm install
-
-
-CI="true" npx expo prebuild --platform ios
+# Install dependencies
+echo "===== Running yarn install ====="
+yarn install
+echo "===== Running pod install ====="
+cd ios || echo "ios directory not found"
+pod install
