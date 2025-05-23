@@ -54,6 +54,14 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
     }
   }, [shouldPlay, appState]);
 
+  useEffect(() => {
+    if (!shouldPlay) {
+      if (playerRef.current) {
+        playerRef.current.seekTo(0, true);
+      }
+    }
+  }, [shouldPlay]);
+
   return canNotPlay ? (
     <View
       className={
