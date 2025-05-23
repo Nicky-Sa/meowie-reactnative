@@ -40,7 +40,7 @@ jobs:
       - name: Upload to TestFlight Production
         run: |
           xcrun altool --upload-app \
-            --file /local-builds/testflight/production/meowie.ipa \
+            --file ./local-builds/testflight/production/meowie.ipa \
             --type ios \
             --username ${{ secrets.APPLE_ID }} \
             --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
