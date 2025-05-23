@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+ls -a
 echo "===== Moving to project root ====="
 cd ..
 echo "===== Installling CocoaPods ====="
