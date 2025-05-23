@@ -19,8 +19,8 @@
       "environment": "preview",
       "distribution": "internal"
     },
-    "testflight": {
-      "environment": "preview",
+    "testflight-production": {
+      "environment": "production",
       "distribution": "store",
       "autoIncrement": true
     },
