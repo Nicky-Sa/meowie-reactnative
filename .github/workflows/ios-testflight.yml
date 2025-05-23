@@ -3,7 +3,7 @@ name: iOS Build & Upload to TestFlight
 on:
   push:
     branches:
-      - develop
+      - ios
 
 jobs:
   build-and-upload:
