@@ -64,7 +64,6 @@ export const Content = () => {
     <>
       <MainBg>
         <Header />
-        {/*This loading happens after applying filters*/}
         {isLoading ? (
           <MoviesSkeleton />
         ) : data.length > 0 ? (
@@ -77,9 +76,6 @@ export const Content = () => {
                   key={index}
                   id={id}
                   shouldPlay={index === currentIndex}
-                  shouldFetch={
-                    index === currentIndex || index === currentIndex + 1
-                  }
                   index={index}
                   scrollY={scrollY}
                 />
@@ -89,9 +85,9 @@ export const Content = () => {
               onScroll={scrollHandler}
               showsVerticalScrollIndicator={false}
               removeClippedSubviews
-              maxToRenderPerBatch={3}
-              windowSize={5}
               initialNumToRender={2}
+              maxToRenderPerBatch={2}
+              windowSize={5}
               getItemLayout={(_, index) => ({
                 length: height,
                 offset: height * index,

@@ -48,9 +48,6 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
 
   useEffect(() => {
     if (shouldPlay && appState === "active") {
-      if (playerRef.current) {
-        playerRef.current.seekTo(0, true);
-      }
       setPlaying(true);
     } else {
       setPlaying(false);

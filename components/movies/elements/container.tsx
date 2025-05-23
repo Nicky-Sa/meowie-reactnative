@@ -20,14 +20,13 @@ import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 type Props = {
   id: number;
   shouldPlay: boolean;
-  shouldFetch: boolean;
   index: number;
   scrollY: SharedValue<number>;
 };
 
 export const DetailsContainer = memo(
-  ({ id, shouldPlay, shouldFetch, index, scrollY }: Props) => {
-    const { isLoading, data, error, mutate } = useFetchInfo(id, shouldFetch);
+  ({ id, shouldPlay, index, scrollY }: Props) => {
+    const { isLoading, data, error, mutate } = useFetchInfo(id);
     const randomColor = useMemo(
       () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       [],
