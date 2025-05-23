@@ -1,0 +1,45 @@
+name: iOS Build & Upload to TestFlight
+
+on:
+  push:
+    branches:
+      - ios
+
+jobs:
+  build-and-upload:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Making Sentry token available
+        run: |
+          rm -rf .sentryclirc
+          echo "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: EAS Build (local)
+        run: |
+          rm -rf .env.local
+          npm run eas-build:testflight:ios-device
+        env:
+          CI: true
+
+      - name: Upload to TestFlight
+        run: |
+          xcrun altool --upload-app \
+            --file /local-builds/testflight/production/meowie.ipa \
+            --type ios \
+            --username ${{ secrets.APPLE_ID }} \
+            --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
