@@ -19,15 +19,14 @@ import {
 } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 
-const TMDB_DATA_LIMIT = 20;
-
 export const Content = () => {
   const { height } = useContentScreenSize();
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
-  const { data, setSize, isLoading, error, mutate } = useFetchMoviesIds({
-    queryParams: filtersQueryParams,
-  });
+  const { data, dataLength, setSize, isLoading, error, mutate } =
+    useFetchMoviesIds({
+      queryParams: filtersQueryParams,
+    });
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
@@ -45,9 +44,9 @@ export const Content = () => {
       // Trigger load more when near the bottom
       if (
         contentOffset.y + layoutMeasurement.height >=
-        layoutMeasurement.height * (data.length - 1)
+        layoutMeasurement.height * (dataLength - 1)
       ) {
-        runOnJS(setSize)(Math.floor((currentIndex + 2) / TMDB_DATA_LIMIT) + 1);
+        runOnJS(setSize)(Math.floor((currentIndex + 2) / dataLength) + 1);
       }
     },
   });
@@ -66,7 +65,7 @@ export const Content = () => {
         <Header />
         {isLoading ? (
           <MoviesSkeleton />
-        ) : data.length > 0 ? (
+        ) : dataLength > 0 ? (
           <>
             <Animated.FlatList
               data={data}

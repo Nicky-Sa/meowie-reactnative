@@ -40,5 +40,13 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
     ? data.flatMap((page) => page.results.map((movie) => movie.id)) // Extract `id` from each movie
     : [];
 
-  return { data: idList, size, setSize, isLoading, error, mutate };
+  return {
+    data: idList,
+    dataLength: idList.length,
+    size,
+    setSize,
+    isLoading,
+    error,
+    mutate,
+  };
 };
