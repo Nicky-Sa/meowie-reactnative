@@ -3,20 +3,22 @@ set -e
 
 echo "🛠 Running ci_post_clone.sh"
 
-# Install Node modules
+# cd out of ios/ci_scripts into main project directory
+cd ../../
+
+echo "🍺 Installing node and cocoapods..."
+brew install node cocoapods
+
 echo "📦 Installing npm dependencies..."
 npm install
 
-# Patch dependencies
 echo "🩹 Applying patches..."
 npm i patch-package
 npx patch-package
 
-# Run Expo prebuild with CI workaround
 echo "⚙️ Running Expo prebuild..."
 CI="true" npx expo prebuild --platform ios
 
-# Install CocoaPods dependencies
 echo "📚 Running pod install..."
 cd ios
 pod install
