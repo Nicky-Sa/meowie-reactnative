@@ -11,5 +11,6 @@ brew install node@22
 # Install dependencies
 echo "===== Running npm install ====="
 npm install
-echo "===== Running prebuild for iOS ====="
-expo prebuild --platform ios
+echo "===== Running pod install ====="
+cd ios || echo "ios directory not found"
+pod install
