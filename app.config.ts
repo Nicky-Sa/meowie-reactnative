@@ -64,6 +64,7 @@ const config: ExpoConfig = {
       backgroundColor: "#ffffff",
     },
     package: getUniqueIdentifier(),
+    edgeToEdgeEnabled: true,
   },
   web: {
     bundler: "metro",
