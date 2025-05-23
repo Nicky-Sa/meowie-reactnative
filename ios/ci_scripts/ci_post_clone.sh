@@ -21,6 +21,5 @@ CI="true" npx expo prebuild --platform ios
 
 echo "📚 Running pod install..."
 cd ios
-ls -a
 pod cache clean --all
 pod install
