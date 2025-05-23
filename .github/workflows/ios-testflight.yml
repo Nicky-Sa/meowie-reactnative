@@ -26,17 +26,18 @@ jobs:
           rm -rf .sentryclirc
           echo "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
 
-      - name: Install EAS CLI
-        run: npm install -g eas-cli
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: EAS Build (local)
+      - name: EAS Build
         run: |
           rm -rf .env.local
-          npm run eas-build:testflight:ios-device
-        env:
-          CI: true
+          npm run eas-build:testflight:production
 
-      - name: Upload to TestFlight
+      - name: Upload to TestFlight Production
         run: |
           xcrun altool --upload-app \
             --file /local-builds/testflight/production/meowie.ipa \
