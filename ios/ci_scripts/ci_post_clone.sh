@@ -1,17 +1,21 @@
-#!/bin/zsh
+#!/bin.bash
+set -e
+echo "Running ci_post_clone.sh"
 
-ls -a
-echo "===== Moving to project root ====="
-cd ..
-echo "===== Installling CocoaPods ====="
-export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
-brew install cocoapods
-echo "===== Installing Node.js ====="
-brew install node@22
+# cd out of ios/ci_scripts into main project directory
+cd ../../
 
-# Install dependencies
-echo "===== Running npm install ====="
+# install node and cocoapods
+brew install node cocoapods
+
+# install node modules
 npm install
-echo "===== Running pod install ====="
-cd ios || echo "ios directory not found"
-pod install
+
+# See note above about patching for GetEnv Issue
+npm i patch-package
+npx patch-package
+
+# xcode cloud sets `CI` env var to 'TRUE':
+# This causes a crash: Error: GetEnv.NoBoolean: TRUE is not a boolean.
+# This is a workaround for that issue.
+CI="true" npx expo prebuild
