@@ -51,12 +51,17 @@ const config: ExpoConfig = {
   newArchEnabled: true,
   ios: {
     supportsTablet: true,
+    requireFullScreen: true,
     bundleIdentifier: getUniqueIdentifier(),
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
       NSAppTransportSecurity: {
         NSAllowsArbitraryLoads: true,
       },
+      "UISupportedInterfaceOrientations~ipad": [
+        "UIInterfaceOrientationPortrait",
+        "UIInterfaceOrientationPortraitUpsideDown",
+      ],
     },
   },
   android: {

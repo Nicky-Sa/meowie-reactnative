@@ -1,75 +1,13 @@
 import * as Haptics from "expo-haptics";
-import { Platform, Pressable, PressableProps, Text, View } from "react-native";
+import { Pressable, PressableProps, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { cn, tailwind } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { buttonVariants, buttonSizes } from "@/lib/consts";
 import { PropsWithChildren, useState } from "react";
 
-const variants = {
-  primary: {
-    backgroundColor: [
-      tailwind.theme.backgroundColor.neutral["1"].default,
-      tailwind.theme.backgroundColor.neutral["7"].default,
-    ],
-    borderColor: tailwind.theme.borderColor.neutral["7"].default,
-  },
-  secondary: {
-    backgroundColor: [
-      tailwind.theme.backgroundColor.neutral[11].default,
-      tailwind.theme.backgroundColor.neutral[12].default,
-    ],
-    borderColor: tailwind.theme.borderColor.neutral[3].default,
-  },
-  ghost: {
-    backgroundColor: ["transparent", "transparent"],
-    borderColor: "transparent",
-  },
-  outline: {
-    backgroundColor: ["transparent", "transparent"],
-    borderColor: tailwind.theme.borderColor.neutral[3].default,
-  },
-} as const;
-
-const sizes = {
-  full: {
-    borderRadius: Number(tailwind.theme.borderRadius.xl),
-    paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingRight: Number(tailwind.theme.spacing["4"]),
-    paddingLeft: Number(tailwind.theme.spacing["4"]),
-    iconOffset: 8,
-  },
-  lg: {
-    borderRadius: Number(tailwind.theme.borderRadius.xl),
-    paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingRight: Number(tailwind.theme.spacing["6"]),
-    paddingLeft: Number(tailwind.theme.spacing["6"]),
-    iconOffset: 8,
-  },
-  md: {
-    borderRadius: Number(tailwind.theme.borderRadius.xl),
-    paddingVertical: Number(tailwind.theme.spacing["3"]),
-    paddingRight: Number(tailwind.theme.spacing["4"]),
-    paddingLeft: Number(tailwind.theme.spacing["4"]),
-    iconOffset: 4,
-  },
-  sm: {
-    borderRadius: Number(tailwind.theme.borderRadius.lg),
-    paddingVertical: Number(tailwind.theme.spacing["2"]),
-    paddingRight: Number(tailwind.theme.spacing["3"]),
-    paddingLeft: Number(tailwind.theme.spacing["3"]),
-    iconOffset: 4,
-  },
-  unset: {
-    borderRadius: 0,
-    paddingVertical: 0,
-    paddingRight: 0,
-    paddingLeft: 0,
-    iconOffset: 0,
-  },
-};
-
 type Props = PressableProps & {
-  variant?: keyof typeof variants;
-  size?: keyof typeof sizes;
+  variant?: keyof typeof buttonVariants;
+  size?: keyof typeof buttonSizes;
   square?: boolean;
   haptic?: boolean;
   iconPosition?: "left" | "right";
@@ -85,13 +23,6 @@ export const Button = ({
   ...props
 }: PropsWithChildren<Props>) => {
   const [focused, setFocused] = useState(false);
-
-  const styles = {
-    borderRadius: sizes[size].borderRadius,
-    borderWidth: 1,
-    borderColor: variants[variant].borderColor,
-    ...(props.style as object),
-  };
 
   return (
     <View>
@@ -111,7 +42,6 @@ export const Button = ({
       >
         <View
           style={{
-            ...(Platform.OS === "android" && styles),
             overflow: "hidden",
           }}
           className={cn(
@@ -121,22 +51,26 @@ export const Button = ({
           )}
         >
           <LinearGradient
-            colors={variants[variant].backgroundColor}
+            colors={buttonVariants[variant].backgroundColor}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={{
-              ...(Platform.OS === "ios" && styles),
-              paddingVertical: sizes[size].paddingVertical,
+              borderRadius: buttonSizes[size].borderRadius,
+              borderWidth: 1,
+              borderColor: buttonVariants[variant].borderColor,
+              paddingVertical: buttonSizes[size].paddingVertical,
               paddingRight: square
-                ? sizes[size].paddingVertical
+                ? buttonSizes[size].paddingVertical
                 : iconPosition === "right"
-                  ? sizes[size].paddingRight - sizes[size].iconOffset
-                  : sizes[size].paddingRight,
+                  ? buttonSizes[size].paddingRight -
+                    buttonSizes[size].iconOffset
+                  : buttonSizes[size].paddingRight,
               paddingLeft: square
-                ? sizes[size].paddingVertical
+                ? buttonSizes[size].paddingVertical
                 : iconPosition === "left"
-                  ? sizes[size].paddingLeft - sizes[size].iconOffset
-                  : sizes[size].paddingLeft,
+                  ? buttonSizes[size].paddingLeft - buttonSizes[size].iconOffset
+                  : buttonSizes[size].paddingLeft,
+              ...(props.style as object),
             }}
           >
             {typeof children === "string" ? (

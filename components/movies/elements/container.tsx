@@ -16,6 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { useContentScreenSize } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   movieId: number;
@@ -34,6 +35,7 @@ export const DetailsContainer = memo(
     const [, setColor] = useAtom(colorAtom);
 
     const { height } = useContentScreenSize();
+    const { top } = useSafeAreaInsets();
 
     useEffect(() => {
       if (shouldPlay) setColor(randomColor);
@@ -87,7 +89,7 @@ export const DetailsContainer = memo(
               "relative flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
             }
             style={{
-              height: height * 0.9,
+              height: height - (top + 50),
             }}
           >
             <Bento>
