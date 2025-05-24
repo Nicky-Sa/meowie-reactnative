@@ -6,7 +6,6 @@ import {
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
-import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SWRConfig } from "swr";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -95,7 +94,6 @@ function RootLayout() {
           }}
         >
           <SafeAreaProvider>
-            <StatusBar translucent style="light" />
             <GestureHandlerRootView className={"flex-1"}>
               <BottomSheetModalProvider>
                 <InternetCheck>

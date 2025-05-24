@@ -66,8 +66,8 @@ const config: ExpoConfig = {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/images/logo.png",
-      backgroundColor: "#ffffff",
+      foregroundImage: "./assets/images/logo-foreground.android.png",
+      backgroundImage: "./assets/images/logo-background.android.png",
     },
     package: getUniqueIdentifier(),
     edgeToEdgeEnabled: true,
