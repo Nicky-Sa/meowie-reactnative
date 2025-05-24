@@ -18,15 +18,15 @@ import { useContentScreenSize } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 
 type Props = {
-  id: number;
+  movieId: number;
   shouldPlay: boolean;
   index: number;
   scrollY: SharedValue<number>;
 };
 
 export const DetailsContainer = memo(
-  ({ id, shouldPlay, index, scrollY }: Props) => {
-    const { isLoading, data, error, mutate } = useFetchInfo(id);
+  ({ movieId, shouldPlay, index, scrollY }: Props) => {
+    const { isLoading, data, error, mutate } = useFetchInfo(movieId);
     const randomColor = useMemo(
       () => `#${Math.floor(Math.random() * 16777215).toString(16)}`,
       [],
@@ -75,7 +75,7 @@ export const DetailsContainer = memo(
           {
             height,
           },
-          animatedStyle, // Apply animated styles
+          animatedStyle,
         ]}
         className={"w-full flex-1 justify-end"}
       >

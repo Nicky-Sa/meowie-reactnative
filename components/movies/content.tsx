@@ -18,6 +18,9 @@ import {
   useRenderScrollIndicator,
 } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
+import { FlashList } from "@shopify/flash-list";
+
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const { height } = useContentScreenSize();
@@ -67,13 +70,13 @@ export const Content = () => {
           <MoviesSkeleton />
         ) : dataLength > 0 ? (
           <>
-            <Animated.FlatList
+            <AnimatedFlashList
               data={data}
               keyExtractor={(id, index) => `movie-${id}-${index}`}
-              renderItem={({ item: id, index }) => (
+              renderItem={({ item: movieId, index }) => (
                 <DetailsContainer
                   key={index}
-                  id={id}
+                  movieId={movieId}
                   shouldPlay={index === currentIndex}
                   index={index}
                   scrollY={scrollY}
@@ -83,18 +86,10 @@ export const Content = () => {
               scrollEventThrottle={16}
               onScroll={scrollHandler}
               showsVerticalScrollIndicator={false}
-              removeClippedSubviews
-              initialNumToRender={2}
-              maxToRenderPerBatch={2}
-              windowSize={5}
-              getItemLayout={(_, index) => ({
-                length: height,
-                offset: height * index,
-                index,
-              })}
+              estimatedItemSize={height}
             />
             {shouldRenderScrollIndicator && (
-              <ScrollIndicator shouldShow={currentIndex === 0} />
+              <ScrollIndicator shouldShow={currentIndex <= 0} />
             )}
           </>
         ) : (

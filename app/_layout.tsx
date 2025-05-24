@@ -95,11 +95,7 @@ function RootLayout() {
           }}
         >
           <SafeAreaProvider>
-            <StatusBar
-              translucent
-              backgroundColor="transparent"
-              style="light"
-            />
+            <StatusBar translucent style="light" />
             <GestureHandlerRootView className={"flex-1"}>
               <BottomSheetModalProvider>
                 <InternetCheck>
