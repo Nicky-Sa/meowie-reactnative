@@ -1,5 +1,6 @@
 import { ExpoConfig } from "expo/config";
 import { withSentry } from "@sentry/react-native/expo";
+import pkg from "./package.json";
 
 const APP_VARIANT = process.env.APP_VARIANT;
 
@@ -42,7 +43,7 @@ const getAppName = () => {
 const config: ExpoConfig = {
   name: getAppName(),
   slug: "meowie",
-  version: "1.0.0",
+  version: pkg.version,
   orientation: "portrait",
   icon: "./assets/images/logo.png",
   scheme: "myapp",
