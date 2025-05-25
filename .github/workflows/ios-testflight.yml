@@ -1,9 +1,8 @@
-name: iOS Build & Upload to TestFlight
-
 on:
   push:
     branches:
-      - ios
+      - ios-preview
+      - ios-production
 
 jobs:
   build-and-upload:
@@ -32,12 +31,29 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: EAS Build
+      - name: EAS Build (preview)
+        if: github.ref_name == 'ios-preview'
+        run: |
+          rm -rf .env.local
+          npm run eas-build:testflight:preview
+
+      - name: EAS Build (production)
+        if: github.ref_name == 'ios-production'
         run: |
           rm -rf .env.local
           npm run eas-build:testflight:production
 
-      - name: Upload to TestFlight Production
+      - name: Upload to TestFlight (preview)
+        if: github.ref_name == 'ios-preview'
+        run: |
+          xcrun altool --upload-app \
+            --file ./local-builds/testflight/preview/meowie.ipa \
+            --type ios \
+            --username ${{ secrets.APPLE_ID }} \
+            --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
+
+      - name: Upload to TestFlight (production)
+        if: github.ref_name == 'ios-production'
         run: |
           xcrun altool --upload-app \
             --file ./local-builds/testflight/production/meowie.ipa \

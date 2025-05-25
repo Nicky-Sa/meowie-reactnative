@@ -11,6 +11,7 @@
     "eas-build:dev:ios-device": "eas env:pull --environment development && eas build --platform ios --profile development --clear-cache --local --output=./local-builds/dev/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
     "eas-build:preview:ios-device": "eas env:pull --environment preview && eas build --platform ios --profile preview --clear-cache --local --output=./local-builds/preview/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
     "eas-build:testflight:production": "eas env:pull --environment production && eas build --platform ios --profile testflight-production --clear-cache --local --non-interactive --output=./local-builds/testflight/production/meowie.ipa",
+    "eas-build:testflight:preview": "eas env:pull --environment preview && eas build --platform ios --profile testflight-preview --clear-cache --local --non-interactive --output=./local-builds/testflight/preview/meowie.ipa",
     "eas-build-post-install": "node ./scripts/eas-build-post-install.mjs",
     "test": "jest --watchAll",
     "lint": "expo lint",
