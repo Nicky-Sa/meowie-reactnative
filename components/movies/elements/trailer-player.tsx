@@ -103,8 +103,13 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
         onError={handleError}
         webViewProps={{
           injectedJavaScript: `
-            var element = document.getElementsByClassName('container')[0];
-            element.style.position = 'unset';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            var container = document.getElementsByClassName('container')[0];
+            if (container) {
+              container.style.overflow = 'hidden';
+              container.style.position = 'unset';
+            }
             true;
           `,
         }}

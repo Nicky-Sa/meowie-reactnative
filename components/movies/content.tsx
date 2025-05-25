@@ -40,7 +40,7 @@ export const Content = () => {
       const { contentOffset, layoutMeasurement } = event;
       const progress = contentOffset.y / layoutMeasurement.height;
       scrollY.value = contentOffset.y; // Update shared value
-      const activeIndex = Math.floor(progress);
+      const activeIndex = Math.round(progress);
 
       runOnJS(setCurrentIndex)(activeIndex);
 
