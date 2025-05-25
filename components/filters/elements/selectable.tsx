@@ -1,7 +1,7 @@
 import { Button } from "@/components/common/button";
 import { tailwind } from "@/lib/utils";
 import { Text } from "react-native";
-import { Updater } from "use-immer/dist";
+import { Updater } from "use-immer";
 
 export type FilterItem = {
   id: string;
