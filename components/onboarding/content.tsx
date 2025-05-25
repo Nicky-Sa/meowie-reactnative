@@ -98,7 +98,9 @@ export const Content = () => {
             renderItem={({ index }) => <OnboardingItem {...items[index]} />}
           />
 
-          <View className={"flex flex-row items-center justify-between px-6"}>
+          <View
+            className={"my-0.5 flex flex-row items-center justify-between px-6"}
+          >
             <Pagination.Custom
               progress={progress}
               data={items}
@@ -136,7 +138,6 @@ export const Content = () => {
                   onPressPagination(currentIndex + 1);
                 }
               }}
-              className={"py-0.5"}
             >
               {currentIndex === items.length - 1 ? (
                 "Let's Go"

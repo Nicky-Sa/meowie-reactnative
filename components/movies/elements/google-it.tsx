@@ -45,12 +45,7 @@ export const GoogleIt = ({ title }: Props) => {
 
   return (
     <>
-      <Button
-        onPress={openLink}
-        variant={"ghost"}
-        size={"unset"}
-        className={"self-start"}
-      >
+      <Button onPress={openLink} variant={"ghost"} size={"unset"}>
         <Google />
       </Button>
 

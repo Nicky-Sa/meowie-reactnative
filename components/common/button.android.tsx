@@ -59,11 +59,7 @@ export const Button = ({
                 : buttonSizes[size].paddingLeft,
             ...(props.style as object),
           }}
-          className={cn(
-            focused && "opacity-50",
-            props.className,
-            size === "full" && "w-full",
-          )}
+          className={cn(focused && "opacity-50", size === "full" && "w-full")}
         >
           {typeof children === "string" ? (
             <Text

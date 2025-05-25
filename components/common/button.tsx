@@ -41,12 +41,9 @@ export const Button = ({
         }}
       >
         <View
-          style={{
-            overflow: "hidden",
-          }}
           className={cn(
+            "overflow-hidden",
             focused && "opacity-50",
-            props.className,
             size === "full" && "w-full",
           )}
         >
