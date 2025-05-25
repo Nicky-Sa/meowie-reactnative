@@ -17,6 +17,7 @@ import {
 } from "@/atoms";
 import { TMDBRating } from "@/components/filters/items/tmdb-rating";
 import _ from "lodash";
+import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
 
 export const Content = () => {
   const router = useRouter();
@@ -96,6 +97,17 @@ export const Content = () => {
             >
               Apply
             </Button>
+            <View
+              className={
+                "m-auto -mt-4 flex w-[80%] flex-row items-center justify-center gap-3"
+              }
+            >
+              <TMDBGrayLogo />
+              <Text className={"caption-c1 shrink text-neutral-3-default"}>
+                This product uses the TMDB API but is not endorsed or certified
+                by TMDB.
+              </Text>
+            </View>
           </View>
         </View>
       </SafeAreaView>
