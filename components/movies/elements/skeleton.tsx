@@ -3,14 +3,12 @@ import { Bento } from "@/components/common/bento";
 import { useMovieContentHeight } from "@/components/movies/hooks";
 
 export const MoviesSkeleton = () => {
-  const { movieContentHeight } = useMovieContentHeight();
+  const contentStyle = useMovieContentHeight();
 
   return (
     <View className={"w-full flex-1 justify-end"}>
       <View
-        style={{
-          height: movieContentHeight,
-        }}
+        style={contentStyle}
         className={
           "flex w-full animate-pulse flex-col items-start justify-center gap-1.5 xs:gap-3"
         }

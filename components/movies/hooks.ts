@@ -4,11 +4,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const useMovieContentHeight = () => {
-  const { height: h } = useWindowDimensions();
-  const { top } = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  const { top, bottom } = useSafeAreaInsets();
 
   return {
-    movieContentHeight: h - (top + 50),
+    height,
+    paddingTop: top + 50,
+    paddingBottom: bottom,
   };
 };
 

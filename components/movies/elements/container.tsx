@@ -34,7 +34,7 @@ export const DetailsContainer = memo(
     const [, setColor] = useAtom(colorAtom);
 
     const { height } = useWindowDimensions();
-    const { movieContentHeight } = useMovieContentHeight();
+    const contentStyle = useMovieContentHeight();
 
     useEffect(() => {
       if (shouldPlay) setColor(randomColor);
@@ -87,9 +87,7 @@ export const DetailsContainer = memo(
             className={
               "relative flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
             }
-            style={{
-              height: movieContentHeight,
-            }}
+            style={contentStyle}
           >
             <Bento>
               <View className={"flex flex-col gap-1"}>

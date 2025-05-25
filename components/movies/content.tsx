@@ -13,10 +13,7 @@ import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
-import {
-  useMovieContentHeight,
-  useRenderScrollIndicator,
-} from "@/components/movies/hooks";
+import { useRenderScrollIndicator } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 import { FlashList } from "@shopify/flash-list";
 import { useWindowDimensions } from "react-native";
