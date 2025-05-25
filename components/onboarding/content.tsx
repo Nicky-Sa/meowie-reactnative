@@ -1,11 +1,10 @@
-import { View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
 } from "react-native-reanimated-carousel";
 import { useCallback, useRef, useState } from "react";
 import { OnboardingItem } from "@/components/onboarding/elements/item";
-import { useContentScreenSize } from "@/components/movies/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Extrapolation,
@@ -44,7 +43,7 @@ const items = [
 
 export const Content = () => {
   const router = useRouter();
-  const { width } = useContentScreenSize();
+  const { width } = useWindowDimensions();
   const ref = useRef<ICarouselInstance>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const progress = useSharedValue<number>(0);

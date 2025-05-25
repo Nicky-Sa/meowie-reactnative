@@ -14,16 +14,17 @@ import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
 import {
-  useContentScreenSize,
+  useMovieContentHeight,
   useRenderScrollIndicator,
 } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 import { FlashList } from "@shopify/flash-list";
+import { useWindowDimensions } from "react-native";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
-  const { height } = useContentScreenSize();
+  const { height } = useWindowDimensions();
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
   const { data, dataLength, setSize, isLoading, error, mutate } =

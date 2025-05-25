@@ -1,5 +1,5 @@
 import { useFetchInfo } from "@/hooks/data/useFetchInfo";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, useWindowDimensions } from "react-native";
 import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
 import { memo, useEffect, useMemo } from "react";
 import Animated, {
@@ -14,9 +14,8 @@ import { Bento } from "@/components/common/bento";
 import { Ratings } from "@/components/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
-import { useContentScreenSize } from "@/components/movies/hooks";
+import { useMovieContentHeight } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   movieId: number;
@@ -34,8 +33,8 @@ export const DetailsContainer = memo(
     );
     const [, setColor] = useAtom(colorAtom);
 
-    const { height } = useContentScreenSize();
-    const { top } = useSafeAreaInsets();
+    const { height } = useWindowDimensions();
+    const { movieContentHeight } = useMovieContentHeight();
 
     useEffect(() => {
       if (shouldPlay) setColor(randomColor);
@@ -89,7 +88,7 @@ export const DetailsContainer = memo(
               "relative flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
             }
             style={{
-              height: height - (top + 50),
+              height: movieContentHeight,
             }}
           >
             <Bento>

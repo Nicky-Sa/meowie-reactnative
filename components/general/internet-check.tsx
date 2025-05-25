@@ -1,12 +1,11 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, useWindowDimensions, View } from "react-native";
 import { Button } from "@/components/common/button";
-import { useContentScreenSize } from "@/components/movies/hooks";
 import { PropsWithChildren } from "react";
 import { useNetInfoInstance } from "@react-native-community/netinfo";
 import noInternetImg from "@/assets/images/no-internet.png";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
-  const { height } = useContentScreenSize();
+  const { height } = useWindowDimensions();
   const {
     netInfo: { isConnected, isInternetReachable },
     refresh,

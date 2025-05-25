@@ -1,15 +1,15 @@
 import { View } from "react-native";
 import { Bento } from "@/components/common/bento";
-import { useContentScreenSize } from "@/components/movies/hooks";
+import { useMovieContentHeight } from "@/components/movies/hooks";
 
 export const MoviesSkeleton = () => {
-  const { height } = useContentScreenSize();
+  const { movieContentHeight } = useMovieContentHeight();
 
   return (
     <View className={"w-full flex-1 justify-end"}>
       <View
         style={{
-          height: height * 0.9,
+          height: movieContentHeight,
         }}
         className={
           "flex w-full animate-pulse flex-col items-start justify-center gap-1.5 xs:gap-3"
