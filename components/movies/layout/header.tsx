@@ -21,14 +21,14 @@ export const Header = () => {
   return (
     <View
       className={
-        "absolute left-4 z-10 flex w-full flex-1 flex-row items-start justify-between"
+        "absolute z-10 flex w-full flex-1 flex-row items-start justify-between px-4"
       }
       style={{
         marginTop: insets.top + (Platform.select({ android: 10, ios: 2 }) ?? 0),
         height: insets.top + 28,
       }}
     >
-      <View className={"-mt-1 w-[144px]"}>
+      <View className={"-ml-1 -mt-1 w-[144px]"}>
         <Rive
           url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-logo.riv"
           alignment={Alignment.TopLeft}

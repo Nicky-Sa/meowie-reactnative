@@ -763,7 +763,7 @@ export default {
         black: "900",
       },
       screens: {
-        xs: "380px",
+        xs: "350px",
       },
     },
   },

@@ -8,10 +8,10 @@ export const MoviesSkeleton = () => {
   return (
     <View className={"w-full flex-1 justify-end"}>
       <View
-        style={contentStyle}
         className={
-          "flex w-full animate-pulse flex-col items-start justify-center gap-1.5 xs:gap-3"
+          "mx-4 flex animate-pulse flex-col items-start justify-center gap-4"
         }
+        style={contentStyle}
       >
         <SkeletonItem className={"h-16"} />
         <SkeletonItem className={"h-40"} />

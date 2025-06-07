@@ -110,12 +110,6 @@ function RootLayout() {
                       }}
                     />
                     <Stack.Screen
-                      name="clone/index"
-                      options={{
-                        animation: "slide_from_bottom",
-                      }}
-                    />
-                    <Stack.Screen
                       name="filters/index"
                       options={{
                         animation: "slide_from_right",

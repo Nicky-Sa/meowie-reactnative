@@ -15,6 +15,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { useMovieContentStyle } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
+import { Genres } from "@/components/movies/elements/genres";
 
 type Props = {
   movieId: number;
@@ -84,7 +85,7 @@ export const DetailsContainer = memo(
         ) : (
           <View
             className={
-              "relative flex w-full flex-col items-start justify-center gap-1.5 xs:gap-3"
+              "relative mx-4 flex flex-col items-start justify-center gap-4"
             }
             style={contentStyle}
           >
@@ -92,12 +93,11 @@ export const DetailsContainer = memo(
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                className={"grow-0"}
+                className={"-mx-4 grow-0"}
+                contentContainerClassName={"min-w-full"}
               >
                 <Text
-                  className={
-                    "title-t1-strong -mx-4 px-4 text-neutral-10-default"
-                  }
+                  className={"title-t1-strong px-4 text-neutral-10-default"}
                 >
                   {data.title}
                 </Text>
@@ -117,27 +117,7 @@ export const DetailsContainer = memo(
 
             <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
 
-            <View className={"flex flex-col gap-2.5"}>
-              <Ratings ratings={data.ratings} />
-              <View
-                className={"h-[0.7px] w-full rounded-full bg-neutral-12-hover"}
-              />
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerClassName={"flex flex-row gap-6"}
-                className={"grow-0"}
-              >
-                {data.genres.map((genre) => (
-                  <Text
-                    key={genre}
-                    className={"body-b2 text-neutral-5-default"}
-                  >
-                    {genre}
-                  </Text>
-                ))}
-              </ScrollView>
-            </View>
+            <Ratings ratings={data.ratings} />
 
             <View className={"flex flex-row justify-start gap-4"}>
               <Image
@@ -158,6 +138,15 @@ export const DetailsContainer = memo(
                 {data.overview}
               </Text>
             </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className={"-mx-4 grow-0"}
+              contentContainerClassName={"min-w-full"}
+            >
+              <Genres genres={data.genres} />
+            </ScrollView>
 
             <GoogleMore title={data.title} />
           </View>

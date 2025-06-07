@@ -4,7 +4,7 @@ export const useTailwindBreakpoint = () => {
   const { width } = useScreenDimensions();
 
   switch (true) {
-    case width < 380:
+    case width < 350:
       return "xs";
     case width < 640:
       return "sm";
