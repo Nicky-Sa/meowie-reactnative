@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { View, Text, useWindowDimensions, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
 import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import noTrailerImg from "@/assets/images/no-trailer.png";
 import { tailwind } from "@/lib/utils";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 type Props = {
   YTKey: string;
@@ -22,7 +23,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   const [playing, setPlaying] = useState(false);
   const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
 
-  const { width: w } = useWindowDimensions();
+  const { width: w } = useScreenDimensions();
   const width = w - 2.5 * Number(tailwind.theme.spacing[4]);
 
   const appState = useAppState();
@@ -83,7 +84,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   ) : (
     <View
       className={
-        "mx-auto flex h-[208px] w-full items-center justify-center rounded-xl border-1.5 border-neutral-3-default bg-black"
+        "border-neutral-13-default mx-auto flex h-[208px] w-full items-center justify-center rounded-xl border-1.5 bg-black"
       }
     >
       <YoutubePlayer

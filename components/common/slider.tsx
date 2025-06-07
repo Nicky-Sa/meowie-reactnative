@@ -1,9 +1,10 @@
-import { View, Text, useWindowDimensions } from "react-native";
+import { View, Text } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import { tailwind } from "@/lib/utils";
 import { Updater } from "use-immer";
 import { useMemo } from "react";
 import _ from "lodash";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 const CustomMarker = ({ currentValue }: { currentValue: number }) => (
   <View className={"flex flex-col items-center justify-center gap-2"}>
@@ -31,7 +32,7 @@ export const Slider = ({
   max,
   step = 1,
 }: Props) => {
-  const { width } = useWindowDimensions();
+  const { width } = useScreenDimensions();
 
   // Create a debounced setter
   const debouncedSetCurrentValues = useMemo(

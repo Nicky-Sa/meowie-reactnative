@@ -1,5 +1,5 @@
-import { useFetchInfo } from "@/hooks/data/useFetchInfo";
-import { View, Text, Image, useWindowDimensions } from "react-native";
+import { useFetchInfo } from "@/components/movies/data/useFetchInfo";
+import { View, Text, Image } from "react-native";
 import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
 import { memo, useEffect, useMemo } from "react";
 import Animated, {
@@ -9,12 +9,11 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { GoogleIt } from "@/components/movies/elements/google-it";
-import { Bento } from "@/components/common/bento";
+import { GoogleMore } from "@/components/movies/elements/google-more";
 import { Ratings } from "@/components/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/components/movies/elements/error-state";
-import { useMovieContentHeight } from "@/components/movies/hooks";
+import { useMovieContentStyle } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 
 type Props = {
@@ -33,8 +32,8 @@ export const DetailsContainer = memo(
     );
     const [, setColor] = useAtom(colorAtom);
 
-    const { height } = useWindowDimensions();
-    const contentStyle = useMovieContentHeight();
+    const contentStyle = useMovieContentStyle();
+    const { height } = contentStyle;
 
     useEffect(() => {
       if (shouldPlay) setColor(randomColor);
@@ -89,88 +88,78 @@ export const DetailsContainer = memo(
             }
             style={contentStyle}
           >
-            <Bento>
-              <View className={"flex flex-col gap-1"}>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  className={"grow-0"}
+            <View className={"flex flex-col gap-1"}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className={"grow-0"}
+              >
+                <Text
+                  className={
+                    "title-t1-strong -mx-4 px-4 text-neutral-10-default"
+                  }
                 >
-                  <Text
-                    className={
-                      "title-t1-strong -mx-4 px-4 text-neutral-10-default"
-                    }
-                  >
-                    {data.title}
-                  </Text>
-                </ScrollView>
-                <View className={"flex flex-row gap-8"}>
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.publishYear}
-                  </Text>
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.certification}
-                  </Text>
-                  <Text className={"body-b1 text-neutral-5-default"}>
-                    {data.duration}
-                  </Text>
-                </View>
+                  {data.title}
+                </Text>
+              </ScrollView>
+              <View className={"flex flex-row gap-8"}>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.publishYear}
+                </Text>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.certification}
+                </Text>
+                <Text className={"body-b1 text-neutral-5-default"}>
+                  {data.duration}
+                </Text>
               </View>
-            </Bento>
+            </View>
 
             <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
 
-            <Bento>
-              <View className={"flex flex-col gap-2.5"}>
-                <Ratings ratings={data.ratings} />
-                <View
-                  className={
-                    "h-[0.7px] w-full rounded-full bg-neutral-12-hover"
-                  }
-                />
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerClassName={"flex flex-row gap-6"}
-                  className={"grow-0"}
-                >
-                  {data.genres.map((genre) => (
-                    <Text
-                      key={genre}
-                      className={"body-b2-strong text-neutral-5-default"}
-                    >
-                      {genre}
-                    </Text>
-                  ))}
-                </ScrollView>
-              </View>
-            </Bento>
+            <View className={"flex flex-col gap-2.5"}>
+              <Ratings ratings={data.ratings} />
+              <View
+                className={"h-[0.7px] w-full rounded-full bg-neutral-12-hover"}
+              />
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerClassName={"flex flex-row gap-6"}
+                className={"grow-0"}
+              >
+                {data.genres.map((genre) => (
+                  <Text
+                    key={genre}
+                    className={"body-b2 text-neutral-5-default"}
+                  >
+                    {genre}
+                  </Text>
+                ))}
+              </ScrollView>
+            </View>
 
-            <Bento>
-              <View className={"flex flex-row justify-start gap-4"}>
-                <Image
-                  src={data.posterPath}
-                  className={"basis-[25%] rounded-lg"}
-                  style={{
-                    aspectRatio: 2 / 3,
-                  }}
-                  resizeMode={"contain"}
-                />
-                <Text
-                  numberOfLines={6}
-                  ellipsizeMode="tail"
-                  className={
-                    "body-b2 flex-1 overflow-hidden text-neutral-10-default"
-                  }
-                >
-                  {data.overview}
-                </Text>
-              </View>
-            </Bento>
+            <View className={"flex flex-row justify-start gap-4"}>
+              <Image
+                src={data.posterPath}
+                className={"basis-[25%] rounded-lg"}
+                style={{
+                  aspectRatio: 2 / 3,
+                }}
+                resizeMode={"contain"}
+              />
+              <Text
+                numberOfLines={6}
+                ellipsizeMode="tail"
+                className={
+                  "body-b2 flex-1 overflow-hidden text-neutral-10-default"
+                }
+              >
+                {data.overview}
+              </Text>
+            </View>
 
-            <Bento>
-              <GoogleIt title={data.title} />
-            </Bento>
+            <GoogleMore title={data.title} />
           </View>
         )}
       </Animated.View>

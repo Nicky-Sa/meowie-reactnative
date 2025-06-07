@@ -1,7 +1,7 @@
-import { useWindowDimensions } from "react-native";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 export const useTailwindBreakpoint = () => {
-  const { width } = useWindowDimensions();
+  const { width } = useScreenDimensions();
 
   switch (true) {
     case width < 380:

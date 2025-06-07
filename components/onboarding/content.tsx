@@ -1,4 +1,4 @@
-import { useWindowDimensions, View } from "react-native";
+import { View } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -16,6 +16,7 @@ import { Button } from "@/components/common/button";
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 const items = [
   {
@@ -43,7 +44,7 @@ const items = [
 
 export const Content = () => {
   const router = useRouter();
-  const { width } = useWindowDimensions();
+  const { width } = useScreenDimensions();
   const ref = useRef<ICarouselInstance>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const progress = useSharedValue<number>(0);

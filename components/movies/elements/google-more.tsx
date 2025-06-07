@@ -16,7 +16,7 @@ type Props = {
   title: string;
 };
 
-export const GoogleIt = ({ title }: Props) => {
+export const GoogleMore = ({ title }: Props) => {
   const [visible, setVisible] = useState(false);
   const [browserResult, setBrowserResult] = useState<WebBrowserResult | null>(
     null,
@@ -45,8 +45,11 @@ export const GoogleIt = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"ghost"} size={"unset"}>
-        <Google />
+      <Button onPress={openLink} variant={"secondary"} size={"sm"}>
+        <View className={"flex flex-row items-center gap-2"}>
+          <Google />
+          <Text className={"body-b1-strong text-neutral-10-default"}>More</Text>
+        </View>
       </Button>
 
       {Platform.OS === "android" && visible && (

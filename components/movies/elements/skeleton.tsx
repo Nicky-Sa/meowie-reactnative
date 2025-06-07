@@ -1,9 +1,9 @@
 import { View } from "react-native";
-import { Bento } from "@/components/common/bento";
-import { useMovieContentHeight } from "@/components/movies/hooks";
+import { useMovieContentStyle } from "@/components/movies/hooks";
+import { cn } from "@/lib/utils";
 
 export const MoviesSkeleton = () => {
-  const contentStyle = useMovieContentHeight();
+  const contentStyle = useMovieContentStyle();
 
   return (
     <View className={"w-full flex-1 justify-end"}>
@@ -13,22 +13,20 @@ export const MoviesSkeleton = () => {
           "flex w-full animate-pulse flex-col items-start justify-center gap-1.5 xs:gap-3"
         }
       >
-        <Bento>
-          <View className={"h-14 w-full"} />
-        </Bento>
-        <Bento>
-          <View className={"h-40 w-full"} />
-        </Bento>
-        <Bento>
-          <View className={"h-16 w-full"} />
-        </Bento>
-        <Bento>
-          <View className={"h-40 w-full"} />
-        </Bento>
-        <Bento>
-          <View className={"h-16 w-full"} />
-        </Bento>
+        <SkeletonItem className={"h-16"} />
+        <SkeletonItem className={"h-40"} />
+        <SkeletonItem className={"h-16"} />
+        <SkeletonItem className={"h-40"} />
+        <SkeletonItem className={"h-16"} />
       </View>
     </View>
+  );
+};
+
+const SkeletonItem = ({ className }: { className: string }) => {
+  return (
+    <View
+      className={cn(className, "w-full rounded-xl bg-neutral-11-default")}
+    />
   );
 };

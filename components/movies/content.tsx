@@ -4,7 +4,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
-import { useFetchMoviesIds } from "@/hooks/data/useFetchMoviesIds";
+import { useFetchMoviesIds } from "@/components/movies/data/useFetchMoviesIds";
 import { MainBg } from "@/components/movies/layout/main-bg";
 import { DetailsContainer } from "@/components/movies/elements/container";
 import { Header } from "@/components/movies/layout/header";
@@ -16,12 +16,12 @@ import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
 import { useRenderScrollIndicator } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 import { FlashList } from "@shopify/flash-list";
-import { useWindowDimensions } from "react-native";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
-  const { height } = useWindowDimensions();
+  const { height } = useScreenDimensions();
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
   const { data, dataLength, setSize, isLoading, error, mutate } =

@@ -1,10 +1,11 @@
-import { Text, useWindowDimensions, View } from "react-native";
+import { Text, View } from "react-native";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
 import { useRouter } from "expo-router";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 export const MoviesEmptyState = () => {
-  const { height } = useWindowDimensions();
+  const { height } = useScreenDimensions();
   const router = useRouter();
 
   const tryAgain = () => {

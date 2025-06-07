@@ -1,10 +1,10 @@
-import { useWindowDimensions } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
-export const useMovieContentHeight = () => {
-  const { height } = useWindowDimensions();
+export const useMovieContentStyle = () => {
+  const { height } = useScreenDimensions();
   const { top, bottom } = useSafeAreaInsets();
 
   return {

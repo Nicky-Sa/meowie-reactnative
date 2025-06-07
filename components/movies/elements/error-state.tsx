@@ -1,13 +1,14 @@
-import { Text, useWindowDimensions, View } from "react-native";
+import { Text, View } from "react-native";
 import Rive, { Alignment } from "rive-react-native";
 import { Button } from "@/components/common/button";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 type Props = {
   tryAgain: () => void;
 };
 
 export const MoviesErrorState = ({ tryAgain }: Props) => {
-  const { height } = useWindowDimensions();
+  const { height } = useScreenDimensions();
 
   return (
     <View
