@@ -11,6 +11,7 @@ import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import { Button } from "@/components/common/button";
+import { BackHandler } from "react-native";
 
 type Props = {
   title: string;
@@ -53,7 +54,13 @@ export const GoogleMore = ({ title }: Props) => {
       </Button>
 
       {Platform.OS === "android" && visible && (
-        <Modal animationType="slide" visible={visible}>
+        <Modal
+          animationType="slide"
+          visible={visible}
+          onRequestClose={() => {
+            setVisible(false);
+          }}
+        >
           <View className="flex-row items-center gap-4 bg-neutral-12-default p-2">
             <Button
               onPress={() => setVisible(false)}

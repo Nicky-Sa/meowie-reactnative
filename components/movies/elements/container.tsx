@@ -55,6 +55,7 @@ export const DetailsContainer = memo(
         inputRange,
         [0.1, 1, 0.1], // Fade out as you scroll away
       );
+      console.log({ scale, opacity, title: data?.title });
 
       return {
         transform: [{ scale }],
