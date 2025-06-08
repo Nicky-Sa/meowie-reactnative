@@ -17,6 +17,7 @@ export default defineConfig([
   {
     rules: {
       "prettier/prettier": "error",
+      "no-undef": "error",
     },
   },
   {
