@@ -1,7 +1,8 @@
-import { TMDB_MoviesList } from "@/models/tmdb/moviesList";
+import { TMDB_MoviesList } from "@/components/movies/models/tmdb/moviesList";
 import { useCallback, useState } from "react";
 import { Fetcher } from "swr";
 import useSWRInfinite from "swr/infinite";
+import { MovieIdsDTO } from "@/components/movies/models/movies.dto";
 
 type Props = {
   queryParams: string;
@@ -29,7 +30,7 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
     [initialRandomPage, queryParams],
   );
 
-  const fetcher: Fetcher<TMDB_MoviesList> = (url: string) =>
+  const fetcher: Fetcher<MovieIdsDTO> = (url: string) =>
     fetch(url).then((r) => r.json());
   const { data, size, setSize, isLoading, error, mutate } = useSWRInfinite(
     getKey,

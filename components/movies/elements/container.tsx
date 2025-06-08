@@ -1,5 +1,5 @@
 import { useFetchInfo } from "@/components/movies/data/useFetchInfo";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import { TrailerPlayer } from "@/components/movies/elements/trailer-player";
 import { memo, useEffect } from "react";
 import Animated, {
@@ -16,6 +16,8 @@ import { MoviesErrorState } from "@/components/movies/elements/error-state";
 import { useMovieContentStyle } from "@/components/movies/hooks";
 import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { Genres } from "@/components/movies/elements/genres";
+import { Image } from "expo-image";
+import { tailwind } from "@/lib/utils";
 
 type Props = {
   movieId: number;
@@ -33,8 +35,9 @@ export const DetailsContainer = memo(
     const { height } = contentStyle;
 
     useEffect(() => {
-      if (shouldPlay && data?.primaryColorHex) setColor(data.primaryColorHex);
-    }, [data?.primaryColorHex, setColor, shouldPlay]);
+      if (shouldPlay && data?.posterProps.primaryColorHex)
+        setColor(data.posterProps.primaryColorHex);
+    }, [data?.posterProps, setColor, shouldPlay]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
@@ -55,7 +58,14 @@ export const DetailsContainer = memo(
         inputRange,
         [0.1, 1, 0.1], // Fade out as you scroll away
       );
-      console.log({ scale, opacity, title: data?.title });
+      console.log({
+        scale,
+        opacity,
+        title: data?.title,
+        data,
+        scrollY: scrollY.value,
+        inputRange,
+      });
 
       return {
         transform: [{ scale }],
@@ -118,12 +128,19 @@ export const DetailsContainer = memo(
 
             <View className={"flex flex-row justify-start gap-4"}>
               <Image
-                src={data.posterPath}
-                className={"basis-[25%] rounded-lg"}
+                source={data.posterPath}
                 style={{
+                  flexBasis: "25%",
                   aspectRatio: 2 / 3,
+                  borderRadius: Number(tailwind.theme.borderRadius.lg),
                 }}
-                resizeMode={"contain"}
+                contentFit="contain"
+                placeholder={{
+                  blurhash: data.posterProps.blurhash,
+                  width: 100,
+                  height: 150,
+                }}
+                transition={500}
               />
               <Text
                 numberOfLines={6}
