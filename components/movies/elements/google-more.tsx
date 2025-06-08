@@ -11,7 +11,6 @@ import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import { Button } from "@/components/common/button";
-import { BackHandler } from "react-native";
 
 type Props = {
   title: string;

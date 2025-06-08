@@ -3,7 +3,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { Stack, useNavigationContainerRef } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -12,7 +12,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider } from "posthog-react-native";
-import { useNavigationContainerRef } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
