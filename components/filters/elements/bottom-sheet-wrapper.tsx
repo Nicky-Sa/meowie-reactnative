@@ -13,6 +13,7 @@ import { Updater, useImmer } from "use-immer";
 import Close from "@/assets/icons/close.svg";
 import Chip from "@/components/common/chip";
 import _ from "lodash";
+import { tailwind } from "@/lib/utils";
 
 type Props<T extends keyof Filters> = {
   title: string;
@@ -98,7 +99,8 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
           <View
             className="w-full bg-neutral-14-default p-4"
             style={{
-              paddingBottom: insets.bottom,
+              paddingBottom:
+                insets.bottom + Number(tailwind.theme.spacing["2"]),
             }}
           >
             <Button

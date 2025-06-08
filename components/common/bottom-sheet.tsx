@@ -1,9 +1,10 @@
-import React, {
+import {
   useRef,
   PropsWithChildren,
   forwardRef,
   useImperativeHandle,
   useState,
+  ReactNode,
 } from "react";
 import { View, Text, Platform } from "react-native";
 import {
@@ -18,7 +19,7 @@ import { tailwind } from "@/lib/utils";
 
 type Props = {
   title: string;
-  footer?: React.ReactNode;
+  footer?: ReactNode;
   enableContentPanningGesture?: boolean;
   index?: number;
   onDismiss?: () => void;
