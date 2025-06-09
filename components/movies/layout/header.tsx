@@ -24,7 +24,8 @@ export const Header = () => {
         "absolute z-10 flex w-full flex-1 flex-row items-start justify-between px-4"
       }
       style={{
-        marginTop: insets.top + (Platform.select({ android: 10, ios: 2 }) ?? 0),
+        marginTop:
+          insets.top + Platform.select({ android: 10, ios: 2, default: 0 }),
         height: insets.top + 28,
       }}
     >

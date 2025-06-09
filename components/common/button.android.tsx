@@ -64,7 +64,7 @@ export const Button = ({
           {typeof children === "string" ? (
             <Text
               className={cn(
-                "body-b1-strong text-neutral-1-default",
+                "body-b1-strong text-center text-neutral-1-default",
                 props.className,
               )}
             >

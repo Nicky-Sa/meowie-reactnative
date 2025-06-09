@@ -16,13 +16,17 @@ import {
 import Close from "@/assets/icons/close.svg";
 import { Button } from "@/components/common/button";
 import { tailwind } from "@/lib/utils";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   title: string;
   footer?: ReactNode;
   enableContentPanningGesture?: boolean;
+  enableDynamicSizing?: boolean;
+  maxDynamicContentSize?: number;
   index?: number;
   onDismiss?: () => void;
+  snapPoints?: string[];
 };
 
 export type ExposedBottomSheetModalRef = {
@@ -41,14 +45,17 @@ export const BottomSheet = forwardRef<
       title,
       footer,
       enableContentPanningGesture = true,
+      enableDynamicSizing = false,
+      maxDynamicContentSize,
       index = 1,
       onDismiss,
+      snapPoints = ["35%", "60%", "90%"],
     },
     ref,
   ) => {
     const bottomSheetRef = useRef<BottomSheetModal>(null);
     const [footerHeight, setFooterHeight] = useState(0);
-    const snapPoints = ["35%", "60%", "90%"];
+    const insets = useSafeAreaInsets();
 
     useImperativeHandle(ref, () => ({
       present: () => {
@@ -73,7 +80,8 @@ export const BottomSheet = forwardRef<
           index={index}
           ref={bottomSheetRef}
           enablePanDownToClose
-          enableDynamicSizing={false}
+          enableDynamicSizing={enableDynamicSizing}
+          maxDynamicContentSize={maxDynamicContentSize}
           enableContentPanningGesture={enableContentPanningGesture}
           snapPoints={snapPoints}
           onDismiss={onDismiss}
@@ -115,7 +123,19 @@ export const BottomSheet = forwardRef<
                   setFooterHeight(height);
                 }}
               >
-                {footer}
+                <View
+                  className="w-full bg-neutral-14-default p-4"
+                  style={{
+                    paddingBottom:
+                      insets.bottom +
+                      Platform.select({
+                        android: Number(tailwind.theme.spacing["2"]),
+                        default: 0,
+                      }),
+                  }}
+                >
+                  {footer}
+                </View>
               </View>
             </BottomSheetFooter>
           )}
@@ -143,9 +163,7 @@ export const BottomSheet = forwardRef<
                 <Close />
               </Button>
             </View>
-            {/*<BottomSheetScrollView showsVerticalScrollIndicator={false}>*/}
             {children}
-            {/*</BottomSheetScrollView>*/}
           </View>
         </BottomSheetModal>
       </>

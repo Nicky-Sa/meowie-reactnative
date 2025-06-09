@@ -6,14 +6,12 @@ import {
 import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
 import { Button } from "@/components/common/button";
 import { ReactNode, useEffect, useRef } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAtom } from "jotai";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import { Updater, useImmer } from "use-immer";
 import Close from "@/assets/icons/close.svg";
 import Chip from "@/components/common/chip";
 import _ from "lodash";
-import { tailwind } from "@/lib/utils";
 
 type Props<T extends keyof Filters> = {
   title: string;
@@ -36,7 +34,6 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
   children,
 }: Props<T>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
-  const insets = useSafeAreaInsets();
   const [filters, setFilters] = useAtom(filtersAtom);
 
   // Local draft values for editing inside the BottomSheet
@@ -96,28 +93,20 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         ref={bottomSheetRef}
         title={title}
         footer={
-          <View
-            className="w-full bg-neutral-14-default p-4"
-            style={{
-              paddingBottom:
-                insets.bottom + Number(tailwind.theme.spacing["2"]),
+          <Button
+            variant="primary"
+            size="full"
+            className="text-center"
+            onPress={() => {
+              // Commit local draft to filtersAtom
+              setFilters((draft) => {
+                draft[filterKey] = draftCurrentValues;
+              });
+              bottomSheetRef.current?.dismiss();
             }}
           >
-            <Button
-              variant="primary"
-              size="full"
-              className="text-center"
-              onPress={() => {
-                // Commit local draft to filtersAtom
-                setFilters((draft) => {
-                  draft[filterKey] = draftCurrentValues;
-                });
-                bottomSheetRef.current?.dismiss();
-              }}
-            >
-              Apply
-            </Button>
-          </View>
+            Apply
+          </Button>
         }
         enableContentPanningGesture={enableContentPanningGesture}
         index={index}

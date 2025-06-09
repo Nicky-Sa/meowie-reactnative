@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
 import { allowYTPlayingAtom } from "@/atoms";
@@ -7,6 +7,7 @@ import { useAppState } from "@/hooks/useAppState";
 import noTrailerImg from "@/assets/images/no-trailer.png";
 import { tailwind } from "@/lib/utils";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { Image } from "expo-image";
 
 type Props = {
   YTKey: string;
@@ -70,12 +71,12 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
       }
     >
       <Image
-        source={{
-          uri: Image.resolveAssetSource(noTrailerImg).uri,
+        source={noTrailerImg}
+        style={{
+          width: 100,
+          height: 100,
         }}
-        width={100}
-        height={100}
-        resizeMode={"contain"}
+        contentFit={"contain"}
       />
       <Text className={"body-b1 text-neutral-6-default"}>
         Failed to load the trailer.
