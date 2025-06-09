@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Animated, {
   runOnJS,
   useAnimatedScrollHandler,
@@ -52,11 +52,6 @@ export const Content = () => {
       }
     },
   });
-
-  useEffect(() => {
-    // Reset scroll position when filters change
-    scrollY.value = 0;
-  }, [filtersQueryParams, scrollY]);
 
   if (error) {
     return (
