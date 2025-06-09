@@ -51,25 +51,22 @@ export const DetailsContainer = memo(
         scrollY.value,
         inputRange,
         [1.2, 1, 0.8], // Scale down as you scroll away
-        { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
       );
 
       const opacity = interpolate(
         scrollY.value,
         inputRange,
         [0.1, 1, 0.1], // Fade out as you scroll away
-        { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
       );
-      if (opacity < 0) {
-        console.log({
-          scale,
-          opacity,
-          title: data?.title,
-          data,
-          scrollY: scrollY.value,
-          inputRange,
-        });
-      }
+
+      console.log({
+        index,
+        scale,
+        opacity,
+        title: data?.title,
+        scrollY: scrollY.value,
+        inputRange,
+      });
 
       return {
         transform: [{ scale }],
@@ -140,7 +137,7 @@ export const DetailsContainer = memo(
                 }}
                 contentFit="contain"
                 placeholder={{
-                  blurhash: data.posterProps.blurhash,
+                  blurhash: data.posterProps?.blurhash,
                   width: 100,
                   height: 150,
                 }}
@@ -167,6 +164,14 @@ export const DetailsContainer = memo(
             </ScrollView>
 
             <GoogleMore title={data.title} />
+            <Text className={"caption-c1 text-neutral-5-default"}>
+              {JSON.stringify({
+                index,
+                title: data?.title,
+                scrollY: scrollY.value,
+                animatedStyle,
+              })}
+            </Text>
           </View>
         )}
       </Animated.View>
