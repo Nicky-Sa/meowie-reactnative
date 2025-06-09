@@ -50,7 +50,7 @@ const config: ExpoConfig = {
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     requireFullScreen: true,
     bundleIdentifier: getUniqueIdentifier(),
     infoPlist: {
