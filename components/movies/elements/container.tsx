@@ -164,14 +164,6 @@ export const DetailsContainer = memo(
             </ScrollView>
 
             <GoogleMore title={data.title} />
-            <Text className={"caption-c1 text-neutral-5-default"}>
-              {JSON.stringify({
-                index,
-                title: data?.title,
-                scrollY: scrollY.value,
-                animatedStyle,
-              })}
-            </Text>
           </View>
         )}
       </Animated.View>

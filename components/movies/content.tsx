@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Animated, {
   runOnJS,
   useAnimatedScrollHandler,
@@ -41,7 +41,13 @@ export const Content = () => {
       const activeIndex = Math.round(progress);
 
       runOnJS(setCurrentIndex)(activeIndex);
-      console.log({ activeIndex, progress, scrollY: contentOffset.y });
+      console.log({
+        activeIndex,
+        progress,
+        scrollY: scrollY.value,
+        contentOffset: contentOffset.y,
+        layoutMeasurement: layoutMeasurement.height,
+      });
 
       // Trigger load more when near the bottom
       if (
@@ -52,6 +58,11 @@ export const Content = () => {
       }
     },
   });
+
+  useEffect(() => {
+    scrollY.value = 0;
+    setCurrentIndex(0);
+  }, [filtersQueryParams, scrollY]);
 
   if (error) {
     return (
@@ -70,6 +81,7 @@ export const Content = () => {
         ) : dataLength > 0 ? (
           <>
             <AnimatedFlashList
+              key={JSON.stringify(filtersQueryParams)}
               data={data}
               keyExtractor={(id, index) => `movie-${id}-${index}`}
               renderItem={({ item: movieId, index }) => (
