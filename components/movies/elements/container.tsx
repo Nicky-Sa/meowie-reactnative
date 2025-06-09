@@ -137,7 +137,7 @@ export const DetailsContainer = memo(
                 }}
                 contentFit="contain"
                 placeholder={{
-                  blurhash: data.posterProps?.blurhash,
+                  blurhash: data.posterProps.blurhash,
                   width: 100,
                   height: 150,
                 }}
