@@ -57,10 +57,6 @@ export const DetailsContainer = memo(
         scrollY.value,
         inputRange,
         [0.1, 1, 0.1], // Fade out as you scroll away
-        {
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-        }, // prevent values outside of range for opacity
       );
       if (opacity < 0) {
         console.log({
@@ -75,7 +71,7 @@ export const DetailsContainer = memo(
 
       return {
         transform: [{ scale }],
-        opacity,
+        opacity: opacity < 0 ? 1 : opacity,
       };
     });
 
