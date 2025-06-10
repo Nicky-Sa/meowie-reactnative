@@ -41,13 +41,6 @@ export const Content = () => {
       const activeIndex = Math.round(progress);
 
       runOnJS(setCurrentIndex)(activeIndex);
-      console.log({
-        activeIndex,
-        progress,
-        scrollY: scrollY.value,
-        contentOffset: contentOffset.y,
-        layoutMeasurement: layoutMeasurement.height,
-      });
 
       // Trigger load more when near the bottom
       if (

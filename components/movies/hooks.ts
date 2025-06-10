@@ -28,6 +28,8 @@ export const useRenderScrollIndicator = (currentIndex: number) => {
         } else {
           setRender(false);
         }
+      } else {
+        setRender(false);
       }
     });
   }, [currentIndex]);
