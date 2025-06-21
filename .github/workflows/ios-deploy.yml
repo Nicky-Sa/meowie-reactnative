@@ -12,6 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Determine APP_VARIANT
+        run: |
+          case "${{ github.ref_name }}" in
+            ios-production)
+              echo "APP_VARIANT=production" >> "$GITHUB_ENV"
+              ;;
+            ios-preview)
+              echo "APP_VARIANT=preview" >> "$GITHUB_ENV"
+              ;;
+          esac      
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -31,32 +42,15 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: EAS Build (preview)
-        if: github.ref_name == 'ios-preview'
+      - name: EAS Build
         run: |
           rm -rf .env.local
-          npm run eas-build:testflight:preview
+          npm run eas-build:testflight:${{ env.APP_VARIANT }}
 
-      - name: EAS Build (production)
-        if: github.ref_name == 'ios-production'
-        run: |
-          rm -rf .env.local
-          npm run eas-build:testflight:production
-
-      - name: Upload to TestFlight (preview)
-        if: github.ref_name == 'ios-preview'
+      - name: Upload to TestFlight
         run: |
           xcrun altool --upload-app \
-            --file ./local-builds/testflight/preview/meowie.ipa \
-            --type ios \
-            --username ${{ secrets.APPLE_ID }} \
-            --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
-
-      - name: Upload to TestFlight (production)
-        if: github.ref_name == 'ios-production'
-        run: |
-          xcrun altool --upload-app \
-            --file ./local-builds/testflight/production/meowie.ipa \
+            --file ./local-builds/testflight/${{ env.APP_VARIANT }}/meowie.ipa \
             --type ios \
             --username ${{ secrets.APPLE_ID }} \
             --password ${{ secrets.APP_SPECIFIC_PASSWORD }}

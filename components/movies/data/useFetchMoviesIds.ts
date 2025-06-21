@@ -20,7 +20,7 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
         results: TMDB_MoviesList["results"];
       },
     ) => {
-      const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/movies/ids`;
+      const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
 
       // Stop fetching if there are no more results
       if (previousPageData && !previousPageData.results.length) return null;
