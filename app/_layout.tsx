@@ -101,25 +101,22 @@ function RootLayout() {
                       headerShown: false,
                     }}
                   >
-                    <Stack.Screen name="(home)/index" />
-                    <Stack.Screen
-                      name="movies/index"
-                      options={{
-                        animation: "slide_from_bottom",
-                      }}
-                    />
+                    <Stack.Screen name="(tabs)" />
+
                     <Stack.Screen
                       name="filters/index"
                       options={{
                         animation: "slide_from_right",
                       }}
                     />
+
                     <Stack.Screen
                       name="onboarding/index"
                       options={{
                         animation: "slide_from_bottom",
                       }}
                     />
+
                     <Stack.Screen name="+not-found" />
                   </Stack>
                 </InternetCheck>

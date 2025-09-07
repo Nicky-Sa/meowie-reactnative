@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { tabBarContentHeight } from "@/styles/constants";
 
 export const useMovieContentStyle = () => {
   const { height } = useScreenDimensions();
   const { top, bottom } = useSafeAreaInsets();
 
   return {
-    height,
+    height: height - (tabBarContentHeight + bottom),
     paddingTop: top + 50,
-    paddingBottom: bottom,
   };
 };
 

@@ -19,7 +19,7 @@ export default function Home() {
         router.replace("/onboarding");
       } else {
         // onboarded
-        router.replace("/movies");
+        router.replace("/(tabs)/movies");
       }
     });
   }, [router, splashDone]);

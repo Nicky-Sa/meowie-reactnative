@@ -133,7 +133,7 @@ export const Content = () => {
               onPress={() => {
                 if (currentIndex === items.length - 1) {
                   AsyncStorage.setItem("onboarded", "true");
-                  router.replace("/movies");
+                  router.replace("/(tabs)/movies");
                 } else {
                   onPressPagination(currentIndex + 1);
                 }
