@@ -45,11 +45,8 @@ export const GoogleMore = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"secondary"} size={"sm"}>
-        <View className={"flex flex-row items-center gap-2"}>
-          <Google />
-          <Text className={"body-b1-strong text-neutral-10-default"}>More</Text>
-        </View>
+      <Button onPress={openLink} variant={"secondary"} size={"md"} square>
+        <Google />
       </Button>
 
       {Platform.OS === "android" && visible && (
