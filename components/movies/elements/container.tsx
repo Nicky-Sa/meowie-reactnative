@@ -18,6 +18,7 @@ import { MoviesSkeleton } from "@/components/movies/elements/skeleton";
 import { Genres } from "@/components/movies/elements/genres";
 import { Image } from "expo-image";
 import { tailwind } from "@/lib/utils";
+import { Casts } from "@/components/movies/elements/casts";
 
 type Props = {
   movieId: number;
@@ -25,6 +26,29 @@ type Props = {
   index: number;
   scrollY: SharedValue<number>;
 };
+
+const casts = [
+  {
+    name: "Christian Bale",
+    avatar:
+      "https://m.media-amazon.com/images/M/MV5BMTkxMzk4MjQ4MF5BMl5BanBnXkFtZTcwMzExODQxOA@@._V1_FMjpg_UY2048_.jpg",
+  },
+  {
+    name: "Heath Ledger",
+    avatar:
+      "https://hips.hearstapps.com/hmg-prod/images/heath_ledger_getty_images_photo_bob_riha_jr_wireimage_116948085.jpg?resize=1800:*",
+  },
+  {
+    name: "Aaron Eckhart",
+    avatar:
+      "https://www.acmodasi.in/amdb/images/persons/2/r/aaron-eckhart-6246.jpg",
+  },
+  {
+    name: "Maggie Gyllenhaal",
+    avatar:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Maggie_Gyllenhaal_2021.jpg/500px-Maggie_Gyllenhaal_2021.jpg",
+  },
+];
 
 export const DetailsContainer = memo(
   ({ movieId, shouldPlay, index, scrollY }: Props) => {
@@ -72,58 +96,27 @@ export const DetailsContainer = memo(
 
     return (
       <Animated.View
-        style={[
-          {
-            height,
-          },
-          animatedStyle,
-        ]}
-        className={"w-full flex-1 justify-end"}
+        style={[animatedStyle]}
+        className={"h-full w-full flex-1 justify-start"}
       >
         {isLoading || !data ? (
           <MoviesSkeleton />
         ) : (
           <View
             className={
-              "relative mx-4 flex flex-col items-start justify-center gap-4"
+              "relative mx-4 flex flex-col items-start justify-start gap-4"
             }
             style={contentStyle}
           >
-            <View className={"flex flex-col gap-1"}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                className={"-mx-4 grow-0"}
-                contentContainerClassName={"min-w-full"}
-              >
-                <Text
-                  className={"title-t1-strong px-4 text-neutral-10-default"}
-                >
-                  {data.title}
-                </Text>
-              </ScrollView>
-              <View className={"flex flex-row gap-8"}>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.publishYear}
-                </Text>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.certification}
-                </Text>
-                <Text className={"body-b1 text-neutral-5-default"}>
-                  {data.duration}
-                </Text>
-              </View>
-            </View>
-
-            <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-
-            <Ratings ratings={data.ratings} />
-
-            <View className={"flex flex-row justify-start gap-4"}>
+            <View
+              className={
+                "flex w-full flex-row items-stretch justify-start gap-2"
+              }
+            >
               <Image
                 source={data.posterPath}
                 style={{
-                  flexBasis: "25%",
+                  flexBasis: "15%",
                   aspectRatio: 2 / 3,
                   borderRadius: Number(tailwind.theme.borderRadius.lg),
                 }}
@@ -135,16 +128,47 @@ export const DetailsContainer = memo(
                 }}
                 transition={500}
               />
-              <Text
-                numberOfLines={6}
-                ellipsizeMode="tail"
-                className={
-                  "body-b2 flex-1 overflow-hidden text-neutral-10-default"
-                }
-              >
-                {data.overview}
-              </Text>
+              <View className={"flex flex-col justify-center gap-2"}>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className={"-mx-2 grow-0"}
+                  contentContainerClassName={"min-w-full"}
+                >
+                  <Text
+                    className={"title-t1-strong px-2 text-neutral-10-default"}
+                  >
+                    {data.title}
+                  </Text>
+                </ScrollView>
+                <View className={"flex flex-row gap-8"}>
+                  <Text className={"body-b2 text-neutral-5-default"}>
+                    {data.publishYear}
+                  </Text>
+                  <Text className={"body-b2 text-neutral-5-default"}>
+                    {data.certification}
+                  </Text>
+                  <Text className={"body-b2 text-neutral-5-default"}>
+                    {data.duration}
+                  </Text>
+                </View>
+                <Text className={"caption-c1-strong text-neutral-10-default"}>
+                  Christopher Nolan
+                </Text>
+              </View>
             </View>
+
+            <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+
+            <Ratings ratings={data.ratings} />
+
+            <Text
+              numberOfLines={4}
+              ellipsizeMode="tail"
+              className={"body-b2 overflow-hidden text-neutral-6-default"}
+            >
+              {data.overview}
+            </Text>
 
             <ScrollView
               horizontal
@@ -153,6 +177,15 @@ export const DetailsContainer = memo(
               contentContainerClassName={"min-w-full"}
             >
               <Genres genres={data.genres} />
+            </ScrollView>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className={"-mx-4 grow-0"}
+              contentContainerClassName={"min-w-full"}
+            >
+              <Casts casts={casts} />
             </ScrollView>
 
             <GoogleMore title={data.title} />

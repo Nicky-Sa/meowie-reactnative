@@ -5,9 +5,10 @@ type Props = {
   text: string | number;
   backgroundColor?: string;
   textColor?: string;
+  bold?: boolean;
 };
 
-const Chip = ({ text, backgroundColor, textColor }: Props) => {
+export const Chip = ({ text, backgroundColor, textColor, bold }: Props) => {
   return (
     <View
       className={"rounded-full px-2.5 py-1"}
@@ -18,7 +19,7 @@ const Chip = ({ text, backgroundColor, textColor }: Props) => {
       }}
     >
       <Text
-        className={"body-b2"}
+        className={bold ? "body-b2-strong" : "body-b2"}
         style={{
           color: textColor ?? tailwind.theme.textColor["neutral"][6].default,
         }}
@@ -28,4 +29,3 @@ const Chip = ({ text, backgroundColor, textColor }: Props) => {
     </View>
   );
 };
-export default Chip;

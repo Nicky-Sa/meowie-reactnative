@@ -1,6 +1,5 @@
 import { Tabs } from "expo-router";
 import { cn, tailwind } from "@/lib/utils";
-import { tabBarContentHeight } from "@/styles/constants";
 import { HomeSimple, Search, Bookmark, User } from "iconoir-react-native";
 import { View } from "react-native";
 import { PropsWithChildren } from "react";
@@ -19,7 +18,7 @@ const TabIcon = ({
       {children}
       <View
         className={cn(
-          "h-1.5 w-1.5 rounded-full",
+          "h-1 w-3 rounded-full",
           focused && "bg-neutral-1-default",
         )}
       />
@@ -38,7 +37,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarIconStyle: {
           width: "100%",
-          height: "100%",
+          height: "130%",
         },
         headerShown: false,
         tabBarShowLabel: false,
@@ -47,9 +46,17 @@ export default function TabsLayout() {
         tabBarInactiveTintColor:
           tailwind.theme.backgroundColor.neutral[9].default,
         tabBarStyle: {
-          backgroundColor: tailwind.theme.backgroundColor.neutral[13].default,
-          borderTopColor: tailwind.theme.backgroundColor.neutral[13].default,
-          height: bottom + tabBarContentHeight,
+          position: "absolute",
+          bottom,
+          marginHorizontal: Number(tailwind.theme.spacing[4]),
+          borderRadius: Number(tailwind.theme.borderRadius.full),
+          backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
+          borderTopWidth: 1,
+          borderTopColor: tailwind.theme.borderColor.neutral[3].default,
+          shadowColor: tailwind.theme.backgroundColor.neutral[10].default,
+          shadowOpacity: 0.2,
+          shadowRadius: Number(tailwind.theme.borderRadius.xl),
+          elevation: 5,
         },
       }}
     >

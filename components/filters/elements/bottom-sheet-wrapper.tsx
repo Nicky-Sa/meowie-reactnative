@@ -10,7 +10,7 @@ import { useAtom } from "jotai";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import { Updater, useImmer } from "use-immer";
 import Close from "@/assets/icons/close.svg";
-import Chip from "@/components/common/chip";
+import { Chip } from "@/components/common/chip";
 import _ from "lodash";
 
 type Props<T extends keyof Filters> = {

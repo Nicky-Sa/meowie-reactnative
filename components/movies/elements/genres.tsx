@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Chip } from "@/components/common/chip";
 
 type Props = {
   genres: string[];
@@ -6,11 +7,9 @@ type Props = {
 
 export const Genres = ({ genres }: Props) => {
   return (
-    <View className={"flex flex-row gap-6 px-4"}>
+    <View className={"flex flex-row gap-3 px-4"}>
       {genres.map((genre) => (
-        <Text key={genre} className={"body-b2 text-neutral-5-default"}>
-          {genre}
-        </Text>
+        <Chip key={genre} text={genre} bold />
       ))}
     </View>
   );
