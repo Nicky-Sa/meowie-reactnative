@@ -38,16 +38,14 @@ export const Content = () => {
       scrollY.value = contentOffset.y; // Update shared value
       const activeIndex = Math.round(progress);
 
-      scheduleOnRN(() => setCurrentIndex(activeIndex));
+      scheduleOnRN(setCurrentIndex, activeIndex);
 
       // Trigger load more when near the bottom
       if (
         contentOffset.y + layoutMeasurement.height >=
         layoutMeasurement.height * (dataLength - 1)
       ) {
-        scheduleOnRN(() =>
-          setSize(Math.floor((currentIndex + 2) / dataLength) + 1),
-        );
+        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1);
       }
     },
   });
