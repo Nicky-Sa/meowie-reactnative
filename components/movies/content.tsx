@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Animated, {
-  runOnJS,
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
@@ -16,12 +15,11 @@ import { MoviesEmptyState } from "@/components/movies/elements/empty-state";
 import { useRenderScrollIndicator } from "@/components/movies/hooks";
 import { ScrollIndicator } from "@/components/movies/elements/scroll-indicator";
 import { FlashList } from "@shopify/flash-list";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { scheduleOnRN } from "react-native-worklets";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
-  const { height } = useScreenDimensions();
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
 
   const { data, dataLength, setSize, isLoading, error, mutate } =
@@ -40,14 +38,16 @@ export const Content = () => {
       scrollY.value = contentOffset.y; // Update shared value
       const activeIndex = Math.round(progress);
 
-      runOnJS(setCurrentIndex)(activeIndex);
+      scheduleOnRN(() => setCurrentIndex(activeIndex));
 
       // Trigger load more when near the bottom
       if (
         contentOffset.y + layoutMeasurement.height >=
         layoutMeasurement.height * (dataLength - 1)
       ) {
-        runOnJS(setSize)(Math.floor((currentIndex + 2) / dataLength) + 1);
+        scheduleOnRN(() =>
+          setSize(Math.floor((currentIndex + 2) / dataLength) + 1),
+        );
       }
     },
   });
@@ -90,7 +90,6 @@ export const Content = () => {
               scrollEventThrottle={16}
               onScroll={scrollHandler}
               showsVerticalScrollIndicator={false}
-              estimatedItemSize={height}
             />
             {shouldRenderScrollIndicator && (
               <ScrollIndicator shouldShow={currentIndex <= 0} />
