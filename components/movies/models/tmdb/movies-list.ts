@@ -1,11 +1,4 @@
-export type TMDB_MoviesList = {
-  page: number;
-  results: TMDB_MoviesListResult[];
-  total_pages: number;
-  total_results: number;
-};
-
-type TMDB_MoviesListResult = {
+export type TMDB_MoviesListResult = {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];

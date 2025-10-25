@@ -1,8 +1,8 @@
-import { TMDB_MoviesList } from "@/components/movies/models/tmdb/moviesList";
 import { useCallback, useState } from "react";
 import { Fetcher } from "swr";
 import useSWRInfinite from "swr/infinite";
-import { MovieIdsDTO } from "@/components/movies/models/movies.dto";
+import { MovieIdsResDTO } from "@/components/movies/data/dto/movies.dto";
+import { Success } from "@/components/general/dto/success.dto";
 
 type Props = {
   queryParams: string;
@@ -17,28 +17,32 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
     (
       pageIndex: number,
       previousPageData: {
-        results: TMDB_MoviesList["results"];
+        results: Success<MovieIdsResDTO>["data"];
       },
     ) => {
       const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
 
       // Stop fetching if there are no more results
-      if (previousPageData && !previousPageData.results.length) return null;
+      if (previousPageData && !previousPageData.results) return null;
 
       return `${baseUrl}?page=${pageIndex + (queryParams ? 1 : initialRandomPage)}&${queryParams}`; // SWR key
     },
     [initialRandomPage, queryParams],
   );
 
-  const fetcher: Fetcher<MovieIdsDTO> = (url: string) =>
+  const fetcher: Fetcher<Success<MovieIdsResDTO>> = (url: string) =>
     fetch(url).then((r) => r.json());
-  const { data, size, setSize, isLoading, error, mutate } = useSWRInfinite(
-    getKey,
-    fetcher,
-  );
+  const {
+    data: response,
+    size,
+    setSize,
+    isLoading,
+    error,
+    mutate,
+  } = useSWRInfinite(getKey, fetcher);
 
-  const idList = Array.isArray(data)
-    ? data.flatMap((page) => page.results.map((movie) => movie.id)) // Extract `id` from each movie
+  const idList = Array.isArray(response)
+    ? response.flatMap((page) => page.data.results.map((movie) => movie.id)) // Extract `id` from each movie
     : [];
 
   return {

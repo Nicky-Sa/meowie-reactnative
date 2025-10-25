@@ -28,11 +28,12 @@ type Props = {
 
 export const DetailsContainer = memo(
   ({ movieId, shouldPlay, index, scrollY }: Props) => {
-    const { isLoading, data, error, mutate } = useFetchInfo(movieId);
+    const { data: response, isLoading, error, mutate } = useFetchInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
 
     const contentStyle = useMovieContentStyle();
     const { height } = contentStyle;
+    const data = response?.data;
 
     useEffect(() => {
       if (shouldPlay && data?.posterProps.primaryColorHex)
