@@ -9,7 +9,7 @@ export const useMovieContentStyle = () => {
 
   return {
     height,
-    paddingTop: top + 100, // 100 is to account for the header
+    paddingTop: top + 80, // 80 is to account for the header
   };
 };
 

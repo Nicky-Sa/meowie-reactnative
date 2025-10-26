@@ -29,29 +29,6 @@ type Props = {
   scrollY: SharedValue<number>;
 };
 
-const casts = [
-  {
-    name: "Christian Bale",
-    avatar:
-      "https://m.media-amazon.com/images/M/MV5BMTkxMzk4MjQ4MF5BMl5BanBnXkFtZTcwMzExODQxOA@@._V1_FMjpg_UY2048_.jpg",
-  },
-  {
-    name: "Heath Ledger",
-    avatar:
-      "https://hips.hearstapps.com/hmg-prod/images/heath_ledger_getty_images_photo_bob_riha_jr_wireimage_116948085.jpg?resize=1800:*",
-  },
-  {
-    name: "Aaron Eckhart",
-    avatar:
-      "https://www.acmodasi.in/amdb/images/persons/2/r/aaron-eckhart-6246.jpg",
-  },
-  {
-    name: "Maggie Gyllenhaal",
-    avatar:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Maggie_Gyllenhaal_2021.jpg/500px-Maggie_Gyllenhaal_2021.jpg",
-  },
-];
-
 export const DetailsContainer = memo(
   ({ movieId, shouldPlay, index, scrollY }: Props) => {
     const { data: response, isLoading, error, mutate } = useFetchInfo(movieId);
@@ -155,7 +132,7 @@ export const DetailsContainer = memo(
                   </Text>
                 </View>
                 <Text className={"caption-c1-strong text-neutral-10-default"}>
-                  Christopher Nolan
+                  {data.credits.director}
                 </Text>
               </View>
             </View>
@@ -187,10 +164,10 @@ export const DetailsContainer = memo(
               className={"-mx-4 grow-0"}
               contentContainerClassName={"min-w-full"}
             >
-              <Casts casts={casts} />
+              <Casts casts={data.credits.casts} />
             </ScrollView>
 
-            <View className={"flex w-full flex-row items-center gap-2"}>
+            <View className={"mt-4 flex w-full flex-row items-center gap-2"}>
               <Button variant={"ghost"} size={"md"} iconOnly>
                 <Icon i={Heart} />
               </Button>
