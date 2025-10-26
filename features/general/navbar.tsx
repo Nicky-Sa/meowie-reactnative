@@ -1,25 +1,20 @@
 import { Tabs } from "expo-router";
 import { cn, tailwind } from "@/lib/utils";
-import { View } from "react-native";
-import {
-  ForwardRefExoticComponent,
-  PropsWithChildren,
-  RefAttributes,
-} from "react";
+import { Pressable, PressableProps, View } from "react-native";
+import { PropsWithChildren } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Svg, { SvgProps } from "react-native-svg";
 import { Icon } from "@/features/common/icon";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useAtom } from "jotai";
+import { jumpToFirstItemAtom } from "@/atoms";
+import { Tab } from "@/app/(tabs)/_layout";
 
 const TabIcon = ({
   children,
   focused,
 }: PropsWithChildren<{ focused: boolean }>) => {
   return (
-    <View
-      className={
-        "flex h-full w-full flex-col items-center justify-center gap-1.5"
-      }
-    >
+    <View className="flex h-full w-full flex-col items-center justify-center gap-1.5">
       {children}
       <View
         className={cn(
@@ -32,28 +27,21 @@ const TabIcon = ({
 };
 
 type Props = {
-  tabs: {
-    name: string;
-    title: string;
-    icon: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
-  }[];
+  tabs: Tab[];
 };
 
 export const Navbar = ({ tabs }: Props) => {
   const { bottom } = useSafeAreaInsets();
+  const state = useNavigationState((s) => s);
+  const [, setJumpToFirstItem] = useAtom(jumpToFirstItemAtom);
 
   return (
     <Tabs
-      safeAreaInsets={{
-        bottom: 15, // decrease default bottom inset to account for the height and expand clickable area
-      }}
+      safeAreaInsets={{ bottom: 15 }}
       screenOptions={{
-        tabBarIconStyle: {
-          width: "100%",
-          height: "150%",
-        },
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarIconStyle: { width: "100%", height: "150%" },
         tabBarActiveTintColor:
           tailwind.theme.backgroundColor.neutral[1].default,
         tabBarInactiveTintColor:
@@ -74,7 +62,7 @@ export const Navbar = ({ tabs }: Props) => {
         },
       }}
     >
-      {tabs.map((tab) => (
+      {tabs.map((tab, index) => (
         <Tabs.Screen
           key={tab.name}
           name={tab.name}
@@ -85,6 +73,20 @@ export const Navbar = ({ tabs }: Props) => {
                 <Icon i={tab.icon} height={size} width={size} color={color} />
               </TabIcon>
             ),
+            tabBarButton: (props: PressableProps) => {
+              const isFocused = state.index === index;
+              return (
+                <Pressable
+                  {...props}
+                  onTouchEnd={() => {
+                    if (isFocused) {
+                      // Re-tapping the same tab triggers scroll-to-top event
+                      setJumpToFirstItem(tab.name);
+                    }
+                  }}
+                />
+              );
+            },
           }}
         />
       ))}

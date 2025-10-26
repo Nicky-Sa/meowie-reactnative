@@ -1,6 +1,7 @@
 import { tailwind } from "@/lib/utils";
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
+import { TabsName } from "@/app/(tabs)/_layout";
 
 // It's allowed to play YT videos
 export const allowYTPlayingAtom = atom(true);
@@ -28,3 +29,5 @@ export const initialFiltersValue: Filters = {
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
 
 export const filtersQueryParamsAtom = atom("");
+
+export const jumpToFirstItemAtom = atom<TabsName | null>(null);

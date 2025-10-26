@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -14,13 +14,15 @@ import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useRenderScrollIndicator } from "@/features/movies/hooks";
 import { ScrollIndicator } from "@/features/movies/elements/scroll-indicator";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";
+import { useJumpToFirstItem } from "@/features/general/hooks/useJumpToFirstItem";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
+  const listRef = useRef<FlashListRef<number>>(null);
 
   const { data, dataLength, setSize, isLoading, error, mutate } =
     useFetchMoviesIds({
@@ -55,6 +57,13 @@ export const Content = () => {
     setCurrentIndex(0);
   }, [filtersQueryParams, scrollY]);
 
+  useJumpToFirstItem({
+    tabName: "movies/index",
+    jumpToFirstItemFn: () => {
+      listRef.current?.scrollToTop();
+    },
+  });
+
   if (error) {
     return (
       <MainBg>
@@ -71,6 +80,7 @@ export const Content = () => {
       ) : dataLength > 0 ? (
         <>
           <AnimatedFlashList
+            ref={listRef}
             key={JSON.stringify(filtersQueryParams)}
             data={data}
             keyExtractor={(id, index) => `movie-${id}-${index}`}
