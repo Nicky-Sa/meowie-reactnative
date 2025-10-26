@@ -25,7 +25,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
   const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
 
   const { width: w } = useScreenDimensions();
-  const width = w - 2.5 * Number(tailwind.theme.spacing[4]);
+  const width = w - 2.5 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
 
   const appState = useAppState();
 
@@ -90,7 +90,7 @@ export const TrailerPlayer = ({ YTKey, shouldPlay }: Props) => {
     >
       <YoutubePlayer
         ref={playerRef}
-        height={195}
+        height={200}
         width={width}
         play={playing && allowYTPlaying}
         volume={30}

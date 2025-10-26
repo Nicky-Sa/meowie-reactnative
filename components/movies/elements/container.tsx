@@ -120,7 +120,7 @@ export const DetailsContainer = memo(
                   aspectRatio: 2 / 3,
                   borderRadius: Number(tailwind.theme.borderRadius.lg),
                 }}
-                contentFit="contain"
+                contentFit="cover"
                 placeholder={{
                   blurhash: data.posterProps.blurhash,
                   width: 100,
@@ -141,7 +141,7 @@ export const DetailsContainer = memo(
                     {data.title}
                   </Text>
                 </ScrollView>
-                <View className={"flex flex-row gap-8"}>
+                <View className={"flex flex-row gap-5"}>
                   <Text className={"body-b2 text-neutral-5-default"}>
                     {data.publishYear}
                   </Text>
