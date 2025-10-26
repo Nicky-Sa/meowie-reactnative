@@ -20,6 +20,7 @@ import { tailwind } from "@/lib/utils";
 import { Casts } from "@/features/movies/elements/casts";
 import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
+import { Icon } from "@/features/common/icon";
 
 type Props = {
   movieId: number;
@@ -191,25 +192,13 @@ export const DetailsContainer = memo(
 
             <View className={"flex w-full flex-row items-center gap-2"}>
               <Button variant={"ghost"} size={"md"} iconOnly>
-                <Heart
-                  color={tailwind.theme.textColor.neutral[10].default}
-                  height={24}
-                  width={24}
-                />
+                <Icon i={Heart} />
               </Button>
               <Button variant={"ghost"} size={"md"} iconOnly>
-                <Eye
-                  color={tailwind.theme.textColor.neutral[10].default}
-                  height={24}
-                  width={24}
-                />
+                <Icon i={Eye} />
               </Button>
               <Button variant={"ghost"} size={"md"} iconOnly>
-                <Bookmark
-                  color={tailwind.theme.textColor.neutral[10].default}
-                  height={24}
-                  width={24}
-                />
+                <Icon i={Bookmark} />
               </Button>
               <Button
                 variant={"primary"}
@@ -220,11 +209,8 @@ export const DetailsContainer = memo(
                 <View
                   className={"flex flex-row items-center justify-center gap-2"}
                 >
-                  <Play
-                    color={tailwind.theme.textColor.neutral[10].default}
-                    height={24}
-                    width={24}
-                  />
+                  <Icon i={Play} />
+
                   <Text className={"body-b1-strong text-neutral-10-default"}>
                     Watch
                   </Text>

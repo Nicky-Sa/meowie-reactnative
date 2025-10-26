@@ -3,17 +3,17 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/bottom-sheet";
-import { NavArrowRight } from "iconoir-react-native";
+import { NavArrowRight, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/button";
 import { ReactNode, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import { Updater, useImmer } from "use-immer";
-import Close from "@/assets/icons/close.svg";
 import { Chip } from "@/features/common/chip";
 import _ from "lodash";
 import { Action } from "@/features/common/action";
 import { tailwind } from "@/lib/utils";
+import { Icon } from "@/features/common/icon";
 
 type Props<T extends keyof Filters> = {
   title: string;
@@ -68,11 +68,10 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
                   });
                 }}
                 style={{
-                  borderWidth: 0,
-                  paddingLeft: 8,
+                  paddingLeft: Number(tailwind.theme.spacing["2"]),
                 }}
               >
-                <Close />
+                <Icon i={Xmark} />
               </Button>
             </View>
           ) : (
@@ -81,11 +80,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
               <View className="invisible">
                 <Chip text="0" />
               </View>
-              <NavArrowRight
-                color={tailwind.theme.textColor.neutral[10].default}
-                height={24}
-                width={24}
-              />
+              <Icon i={NavArrowRight} />
             </View>
           )}
         </View>

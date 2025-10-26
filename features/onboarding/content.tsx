@@ -17,6 +17,7 @@ import { NavArrowRight } from "iconoir-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { Icon } from "@/features/common/icon";
 
 const items = [
   {
@@ -142,10 +143,9 @@ export const Content = () => {
               {currentIndex === items.length - 1 ? (
                 <Text>Let&#39;s Go!</Text>
               ) : (
-                <NavArrowRight
+                <Icon
+                  i={NavArrowRight}
                   color={tailwind.theme.textColor.neutral[1].default}
-                  height={24}
-                  width={24}
                 />
               )}
             </Button>

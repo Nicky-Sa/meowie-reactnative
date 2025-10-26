@@ -9,6 +9,7 @@ import { Chip } from "@/features/common/chip";
 import { tailwind } from "@/lib/utils";
 import _ from "lodash";
 import Logo from "@/assets/images/logo.svg";
+import { Icon } from "@/features/common/icon";
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
@@ -37,11 +38,7 @@ export const Header = () => {
           size={"md"}
           iconOnly
         >
-          <Filter
-            color={tailwind.theme.textColor.neutral[10].default}
-            height={24}
-            width={24}
-          />
+          <Icon i={Filter} />
         </Button>
         {modifiedFields > 0 && (
           <View className={"absolute -left-1 -top-1"}>

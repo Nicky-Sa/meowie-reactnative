@@ -18,6 +18,7 @@ import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
 import { tailwind } from "@/lib/utils";
+import { Icon } from "@/features/common/icon";
 
 export const Content = () => {
   const router = useRouter();
@@ -54,11 +55,7 @@ export const Content = () => {
                 size={"md"}
                 iconOnly
               >
-                <NavArrowLeft
-                  color={tailwind.theme.textColor.neutral[10].default}
-                  height={24}
-                  width={24}
-                />
+                <Icon i={NavArrowLeft} />
               </Button>
               <Text className={"title-t2-strong text-neutral-10-default"}>
                 Filters
@@ -77,11 +74,8 @@ export const Content = () => {
                 <View
                   className={"flex flex-row items-center justify-center gap-2"}
                 >
-                  <Erase
-                    color={tailwind.theme.textColor.neutral[10].default}
-                    height={24}
-                    width={24}
-                  />
+                  <Icon i={Erase} />
+
                   <Text className={"body-b1-strong text-neutral-10-default"}>
                     Clear
                   </Text>

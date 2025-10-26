@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { SvgProps } from "react-native-svg";
+import { Icon } from "@/features/common/icon";
 
 const TabIcon = ({
   children,
@@ -81,7 +82,7 @@ export const Navbar = ({ tabs }: Props) => {
             title: tab.title,
             tabBarIcon: ({ color, size, focused }) => (
               <TabIcon focused={focused}>
-                <tab.icon height={size} width={size} color={color} />
+                <Icon i={tab.icon} height={size} width={size} color={color} />
               </TabIcon>
             ),
           }}

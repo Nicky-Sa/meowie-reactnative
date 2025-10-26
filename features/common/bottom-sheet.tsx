@@ -13,10 +13,11 @@ import {
   BottomSheetFooter,
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
-import Close from "@/assets/icons/close.svg";
 import { Button } from "@/features/common/button";
 import { tailwind } from "@/lib/utils";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Xmark } from "iconoir-react-native";
+import { Icon } from "@/features/common/icon";
 
 type Props = {
   title: string;
@@ -160,7 +161,7 @@ export const BottomSheet = forwardRef<
                 size={"md"}
                 iconOnly
               >
-                <Close />
+                <Icon i={Xmark} />
               </Button>
             </View>
             {children}
