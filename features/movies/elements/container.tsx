@@ -9,7 +9,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { GoogleMore } from "@/features/movies/elements/google-more";
 import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
@@ -19,6 +18,8 @@ import { Genres } from "@/features/movies/elements/genres";
 import { Image } from "expo-image";
 import { tailwind } from "@/lib/utils";
 import { Casts } from "@/features/movies/elements/casts";
+import { Button } from "@/features/common/button";
+import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 
 type Props = {
   movieId: number;
@@ -188,7 +189,48 @@ export const DetailsContainer = memo(
               <Casts casts={casts} />
             </ScrollView>
 
-            <GoogleMore title={data.title} />
+            <View className={"flex w-full flex-row items-center gap-2"}>
+              <Button variant={"ghost"} size={"md"} iconOnly>
+                <Heart
+                  color={tailwind.theme.textColor.neutral[10].default}
+                  height={24}
+                  width={24}
+                />
+              </Button>
+              <Button variant={"ghost"} size={"md"} iconOnly>
+                <Eye
+                  color={tailwind.theme.textColor.neutral[10].default}
+                  height={24}
+                  width={24}
+                />
+              </Button>
+              <Button variant={"ghost"} size={"md"} iconOnly>
+                <Bookmark
+                  color={tailwind.theme.textColor.neutral[10].default}
+                  height={24}
+                  width={24}
+                />
+              </Button>
+              <Button
+                variant={"primary"}
+                size={"md"}
+                iconPosition={"left"}
+                className={"flex-1"}
+              >
+                <View
+                  className={"flex flex-row items-center justify-center gap-2"}
+                >
+                  <Play
+                    color={tailwind.theme.textColor.neutral[10].default}
+                    height={24}
+                    width={24}
+                  />
+                  <Text className={"body-b1-strong text-neutral-10-default"}>
+                    Watch
+                  </Text>
+                </View>
+              </Button>
+            </View>
           </View>
         )}
       </Animated.View>

@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/button";
-import ArrowLeft from "@/assets/icons/arrow-left.svg";
+import { NavArrowLeft } from "iconoir-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Genres } from "@/features/filters/items/genres";
 import { Languages } from "@/features/filters/items/languages";
@@ -18,6 +18,7 @@ import {
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
+import { tailwind } from "@/lib/utils";
 
 export const Content = () => {
   const router = useRouter();
@@ -43,18 +44,22 @@ export const Content = () => {
   };
 
   return (
-    <View className={"flex-1 bg-neutral-13-default"}>
+    <View className={"flex-1 bg-neutral-15-default"}>
       <SafeAreaView>
         <View className={"flex h-full flex-col justify-between p-4"}>
           <View className={"flex w-full flex-row items-center justify-between"}>
             <View className={"flex flex-row items-center justify-start gap-3"}>
               <Button
                 onPress={handleExit}
-                variant={"secondary"}
+                variant={"ghost"}
                 size={"md"}
-                square
+                iconOnly
               >
-                <ArrowLeft />
+                <NavArrowLeft
+                  color={tailwind.theme.textColor.neutral[10].default}
+                  height={24}
+                  width={24}
+                />
               </Button>
               <Text className={"title-t2-strong text-neutral-10-default"}>
                 Filters
@@ -66,7 +71,7 @@ export const Content = () => {
                 onPress={() => {
                   setFilters(initialFiltersValue);
                 }}
-                variant={"secondary"}
+                variant={"ghost"}
                 size={"md"}
                 iconPosition={"left"}
               >
@@ -89,12 +94,7 @@ export const Content = () => {
               <YearDecades />
               <TMDBRating />
             </View>
-            <Button
-              variant={"primary"}
-              size={"full"}
-              className={"text-center"}
-              onPress={handleExit}
-            >
+            <Button variant={"white"} size={"lg"} onPress={handleExit}>
               Apply
             </Button>
             <View

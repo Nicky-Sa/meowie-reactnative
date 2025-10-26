@@ -3,7 +3,7 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/bottom-sheet";
-import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
+import { NavArrowRight } from "iconoir-react-native";
 import { Button } from "@/features/common/button";
 import { ReactNode, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
@@ -12,6 +12,8 @@ import { Updater, useImmer } from "use-immer";
 import Close from "@/assets/icons/close.svg";
 import { Chip } from "@/features/common/chip";
 import _ from "lodash";
+import { Action } from "@/features/common/action";
+import { tailwind } from "@/lib/utils";
 
 type Props<T extends keyof Filters> = {
   title: string;
@@ -48,11 +50,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
 
   return (
     <>
-      <Button
-        onPress={() => bottomSheetRef.current?.present()}
-        variant={"secondary"}
-        size={"full"}
-      >
+      <Action onPress={() => bottomSheetRef.current?.present()}>
         <View className="flex w-full flex-row items-center justify-between">
           <Text className="body-b1-strong text-neutral-10-default">
             {title}
@@ -83,18 +81,22 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
               <View className="invisible">
                 <Chip text="0" />
               </View>
-              <AltArrowRight color={"#FAFAFA"} />
+              <NavArrowRight
+                color={tailwind.theme.textColor.neutral[10].default}
+                height={24}
+                width={24}
+              />
             </View>
           )}
         </View>
-      </Button>
+      </Action>
 
       <BottomSheet
         ref={bottomSheetRef}
         title={title}
         footer={
           <Button
-            variant="primary"
+            variant="white"
             size="full"
             className="text-center"
             onPress={() => {

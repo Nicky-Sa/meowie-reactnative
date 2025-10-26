@@ -1,6 +1,6 @@
 import { View, Platform, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Filter from "@/assets/icons/filter.svg";
+import { Filter } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { Button } from "@/features/common/button";
 import { useAtom } from "jotai";
@@ -33,14 +33,18 @@ export const Header = () => {
       <View className={"relative"}>
         <Button
           onPress={() => router.push("/filters")}
-          variant={"secondary"}
+          variant={"ghost"}
           size={"md"}
-          square
+          iconOnly
         >
-          <Filter />
+          <Filter
+            color={tailwind.theme.textColor.neutral[10].default}
+            height={24}
+            width={24}
+          />
         </Button>
         {modifiedFields > 0 && (
-          <View className={"absolute -left-3 -top-2"}>
+          <View className={"absolute -left-1 -top-1"}>
             <Chip
               text={modifiedFields}
               backgroundColor={tailwind.theme.backgroundColor.brand[1].default}

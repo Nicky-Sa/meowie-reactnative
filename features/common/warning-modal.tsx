@@ -33,7 +33,8 @@ export const WarningModal = ({ imageSrc, warningText, dismissText }: Props) => {
       <Button
         onPress={() => setWarningVisible(false)}
         variant={"primary"}
-        size={"full"}
+        size={"lg"}
+        className={"flex-1"}
       >
         {dismissText}
       </Button>

@@ -16,6 +16,7 @@ import { isRunningInExpoGo } from "expo";
 import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
+import { PortalHost } from "@gorhom/portal";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -118,6 +119,7 @@ function RootLayout() {
 
                     <Stack.Screen name="+not-found" />
                   </Stack>
+                  <PortalHost name="global-overlay" />
                 </InternetCheck>
               </BottomSheetModalProvider>
             </GestureHandlerRootView>

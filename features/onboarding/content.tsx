@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -13,7 +13,7 @@ import {
 } from "react-native-reanimated";
 import { tailwind } from "@/lib/utils";
 import { Button } from "@/features/common/button";
-import AltArrowRight from "@/assets/icons/alt-arrow-right.svg";
+import { NavArrowRight } from "iconoir-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
@@ -128,8 +128,8 @@ export const Content = () => {
             />
             <Button
               size={"lg"}
-              square
-              variant={"primary"}
+              iconOnly
+              variant={"white"}
               onPress={() => {
                 if (currentIndex === items.length - 1) {
                   AsyncStorage.setItem("onboarded", "true");
@@ -140,9 +140,13 @@ export const Content = () => {
               }}
             >
               {currentIndex === items.length - 1 ? (
-                "Let's Go"
+                <Text>Let&#39;s Go!</Text>
               ) : (
-                <AltArrowRight color={"#000000"} />
+                <NavArrowRight
+                  color={tailwind.theme.textColor.neutral[1].default}
+                  height={24}
+                  width={24}
+                />
               )}
             </Button>
           </View>

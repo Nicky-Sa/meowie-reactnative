@@ -156,9 +156,9 @@ export const BottomSheet = forwardRef<
               </Text>
               <Button
                 onPress={() => bottomSheetRef.current?.dismiss()}
-                variant={"secondary"}
+                variant={"ghost"}
                 size={"md"}
-                square
+                iconOnly
               >
                 <Close />
               </Button>

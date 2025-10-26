@@ -23,8 +23,9 @@ export const Selectable = ({
 }: Props) => {
   return (
     <Button
-      variant={currentValues.includes(item.id) ? "secondary" : "outline"}
-      size={"full"}
+      variant={currentValues.includes(item.id) ? "white" : "black"}
+      size={"lg"}
+      className={"flex-1"}
       onPress={() => {
         setCurrentValues((draft) => {
           const index = draft.indexOf(item.id);

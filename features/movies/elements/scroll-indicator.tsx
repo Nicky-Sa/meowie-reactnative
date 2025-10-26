@@ -4,8 +4,9 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  runOnJS,
 } from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
+import { Portal } from "@gorhom/portal";
 
 type Props = {
   shouldShow: boolean;
@@ -39,7 +40,7 @@ export const ScrollIndicator = ({ shouldShow }: Props) => {
   useEffect(() => {
     if (!shouldShow && show) {
       translateY.value = withTiming(100, { duration: 1000 }, () => {
-        runOnJS(setShow)(false);
+        scheduleOnRN(setShow, false);
       });
       opacity.value = withTiming(0, { duration: 1000 });
     }
@@ -48,22 +49,25 @@ export const ScrollIndicator = ({ shouldShow }: Props) => {
   if (!show) return null;
 
   return (
-    <Animated.View
-      style={[
-        {
-          position: "absolute",
-          bottom: 0,
-          height: "15%",
-          width: "25%",
-          alignSelf: "center",
-        },
-        animatedStyle,
-      ]}
-    >
-      <Rive
-        url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-first-scroll-motion.riv"
-        alignment={Alignment.Center}
-      />
-    </Animated.View>
+    <Portal hostName="global-overlay">
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            zIndex: 11,
+            bottom: 0,
+            height: "15%",
+            width: "25%",
+            alignSelf: "center",
+          },
+          animatedStyle,
+        ]}
+      >
+        <Rive
+          url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-first-scroll-motion.riv"
+          alignment={Alignment.Center}
+        />
+      </Animated.View>
+    </Portal>
   );
 };

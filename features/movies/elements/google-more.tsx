@@ -9,7 +9,7 @@ import { WebView } from "react-native-webview";
 import Google from "@/assets/icons/google.svg";
 import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
-import ArrowLeft from "@/assets/icons/arrow-left.svg";
+import { ArrowLeft } from "iconoir-react-native";
 import { Button } from "@/features/common/button";
 
 type Props = {
@@ -45,7 +45,7 @@ export const GoogleMore = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"secondary"} size={"md"} square>
+      <Button onPress={openLink} variant={"white"} size={"md"} iconOnly>
         <Google />
       </Button>
 
@@ -60,9 +60,9 @@ export const GoogleMore = ({ title }: Props) => {
           <View className="flex-row items-center gap-4 bg-neutral-12-default p-2">
             <Button
               onPress={() => setVisible(false)}
-              variant={"secondary"}
+              variant={"white"}
               size={"sm"}
-              square
+              iconOnly
             >
               <ArrowLeft />
             </Button>

@@ -49,7 +49,7 @@ export const Navbar = ({ tabs }: Props) => {
       screenOptions={{
         tabBarIconStyle: {
           width: "100%",
-          height: "130%",
+          height: "150%",
         },
         headerShown: false,
         tabBarShowLabel: false,
@@ -69,6 +69,7 @@ export const Navbar = ({ tabs }: Props) => {
           shadowOpacity: 0.2,
           shadowRadius: Number(tailwind.theme.borderRadius.xl),
           elevation: 5,
+          zIndex: 10,
         },
       }}
     >
