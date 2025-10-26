@@ -9,6 +9,8 @@ import { Chip } from "@/features/common/chip";
 import { tailwind } from "@/lib/utils";
 import _ from "lodash";
 import Logo from "@/assets/images/logo.svg";
+import LogoType from "@/assets/images/logo-type.svg";
+
 import { Icon } from "@/features/common/icon";
 
 export const Header = () => {
@@ -30,7 +32,7 @@ export const Header = () => {
       }}
     >
       <Logo />
-      <Text className={"title-t1 text-neutral-10-default"}>Meowie</Text>
+      <LogoType />
       <View className={"relative"}>
         <Button
           onPress={() => router.push("/filters")}
