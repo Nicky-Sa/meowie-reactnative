@@ -1,58 +1,18 @@
-import { PropsWithChildren, useEffect, useRef } from "react";
-import { LinearGradient } from "expo-linear-gradient";
+import { PropsWithChildren } from "react";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { tailwind } from "@/lib/utils";
+import { View } from "react-native";
+import { GradientCircle } from "@/features/movies/layout/gradient-circle";
 
 export const MainBg = ({ children }: PropsWithChildren) => {
   const [color] = useAtom(colorAtom);
-  const mildColor = color + "80"; // 50% opacity
-  const prevColor = useRef(mildColor); // Store the previous color
-  const backgroundColor = useSharedValue(prevColor.current); // Initialize with the current color
-
-  useEffect(() => {
-    // If the color prop changes, animate from the previous color to the new color
-    if (mildColor !== prevColor.current) {
-      backgroundColor.value = withTiming(mildColor, {
-        duration: 500, // 1 second animation
-      });
-      prevColor.current = mildColor; // Update the previous color
-    }
-  }, [backgroundColor, mildColor]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    backgroundColor: backgroundColor.value, // Apply the animated background color
-  }));
 
   return (
-    <Animated.View
-      style={[
-        {
-          width: "100%",
-        },
-        animatedStyle,
-      ]}
-    >
-      <LinearGradient
-        colors={[
-          "transparent",
-          tailwind.theme.backgroundColor.neutral[15].default,
-        ]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 0.2 }}
-        style={{
-          width: "100%",
-          height: "100%",
-          // paddingHorizontal: Number(tailwind.theme.spacing["4"]),
-        }}
-      >
-        {children}
-      </LinearGradient>
-    </Animated.View>
+    <View className={"relative h-full w-full bg-neutral-15-default"}>
+      <View className={"absolute top-0"}>
+        <GradientCircle color={color} />
+      </View>
+      {children}
+    </View>
   );
 };

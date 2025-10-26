@@ -64,39 +64,37 @@ export const Content = () => {
   }
 
   return (
-    <>
-      <MainBg>
-        <Header />
-        {isLoading ? (
-          <MoviesSkeleton />
-        ) : dataLength > 0 ? (
-          <>
-            <AnimatedFlashList
-              key={JSON.stringify(filtersQueryParams)}
-              data={data}
-              keyExtractor={(id, index) => `movie-${id}-${index}`}
-              renderItem={({ item: movieId, index }) => (
-                <DetailsContainer
-                  key={index}
-                  movieId={movieId}
-                  shouldPlay={index === currentIndex}
-                  index={index}
-                  scrollY={scrollY}
-                />
-              )}
-              pagingEnabled
-              scrollEventThrottle={16}
-              onScroll={scrollHandler}
-              showsVerticalScrollIndicator={false}
-            />
-            {shouldRenderScrollIndicator && (
-              <ScrollIndicator shouldShow={currentIndex <= 0} />
+    <MainBg>
+      <Header />
+      {isLoading ? (
+        <MoviesSkeleton />
+      ) : dataLength > 0 ? (
+        <>
+          <AnimatedFlashList
+            key={JSON.stringify(filtersQueryParams)}
+            data={data}
+            keyExtractor={(id, index) => `movie-${id}-${index}`}
+            renderItem={({ item: movieId, index }) => (
+              <DetailsContainer
+                key={index}
+                movieId={movieId}
+                shouldPlay={index === currentIndex}
+                index={index}
+                scrollY={scrollY}
+              />
             )}
-          </>
-        ) : (
-          <MoviesEmptyState />
-        )}
-      </MainBg>
-    </>
+            pagingEnabled
+            scrollEventThrottle={16}
+            onScroll={scrollHandler}
+            showsVerticalScrollIndicator={false}
+          />
+          {shouldRenderScrollIndicator && (
+            <ScrollIndicator shouldShow={currentIndex <= 0} />
+          )}
+        </>
+      ) : (
+        <MoviesEmptyState />
+      )}
+    </MainBg>
   );
 };
