@@ -7,7 +7,7 @@ type Props = {
   tabName: TabsName | null;
   jumpToFirstItemFn: () => void;
 };
-
+// TODO: fix keeping scroll position, but still reset on double tab of current tab.
 export const useJumpToFirstItem = ({ tabName, jumpToFirstItemFn }: Props) => {
   const [jumpToFirstItem, setJumpToFirstItem] = useAtom(jumpToFirstItemAtom);
 
@@ -16,5 +16,5 @@ export const useJumpToFirstItem = ({ tabName, jumpToFirstItemFn }: Props) => {
       jumpToFirstItemFn();
       setJumpToFirstItem(null);
     }
-  }, [jumpToFirstItem, setJumpToFirstItem, tabName]);
+  }, [jumpToFirstItem, jumpToFirstItemFn, setJumpToFirstItem, tabName]);
 };

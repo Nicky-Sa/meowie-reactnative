@@ -52,11 +52,6 @@ export const Content = () => {
     },
   });
 
-  useEffect(() => {
-    scrollY.value = 0;
-    setCurrentIndex(0);
-  }, [filtersQueryParams, scrollY]);
-
   useJumpToFirstItem({
     tabName: "movies/index",
     jumpToFirstItemFn: () => {
