@@ -13,10 +13,12 @@ export const MoviesSkeleton = () => {
         }
         style={contentStyle}
       >
+        <SkeletonItem className={"h-20"} />
+        <SkeletonItem className={"h-48"} />
+        <SkeletonItem className={"h-8"} />
         <SkeletonItem className={"h-16"} />
-        <SkeletonItem className={"h-40"} />
-        <SkeletonItem className={"h-16"} />
-        <SkeletonItem className={"h-40"} />
+        <SkeletonItem className={"h-8"} />
+        <SkeletonItem className={"h-8"} />
         <SkeletonItem className={"h-16"} />
       </View>
     </View>
