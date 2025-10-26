@@ -14,7 +14,7 @@ export const GradientCircle = ({ color }: Props) => {
     () => [
       { color, offset: "0", opacity: "0.25" },
       {
-        color: "transparent",
+        color,
         offset: "1",
         opacity: "0",
       },
@@ -22,16 +22,8 @@ export const GradientCircle = ({ color }: Props) => {
     [color],
   );
   return (
-    <View className={"w-full items-center justify-center"}>
-      <View className={"h-32"} style={{ width }}>
-        <RadialGradient
-          x="50%"
-          y="50%"
-          rx="60%"
-          ry="50%"
-          colorList={colorList}
-        />
-      </View>
+    <View className={"h-56 items-center justify-center"} style={{ width }}>
+      <RadialGradient x="50%" y="50%" rx="80%" ry="50%" colorList={colorList} />
     </View>
   );
 };

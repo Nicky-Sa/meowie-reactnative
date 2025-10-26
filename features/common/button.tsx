@@ -28,7 +28,7 @@ export const buttonVariants = {
   "unselected-segment": {
     backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
     borderColor: tailwind.theme.borderColor.neutral[3].default,
-    borderWidth: 1,
+    borderWidth: 2,
   },
   "selected-segment": {
     backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
