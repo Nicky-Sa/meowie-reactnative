@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/general/navbar";
+import { Navbar } from "@/features/general/navbar";
 import { Bookmark, HomeSimple, Search, User } from "iconoir-react-native";
 
 const tabs = [

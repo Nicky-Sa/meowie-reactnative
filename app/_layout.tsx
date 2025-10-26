@@ -15,7 +15,7 @@ import { PostHogProvider } from "posthog-react-native";
 import { isRunningInExpoGo } from "expo";
 import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
-import { InternetCheck } from "@/components/general/internet-check";
+import { InternetCheck } from "@/features/general/internet-check";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
