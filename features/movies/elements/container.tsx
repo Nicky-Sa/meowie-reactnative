@@ -12,7 +12,7 @@ import { colorAtom } from "@/atoms";
 import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
-import { useMovieContentStyle } from "@/features/movies/hooks";
+import { useMovieContentStyle } from "@/features/movies/hooks/useMovieContentStyle";
 import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
 import { Genres } from "@/features/movies/elements/genres";
 import { Image } from "expo-image";

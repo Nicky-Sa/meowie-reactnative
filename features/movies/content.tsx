@@ -12,7 +12,7 @@ import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
-import { useRenderScrollIndicator } from "@/features/movies/hooks";
+import { useRenderScrollIndicator } from "@/features/movies/hooks/useRenderScrollIndicator";
 import { ScrollIndicator } from "@/features/movies/elements/scroll-indicator";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";

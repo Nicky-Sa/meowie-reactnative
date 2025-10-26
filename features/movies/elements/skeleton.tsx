@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { useMovieContentStyle } from "@/features/movies/hooks";
+import { useMovieContentStyle } from "@/features/movies/hooks/useMovieContentStyle";
 import { cn } from "@/lib/utils";
 
 export const MoviesSkeleton = () => {

@@ -1,17 +1,5 @@
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-
-export const useMovieContentStyle = () => {
-  const { height } = useScreenDimensions();
-  const { top } = useSafeAreaInsets();
-
-  return {
-    height,
-    paddingTop: top + 80, // 80 is to account for the header
-  };
-};
 
 export const useRenderScrollIndicator = (currentIndex: number) => {
   const [render, setRender] = useState(false);
