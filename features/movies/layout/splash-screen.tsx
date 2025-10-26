@@ -45,7 +45,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
         splashStyle,
       ]}
     >
-      <View className={"h-full w-full bg-neutral-13-default"}>
+      <View className={"h-full w-full bg-neutral-15-default"}>
         <Rive
           url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-splash.riv"
           alignment={Alignment.Center}

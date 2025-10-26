@@ -5,24 +5,45 @@ import { PropsWithChildren, useState } from "react";
 
 export const buttonVariants = {
   primary: {
-    backgroundColor: [tailwind.theme.backgroundColor.info[1].default],
+    backgroundColor: tailwind.theme.backgroundColor.info[1].default,
     borderColor: tailwind.theme.borderColor.brand[1].default,
+    borderWidth: 1,
   },
   white: {
-    backgroundColor: [tailwind.theme.backgroundColor.neutral[1].default],
+    backgroundColor: tailwind.theme.backgroundColor.neutral[1].default,
     borderColor: tailwind.theme.borderColor.neutral[7].default,
+    borderWidth: 1,
   },
   black: {
-    backgroundColor: [tailwind.theme.backgroundColor.neutral[14].default],
+    backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
     borderColor: tailwind.theme.borderColor.neutral[3].default,
+    borderWidth: 1,
   },
   ghost: {
-    backgroundColor: ["transparent"],
+    backgroundColor: "transparent",
     borderColor: "transparent",
+    borderWidth: 0,
+  },
+  // for segments in selectable
+  "unselected-segment": {
+    backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
+    borderColor: tailwind.theme.borderColor.neutral[3].default,
+    borderWidth: 1,
+  },
+  "selected-segment": {
+    backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
+    borderColor: tailwind.theme.borderColor.brand[1].default,
+    borderWidth: 2,
   },
 } as const;
 
 export const buttonSizes = {
+  segment: {
+    borderRadius: Number(tailwind.theme.borderRadius.xl),
+    paddingVertical: Number(tailwind.theme.spacing["4"]),
+    paddingHorizontal: Number(tailwind.theme.spacing["8"]),
+    iconOffset: 8,
+  },
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
@@ -86,9 +107,9 @@ export const Button = ({
       <View
         className={cn("overflow-hidden", focused && "opacity-50")}
         style={{
-          backgroundColor: buttonVariants[variant].backgroundColor[0],
+          backgroundColor: buttonVariants[variant].backgroundColor,
           borderRadius: buttonSizes[size].borderRadius,
-          borderWidth: 1,
+          borderWidth: buttonVariants[variant].borderWidth,
           borderColor: buttonVariants[variant].borderColor,
           paddingVertical: buttonSizes[size].paddingVertical,
           paddingRight: iconOnly

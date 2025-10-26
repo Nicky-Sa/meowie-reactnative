@@ -93,7 +93,7 @@ export const BottomSheet = forwardRef<
           }}
           backgroundStyle={{
             backgroundColor:
-              tailwind.theme.backgroundColor.neutral["14"].default,
+              tailwind.theme.backgroundColor.neutral["15"].default,
           }}
           handleIndicatorStyle={{
             backgroundColor:
@@ -124,7 +124,7 @@ export const BottomSheet = forwardRef<
                 }}
               >
                 <View
-                  className="w-full bg-neutral-14-default p-4"
+                  className="w-full bg-neutral-15-default p-4"
                   style={{
                     paddingBottom:
                       insets.bottom +
@@ -141,7 +141,7 @@ export const BottomSheet = forwardRef<
           )}
         >
           <View
-            className={"flex flex-1 flex-col bg-neutral-14-default px-4"}
+            className={"flex flex-1 flex-col bg-neutral-15-default px-4"}
             style={{
               paddingBottom: footerHeight + 16,
             }}

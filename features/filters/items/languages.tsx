@@ -1,6 +1,6 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { FilterItem, Selectable } from "@/features/filters/elements/selectable";
+import { FilterItem, Segment } from "@/features/filters/elements/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
@@ -44,11 +44,11 @@ export const Languages = () => {
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <View className={"flex w-full flex-col gap-2"}>
             {languages.map((lang) => (
-              <Selectable
+              <Segment
                 key={lang.id}
                 item={lang}
-                currentValues={currentValues}
                 setCurrentValues={setCurrentValues}
+                isSelected={currentValues.includes(lang.id)}
                 multiple
               />
             ))}

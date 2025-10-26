@@ -1,6 +1,6 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { FilterItem, Selectable } from "@/features/filters/elements/selectable";
+import { FilterItem, Segment } from "@/features/filters/elements/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
@@ -44,11 +44,11 @@ export const Genres = () => {
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <View className="flex flex-row flex-wrap gap-2">
             {genres.map((genre) => (
-              <Selectable
+              <Segment
                 key={genre.id}
                 item={genre}
-                currentValues={currentValues}
                 setCurrentValues={setCurrentValues}
+                isSelected={currentValues.includes(genre.id)}
                 multiple
               />
             ))}

@@ -10,22 +10,21 @@ export type FilterItem = {
 
 type Props = {
   item: FilterItem;
-  currentValues: string[];
   setCurrentValues: Updater<string[]>;
+  isSelected: boolean;
   multiple?: boolean;
 };
 
-export const Selectable = ({
+export const Segment = ({
   item,
-  currentValues,
   setCurrentValues,
+  isSelected,
   multiple,
 }: Props) => {
   return (
     <Button
-      variant={currentValues.includes(item.id) ? "white" : "black"}
-      size={"lg"}
-      className={"flex-1"}
+      variant={isSelected ? "selected-segment" : "unselected-segment"}
+      size={"segment"}
       onPress={() => {
         setCurrentValues((draft) => {
           const index = draft.indexOf(item.id);
@@ -44,7 +43,7 @@ export const Selectable = ({
         });
       }}
       style={{
-        ...(currentValues.includes(item.id) && {
+        ...(isSelected && {
           borderColor: tailwind.theme.borderColor.brand[1].default,
         }),
       }}

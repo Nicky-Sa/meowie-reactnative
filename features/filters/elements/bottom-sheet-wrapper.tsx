@@ -97,7 +97,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         footer={
           <Button
             variant="white"
-            size="full"
+            size="lg"
             className="text-center"
             onPress={() => {
               // Commit local draft to filtersAtom

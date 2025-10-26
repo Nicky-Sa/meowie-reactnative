@@ -1,12 +1,11 @@
 import { useRouter } from "expo-router";
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/button";
-import { NavArrowLeft } from "iconoir-react-native";
+import { NavArrowLeft, Erase } from "iconoir-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Genres } from "@/features/filters/items/genres";
 import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
-import Close from "@/assets/icons/close.svg";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
 import {
@@ -78,7 +77,11 @@ export const Content = () => {
                 <View
                   className={"flex flex-row items-center justify-center gap-2"}
                 >
-                  <Close />
+                  <Erase
+                    color={tailwind.theme.textColor.neutral[10].default}
+                    height={24}
+                    width={24}
+                  />
                   <Text className={"body-b1-strong text-neutral-10-default"}>
                     Clear
                   </Text>

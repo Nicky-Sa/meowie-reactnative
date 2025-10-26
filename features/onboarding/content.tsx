@@ -82,7 +82,7 @@ export const Content = () => {
   );
 
   return (
-    <View className={"h-full flex-1 justify-center bg-neutral-13-default"}>
+    <View className={"h-full flex-1 justify-center bg-neutral-15-default"}>
       <SafeAreaView>
         <View className={"h-[90%] justify-start gap-6 py-2"}>
           <Carousel

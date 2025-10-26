@@ -1,6 +1,6 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { Selectable } from "@/features/filters/elements/selectable";
+import { Segment } from "@/features/filters/elements/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
@@ -33,11 +33,11 @@ export const YearDecades = () => {
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
           <View className={"flex w-full flex-col gap-2"}>
             {decades.map((dec) => (
-              <Selectable
+              <Segment
                 key={dec.id}
                 item={dec}
-                currentValues={currentValues}
                 setCurrentValues={setCurrentValues}
+                isSelected={currentValues.includes(dec.id)}
               />
             ))}
           </View>
