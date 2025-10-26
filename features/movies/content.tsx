@@ -47,7 +47,7 @@ export const Content = () => {
         contentOffset.y + layoutMeasurement.height >=
         layoutMeasurement.height * (dataLength - 1)
       ) {
-        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1);
+        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1); // in case dataLength was smaller than 20
       }
     },
   });

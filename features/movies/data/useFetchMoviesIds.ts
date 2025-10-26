@@ -14,16 +14,13 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
   ); // Random page from 1 to 100
 
   const getKey = useCallback(
-    (
-      pageIndex: number,
-      previousPageData: {
-        results: Success<MovieIdsResDTO>["data"];
-      },
-    ) => {
+    (pageIndex: number, previousPageData: Success<MovieIdsResDTO>) => {
       const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
 
       // Stop fetching if there are no more results
-      if (previousPageData && !previousPageData.results) return null;
+      if (previousPageData && !previousPageData.data.results) {
+        return null;
+      }
 
       return `${baseUrl}?page=${pageIndex + (queryParams ? 1 : initialRandomPage)}&${queryParams}`; // SWR key
     },
