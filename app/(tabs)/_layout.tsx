@@ -1,19 +1,6 @@
 import { Navbar } from "@/features/general/navbar";
 import { Bookmark, HomeSimple, Search, User } from "iconoir-react-native";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import Svg, { SvgProps } from "react-native-svg";
-
-export type TabsName =
-  | "movies/index"
-  | "search/index"
-  | "watchlist/index"
-  | "profile/index";
-
-export type Tab = {
-  name: TabsName;
-  title: string;
-  icon: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
-};
+import { Tab } from "@/features/general/navbar/types";
 
 const tabs: Tab[] = [
   {

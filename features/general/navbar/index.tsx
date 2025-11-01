@@ -4,27 +4,7 @@ import { Pressable, PressableProps, View } from "react-native";
 import { PropsWithChildren } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/features/common/icon";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
-import { useAtom } from "jotai";
-import { jumpToFirstItemAtom } from "@/atoms";
-import { Tab } from "@/app/(tabs)/_layout";
-
-const TabIcon = ({
-  children,
-  focused,
-}: PropsWithChildren<{ focused: boolean }>) => {
-  return (
-    <View className="flex h-full w-full flex-col items-center justify-center gap-1.5">
-      {children}
-      <View
-        className={cn(
-          "h-1 w-3 rounded-full",
-          focused && "bg-neutral-1-default",
-        )}
-      />
-    </View>
-  );
-};
+import { Tab } from "@/features/general/navbar/types";
 
 type Props = {
   tabs: Tab[];
@@ -32,8 +12,6 @@ type Props = {
 
 export const Navbar = ({ tabs }: Props) => {
   const { bottom } = useSafeAreaInsets();
-  const state = useNavigationState((s) => s);
-  const [, setJumpToFirstItem] = useAtom(jumpToFirstItemAtom);
 
   return (
     <Tabs
@@ -74,22 +52,28 @@ export const Navbar = ({ tabs }: Props) => {
               </TabIcon>
             ),
             tabBarButton: (props: PressableProps) => {
-              const isFocused = state.index === index;
-              return (
-                <Pressable
-                  {...props}
-                  onTouchEnd={() => {
-                    if (isFocused) {
-                      // Re-tapping the same tab triggers scroll-to-top event
-                      setJumpToFirstItem(tab.name);
-                    }
-                  }}
-                />
-              );
+              return <Pressable {...props} />;
             },
           }}
         />
       ))}
     </Tabs>
+  );
+};
+
+const TabIcon = ({
+  children,
+  focused,
+}: PropsWithChildren<{ focused: boolean }>) => {
+  return (
+    <View className="flex h-full w-full flex-col items-center justify-center gap-1.5">
+      {children}
+      <View
+        className={cn(
+          "h-1 w-3 rounded-full",
+          focused && "bg-neutral-1-default",
+        )}
+      />
+    </View>
   );
 };

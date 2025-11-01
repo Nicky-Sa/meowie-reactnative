@@ -16,48 +16,27 @@ import { useRenderScrollIndicator } from "@/features/movies/hooks/useRenderScrol
 import { ScrollIndicator } from "@/features/movies/elements/scroll-indicator";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";
-import { useJumpToFirstItem } from "@/features/general/hooks/useJumpToFirstItem";
+import { useScrollToTop } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RootTabParamList } from "@/features/general/navbar/types";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
-  const listRef = useRef<FlashListRef<number>>(null);
+  const listRef = useListRef();
 
   const { data, dataLength, setSize, isLoading, error, mutate } =
     useFetchMoviesIds({
       queryParams: filtersQueryParams,
     });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollY = useSharedValue(0); // Track scroll position
+  const { scrollHandler, scrollY, currentIndex } = useScrollHandler({
+    dataLength,
+    setSize,
+  });
   const shouldRenderScrollIndicator = useRenderScrollIndicator(currentIndex);
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      const { contentOffset, layoutMeasurement } = event;
-      const progress = contentOffset.y / layoutMeasurement.height;
-      scrollY.value = contentOffset.y; // Update shared value
-      const activeIndex = Math.round(progress);
-
-      scheduleOnRN(setCurrentIndex, activeIndex);
-
-      // Trigger load more when near the bottom
-      if (
-        contentOffset.y + layoutMeasurement.height >=
-        layoutMeasurement.height * (dataLength - 1)
-      ) {
-        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1); // in case dataLength was smaller than 20
-      }
-    },
-  });
-
-  useJumpToFirstItem({
-    tabName: "movies/index",
-    jumpToFirstItemFn: () => {
-      listRef.current?.scrollToTop();
-    },
-  });
 
   if (error) {
     return (
@@ -102,4 +81,53 @@ export const Content = () => {
       )}
     </MainBg>
   );
+};
+
+const useListRef = () => {
+  const listRef = useRef<FlashListRef<number>>(null);
+  const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
+
+  useScrollToTop(listRef);
+  useEffect(() => {
+    return navigation.addListener("tabPress", () => {
+      // Only scroll to top if already focused
+      const isFocused = navigation.isFocused();
+      if (isFocused) {
+        listRef.current?.scrollToTop();
+      }
+    });
+  }, [navigation]);
+
+  return listRef;
+};
+
+const useScrollHandler = ({
+  dataLength,
+  setSize,
+}: {
+  dataLength: number;
+  setSize: (size: number) => void;
+}) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollY = useSharedValue(0); // Track scroll position
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      const { contentOffset, layoutMeasurement } = event;
+      const progress = contentOffset.y / layoutMeasurement.height;
+      scrollY.value = contentOffset.y; // Update shared value
+      const activeIndex = Math.round(progress);
+
+      scheduleOnRN(setCurrentIndex, activeIndex);
+
+      // Trigger load more when near the bottom
+      if (
+        contentOffset.y + layoutMeasurement.height >=
+        layoutMeasurement.height * (dataLength - 1)
+      ) {
+        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1); // in case dataLength was smaller than 20
+      }
+    },
+  });
+  return { scrollHandler, scrollY, currentIndex };
 };
