@@ -7,32 +7,38 @@ export const buttonVariants = {
   primary: {
     backgroundColor: tailwind.theme.backgroundColor.info[1].default,
     borderColor: tailwind.theme.borderColor.brand[1].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 1,
   },
   white: {
     backgroundColor: tailwind.theme.backgroundColor.neutral[1].default,
     borderColor: tailwind.theme.borderColor.neutral[7].default,
+    textColor: tailwind.theme.textColor.neutral[1].default,
     borderWidth: 1,
   },
   black: {
     backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
     borderColor: tailwind.theme.borderColor.neutral[3].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 1,
   },
   ghost: {
     backgroundColor: "transparent",
     borderColor: "transparent",
+    textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 0,
   },
   // for segments in selectable
   "unselected-segment": {
     backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
     borderColor: tailwind.theme.borderColor.neutral[3].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 2,
   },
   "selected-segment": {
     backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
     borderColor: tailwind.theme.borderColor.brand[1].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 2,
   },
 } as const;
@@ -129,10 +135,8 @@ export const Button = ({
       >
         {typeof children === "string" ? (
           <Text
-            className={cn(
-              "body-b1-strong text-center text-neutral-1-default",
-              props.className,
-            )}
+            style={{ color: buttonVariants[variant].textColor }}
+            className={cn("body-b1-strong text-center", props.className)}
           >
             {children}
           </Text>

@@ -26,7 +26,9 @@ export const CenteredModal = ({
         }
       >
         <View
-          className={"mx-6 flex-col gap-4 rounded-xl bg-neutral-14-default p-4"}
+          className={
+            "mx-6 flex-col gap-4 rounded-xl bg-neutral-15-default px-4 py-6"
+          }
         >
           {children}
         </View>

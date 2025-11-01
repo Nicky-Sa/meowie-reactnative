@@ -1,16 +1,20 @@
-import { Text } from "react-native";
-import { Image, ImageSource } from "expo-image";
+import { Text, View } from "react-native";
 import { Button } from "@/features/common/button";
-import { useState } from "react";
+import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
 import { CenteredModal } from "@/features/common/centered-modal";
+import Svg, { SvgProps } from "react-native-svg";
 
 type Props = {
-  imageSrc: ImageSource;
+  img: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
   warningText: string;
   dismissText: string;
 };
 
-export const WarningModal = ({ imageSrc, warningText, dismissText }: Props) => {
+export const WarningModal = ({
+  img: ImageComponent,
+  warningText,
+  dismissText,
+}: Props) => {
   const [warningVisible, setWarningVisible] = useState(true);
 
   return (
@@ -18,26 +22,20 @@ export const WarningModal = ({ imageSrc, warningText, dismissText }: Props) => {
       modalVisible={warningVisible}
       setModalVisible={setWarningVisible}
     >
-      <Image
-        source={imageSrc}
-        style={{
-          width: 150,
-          height: 150,
-          alignSelf: "center",
-        }}
-        contentFit="contain"
-      />
-      <Text className={"body-b1 text-center text-neutral-10-default"}>
-        {warningText}
-      </Text>
-      <Button
-        onPress={() => setWarningVisible(false)}
-        variant={"primary"}
-        size={"lg"}
-        className={"flex-1"}
-      >
-        {dismissText}
-      </Button>
+      <View className={"flex flex-col items-center justify-center gap-6"}>
+        <ImageComponent />
+        <Text className={"body-b1 text-center text-neutral-10-default"}>
+          {warningText}
+        </Text>
+        <Button
+          onPress={() => setWarningVisible(false)}
+          variant={"white"}
+          size={"md"}
+          className={"w-full"}
+        >
+          {dismissText}
+        </Button>
+      </View>
     </CenteredModal>
   );
 };

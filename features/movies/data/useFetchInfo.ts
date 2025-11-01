@@ -1,10 +1,16 @@
-import useSWR, { Fetcher } from "swr";
+import useSWR from "swr";
 import { MoviesResDTO } from "@/features/movies/data/dto/movies.dto";
-import { Success } from "@/features/general/dto/success.dto";
+import { SuccessResponse } from "@/features/general/dto/success.dto";
+import { fetcher } from "@/features/movies/data/fetcher";
 
 export const useFetchInfo = (id: number) => {
-  const fetcher: Fetcher<Success<MoviesResDTO>> = (url: string) =>
-    fetch(url).then((r) => r.json());
   const url = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/${id}`;
-  return useSWR(url, fetcher);
+  const { data: response, ...rest } = useSWR<SuccessResponse<MoviesResDTO>>(
+    url,
+    fetcher,
+  );
+  return {
+    data: response?.data,
+    ...rest,
+  };
 };

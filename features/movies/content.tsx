@@ -38,46 +38,44 @@ export const Content = () => {
   });
   const shouldRenderScrollIndicator = useRenderScrollIndicator(currentIndex);
 
-  if (error) {
-    return (
-      <MainBg>
-        <MoviesErrorState tryAgain={mutate} />
-      </MainBg>
-    );
-  }
-
   return (
     <MainBg>
-      <Header />
-      {isLoading ? (
-        <MoviesSkeleton />
-      ) : dataLength > 0 ? (
+      {error ? (
+        <MoviesErrorState tryAgain={mutate} />
+      ) : (
         <>
-          <AnimatedFlashList
-            ref={listRef}
-            key={JSON.stringify(filtersQueryParams)}
-            data={data}
-            keyExtractor={(id, index) => `movie-${id}-${index}`}
-            renderItem={({ item: movieId, index }) => (
-              <DetailsContainer
-                key={index}
-                movieId={movieId}
-                shouldPlay={index === currentIndex}
-                index={index}
-                scrollY={scrollY}
+          <Header />
+          {isLoading ? (
+            <MoviesSkeleton />
+          ) : dataLength > 0 ? (
+            <>
+              <AnimatedFlashList
+                ref={listRef}
+                key={JSON.stringify(filtersQueryParams)}
+                data={data}
+                keyExtractor={(id, index) => `movie-${id}-${index}`}
+                renderItem={({ item: movieId, index }) => (
+                  <DetailsContainer
+                    key={index}
+                    movieId={movieId}
+                    shouldPlay={index === currentIndex}
+                    index={index}
+                    scrollY={scrollY}
+                  />
+                )}
+                pagingEnabled
+                scrollEventThrottle={16}
+                onScroll={scrollHandler}
+                showsVerticalScrollIndicator={false}
               />
-            )}
-            pagingEnabled
-            scrollEventThrottle={16}
-            onScroll={scrollHandler}
-            showsVerticalScrollIndicator={false}
-          />
-          {shouldRenderScrollIndicator && (
-            <ScrollIndicator shouldShow={currentIndex <= 0} />
+              {shouldRenderScrollIndicator && (
+                <ScrollIndicator shouldShow={currentIndex <= 0} />
+              )}
+            </>
+          ) : (
+            <MoviesEmptyState />
           )}
         </>
-      ) : (
-        <MoviesEmptyState />
       )}
     </MainBg>
   );

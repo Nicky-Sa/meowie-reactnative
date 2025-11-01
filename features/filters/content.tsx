@@ -17,7 +17,6 @@ import {
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
-import { tailwind } from "@/lib/utils";
 import { Icon } from "@/features/common/icon";
 
 export const Content = () => {

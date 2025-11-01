@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { Fetcher } from "swr";
 import useSWRInfinite from "swr/infinite";
 import { MovieIdsResDTO } from "@/features/movies/data/dto/movies.dto";
-import { Success } from "@/features/general/dto/success.dto";
+import { SuccessResponse } from "@/features/general/dto/success.dto";
+import { fetcher } from "@/features/movies/data/fetcher";
 
 type Props = {
   queryParams: string;
@@ -14,7 +14,7 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
   ); // Random page from 1 to 100
 
   const getKey = useCallback(
-    (pageIndex: number, previousPageData: Success<MovieIdsResDTO>) => {
+    (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDTO>) => {
       const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
 
       // Stop fetching if there are no more results
@@ -27,16 +27,9 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
     [initialRandomPage, queryParams],
   );
 
-  const fetcher: Fetcher<Success<MovieIdsResDTO>> = (url: string) =>
-    fetch(url).then((r) => r.json());
-  const {
-    data: response,
-    size,
-    setSize,
-    isLoading,
-    error,
-    mutate,
-  } = useSWRInfinite(getKey, fetcher);
+  const { data: response, ...rest } = useSWRInfinite<
+    SuccessResponse<MovieIdsResDTO>
+  >(getKey, fetcher);
 
   const idList = Array.isArray(response)
     ? response.flatMap((page) => page.data.results.map((movie) => movie.id)) // Extract `id` from each movie
@@ -45,10 +38,6 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
   return {
     data: idList,
     dataLength: idList.length,
-    size,
-    setSize,
-    isLoading,
-    error,
-    mutate,
+    ...rest,
   };
 };
