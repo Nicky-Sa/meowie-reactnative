@@ -9,7 +9,7 @@ export const MainBg = ({ children }: PropsWithChildren) => {
 
   return (
     <View className={"relative h-full w-full bg-neutral-15-default"}>
-      <View className={"absolute -top-16 z-20"}>
+      <View className={"absolute -top-16"}>
         <GradientCircle color={color} />
       </View>
       {children}
