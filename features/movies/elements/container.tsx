@@ -15,12 +15,13 @@ import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { useMovieContentStyle } from "@/features/movies/hooks/useMovieContentStyle";
 import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
 import { Genres } from "@/features/movies/elements/genres";
-import { Image } from "expo-image";
-import { tailwind } from "@/lib/utils";
 import { Casts } from "@/features/movies/elements/casts";
 import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
+import { EnlargeableImage } from "@/features/general/enlargeable-image";
+import { Image } from "expo-image";
+import { tailwind } from "@/lib/utils";
 
 type Props = {
   movieId: number;
@@ -89,21 +90,25 @@ export const DetailsContainer = memo(
                 "flex w-full flex-row items-stretch justify-start gap-2"
               }
             >
-              <Image
+              <EnlargeableImage
                 source={data.posterPath}
-                style={{
-                  flexBasis: "15%",
-                  aspectRatio: 2 / 3,
-                  borderRadius: Number(tailwind.theme.borderRadius.lg),
-                }}
-                contentFit="cover"
-                placeholder={{
-                  blurhash: data.posterProps.blurhash,
-                  width: 100,
-                  height: 150,
-                }}
-                transition={500}
+                blurhash={data.posterProps.blurhash}
               />
+              {/*<Image*/}
+              {/*  source={data.posterPath}*/}
+              {/*  style={{*/}
+              {/*    flexBasis: "15%",*/}
+              {/*    aspectRatio: 2 / 3,*/}
+              {/*    borderRadius: Number(tailwind.theme.borderRadius.lg),*/}
+              {/*  }}*/}
+              {/*  contentFit="cover"*/}
+              {/*  placeholder={{*/}
+              {/*    blurhash: data.posterProps.blurhash,*/}
+              {/*    width: 100,*/}
+              {/*    height: 150,*/}
+              {/*  }}*/}
+              {/*  transition={500}*/}
+              {/*/>*/}
               <View className={"flex flex-col justify-center gap-2"}>
                 <ScrollView
                   horizontal

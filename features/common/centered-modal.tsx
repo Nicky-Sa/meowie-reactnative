@@ -1,4 +1,4 @@
-import { Modal, View } from "react-native";
+import { Modal, Pressable } from "react-native";
 import { PropsWithChildren } from "react";
 
 type Props = {
@@ -13,26 +13,21 @@ export const CenteredModal = ({
 }: PropsWithChildren<Props>) => {
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(false);
       }}
     >
-      <View
+      <Pressable
         className={
-          "flex-1 items-center justify-center bg-neutral-10-default/80"
+          "flex-1 items-center justify-center bg-neutral-15-default/80"
         }
+        onPress={() => setModalVisible(false)}
       >
-        <View
-          className={
-            "mx-6 flex-col gap-4 rounded-xl bg-neutral-15-default px-4 py-6"
-          }
-        >
-          {children}
-        </View>
-      </View>
+        {children}
+      </Pressable>
     </Modal>
   );
 };

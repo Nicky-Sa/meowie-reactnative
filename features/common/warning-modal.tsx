@@ -22,7 +22,11 @@ export const WarningModal = ({
       modalVisible={warningVisible}
       setModalVisible={setWarningVisible}
     >
-      <View className={"flex flex-col items-center justify-center gap-6"}>
+      <View
+        className={
+          "mx-6 flex flex-col items-center justify-center gap-6 rounded-xl bg-neutral-15-default px-4 py-6"
+        }
+      >
         <ImageComponent />
         <Text className={"body-b1 text-center text-neutral-10-default"}>
           {warningText}
