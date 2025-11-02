@@ -45,7 +45,7 @@ const config: ExpoConfig = {
   slug: "meowie",
   version: pkg.version,
   orientation: "portrait",
-  icon: "./assets/images/logo.png",
+  icon: "./assets/images/logo/logo-large.png",
   scheme: "myapp",
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
@@ -66,8 +66,8 @@ const config: ExpoConfig = {
   },
   android: {
     adaptiveIcon: {
-      foregroundImage: "./assets/images/logo-foreground.android.png",
-      backgroundImage: "./assets/images/logo-background.android.png",
+      foregroundImage: "./assets/images/logo/logo-foreground.android.png",
+      backgroundImage: "./assets/images/logo/logo-background.android.png",
     },
     package: getUniqueIdentifier(),
     edgeToEdgeEnabled: true,
@@ -75,7 +75,7 @@ const config: ExpoConfig = {
   web: {
     bundler: "metro",
     output: "static",
-    favicon: "./assets/images/logo.png",
+    favicon: "./assets/images/logo/logo-large.png",
   },
   plugins: [
     "expo-router",
@@ -89,10 +89,10 @@ const config: ExpoConfig = {
     [
       "expo-splash-screen",
       {
-        image: "./assets/images/logo-splash.png",
+        image: "./assets/images/logo/logo-splash.png",
         imageWidth: 150,
         resizeMode: "contain",
-        backgroundColor: "#151515",
+        backgroundColor: "#0A0A0A",
       },
     ],
     [

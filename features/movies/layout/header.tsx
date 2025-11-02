@@ -8,8 +8,8 @@ import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
 import { Chip } from "@/features/common/chip";
 import { tailwind } from "@/lib/utils";
 import _ from "lodash";
-import Logo from "@/assets/images/logo.svg";
-import LogoType from "@/assets/images/logo-type.svg";
+import Logo from "@/assets/images/logo/logo.svg";
+import LogoType from "@/assets/images/logo/logo-type.svg";
 
 import { Icon } from "@/features/common/icon";
 
