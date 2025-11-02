@@ -20,8 +20,6 @@ import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Image } from "expo-image";
-import { tailwind } from "@/lib/utils";
 
 type Props = {
   movieId: number;
@@ -80,9 +78,7 @@ export const DetailsContainer = memo(
           <MoviesSkeleton />
         ) : (
           <View
-            className={
-              "relative mx-4 flex flex-col items-start justify-start gap-4"
-            }
+            className={"relative flex flex-col items-start justify-start gap-4"}
             style={contentStyle}
           >
             <View
@@ -94,21 +90,6 @@ export const DetailsContainer = memo(
                 source={data.posterPath}
                 blurhash={data.posterProps.blurhash}
               />
-              {/*<Image*/}
-              {/*  source={data.posterPath}*/}
-              {/*  style={{*/}
-              {/*    flexBasis: "15%",*/}
-              {/*    aspectRatio: 2 / 3,*/}
-              {/*    borderRadius: Number(tailwind.theme.borderRadius.lg),*/}
-              {/*  }}*/}
-              {/*  contentFit="cover"*/}
-              {/*  placeholder={{*/}
-              {/*    blurhash: data.posterProps.blurhash,*/}
-              {/*    width: 100,*/}
-              {/*    height: 150,*/}
-              {/*  }}*/}
-              {/*  transition={500}*/}
-              {/*/>*/}
               <View className={"flex flex-col justify-center gap-2"}>
                 <ScrollView
                   horizontal
