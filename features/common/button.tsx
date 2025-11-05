@@ -3,7 +3,7 @@ import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn, tailwind } from "@/lib/utils";
 import { PropsWithChildren, useState } from "react";
 
-export const buttonVariants = {
+const buttonVariants = {
   primary: {
     backgroundColor: tailwind.theme.backgroundColor.info[1].default,
     borderColor: tailwind.theme.borderColor.brand[1].default,
@@ -43,7 +43,7 @@ export const buttonVariants = {
   },
 } as const;
 
-export const buttonSizes = {
+const buttonSizes = {
   segment: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),

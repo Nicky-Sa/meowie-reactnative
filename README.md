@@ -28,7 +28,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     - Open the "Orbit" on Mac and select the detected device or simulator (its icon should have a blue background). 
     - Create a build:
        ```bash
-      npm run eas-build:android
+      npm run eas-build:internal-dev:android
         ```
     - Select Y at the end of build to open the emulator or Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'. 
     - Have the app running via:
@@ -39,13 +39,13 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
   - **[iOS simulator](https://docs.expo.dev/tutorial/eas/ios-development-build-for-simulators/)**: 
     - Create a build:
        ```bash
-      npm run eas-build:ios-simulator
+      npm run eas-build:internal-dev:ios-simulator
         ```
     - Select Y at the end of build to open the simulator or Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'.
   - **[iOS device](https://docs.expo.dev/tutorial/eas/ios-development-build-for-devices/)**: 
     - Create a build:
        ```bash
-      npm run eas-build:ios-device
+      npm run eas-build:internal-dev:ios-device
         ```
     - Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit' or scan the QR code.
 

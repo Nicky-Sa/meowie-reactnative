@@ -104,6 +104,13 @@ function RootLayout() {
                     <Stack.Screen name="(tabs)" />
 
                     <Stack.Screen
+                      name="auth"
+                      options={{
+                        animation: "slide_from_right",
+                      }}
+                    />
+
+                    <Stack.Screen
                       name="filters/index"
                       options={{
                         animation: "slide_from_right",

@@ -103,6 +103,13 @@ const config: ExpoConfig = {
         },
       },
     ],
+    [
+      "expo-video",
+      {
+        supportsBackgroundPlayback: true,
+        supportsPictureInPicture: true,
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,

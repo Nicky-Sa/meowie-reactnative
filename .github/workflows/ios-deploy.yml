@@ -45,7 +45,7 @@ jobs:
       - name: EAS Build
         run: |
           rm -rf .env.local
-          npm run eas-build:testflight:${{ env.APP_VARIANT }}
+          npm run eas-build:testflight-${{ env.APP_VARIANT }}
 
       - name: Upload to TestFlight
         run: |

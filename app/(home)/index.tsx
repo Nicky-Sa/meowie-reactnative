@@ -19,7 +19,8 @@ export default function Home() {
         router.replace("/onboarding");
       } else {
         // onboarded
-        router.replace("/(tabs)/movies");
+        // router.replace("/(tabs)/movies");
+        router.replace("/auth");
       }
     });
   }, [router, splashDone]);
