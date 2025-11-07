@@ -4,9 +4,14 @@ import {
   FieldError,
   FieldValues,
   UseControllerProps,
+  UseFormClearErrors,
 } from "react-hook-form";
 import { TextInputProps } from "react-native/Libraries/Components/TextInput/TextInput";
 import { tailwind } from "@/lib/utils";
+import { Icon, SvgImage } from "@/features/common/icon";
+import { InfoCircle, Xmark } from "iconoir-react-native";
+import { Button } from "@/features/common/button";
+import { useState } from "react";
 
 const textInputStates = {
   default: {
@@ -69,55 +74,100 @@ const getStateKey = (
   return "default";
 };
 
-type Props<T extends FieldValues> = UseControllerProps<T> &
-  TextInputProps & {
-    title: string;
-    size?: keyof typeof textInputSizes;
-  };
+type Props<T extends FieldValues> = UseControllerProps<T> & {
+  clearErrors: UseFormClearErrors<T>;
+  title: string;
+  size?: keyof typeof textInputSizes;
+  icon?: SvgImage;
+} & TextInputProps;
 
 export const TextInput = <T extends FieldValues>({
   name,
   control,
+  clearErrors,
   title,
+  icon,
   size = "lg",
   ...textInputProps
 }: Props<T>) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <Controller
       control={control}
       name={name}
       render={({
         field: { onChange, value, disabled },
-        fieldState: { error, isTouched },
-      }) => (
-        <View className={"flex flex-col gap-1"}>
-          <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
-          <RNTextInput
-            {...textInputProps}
-            className={"body-b1"}
-            style={{
-              backgroundColor:
-                textInputStates[getStateKey(isTouched, disabled, error)]
-                  .backgroundColor,
-              borderColor:
-                textInputStates[getStateKey(isTouched, disabled, error)]
-                  .borderColor,
-              color:
-                textInputStates[getStateKey(isTouched, disabled, error)]
-                  .textColor,
-              borderRadius: textInputSizes[size].borderRadius,
-              borderWidth: 1,
-              paddingVertical: textInputSizes[size].paddingVertical,
-              paddingRight: textInputSizes[size].paddingRight,
-              paddingLeft: textInputSizes[size].paddingLeft,
-            }}
-            placeholderTextColor={tailwind.theme.textColor.neutral[3].default}
-            onChangeText={onChange}
-            value={value}
-          />
-          {error?.message && <Text>{error?.message}</Text>}
-        </View>
-      )}
+        fieldState: { error, isDirty },
+      }) => {
+        const onChangeText = (text: string) => {
+          onChange(text);
+          if (error) clearErrors([name]);
+        };
+        return (
+          <View className={"flex flex-col gap-2"}>
+            <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
+            <View
+              className={"flex flex-row items-center justify-between gap-2"}
+              style={{
+                backgroundColor:
+                  textInputStates[getStateKey(isFocused, disabled, error)]
+                    .backgroundColor,
+                borderColor:
+                  textInputStates[getStateKey(isFocused, disabled, error)]
+                    .borderColor,
+                borderRadius: textInputSizes[size].borderRadius,
+                borderWidth: 1,
+                paddingVertical: textInputSizes[size].paddingVertical,
+                paddingRight: textInputSizes[size].paddingRight,
+                paddingLeft: textInputSizes[size].paddingLeft,
+              }}
+            >
+              {icon && <Icon i={icon} />}
+              <RNTextInput
+                {...textInputProps}
+                className={"body-b1 flex-grow"}
+                style={{
+                  color:
+                    textInputStates[getStateKey(isFocused, disabled, error)]
+                      .textColor,
+                }}
+                placeholderTextColor={
+                  tailwind.theme.textColor.neutral[3].default
+                }
+                onChangeText={onChangeText}
+                value={value}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+              />
+              {isDirty && isFocused && (
+                <Button
+                  variant={"ghost"}
+                  size={"unset"}
+                  iconOnly
+                  onPress={() => onChangeText("")}
+                >
+                  <Icon i={Xmark} />
+                </Button>
+              )}
+            </View>
+
+            {error?.message && (
+              <View className={"flex flex-row items-center gap-1"}>
+                <Icon
+                  i={InfoCircle}
+                  color={tailwind.theme.textColor.error[1].default}
+                  height={16}
+                  width={16}
+                />
+                <Text className={"caption-c1 text-error-1-default"}>
+                  {error?.message}
+                </Text>
+              </View>
+            )}
+          </View>
+        );
+      }}
     />
   );
 };

@@ -1,5 +1,4 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import Svg, { SvgProps } from "react-native-svg";
+import { SvgImage } from "@/features/common/icon";
 
 export type TabsName =
   | "movies/index"
@@ -17,5 +16,5 @@ export type RootTabParamList = {
 export type Tab = {
   name: TabsName;
   title: string;
-  icon: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
+  icon: SvgImage;
 };

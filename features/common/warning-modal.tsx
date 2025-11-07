@@ -1,11 +1,11 @@
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/button";
-import { ForwardRefExoticComponent, RefAttributes, useState } from "react";
+import { useState } from "react";
 import { CenteredModal } from "@/features/common/centered-modal";
-import Svg, { SvgProps } from "react-native-svg";
+import { SvgImage } from "@/features/common/icon";
 
 type Props = {
-  img: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
+  img: SvgImage;
   warningText: string;
   dismissText: string;
 };

@@ -2,8 +2,10 @@ import { ForwardRefExoticComponent, RefAttributes } from "react";
 import Svg, { SvgProps } from "react-native-svg";
 import { tailwind } from "@/lib/utils";
 
+export type SvgImage = ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
+
 type Props = {
-  i: ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
+  i: SvgImage;
 } & SvgProps;
 
 export const Icon = ({ i: IconComponent, ...props }: Props) => {
