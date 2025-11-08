@@ -30,9 +30,11 @@ export const EmailForm = () => {
   const onSubmit = handleSubmit(async (data: LoginFormData) => {
     try {
       await trigger(data);
-      router.push("/auth/verify-otp");
+      router.push({
+        pathname: "/auth/verify-otp",
+        params: { ...data },
+      });
     } catch (error) {
-      console.log({ error });
       setError("email", { message: (error as Error).message });
     }
   });

@@ -43,7 +43,7 @@ export const Content = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View className={"z-[2] flex-1 bg-transparent p-4"}>
           <SafeAreaView>
-            <View className={"flex h-full flex-col justify-between p-4"}>
+            <View className={"flex h-full flex-col justify-between"}>
               <IntroText />
               <EmailForm />
             </View>
