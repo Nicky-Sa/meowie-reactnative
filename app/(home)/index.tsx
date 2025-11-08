@@ -20,7 +20,7 @@ export default function Home() {
       } else {
         // onboarded
         // router.replace("/(tabs)/movies");
-        router.replace("/auth");
+        router.replace("/auth/request-otp");
       }
     });
   }, [router, splashDone]);

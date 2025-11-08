@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import useSWRInfinite from "swr/infinite";
-import { MovieIdsResDTO } from "@/features/movies/data/dto/movies.dto";
+import { MovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
 import { SuccessResponse } from "@/features/general/dto/success.dto";
-import { fetcher } from "@/features/movies/data/fetcher";
+import { fetcher } from "@/features/common/data/fetcher";
 
 type Props = {
   queryParams: string;
@@ -14,7 +14,7 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
   ); // Random page from 1 to 100
 
   const getKey = useCallback(
-    (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDTO>) => {
+    (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDto>) => {
       const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
 
       // Stop fetching if there are no more results
@@ -28,7 +28,8 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
   );
 
   const { data: response, ...rest } = useSWRInfinite<
-    SuccessResponse<MovieIdsResDTO>
+    SuccessResponse<MovieIdsResDto>,
+    Error
   >(getKey, fetcher);
 
   const idList = Array.isArray(response)

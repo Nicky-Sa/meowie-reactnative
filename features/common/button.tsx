@@ -2,6 +2,7 @@ import * as Haptics from "expo-haptics";
 import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn, tailwind } from "@/lib/utils";
 import { PropsWithChildren, useState } from "react";
+import LottieView from "lottie-react-native";
 
 const buttonVariants = {
   primary: {
@@ -82,6 +83,7 @@ type Props = PressableProps & {
   iconOnly?: boolean;
   haptic?: boolean;
   iconPosition?: "left" | "right";
+  isLoading?: boolean;
 };
 
 export const Button = ({
@@ -90,6 +92,7 @@ export const Button = ({
   iconOnly = false,
   haptic = true,
   iconPosition,
+  isLoading,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -109,6 +112,7 @@ export const Button = ({
         setFocused(false);
         props.onPressOut?.(ev);
       }}
+      disabled={isLoading}
     >
       <View
         className={cn("overflow-hidden", focused && "opacity-50")}
@@ -133,7 +137,19 @@ export const Button = ({
           ...(props.style as object),
         }}
       >
-        {typeof children === "string" ? (
+        {isLoading ? (
+          <View className={cn(props.className)}>
+            <LottieView
+              source={{
+                uri: "https://lottie.host/099429f0-1128-4b7b-9e48-562fb873b761/eQhxLE6Pc5.lottie",
+              }}
+              autoPlay
+              loop
+              resizeMode={"cover"}
+              style={{ alignSelf: "center", width: 48, height: 20 }}
+            />
+          </View>
+        ) : typeof children === "string" ? (
           <Text
             style={{ color: buttonVariants[variant].textColor }}
             className={cn("body-b1-strong text-center", props.className)}

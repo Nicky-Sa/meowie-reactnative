@@ -6,14 +6,14 @@ import {
   TMDB_RequiredInfo,
 } from "@/features/movies/models/movie-info";
 
-export type MoviesResDTO = TMDB_RequiredInfo &
+export type MoviesResDto = TMDB_RequiredInfo &
   AllRatings & {
     posterProps: PosterProps;
   } & {
     credits: Credits;
   };
 
-export type MovieIdsResDTO = {
+export type MovieIdsResDto = {
   page: number;
   results: TMDB_MoviesListResult[];
   total_pages: number;

@@ -1,7 +1,7 @@
 import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { IntroText } from "@/features/auth/intro-text";
-import { EmailForm } from "@/features/auth/email-form";
+import { IntroText } from "@/features/auth/request-otp/intro-text";
+import { EmailForm } from "@/features/auth/request-otp/email-form";
 
 export const Content = () => {
   return (
