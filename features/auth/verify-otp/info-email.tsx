@@ -20,12 +20,7 @@ export const InfoEmail = ({ email, handleBack }: Props) => {
         >
           {email}
         </Text>
-        <Button
-          onPress={handleBack}
-          variant={"ghost"}
-          size={"unset"}
-          className={"caption-c1-strong"}
-        >
+        <Button onPress={handleBack} variant={"link"} size={"sm"}>
           Change
         </Button>
       </View>

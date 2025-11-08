@@ -142,8 +142,7 @@ export const TextInput = <T extends FieldValues>({
               />
               {isDirty && isFocused && (
                 <Button
-                  variant={"ghost"}
-                  size={"unset"}
+                  variant={"link"}
                   iconOnly
                   onPress={() => onChangeText("")}
                 >

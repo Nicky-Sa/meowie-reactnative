@@ -29,6 +29,13 @@ const buttonVariants = {
     textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 0,
   },
+  // for links, with no padding
+  link: {
+    backgroundColor: "transparent",
+    borderColor: "transparent",
+    textColor: tailwind.theme.textColor.neutral[10].default,
+    borderWidth: 0,
+  },
   // for segments in selectable
   "unselected-segment": {
     backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
@@ -97,6 +104,7 @@ export const Button = ({
   ...props
 }: PropsWithChildren<Props>) => {
   const [focused, setFocused] = useState(false);
+  const isTextOnly = typeof children === "string";
 
   return (
     <Pressable
@@ -118,22 +126,29 @@ export const Button = ({
         className={cn("overflow-hidden", focused && "opacity-50")}
         style={{
           backgroundColor: buttonVariants[variant].backgroundColor,
-          borderRadius: buttonSizes[size].borderRadius,
+          borderRadius: variant !== "link" ? buttonSizes[size].borderRadius : 0,
           borderWidth: buttonVariants[variant].borderWidth,
           borderColor: buttonVariants[variant].borderColor,
-          paddingVertical: buttonSizes[size].paddingVertical,
-          paddingRight: iconOnly
-            ? buttonSizes[size].paddingVertical
-            : iconPosition === "right"
-              ? buttonSizes[size].paddingHorizontal -
-                buttonSizes[size].iconOffset
-              : buttonSizes[size].paddingHorizontal,
-          paddingLeft: iconOnly
-            ? buttonSizes[size].paddingVertical
-            : iconPosition === "left"
-              ? buttonSizes[size].paddingHorizontal -
-                buttonSizes[size].iconOffset
-              : buttonSizes[size].paddingHorizontal,
+          paddingVertical:
+            variant !== "link" ? buttonSizes[size].paddingVertical : 0,
+          paddingRight:
+            variant !== "link"
+              ? iconOnly
+                ? buttonSizes[size].paddingVertical
+                : iconPosition === "right"
+                  ? buttonSizes[size].paddingHorizontal -
+                    buttonSizes[size].iconOffset
+                  : buttonSizes[size].paddingHorizontal
+              : 0,
+          paddingLeft:
+            variant !== "link"
+              ? iconOnly
+                ? buttonSizes[size].paddingVertical
+                : iconPosition === "left"
+                  ? buttonSizes[size].paddingHorizontal -
+                    buttonSizes[size].iconOffset
+                  : buttonSizes[size].paddingHorizontal
+              : 0,
           ...(props.style as object),
         }}
       >
@@ -149,10 +164,18 @@ export const Button = ({
               style={{ alignSelf: "center", width: 48, height: 20 }}
             />
           </View>
-        ) : typeof children === "string" ? (
+        ) : isTextOnly ? (
           <Text
             style={{ color: buttonVariants[variant].textColor }}
-            className={cn("body-b1-strong text-center", props.className)}
+            className={cn(
+              "text-center",
+              {
+                "body-b1-strong": size === "lg",
+                "body-b2-strong": size === "md",
+                "caption-c1-strong": size === "sm",
+              },
+              props.className,
+            )}
           >
             {children}
           </Text>

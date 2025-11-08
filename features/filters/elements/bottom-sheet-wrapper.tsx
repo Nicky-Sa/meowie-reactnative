@@ -12,7 +12,6 @@ import { Updater, useImmer } from "use-immer";
 import { Chip } from "@/features/common/chip";
 import _ from "lodash";
 import { Action } from "@/features/common/action";
-import { tailwind } from "@/lib/utils";
 import { Icon } from "@/features/common/icon";
 
 type Props<T extends keyof Filters> = {
@@ -60,16 +59,14 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             <View className="flex flex-row items-center justify-center">
               <Chip text={chipText} />
               <Button
-                variant="ghost"
-                size="unset"
+                variant="link"
+                iconOnly
                 onPress={() => {
                   setFilters((draft) => {
                     draft[filterKey] = initialFiltersValue[filterKey];
                   });
                 }}
-                style={{
-                  paddingLeft: Number(tailwind.theme.spacing["2"]),
-                }}
+                className="ml-2"
               >
                 <Icon i={Xmark} />
               </Button>
