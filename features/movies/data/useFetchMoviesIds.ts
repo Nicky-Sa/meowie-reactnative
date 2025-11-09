@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
-import { SuccessResponse } from "@/features/general/dto/success.dto";
+import { SuccessResponse } from "@/features/common/data/dto/success.dto";
 import { fetcher } from "@/features/common/data/fetcher";
 
 type Props = {

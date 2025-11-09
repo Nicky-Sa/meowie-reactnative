@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { MoviesResDto } from "@/features/movies/data/dto/movies.dto";
-import { SuccessResponse } from "@/features/general/dto/success.dto";
+import { SuccessResponse } from "@/features/common/data/dto/success.dto";
 import { fetcher } from "@/features/common/data/fetcher";
 
 export const useFetchInfo = (id: number) => {

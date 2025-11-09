@@ -4,7 +4,7 @@ import Carousel, {
   Pagination,
 } from "react-native-reanimated-carousel";
 import { useCallback, useRef, useState } from "react";
-import { OnboardingItem } from "@/features/onboarding/elements/item";
+import { OnboardingItem } from "@/features/onboarding/item";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Extrapolation,

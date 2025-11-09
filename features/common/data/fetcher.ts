@@ -1,7 +1,7 @@
 import {
   ErrorResponse,
   SuccessResponse,
-} from "@/features/general/dto/success.dto";
+} from "@/features/common/data/dto/success.dto";
 
 export type MutationArg<REQ> = {
   method: "POST" | "PUT" | "DELETE";

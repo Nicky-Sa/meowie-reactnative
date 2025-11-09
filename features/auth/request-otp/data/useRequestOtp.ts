@@ -1,4 +1,4 @@
-import { SuccessResponse } from "@/features/general/dto/success.dto";
+import { SuccessResponse } from "@/features/common/data/dto/success.dto";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import {
   RequestOtpReqDto,
