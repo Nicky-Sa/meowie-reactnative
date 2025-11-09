@@ -126,7 +126,7 @@ export const TextInput = <T extends FieldValues>({
               {icon && <Icon i={icon} />}
               <RNTextInput
                 {...textInputProps}
-                className={"body-b1 flex-grow"}
+                className={"body-b1 flex-grow py-[3px]"}
                 style={{
                   color:
                     textInputStates[getStateKey(isFocused, disabled, error)]

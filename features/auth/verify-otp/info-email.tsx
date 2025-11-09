@@ -10,7 +10,7 @@ export const InfoEmail = ({ email, handleBack }: Props) => {
   return (
     <>
       <Text className={"body-b2 text-neutral-10-default"}>
-        We’ll email you a code for verification your account.
+        We’ll email you a code to verify your account.
       </Text>
       <View className={"flex flex-row items-center gap-2"}>
         <Text

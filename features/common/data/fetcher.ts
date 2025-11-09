@@ -11,8 +11,9 @@ export type MutationArg<REQ> = {
 
 export async function fetcher<REQ, RES>(
   url: string,
-  { arg }: { arg: MutationArg<REQ> },
+  mutationArgs?: { arg: MutationArg<REQ> },
 ): Promise<SuccessResponse<RES>> {
+  const arg = mutationArgs?.arg;
   return fetch(url, {
     method: arg?.method || "GET",
     headers: {

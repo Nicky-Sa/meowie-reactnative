@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Header } from "@/features/auth/verify-otp/header";
 import { InfoEmail } from "@/features/auth/verify-otp/info-email";
+import { OtpForm } from "@/features/auth/verify-otp/otp-form";
 
 export const Content = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ export const Content = () => {
           <View className={"flex h-full flex-col gap-4"}>
             <Header handleBack={handleBack} />
             <InfoEmail email={email} handleBack={handleBack} />
+            <OtpForm email={email} />
           </View>
         </SafeAreaView>
       </View>

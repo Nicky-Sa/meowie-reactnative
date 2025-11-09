@@ -120,11 +120,12 @@ export const Button = ({
         setFocused(false);
         props.onPressOut?.(ev);
       }}
-      disabled={isLoading}
+      disabled={props.disabled || isLoading}
     >
       <View
         className={cn("overflow-hidden", focused && "opacity-50")}
         style={{
+          opacity: props.disabled ? 0.5 : 1,
           backgroundColor: buttonVariants[variant].backgroundColor,
           borderRadius: variant !== "link" ? buttonSizes[size].borderRadius : 0,
           borderWidth: buttonVariants[variant].borderWidth,
@@ -168,8 +169,8 @@ export const Button = ({
           <Text
             style={{ color: buttonVariants[variant].textColor }}
             className={cn(
-              "text-center",
               {
+                "text-center": variant !== "link",
                 "body-b1-strong": size === "lg",
                 "body-b2-strong": size === "md",
                 "caption-c1-strong": size === "sm",
