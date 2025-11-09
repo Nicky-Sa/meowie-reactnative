@@ -5,7 +5,7 @@ import { EmailForm } from "@/features/auth/request-otp/email-form";
 import { useVideoPlayer, VideoView } from "expo-video";
 
 const ONLINE_VIDEO_URI =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  "https://imdb-video.media-imdb.com/vi324468761/1434659607842-pgv4ql-1563712918369.mp4?Expires=1762802271&Signature=UDA64HHbroGUhSv~RcOKSfx41R6LGDCf3yVeB0YxrHgqw0Ny31dnm7afa9aahQxRsHtNtQAMrb2QqgpwOoWL9WGOLfV-Bv2oaJInSSK~CX4oUF0YdoXRaAEFQt8Dk67jOO0V0bQBJFBk7zUckVRq9xp22kOmLXvhyzz1KLIBDnCU7UDsyZwwhRl1MlWcGwUIx14ySBL4CVVSZ3TkEVTTQZ77Kvbwf5UvktKHeA-ozN8z5zpzpQ0ORf-InY5OB5uPNXc2IqKU6k977yGko1iWaJ7S-HuCIjMVlbxqcrGsOBNuTzF28gfqwpHHub5AJinyGBp88L4vA69t38AbeJxNPw__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA";
 
 export const Content = () => {
   const player = useVideoPlayer(ONLINE_VIDEO_URI, (player) => {
