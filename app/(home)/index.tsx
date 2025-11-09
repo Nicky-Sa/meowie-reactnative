@@ -19,8 +19,13 @@ export default function Home() {
         router.replace("/onboarding");
       } else {
         // onboarded
-        // router.replace("/(tabs)/movies");
-        router.replace("/auth/request-otp");
+        AsyncStorage.getItem("logged-in").then((value) => {
+          if (value === "true") {
+            router.replace("/(tabs)/movies");
+          } else {
+            router.replace("/auth/request-otp");
+          }
+        });
       }
     });
   }, [router, splashDone]);

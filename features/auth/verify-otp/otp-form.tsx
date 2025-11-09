@@ -8,6 +8,7 @@ import { useRouter } from "expo-router";
 import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/verify-otp/resend-code";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -43,7 +44,9 @@ export const OtpForm = ({ email }: Props) => {
         setError("otp", { message: "Invalid code" });
         return;
       }
-      router.replace("/(tabs)/movies");
+      AsyncStorage.setItem("logged-in", "true").then(() =>
+        router.replace("/(tabs)/movies"),
+      );
     } catch (error) {
       setError("otp", { message: (error as Error).message });
     }
