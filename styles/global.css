@@ -70,11 +70,11 @@
     }
 
     .body-b1 {
-        @apply text-base font-Lato-400;
+        @apply text-base leading-6 font-Lato-400;
     }
 
     .body-b1-strong {
-        @apply text-base font-Lato-700;
+        @apply text-base leading-6 font-Lato-700;
     }
 
     .body-b2 {

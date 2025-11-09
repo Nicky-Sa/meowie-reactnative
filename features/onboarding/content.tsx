@@ -21,25 +21,19 @@ import { Icon } from "@/features/common/icon";
 
 const items = [
   {
-    riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-1.riv",
-    title: "900,000+",
-    body: "Movie suggestions, trailers, and ratings — all ready for you to explore.",
-    height: "75%" as const,
-  },
-  {
-    riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-2.riv",
+    lottiePath: require("@/assets/lottie/onboarding/1.json"),
     title: "Swipe to Discover",
     body: "Find movies you’ll love with a simple swipe.",
-    height: "70%" as const,
   },
   {
-    riveUrl:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-onboaridng-3.riv",
-    title: "Smart Filters",
+    lottiePath: require("@/assets/lottie/onboarding/2.json"),
+    title: "Filters",
     body: "Quickly zero in on what you want to watch.",
-    height: "70%" as const,
+  },
+  {
+    lottiePath: require("@/assets/lottie/onboarding/3.json"),
+    title: "Bookmark Favorites",
+    body: "Keep track of movies you don’t want to miss.",
   },
 ];
 
@@ -81,6 +75,8 @@ export const Content = () => {
     },
     [],
   );
+
+  const isLastItem = currentIndex === items.length - 1;
 
   return (
     <View className={"h-full flex-1 justify-center bg-neutral-15-default"}>
@@ -129,25 +125,34 @@ export const Content = () => {
             />
             <Button
               size={"lg"}
-              iconOnly
+              iconOnly={!isLastItem}
+              iconPosition={isLastItem ? "right" : undefined}
               variant={"white"}
               onPress={() => {
-                if (currentIndex === items.length - 1) {
-                  AsyncStorage.setItem("onboarded", "true");
-                  router.replace("/(tabs)/movies");
+                if (isLastItem) {
+                  AsyncStorage.setItem("onboarded", "true").then(() =>
+                    router.replace("/(tabs)/movies"),
+                  );
                 } else {
                   onPressPagination(currentIndex + 1);
                 }
               }}
             >
-              {currentIndex === items.length - 1 ? (
-                <Text>Let&#39;s Go!</Text>
-              ) : (
+              <View
+                className={
+                  "flex flex-row-reverse items-center justify-center gap-2"
+                }
+              >
                 <Icon
                   i={NavArrowRight}
                   color={tailwind.theme.textColor.neutral[1].default}
                 />
-              )}
+                {isLastItem && (
+                  <Text className={"body-b1-strong text-neutral-1-default"}>
+                    Let’s Go
+                  </Text>
+                )}
+              </View>
             </Button>
           </View>
         </View>

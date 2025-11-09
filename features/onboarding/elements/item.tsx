@@ -1,23 +1,26 @@
 import { Text, View } from "react-native";
-import Rive, { Alignment } from "rive-react-native";
+import LottieView from "lottie-react-native";
 
 type Props = {
-  riveUrl: string;
+  lottiePath: string;
   title: string;
   body: string;
-  height: `${number}%`;
 };
 
-export const OnboardingItem = ({ riveUrl, title, body, height }: Props) => {
+export const OnboardingItem = ({ lottiePath, title, body }: Props) => {
   return (
     <View className={"flex h-full w-full flex-col justify-between px-6"}>
-      <View
+      <LottieView
+        source={lottiePath}
+        autoPlay
+        loop
+        resizeMode={"cover"}
         style={{
-          height,
+          alignSelf: "center",
+          width: "100%",
+          height: "80%",
         }}
-      >
-        <Rive url={riveUrl} alignment={Alignment.Center} />
-      </View>
+      />
       <View className={"flex flex-col gap-2"}>
         <Text className={"title-t1-strong text-neutral-10-default"}>
           {title}
