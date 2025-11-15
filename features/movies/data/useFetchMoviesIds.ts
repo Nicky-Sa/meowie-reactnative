@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
-import { SuccessResponse } from "@/features/common/data/dto/success.dto";
+import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher } from "@/features/common/data/fetcher";
 
 type Props = {
@@ -15,7 +15,7 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
 
   const getKey = useCallback(
     (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDto>) => {
-      const baseUrl = `${process.env.EXPO_PUBLIC_BACKEND_URL}/movies/ids`;
+      const baseUrl = "/movies/ids";
 
       // Stop fetching if there are no more results
       if (previousPageData && !previousPageData.data.results) {

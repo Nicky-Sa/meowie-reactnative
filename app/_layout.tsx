@@ -17,6 +17,7 @@ import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
+import { useEventListener } from "@/features/common/event-emitting/useEventListener";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -54,6 +55,7 @@ Sentry.init({
 
 function RootLayout() {
   const colorScheme = useColorScheme();
+  useEventListener();
 
   const ref = useNavigationContainerRef();
   useEffect(() => {

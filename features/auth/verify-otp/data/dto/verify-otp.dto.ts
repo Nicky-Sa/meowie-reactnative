@@ -4,5 +4,7 @@ export type VerifyOtpReqDto = {
 };
 
 export type VerifyOtpResDto = {
-  isValid: boolean;
+  isNewUser: boolean;
+  accessToken: string;
+  refreshToken: string;
 };

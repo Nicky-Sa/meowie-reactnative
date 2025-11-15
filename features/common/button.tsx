@@ -29,7 +29,7 @@ const buttonVariants = {
     textColor: tailwind.theme.textColor.neutral[10].default,
     borderWidth: 0,
   },
-  // for links, with no padding
+  // for links, with no padding, no text direction
   link: {
     backgroundColor: "transparent",
     borderColor: "transparent",
