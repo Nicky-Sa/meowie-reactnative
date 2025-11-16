@@ -20,6 +20,7 @@ import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
+import { Cast } from "@/features/movies/elements/cast";
 
 type Props = {
   movieId: number;
@@ -114,9 +115,11 @@ export const DetailsContainer = memo(
                     {data.duration}
                   </Text>
                 </View>
-                <Text className={"caption-c1-strong text-neutral-10-default"}>
-                  {data.credits.director}
-                </Text>
+                <Cast
+                  name={data.credits.director.name}
+                  profilePath={data.credits.director.profilePath}
+                  character={data.credits.director.character}
+                />
               </View>
             </View>
 

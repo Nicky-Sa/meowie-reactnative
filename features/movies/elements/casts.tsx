@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import { Image } from "expo-image";
+import { View } from "react-native";
 import { CastInfo } from "@/features/movies/models/movie-info";
+import { Cast } from "@/features/movies/elements/cast";
 
 type Props = {
   casts: CastInfo[];
@@ -12,30 +12,6 @@ export const Casts = ({ casts }: Props) => {
       {casts.map((cast) => (
         <Cast key={cast.name} {...cast} />
       ))}
-    </View>
-  );
-};
-
-const Cast = ({ name, profilePath }: CastInfo) => {
-  return (
-    <View className={"flex flex-row items-center gap-1"}>
-      <Image
-        source={profilePath}
-        style={{
-          width: 24,
-          height: 24,
-          borderRadius: 9999,
-        }}
-        contentFit="cover"
-        placeholder={{
-          blurhash: "L5H2ECof00I04xayj[a{00aef6Rj",
-          width: 100,
-          height: 150,
-        }}
-      />
-      <Text className={"caption-c1-strong text-neutral-10-default"}>
-        {name}
-      </Text>
     </View>
   );
 };

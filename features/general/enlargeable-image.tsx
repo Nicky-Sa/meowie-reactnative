@@ -20,7 +20,7 @@ export const EnlargeableImage = ({ source, blurhash }: Props) => {
           source={source}
           style={{
             aspectRatio: 2 / 3,
-            width: 55,
+            width: 60,
             borderRadius: Number(tailwind.theme.borderRadius.lg),
           }}
           contentFit="cover"
