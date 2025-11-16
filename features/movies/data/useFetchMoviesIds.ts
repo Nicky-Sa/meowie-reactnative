@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import useSWRInfinite from "swr/infinite";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
@@ -9,10 +9,6 @@ type Props = {
 };
 
 export const useFetchMoviesIds = ({ queryParams }: Props) => {
-  const [initialRandomPage] = useState(
-    () => Math.floor(Math.random() * 100) + 1,
-  ); // Random page from 1 to 100
-
   const getKey = useCallback(
     (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDto>) => {
       const baseUrl = "/movies/ids";
@@ -22,9 +18,9 @@ export const useFetchMoviesIds = ({ queryParams }: Props) => {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + (queryParams ? 1 : initialRandomPage)}&${queryParams}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + 1}&${queryParams}`; // SWR key
     },
-    [initialRandomPage, queryParams],
+    [queryParams],
   );
 
   const { data: response, ...rest } = useSWRInfinite<
