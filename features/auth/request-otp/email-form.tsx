@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { View } from "react-native";
 import { TextInput } from "@/features/common/form/text-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,31 +40,26 @@ export const EmailForm = () => {
   });
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-    >
-      <View className={"flex w-full flex-col gap-4"}>
-        <TextInput
-          name={"email"}
-          control={control}
-          clearErrors={clearErrors}
-          title={"Email"}
-          placeholder={"Enter your email"}
-          keyboardType={"email-address"}
-          autoCapitalize={"none"}
-          autoCorrect={false}
-          icon={Mail}
-        />
-        <Button
-          variant={"white"}
-          size={"lg"}
-          onPress={onSubmit}
-          isLoading={isMutating}
-        >
-          Continue with Email
-        </Button>
-      </View>
-    </KeyboardAvoidingView>
+    <View className={"flex w-full flex-col gap-4"}>
+      <TextInput
+        name={"email"}
+        control={control}
+        clearErrors={clearErrors}
+        title={"Email"}
+        placeholder={"Enter your email"}
+        keyboardType={"email-address"}
+        autoCapitalize={"none"}
+        autoCorrect={false}
+        icon={Mail}
+      />
+      <Button
+        variant={"white"}
+        size={"lg"}
+        onPress={onSubmit}
+        isLoading={isMutating}
+      >
+        Continue with Email
+      </Button>
+    </View>
   );
 };

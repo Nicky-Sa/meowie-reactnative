@@ -2,8 +2,6 @@ import axios, { isAxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 
-// This is a placeholder. You'll need to implement this to
-// clear tokens and navigate to your login screen.
 const onLogout = async () => {
   console.log("Logging out, refresh token failed.");
   // 1. Remove tokens

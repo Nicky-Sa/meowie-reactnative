@@ -1,4 +1,10 @@
-import { Keyboard, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Keyboard,
+  TouchableWithoutFeedback,
+  View,
+  KeyboardAvoidingView, // 1. Import KAV
+  Platform, // 2. Import Platform
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IntroText } from "@/features/auth/request-otp/intro-text";
 import { EmailForm } from "@/features/auth/request-otp/email-form";
@@ -16,6 +22,7 @@ export const Content = () => {
   });
   return (
     <View style={{ flex: 1 }}>
+      {/* Video and Overlay - No changes here */}
       <VideoView
         player={player}
         contentFit="cover"
@@ -29,7 +36,6 @@ export const Content = () => {
           zIndex: 0,
         }}
       />
-      {/*Dark overlay on the video*/}
       <View
         style={{
           position: "absolute",
@@ -41,19 +47,21 @@ export const Content = () => {
           zIndex: 0,
         }}
       />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View className={"z-[2] flex-1 bg-transparent px-4"}>
-          <SafeAreaView>
-            <View className={"flex h-full flex-col justify-between"}>
-              <IntroText />
+      <SafeAreaView className="flex-1">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View className={"flex-1 flex-col justify-between px-4"}>
+            <IntroText />
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
               <View className={"flex flex-col gap-4"}>
                 <EmailForm />
                 <SkipAuth />
               </View>
-            </View>
-          </SafeAreaView>
-        </View>
-      </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+          </View>
+        </TouchableWithoutFeedback>
+      </SafeAreaView>
     </View>
   );
 };

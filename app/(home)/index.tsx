@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useFonts } from "@expo-google-fonts/lato";
 import * as Lato from "@expo-google-fonts/lato";
-import { useIsAuthenticated } from "@/features/general/data/useIsAuthenticated";
+import { useIsAuthenticatedTrigger } from "@/features/general/data/useIsAuthenticated";
 
 export default function Home() {
   const [loaded] = useFonts(Lato);
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
-  const { data } = useIsAuthenticated();
+  const { trigger: triggerIsAuthenticated } = useIsAuthenticatedTrigger();
 
   useEffect(() => {
     if (!splashDone) return;
@@ -27,15 +27,17 @@ export default function Home() {
             router.replace("/(tabs)/movies");
           } else {
             // not skipped-auth -> check if authenticated
-            if (data?.isAuthenticated) {
-              router.replace("/(tabs)/movies");
-            }
-            // if not authenticated -> interceptor will redirect to login
+            triggerIsAuthenticated().then(({ data }) => {
+              if (data?.isAuthenticated) {
+                router.replace("/(tabs)/movies");
+              }
+              // if not authenticated -> interceptor will redirect to login
+            });
           }
         });
       }
     });
-  }, [data?.isAuthenticated, router, splashDone]);
+  }, [router, splashDone, triggerIsAuthenticated]);
 
   return (
     <>
