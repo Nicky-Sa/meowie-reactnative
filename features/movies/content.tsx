@@ -41,7 +41,7 @@ export const Content = () => {
   return (
     <MainBg>
       {error ? (
-        <MoviesErrorState tryAgain={mutate} />
+        <MoviesErrorState tryAgain={mutate} error={error} />
       ) : (
         <>
           <Header />

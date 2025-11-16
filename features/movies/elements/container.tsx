@@ -69,7 +69,7 @@ export const DetailsContainer = memo(
     });
 
     return error ? (
-      <MoviesErrorState tryAgain={mutate} />
+      <MoviesErrorState tryAgain={mutate} error={error} />
     ) : (
       <Animated.View
         style={[animatedStyle]}
