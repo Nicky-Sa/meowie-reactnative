@@ -90,6 +90,7 @@ export const DetailsContainer = memo(
               <EnlargeableImage
                 source={data.posterPath}
                 blurhash={data.posterProps.blurhash}
+                width={60}
               />
               <View className={"flex flex-col justify-center gap-2"}>
                 <ScrollView

@@ -8,9 +8,10 @@ import { Button } from "@/features/common/button";
 type Props = {
   source: string;
   blurhash: string;
+  width: number;
 };
 
-export const EnlargeableImage = ({ source, blurhash }: Props) => {
+export const EnlargeableImage = ({ source, blurhash, width }: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -20,7 +21,7 @@ export const EnlargeableImage = ({ source, blurhash }: Props) => {
           source={source}
           style={{
             aspectRatio: 2 / 3,
-            width: 60,
+            width,
             borderRadius: Number(tailwind.theme.borderRadius.lg),
           }}
           contentFit="cover"
