@@ -30,7 +30,7 @@ export const InnerScreen = ({
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
       <SafeAreaView>
-        <View className={"flex h-full flex-col justify-between p-4"}>
+        <View className={"flex h-full flex-col justify-between gap-9 p-4"}>
           <View className={"flex w-full flex-row items-center justify-between"}>
             <View className={"flex flex-row items-center justify-start"}>
               <Button
@@ -45,7 +45,6 @@ export const InnerScreen = ({
                 {title}
               </Text>
             </View>
-
             {rightTopComponent}
           </View>
 

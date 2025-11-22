@@ -1,30 +1,30 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { FilterItem, Segment } from "@/features/filters/elements/segment";
+import { SegmentItem, Segment } from "@/features/common/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-const genres: FilterItem[] = [
-  { id: "28", name: "💥 Action" },
-  { id: "12", name: "🏕️ Adventure" },
-  { id: "16", name: "🐭 Animation" },
-  { id: "35", name: "😂 Comedy" },
-  { id: "80", name: "🕵️‍♂️ Crime" },
-  { id: "99", name: "📜 Documentary" },
-  { id: "18", name: "💔 Drama" },
-  { id: "10751", name: "🏡 Family" },
-  { id: "14", name: "🧙‍♂️ Fantasy" },
-  { id: "36", name: "🏛️ History" },
-  { id: "27", name: "👻 Horror" },
-  { id: "10402", name: "🎸 Music" },
-  { id: "9648", name: "🧚‍♀️ Mystery" },
-  { id: "10749", name: "💖 Romance" },
-  { id: "878", name: "👽 Science Fiction" },
-  { id: "10770", name: "📺 TV Movie" },
-  { id: "53", name: "🤯 Thriller" },
-  { id: "10752", name: "⚔️ War" },
-  { id: "37", name: "🤠 Western" },
+const genres: SegmentItem[] = [
+  { id: "28", label: "💥 Action" },
+  { id: "12", label: "🏕️ Adventure" },
+  { id: "16", label: "🐭 Animation" },
+  { id: "35", label: "😂 Comedy" },
+  { id: "80", label: "🕵️‍♂️ Crime" },
+  { id: "99", label: "📜 Documentary" },
+  { id: "18", label: "💔 Drama" },
+  { id: "10751", label: "🏡 Family" },
+  { id: "14", label: "🧙‍♂️ Fantasy" },
+  { id: "36", label: "🏛️ History" },
+  { id: "27", label: "👻 Horror" },
+  { id: "10402", label: "🎸 Music" },
+  { id: "9648", label: "🧚‍♀️ Mystery" },
+  { id: "10749", label: "💖 Romance" },
+  { id: "878", label: "👽 Science Fiction" },
+  { id: "10770", label: "📺 TV Movie" },
+  { id: "53", label: "🤯 Thriller" },
+  { id: "10752", label: "⚔️ War" },
+  { id: "37", label: "🤠 Western" },
 ];
 
 export const Genres = () => {
@@ -36,7 +36,7 @@ export const Genres = () => {
       filterKey={"genres"}
       chipText={
         filters.genres.length === 1
-          ? `${genres.find((genre) => genre.id === filters.genres[0])?.name}`
+          ? `${genres.find((genre) => genre.id === filters.genres[0])?.label}`
           : `${filters.genres.length}`
       }
     >
@@ -47,8 +47,8 @@ export const Genres = () => {
               <Segment
                 key={genre.id}
                 item={genre}
+                currentValues={currentValues}
                 setCurrentValues={setCurrentValues}
-                isSelected={currentValues.includes(genre.id)}
                 multiple
               />
             ))}

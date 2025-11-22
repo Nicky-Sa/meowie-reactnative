@@ -16,6 +16,7 @@ import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { Icon } from "@/features/common/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
+import { useRouter } from "expo-router";
 
 const ClearSelection = ({ onPress }: { onPress: () => void }) => {
   return (
@@ -37,6 +38,7 @@ const ClearSelection = ({ onPress }: { onPress: () => void }) => {
 export const Content = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
   const [, setFiltersQueryParams] = useAtom(filtersQueryParamsAtom);
+  const router = useRouter();
 
   const hasSelectedFilter = useMemo(
     () => !_.isEqual(filters, initialFiltersValue),
@@ -53,6 +55,11 @@ export const Content = () => {
         .map(([key, value]) => `${key}=${value.toString()}`)
         .join("&")}`,
     );
+  };
+
+  const handleApply = () => {
+    handleExit();
+    router.back();
   };
 
   return (
@@ -76,7 +83,7 @@ export const Content = () => {
           <YearDecades />
           <TMDBRating />
         </View>
-        <Button variant={"white"} size={"lg"} onPress={handleExit}>
+        <Button variant={"white"} size={"lg"} onPress={handleApply}>
           Apply
         </Button>
       </View>

@@ -3,44 +3,50 @@ import { tailwind } from "@/lib/utils";
 import { Text } from "react-native";
 import { Updater } from "use-immer";
 
-export type FilterItem = {
+export type SegmentItem = {
   id: string;
-  name: string;
+  label: string;
 };
 
 type Props = {
-  item: FilterItem;
+  item: SegmentItem;
+} & (Multiple | Single);
+
+type Multiple = {
+  multiple: true;
+  currentValues: string[];
   setCurrentValues: Updater<string[]>;
-  isSelected: boolean;
-  multiple?: boolean;
+};
+
+type Single = {
+  multiple?: false;
+  currentValues: string;
+  setCurrentValues: Updater<string>;
 };
 
 export const Segment = ({
   item,
+  currentValues,
   setCurrentValues,
-  isSelected,
   multiple,
 }: Props) => {
+  const isSelected = currentValues.includes(item.id);
   return (
     <Button
       variant={isSelected ? "selected-segment" : "unselected-segment"}
       size={"segment"}
       onPress={() => {
-        setCurrentValues((draft) => {
-          const index = draft.indexOf(item.id);
-          if (multiple) {
-            if (index === -1) {
-              draft.push(item.id);
+        if (multiple) {
+          setCurrentValues((draft) => {
+            if (draft.includes(item.id)) {
+              draft.splice(draft.indexOf(item.id), 1);
             } else {
-              draft.splice(index, 1);
-            }
-          } else {
-            draft.length = 0;
-            if (index === -1) {
               draft.push(item.id);
             }
-          }
-        });
+          });
+        } else {
+          setCurrentValues(item.id);
+        }
       }}
       style={{
         ...(isSelected && {
@@ -49,7 +55,7 @@ export const Segment = ({
       }}
     >
       <Text className={"body-b1-strong text-neutral-10-default"}>
-        {item.name}
+        {item.label}
       </Text>
     </Button>
   );

@@ -1,31 +1,31 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { FilterItem, Segment } from "@/features/filters/elements/segment";
+import { SegmentItem, Segment } from "@/features/common/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-const languages: FilterItem[] = [
-  { id: "en", name: "English" },
-  { id: "es", name: "Spanish" },
-  { id: "fr", name: "French" },
-  { id: "de", name: "German" },
-  { id: "zh", name: "Mandarin" },
-  { id: "hi", name: "Hindi" },
-  { id: "ja", name: "Japanese" },
-  { id: "ru", name: "Russian" },
-  { id: "it", name: "Italian" },
-  { id: "ko", name: "Korean" },
-  { id: "pt", name: "Portuguese" },
-  { id: "ar", name: "Arabic" },
-  { id: "nl", name: "Dutch" },
-  { id: "tr", name: "Turkish" },
-  { id: "fa", name: "Persian" },
-  { id: "pl", name: "Polish" },
-  { id: "sv", name: "Swedish" },
-  { id: "th", name: "Thai" },
-  { id: "vi", name: "Vietnamese" },
-  { id: "he", name: "Hebrew" },
+const languages: SegmentItem[] = [
+  { id: "en", label: "English" },
+  { id: "es", label: "Spanish" },
+  { id: "fr", label: "French" },
+  { id: "de", label: "German" },
+  { id: "zh", label: "Mandarin" },
+  { id: "hi", label: "Hindi" },
+  { id: "ja", label: "Japanese" },
+  { id: "ru", label: "Russian" },
+  { id: "it", label: "Italian" },
+  { id: "ko", label: "Korean" },
+  { id: "pt", label: "Portuguese" },
+  { id: "ar", label: "Arabic" },
+  { id: "nl", label: "Dutch" },
+  { id: "tr", label: "Turkish" },
+  { id: "fa", label: "Persian" },
+  { id: "pl", label: "Polish" },
+  { id: "sv", label: "Swedish" },
+  { id: "th", label: "Thai" },
+  { id: "vi", label: "Vietnamese" },
+  { id: "he", label: "Hebrew" },
 ];
 export const Languages = () => {
   const [filters] = useAtom(filtersAtom);
@@ -36,7 +36,7 @@ export const Languages = () => {
       filterKey={"languages"}
       chipText={
         filters.languages.length === 1
-          ? `${languages.find((lang) => lang.id === filters.languages[0])?.name}`
+          ? `${languages.find((lang) => lang.id === filters.languages[0])?.label}`
           : `${filters.languages.length}`
       }
     >
@@ -47,8 +47,8 @@ export const Languages = () => {
               <Segment
                 key={lang.id}
                 item={lang}
+                currentValues={currentValues}
                 setCurrentValues={setCurrentValues}
-                isSelected={currentValues.includes(lang.id)}
                 multiple
               />
             ))}
