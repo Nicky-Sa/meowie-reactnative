@@ -4,7 +4,7 @@ import { colorAtom } from "@/atoms";
 import { View } from "react-native";
 import { GradientCircle } from "@/features/movies/layout/gradient-circle";
 
-export const MainBg = ({ children }: PropsWithChildren) => {
+export const MainScreen = ({ children }: PropsWithChildren) => {
   const [color] = useAtom(colorAtom);
 
   return (

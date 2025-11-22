@@ -12,7 +12,7 @@ import { colorAtom } from "@/atoms";
 import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
-import { useMovieContentStyle } from "@/features/movies/hooks/useMovieContentStyle";
+import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
 import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
 import { Genres } from "@/features/movies/elements/genres";
 import { Casts } from "@/features/movies/elements/casts";
@@ -34,7 +34,7 @@ export const DetailsContainer = memo(
     const { data, isLoading, error, mutate } = useFetchInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
 
-    const contentStyle = useMovieContentStyle();
+    const contentStyle = useMainContentStyle();
     const { height } = contentStyle;
 
     useEffect(() => {
@@ -79,7 +79,7 @@ export const DetailsContainer = memo(
           <MoviesSkeleton />
         ) : (
           <View
-            className={"relative flex flex-col items-start justify-start gap-4"}
+            className={"flex flex-col items-start justify-start gap-4 px-4"}
             style={contentStyle}
           >
             <View

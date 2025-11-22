@@ -1,14 +1,16 @@
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { tailwind } from "@/lib/utils";
 
-export const useMovieContentStyle = () => {
+/**
+ * For the style of main screens with header and navbar
+ */
+export const useMainContentStyle = () => {
   const { height } = useScreenDimensions();
-  const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
 
   return {
     height,
     paddingTop: top + 80, // 80 is to account for the header
-    paddingHorizontal: Number(tailwind.theme.spacing[4]),
+    paddingBottom: bottom + 90, // 90 is to account for the navbar
   };
 };

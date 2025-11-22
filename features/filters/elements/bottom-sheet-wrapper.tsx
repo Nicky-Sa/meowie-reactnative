@@ -90,7 +90,6 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
           <Button
             variant="white"
             size="lg"
-            className="text-center"
             onPress={() => {
               // Commit local draft to filtersAtom
               setFilters((draft) => {

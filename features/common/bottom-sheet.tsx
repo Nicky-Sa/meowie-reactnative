@@ -50,7 +50,7 @@ export const BottomSheet = forwardRef<
       maxDynamicContentSize,
       index = 1,
       onDismiss,
-      snapPoints = ["35%", "60%", "90%"],
+      snapPoints = ["38%", "60%", "90%"],
     },
     ref,
   ) => {

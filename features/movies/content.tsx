@@ -4,7 +4,7 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
-import { MainBg } from "@/features/movies/layout/main-bg";
+import { MainScreen } from "@/features/common/layout/main-screen";
 import { DetailsContainer } from "@/features/movies/elements/container";
 import { Header } from "@/features/movies/layout/header";
 import { useAtom } from "jotai";
@@ -20,6 +20,7 @@ import { useScrollToTop } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RootTabParamList } from "@/features/general/navbar/types";
+import { FiltersHeaderButton } from "@/features/filters/elements/header-button";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
@@ -39,12 +40,12 @@ export const Content = () => {
   const shouldRenderScrollIndicator = useRenderScrollIndicator(currentIndex);
 
   return (
-    <MainBg>
+    <MainScreen>
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : (
         <>
-          <Header />
+          <Header headerButton={<FiltersHeaderButton />} />
           {isLoading ? (
             <MoviesSkeleton />
           ) : dataLength > 0 ? (
@@ -77,7 +78,7 @@ export const Content = () => {
           )}
         </>
       )}
-    </MainBg>
+    </MainScreen>
   );
 };
 

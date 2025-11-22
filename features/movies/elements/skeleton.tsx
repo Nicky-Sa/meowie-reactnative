@@ -1,15 +1,15 @@
 import { View } from "react-native";
-import { useMovieContentStyle } from "@/features/movies/hooks/useMovieContentStyle";
+import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
 import { cn } from "@/lib/utils";
 
 export const MoviesSkeleton = () => {
-  const contentStyle = useMovieContentStyle();
+  const contentStyle = useMainContentStyle();
 
   return (
     <View className={"w-full flex-1 justify-start"}>
       <View
         className={
-          "flex animate-pulse flex-col items-start justify-start gap-4"
+          "flex animate-pulse flex-col items-start justify-start gap-4 px-4"
         }
         style={contentStyle}
       >
