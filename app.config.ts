@@ -62,6 +62,7 @@ const config: ExpoConfig = {
         "UIInterfaceOrientationPortrait",
         "UIInterfaceOrientationPortraitUpsideDown",
       ],
+      UIViewControllerBasedStatusBarAppearance: true,
     },
   },
   android: {
@@ -71,6 +72,7 @@ const config: ExpoConfig = {
     },
     package: getUniqueIdentifier(),
     edgeToEdgeEnabled: true,
+    softwareKeyboardLayoutMode: "pan",
   },
   web: {
     bundler: "metro",

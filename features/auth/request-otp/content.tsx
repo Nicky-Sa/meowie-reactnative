@@ -1,15 +1,10 @@
-import {
-  Keyboard,
-  TouchableWithoutFeedback,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IntroText } from "@/features/auth/request-otp/intro-text";
 import { EmailForm } from "@/features/auth/request-otp/email-form";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { SkipAuth } from "@/features/auth/request-otp/skip-auth";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ONLINE_VIDEO_URI =
   "https://meowie-public.s3.eu-central-1.amazonaws.com/signup-video.mp4";
@@ -21,7 +16,7 @@ export const Content = () => {
     player.play();
   });
   return (
-    <View style={{ flex: 1 }}>
+    <View className={"flex-1"}>
       {/* Video and Overlay - No changes here */}
       <VideoView
         player={player}
@@ -48,19 +43,17 @@ export const Content = () => {
         }}
       />
       <SafeAreaView className="flex-1">
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View className={"flex-1 flex-col justify-between px-4"}>
-            <IntroText />
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-              <View className={"flex flex-col gap-4"}>
-                <EmailForm />
-                <SkipAuth />
-              </View>
-            </KeyboardAvoidingView>
+        {/*using ScrollView to handle keyboard */}
+        <ScrollView
+          contentContainerClassName={"flex-1 flex-col justify-between px-4"}
+          scrollEnabled={false}
+        >
+          <IntroText />
+          <View className={"flex flex-col gap-4"}>
+            <EmailForm />
+            <SkipAuth />
           </View>
-        </TouchableWithoutFeedback>
+        </ScrollView>
       </SafeAreaView>
     </View>
   );

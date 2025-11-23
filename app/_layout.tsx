@@ -8,7 +8,10 @@ import "react-native-reanimated";
 import "@/styles/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SWRConfig } from "swr";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider } from "posthog-react-native";
@@ -18,6 +21,7 @@ import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
+import { KeyboardAvoidingView, Platform } from "react-native";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -64,6 +68,8 @@ function RootLayout() {
     }
   }, [ref]);
 
+  const { bottom } = useSafeAreaInsets();
+
   return (
     <PostHogProvider
       apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
@@ -96,55 +102,62 @@ function RootLayout() {
         >
           <SafeAreaProvider>
             <GestureHandlerRootView className={"flex-1"}>
-              <BottomSheetModalProvider>
-                <InternetCheck>
-                  <Stack
-                    screenOptions={{
-                      headerShown: false,
-                    }}
-                  >
-                    <Stack.Screen name="(tabs)" />
-
-                    <Stack.Screen
-                      name="auth/request-otp"
-                      options={{
-                        animation: "slide_from_right",
+              {/*keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset */}
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : undefined}
+                className={"flex-1"}
+                keyboardVerticalOffset={-1 * bottom}
+              >
+                <BottomSheetModalProvider>
+                  <InternetCheck>
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
                       }}
-                    />
+                    >
+                      <Stack.Screen name="(tabs)" />
 
-                    <Stack.Screen
-                      name="auth/verify-otp"
-                      options={{
-                        animation: "slide_from_right",
-                      }}
-                    />
+                      <Stack.Screen
+                        name="auth/request-otp"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                    <Stack.Screen
-                      name="filters/index"
-                      options={{
-                        animation: "slide_from_right",
-                      }}
-                    />
+                      <Stack.Screen
+                        name="auth/verify-otp"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                    <Stack.Screen
-                      name="onboarding/index"
-                      options={{
-                        animation: "slide_from_bottom",
-                      }}
-                    />
+                      <Stack.Screen
+                        name="filters/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                    <Stack.Screen
-                      name="settings/index"
-                      options={{
-                        animation: "slide_from_right",
-                      }}
-                    />
+                      <Stack.Screen
+                        name="onboarding/index"
+                        options={{
+                          animation: "slide_from_bottom",
+                        }}
+                      />
 
-                    <Stack.Screen name="+not-found" />
-                  </Stack>
-                  <PortalHost name="global-overlay" />
-                </InternetCheck>
-              </BottomSheetModalProvider>
+                      <Stack.Screen
+                        name="settings/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen name="+not-found" />
+                    </Stack>
+                    <PortalHost name="global-overlay" />
+                  </InternetCheck>
+                </BottomSheetModalProvider>
+              </KeyboardAvoidingView>
             </GestureHandlerRootView>
           </SafeAreaProvider>
         </SWRConfig>

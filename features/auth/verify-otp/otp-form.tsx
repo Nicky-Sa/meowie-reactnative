@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { View } from "react-native";
 import { TextInput } from "@/features/common/form/text-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,34 +49,28 @@ export const OtpForm = ({ email }: Props) => {
   });
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-      className={"flex-1"}
-    >
-      <View className={"flex h-full w-full flex-col justify-between gap-4"}>
-        <View className={"flex flex-col gap-4"}>
-          <TextInput
-            name={"otp"}
-            control={control}
-            clearErrors={clearErrors}
-            title={"Verification code"}
-            placeholder={"Enter the code"}
-            keyboardType={"number-pad"}
-            autoCapitalize={"none"}
-            autoCorrect={false}
-          />
-          <ResendCode onPress={() => triggerRequestOtp({ email })} />
-        </View>
-        <Button
-          variant={"white"}
-          size={"lg"}
-          onPress={onSubmit}
-          isLoading={isMutatingVerifyOtp || isMutatingRequestOtp}
-        >
-          Submit code
-        </Button>
+    <View className={"flex w-full flex-1 flex-col justify-between gap-4"}>
+      <View className={"flex flex-col gap-4"}>
+        <TextInput
+          name={"otp"}
+          control={control}
+          clearErrors={clearErrors}
+          title={"Verification code"}
+          placeholder={"Enter the code"}
+          keyboardType={"number-pad"}
+          autoCapitalize={"none"}
+          autoCorrect={false}
+        />
+        <ResendCode onPress={() => triggerRequestOtp({ email })} />
       </View>
-    </KeyboardAvoidingView>
+      <Button
+        variant={"white"}
+        size={"lg"}
+        onPress={onSubmit}
+        isLoading={isMutatingVerifyOtp || isMutatingRequestOtp}
+      >
+        Submit code
+      </Button>
+    </View>
   );
 };
