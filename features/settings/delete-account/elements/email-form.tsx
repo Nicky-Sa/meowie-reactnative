@@ -10,7 +10,7 @@ import { useDeleteAccount } from "@/features/settings/delete-account/data/useDel
 
 type Props = {
   email: string;
-  reasonId?: string;
+  churnReasonId?: string;
 };
 
 const EmailSchema = z.object({
@@ -19,7 +19,7 @@ const EmailSchema = z.object({
 
 type EmailFormData = z.infer<typeof EmailSchema>;
 
-export const EmailForm = ({ email, reasonId }: Props) => {
+export const EmailForm = ({ email, churnReasonId }: Props) => {
   const { control, handleSubmit, clearErrors, setError } =
     useForm<EmailFormData>({
       resolver: zodResolver(EmailSchema),
@@ -34,7 +34,7 @@ export const EmailForm = ({ email, reasonId }: Props) => {
 
   const onSubmit = handleSubmit(async (data: EmailFormData) => {
     try {
-      await trigger({ ...data, reasonId });
+      await trigger({ ...data, churnReasonId });
       router.push("/auth/request-otp");
     } catch (error) {
       setError("email", { message: (error as Error).message });

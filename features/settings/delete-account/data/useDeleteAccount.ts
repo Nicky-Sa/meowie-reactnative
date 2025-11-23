@@ -1,13 +1,16 @@
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import useSWRMutation from "swr/mutation";
-import { DeleteAccountReqDto } from "@/features/settings/delete-account/data/dto/delete-account.dto";
+import {
+  DeleteAccountReqDto,
+  DeleteAccountResDto,
+} from "@/features/settings/delete-account/data/dto/delete-account.dto";
 
 export const useDeleteAccount = () => {
   const url = "/auth/delete-account";
 
   const { trigger: swrTrigger, ...rest } = useSWRMutation<
-    SuccessResponse<undefined>,
+    SuccessResponse<DeleteAccountResDto>,
     Error,
     string,
     MutationArg<DeleteAccountReqDto>

@@ -1,4 +1,8 @@
 export type DeleteAccountReqDto = {
   email: string;
-  reasonId?: string;
+  churnReasonId?: string;
+};
+
+export type DeleteAccountResDto = {
+  successful: boolean;
 };
