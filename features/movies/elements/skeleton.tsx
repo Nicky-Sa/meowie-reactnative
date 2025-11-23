@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
-import { cn } from "@/lib/utils";
+import { SkeletonItem } from "@/features/common/skeleton-item";
 
 export const MoviesSkeleton = () => {
   const contentStyle = useMainContentStyle();
@@ -22,13 +22,5 @@ export const MoviesSkeleton = () => {
         <SkeletonItem className={"h-16"} />
       </View>
     </View>
-  );
-};
-
-const SkeletonItem = ({ className }: { className: string }) => {
-  return (
-    <View
-      className={cn(className, "w-full rounded-xl bg-neutral-11-default")}
-    />
   );
 };

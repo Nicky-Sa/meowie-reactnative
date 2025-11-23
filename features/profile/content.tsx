@@ -7,10 +7,11 @@ import { Header } from "@/features/movies/layout/header";
 import { ProfileHeaderButton } from "@/features/profile/header-button";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
+import { Skeleton } from "@/features/profile/skeleton";
 
 export const Content = () => {
   const contentStyle = useMainContentStyle();
-  const { data } = useCurrentUser();
+  const { data, isLoading } = useCurrentUser();
 
   return (
     <MainScreen>
@@ -20,7 +21,13 @@ export const Content = () => {
         className={"flex flex-col justify-between px-4"}
       >
         <View className={"flex flex-grow flex-col items-start gap-4"}>
-          {data?.user ? <LoggedIn user={data.user} /> : <Guest />}
+          {isLoading ? (
+            <Skeleton />
+          ) : data?.user ? (
+            <LoggedIn user={data.user} />
+          ) : (
+            <Guest />
+          )}
         </View>
         <View
           className={
