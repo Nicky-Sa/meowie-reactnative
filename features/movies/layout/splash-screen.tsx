@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import Rive, { Alignment } from "rive-react-native";
+import LottieView from "lottie-react-native";
 
 type Props = {
   isLoading?: boolean;
@@ -40,17 +39,22 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
 
   return (
     <Animated.View
-      style={[
-        { position: "absolute", zIndex: 10, width: "100%", height: "100%" },
-        splashStyle,
-      ]}
+      style={[{ position: "absolute", zIndex: 10 }, splashStyle]}
+      className={
+        "flex h-full w-full flex-col items-center justify-center bg-neutral-15-default"
+      }
     >
-      <View className={"h-full w-full bg-neutral-15-default"}>
-        <Rive
-          url="https://meowie-public.s3.eu-central-1.amazonaws.com/meowie-splash.riv"
-          alignment={Alignment.Center}
-        />
-      </View>
+      <LottieView
+        source={require("@/assets/lottie/splash.json")}
+        autoPlay
+        loop={false}
+        resizeMode={"contain"}
+        style={{
+          alignSelf: "center",
+          width: "50%",
+          height: "50%",
+        }}
+      />
     </Animated.View>
   );
 };
