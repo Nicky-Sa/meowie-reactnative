@@ -1,4 +1,4 @@
-import { Content } from "@/features/profile/logged-in/content";
+import { Content } from "@/features/profile/content";
 
 export default function ProfileScreen() {
   return <Content />;

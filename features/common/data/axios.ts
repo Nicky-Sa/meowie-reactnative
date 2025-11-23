@@ -4,10 +4,7 @@ import { Emitter } from "@/features/common/event-emitting/emitter";
 
 const onLogout = async () => {
   console.log("Logging out, refresh token failed.");
-  // 1. Remove tokens
-  await SecureStore.deleteItemAsync("access-token");
-  await SecureStore.deleteItemAsync("refresh-token");
-  // 2. Emit logout event to be listened to by the root layout
+  // Emit logout event to be listened to by the root layout
   Emitter.emit("logout");
 };
 

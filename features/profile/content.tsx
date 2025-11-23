@@ -1,13 +1,17 @@
+import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { LoggedIn } from "@/features/profile/logged-in";
+import { Guest } from "@/features/profile/guest";
 import { View, Text } from "react-native";
-import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
-import { Header } from "@/features/movies/layout/header";
-import { Image } from "expo-image";
-import { MainScreen } from "@/features/common/layout/main-screen";
 import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
+import { Header } from "@/features/movies/layout/header";
 import { ProfileHeaderButton } from "@/features/profile/header-button";
+import { MainScreen } from "@/features/common/layout/main-screen";
+import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
 
 export const Content = () => {
   const contentStyle = useMainContentStyle();
+  const { data } = useCurrentUser();
+
   return (
     <MainScreen>
       <Header headerButton={<ProfileHeaderButton />} />
@@ -15,24 +19,8 @@ export const Content = () => {
         style={contentStyle}
         className={"flex flex-col justify-between px-4"}
       >
-        <View className={"flex flex-grow flex-col gap-4"}>
-          <Image
-            source={
-              "https://meowie-public.s3.eu-central-1.amazonaws.com/default-profile.png"
-            }
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 9999,
-            }}
-            contentFit="cover"
-          />
-          <Text className={"body-b2 text-neutral-10-default"}>
-            Welcome to your profile
-          </Text>
-          <Text className={"title-t1-strong text-neutral-10-default"}>
-            Benjamin@gmail.com
-          </Text>
+        <View className={"flex flex-grow flex-col items-start gap-4"}>
+          {data?.user ? <LoggedIn user={data.user} /> : <Guest />}
         </View>
         <View
           className={
