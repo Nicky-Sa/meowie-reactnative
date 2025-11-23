@@ -112,7 +112,7 @@ export const TextInput = <T extends FieldValues>({
               style={{
                 backgroundColor:
                   textInputStates[getStateKey(isFocused, disabled, error)]
-                    .backgroundColor,
+                    .backgroundColor + "b3", // 70% opacity
                 borderColor:
                   textInputStates[getStateKey(isFocused, disabled, error)]
                     .borderColor,
