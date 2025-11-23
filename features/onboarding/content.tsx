@@ -131,7 +131,7 @@ export const Content = () => {
               onPress={() => {
                 if (isLastItem) {
                   AsyncStorage.setItem("onboarded", "true").then(() =>
-                    router.replace("/(tabs)/movies"),
+                    router.replace("/auth/request-otp"),
                   );
                 } else {
                   onPressPagination(currentIndex + 1);

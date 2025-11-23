@@ -12,8 +12,6 @@ import { filtersQueryParamsAtom } from "@/atoms";
 import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
-import { useRenderScrollIndicator } from "@/features/movies/hooks/useRenderScrollIndicator";
-import { ScrollIndicator } from "@/features/movies/elements/scroll-indicator";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";
 import { useScrollToTop } from "@react-navigation/native";
@@ -37,7 +35,6 @@ export const Content = () => {
     dataLength,
     setSize,
   });
-  const shouldRenderScrollIndicator = useRenderScrollIndicator(currentIndex);
 
   return (
     <MainScreen>
@@ -69,9 +66,6 @@ export const Content = () => {
                 onScroll={scrollHandler}
                 showsVerticalScrollIndicator={false}
               />
-              {shouldRenderScrollIndicator && (
-                <ScrollIndicator shouldShow={currentIndex <= 0} />
-              )}
             </>
           ) : (
             <MoviesEmptyState />

@@ -8,7 +8,6 @@ import { useRouter } from "expo-router";
 import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/verify-otp/resend-code";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from "expo-secure-store";
 
 const OtpSchema = z.object({

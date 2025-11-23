@@ -2,8 +2,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   View,
-  KeyboardAvoidingView, // 1. Import KAV
-  Platform, // 2. Import Platform
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IntroText } from "@/features/auth/request-otp/intro-text";
