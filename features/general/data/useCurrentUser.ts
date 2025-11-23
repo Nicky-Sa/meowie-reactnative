@@ -12,8 +12,7 @@ export const useCurrentUser = () => {
 
   const { data: response, ...rest } = useSWR<
     SuccessResponse<CurrentUserResDto>,
-    Error,
-    string
+    Error
   >(url, fetcher);
 
   return {
