@@ -67,7 +67,6 @@ export const MovieDetails = memo(
         opacity,
       };
     });
-
     return error ? (
       <MoviesErrorState tryAgain={mutate} error={error} />
     ) : (

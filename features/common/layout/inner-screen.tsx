@@ -7,7 +7,7 @@ import { PropsWithChildren, ReactNode } from "react";
 import { useRouter } from "expo-router";
 
 type Props = {
-  title: string;
+  title?: string;
   onBack?: () => void;
   rightTopComponent?: ReactNode;
 };

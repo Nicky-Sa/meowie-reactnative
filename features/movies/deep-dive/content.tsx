@@ -7,10 +7,7 @@ import { FlashList } from "@shopify/flash-list";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
-import {
-  Poster,
-  PosterSkeleton,
-} from "@/features/movies/deep-dive/elements/poster";
+import { Poster } from "@/features/movies/deep-dive/elements/poster";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { tailwind } from "@/lib/utils";
 
@@ -23,8 +20,7 @@ const NUM_COLUMNS = 3;
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = ({ personId }: Props) => {
-  const { data, dataLength, setSize, isLoading, error, mutate } =
-    useFetchMoviesIds();
+  const { data, dataLength, setSize, error, mutate } = useFetchMoviesIds();
 
   const { scrollHandler, scrollY, currentIndex } = useScrollHandler({
     dataLength,
@@ -36,14 +32,12 @@ export const Content = ({ personId }: Props) => {
   const posterWidth = Math.floor(availableWidth / NUM_COLUMNS);
 
   return (
-    <InnerScreen title={"Person Movies"}>
+    <InnerScreen>
       <View className={"flex w-full flex-col items-start gap-8"}>
         <Person personId={personId} />
       </View>
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
-      ) : isLoading ? (
-        <PostersSkeleton numColumns={NUM_COLUMNS} width={posterWidth} />
       ) : dataLength > 0 ? (
         <AnimatedFlashList
           data={data}
@@ -59,21 +53,5 @@ export const Content = ({ personId }: Props) => {
         <MoviesEmptyState />
       )}
     </InnerScreen>
-  );
-};
-
-const PostersSkeleton = ({
-  numColumns,
-  width,
-}: {
-  numColumns: number;
-  width: number;
-}) => {
-  return (
-    <View className={"flex flex-row flex-wrap gap-2"}>
-      {[...Array(numColumns * 3)].map((_, index) => (
-        <PosterSkeleton key={index} width={width} />
-      ))}
-    </View>
   );
 };

@@ -22,7 +22,9 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
     <>
       {noInternet ? (
         <View
-          className={"flex-col items-center justify-center gap-8"}
+          className={
+            "flex-col items-center justify-center gap-8 bg-neutral-15-default"
+          }
           style={{
             height,
           }}

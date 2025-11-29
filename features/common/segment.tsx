@@ -1,11 +1,12 @@
 import { Button } from "@/features/common/button";
 import { tailwind } from "@/lib/utils";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { Updater } from "use-immer";
 
 export type SegmentItem = {
   id: string;
   label: string;
+  description?: string;
 };
 
 type Props = {
@@ -54,9 +55,16 @@ export const Segment = ({
         }),
       }}
     >
-      <Text className={"body-b1-strong text-neutral-10-default"}>
-        {item.label}
-      </Text>
+      <View className={"flex flex-col items-start gap-2"}>
+        <Text className={"body-b1-strong text-neutral-10-default"}>
+          {item.label}
+        </Text>
+        {item.description && (
+          <Text className={"body-b2 text-neutral-6-default"}>
+            {item.description}
+          </Text>
+        )}
+      </View>
     </Button>
   );
 };

@@ -6,32 +6,29 @@ import {
   MovieDetailsSkeleton,
 } from "@/features/movies/elements/details";
 import { Header } from "@/features/general/layout/header";
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { FlashList } from "@shopify/flash-list";
-import { FiltersHeaderButton } from "@/features/filters/elements/header-button";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
 import { useListRef } from "@/features/movies/movie-info/hooks/useListRef";
+import { SortHeaderButton } from "@/features/sort/header-button";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
-  const [filters] = useAtom(filtersAtom);
   const listRef = useListRef();
 
-  const { data, dataLength, setSize, isLoading, error, mutate } =
+  const { data, dataLength, setSize, isLoading, error, mutate, key } =
     useFetchMoviesIds();
 
-  const { scrollHandler, scrollY, currentIndex } = useScrollHandler({
+  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler({
     dataLength,
     setSize,
   });
 
   return (
     <MainScreen>
-      <Header headerButton={<FiltersHeaderButton />} />
+      <Header headerButton={<SortHeaderButton />} />
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading ? (
@@ -39,7 +36,7 @@ export const Content = () => {
       ) : dataLength > 0 ? (
         <AnimatedFlashList
           ref={listRef}
-          key={JSON.stringify(filters)}
+          key={key} // to remount the list when filters or sort change
           data={data}
           keyExtractor={(id, index) => `movie-${id}-${index}`}
           renderItem={({ item: movieId, index }) => (
@@ -53,6 +50,7 @@ export const Content = () => {
           )}
           pagingEnabled
           onScroll={scrollHandler}
+          onLoad={onLoad}
           showsVerticalScrollIndicator={false}
         />
       ) : (

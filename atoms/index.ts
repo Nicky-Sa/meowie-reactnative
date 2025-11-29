@@ -28,3 +28,8 @@ export const initialFiltersValue: Filters = {
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
+
+// Sort
+export type Sort = "popularity.desc" | "primary_release_date.desc" | "random";
+export const InitialSort: Sort = "popularity.desc";
+export const sortAtom = atom<Sort>(InitialSort);

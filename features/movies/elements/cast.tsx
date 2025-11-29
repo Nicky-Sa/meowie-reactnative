@@ -7,12 +7,13 @@ import { filtersAtom } from "@/atoms";
 
 export const Cast = ({ id, name, profilePath }: CastInfo) => {
   const router = useRouter();
-  const [, setFilters] = useAtom(filtersAtom);
+  // const [, setFilters] = useAtom(filtersAtom);
 
   const handlePress = () => {
-    setFilters((draft) => {
-      draft["personId"] = id;
-    });
+    if (id < 0) return;
+    // setFilters((draft) => {
+    //   draft["personId"] = id;
+    // });
     router.push(`/movies/deep-dive?personId=${id}`);
   };
 

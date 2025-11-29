@@ -10,6 +10,7 @@ export const useListRef = () => {
   const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
 
   useScrollToTop(listRef);
+
   useEffect(() => {
     return navigation.addListener("tabPress", () => {
       // Only scroll to top if already focused

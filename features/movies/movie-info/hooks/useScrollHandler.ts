@@ -5,13 +5,12 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 
-export const useScrollHandler = ({
-  dataLength,
-  setSize,
-}: {
+type Args = {
   dataLength: number;
   setSize: (size: number) => void;
-}) => {
+};
+
+export const useScrollHandler = ({ dataLength, setSize }: Args) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
 
@@ -33,5 +32,10 @@ export const useScrollHandler = ({
       }
     },
   });
-  return { scrollHandler, scrollY, currentIndex };
+
+  const onLoad = () => {
+    scrollY.value = 0;
+  }; // Reset scroll position when data is loaded
+
+  return { scrollHandler, scrollY, currentIndex, onLoad };
 };
