@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const Poster = ({ movieId, width }: Props) => {
-  const { data, isLoading, error } = useFetchMovieInfo(movieId);
+  const { data, isLoading } = useFetchMovieInfo(movieId);
 
   return isLoading || !data ? (
     <PosterSkeleton width={width} />
