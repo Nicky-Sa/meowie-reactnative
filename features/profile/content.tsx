@@ -3,7 +3,7 @@ import { LoggedIn } from "@/features/profile/logged-in";
 import { Guest } from "@/features/profile/guest";
 import { View, Text } from "react-native";
 import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
-import { Header } from "@/features/movies/layout/header";
+import { Header } from "@/features/general/layout/header";
 import { ProfileHeaderButton } from "@/features/profile/header-button";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";

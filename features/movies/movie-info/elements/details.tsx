@@ -1,6 +1,6 @@
-import { useFetchInfo } from "@/features/movies/data/useFetchInfo";
+import { useFetchMovieInfo } from "@/features/movies/movie-info/data/useFetchMovieInfo";
 import { View, Text } from "react-native";
-import { TrailerPlayer } from "@/features/movies/elements/trailer-player";
+import { TrailerPlayer } from "@/features/movies/movie-info/elements/trailer-player";
 import { memo, useEffect } from "react";
 import Animated, {
   interpolate,
@@ -9,18 +9,18 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { Ratings } from "@/features/movies/elements/ratings";
+import { Ratings } from "@/features/movies/movie-info/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
-import { MoviesErrorState } from "@/features/movies/elements/error-state";
+import { MoviesErrorState } from "@/features/movies/movie-info/elements/error-state";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
-import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
-import { Genres } from "@/features/movies/elements/genres";
-import { Casts } from "@/features/movies/elements/casts";
+import { Genres } from "@/features/movies/movie-info/elements/genres";
+import { Casts } from "@/features/movies/movie-info/elements/casts";
 import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/movies/elements/cast";
+import { Cast } from "@/features/movies/movie-info/elements/cast";
+import { SkeletonItem } from "@/features/common/skeleton-item";
 
 type Props = {
   movieId: number;
@@ -31,7 +31,7 @@ type Props = {
 
 export const DetailsContainer = memo(
   ({ movieId, shouldPlay, index, scrollY }: Props) => {
-    const { data, isLoading, error, mutate } = useFetchInfo(movieId);
+    const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
 
     const contentStyle = useMainContentStyle();
@@ -117,6 +117,7 @@ export const DetailsContainer = memo(
                   </Text>
                 </View>
                 <Cast
+                  id={data.credits.director.id}
                   name={data.credits.director.name}
                   profilePath={data.credits.director.profilePath}
                   character={data.credits.director.character}
@@ -188,3 +189,24 @@ export const DetailsContainer = memo(
   },
 );
 DetailsContainer.displayName = "DetailsContainer";
+
+export const MoviesSkeleton = () => {
+  const contentStyle = useMainContentStyle();
+
+  return (
+    <View className={"w-full flex-1 justify-start"}>
+      <View
+        className={"flex flex-col items-start justify-start gap-4 px-4"}
+        style={contentStyle}
+      >
+        <SkeletonItem className={"h-20"} />
+        <SkeletonItem className={"h-48"} />
+        <SkeletonItem className={"h-8"} />
+        <SkeletonItem className={"h-16"} />
+        <SkeletonItem className={"h-8"} />
+        <SkeletonItem className={"h-8"} />
+        <SkeletonItem className={"h-16"} />
+      </View>
+    </View>
+  );
+};

@@ -1,4 +1,4 @@
-import { SplashScreen } from "@/features/movies/layout/splash-screen";
+import { SplashScreen } from "@/features/general/splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";

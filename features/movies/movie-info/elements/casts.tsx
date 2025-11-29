@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import { CastInfo } from "@/features/movies/models/movie-info";
-import { Cast } from "@/features/movies/elements/cast";
+import { CastInfo } from "@/features/movies/movie-info/models/movie-info";
+import { Cast } from "@/features/movies/movie-info/elements/cast";
 
 type Props = {
   casts: CastInfo[];

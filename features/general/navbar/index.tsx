@@ -40,7 +40,7 @@ export const Navbar = ({ tabs }: Props) => {
         },
       }}
     >
-      {tabs.map((tab, index) => (
+      {tabs.map((tab) => (
         <Tabs.Screen
           key={tab.name}
           name={tab.name}

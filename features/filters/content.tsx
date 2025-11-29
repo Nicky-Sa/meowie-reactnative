@@ -6,12 +6,7 @@ import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import {
-  Filters,
-  filtersAtom,
-  filtersQueryParamsAtom,
-  initialFiltersValue,
-} from "@/atoms";
+import { filtersAtom, initialFiltersValue } from "@/atoms";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { Icon } from "@/features/common/icon";
@@ -37,7 +32,6 @@ const ClearSelection = ({ onPress }: { onPress: () => void }) => {
 
 export const Content = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
-  const [, setFiltersQueryParams] = useAtom(filtersQueryParamsAtom);
   const router = useRouter();
 
   const hasSelectedFilter = useMemo(
@@ -46,19 +40,6 @@ export const Content = () => {
   );
 
   const handleExit = () => {
-    setFiltersQueryParams(
-      `${Object.entries(filters)
-        .filter(
-          ([key, value]) =>
-            !_.isEqual(value, initialFiltersValue[key as keyof Filters]),
-        )
-        .map(([key, value]) => `${key}=${value.toString()}`)
-        .join("&")}`,
-    );
-  };
-
-  const handleApply = () => {
-    handleExit();
     router.back();
   };
 
@@ -83,7 +64,7 @@ export const Content = () => {
           <YearDecades />
           <TMDBRating />
         </View>
-        <Button variant={"white"} size={"lg"} onPress={handleApply}>
+        <Button variant={"white"} size={"lg"} onPress={handleExit}>
           Apply
         </Button>
       </View>

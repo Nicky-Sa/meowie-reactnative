@@ -5,13 +5,15 @@ import Animated, {
 } from "react-native-reanimated";
 import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { DetailsContainer } from "@/features/movies/elements/container";
-import { Header } from "@/features/movies/layout/header";
+import {
+  DetailsContainer,
+  MoviesSkeleton,
+} from "@/features/movies/movie-info/elements/details";
+import { Header } from "@/features/general/layout/header";
 import { useAtom } from "jotai";
-import { filtersQueryParamsAtom } from "@/atoms";
-import { MoviesSkeleton } from "@/features/movies/elements/skeleton";
-import { MoviesErrorState } from "@/features/movies/elements/error-state";
-import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
+import { filtersAtom } from "@/atoms";
+import { MoviesErrorState } from "@/features/movies/movie-info/elements/error-state";
+import { MoviesEmptyState } from "@/features/movies/movie-info/elements/empty-state";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";
 import { useScrollToTop } from "@react-navigation/native";
@@ -23,13 +25,11 @@ import { FiltersHeaderButton } from "@/features/filters/elements/header-button";
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
-  const [filtersQueryParams] = useAtom(filtersQueryParamsAtom);
+  const [filters] = useAtom(filtersAtom);
   const listRef = useListRef();
 
   const { data, dataLength, setSize, isLoading, error, mutate } =
-    useFetchMoviesIds({
-      queryParams: filtersQueryParams,
-    });
+    useFetchMoviesIds();
 
   const { scrollHandler, scrollY, currentIndex } = useScrollHandler({
     dataLength,
@@ -49,7 +49,7 @@ export const Content = () => {
             <>
               <AnimatedFlashList
                 ref={listRef}
-                key={JSON.stringify(filtersQueryParams)}
+                key={JSON.stringify(filters)}
                 data={data}
                 keyExtractor={(id, index) => `movie-${id}-${index}`}
                 renderItem={({ item: movieId, index }) => (

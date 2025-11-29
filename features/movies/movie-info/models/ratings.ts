@@ -1,4 +1,4 @@
-import { OMDB_Source } from "@/features/movies/models/omdb";
+import { OMDB_Source } from "@/features/movies/movie-info/models/omdb";
 
 type RatingEntry = {
   source: OMDB_Source | "The Movie Database";

@@ -16,6 +16,7 @@ export type Filters = {
   languages: string[];
   decade: string;
   tmdbRatings: number[];
+  personId?: number;
 };
 
 export const initialFiltersValue: Filters = {
@@ -23,8 +24,7 @@ export const initialFiltersValue: Filters = {
   languages: [],
   decade: "",
   tmdbRatings: [0, 10],
+  personId: undefined,
 };
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
-
-export const filtersQueryParamsAtom = atom("");
