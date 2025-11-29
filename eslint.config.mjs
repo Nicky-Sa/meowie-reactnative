@@ -5,7 +5,7 @@ import expoConfig from "eslint-config-expo/flat.js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import reactPlugin from "eslint-plugin-react";
 import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { configs as tseslintConfig } from "typescript-eslint";
 
 export default defineConfig([
   expoConfig,
@@ -13,7 +13,7 @@ export default defineConfig([
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat["jsx-runtime"],
   eslint.configs.recommended,
-  tseslint.configs.recommended,
+  tseslintConfig.recommended,
   {
     rules: {
       "prettier/prettier": "error",

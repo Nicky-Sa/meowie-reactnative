@@ -15,7 +15,7 @@
     "eas-build:testflight-production": "eas env:pull --environment production && eas build --platform ios --profile testflight-production --clear-cache --local --non-interactive --output=./local-builds/testflight/production/meowie.ipa",
     "eas-build-post-install": "node ./scripts/eas-build-post-install.mjs",
     "test": "jest --watchAll",
-    "lint": "expo lint",
+    "lint": "eslint",
     "eas-update": "eas update --auto && npx sentry-expo-upload-sourcemaps dist",
     "generate-figma-variables": "npx ts-node figma/processor.ts",
     "android": "expo run:android",
