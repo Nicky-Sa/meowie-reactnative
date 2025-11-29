@@ -37,36 +37,42 @@ export const Content = ({ personId }: Props) => {
 
   return (
     <InnerScreen title={"Person Movies"}>
-      <View className={"flex w-full flex-1 flex-col items-start gap-8"}>
+      <View className={"flex w-full flex-col items-start gap-8"}>
         <Person personId={personId} />
-        {error ? (
-          <MoviesErrorState tryAgain={mutate} error={error} />
-        ) : isLoading ? (
-          <PostersSkeleton numColumns={NUM_COLUMNS} />
-        ) : dataLength > 0 ? (
-          <AnimatedFlashList
-            data={data}
-            keyExtractor={(id, index) => `movie-${id}-${index}`}
-            renderItem={({ item: movieId }) => (
-              <Poster key={movieId} movieId={movieId} width={posterWidth} />
-            )}
-            numColumns={NUM_COLUMNS}
-            onScroll={scrollHandler}
-            showsVerticalScrollIndicator={false}
-          />
-        ) : (
-          <MoviesEmptyState />
-        )}
       </View>
+      {error ? (
+        <MoviesErrorState tryAgain={mutate} error={error} />
+      ) : isLoading ? (
+        <PostersSkeleton numColumns={NUM_COLUMNS} width={posterWidth} />
+      ) : dataLength > 0 ? (
+        <AnimatedFlashList
+          data={data}
+          keyExtractor={(id, index) => `movie-${id}-${index}`}
+          renderItem={({ item: movieId }) => (
+            <Poster key={movieId} movieId={movieId} width={posterWidth} />
+          )}
+          numColumns={NUM_COLUMNS}
+          onScroll={scrollHandler}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <MoviesEmptyState />
+      )}
     </InnerScreen>
   );
 };
 
-const PostersSkeleton = ({ numColumns }: { numColumns: number }) => {
+const PostersSkeleton = ({
+  numColumns,
+  width,
+}: {
+  numColumns: number;
+  width: number;
+}) => {
   return (
     <View className={"flex flex-row flex-wrap gap-2"}>
       {[...Array(numColumns * 3)].map((_, index) => (
-        <PosterSkeleton key={index} />
+        <PosterSkeleton key={index} width={width} />
       ))}
     </View>
   );

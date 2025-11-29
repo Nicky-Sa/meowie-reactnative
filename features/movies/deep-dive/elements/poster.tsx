@@ -1,5 +1,4 @@
 import { Image } from "expo-image";
-import { tailwind } from "@/lib/utils";
 import { useFetchMovieInfo } from "@/features/movies/movie-info/data/useFetchMovieInfo";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 
@@ -12,7 +11,7 @@ export const Poster = ({ movieId, width }: Props) => {
   const { data, isLoading, error } = useFetchMovieInfo(movieId);
 
   return isLoading || !data ? (
-    <PosterSkeleton />
+    <PosterSkeleton width={width} />
   ) : (
     <Image
       source={data.posterPath}
@@ -31,6 +30,12 @@ export const Poster = ({ movieId, width }: Props) => {
   );
 };
 
-export const PosterSkeleton = () => {
-  return <SkeletonItem className={"h-48 w-32 rounded-lg"} />;
+export const PosterSkeleton = ({ width }: { width: number }) => {
+  const height = width * (3 / 2);
+  return (
+    <SkeletonItem
+      className={"rounded-none border border-neutral-3-default"}
+      style={{ width, height }}
+    />
+  );
 };
