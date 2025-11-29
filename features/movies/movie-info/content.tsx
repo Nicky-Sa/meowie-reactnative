@@ -8,12 +8,12 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import {
   DetailsContainer,
   MoviesSkeleton,
-} from "@/features/movies/movie-info/elements/details";
+} from "@/features/movies/elements/details";
 import { Header } from "@/features/general/layout/header";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
-import { MoviesErrorState } from "@/features/movies/movie-info/elements/error-state";
-import { MoviesEmptyState } from "@/features/movies/movie-info/elements/empty-state";
+import { MoviesErrorState } from "@/features/movies/elements/error-state";
+import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { scheduleOnRN } from "react-native-worklets";
 import { useScrollToTop } from "@react-navigation/native";

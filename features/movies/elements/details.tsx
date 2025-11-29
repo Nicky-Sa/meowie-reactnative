@@ -1,6 +1,6 @@
 import { useFetchMovieInfo } from "@/features/movies/movie-info/data/useFetchMovieInfo";
 import { View, Text } from "react-native";
-import { TrailerPlayer } from "@/features/movies/movie-info/elements/trailer-player";
+import { TrailerPlayer } from "@/features/movies/elements/trailer-player";
 import { memo, useEffect } from "react";
 import Animated, {
   interpolate,
@@ -9,17 +9,17 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { Ratings } from "@/features/movies/movie-info/elements/ratings";
+import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
-import { MoviesErrorState } from "@/features/movies/movie-info/elements/error-state";
+import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
-import { Genres } from "@/features/movies/movie-info/elements/genres";
-import { Casts } from "@/features/movies/movie-info/elements/casts";
+import { Genres } from "@/features/movies/elements/genres";
+import { Casts } from "@/features/movies/elements/casts";
 import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/movies/movie-info/elements/cast";
+import { Cast } from "@/features/movies/elements/cast";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 
 type Props = {
