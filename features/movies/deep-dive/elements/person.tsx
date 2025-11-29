@@ -1,20 +1,22 @@
 import { Text, View } from "react-native";
 import { Image } from "expo-image";
-import { PersonResDto } from "@/features/movies/deep-dive/data/person.dto";
 import { SkeletonItem } from "@/features/common/skeleton-item";
+import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/useFetchPersonInfo";
 
-export const Person = ({
-  name,
-  knownForDepartment,
-  profilePath,
-}: PersonResDto) => {
-  return (
+type Props = {
+  personId: number;
+};
+export const Person = ({ personId }: Props) => {
+  const { data, isLoading } = useFetchPersonInfo(personId);
+  return isLoading || !data ? (
+    <PersonSkeleton />
+  ) : (
     <View className={"flex flex-row items-center gap-3"}>
       <Image
-        source={profilePath}
+        source={data.profilePath}
         style={{
-          width: 80,
-          height: 80,
+          width: 72,
+          height: 72,
           borderRadius: 9999,
         }}
         contentFit="cover"
@@ -26,17 +28,17 @@ export const Person = ({
       />
       <View className={"flex flex-col gap-1"}>
         <Text className={"title-t2-strong text-neutral-10-default"}>
-          {name}
+          {data.name}
         </Text>
         <Text className={"body-b2 text-neutral-6-default"}>
-          Known for: {knownForDepartment}
+          Known for: {data.knownForDepartment}
         </Text>
       </View>
     </View>
   );
 };
 
-export const PersonSkeleton = () => {
+const PersonSkeleton = () => {
   return (
     <View className={"flex flex-row items-center justify-start gap-3"}>
       <SkeletonItem className={"h-20 w-20 rounded-full"} />

@@ -29,7 +29,7 @@ type Props = {
   scrollY: SharedValue<number>;
 };
 
-export const DetailsContainer = memo(
+export const MovieDetails = memo(
   ({ movieId, shouldPlay, index, scrollY }: Props) => {
     const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
@@ -76,7 +76,7 @@ export const DetailsContainer = memo(
         className={"h-full w-full flex-1 justify-start"}
       >
         {isLoading || !data ? (
-          <MoviesSkeleton />
+          <MovieDetailsSkeleton />
         ) : (
           <View
             className={"flex flex-col items-start justify-start gap-4 px-4"}
@@ -188,9 +188,9 @@ export const DetailsContainer = memo(
     );
   },
 );
-DetailsContainer.displayName = "DetailsContainer";
+MovieDetails.displayName = "MovieDetails";
 
-export const MoviesSkeleton = () => {
+export const MovieDetailsSkeleton = () => {
   const contentStyle = useMainContentStyle();
 
   return (
