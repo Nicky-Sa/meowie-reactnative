@@ -40,29 +40,6 @@ const getAppName = () => {
   return appName;
 };
 
-const getFirebaseConfig = (platform: "android" | "ios") => {
-  switch (platform) {
-    case "android":
-      switch (APP_VARIANT) {
-        case "development":
-          return "./firebase/configs/android/google-services.dev.json";
-        case "preview":
-          return "./firebase/configs/android/google-services.preview.json";
-        default:
-          return "./firebase/configs/android/google-services.json";
-      }
-    case "ios":
-      switch (APP_VARIANT) {
-        case "development":
-          return "./firebase/configs/ios/GoogleService-Info.dev.plist";
-        case "preview":
-          return "./firebase/configs/ios/GoogleService-Info.preview.plist";
-        default:
-          return "./firebase/configs/ios/GoogleService-Info.plist";
-      }
-  }
-};
-
 const getScheme = () => {
   let scheme: string;
 
@@ -104,8 +81,6 @@ const config: ExpoConfig = {
       ],
       UIViewControllerBasedStatusBarAppearance: true,
     },
-    googleServicesFile: getFirebaseConfig("ios"),
-    associatedDomains: ["applinks:auth.meowie.app"],
   },
   android: {
     adaptiveIcon: {
@@ -115,21 +90,6 @@ const config: ExpoConfig = {
     package: getUniqueIdentifier(),
     edgeToEdgeEnabled: true,
     softwareKeyboardLayoutMode: "pan",
-    googleServicesFile: getFirebaseConfig("android"),
-    intentFilters: [
-      {
-        action: "VIEW",
-        autoVerify: true,
-        data: [
-          {
-            scheme: "https",
-            host: "auth.meowie.app",
-            pathPrefix: "/__/auth/action",
-          },
-        ],
-        category: ["BROWSABLE", "DEFAULT"],
-      },
-    ],
   },
   web: {
     bundler: "metro",
