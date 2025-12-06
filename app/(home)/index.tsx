@@ -30,7 +30,7 @@ export default function Home() {
             if (data?.user) {
               router.replace("/(tabs)/movies");
             } else {
-              router.replace("/auth/request-otp");
+              router.replace("/auth/magic-link");
             }
           }
         });

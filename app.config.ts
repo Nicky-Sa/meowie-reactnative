@@ -40,13 +40,53 @@ const getAppName = () => {
   return appName;
 };
 
+const getFirebaseConfig = (platform: "android" | "ios") => {
+  switch (platform) {
+    case "android":
+      switch (APP_VARIANT) {
+        case "development":
+          return "./firebase/configs/android/google-services.dev.json";
+        case "preview":
+          return "./firebase/configs/android/google-services.preview.json";
+        default:
+          return "./firebase/configs/android/google-services.json";
+      }
+    case "ios":
+      switch (APP_VARIANT) {
+        case "development":
+          return "./firebase/configs/ios/GoogleService-Info.dev.plist";
+        case "preview":
+          return "./firebase/configs/ios/GoogleService-Info.preview.plist";
+        default:
+          return "./firebase/configs/ios/GoogleService-Info.plist";
+      }
+  }
+};
+
+const getScheme = () => {
+  let scheme: string;
+
+  switch (APP_VARIANT) {
+    case "development":
+      scheme = "meowie-dev";
+      break;
+    case "preview":
+      scheme = "meowie-preview";
+      break;
+    default:
+      scheme = "meowie";
+  }
+
+  return scheme;
+};
+
 const config: ExpoConfig = {
   name: getAppName(),
   slug: "meowie",
   version: pkg.version,
   orientation: "portrait",
   icon: "./assets/images/logo/logo-large.png",
-  scheme: "myapp",
+  scheme: getScheme(),
   userInterfaceStyle: "automatic",
   newArchEnabled: true,
   ios: {
@@ -64,6 +104,8 @@ const config: ExpoConfig = {
       ],
       UIViewControllerBasedStatusBarAppearance: true,
     },
+    googleServicesFile: getFirebaseConfig("ios"),
+    associatedDomains: ["applinks:auth.meowie.app"],
   },
   android: {
     adaptiveIcon: {
@@ -73,6 +115,21 @@ const config: ExpoConfig = {
     package: getUniqueIdentifier(),
     edgeToEdgeEnabled: true,
     softwareKeyboardLayoutMode: "pan",
+    googleServicesFile: getFirebaseConfig("android"),
+    intentFilters: [
+      {
+        action: "VIEW",
+        autoVerify: true,
+        data: [
+          {
+            scheme: "https",
+            host: "auth.meowie.app",
+            pathPrefix: "/__/auth/action",
+          },
+        ],
+        category: ["BROWSABLE", "DEFAULT"],
+      },
+    ],
   },
   web: {
     bundler: "metro",
@@ -101,6 +158,10 @@ const config: ExpoConfig = {
     [
       "expo-build-properties",
       {
+        ios: {
+          useFrameworks: "static",
+          forceStaticLinking: ["RNFBApp", "RNFBAuth"],
+        },
         android: {
           usesCleartextTraffic: true,
         },
@@ -113,6 +174,8 @@ const config: ExpoConfig = {
         supportsPictureInPicture: true,
       },
     ],
+    "@react-native-firebase/app",
+    "@react-native-firebase/auth",
   ],
   experiments: {
     typedRoutes: true,

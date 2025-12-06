@@ -4,18 +4,18 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "development": {
+    "internal-development": {
       "environment": "development",
       "developmentClient": true,
       "distribution": "internal"
     },
-    "ios-simulator": {
-      "extends": "development",
+    "internal-development-ios-simulator": {
+      "extends": "internal-development",
       "ios": {
         "simulator": true
       }
     },
-    "preview": {
+    "internal-preview": {
       "environment": "preview",
       "distribution": "internal"
     },

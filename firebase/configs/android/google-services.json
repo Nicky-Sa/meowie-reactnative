@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "934733273852",
+    "project_id": "meowie-nh",
+    "storage_bucket": "meowie-nh.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934733273852:android:e65e198d2636a21f0fd579",
+        "android_client_info": {
+          "package_name": "com.meowie.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADz0jwICh2dFa6Iix_rjEmRW4TYfMwjkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934733273852:android:2618e520b54547e70fd579",
+        "android_client_info": {
+          "package_name": "com.meowie.app.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADz0jwICh2dFa6Iix_rjEmRW4TYfMwjkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934733273852:android:4c5463cc436cdc970fd579",
+        "android_client_info": {
+          "package_name": "com.meowie.app.preview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADz0jwICh2dFa6Iix_rjEmRW4TYfMwjkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

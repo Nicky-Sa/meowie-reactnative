@@ -132,6 +132,13 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
+                        name="auth/magic-link"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
                         name="filters/index"
                         options={{
                           animation: "slide_from_right",
