@@ -18,6 +18,7 @@ export const Content = () => {
         <ScrollView
           contentContainerClassName={"flex h-full flex-col gap-4"}
           scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
         >
           <Header handleBack={handleBack} />
           <InfoEmail email={email} handleBack={handleBack} />

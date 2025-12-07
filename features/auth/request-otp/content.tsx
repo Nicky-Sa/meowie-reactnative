@@ -47,6 +47,7 @@ export const Content = () => {
         <ScrollView
           contentContainerClassName={"flex-1 flex-col justify-between px-4"}
           scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
         >
           <IntroText />
           <View className={"flex flex-col gap-4"}>

@@ -21,6 +21,7 @@ export const Content = () => {
           "flex w-full flex-col items-center gap-8 pt-8"
         }
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <SuperCryingMeowie />
         <WarningText />
