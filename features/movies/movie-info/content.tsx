@@ -12,13 +12,12 @@ import { FlashList } from "@shopify/flash-list";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
 import { useListRef } from "@/features/movies/movie-info/hooks/useListRef";
 import { SortHeaderButton } from "@/features/sort/header-button";
-import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
+import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const listRef = useListRef();
-  const { height } = useMainContentStyle();
 
   const {
     data,
@@ -32,11 +31,13 @@ export const Content = () => {
     key,
   } = useFetchMoviesIds();
 
-  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler({
-    itemHeight: height,
-    dataLength,
+  // Simplified handler only controls animation and current index
+  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
+
+  const { onEndReached } = useFetchMore({
     size,
     setSize,
+    isLoading,
     totalPages,
   });
 
@@ -45,7 +46,8 @@ export const Content = () => {
       <Header headerButton={<SortHeaderButton />} />
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
-      ) : isLoading ? (
+      ) : isLoading && dataLength === 0 ? (
+        // Only show full skeleton on initial load, not during pagination
         <MovieDetailsSkeleton />
       ) : dataLength > 0 ? (
         <AnimatedFlashList
@@ -63,7 +65,11 @@ export const Content = () => {
             />
           )}
           pagingEnabled
+          // Animation Handler
           onScroll={scrollHandler}
+          // Pagination Handlers
+          onEndReached={onEndReached}
+          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom
           onLoad={onLoad}
           showsVerticalScrollIndicator={false}
         />

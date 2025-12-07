@@ -34,7 +34,7 @@ export const PosterSkeleton = ({ width }: { width: number }) => {
   const height = width * (3 / 2);
   return (
     <SkeletonItem
-      className={"rounded-none border border-neutral-3-default"}
+      className={"rounded-none border border-neutral-4-default"}
       style={{ width, height }}
     />
   );

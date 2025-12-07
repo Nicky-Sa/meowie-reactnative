@@ -15,6 +15,7 @@ import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { tailwind } from "@/lib/utils";
 import { filtersAtom } from "@/atoms";
 import { useAtom } from "jotai";
+import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 
 type Props = {
   personId: number;
@@ -28,7 +29,6 @@ export const Content = ({ personId }: Props) => {
   const { width } = useScreenDimensions();
   const availableWidth = width - 2 * Number(tailwind.theme.spacing[4]); // for padding x
   const posterWidth = Math.floor(availableWidth / NUM_COLUMNS);
-  const posterHeight = posterWidth * (3 / 2);
   const onBack = () => {
     setFilters((draft) => {
       draft.personId = undefined;
@@ -47,11 +47,12 @@ export const Content = ({ personId }: Props) => {
   } = useFetchMoviesIds();
   const [, setFilters] = useAtom(filtersAtom);
 
-  const { scrollHandler } = useScrollHandler({
-    itemHeight: posterHeight,
-    dataLength,
+  const { scrollHandler } = useScrollHandler();
+
+  const { onEndReached } = useFetchMore({
     size,
     setSize,
+    isLoading,
     totalPages,
   });
 
@@ -73,6 +74,8 @@ export const Content = ({ personId }: Props) => {
           )}
           numColumns={NUM_COLUMNS}
           onScroll={scrollHandler}
+          onEndReachedThreshold={2}
+          onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
         />
       ) : (
@@ -90,7 +93,7 @@ const PostersSkeleton = ({
   width: number;
 }) => {
   return (
-    <View className={"flex flex-row flex-wrap gap-2"}>
+    <View className={"flex flex-row flex-wrap"}>
       {[...Array(numColumns * 3)].map((_, index) => (
         <PosterSkeleton key={index} width={width} />
       ))}
