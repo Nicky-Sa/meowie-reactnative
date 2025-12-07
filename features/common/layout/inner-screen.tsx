@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, useCallback, useEffect } from "react";
 import { useRouter } from "expo-router";
 
 type Props = {
@@ -20,12 +20,14 @@ export const InnerScreen = ({
 }: PropsWithChildren<Props>) => {
   const router = useRouter();
 
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    }
+  const handleBack = useCallback(() => {
+    onBack?.();
     router.back();
-  };
+  }, [onBack, router]);
+
+  useEffect(() => {
+    return onBack;
+  }, [onBack]);
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
