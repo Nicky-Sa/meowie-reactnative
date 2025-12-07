@@ -35,15 +35,24 @@ export const Content = ({ personId }: Props) => {
     });
   };
 
-  const { data, dataLength, size, setSize, error, mutate, isLoading } =
-    useFetchMoviesIds();
+  const {
+    data,
+    dataLength,
+    size,
+    setSize,
+    totalPages,
+    error,
+    mutate,
+    isLoading,
+  } = useFetchMoviesIds();
   const [, setFilters] = useAtom(filtersAtom);
 
   const { scrollHandler } = useScrollHandler({
     itemHeight: posterHeight,
-    size,
     dataLength,
+    size,
     setSize,
+    totalPages,
   });
 
   return (

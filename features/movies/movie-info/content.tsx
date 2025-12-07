@@ -18,17 +18,26 @@ const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const listRef = useListRef();
-  const contentStyle = useMainContentStyle();
-  const { height } = contentStyle;
+  const { height } = useMainContentStyle();
 
-  const { data, dataLength, size, setSize, isLoading, error, mutate, key } =
-    useFetchMoviesIds();
+  const {
+    data,
+    dataLength,
+    size,
+    setSize,
+    totalPages,
+    isLoading,
+    error,
+    mutate,
+    key,
+  } = useFetchMoviesIds();
 
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler({
     itemHeight: height,
-    size,
     dataLength,
+    size,
     setSize,
+    totalPages,
   });
 
   return (

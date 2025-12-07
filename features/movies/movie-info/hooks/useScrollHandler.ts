@@ -6,29 +6,38 @@ import {
 } from "react-native-reanimated";
 
 type Args = {
+  itemHeight: number;
   dataLength: number;
+  size: number;
   setSize: (size: number) => void;
+  totalPages: number;
 };
 
-export const useScrollHandler = ({ dataLength, setSize }: Args) => {
+export const useScrollHandler = ({
+  itemHeight,
+  dataLength,
+  size,
+  setSize,
+  totalPages,
+}: Args) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0); // Track scroll position
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       const { contentOffset, layoutMeasurement } = event;
-      const progress = contentOffset.y / layoutMeasurement.height;
-      scrollY.value = contentOffset.y; // Update shared value
-      const activeIndex = Math.round(progress);
+      const heighFromTop = contentOffset.y;
+      const threshold = itemHeight * (dataLength - 2); // 2 items earlier -> load more
+      const progress = heighFromTop / layoutMeasurement.height;
+      scrollY.value = heighFromTop; // Update shared value
 
-      scheduleOnRN(setCurrentIndex, activeIndex);
+      scheduleOnRN(setCurrentIndex, Math.round(progress));
 
       // Trigger load more when near the bottom
-      if (
-        contentOffset.y + layoutMeasurement.height >=
-        layoutMeasurement.height * (dataLength - 1)
-      ) {
-        scheduleOnRN(setSize, Math.floor((currentIndex + 2) / dataLength) + 1); // in case dataLength was smaller than 20
+      // note on size <= totalPages: it will allow one size above totalPages,
+      // to trigger no more load logic in useFetchMoviesIds
+      if (heighFromTop >= threshold && size <= totalPages) {
+        scheduleOnRN(setSize, size + 1);
       }
     },
   });

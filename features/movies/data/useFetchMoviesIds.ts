@@ -30,7 +30,7 @@ export const useFetchMoviesIds = () => {
       const initialPage = sort === "random" && !filtersQuery ? random : 1;
 
       // Stop fetching if there are no more results
-      if (previousPageData && !previousPageData.data.results) {
+      if (previousPageData && previousPageData.data.results.length === 0) {
         return null;
       }
 
@@ -45,14 +45,20 @@ export const useFetchMoviesIds = () => {
   >(getKey, fetcher);
 
   // Extract `id` from each movie
-  const idList = Array.isArray(response)
+  // The list is accumulated from all pages
+  const accumulatedIdList = Array.isArray(response)
     ? response.flatMap((page) => page.data.results.map((movie) => movie.id))
     : [];
 
+  const totalPages = Array.isArray(response)
+    ? response[0]?.data.total_pages
+    : 0;
+
   return {
-    data: idList,
-    dataLength: idList.length,
+    data: accumulatedIdList,
+    dataLength: accumulatedIdList.length,
     key: JSON.stringify({ ...filters, sort }),
+    totalPages,
     ...rest,
   };
 };
