@@ -11,7 +11,7 @@ import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
 import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
-import { MoviesErrorState } from "@/features/movies/elements/error-state";
+import { ErrorState } from "@/features/general/error-state";
 import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
 import { Genres } from "@/features/movies/elements/genres";
 import { Casts } from "@/features/movies/elements/casts";
@@ -67,122 +67,126 @@ export const MovieDetails = memo(
         opacity,
       };
     });
-    return error ? (
-      <MoviesErrorState tryAgain={mutate} error={error} />
-    ) : (
+    return (
       <Animated.View
         style={[animatedStyle]}
         className={"h-full w-full flex-1 justify-start"}
       >
-        {isLoading || !data ? (
-          <MovieDetailsSkeleton />
-        ) : (
-          <View
-            className={"flex flex-col items-start justify-start gap-4 px-4"}
-            style={contentStyle}
-          >
-            <View
-              className={
-                "flex w-full flex-row items-stretch justify-start gap-2"
-              }
-            >
-              <EnlargeableImage
-                source={data.posterPath}
-                blurhash={data.posterProps.blurhash}
-                width={60}
-              />
-              <View className={"flex flex-col justify-center gap-2"}>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  className={"-mx-2 grow-0"}
-                  contentContainerClassName={"min-w-full"}
-                >
-                  <Text
-                    className={"title-t1-strong px-2 text-neutral-10-default"}
-                  >
-                    {data.title}
-                  </Text>
-                </ScrollView>
-                <View className={"flex flex-row gap-5"}>
-                  <Text className={"body-b2 text-neutral-5-default"}>
-                    {data.publishYear}
-                  </Text>
-                  <Text className={"body-b2 text-neutral-5-default"}>
-                    {data.certification}
-                  </Text>
-                  <Text className={"body-b2 text-neutral-5-default"}>
-                    {data.duration}
-                  </Text>
-                </View>
-                <Cast
-                  id={data.credits.director.id}
-                  name={data.credits.director.name}
-                  profilePath={data.credits.director.profilePath}
-                  character={data.credits.director.character}
-                />
-              </View>
-            </View>
-
-            <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
-
-            <Ratings ratings={data.ratings} />
-
-            <Text
-              numberOfLines={4}
-              ellipsizeMode="tail"
-              className={"body-b2 overflow-hidden text-neutral-6-default"}
-            >
-              {data.overview}
-            </Text>
-
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className={"-mx-4 grow-0"}
-              contentContainerClassName={"min-w-full"}
-            >
-              <Genres genres={data.genres} />
-            </ScrollView>
-
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              className={"-mx-4 grow-0"}
-              contentContainerClassName={"min-w-full"}
-            >
-              <Casts casts={data.credits.casts} />
-            </ScrollView>
-
-            <View className={"mt-4 flex w-full flex-row items-center gap-2"}>
-              <Button variant={"ghost"} size={"md"} iconOnly>
-                <Icon i={Heart} />
-              </Button>
-              <Button variant={"ghost"} size={"md"} iconOnly>
-                <Icon i={Eye} />
-              </Button>
-              <Button variant={"ghost"} size={"md"} iconOnly>
-                <Icon i={Bookmark} />
-              </Button>
-              <Button
-                variant={"primary"}
-                size={"md"}
-                iconPosition={"left"}
-                className={"flex-1"}
+        <View
+          className={"flex flex-col items-center justify-start gap-4 px-4"}
+          style={contentStyle}
+        >
+          {isLoading ? (
+            <MovieDetailsSkeleton />
+          ) : error || !data ? (
+            <ErrorState tryAgain={mutate} error={error} />
+          ) : (
+            <>
+              <View
+                className={
+                  "flex w-full flex-row items-stretch justify-start gap-2"
+                }
               >
-                <View
-                  className={"flex flex-row items-center justify-center gap-2"}
-                >
-                  <Icon i={Play} />
-
-                  <Text className={"body-b1-strong text-neutral-10-default"}>
-                    Watch
-                  </Text>
+                <EnlargeableImage
+                  source={data.posterPath}
+                  blurhash={data.posterProps.blurhash}
+                  width={60}
+                />
+                <View className={"flex flex-col justify-center gap-2"}>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    className={"-mx-2 grow-0"}
+                    contentContainerClassName={"min-w-full"}
+                  >
+                    <Text
+                      className={"title-t1-strong px-2 text-neutral-10-default"}
+                    >
+                      {data.title}
+                    </Text>
+                  </ScrollView>
+                  <View className={"flex flex-row gap-5"}>
+                    <Text className={"body-b2 text-neutral-5-default"}>
+                      {data.publishYear}
+                    </Text>
+                    <Text className={"body-b2 text-neutral-5-default"}>
+                      {data.certification}
+                    </Text>
+                    <Text className={"body-b2 text-neutral-5-default"}>
+                      {data.duration}
+                    </Text>
+                  </View>
+                  <Cast
+                    id={data.credits.director.id}
+                    name={data.credits.director.name}
+                    profilePath={data.credits.director.profilePath}
+                    character={data.credits.director.character}
+                  />
                 </View>
-              </Button>
-            </View>
-          </View>
-        )}
+              </View>
+
+              <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+
+              <Ratings ratings={data.ratings} />
+
+              <Text
+                numberOfLines={4}
+                ellipsizeMode="tail"
+                className={"body-b2 overflow-hidden text-neutral-6-default"}
+              >
+                {data.overview}
+              </Text>
+
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className={"-mx-4 grow-0"}
+                contentContainerClassName={"min-w-full"}
+              >
+                <Genres genres={data.genres} />
+              </ScrollView>
+
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                className={"-mx-4 grow-0"}
+                contentContainerClassName={"min-w-full"}
+              >
+                <Casts casts={data.credits.casts} />
+              </ScrollView>
+
+              <View className={"mt-4 flex w-full flex-row items-center gap-2"}>
+                <Button variant={"ghost"} size={"md"} iconOnly>
+                  <Icon i={Heart} />
+                </Button>
+                <Button variant={"ghost"} size={"md"} iconOnly>
+                  <Icon i={Eye} />
+                </Button>
+                <Button variant={"ghost"} size={"md"} iconOnly>
+                  <Icon i={Bookmark} />
+                </Button>
+                <Button
+                  variant={"primary"}
+                  size={"md"}
+                  iconPosition={"left"}
+                  className={"flex-1"}
+                >
+                  <View
+                    className={
+                      "flex flex-row items-center justify-center gap-2"
+                    }
+                  >
+                    <Icon i={Play} />
+
+                    <Text className={"body-b1-strong text-neutral-10-default"}>
+                      Watch
+                    </Text>
+                  </View>
+                </Button>
+              </View>
+            </>
+          )}
+        </View>
       </Animated.View>
     );
   },
@@ -190,22 +194,19 @@ export const MovieDetails = memo(
 MovieDetails.displayName = "MovieDetails";
 
 export const MovieDetailsSkeleton = () => {
-  const contentStyle = useMainContentStyle();
-
   return (
-    <View className={"w-full flex-1 justify-start"}>
-      <View
-        className={"flex flex-col items-start justify-start gap-4 px-4"}
-        style={contentStyle}
-      >
-        <SkeletonItem className={"h-20"} />
-        <SkeletonItem className={"h-48"} />
-        <SkeletonItem className={"h-8"} />
-        <SkeletonItem className={"h-16"} />
-        <SkeletonItem className={"h-8"} />
-        <SkeletonItem className={"h-8"} />
-        <SkeletonItem className={"h-16"} />
-      </View>
+    <View
+      className={
+        "flex w-full flex-1 flex-col items-center justify-center gap-4"
+      }
+    >
+      <SkeletonItem className={"h-20"} />
+      <SkeletonItem className={"h-48"} />
+      <SkeletonItem className={"h-8"} />
+      <SkeletonItem className={"h-16"} />
+      <SkeletonItem className={"h-8"} />
+      <SkeletonItem className={"h-8"} />
+      <SkeletonItem className={"h-16"} />
     </View>
   );
 };

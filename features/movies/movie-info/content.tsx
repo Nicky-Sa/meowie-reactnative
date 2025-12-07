@@ -6,7 +6,7 @@ import {
   MovieDetailsSkeleton,
 } from "@/features/movies/elements/details";
 import { Header } from "@/features/general/layout/header";
-import { MoviesErrorState } from "@/features/movies/elements/error-state";
+import { ErrorState } from "@/features/general/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { FlashList } from "@shopify/flash-list";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
@@ -44,11 +44,11 @@ export const Content = () => {
   return (
     <MainScreen>
       <Header headerButton={<SortHeaderButton />} />
-      {error ? (
-        <MoviesErrorState tryAgain={mutate} error={error} />
-      ) : isLoading && dataLength === 0 ? (
+      {isLoading && dataLength === 0 ? (
         // Non-scrollable skeleton for initial load (not pagination load)
         <MovieDetailsSkeleton />
+      ) : error ? (
+        <ErrorState tryAgain={mutate} error={error} />
       ) : dataLength > 0 ? (
         <AnimatedFlashList
           ref={listRef}

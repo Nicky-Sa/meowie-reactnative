@@ -8,15 +8,17 @@ type Props = {
 };
 export const Person = ({ personId }: Props) => {
   const { data, isLoading } = useFetchPersonInfo(personId);
-  return isLoading || !data ? (
+  const isSkeletonData = personId === -1;
+
+  return isLoading || !data || isSkeletonData ? (
     <PersonSkeleton />
   ) : (
     <View className={"flex flex-row items-center gap-3"}>
       <Image
         source={data.profilePath}
         style={{
-          width: 72,
-          height: 72,
+          width: 80,
+          height: 80,
           borderRadius: 9999,
         }}
         contentFit="cover"

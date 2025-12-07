@@ -4,7 +4,7 @@ import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { Person } from "@/features/movies/deep-dive/elements/person";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { MoviesErrorState } from "@/features/movies/elements/error-state";
+import { ErrorState } from "@/features/general/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
 import { Poster } from "@/features/movies/deep-dive/elements/poster";
@@ -63,7 +63,10 @@ export const Content = ({ personId, personName }: Props) => {
       fullWidth
     >
       {error ? (
-        <MoviesErrorState tryAgain={mutate} error={error} />
+        <>
+          <PersonHeader personId={personId} />
+          <ErrorState tryAgain={mutate} error={error} />
+        </>
       ) : isLoading || dataLength > 0 ? (
         <AnimatedFlashList
           data={isLoading ? skeletonData : data}
@@ -77,15 +80,22 @@ export const Content = ({ personId, personName }: Props) => {
           onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
           getItemType={() => (isLoading ? "skeleton" : "actual")} // Tell FlashList that 'skeleton' and 'actual' are different layouts\
-          ListHeaderComponent={
-            <View className={"px-4 pb-4"}>
-              <Person personId={personId} />
-            </View>
-          }
+          ListHeaderComponent={<PersonHeader personId={personId} />}
         />
       ) : (
-        <MoviesEmptyState />
+        <>
+          <PersonHeader personId={personId} />
+          <MoviesEmptyState />
+        </>
       )}
     </InnerScreen>
+  );
+};
+
+const PersonHeader = ({ personId }: { personId: number }) => {
+  return (
+    <View className={"px-4 pb-4"}>
+      <Person personId={personId} />
+    </View>
   );
 };
