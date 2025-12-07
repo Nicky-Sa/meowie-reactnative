@@ -7,15 +7,11 @@ import { FlashList } from "@shopify/flash-list";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
-import {
-  Poster,
-  PosterSkeleton,
-} from "@/features/movies/deep-dive/elements/poster";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-import { tailwind } from "@/lib/utils";
+import { Poster } from "@/features/movies/deep-dive/elements/poster";
 import { filtersAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
+import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
 
 type Props = {
   personId: number;
@@ -24,11 +20,11 @@ type Props = {
 const NUM_COLUMNS = 3;
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
+// Dummy data to render a scrollable skeleton
+const skeletonData = new Array(8).fill({ id: -1 });
 
 export const Content = ({ personId }: Props) => {
-  const { width } = useScreenDimensions();
-  const availableWidth = width - 2 * Number(tailwind.theme.spacing[4]); // for padding x
-  const posterWidth = Math.floor(availableWidth / NUM_COLUMNS);
+  const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
   const onBack = () => {
     setFilters((draft) => {
       draft.personId = undefined;
@@ -63,11 +59,9 @@ export const Content = ({ personId }: Props) => {
       </View>
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
-      ) : isLoading ? (
-        <PostersSkeleton numColumns={NUM_COLUMNS} width={posterWidth} />
-      ) : dataLength > 0 ? (
+      ) : isLoading || dataLength > 0 ? (
         <AnimatedFlashList
-          data={data}
+          data={isLoading ? skeletonData : data}
           keyExtractor={(id, index) => `movie-${id}-${index}`}
           renderItem={({ item: movieId }) => (
             <Poster key={movieId} movieId={movieId} width={posterWidth} />
@@ -82,21 +76,5 @@ export const Content = ({ personId }: Props) => {
         <MoviesEmptyState />
       )}
     </InnerScreen>
-  );
-};
-
-const PostersSkeleton = ({
-  numColumns,
-  width,
-}: {
-  numColumns: number;
-  width: number;
-}) => {
-  return (
-    <View className={"flex flex-row flex-wrap"}>
-      {[...Array(numColumns * 3)].map((_, index) => (
-        <PosterSkeleton key={index} width={width} />
-      ))}
-    </View>
   );
 };

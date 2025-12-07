@@ -47,7 +47,7 @@ export const Content = () => {
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading && dataLength === 0 ? (
-        // Only show full skeleton on initial load, not during pagination
+        // Non-scrollable skeleton for initial load (not pagination load)
         <MovieDetailsSkeleton />
       ) : dataLength > 0 ? (
         <AnimatedFlashList

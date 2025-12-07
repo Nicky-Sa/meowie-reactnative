@@ -9,8 +9,9 @@ type Props = {
 
 export const Poster = ({ movieId, width }: Props) => {
   const { data, isLoading } = useFetchMovieInfo(movieId);
+  const isSkeletonData = movieId === -1;
 
-  return isLoading || !data ? (
+  return isLoading || !data || isSkeletonData ? (
     <PosterSkeleton width={width} />
   ) : (
     <Image
