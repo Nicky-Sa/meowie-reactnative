@@ -30,13 +30,25 @@ export const useScrollHandler = ({
       const threshold = itemHeight * (dataLength - 2); // 2 items earlier -> load more
       const progress = heighFromTop / layoutMeasurement.height;
       scrollY.value = heighFromTop; // Update shared value
+      const newCurrentIndex = Math.round(progress);
 
-      scheduleOnRN(setCurrentIndex, Math.round(progress));
+      scheduleOnRN(setCurrentIndex, newCurrentIndex);
+      console.log({
+        itemHeight,
+        heighFromTop,
+        threshold,
+        size,
+        totalPages,
+        newCurrentIndex,
+      });
 
       // Trigger load more when near the bottom
       // note on size <= totalPages: it will allow one size above totalPages,
       // to trigger no more load logic in useFetchMoviesIds
       if (heighFromTop >= threshold && size <= totalPages) {
+        console.log("Load more", {
+          newSize: size + 1,
+        });
         scheduleOnRN(setSize, size + 1);
       }
     },

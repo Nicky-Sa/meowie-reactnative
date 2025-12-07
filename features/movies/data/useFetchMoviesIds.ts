@@ -47,7 +47,7 @@ export const useFetchMoviesIds = () => {
   // Extract `id` from each movie
   // The list is accumulated from all pages
   const accumulatedIdList = Array.isArray(response)
-    ? response.flatMap((page) => page.data.results.map((movie) => movie.id))
+    ? response.flatMap((page) => page.data.results)
     : [];
 
   const totalPages = Array.isArray(response)
