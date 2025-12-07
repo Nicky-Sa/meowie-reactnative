@@ -113,6 +113,7 @@ function RootLayout() {
                     <Stack
                       screenOptions={{
                         headerShown: false,
+                        statusBarStyle: "light",
                       }}
                     >
                       <Stack.Screen name="(tabs)" />
@@ -147,6 +148,20 @@ function RootLayout() {
 
                       <Stack.Screen
                         name="settings/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
+                        name="settings/delete-account"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
+                        name="deep-dive/index"
                         options={{
                           animation: "slide_from_right",
                         }}

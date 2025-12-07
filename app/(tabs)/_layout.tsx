@@ -4,22 +4,22 @@ import { Tab } from "@/features/general/navbar/types";
 
 const tabs: Tab[] = [
   {
-    name: "movies",
+    name: "movies/index",
     title: "Home",
     icon: HomeSimple,
   },
   {
-    name: "search",
+    name: "search/index",
     title: "Search",
     icon: Search,
   },
   {
-    name: "watchlist",
+    name: "watchlist/index",
     title: "Watchlist",
     icon: Bookmark,
   },
   {
-    name: "profile",
+    name: "profile/index",
     title: "Profile",
     icon: User,
   },

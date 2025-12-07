@@ -17,7 +17,9 @@ export const Content = () => {
   return (
     <InnerScreen title={"Delete Account"}>
       <ScrollView
-        contentContainerClassName={"flex w-full flex-col items-center gap-8"}
+        contentContainerClassName={
+          "flex w-full flex-col items-center gap-8 pt-8"
+        }
         showsVerticalScrollIndicator={false}
       >
         <SuperCryingMeowie />
