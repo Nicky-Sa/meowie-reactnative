@@ -1,21 +1,28 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { PropsWithChildren, ReactNode, useCallback } from "react";
 import { useFocusEffect, useRouter } from "expo-router";
+import Animated, {
+  interpolate,
+  SharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 type Props = {
   title?: string;
   onBack?: () => void;
   rightTopComponent?: ReactNode;
+  scrollY?: SharedValue<number>;
 };
 
 export const InnerScreen = ({
   title,
   onBack,
   rightTopComponent,
+  scrollY,
   children,
 }: PropsWithChildren<Props>) => {
   const router = useRouter();
@@ -32,6 +39,14 @@ export const InnerScreen = ({
     }, [onBack]),
   );
 
+  const titleAnimatedStyle = useAnimatedStyle(() => {
+    if (!scrollY) return { opacity: 1 };
+
+    const opacity = interpolate(scrollY.value, [20, 100], [0, 1], "clamp");
+
+    return { opacity };
+  });
+
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
       <SafeAreaView>
@@ -46,9 +61,12 @@ export const InnerScreen = ({
               >
                 <Icon i={NavArrowLeft} />
               </Button>
-              <Text className={"title-t2-strong text-neutral-10-default"}>
+              <Animated.Text
+                style={[titleAnimatedStyle]}
+                className={"title-t2-strong text-neutral-10-default"}
+              >
                 {title}
-              </Text>
+              </Animated.Text>
             </View>
             {rightTopComponent}
           </View>

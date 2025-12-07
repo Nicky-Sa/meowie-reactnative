@@ -14,7 +14,7 @@ export const Cast = ({ id, name, profilePath }: CastInfo) => {
     setFilters((draft) => {
       draft["personId"] = id;
     });
-    router.push(`/deep-dive?personId=${id}`);
+    router.push(`/deep-dive?personId=${id}&personName=${name}`);
   };
 
   return (

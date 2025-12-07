@@ -45,7 +45,7 @@ export const Content = ({ personId, personName }: Props) => {
     isLoading,
   } = useFetchMoviesIds();
 
-  const { scrollHandler } = useScrollHandler();
+  const { scrollHandler, scrollY } = useScrollHandler();
 
   const { onEndReached } = useFetchMore({
     size,
@@ -55,7 +55,7 @@ export const Content = ({ personId, personName }: Props) => {
   });
 
   return (
-    <InnerScreen onBack={onBack}>
+    <InnerScreen onBack={onBack} title={personName} scrollY={scrollY}>
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading || dataLength > 0 ? (
@@ -72,7 +72,7 @@ export const Content = ({ personId, personName }: Props) => {
           showsVerticalScrollIndicator={false}
           getItemType={() => (isLoading ? "skeleton" : "actual")} // Tell FlashList that 'skeleton' and 'actual' are different layouts\
           ListHeaderComponent={
-            <View className={"py-4"}>
+            <View className={"pb-4"}>
               <Person personId={personId} />
             </View>
           }
