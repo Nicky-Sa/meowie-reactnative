@@ -7,9 +7,17 @@ import {
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/crying-meowie.svg";
+import { useLogout } from "@/features/general/data/useLogout";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const { trigger: triggerLogout } = useLogout();
+
+  const handleLogout = async () => {
+    await triggerLogout();
+    Emitter.emit("clearTokens");
+    bottomSheetRef.current?.dismiss();
+  };
 
   return (
     <>
@@ -40,10 +48,7 @@ export const Logout = () => {
               variant="white"
               size="lg"
               className="flex-1"
-              onPress={() => {
-                Emitter.emit("logout");
-                bottomSheetRef.current?.dismiss();
-              }}
+              onPress={handleLogout}
             >
               Logout
             </Button>

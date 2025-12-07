@@ -2,10 +2,10 @@ import axios, { isAxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 
-const onLogout = async () => {
-  console.log("Logging out, refresh token failed.");
+const onClearTokens = async () => {
+  console.log("Refresh token failed -> clearing tokens");
   // Emit logout event to be listened to by the root layout
-  Emitter.emit("logout");
+  Emitter.emit("clearTokens");
 };
 
 // Create the axios instance
@@ -53,6 +53,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log({ error });
     // Any non-2xx status code triggers this
     if (!isAxiosError(error)) {
       return Promise.reject(error);
@@ -89,7 +90,7 @@ axiosInstance.interceptors.response.use(
       try {
         const refreshToken = await SecureStore.getItemAsync("refresh-token");
         if (!refreshToken) {
-          await onLogout();
+          await onClearTokens();
           return Promise.reject(error);
         }
 
@@ -104,13 +105,11 @@ axiosInstance.interceptors.response.use(
         );
 
         const { accessToken, refreshToken: newRefreshToken } =
-          refreshResponse.data;
+          refreshResponse.data.data;
 
         // Save new tokens
         await SecureStore.setItemAsync("access-token", accessToken);
-        if (newRefreshToken) {
-          await SecureStore.setItemAsync("refresh-token", newRefreshToken);
-        }
+        await SecureStore.setItemAsync("refresh-token", newRefreshToken);
 
         // Update the header on the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
@@ -121,8 +120,9 @@ axiosInstance.interceptors.response.use(
         // Retry the original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        // If refresh fails, log out
-        await onLogout();
+        console.log({ refreshError });
+        // If refresh fails, clear tokens
+        await onClearTokens();
         processQueue(refreshError, null);
         return Promise.reject(refreshError);
       } finally {
