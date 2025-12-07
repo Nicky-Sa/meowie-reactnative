@@ -1,5 +1,4 @@
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-import { tailwind } from "@/lib/utils";
 
 type Args = {
   numColumns: number;
@@ -7,7 +6,6 @@ type Args = {
 
 export const usePosterWidth = ({ numColumns }: Args) => {
   const { width } = useScreenDimensions();
-  const availableWidth = width - 2 * Number(tailwind.theme.spacing[4]); // for padding x
-  const posterWidth = Math.floor(availableWidth / numColumns);
+  const posterWidth = Math.floor(width / numColumns);
   return { posterWidth };
 };

@@ -3,19 +3,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
-import { PropsWithChildren, ReactNode, useCallback } from "react";
+import { PropsWithChildren, ReactNode, useCallback, useMemo } from "react";
 import { useFocusEffect, useRouter } from "expo-router";
 import Animated, {
   interpolate,
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { cn } from "@/lib/utils";
+import { Edges } from "react-native-safe-area-context/src/SafeArea.types";
 
 type Props = {
   title?: string;
   onBack?: () => void;
   rightTopComponent?: ReactNode;
   scrollY?: SharedValue<number>;
+  fullWidth?: boolean;
+  fullHeight?: boolean;
 };
 
 export const InnerScreen = ({
@@ -23,6 +27,8 @@ export const InnerScreen = ({
   onBack,
   rightTopComponent,
   scrollY,
+  fullWidth,
+  fullHeight,
   children,
 }: PropsWithChildren<Props>) => {
   const router = useRouter();
@@ -46,12 +52,27 @@ export const InnerScreen = ({
 
     return { opacity };
   });
+  const edges = useMemo(
+    () =>
+      ["top", "left", "right", "bottom"].filter((edge) =>
+        fullHeight ? edge !== "bottom" : true,
+      ) as Edges,
+    [fullHeight],
+  );
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
-      <SafeAreaView>
-        <View className={"flex h-full flex-col justify-between gap-2 p-4"}>
-          <View className={"flex w-full flex-row items-center justify-between"}>
+      <SafeAreaView edges={edges}>
+        <View
+          className={cn("flex h-full flex-col justify-between gap-2", {
+            "px-4": !fullWidth,
+          })}
+        >
+          <View
+            className={cn("flex w-full flex-row items-center justify-between", {
+              "px-4": fullWidth, // the fullWidth prop should have no effect on the back button
+            })}
+          >
             <View className={"flex flex-row items-center justify-start"}>
               <Button
                 onPress={handleBack}

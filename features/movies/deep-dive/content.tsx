@@ -55,7 +55,13 @@ export const Content = ({ personId, personName }: Props) => {
   });
 
   return (
-    <InnerScreen onBack={onBack} title={personName} scrollY={scrollY}>
+    <InnerScreen
+      onBack={onBack}
+      title={personName}
+      scrollY={scrollY}
+      fullHeight
+      fullWidth
+    >
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading || dataLength > 0 ? (
@@ -72,7 +78,7 @@ export const Content = ({ personId, personName }: Props) => {
           showsVerticalScrollIndicator={false}
           getItemType={() => (isLoading ? "skeleton" : "actual")} // Tell FlashList that 'skeleton' and 'actual' are different layouts\
           ListHeaderComponent={
-            <View className={"pb-4"}>
+            <View className={"px-4 pb-4"}>
               <Person personId={personId} />
             </View>
           }
