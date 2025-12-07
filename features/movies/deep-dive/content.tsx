@@ -12,6 +12,7 @@ import { filtersAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
+import { useCallback } from "react";
 
 type Props = {
   personId: number;
@@ -22,15 +23,16 @@ const NUM_COLUMNS = 3;
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 // Dummy data to render a scrollable skeleton
-const skeletonData = new Array(8).fill({ id: -1 });
+const skeletonData = new Array(NUM_COLUMNS * 3).fill({ id: -1 });
 
 export const Content = ({ personId, personName }: Props) => {
   const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
-  const onBack = () => {
+  const [, setFilters] = useAtom(filtersAtom);
+  const onBack = useCallback(() => {
     setFilters((draft) => {
-      draft.personId = undefined;
+      draft["personId"] = undefined;
     });
-  };
+  }, [setFilters]);
 
   const {
     data,
@@ -42,7 +44,6 @@ export const Content = ({ personId, personName }: Props) => {
     mutate,
     isLoading,
   } = useFetchMoviesIds();
-  const [, setFilters] = useAtom(filtersAtom);
 
   const { scrollHandler } = useScrollHandler();
 
@@ -55,9 +56,6 @@ export const Content = ({ personId, personName }: Props) => {
 
   return (
     <InnerScreen onBack={onBack}>
-      {/*<View className={"flex w-full flex-col items-start gap-8"}>*/}
-      {/*  <Person personId={personId} />*/}
-      {/*</View>*/}
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading || dataLength > 0 ? (

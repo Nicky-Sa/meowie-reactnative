@@ -3,8 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
-import { PropsWithChildren, ReactNode, useCallback, useEffect } from "react";
-import { useRouter } from "expo-router";
+import { PropsWithChildren, ReactNode, useCallback } from "react";
+import { useFocusEffect, useRouter } from "expo-router";
 
 type Props = {
   title?: string;
@@ -25,9 +25,12 @@ export const InnerScreen = ({
     router.back();
   }, [onBack, router]);
 
-  useEffect(() => {
-    return onBack;
-  }, [onBack]);
+  // Run onBack when the screen is not focused anymore
+  useFocusEffect(
+    useCallback(() => {
+      return onBack;
+    }, [onBack]),
+  );
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
