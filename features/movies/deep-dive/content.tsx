@@ -15,6 +15,7 @@ import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth
 
 type Props = {
   personId: number;
+  personName: string;
 };
 
 const NUM_COLUMNS = 3;
@@ -23,7 +24,7 @@ const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 // Dummy data to render a scrollable skeleton
 const skeletonData = new Array(8).fill({ id: -1 });
 
-export const Content = ({ personId }: Props) => {
+export const Content = ({ personId, personName }: Props) => {
   const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
   const onBack = () => {
     setFilters((draft) => {
@@ -54,9 +55,9 @@ export const Content = ({ personId }: Props) => {
 
   return (
     <InnerScreen onBack={onBack}>
-      <View className={"flex w-full flex-col items-start gap-8"}>
-        <Person personId={personId} />
-      </View>
+      {/*<View className={"flex w-full flex-col items-start gap-8"}>*/}
+      {/*  <Person personId={personId} />*/}
+      {/*</View>*/}
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
       ) : isLoading || dataLength > 0 ? (
@@ -71,6 +72,12 @@ export const Content = ({ personId }: Props) => {
           onEndReachedThreshold={2}
           onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
+          getItemType={() => (isLoading ? "skeleton" : "actual")} // Tell FlashList that 'skeleton' and 'actual' are different layouts\
+          ListHeaderComponent={
+            <View className={"py-4"}>
+              <Person personId={personId} />
+            </View>
+          }
         />
       ) : (
         <MoviesEmptyState />
