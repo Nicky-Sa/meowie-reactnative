@@ -33,9 +33,10 @@ export const useScrollHandler = ({ dataLength, setSize }: Args) => {
     },
   });
 
+  // Reset scroll position when data is loaded
   const onLoad = () => {
     scrollY.value = 0;
-  }; // Reset scroll position when data is loaded
+  };
 
   return { scrollHandler, scrollY, currentIndex, onLoad };
 };

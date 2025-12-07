@@ -44,8 +44,9 @@ export const useFetchMoviesIds = () => {
     Error
   >(getKey, fetcher);
 
+  // Extract `id` from each movie
   const idList = Array.isArray(response)
-    ? response.flatMap((page) => page.data.results.map((movie) => movie.id)) // Extract `id` from each movie
+    ? response.flatMap((page) => page.data.results.map((movie) => movie.id))
     : [];
 
   return {

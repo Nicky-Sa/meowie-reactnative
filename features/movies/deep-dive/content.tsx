@@ -7,9 +7,14 @@ import { FlashList } from "@shopify/flash-list";
 import { MoviesErrorState } from "@/features/movies/elements/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
-import { Poster } from "@/features/movies/deep-dive/elements/poster";
+import {
+  Poster,
+  PosterSkeleton,
+} from "@/features/movies/deep-dive/elements/poster";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { tailwind } from "@/lib/utils";
+import { filtersAtom } from "@/atoms";
+import { useAtom } from "jotai";
 
 type Props = {
   personId: number;
@@ -20,24 +25,36 @@ const NUM_COLUMNS = 3;
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = ({ personId }: Props) => {
-  const { data, dataLength, setSize, error, mutate } = useFetchMoviesIds();
+  const { width } = useScreenDimensions();
+  const availableWidth = width - 2 * Number(tailwind.theme.spacing[4]); // for padding x
+  const posterWidth = Math.floor(availableWidth / NUM_COLUMNS);
+  const posterHeight = posterWidth * (3 / 2);
+  const onBack = () => {
+    setFilters((draft) => {
+      draft.personId = undefined;
+    });
+  };
 
-  const { scrollHandler, scrollY, currentIndex } = useScrollHandler({
+  const { data, dataLength, size, setSize, error, mutate, isLoading } =
+    useFetchMoviesIds();
+  const [, setFilters] = useAtom(filtersAtom);
+
+  const { scrollHandler } = useScrollHandler({
+    itemHeight: posterHeight,
+    size,
     dataLength,
     setSize,
   });
 
-  const { width } = useScreenDimensions();
-  const availableWidth = width - 2 * Number(tailwind.theme.spacing[4]); // for padding x
-  const posterWidth = Math.floor(availableWidth / NUM_COLUMNS);
-
   return (
-    <InnerScreen>
+    <InnerScreen onBack={onBack}>
       <View className={"flex w-full flex-col items-start gap-8"}>
         <Person personId={personId} />
       </View>
       {error ? (
         <MoviesErrorState tryAgain={mutate} error={error} />
+      ) : isLoading ? (
+        <PostersSkeleton numColumns={NUM_COLUMNS} width={posterWidth} />
       ) : dataLength > 0 ? (
         <AnimatedFlashList
           data={data}
@@ -53,5 +70,21 @@ export const Content = ({ personId }: Props) => {
         <MoviesEmptyState />
       )}
     </InnerScreen>
+  );
+};
+
+const PostersSkeleton = ({
+  numColumns,
+  width,
+}: {
+  numColumns: number;
+  width: number;
+}) => {
+  return (
+    <View className={"flex flex-row flex-wrap gap-2"}>
+      {[...Array(numColumns * 3)].map((_, index) => (
+        <PosterSkeleton key={index} width={width} />
+      ))}
+    </View>
   );
 };

@@ -12,16 +12,21 @@ import { FlashList } from "@shopify/flash-list";
 import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
 import { useListRef } from "@/features/movies/movie-info/hooks/useListRef";
 import { SortHeaderButton } from "@/features/sort/header-button";
+import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 export const Content = () => {
   const listRef = useListRef();
+  const contentStyle = useMainContentStyle();
+  const { height } = contentStyle;
 
-  const { data, dataLength, setSize, isLoading, error, mutate, key } =
+  const { data, dataLength, size, setSize, isLoading, error, mutate, key } =
     useFetchMoviesIds();
 
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler({
+    itemHeight: height,
+    size,
     dataLength,
     setSize,
   });
