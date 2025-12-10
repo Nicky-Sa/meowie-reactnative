@@ -3,8 +3,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
-import { PropsWithChildren, ReactNode, useCallback, useMemo } from "react";
-import { useFocusEffect, useRouter } from "expo-router";
+import {
+  PropsWithChildren,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
+import { useRouter } from "expo-router";
 import Animated, {
   interpolate,
   SharedValue,
@@ -33,17 +40,29 @@ export const InnerScreen = ({
 }: PropsWithChildren<Props>) => {
   const router = useRouter();
 
-  const handleBack = useCallback(() => {
-    onBack?.();
-    router.back();
-  }, [onBack, router]);
+  // 1. Store the latest onBack in a ref.
+  // This allows us to access it inside useEffect cleanup without adding it to dependencies.
+  const onBackRef = useRef(onBack);
 
-  // Run onBack when the screen is not focused anymore
-  useFocusEffect(
-    useCallback(() => {
-      return onBack;
-    }, [onBack]),
-  );
+  useEffect(() => {
+    onBackRef.current = onBack;
+  }, [onBack]);
+
+  // 2. Run strictly on Unmount (Back/Pop)
+  useEffect(() => {
+    return () => {
+      // This runs only when the component is destroyed (Back),
+      // NOT when navigating forward (Push).
+      onBackRef.current?.();
+    };
+  }, []);
+
+  const handleBack = useCallback(() => {
+    // We strictly invoke navigation here.
+    // The onBack logic is now handled automatically by the useEffect cleanup above
+    // which triggers when this router.back() causes the unmount.
+    router.back();
+  }, [router]);
 
   const titleAnimatedStyle = useAnimatedStyle(() => {
     if (!scrollY) return { opacity: 1 };
@@ -52,6 +71,7 @@ export const InnerScreen = ({
 
     return { opacity };
   });
+
   const edges = useMemo(
     () =>
       ["top", "left", "right", "bottom"].filter((edge) =>
