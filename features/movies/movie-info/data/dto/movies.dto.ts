@@ -5,7 +5,7 @@ import {
   MovieDetails,
 } from "@/features/movies/movie-info/models/movie-info";
 
-export type MoviesResDto = MovieDetails &
+export type MovieInfoResDto = MovieDetails &
   AllRatings & {
     posterProps: PosterProps;
   } & {

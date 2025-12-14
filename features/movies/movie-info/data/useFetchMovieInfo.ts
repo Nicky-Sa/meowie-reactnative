@@ -1,12 +1,12 @@
 import useSWR from "swr";
-import { MoviesResDto } from "@/features/movies/movie-info/data/dto/movies.dto";
+import { MovieInfoResDto } from "@/features/movies/movie-info/data/dto/movies.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher } from "@/features/common/data/fetcher";
 
 export const useFetchMovieInfo = (id: number) => {
-  const url = `/movies/${id}`;
+  const url = `/movies/info/${id}`;
   const { data: response, ...rest } = useSWR<
-    SuccessResponse<MoviesResDto>,
+    SuccessResponse<MovieInfoResDto>,
     Error
   >(url, fetcher);
   return {
