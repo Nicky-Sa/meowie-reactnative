@@ -8,10 +8,29 @@ type Props = {
 };
 
 export const Poster = ({ movieId, width }: Props) => {
-  const { data, isLoading } = useFetchMovieInfo(movieId);
   const isSkeletonData = movieId === -1;
 
-  return isLoading || !data || isSkeletonData ? (
+  return isSkeletonData ? (
+    <PosterSkeleton width={width} />
+  ) : (
+    <PosterData width={width} movieId={movieId} />
+  );
+};
+
+const PosterSkeleton = ({ width }: { width: number }) => {
+  const height = width * (3 / 2);
+  return (
+    <SkeletonItem
+      className={"rounded-none border border-neutral-4-default"}
+      style={{ width, height }}
+    />
+  );
+};
+
+const PosterData = ({ width, movieId }: { width: number; movieId: number }) => {
+  const { data, isLoading } = useFetchMovieInfo(movieId);
+
+  return !data || isLoading ? (
     <PosterSkeleton width={width} />
   ) : (
     <Image
@@ -27,16 +46,6 @@ export const Poster = ({ movieId, width }: Props) => {
         height: 150,
       }}
       transition={500}
-    />
-  );
-};
-
-export const PosterSkeleton = ({ width }: { width: number }) => {
-  const height = width * (3 / 2);
-  return (
-    <SkeletonItem
-      className={"rounded-none border border-neutral-4-default"}
-      style={{ width, height }}
     />
   );
 };

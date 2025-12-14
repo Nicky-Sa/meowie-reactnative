@@ -17,6 +17,7 @@ export const useFetchMore = ({
     if (!isLoading && size <= totalPages) {
       setSize(size + 1);
     }
+    console.log("here is the end!");
   }, [isLoading, size, totalPages, setSize]);
 
   return { onEndReached };

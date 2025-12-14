@@ -53,13 +53,13 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log({ error });
     // Any non-2xx status code triggers this
     if (!isAxiosError(error)) {
       return Promise.reject(error);
     }
 
     const originalRequest = error.config;
+    console.log({ error, apiError: error.response?.data.errors });
 
     // Check for 401 Unauthorized
     if (error.response?.status === 401 && originalRequest) {

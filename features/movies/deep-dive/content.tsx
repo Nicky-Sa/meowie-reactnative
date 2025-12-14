@@ -23,7 +23,7 @@ const NUM_COLUMNS = 3;
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 // Dummy data to render a scrollable skeleton
-const skeletonData = new Array(NUM_COLUMNS * 3).fill({ id: -1 });
+const skeletonData = new Array(NUM_COLUMNS * 3).fill(-1);
 
 export const Content = ({ personId, personName }: Props) => {
   const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
