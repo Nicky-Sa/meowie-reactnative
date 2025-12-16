@@ -14,7 +14,7 @@ export const useFetchMore = ({
   totalPages,
 }: Args) => {
   const onEndReached = useCallback(async () => {
-    if (!isLoading && size <= totalPages) {
+    if (!isLoading && size < totalPages) {
       setSize(size + 1);
     }
   }, [isLoading, size, totalPages, setSize]);
