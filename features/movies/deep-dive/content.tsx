@@ -84,7 +84,11 @@ export const Content = ({ personId, personName }: Props) => {
           data={isInitialLoad ? skeletonData : data}
           keyExtractor={({ id }) => `movie-${id}-poster`}
           renderItem={({ item }) => (
-            <Poster data={item} isLoading={isLoading} width={posterWidth} />
+            <Poster
+              data={item}
+              isSkeletonData={isInitialLoad}
+              width={posterWidth}
+            />
           )}
           numColumns={NUM_COLUMNS}
           onScroll={scrollHandler}

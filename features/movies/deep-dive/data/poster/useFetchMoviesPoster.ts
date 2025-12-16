@@ -15,7 +15,7 @@ export const useFetchMoviesPoster = () => {
       pageIndex: number,
       previousPageData: SuccessResponse<MoviePosterResDto>,
     ) => {
-      const baseUrl = "/movies/poster/bulk";
+      const baseUrl = "/movies/poster";
       const filtersQuery = filterToQuery(filters);
 
       // Stop fetching if there are no more results

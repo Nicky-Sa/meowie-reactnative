@@ -4,14 +4,15 @@ import { MoviePosterInfo } from "@/features/movies/movie-info/models/movie-info"
 
 type Props = {
   data: MoviePosterInfo;
-  isLoading: boolean;
+  isSkeletonData: boolean;
   width: number;
 };
 
-export const Poster = ({ data, isLoading, width }: Props) => {
-  return isLoading ? (
+export const Poster = ({ data, isSkeletonData, width }: Props) => {
+  return isSkeletonData ? (
     <PosterSkeleton width={width} />
   ) : (
+    // if loading is true, it means this item is not even present (rendered) in the list, so no point in showing a skeleton
     <Image
       source={data.posterPath}
       style={{

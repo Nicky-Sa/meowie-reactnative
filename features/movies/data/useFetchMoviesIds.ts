@@ -49,7 +49,6 @@ export const useFetchMoviesIds = () => {
   return {
     data: flattenedData,
     dataLength: flattenedData.length,
-    rawData, // for other hooks to use useSWRInfinite
     key: JSON.stringify({ ...filters, sort }),
     totalPages,
     ...rest,
