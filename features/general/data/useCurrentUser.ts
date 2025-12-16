@@ -1,5 +1,4 @@
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { fetcher } from "@/features/common/data/fetcher";
 import useSWR from "swr";
 import { User } from "@/entities/user";
 
@@ -13,7 +12,7 @@ export const useCurrentUser = () => {
   const { data: response, ...rest } = useSWR<
     SuccessResponse<CurrentUserResDto>,
     Error
-  >(url, fetcher);
+  >(url);
 
   return {
     data: response?.data,

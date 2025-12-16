@@ -22,6 +22,7 @@ import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
 import { KeyboardAvoidingView, Platform } from "react-native";
+import { fetcher } from "@/features/common/data/fetcher";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -93,11 +94,13 @@ function RootLayout() {
       >
         <SWRConfig
           value={{
-            revalidateOnFocus: true,
-            revalidateOnReconnect: true,
+            revalidateOnFocus: false,
+            keepPreviousData: true,
             shouldRetryOnError: true,
+            dedupingInterval: 300000,
             errorRetryInterval: 3000,
             errorRetryCount: 3,
+            fetcher,
           }}
         >
           <SafeAreaProvider>
