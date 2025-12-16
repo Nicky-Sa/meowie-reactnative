@@ -57,6 +57,7 @@ export const Content = () => {
           keyExtractor={(id) => `movie-${id}-info`}
           renderItem={({ item: movieId, index }) => (
             <MovieDetails
+              key={movieId}
               movieId={movieId}
               shouldPlay={index === currentIndex}
               index={index}

@@ -36,6 +36,14 @@ export const useFetchMoviesPoster = () => {
   } = useSWRInfinite<SuccessResponse<MoviePosterResDto>, Error>(
     getKey,
     fetcher,
+    {
+      revalidateFirstPage: false,
+      // Mobile UX: Don't refetch on app switch
+      revalidateOnFocus: false,
+      keepPreviousData: true,
+      // Cache: Trust the cache for 5 minutes
+      dedupingInterval: 300000,
+    },
   );
 
   const rawData = Array.isArray(response)

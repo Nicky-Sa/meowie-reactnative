@@ -56,6 +56,7 @@ export const Content = ({ personId, personName }: Props) => {
     totalPages,
     error,
     mutate,
+    isValidating,
   } = useFetchMoviesPoster();
 
   const { onEndReached } = useFetchMore({
@@ -85,6 +86,7 @@ export const Content = ({ personId, personName }: Props) => {
           keyExtractor={({ id }) => `movie-${id}-poster`}
           renderItem={({ item }) => (
             <Poster
+              key={item.id}
               data={item}
               isSkeletonData={isInitialLoad}
               width={posterWidth}
@@ -97,7 +99,7 @@ export const Content = ({ personId, personName }: Props) => {
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<PersonHeader personId={personId} />}
           ListFooterComponent={
-            isLoading ? (
+            (isLoading || isValidating) && !isInitialLoad ? (
               <LottieView
                 source={{
                   uri: "https://lottie.host/099429f0-1128-4b7b-9e48-562fb873b761/eQhxLE6Pc5.lottie",
