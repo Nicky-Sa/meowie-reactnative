@@ -1,6 +1,6 @@
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import Svg, { SvgProps } from "react-native-svg";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 
 export type SvgImage = ForwardRefExoticComponent<SvgProps & RefAttributes<Svg>>;
 

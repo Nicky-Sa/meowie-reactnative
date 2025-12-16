@@ -1,15 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "@/tailwind.config";
 import { Filters, initialFiltersValue } from "@/atoms";
 import _ from "lodash";
-
-export const tailwind = resolveConfig(tailwindConfig);
-
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
 
 export const isDarkColor = (hexColor: string): boolean => {
   // Remove the '#' if it exists

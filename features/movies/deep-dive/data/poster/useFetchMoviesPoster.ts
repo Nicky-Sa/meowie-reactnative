@@ -5,7 +5,7 @@ import { fetcher } from "@/features/common/data/fetcher";
 import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
-import { filterToQuery } from "@/lib/utils";
+import { filterToQuery } from "@/lib/functions";
 
 export const useFetchMoviesPoster = () => {
   const [filters] = useAtom(filtersAtom);

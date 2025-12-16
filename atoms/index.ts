@@ -1,6 +1,6 @@
-import { tailwind } from "@/lib/utils";
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
+import { tailwind } from "@/lib/tailwind";
 
 // It's allowed to play YT videos
 export const allowYTPlayingAtom = atom(true);

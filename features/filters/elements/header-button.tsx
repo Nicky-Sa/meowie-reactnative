@@ -3,7 +3,7 @@ import { Icon } from "@/features/common/icon";
 import { Filter } from "iconoir-react-native";
 import { View } from "react-native";
 import { Chip } from "@/features/common/chip";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { useRouter } from "expo-router";
 import { useAtom } from "jotai/index";
 import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";

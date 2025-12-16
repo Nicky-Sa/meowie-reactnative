@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { Updater } from "use-immer";
 import { useMemo } from "react";
 import _ from "lodash";

@@ -17,7 +17,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/tailwind";
 import { Edges } from "react-native-safe-area-context/src/SafeArea.types";
 
 type Props = {

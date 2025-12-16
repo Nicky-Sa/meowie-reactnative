@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { cn, tailwind } from "@/lib/utils";
+import { cn, tailwind } from "@/lib/tailwind";
 import { Pressable, PressableProps, View } from "react-native";
 import { PropsWithChildren } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

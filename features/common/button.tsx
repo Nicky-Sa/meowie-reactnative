@@ -1,6 +1,6 @@
 import * as Haptics from "expo-haptics";
 import { Pressable, PressableProps, Text, View } from "react-native";
-import { cn, tailwind } from "@/lib/utils";
+import { cn, tailwind } from "@/lib/tailwind";
 import { PropsWithChildren, useState } from "react";
 import LottieView from "lottie-react-native";
 

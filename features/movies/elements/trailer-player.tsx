@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 type Props = {

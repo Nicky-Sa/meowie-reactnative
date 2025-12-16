@@ -1,5 +1,5 @@
 import { Button } from "@/features/common/button";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { Text, View } from "react-native";
 import { Updater } from "use-immer";
 

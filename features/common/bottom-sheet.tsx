@@ -14,7 +14,7 @@ import {
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { Button } from "@/features/common/button";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Xmark } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";

@@ -5,7 +5,7 @@ import { fetcher } from "@/features/common/data/fetcher";
 import { filtersAtom, sortAtom } from "@/atoms";
 import { useAtom } from "jotai/index";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-import { filterToQuery } from "@/lib/utils";
+import { filterToQuery } from "@/lib/functions";
 
 const random = Math.floor(Math.random() * 100) + 1;
 

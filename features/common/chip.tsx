@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 
 type Props = {
   text: string | number;

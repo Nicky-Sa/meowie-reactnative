@@ -7,7 +7,7 @@ import {
   UseFormClearErrors,
 } from "react-hook-form";
 import { TextInputProps } from "react-native/Libraries/Components/TextInput/TextInput";
-import { tailwind } from "@/lib/utils";
+import { tailwind } from "@/lib/tailwind";
 import { Icon, SvgImage } from "@/features/common/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/button";
