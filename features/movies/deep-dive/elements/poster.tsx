@@ -1,9 +1,9 @@
 import { Image } from "expo-image";
 import { SkeletonItem } from "@/features/common/skeleton-item";
-import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
+import { MoviePosterInfo } from "@/features/movies/movie-info/models/movie-info";
 
 type Props = {
-  data: MoviePosterResDto[number];
+  data: MoviePosterInfo;
   isLoading: boolean;
   width: number;
 };

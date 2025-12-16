@@ -1,4 +1,3 @@
-import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
 import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { Person } from "@/features/movies/deep-dive/elements/person";
@@ -14,8 +13,8 @@ import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
 import { useCallback } from "react";
 import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/useFetchMoviesPoster";
-import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
 import LottieView from "lottie-react-native";
+import { MoviePosterInfo } from "@/features/movies/movie-info/models/movie-info";
 
 type Props = {
   personId: number;
@@ -25,11 +24,11 @@ type Props = {
 const NUM_COLUMNS = 3;
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
-  FlashList<MoviePosterResDto[number]>,
+  FlashList<MoviePosterInfo>,
 );
 
-// Dummy data to render a scrollable skeleton
-const skeletonData: MoviePosterResDto = Array.from({
+// Dummy data to render an initial scrollable skeleton
+const skeletonData: MoviePosterInfo[] = Array.from({
   length: NUM_COLUMNS * 3,
 }).map((_, index) => ({
   id: -index - 1, // Generates -1, -2, -3... distinct IDs for skeletons
@@ -49,28 +48,23 @@ export const Content = ({ personId, personName }: Props) => {
   const { scrollHandler, scrollY } = useScrollHandler();
 
   const {
-    rawData: rawMoviesIdsData,
-    dataLength: moviesIdsDataLength,
+    data,
+    dataLength,
+    isLoading,
     size,
     setSize,
     totalPages,
     error,
     mutate,
-    isLoading: moviesIdsIsLoading,
-  } = useFetchMoviesIds();
-
-  const { data: moviesPosterData, isLoading: moviesPosterIsLoading } =
-    useFetchMoviesPoster(rawMoviesIdsData);
+  } = useFetchMoviesPoster();
 
   const { onEndReached } = useFetchMore({
     size,
     setSize,
-    isLoading: moviesIdsIsLoading,
+    isLoading,
     totalPages,
   });
-  const isLoading = moviesIdsIsLoading || moviesPosterIsLoading;
-  const isInitialLoad =
-    isLoading && (!moviesPosterData || moviesPosterData.length === 0);
+  const isInitialLoad = isLoading && (!data || data.length === 0);
 
   return (
     <InnerScreen
@@ -85,9 +79,9 @@ export const Content = ({ personId, personName }: Props) => {
           <PersonHeader personId={personId} />
           <ErrorState tryAgain={mutate} error={error} />
         </>
-      ) : isLoading || moviesIdsDataLength > 0 ? (
+      ) : isLoading || dataLength > 0 ? (
         <AnimatedFlashList
-          data={isInitialLoad ? skeletonData : moviesPosterData}
+          data={isInitialLoad ? skeletonData : data}
           keyExtractor={({ id }) => `movie-${id}-poster`}
           renderItem={({ item }) => (
             <Poster data={item} isLoading={isLoading} width={posterWidth} />
