@@ -2,20 +2,10 @@ import { useCallback } from "react";
 import useSWRInfinite from "swr/infinite";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher } from "@/features/common/data/fetcher";
-import { Filters, filtersAtom, initialFiltersValue, sortAtom } from "@/atoms";
-import _ from "lodash";
+import { filtersAtom, sortAtom } from "@/atoms";
 import { useAtom } from "jotai/index";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-
-const filterToQuery = (filters: Filters) => {
-  return `${Object.entries(filters)
-    .filter(
-      ([key, value]) =>
-        !_.isEqual(value, initialFiltersValue[key as keyof Filters]),
-    )
-    .map(([key, value]) => `${key}=${value.toString()}`)
-    .join("&")}`;
-};
+import { filterToQuery } from "@/lib/utils";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
@@ -46,17 +36,20 @@ export const useFetchMoviesIds = () => {
 
   // Extract `id` from each movie
   // The list is accumulated from all pages
-  const accumulatedIdList = Array.isArray(response)
-    ? response.flatMap((page) => page.data.results)
+  const rawData = Array.isArray(response)
+    ? response.map((page) => page.data.results)
     : [];
+
+  const flattenedData = rawData.flat();
 
   const totalPages = Array.isArray(response)
     ? response[0]?.data.total_pages
     : 0;
 
   return {
-    data: accumulatedIdList,
-    dataLength: accumulatedIdList.length,
+    data: flattenedData,
+    dataLength: flattenedData.length,
+    rawData, // for other hooks to use useSWRInfinite
     key: JSON.stringify({ ...filters, sort }),
     totalPages,
     ...rest,

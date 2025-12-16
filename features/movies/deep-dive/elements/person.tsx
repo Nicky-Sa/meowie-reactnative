@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { Image } from "expo-image";
 import { SkeletonItem } from "@/features/common/skeleton-item";
-import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/useFetchPersonInfo";
+import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/person/useFetchPersonInfo";
 
 type Props = {
   personId: number;

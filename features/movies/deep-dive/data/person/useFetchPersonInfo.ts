@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher } from "@/features/common/data/fetcher";
-import { PersonResDto } from "@/features/movies/deep-dive/data/person.dto";
+import { PersonResDto } from "@/features/movies/deep-dive/data/person/person.dto";
 
 export const useFetchPersonInfo = (id: number) => {
   const url = `/person/${id}`;

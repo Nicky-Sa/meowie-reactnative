@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "@/tailwind.config";
+import { Filters, initialFiltersValue } from "@/atoms";
+import _ from "lodash";
 
 export const tailwind = resolveConfig(tailwindConfig);
 
@@ -32,4 +34,14 @@ export const isUrl = (text: string): boolean => {
   } catch {
     return false;
   }
+};
+
+export const filterToQuery = (filters: Filters) => {
+  return `${Object.entries(filters)
+    .filter(
+      ([key, value]) =>
+        !_.isEqual(value, initialFiltersValue[key as keyof Filters]),
+    )
+    .map(([key, value]) => `${key}=${value.toString()}`)
+    .join("&")}`;
 };

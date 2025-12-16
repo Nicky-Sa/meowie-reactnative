@@ -54,10 +54,9 @@ export const Content = () => {
           ref={listRef}
           key={key} // to remount the list when filters or sort change
           data={data}
-          keyExtractor={(id, index) => `movie-${id}-${index}`}
+          keyExtractor={(id) => `movie-${id}-info`}
           renderItem={({ item: movieId, index }) => (
             <MovieDetails
-              key={movieId}
               movieId={movieId}
               shouldPlay={index === currentIndex}
               index={index}
@@ -69,7 +68,7 @@ export const Content = () => {
           onScroll={scrollHandler}
           // Pagination Handlers
           onEndReached={onEndReached}
-          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom
+          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
           onLoad={onLoad}
           showsVerticalScrollIndicator={false}
         />

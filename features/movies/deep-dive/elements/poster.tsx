@@ -1,36 +1,15 @@
 import { Image } from "expo-image";
-import { useFetchMovieInfo } from "@/features/movies/movie-info/data/useFetchMovieInfo";
 import { SkeletonItem } from "@/features/common/skeleton-item";
+import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
 
 type Props = {
-  movieId: number;
+  data: MoviePosterResDto[number];
+  isLoading: boolean;
   width: number;
 };
 
-export const Poster = ({ movieId, width }: Props) => {
-  const isSkeletonData = movieId === -1;
-
-  return isSkeletonData ? (
-    <PosterSkeleton width={width} />
-  ) : (
-    <PosterData width={width} movieId={movieId} />
-  );
-};
-
-const PosterSkeleton = ({ width }: { width: number }) => {
-  const height = width * (3 / 2);
-  return (
-    <SkeletonItem
-      className={"rounded-none border border-neutral-4-default"}
-      style={{ width, height }}
-    />
-  );
-};
-
-const PosterData = ({ width, movieId }: { width: number; movieId: number }) => {
-  const { data, isLoading } = useFetchMovieInfo(movieId);
-
-  return !data || isLoading ? (
+export const Poster = ({ data, isLoading, width }: Props) => {
+  return isLoading ? (
     <PosterSkeleton width={width} />
   ) : (
     <Image
@@ -41,11 +20,21 @@ const PosterData = ({ width, movieId }: { width: number; movieId: number }) => {
       }}
       contentFit="cover"
       placeholder={{
-        blurhash: data.posterProps.blurhash,
+        blurhash: "U6PZfSi_.AyE_3t7t7R**0o#DgR4_3R*D%xs",
         width: 100,
         height: 150,
       }}
       transition={500}
+    />
+  );
+};
+
+const PosterSkeleton = ({ width }: { width: number }) => {
+  const height = width * (3 / 2);
+  return (
+    <SkeletonItem
+      className={"rounded-none border border-neutral-4-default"}
+      style={{ width, height }}
     />
   );
 };

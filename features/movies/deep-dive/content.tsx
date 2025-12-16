@@ -13,6 +13,9 @@ import { useAtom } from "jotai";
 import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
 import { useCallback } from "react";
+import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/useFetchMoviesPoster";
+import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
+import LottieView from "lottie-react-native";
 
 type Props = {
   personId: number;
@@ -21,9 +24,18 @@ type Props = {
 
 const NUM_COLUMNS = 3;
 
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
+const AnimatedFlashList = Animated.createAnimatedComponent(
+  FlashList<MoviePosterResDto[number]>,
+);
+
 // Dummy data to render a scrollable skeleton
-const skeletonData = new Array(NUM_COLUMNS * 3).fill(-1);
+const skeletonData: MoviePosterResDto = Array.from({
+  length: NUM_COLUMNS * 3,
+}).map((_, index) => ({
+  id: -index - 1, // Generates -1, -2, -3... distinct IDs for skeletons
+  posterPath: "",
+  blurhash: "",
+}));
 
 export const Content = ({ personId, personName }: Props) => {
   const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
@@ -34,25 +46,31 @@ export const Content = ({ personId, personName }: Props) => {
     });
   }, [setFilters]);
 
+  const { scrollHandler, scrollY } = useScrollHandler();
+
   const {
-    data,
-    dataLength,
+    rawData: rawMoviesIdsData,
+    dataLength: moviesIdsDataLength,
     size,
     setSize,
     totalPages,
     error,
     mutate,
-    isLoading,
+    isLoading: moviesIdsIsLoading,
   } = useFetchMoviesIds();
 
-  const { scrollHandler, scrollY } = useScrollHandler();
+  const { data: moviesPosterData, isLoading: moviesPosterIsLoading } =
+    useFetchMoviesPoster(rawMoviesIdsData);
 
   const { onEndReached } = useFetchMore({
     size,
     setSize,
-    isLoading,
+    isLoading: moviesIdsIsLoading,
     totalPages,
   });
+  const isLoading = moviesIdsIsLoading || moviesPosterIsLoading;
+  const isInitialLoad =
+    isLoading && (!moviesPosterData || moviesPosterData.length === 0);
 
   return (
     <InnerScreen
@@ -67,20 +85,32 @@ export const Content = ({ personId, personName }: Props) => {
           <PersonHeader personId={personId} />
           <ErrorState tryAgain={mutate} error={error} />
         </>
-      ) : isLoading || dataLength > 0 ? (
+      ) : isLoading || moviesIdsDataLength > 0 ? (
         <AnimatedFlashList
-          data={isLoading ? skeletonData : data}
-          keyExtractor={(id, index) => `movie-${id}-${index}`}
-          renderItem={({ item: movieId }) => (
-            <Poster key={movieId} movieId={movieId} width={posterWidth} />
+          data={isInitialLoad ? skeletonData : moviesPosterData}
+          keyExtractor={({ id }) => `movie-${id}-poster`}
+          renderItem={({ item }) => (
+            <Poster data={item} isLoading={isLoading} width={posterWidth} />
           )}
           numColumns={NUM_COLUMNS}
           onScroll={scrollHandler}
-          onEndReachedThreshold={2}
+          onEndReachedThreshold={0.5}
           onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
-          getItemType={() => (isLoading ? "skeleton" : "actual")} // Tell FlashList that 'skeleton' and 'actual' are different layouts\
           ListHeaderComponent={<PersonHeader personId={personId} />}
+          ListFooterComponent={
+            isLoading ? (
+              <LottieView
+                source={{
+                  uri: "https://lottie.host/099429f0-1128-4b7b-9e48-562fb873b761/eQhxLE6Pc5.lottie",
+                }}
+                autoPlay
+                loop
+                resizeMode={"cover"}
+                style={{ alignSelf: "center", width: 48, height: 20 }}
+              />
+            ) : null
+          }
         />
       ) : (
         <>
