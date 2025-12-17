@@ -76,9 +76,9 @@ export const MovieDetails = memo(
           className={"flex flex-col items-center justify-start gap-4 px-4"}
           style={contentStyle}
         >
-          {isLoading ? (
+          {isLoading || !data ? (
             <MovieDetailsSkeleton />
-          ) : error || !data ? (
+          ) : error ? (
             <ErrorState tryAgain={mutate} error={error} />
           ) : (
             <>
@@ -193,7 +193,7 @@ export const MovieDetails = memo(
 );
 MovieDetails.displayName = "MovieDetails";
 
-export const MovieDetailsSkeleton = () => {
+const MovieDetailsSkeleton = () => {
   return (
     <View
       className={

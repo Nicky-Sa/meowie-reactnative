@@ -3,7 +3,8 @@ import { MovieInfoResDto } from "@/features/movies/movie-info/data/dto/movies.dt
 import { SuccessResponse } from "@/features/common/data/transformers";
 
 export const useFetchMovieInfo = (id: number) => {
-  const url = `/movies/info/${id}`;
+  const dummyId = id < 0;
+  const url = !dummyId ? `/movies/info/${id}` : null;
   const { data: response, ...rest } = useSWR<
     SuccessResponse<MovieInfoResDto>,
     Error

@@ -1,10 +1,7 @@
 import Animated from "react-native-reanimated";
 import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import {
-  MovieDetails,
-  MovieDetailsSkeleton,
-} from "@/features/movies/elements/details";
+import { MovieDetails } from "@/features/movies/elements/details";
 import { Header } from "@/features/general/layout/header";
 import { ErrorState } from "@/features/general/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
@@ -15,6 +12,8 @@ import { SortHeaderButton } from "@/features/sort/header-button";
 import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
+
+const skeletonData = [-1];
 
 export const Content = () => {
   const listRef = useListRef();
@@ -41,19 +40,18 @@ export const Content = () => {
     totalPages,
   });
 
+  const isInitialLoad = isLoading && (!data || data.length === 0);
+
   return (
     <MainScreen>
       <Header headerButton={<SortHeaderButton />} />
-      {isLoading && dataLength === 0 ? (
-        // Non-scrollable skeleton for initial load (not pagination load)
-        <MovieDetailsSkeleton />
-      ) : error ? (
+      {error ? (
         <ErrorState tryAgain={mutate} error={error} />
-      ) : dataLength > 0 ? (
+      ) : isLoading || dataLength > 0 ? (
         <AnimatedFlashList
+          data={isInitialLoad ? skeletonData : data}
           ref={listRef}
           key={key} // to remount the list when filters or sort change
-          data={data}
           keyExtractor={(id) => `movie-${id}-info`}
           renderItem={({ item: movieId, index }) => (
             <MovieDetails
