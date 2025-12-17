@@ -92,7 +92,7 @@ export const MovieDetails = memo(
                   blurhash={data.posterProps.blurhash}
                   width={60}
                 />
-                <View className={"flex flex-col justify-center gap-2"}>
+                <View className={"flex flex-1 flex-col justify-center gap-2"}>
                   <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
