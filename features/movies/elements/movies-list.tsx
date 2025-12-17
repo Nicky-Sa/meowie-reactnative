@@ -1,11 +1,12 @@
 import { ErrorState } from "@/features/general/error-state";
 import { MovieDetails } from "@/features/movies/elements/details";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
-import { useListRef } from "@/features/movies/movies-info/hooks/useListRef";
-import { useScrollHandler } from "@/features/movies/movies-info/hooks/useScrollHandler";
-import { useFetchMore } from "@/features/movies/movies-info/hooks/useFetchMore";
+import { useListRef } from "@/features/movies/hooks/useListRef";
+import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
+import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
+import { useQueryKey } from "@/features/movies/hooks/useQueryKey";
 
 type Props = {
   data: number[];
@@ -16,7 +17,6 @@ type Props = {
   totalPages: number;
   error: Error | undefined;
   mutate: () => void;
-  queryKey?: string;
   initialScrollIndex?: number;
 };
 
@@ -33,7 +33,6 @@ export const MoviesList = ({
   totalPages,
   error,
   mutate,
-  queryKey,
   initialScrollIndex,
 }: Props) => {
   const listRef = useListRef();
@@ -46,7 +45,18 @@ export const MoviesList = ({
     totalPages,
   });
 
+  const queryKey = useQueryKey();
+
   const isInitialLoad = isLoading && (!data || data.length === 0);
+
+  // Only use initialScrollIndex if we are NOT loading
+  // AND the index actually exists in the current data array.
+  const safeInitialIndex =
+    !isInitialLoad &&
+    initialScrollIndex !== undefined &&
+    initialScrollIndex < (data?.length ?? 0)
+      ? initialScrollIndex
+      : undefined;
 
   return (
     <>
@@ -56,9 +66,9 @@ export const MoviesList = ({
         <AnimatedFlashList
           data={isInitialLoad ? skeletonData : data}
           ref={listRef}
-          key={queryKey}
+          key={queryKey} // forcing the list to recreate when the key changes
           keyExtractor={(id) => `movie-${id}-info`}
-          initialScrollIndex={initialScrollIndex}
+          initialScrollIndex={safeInitialIndex}
           renderItem={({ item: movieId, index }) => (
             <MovieDetails
               key={movieId}

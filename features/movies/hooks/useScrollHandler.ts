@@ -23,7 +23,8 @@ export const useScrollHandler = () => {
 
   // Reset scroll position when data resets
   const onLoad = () => {
-    scrollY.value = 0;
+    // Doesn't work, delete later if not needed (issue with blank list after applying filter)
+    // scrollY.value = 0;
   };
 
   return { scrollHandler, scrollY, currentIndex, onLoad };

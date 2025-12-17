@@ -14,7 +14,6 @@ export const Content = () => {
     isLoading,
     error,
     mutate,
-    queryKey,
   } = useFetchMoviesIds();
 
   return (
@@ -29,7 +28,6 @@ export const Content = () => {
         totalPages={totalPages}
         error={error}
         mutate={mutate}
-        queryKey={queryKey} // to remount the list when filters or sort change
       />
     </MainScreen>
   );
