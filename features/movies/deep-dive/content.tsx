@@ -5,16 +5,17 @@ import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
-import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
+import { useScrollHandler } from "@/features/movies/movies-info/hooks/useScrollHandler";
 import { Poster } from "@/features/movies/deep-dive/elements/poster";
 import { filtersAtom } from "@/atoms";
 import { useAtom } from "jotai";
-import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
+import { useFetchMore } from "@/features/movies/movies-info/hooks/useFetchMore";
 import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
 import { useCallback } from "react";
 import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/useFetchMoviesPoster";
 import LottieView from "lottie-react-native";
-import { MoviePosterInfo } from "@/features/movies/movie-info/models/movie-info";
+import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
+import { useRouter } from "expo-router";
 
 type Props = {
   personId: number;
@@ -67,6 +68,20 @@ export const Content = ({ personId, personName }: Props) => {
   });
   const isInitialLoad = isLoading && (!data || data.length === 0);
 
+  const router = useRouter();
+  const onPosterPress = useCallback(
+    (index: number) => {
+      router.push({
+        pathname: "/deep-dive/movies-info",
+        params: {
+          initialIndex: index,
+          personName,
+        },
+      });
+    },
+    [personName, router],
+  );
+
   return (
     <InnerScreen
       onBack={onBack}
@@ -84,12 +99,13 @@ export const Content = ({ personId, personName }: Props) => {
         <AnimatedFlashList
           data={isInitialLoad ? skeletonData : data}
           keyExtractor={({ id }) => `movie-${id}-poster`}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <Poster
               key={item.id}
               data={item}
               isSkeletonData={isInitialLoad}
               width={posterWidth}
+              onPress={() => onPosterPress(index)}
             />
           )}
           numColumns={NUM_COLUMNS}

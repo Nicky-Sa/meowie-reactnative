@@ -49,7 +49,7 @@ export const useFetchMoviesIds = () => {
   return {
     data: flattenedData,
     dataLength: flattenedData.length,
-    key: JSON.stringify({ ...filters, sort }),
+    queryKey: JSON.stringify({ ...filters, sort }),
     totalPages,
     ...rest,
   };

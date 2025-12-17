@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import type { AllRatings } from "@/features/movies/movie-info/models/ratings";
+import type { AllRatings } from "@/features/movies/movies-info/models/ratings";
 import TMDBLogo from "@/assets/icons/ratings/tmdb.svg";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
 import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";

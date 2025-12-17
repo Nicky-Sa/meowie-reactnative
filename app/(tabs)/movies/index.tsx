@@ -1,4 +1,4 @@
-import { Content } from "@/features/movies/movie-info/content";
+import { Content } from "@/features/movies/movies-info/content";
 
 export default function Movies() {
   return <Content />;

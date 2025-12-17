@@ -1,36 +1,42 @@
-import Animated from "react-native-reanimated";
-import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
-import { MainScreen } from "@/features/common/layout/main-screen";
-import { MovieDetails } from "@/features/movies/elements/details";
-import { Header } from "@/features/general/layout/header";
 import { ErrorState } from "@/features/general/error-state";
+import { MovieDetails } from "@/features/movies/elements/details";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
+import { useListRef } from "@/features/movies/movies-info/hooks/useListRef";
+import { useScrollHandler } from "@/features/movies/movies-info/hooks/useScrollHandler";
+import { useFetchMore } from "@/features/movies/movies-info/hooks/useFetchMore";
+import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { useScrollHandler } from "@/features/movies/movie-info/hooks/useScrollHandler";
-import { useListRef } from "@/features/movies/movie-info/hooks/useListRef";
-import { SortHeaderButton } from "@/features/sort/header-button";
-import { useFetchMore } from "@/features/movies/movie-info/hooks/useFetchMore";
+
+type Props = {
+  data: number[];
+  dataLength: number;
+  isLoading: boolean;
+  size: number;
+  setSize: (size: number) => void;
+  totalPages: number;
+  error: Error | undefined;
+  mutate: () => void;
+  queryKey?: string;
+  initialScrollIndex?: number;
+};
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
 const skeletonData = [-1];
 
-export const Content = () => {
+export const MoviesList = ({
+  data,
+  dataLength,
+  isLoading,
+  size,
+  setSize,
+  totalPages,
+  error,
+  mutate,
+  queryKey,
+  initialScrollIndex,
+}: Props) => {
   const listRef = useListRef();
-
-  const {
-    data,
-    dataLength,
-    size,
-    setSize,
-    totalPages,
-    isLoading,
-    error,
-    mutate,
-    key,
-  } = useFetchMoviesIds();
-
-  // Simplified handler only controls animation and current index
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
 
   const { onEndReached } = useFetchMore({
@@ -43,16 +49,16 @@ export const Content = () => {
   const isInitialLoad = isLoading && (!data || data.length === 0);
 
   return (
-    <MainScreen>
-      <Header headerButton={<SortHeaderButton />} />
+    <>
       {error ? (
         <ErrorState tryAgain={mutate} error={error} />
       ) : isLoading || dataLength > 0 ? (
         <AnimatedFlashList
           data={isInitialLoad ? skeletonData : data}
           ref={listRef}
-          key={key} // to remount the list when filters or sort change
+          key={queryKey}
           keyExtractor={(id) => `movie-${id}-info`}
+          initialScrollIndex={initialScrollIndex}
           renderItem={({ item: movieId, index }) => (
             <MovieDetails
               key={movieId}
@@ -74,6 +80,6 @@ export const Content = () => {
       ) : (
         <MoviesEmptyState />
       )}
-    </MainScreen>
+    </>
   );
 };

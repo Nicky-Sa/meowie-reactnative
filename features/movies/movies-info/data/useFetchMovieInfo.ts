@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { MovieInfoResDto } from "@/features/movies/movie-info/data/dto/movies.dto";
+import { MovieInfoResDto } from "@/features/movies/movies-info/data/dto/movies.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 
 export const useFetchMovieInfo = (id: number) => {

@@ -1,4 +1,4 @@
-import { useFetchMovieInfo } from "@/features/movies/movie-info/data/useFetchMovieInfo";
+import { useFetchMovieInfo } from "@/features/movies/movies-info/data/useFetchMovieInfo";
 import { View, Text } from "react-native";
 import { TrailerPlayer } from "@/features/movies/elements/trailer-player";
 import { memo, useEffect } from "react";
