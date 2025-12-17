@@ -14,7 +14,7 @@ export const Header = ({ headerButton }: Props) => {
   return (
     <View
       className={
-        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between px-4"
+        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between px-2"
       }
       style={{
         marginTop:
