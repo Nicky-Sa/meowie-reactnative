@@ -27,6 +27,7 @@ export const Person = ({ personId }: Props) => {
           width: 100,
           height: 150,
         }}
+        cachePolicy="disk"
       />
       <View className={"flex flex-col gap-1"}>
         <Text className={"title-t2-strong text-neutral-10-default"}>

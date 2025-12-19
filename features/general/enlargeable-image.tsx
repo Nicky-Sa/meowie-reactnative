@@ -26,11 +26,12 @@ export const EnlargeableImage = ({ source, blurhash, width }: Props) => {
           }}
           contentFit="cover"
           placeholder={{
-            blurhash: blurhash,
+            blurhash,
             width: 100,
             height: 150,
           }}
           transition={500}
+          cachePolicy="disk"
         />
       </Pressable>
 
@@ -47,6 +48,7 @@ export const EnlargeableImage = ({ source, blurhash, width }: Props) => {
               borderRadius: Number(tailwind.theme.borderRadius.lg),
             }}
             contentFit="cover"
+            cachePolicy="disk"
           />
           <Button
             onPress={() => setModalVisible(false)}

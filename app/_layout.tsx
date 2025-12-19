@@ -23,6 +23,7 @@ import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { fetcher } from "@/features/common/data/fetcher";
+import { swrCacheProvider } from "@/features/common/data/swr-cache";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -94,6 +95,7 @@ function RootLayout() {
       >
         <SWRConfig
           value={{
+            provider: swrCacheProvider,
             revalidateOnFocus: false,
             keepPreviousData: true,
             shouldRetryOnError: true,

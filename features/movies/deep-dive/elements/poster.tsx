@@ -29,6 +29,7 @@ export const Poster = ({ data, isSkeletonData, width, onPress }: Props) => {
           height: 150,
         }}
         transition={500}
+        cachePolicy="disk"
       />
     </Pressable>
   );

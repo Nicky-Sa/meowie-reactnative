@@ -33,6 +33,7 @@ export const Cast = ({ id, name, profilePath }: CastInfo) => {
             width: 100,
             height: 150,
           }}
+          cachePolicy="disk"
         />
         <Text className={"caption-c1-strong text-neutral-10-default"}>
           {name}
