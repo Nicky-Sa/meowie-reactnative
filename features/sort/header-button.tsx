@@ -2,8 +2,6 @@ import { Button } from "@/features/common/button";
 import { Icon } from "@/features/common/icon";
 import { DataTransferBoth } from "iconoir-react-native";
 import { View } from "react-native";
-import { useAtom } from "jotai/index";
-import { InitialSort, Sort, sortAtom } from "@/atoms";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
@@ -11,6 +9,10 @@ import {
 import { useRef } from "react";
 import { Segment } from "@/features/common/segment";
 import { useImmer } from "use-immer";
+import { useRouter } from "expo-router";
+import { InitialSort, Sort } from "@/features/common/data/query";
+import { useAtom } from "jotai";
+import { sortAtom } from "@/atoms";
 
 const sortOptions: { id: Sort; label: string; description: string }[] = [
   {
@@ -36,6 +38,7 @@ export const SortHeaderButton = () => {
   const [draftSort, setDraftSort] = useImmer(sort);
   const isModified = sort !== InitialSort;
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const router = useRouter();
 
   return (
     <>
@@ -64,6 +67,7 @@ export const SortHeaderButton = () => {
             size="lg"
             onPress={() => {
               setSort(draftSort);
+              router.replace("/(tabs)/movies");
               bottomSheetRef.current?.dismiss();
             }}
           >

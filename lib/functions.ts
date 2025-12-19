@@ -1,5 +1,4 @@
-import { Filters, initialFiltersValue } from "@/atoms";
-import _ from "lodash";
+import { SearchParams } from "@/features/common/data/query";
 
 export const isDarkColor = (hexColor: string): boolean => {
   // Remove the '#' if it exists
@@ -26,12 +25,11 @@ export const isUrl = (text: string): boolean => {
   }
 };
 
-export const filterToQuery = (filters: Filters) => {
-  return `${Object.entries(filters)
-    .filter(
-      ([key, value]) =>
-        !_.isEqual(value, initialFiltersValue[key as keyof Filters]),
-    )
+export const searchParamsToQuery = (
+  searchParams: Partial<SearchParams> | undefined,
+) => {
+  if (!searchParams) return "";
+  return `${Object.entries(searchParams)
     .map(([key, value]) => `${key}=${value.toString()}`)
     .join("&")}`;
 };

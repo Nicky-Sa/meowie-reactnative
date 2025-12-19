@@ -7,20 +7,14 @@ import { ErrorState } from "@/features/general/error-state";
 import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
 import { Poster } from "@/features/movies/deep-dive/elements/poster";
-import { filtersAtom } from "@/atoms";
-import { useAtom } from "jotai";
 import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
 import { usePosterWidth } from "@/features/movies/deep-dive/hooks/usePosterWidth";
 import { useCallback } from "react";
 import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/useFetchMoviesPoster";
 import LottieView from "lottie-react-native";
 import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
-import { useRouter } from "expo-router";
-
-type Props = {
-  personId: number;
-  personName: string;
-};
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/person/useFetchPersonInfo";
 
 const NUM_COLUMNS = 3;
 
@@ -37,16 +31,15 @@ const skeletonData: MoviePosterInfo[] = Array.from({
   blurhash: "",
 }));
 
-export const Content = ({ personId, personName }: Props) => {
+export const Content = () => {
+  const { personId: personIdStr } = useLocalSearchParams<{
+    personId: string;
+  }>();
+  const personId = Number(personIdStr);
   const { posterWidth } = usePosterWidth({ numColumns: NUM_COLUMNS });
-  const [, setFilters] = useAtom(filtersAtom);
-  const onBack = useCallback(() => {
-    setFilters((draft) => {
-      draft["personId"] = undefined;
-    });
-  }, [setFilters]);
 
   const { scrollHandler, scrollY } = useScrollHandler();
+  const { data: personData } = useFetchPersonInfo(personId);
 
   const {
     data,
@@ -58,7 +51,7 @@ export const Content = ({ personId, personName }: Props) => {
     error,
     mutate,
     isValidating,
-  } = useFetchMoviesPoster();
+  } = useFetchMoviesPoster({ personId });
 
   const { onEndReached } = useFetchMore({
     size,
@@ -75,17 +68,16 @@ export const Content = ({ personId, personName }: Props) => {
         pathname: "/deep-dive/movies-info",
         params: {
           initialIndex: index,
-          personName,
+          personId,
         },
       });
     },
-    [personName, router],
+    [personId, router],
   );
 
   return (
     <InnerScreen
-      onBack={onBack}
-      title={personName}
+      title={personData?.name}
       scrollY={scrollY}
       fullHeight
       fullWidth

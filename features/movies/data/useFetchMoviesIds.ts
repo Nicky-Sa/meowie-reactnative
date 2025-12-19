@@ -2,31 +2,34 @@ import { useCallback } from "react";
 import useSWRInfinite from "swr/infinite";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { fetcher } from "@/features/common/data/fetcher";
-import { filtersAtom, sortAtom } from "@/atoms";
-import { useAtom } from "jotai/index";
+import { SearchParams } from "@/features/common/data/query";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-import { filterToQuery } from "@/lib/functions";
+import { searchParamsToQuery } from "@/lib/functions";
+import { useAtom } from "jotai";
+import { sortAtom } from "@/atoms";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
-export const useFetchMoviesIds = () => {
-  const [filters] = useAtom(filtersAtom);
+type Args = Partial<SearchParams>;
+
+export const useFetchMoviesIds = (searchParams?: Args) => {
   const [sort] = useAtom(sortAtom);
 
   const getKey = useCallback(
     (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDto>) => {
       const baseUrl = "/movies/ids";
-      const filtersQuery = filterToQuery(filters);
-      const initialPage = sort === "random" && !filtersQuery ? random : 1;
+      const searchQuery = searchParamsToQuery(searchParams);
+
+      const initialPage = sort === "random" ? random : 1;
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + initialPage}&${filtersQuery}&sort=${sort}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + initialPage}&${searchQuery}&sort=${sort}`; // SWR key
     },
-    [filters, sort],
+    [searchParams, sort],
   );
 
   const { data: response, ...rest } = useSWRInfinite<
@@ -49,7 +52,6 @@ export const useFetchMoviesIds = () => {
   return {
     data: flattenedData,
     dataLength: flattenedData.length,
-    queryKey: JSON.stringify({ ...filters, sort }),
     totalPages,
     ...rest,
   };

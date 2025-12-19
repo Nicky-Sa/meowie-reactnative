@@ -6,7 +6,6 @@ import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
 import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { useQueryKey } from "@/features/movies/hooks/useQueryKey";
 
 type Props = {
   data: number[];
@@ -45,8 +44,6 @@ export const MoviesList = ({
     totalPages,
   });
 
-  const queryKey = useQueryKey();
-
   const isInitialLoad = isLoading && (!data || data.length === 0);
 
   // Only use initialScrollIndex if we are NOT loading
@@ -66,7 +63,6 @@ export const MoviesList = ({
         <AnimatedFlashList
           data={isInitialLoad ? skeletonData : data}
           ref={listRef}
-          key={queryKey} // forcing the list to recreate when the key changes
           keyExtractor={(id) => `movie-${id}-info`}
           initialScrollIndex={safeInitialIndex}
           renderItem={({ item: movieId, index }) => (

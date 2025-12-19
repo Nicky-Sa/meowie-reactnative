@@ -6,8 +6,9 @@ import { Chip } from "@/features/common/chip";
 import { tailwind } from "@/lib/tailwind";
 import { useRouter } from "expo-router";
 import { useAtom } from "jotai/index";
-import { Filters, filtersAtom, initialFiltersValue } from "@/atoms";
+import { Filters, initialFiltersValue } from "@/features/common/data/query";
 import _ from "lodash";
+import { filtersAtom } from "@/atoms";
 
 export const FiltersHeaderButton = () => {
   const router = useRouter();

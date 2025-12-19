@@ -5,6 +5,12 @@ import { Header } from "@/features/movies/deep-dive/movies-info/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 
 export const Content = () => {
+  const { initialIndex, personId: personIdStr } = useLocalSearchParams<{
+    initialIndex: string;
+    personId: string;
+  }>();
+  const personId = Number(personIdStr);
+
   const {
     data: moviePosterData,
     dataLength,
@@ -14,20 +20,15 @@ export const Content = () => {
     isLoading,
     error,
     mutate,
-  } = useFetchMoviesPoster();
+  } = useFetchMoviesPoster({ personId });
   const data = moviePosterData?.map((item) => item.id) || [];
-
-  const { initialIndex, personName } = useLocalSearchParams<{
-    initialIndex: string;
-    personName: string;
-  }>();
 
   // Technically, this is an inner screen,
   // but since the MoviesList is a special component and doesn't tolerate external paddings or sibling components,
   // I have to use MainScreen + custom absolute header here.
   return (
     <MainScreen>
-      <Header title={personName} />
+      <Header personId={personId} />
       <MoviesList
         data={data}
         dataLength={dataLength}

@@ -2,19 +2,13 @@ import { CastInfo } from "@/features/movies/movies-info/models/movie-info";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 
 export const Cast = ({ id, name, profilePath }: CastInfo) => {
   const router = useRouter();
-  const [, setFilters] = useAtom(filtersAtom);
 
   const handlePress = () => {
     if (id < 0) return;
-    setFilters((draft) => {
-      draft["personId"] = id;
-    });
-    router.push(`/deep-dive?personId=${id}&personName=${name}`);
+    router.push({ pathname: "/deep-dive", params: { personId: id } });
   };
 
   return (

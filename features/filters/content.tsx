@@ -6,12 +6,13 @@ import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { filtersAtom, initialFiltersValue } from "@/atoms";
+import { initialFiltersValue } from "@/features/common/data/query";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { Icon } from "@/features/common/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
+import { filtersAtom } from "@/atoms";
 
 const ClearSelection = ({ onPress }: { onPress: () => void }) => {
   return (
