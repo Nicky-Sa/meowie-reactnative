@@ -4,7 +4,7 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { SortHeaderButton } from "@/features/sort/header-button";
 import { Header } from "@/features/general/layout/header";
 
-export const Content = () => {
+export const Screen = () => {
   const {
     data,
     dataLength,

@@ -8,7 +8,7 @@ import { EmailForm } from "@/features/settings/delete-account/elements/email-for
 import { useImmer } from "use-immer";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 
-export const Content = () => {
+export const Screen = () => {
   const [churnReasonId, setChurnReasonId] = useImmer<string>("");
   const { data } = useCurrentUser();
   // if the user is not logged in, we don't even show the button to navigate to this screen

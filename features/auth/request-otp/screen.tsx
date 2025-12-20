@@ -9,7 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const ONLINE_VIDEO_URI =
   "https://meowie-public.s3.eu-central-1.amazonaws.com/signup-video.mp4";
 
-export const Content = () => {
+export const Screen = () => {
   const player = useVideoPlayer(ONLINE_VIDEO_URI, (player) => {
     player.loop = true;
     player.muted = true;

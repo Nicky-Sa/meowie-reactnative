@@ -4,7 +4,7 @@ import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/us
 import { Header } from "@/features/movies/deep-dive/movies-info/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 
-export const Content = () => {
+export const Screen = () => {
   const { initialIndex, personId: personIdStr } = useLocalSearchParams<{
     initialIndex: string;
     personId: string;

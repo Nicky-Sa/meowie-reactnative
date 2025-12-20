@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 /**
  * For the style of main screens with header and navbar
  */
-export const useMainContentStyle = () => {
+export const useMainScreenContentStyle = () => {
   const { height } = useScreenDimensions();
   const { top, bottom } = useSafeAreaInsets();
 

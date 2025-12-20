@@ -1,5 +1,5 @@
-import { Content } from "@/features/movies/movies-info/content";
+import { Screen } from "@/features/movies/movies-info/screen";
 
 export default function Movies() {
-  return <Content />;
+  return <Screen />;
 }

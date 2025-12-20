@@ -1,5 +1,5 @@
-import { Content } from "@/features/movies/deep-dive/content";
+import { Screen } from "@/features/movies/deep-dive/screen";
 
 export default function DeepDive() {
-  return <Content />;
+  return <Screen />;
 }

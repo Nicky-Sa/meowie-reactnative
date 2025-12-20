@@ -161,7 +161,7 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
-                        name="deep-dive/movies-info/index"
+                        name="deep-dive/movies-info"
                         options={{
                           animation: "slide_from_right",
                         }}

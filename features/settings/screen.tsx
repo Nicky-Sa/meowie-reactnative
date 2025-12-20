@@ -6,7 +6,7 @@ import { DeleteAccount } from "@/features/settings/items/delete-account";
 import { Logout } from "@/features/settings/items/logout";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 
-export const Content = () => {
+export const Screen = () => {
   const { data } = useCurrentUser();
   const isLoggedIn = data?.user !== null;
   return (

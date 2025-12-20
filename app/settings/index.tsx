@@ -1,5 +1,5 @@
-import { Content } from "@/features/settings/content";
+import { Screen } from "@/features/settings/screen";
 
 export default function Settings() {
-  return <Content />;
+  return <Screen />;
 }

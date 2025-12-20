@@ -1,5 +1,5 @@
-import { Content } from "@/features/auth/verify-otp/content";
+import { Screen } from "@/features/auth/verify-otp/screen";
 
 export default function VerifyOtpScreen() {
-  return <Content />;
+  return <Screen />;
 }

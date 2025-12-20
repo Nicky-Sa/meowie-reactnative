@@ -1,5 +1,5 @@
-import { Content } from "@/features/onboarding/content";
+import { Screen } from "@/features/onboarding/screen";
 
 export default function OnboardingScreen() {
-  return <Content />;
+  return <Screen />;
 }

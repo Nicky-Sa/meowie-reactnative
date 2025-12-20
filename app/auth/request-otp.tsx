@@ -1,5 +1,5 @@
-import { Content } from "@/features/auth/request-otp/content";
+import { Screen } from "@/features/auth/request-otp/screen";
 
 export default function RequestOtpScreen() {
-  return <Content />;
+  return <Screen />;
 }

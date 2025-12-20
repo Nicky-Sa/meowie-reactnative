@@ -6,11 +6,11 @@ import TMDBGrayLogo from "@/assets/icons/tmdb-gray.svg";
 import { Header } from "@/features/general/layout/header";
 import { ProfileHeaderButton } from "@/features/profile/header-button";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { Skeleton } from "@/features/profile/skeleton";
 
-export const Content = () => {
-  const contentStyle = useMainContentStyle();
+export const Screen = () => {
+  const contentStyle = useMainScreenContentStyle();
   const { data, isLoading } = useCurrentUser();
 
   return (

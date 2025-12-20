@@ -31,7 +31,7 @@ const ClearSelection = ({ onPress }: { onPress: () => void }) => {
   );
 };
 
-export const Content = () => {
+export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
   const router = useRouter();
 

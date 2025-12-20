@@ -12,7 +12,7 @@ import { colorAtom } from "@/atoms";
 import { Ratings } from "@/features/movies/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { ErrorState } from "@/features/general/error-state";
-import { useMainContentStyle } from "@/features/common/hooks/useMainContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { Genres } from "@/features/movies/elements/genres";
 import { Casts } from "@/features/movies/elements/casts";
 import { Button } from "@/features/common/button";
@@ -34,7 +34,7 @@ export const MovieDetails = memo(
     const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
 
-    const contentStyle = useMainContentStyle();
+    const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
 
     useEffect(() => {

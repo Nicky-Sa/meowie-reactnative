@@ -1,5 +1,5 @@
-import { Content } from "@/features/filters/content";
+import { Screen } from "@/features/filters/screen";
 
 export default function FiltersScreen() {
-  return <Content />;
+  return <Screen />;
 }

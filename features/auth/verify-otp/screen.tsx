@@ -6,7 +6,7 @@ import { InfoEmail } from "@/features/auth/verify-otp/info-email";
 import { OtpForm } from "@/features/auth/verify-otp/otp-form";
 import { ScrollView } from "react-native-gesture-handler";
 
-export const Content = () => {
+export const Screen = () => {
   const router = useRouter();
   const { email } = useLocalSearchParams<{ email: string }>();
   const handleBack = () => {

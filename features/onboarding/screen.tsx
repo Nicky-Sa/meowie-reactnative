@@ -37,7 +37,7 @@ const items = [
   },
 ];
 
-export const Content = () => {
+export const Screen = () => {
   const router = useRouter();
   const { width } = useScreenDimensions();
   const ref = useRef<ICarouselInstance>(null);

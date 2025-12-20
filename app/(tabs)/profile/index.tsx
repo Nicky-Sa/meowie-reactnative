@@ -1,5 +1,5 @@
-import { Content } from "@/features/profile/content";
+import { Screen } from "@/features/profile/screen";
 
 export default function ProfileScreen() {
-  return <Content />;
+  return <Screen />;
 }

@@ -31,7 +31,7 @@ const skeletonData: MoviePosterInfo[] = Array.from({
   blurhash: "",
 }));
 
-export const Content = () => {
+export const Screen = () => {
   const { personId: personIdStr } = useLocalSearchParams<{
     personId: string;
   }>();
