@@ -1,12 +1,11 @@
 import { useCallback } from "react";
-import useSWRInfinite from "swr/infinite";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { fetcher } from "@/features/common/data/fetcher";
 import { SearchParams } from "@/features/common/data/query";
 import { MovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
 import { searchParamsToQuery } from "@/lib/functions";
 import { useAtom } from "jotai";
 import { sortAtom } from "@/atoms";
+import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
@@ -27,15 +26,13 @@ export const useFetchMoviesIds = (searchParams?: Args) => {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + initialPage}&${searchQuery}&sort=${sort}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}&${searchQuery}`; // SWR key
     },
     [searchParams, sort],
   );
 
-  const { data: response, ...rest } = useSWRInfinite<
-    SuccessResponse<MovieIdsResDto>,
-    Error
-  >(getKey, fetcher);
+  const { data: response, ...rest } =
+    useSWRInfiniteConfigured<MovieIdsResDto>(getKey);
 
   // Extract `id` from each movie
   // The list is accumulated from all pages

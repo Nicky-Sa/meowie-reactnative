@@ -1,10 +1,9 @@
-import useSWRInfinite from "swr/infinite";
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { fetcher } from "@/features/common/data/fetcher";
 import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
 import { SearchParams } from "@/features/common/data/query";
 import { searchParamsToQuery } from "@/lib/functions";
+import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
 
 type Args = Partial<SearchParams>;
 
@@ -32,10 +31,7 @@ export const useFetchMoviesPoster = (searchParams: Args) => {
     size,
     setSize,
     ...rest
-  } = useSWRInfinite<SuccessResponse<MoviePosterResDto>, Error>(
-    getKey,
-    fetcher,
-  );
+  } = useSWRInfiniteConfigured<MoviePosterResDto>(getKey);
 
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)

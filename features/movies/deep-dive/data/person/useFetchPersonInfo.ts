@@ -1,13 +1,9 @@
-import useSWR from "swr";
-import { SuccessResponse } from "@/features/common/data/transformers";
 import { PersonResDto } from "@/features/movies/deep-dive/data/person/person.dto";
+import { useSWRConfigured } from "@/features/common/data/swr-config";
 
 export const useFetchPersonInfo = (id: number) => {
   const url = `/person/${id}`;
-  const { data: response, ...rest } = useSWR<
-    SuccessResponse<PersonResDto>,
-    Error
-  >(url);
+  const { data: response, ...rest } = useSWRConfigured<PersonResDto>(url);
   return {
     data: response?.data,
     ...rest,

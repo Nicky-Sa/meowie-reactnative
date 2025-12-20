@@ -22,8 +22,7 @@ import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
 import { KeyboardAvoidingView, Platform } from "react-native";
-import { fetcher } from "@/features/common/data/fetcher";
-import { swrCacheProvider } from "@/features/common/data/swr-cache";
+import { swrConfig } from "@/features/common/data/swr-config";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -93,18 +92,7 @@ function RootLayout() {
       <ThemeProvider
         value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
       >
-        <SWRConfig
-          value={{
-            provider: swrCacheProvider,
-            revalidateOnFocus: false,
-            keepPreviousData: true,
-            shouldRetryOnError: true,
-            dedupingInterval: 300000,
-            errorRetryInterval: 3000,
-            errorRetryCount: 3,
-            fetcher,
-          }}
-        >
+        <SWRConfig value={swrConfig}>
           <SafeAreaProvider>
             <GestureHandlerRootView className={"flex-1"}>
               {/*keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset */}

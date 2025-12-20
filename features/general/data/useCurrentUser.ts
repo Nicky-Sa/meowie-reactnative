@@ -1,6 +1,5 @@
-import { SuccessResponse } from "@/features/common/data/transformers";
-import useSWR from "swr";
 import { User } from "@/entities/user";
+import { useSWRConfigured } from "@/features/common/data/swr-config";
 
 type CurrentUserResDto = {
   user: User | null;
@@ -9,10 +8,7 @@ type CurrentUserResDto = {
 export const useCurrentUser = () => {
   const url = "/auth/current-user";
 
-  const { data: response, ...rest } = useSWR<
-    SuccessResponse<CurrentUserResDto>,
-    Error
-  >(url);
+  const { data: response, ...rest } = useSWRConfigured<CurrentUserResDto>(url);
 
   return {
     data: response?.data,
