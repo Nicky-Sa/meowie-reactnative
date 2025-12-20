@@ -24,12 +24,11 @@ export const Poster = ({ data, isSkeletonData, width, onPress }: Props) => {
         }}
         contentFit="cover"
         placeholder={{
-          blurhash: "U6PZfSi_.AyE_3t7t7R**0o#DgR4_3R*D%xs",
+          blurhash: data.blurhash,
           width: 100,
           height: 150,
         }}
-        transition={500}
-        cachePolicy="disk"
+        transition={200}
       />
     </Pressable>
   );

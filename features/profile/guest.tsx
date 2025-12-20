@@ -17,7 +17,6 @@ export const Guest = () => {
           borderRadius: 9999,
         }}
         contentFit="cover"
-        cachePolicy="disk"
       />
       <Text className={"body-b2 text-neutral-10-default"}>
         You are currently a guest.

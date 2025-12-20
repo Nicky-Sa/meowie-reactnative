@@ -19,7 +19,6 @@ export const LoggedIn = ({ user }: Props) => {
           borderRadius: 9999,
         }}
         contentFit="cover"
-        cachePolicy="disk"
       />
       <Text className={"body-b2 text-neutral-10-default"}>
         Welcome to your profile
