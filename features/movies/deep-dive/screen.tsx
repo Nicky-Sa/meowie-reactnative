@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { Person } from "@/features/movies/deep-dive/elements/person";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
@@ -15,6 +14,7 @@ import LottieView from "lottie-react-native";
 import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/person/useFetchPersonInfo";
+import { PersonBrief } from "@/features/person/brief";
 
 const NUM_COLUMNS = 3;
 
@@ -74,7 +74,7 @@ export const Screen = () => {
     },
     [personId, router],
   );
-
+  // TODO: use ListEmptyComponent!
   return (
     <InnerScreen
       title={personData?.name}
@@ -131,9 +131,11 @@ export const Screen = () => {
 };
 
 const PersonHeader = ({ personId }: { personId: number }) => {
+  const { data, isLoading } = useFetchPersonInfo(personId);
+
   return (
     <View className={"px-4 pb-4"}>
-      <Person personId={personId} />
+      <PersonBrief data={data} isLoading={isLoading} size={"lg"} />
     </View>
   );
 };

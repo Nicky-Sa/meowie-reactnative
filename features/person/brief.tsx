@@ -1,24 +1,36 @@
 import { Text, View } from "react-native";
 import { Image } from "expo-image";
 import { SkeletonItem } from "@/features/common/skeleton-item";
-import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/person/useFetchPersonInfo";
+import { cn } from "@/lib/tailwind";
+import { PersonResDto } from "@/features/movies/deep-dive/data/person/person.dto";
 
 type Props = {
-  personId: number;
+  data: PersonResDto | undefined;
+  isLoading: boolean;
+  size: "lg" | "md";
 };
-export const Person = ({ personId }: Props) => {
-  const { data, isLoading } = useFetchPersonInfo(personId);
-  const isSkeletonData = personId === -1;
 
-  return isLoading || !data || isSkeletonData ? (
-    <PersonSkeleton />
+const personBriefSizes = {
+  lg: {
+    imageWidth: 80,
+    nameClassName: "title-t2-strong",
+  },
+  md: {
+    imageWidth: 56,
+    nameClassName: "body-b1",
+  },
+};
+
+export const PersonBrief = ({ data, isLoading, size }: Props) => {
+  return isLoading || !data ? (
+    <PersonBriefSkeleton size={size} />
   ) : (
     <View className={"flex flex-row items-center gap-3"}>
       <Image
         source={data.profilePath}
         style={{
-          width: 80,
-          height: 80,
+          width: personBriefSizes[size].imageWidth,
+          aspectRatio: 1,
           borderRadius: 9999,
         }}
         contentFit="cover"
@@ -29,7 +41,12 @@ export const Person = ({ personId }: Props) => {
         }}
       />
       <View className={"flex flex-col gap-1"}>
-        <Text className={"title-t2-strong text-neutral-10-default"}>
+        <Text
+          className={cn(
+            personBriefSizes[size].nameClassName,
+            "text-neutral-10-default",
+          )}
+        >
           {data.name}
         </Text>
         <Text className={"body-b2 text-neutral-6-default"}>
@@ -40,10 +57,15 @@ export const Person = ({ personId }: Props) => {
   );
 };
 
-const PersonSkeleton = () => {
+const PersonBriefSkeleton = ({ size }: Pick<Props, "size">) => {
   return (
     <View className={"flex flex-row items-center justify-start gap-3"}>
-      <SkeletonItem className={"h-20 w-20 rounded-full"} />
+      <SkeletonItem
+        className={cn("rounded-full", {
+          "h-20 w-20": size === "lg",
+          "h-14 w-14": size === "md",
+        })}
+      />
       <View className={"flex w-44 flex-col items-start justify-start gap-1"}>
         <SkeletonItem className={"h-8"} />
         <SkeletonItem className={"h-5"} />

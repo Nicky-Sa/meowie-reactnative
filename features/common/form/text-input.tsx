@@ -44,7 +44,7 @@ const textInputSizes = {
     paddingLeft: Number(tailwind.theme.spacing["3"]),
   },
   md: {
-    borderRadius: Number(tailwind.theme.borderRadius.lg),
+    borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["3"]),
     paddingRight: Number(tailwind.theme.spacing["2"]),
     paddingLeft: Number(tailwind.theme.spacing["3"]),
@@ -76,7 +76,7 @@ const getStateKey = (
 
 type Props<T extends FieldValues> = UseControllerProps<T> & {
   clearErrors: UseFormClearErrors<T>;
-  title: string;
+  title?: string;
   size?: keyof typeof textInputSizes;
   icon?: SvgImage;
 } & TextInputProps;
@@ -98,7 +98,7 @@ export const TextInput = <T extends FieldValues>({
       name={name}
       render={({
         field: { onChange, value, disabled },
-        fieldState: { error, isDirty },
+        fieldState: { error },
       }) => {
         const onChangeText = (text: string) => {
           onChange(text);
@@ -106,7 +106,10 @@ export const TextInput = <T extends FieldValues>({
         };
         return (
           <View className={"flex flex-col gap-2"}>
-            <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
+            {title && (
+              <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
+            )}
+
             <View
               className={"flex flex-row items-center justify-between gap-2"}
               style={{
@@ -140,7 +143,7 @@ export const TextInput = <T extends FieldValues>({
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />
-              {isDirty && isFocused && (
+              {!!value && isFocused && (
                 <Button
                   variant={"link"}
                   iconOnly
