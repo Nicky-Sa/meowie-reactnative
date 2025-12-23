@@ -76,6 +76,8 @@ function RootLayout() {
   const { bottom } = useSafeAreaInsets();
   const segments = useSegments();
   const isTabsGroup = segments[0] === "(tabs)";
+  const isSearchScreen = segments[0] === "search";
+  const shouldDisableAvoiding = isTabsGroup || isSearchScreen;
 
   return (
     <PostHogProvider
@@ -105,7 +107,7 @@ function RootLayout() {
                 <KeyboardAvoidingView
                   behavior={Platform.OS === "ios" ? "padding" : "height"}
                   className={"flex-1"}
-                  enabled={!isTabsGroup}
+                  enabled={!shouldDisableAvoiding}
                   keyboardVerticalOffset={-0.8 * bottom} // keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset
                 >
                   <BottomSheetModalProvider>
@@ -170,6 +172,15 @@ function RootLayout() {
                           name="deep-dive/movies-info"
                           options={{
                             animation: "slide_from_right",
+                          }}
+                        />
+
+                        <Stack.Screen
+                          name="search/index"
+                          options={{
+                            animation: "fade",
+                            animationDuration: 300,
+                            presentation: "card",
                           }}
                         />
 

@@ -3,7 +3,7 @@ import { SearchResult } from "@/features/search/elements/result/search-result";
 import { View, Text, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   debouncedQuery: string;
@@ -16,7 +16,9 @@ export const SearchResultList = ({
   data,
   isLoading,
 }: Props) => {
-  const contentStyle = useMainScreenContentStyle();
+  // If I use SafeAreaView, it won't feel like a full screen list and it will add margins
+  const { bottom } = useSafeAreaInsets();
+
   return (
     <View className={"flex flex-1"}>
       <FlashList
@@ -25,7 +27,7 @@ export const SearchResultList = ({
         renderItem={({ item }) => <SearchResult item={item} />}
         className={"pt-4"}
         contentContainerStyle={{
-          paddingBottom: contentStyle.paddingBottom,
+          paddingBottom: bottom,
         }}
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}

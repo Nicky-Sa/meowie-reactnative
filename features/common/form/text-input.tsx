@@ -11,7 +11,7 @@ import { tailwind } from "@/lib/tailwind";
 import { Icon, SvgImage } from "@/features/common/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const textInputStates = {
   default: {
@@ -79,6 +79,7 @@ type Props<T extends FieldValues> = UseControllerProps<T> & {
   title?: string;
   size?: keyof typeof textInputSizes;
   icon?: SvgImage;
+  autoFocus?: boolean;
 } & TextInputProps;
 
 export const TextInput = <T extends FieldValues>({
@@ -88,9 +89,17 @@ export const TextInput = <T extends FieldValues>({
   title,
   icon,
   size = "lg",
+  autoFocus,
   ...textInputProps
 }: Props<T>) => {
   const [isFocused, setIsFocused] = useState(false);
+  const ref = useRef<RNTextInput>(null);
+
+  useEffect(() => {
+    if (autoFocus) {
+      ref.current?.focus();
+    }
+  }, [autoFocus]);
 
   return (
     <Controller
@@ -129,7 +138,8 @@ export const TextInput = <T extends FieldValues>({
               {icon && <Icon i={icon} />}
               <RNTextInput
                 {...textInputProps}
-                className={"body-b1 flex-grow py-[3px]"}
+                ref={ref}
+                className={"body-b1 flex-grow pb-1"}
                 style={{
                   color:
                     textInputStates[getStateKey(isFocused, disabled, error)]

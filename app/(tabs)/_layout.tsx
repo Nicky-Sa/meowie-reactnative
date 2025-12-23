@@ -9,8 +9,8 @@ const tabs: Tab[] = [
     icon: HomeSimple,
   },
   {
-    name: "search/index",
-    title: "Search",
+    name: "explore/index",
+    title: "Explore",
     icon: Search,
   },
   {

@@ -16,16 +16,9 @@ type SearchFormData = z.infer<typeof SearchSchema>;
 type Props = {
   currentQuery: string;
   setIsDebouncing: Dispatch<SetStateAction<boolean>>;
-  setImmediateQuery: Dispatch<SetStateAction<string>>;
-  setIsFocused: Dispatch<SetStateAction<boolean>>;
 };
 
-export const SearchInput = ({
-  currentQuery,
-  setIsDebouncing,
-  setImmediateQuery,
-  setIsFocused,
-}: Props) => {
+export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   const router = useRouter();
 
   const { control, watch, clearErrors } = useForm<SearchFormData>({
@@ -43,10 +36,6 @@ export const SearchInput = ({
     setIsDebouncing(queryValue !== debouncedQuery);
   }, [debouncedQuery, queryValue, setIsDebouncing]);
 
-  useEffect(() => {
-    setImmediateQuery(queryValue);
-  }, [queryValue, setImmediateQuery]);
-
   // Sync debounced value to URL
   useEffect(() => {
     router.setParams({ query: debouncedQuery });
@@ -61,9 +50,8 @@ export const SearchInput = ({
       placeholder={"Search movie, actor, genre"}
       autoCapitalize={"none"}
       autoCorrect={false}
+      autoFocus
       icon={Search}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
     />
   );
 };
