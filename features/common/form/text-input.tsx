@@ -140,8 +140,14 @@ export const TextInput = <T extends FieldValues>({
                 }
                 onChangeText={onChangeText}
                 value={value}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+                onFocus={(e) => {
+                  setIsFocused(true);
+                  textInputProps.onFocus?.(e);
+                }}
+                onBlur={(e) => {
+                  setIsFocused(false);
+                  textInputProps.onBlur?.(e);
+                }}
               />
               {!!value && isFocused && (
                 <Button

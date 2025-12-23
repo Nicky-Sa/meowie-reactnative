@@ -1,20 +1,18 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
 import { SearchResult } from "@/features/search/elements/result/search-result";
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 
 type Props = {
   debouncedQuery: string;
-  hasEnteredInput: boolean;
   data: MultiSearchResults[] | undefined;
   isLoading: boolean;
 };
 
 export const SearchResultList = ({
   debouncedQuery,
-  hasEnteredInput,
   data,
   isLoading,
 }: Props) => {
@@ -29,11 +27,12 @@ export const SearchResultList = ({
         contentContainerStyle={{
           paddingBottom: contentStyle.paddingBottom,
         }}
+        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
           debouncedQuery && !isLoading ? (
             <EmptyState />
-          ) : isLoading || hasEnteredInput ? (
+          ) : isLoading ? (
             <SearchResultSkeleton />
           ) : null
         }
