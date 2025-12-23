@@ -4,12 +4,10 @@ import { PropsWithChildren } from "react";
 import { useNetInfoInstance } from "@react-native-community/netinfo";
 import NoInternet from "@/assets/images/errors/no-internet.svg";
 import VpnWarning from "@/assets/images/errors/vpn-warning.svg";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { useCountryCheck } from "@/hooks/useCountryCheck";
 import { WarningModal } from "@/features/common/warning-modal";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
-  const { height } = useScreenDimensions();
   const {
     netInfo: { isConnected, isInternetReachable },
     refresh,
@@ -23,11 +21,8 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
       {noInternet ? (
         <View
           className={
-            "flex-col items-center justify-center gap-8 bg-neutral-15-default"
+            "flex-1 flex-col items-center justify-center gap-8 bg-neutral-15-default"
           }
-          style={{
-            height,
-          }}
         >
           <NoInternet />
 
