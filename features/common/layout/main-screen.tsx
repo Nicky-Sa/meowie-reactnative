@@ -8,7 +8,7 @@ export const MainScreen = ({ children }: PropsWithChildren) => {
   const [color] = useAtom(colorAtom);
 
   return (
-    <View className={"relative h-full w-full bg-neutral-15-default"}>
+    <View className={"relative h-full w-full"}>
       <View className={"absolute -top-16"}>
         <GradientCircle color={color} />
       </View>

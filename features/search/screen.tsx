@@ -14,36 +14,31 @@ export const Screen = () => {
   const { data, isLoading } = useMultiSearchQuery({ query });
 
   return (
-    <View className={"h-full w-full bg-neutral-15-default"}>
-      <SafeAreaView
-        className={"flex flex-1 flex-col justify-between px-4 pt-4"}
-        edges={["top", "left", "right"]}
+    <SafeAreaView
+      className={"flex flex-1 flex-col justify-between px-4 pt-4"}
+      edges={["top", "left", "right"]}
+    >
+      <View
+        className={"flex w-full flex-row items-center justify-between gap-3"}
       >
-        <View
-          className={"flex w-full flex-row items-center justify-between gap-3"}
-        >
-          <View className={"flex-grow"}>
-            <SearchInput
-              currentQuery={query}
-              setIsDebouncing={setIsDebouncing}
-            />
-          </View>
-          <Button
-            onPress={() => router.back()}
-            variant={"link"}
-            size={"lg"}
-            iconOnly
-          >
-            Cancel
-          </Button>
+        <View className={"flex-grow"}>
+          <SearchInput currentQuery={query} setIsDebouncing={setIsDebouncing} />
         </View>
+        <Button
+          onPress={() => router.back()}
+          variant={"link"}
+          size={"lg"}
+          iconOnly
+        >
+          Cancel
+        </Button>
+      </View>
 
-        <SearchResultList
-          debouncedQuery={query}
-          data={data}
-          isLoading={isLoading || isDebouncing}
-        />
-      </SafeAreaView>
-    </View>
+      <SearchResultList
+        debouncedQuery={query}
+        data={data}
+        isLoading={isLoading || isDebouncing}
+      />
+    </SafeAreaView>
   );
 };

@@ -81,7 +81,7 @@ export const InnerScreen = ({
   );
 
   return (
-    <View className={"flex-1 bg-neutral-15-default"}>
+    <View className={"flex-1"}>
       <SafeAreaView edges={edges}>
         <View
           className={cn("flex h-full flex-col justify-between gap-2", {

@@ -19,11 +19,7 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
   return (
     <>
       {noInternet ? (
-        <View
-          className={
-            "flex-1 flex-col items-center justify-center gap-8 bg-neutral-15-default"
-          }
-        >
+        <View className={"flex-1 flex-col items-center justify-center gap-8"}>
           <NoInternet />
 
           <Text className={"body-b1 text-center text-neutral-5-default"}>

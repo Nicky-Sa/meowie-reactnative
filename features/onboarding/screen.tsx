@@ -79,7 +79,7 @@ export const Screen = () => {
   const isLastItem = currentIndex === items.length - 1;
 
   return (
-    <View className={"h-full flex-1 justify-center bg-neutral-15-default"}>
+    <View className={"h-full flex-1 justify-center"}>
       <SafeAreaView>
         <View className={"h-[90%] justify-start gap-6 py-2"}>
           <Carousel

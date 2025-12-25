@@ -1,12 +1,7 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { SWRConfig } from "swr";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -20,7 +15,7 @@ import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
 import { swrConfig } from "@/features/common/data/swr-config";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { tailwind } from "@/lib/tailwind";
+import { useThemeConfig } from "@/hooks/useThemeConfig";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -57,7 +52,7 @@ Sentry.init({
 });
 
 function RootLayout() {
-  const colorScheme = useColorScheme();
+  const themeConfig = useThemeConfig();
   useEventListener();
 
   const ref = useNavigationContainerRef();
@@ -85,9 +80,7 @@ function RootLayout() {
         captureScreens: true,
       }}
     >
-      <ThemeProvider
-        value={colorScheme.isDarkColorScheme ? DarkTheme : DefaultTheme}
-      >
+      <ThemeProvider value={themeConfig}>
         <SWRConfig value={swrConfig}>
           <KeyboardProvider>
             <SafeAreaProvider>
@@ -98,10 +91,6 @@ function RootLayout() {
                       screenOptions={{
                         headerShown: false,
                         statusBarStyle: "light",
-                        contentStyle: {
-                          backgroundColor:
-                            tailwind.theme.backgroundColor.neutral[15].default,
-                        },
                       }}
                     >
                       <Stack.Screen name="(tabs)" />

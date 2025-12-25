@@ -40,9 +40,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
   return (
     <Animated.View
       style={[{ position: "absolute", zIndex: 10 }, splashStyle]}
-      className={
-        "flex h-full w-full flex-col items-center justify-center bg-neutral-15-default"
-      }
+      className={"flex h-full w-full flex-col items-center justify-center"}
     >
       <LottieView
         source={require("@/assets/lottie/splash.json")}
