@@ -1,20 +1,15 @@
 import { Image } from "expo-image";
-import { SkeletonItem } from "@/features/common/skeleton-item";
 import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
 import { Pressable } from "react-native";
 
 type Props = {
   data: MoviePosterInfo;
-  isSkeletonData: boolean;
   width: number;
   onPress: () => void;
 };
 
-export const Poster = ({ data, isSkeletonData, width, onPress }: Props) => {
-  return isSkeletonData ? (
-    <PosterSkeleton width={width} />
-  ) : (
-    // if loading is true, it means this item is not even present (rendered) in the list, so no point in showing a skeleton
+export const Poster = ({ data, width, onPress }: Props) => {
+  return (
     <Pressable onPress={onPress}>
       <Image
         source={data.posterPath}
@@ -31,15 +26,5 @@ export const Poster = ({ data, isSkeletonData, width, onPress }: Props) => {
         transition={200}
       />
     </Pressable>
-  );
-};
-
-const PosterSkeleton = ({ width }: { width: number }) => {
-  const height = width * (3 / 2);
-  return (
-    <SkeletonItem
-      className={"rounded-none border border-neutral-4-default"}
-      style={{ width, height }}
-    />
   );
 };

@@ -1,4 +1,4 @@
-import { PersonResDto } from "@/features/movies/deep-dive/data/person/person.dto";
+import { PersonResDto } from "@/features/person/data/person/person.dto";
 import { useSWRConfigured } from "@/features/common/data/swr-config";
 
 export const useFetchPersonInfo = (id: number) => {

@@ -126,14 +126,14 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
-                        name="deep-dive/index"
+                        name="person/index"
                         options={{
                           animation: "slide_from_right",
                         }}
                       />
 
                       <Stack.Screen
-                        name="deep-dive/movies-info"
+                        name="person/movies-info"
                         options={{
                           animation: "slide_from_right",
                         }}

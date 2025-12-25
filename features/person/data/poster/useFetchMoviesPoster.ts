@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { MoviePosterResDto } from "@/features/movies/deep-dive/data/poster/poster.dto";
+import { MoviePosterResDto } from "@/features/person/data/poster/poster.dto";
 import { SearchParams } from "@/features/common/data/query";
 import { searchParamsToQuery } from "@/lib/functions";
 import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";

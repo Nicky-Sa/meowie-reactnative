@@ -10,7 +10,7 @@ const emojiToImage = (emoji: string) => {
   return `https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${hex}.png`;
 };
 
-export const Card = ({ item }: Props) => {
+export const GenreCard = ({ item }: Props) => {
   const imageUrl = emojiToImage(item.emoji);
   return (
     <Brief

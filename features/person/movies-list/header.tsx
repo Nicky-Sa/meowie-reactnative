@@ -4,7 +4,7 @@ import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFetchPersonInfo } from "@/features/movies/deep-dive/data/person/useFetchPersonInfo";
+import { useFetchPersonInfo } from "@/features/person/data/person/useFetchPersonInfo";
 
 type Props = {
   personId: number;

@@ -7,8 +7,7 @@ export const Cast = ({ id, name, profilePath }: CastInfo) => {
   const router = useRouter();
 
   const handlePress = () => {
-    if (id < 0) return;
-    router.push({ pathname: "/deep-dive", params: { personId: id } });
+    router.push({ pathname: "/person", params: { personId: id } });
   };
 
   return (

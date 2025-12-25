@@ -1,11 +1,11 @@
 import { ErrorState } from "@/features/general/error-state";
 import { MovieDetails } from "@/features/movies/elements/details";
-import { MoviesEmptyState } from "@/features/movies/elements/empty-state";
 import { useListRef } from "@/features/movies/hooks/useListRef";
 import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
 import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
+import { DetailsSkeleton } from "@/features/movies/elements/details-skeleton";
 
 type Props = {
   data: number[];
@@ -21,11 +21,8 @@ type Props = {
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
-const skeletonData = [-1];
-
 export const MoviesList = ({
   data,
-  dataLength,
   isLoading,
   size,
   setSize,
@@ -57,35 +54,37 @@ export const MoviesList = ({
 
   return (
     <>
-      {error ? (
-        <ErrorState tryAgain={mutate} error={error} />
-      ) : isLoading || dataLength > 0 ? (
-        <AnimatedFlashList
-          data={isInitialLoad ? skeletonData : data}
-          ref={listRef}
-          keyExtractor={(id) => `movie-${id}-info`}
-          initialScrollIndex={safeInitialIndex}
-          renderItem={({ item: movieId, index }) => (
-            <MovieDetails
-              key={movieId}
-              movieId={movieId}
-              shouldPlay={index === currentIndex}
-              index={index}
-              scrollY={scrollY}
-            />
-          )}
-          pagingEnabled
-          // Animation Handler
-          onScroll={scrollHandler}
-          // Pagination Handlers
-          onEndReached={onEndReached}
-          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
-          onLoad={onLoad}
-          showsVerticalScrollIndicator={false}
-        />
-      ) : (
-        <MoviesEmptyState />
-      )}
+      <AnimatedFlashList
+        data={data}
+        ref={listRef}
+        keyExtractor={(id) => `movie-${id}-info`}
+        initialScrollIndex={safeInitialIndex}
+        renderItem={({ item: movieId, index }) => (
+          <MovieDetails
+            key={movieId}
+            movieId={movieId}
+            shouldPlay={index === currentIndex}
+            index={index}
+            scrollY={scrollY}
+          />
+        )}
+        pagingEnabled
+        // Animation Handler
+        onScroll={scrollHandler}
+        // Pagination Handlers
+        onEndReached={onEndReached}
+        onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
+        onLoad={onLoad}
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName={"grow px-4"}
+        ListEmptyComponent={
+          error ? (
+            <ErrorState tryAgain={mutate} error={error} />
+          ) : isInitialLoad ? (
+            <DetailsSkeleton />
+          ) : null
+        }
+      />
     </>
   );
 };

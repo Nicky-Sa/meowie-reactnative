@@ -3,7 +3,7 @@ import { SearchInput } from "@/features/search/elements/search-input";
 import { useMultiSearchQuery } from "@/features/search/data/useMultiSearchQuery";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/features/common/button";
-import { List as SearchResultList } from "@/features/search/elements/results/list";
+import { SearchResultList } from "@/features/search/elements/results/list";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ export const Screen = () => {
   const { query = "" } = useLocalSearchParams<{ query: string }>();
   const router = useRouter();
   const [isDebouncing, setIsDebouncing] = useState(false);
-  const { data, isLoading } = useMultiSearchQuery({ query });
+  const { data, isLoading, error, mutate } = useMultiSearchQuery({ query });
 
   return (
     <SafeAreaView
@@ -38,6 +38,8 @@ export const Screen = () => {
         debouncedQuery={query}
         data={data}
         isLoading={isLoading || isDebouncing}
+        error={error}
+        mutate={mutate}
       />
     </SafeAreaView>
   );

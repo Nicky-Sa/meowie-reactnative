@@ -1,7 +1,7 @@
 import { MoviesList } from "@/features/movies/elements/movies-list";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchMoviesPoster } from "@/features/movies/deep-dive/data/poster/useFetchMoviesPoster";
-import { Header } from "@/features/movies/deep-dive/movies-info/header";
+import { useFetchMoviesPoster } from "@/features/person/data/poster/useFetchMoviesPoster";
+import { Header } from "@/features/person/movies-list/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 
 export const Screen = () => {

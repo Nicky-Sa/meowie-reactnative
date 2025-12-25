@@ -1,16 +1,16 @@
-import { SearchResultMovie } from "@/features/search/data/models/search-result";
-import { View, Text } from "react-native";
 import { Image } from "expo-image";
+import { Text, View } from "react-native";
+import { SearchResultMovie } from "@/features/search/data/models/search-result";
 
 type Props = {
-  item: SearchResultMovie;
+  data: SearchResultMovie;
 };
 
-export const Card = ({ item }: Props) => {
+export const MovieBrief = ({ data }: Props) => {
   return (
-    <View className={"flex flex-row items-center gap-3"}>
+    <View>
       <Image
-        source={item.posterPath}
+        source={data.posterPath}
         style={{
           width: 48,
           aspectRatio: 2 / 3,
@@ -29,13 +29,13 @@ export const Card = ({ item }: Props) => {
           ellipsizeMode="tail"
           className={"body-b1 overflow-hidden text-neutral-10-default"}
         >
-          {item.title}
+          {data.title}
         </Text>
         <Text className={"body-b2 text-neutral-5-default"}>
-          {item.releaseYear}
+          {data.releaseYear}
         </Text>
         <View className={"flex flex-row gap-3"}>
-          {item.genres.slice(0, 3).map((genre) => (
+          {data.genres.slice(0, 3).map((genre) => (
             <Text key={genre} className={"body-b2 text-neutral-5-default"}>
               {genre}
             </Text>

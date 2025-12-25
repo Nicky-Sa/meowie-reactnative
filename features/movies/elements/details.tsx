@@ -20,7 +20,7 @@ import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Cast } from "@/features/movies/elements/cast";
-import { SkeletonItem } from "@/features/common/skeleton-item";
+import { DetailsSkeleton } from "@/features/movies/elements/details-skeleton";
 
 type Props = {
   movieId: number;
@@ -73,11 +73,11 @@ export const MovieDetails = memo(
         className={"h-full w-full flex-1 justify-start"}
       >
         <View
-          className={"flex flex-col items-center justify-start gap-4 px-4"}
+          className={"flex flex-col items-center justify-start gap-4"}
           style={contentStyle}
         >
           {isLoading || !data ? (
-            <MovieDetailsSkeleton />
+            <DetailsSkeleton />
           ) : error ? (
             <ErrorState tryAgain={mutate} error={error} />
           ) : (
@@ -192,21 +192,3 @@ export const MovieDetails = memo(
   },
 );
 MovieDetails.displayName = "MovieDetails";
-
-const MovieDetailsSkeleton = () => {
-  return (
-    <View
-      className={
-        "flex w-full flex-1 flex-col items-center justify-center gap-4"
-      }
-    >
-      <SkeletonItem className={"h-20"} />
-      <SkeletonItem className={"h-48"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-16"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-16"} />
-    </View>
-  );
-};
