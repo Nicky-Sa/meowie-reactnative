@@ -5,6 +5,6 @@ type Props = {
   item: SearchResultPerson;
 };
 
-export const PersonResult = ({ item }: Props) => {
+export const Card = ({ item }: Props) => {
   return <PersonBrief data={item} isLoading={false} size={"md"} />;
 };

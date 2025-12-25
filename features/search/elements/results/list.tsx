@@ -1,5 +1,5 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
-import { SearchResult } from "@/features/search/elements/result/search-result";
+import { Card as SearchResultCard } from "@/features/search/elements/results/card";
 import { View, Text, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
@@ -11,11 +11,7 @@ type Props = {
   isLoading: boolean;
 };
 
-export const SearchResultList = ({
-  debouncedQuery,
-  data,
-  isLoading,
-}: Props) => {
+export const List = ({ debouncedQuery, data, isLoading }: Props) => {
   // If I use SafeAreaView, it won't feel like a full screen list and it will add margins
   const { bottom } = useSafeAreaInsets();
 
@@ -24,7 +20,7 @@ export const SearchResultList = ({
       <FlashList
         data={data}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <SearchResult item={item} />}
+        renderItem={({ item }) => <SearchResultCard item={item} />}
         className={"pt-4"}
         contentContainerStyle={{
           paddingBottom: bottom,

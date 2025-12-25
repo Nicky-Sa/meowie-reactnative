@@ -1,3 +1,5 @@
+import { Genre } from "@/features/general/data/constants/useGenres";
+
 export type SearchResultPerson = {
   id: number;
   name: string;
@@ -15,4 +17,11 @@ export type SearchResultMovie = {
   releaseYear: string;
 };
 
-export type MultiSearchResults = SearchResultPerson | SearchResultMovie;
+export type SearchResultGenre = Genre & {
+  mediaType: "genre";
+};
+
+export type MultiSearchResults =
+  | SearchResultPerson
+  | SearchResultMovie
+  | SearchResultGenre;

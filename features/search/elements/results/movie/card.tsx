@@ -6,7 +6,7 @@ type Props = {
   item: SearchResultMovie;
 };
 
-export const MovieResult = ({ item }: Props) => {
+export const Card = ({ item }: Props) => {
   return (
     <View className={"flex flex-row items-center gap-3"}>
       <Image

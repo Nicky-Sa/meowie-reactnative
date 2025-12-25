@@ -3,7 +3,7 @@ import { SearchInput } from "@/features/search/elements/search-input";
 import { useMultiSearchQuery } from "@/features/search/data/useMultiSearchQuery";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/features/common/button";
-import { SearchResultList } from "@/features/search/elements/result/search-result-list";
+import { List as SearchResultList } from "@/features/search/elements/results/list";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 

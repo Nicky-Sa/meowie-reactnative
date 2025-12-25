@@ -1,7 +1,11 @@
-import { SegmentItem } from "@/features/common/segment";
 import { useSWRConfigured } from "@/features/common/data/swr-config";
 
-export type ChurnReasonsResDto = SegmentItem[];
+type ChurnReason = {
+  id: string;
+  label: string;
+};
+
+type ChurnReasonsResDto = ChurnReason[];
 
 export const useChurnReasons = () => {
   const url = "/constants/churn-reasons";
