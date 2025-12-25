@@ -268,6 +268,7 @@ export default {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      colors: primitives["color"],
       backgroundColor: {
         warning: {
           "1": {
