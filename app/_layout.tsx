@@ -3,15 +3,12 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Stack, useNavigationContainerRef, useSegments } from "expo-router";
+import { Stack, useNavigationContainerRef } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SWRConfig } from "swr";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider } from "posthog-react-native";
@@ -21,12 +18,9 @@ import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
-import { Platform } from "react-native";
 import { swrConfig } from "@/features/common/data/swr-config";
-import {
-  KeyboardAvoidingView,
-  KeyboardProvider,
-} from "react-native-keyboard-controller";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import { tailwind } from "@/lib/tailwind";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -73,12 +67,6 @@ function RootLayout() {
     }
   }, [ref]);
 
-  const { bottom } = useSafeAreaInsets();
-  const segments = useSegments();
-  const isTabsGroup = segments[0] === "(tabs)";
-  const isSearchScreen = segments[0] === "search";
-  const shouldDisableAvoiding = isTabsGroup || isSearchScreen;
-
   return (
     <PostHogProvider
       apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
@@ -104,92 +92,78 @@ function RootLayout() {
           <KeyboardProvider>
             <SafeAreaProvider>
               <GestureHandlerRootView>
-                <KeyboardAvoidingView
-                  behavior={Platform.OS === "ios" ? "padding" : "height"}
-                  className={"flex-1"}
-                  enabled={!shouldDisableAvoiding}
-                  keyboardVerticalOffset={-0.8 * bottom} // keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset
-                >
-                  <BottomSheetModalProvider>
-                    <InternetCheck>
-                      <Stack
-                        screenOptions={{
-                          headerShown: false,
-                          statusBarStyle: "light",
+                <BottomSheetModalProvider>
+                  <InternetCheck>
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
+                        statusBarStyle: "light",
+                        contentStyle: {
+                          backgroundColor:
+                            tailwind.theme.backgroundColor.neutral[15].default,
+                        },
+                      }}
+                    >
+                      <Stack.Screen name="(tabs)" />
+
+                      <Stack.Screen name="auth" />
+
+                      <Stack.Screen
+                        name="filters/index"
+                        options={{
+                          animation: "slide_from_right",
                         }}
-                      >
-                        <Stack.Screen name="(tabs)" />
-                        <Stack.Screen
-                          name="auth/request-otp"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      />
 
-                        <Stack.Screen
-                          name="auth/verify-otp"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="onboarding/index"
+                        options={{
+                          animation: "slide_from_bottom",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="filters/index"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="settings/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="onboarding/index"
-                          options={{
-                            animation: "slide_from_bottom",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="settings/delete-account"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="settings/index"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="deep-dive/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="settings/delete-account"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="deep-dive/movies-info"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="deep-dive/index"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
+                      <Stack.Screen
+                        name="search/index"
+                        options={{
+                          animation: "fade",
+                          animationDuration: 300,
+                          presentation: "card",
+                        }}
+                      />
 
-                        <Stack.Screen
-                          name="deep-dive/movies-info"
-                          options={{
-                            animation: "slide_from_right",
-                          }}
-                        />
-
-                        <Stack.Screen
-                          name="search/index"
-                          options={{
-                            animation: "fade",
-                            animationDuration: 300,
-                            presentation: "card",
-                          }}
-                        />
-
-                        <Stack.Screen name="+not-found" />
-                      </Stack>
-                      <PortalHost name="global-overlay" />
-                    </InternetCheck>
-                  </BottomSheetModalProvider>
-                </KeyboardAvoidingView>
+                      <Stack.Screen name="+not-found" />
+                    </Stack>
+                    <PortalHost name="global-overlay" />
+                  </InternetCheck>
+                </BottomSheetModalProvider>
               </GestureHandlerRootView>
             </SafeAreaProvider>
           </KeyboardProvider>

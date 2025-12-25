@@ -13,7 +13,7 @@ export const Screen = () => {
     router.back();
   };
   return (
-    <View className={"flex-1 bg-neutral-15-default p-4"}>
+    <View className={"flex-1 p-4"}>
       <SafeAreaView>
         <ScrollView
           contentContainerClassName={"flex h-full flex-col gap-4"}
