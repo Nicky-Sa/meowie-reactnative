@@ -1,17 +1,13 @@
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { SearchParams } from "@/features/common/data/query";
 import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-import { searchParamsToQuery } from "@/lib/functions";
 import { useAtom } from "jotai";
 import { sortAtom } from "@/atoms";
 import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
-type Args = Partial<SearchParams>;
-
-export const useFetchPurifiedMoviesIds = (searchParams?: Args) => {
+export const useFetchPurifiedMoviesIds = () => {
   const [sort] = useAtom(sortAtom);
 
   const getKey = useCallback(
@@ -20,7 +16,6 @@ export const useFetchPurifiedMoviesIds = (searchParams?: Args) => {
       previousPageData: SuccessResponse<PurifiedMovieIdsResDto>,
     ) => {
       const baseUrl = "/movies/purified-ids";
-      const searchQuery = searchParamsToQuery(searchParams);
 
       const initialPage = sort === "random" ? random : 1;
 
@@ -29,9 +24,9 @@ export const useFetchPurifiedMoviesIds = (searchParams?: Args) => {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}&${searchQuery}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}`; // SWR key
     },
-    [searchParams, sort],
+    [sort],
   );
 
   const { data: response, ...rest } =
