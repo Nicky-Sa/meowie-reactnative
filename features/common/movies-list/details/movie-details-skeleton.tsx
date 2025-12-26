@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 
-export const DetailsSkeleton = () => {
+export const MovieDetailsSkeleton = () => {
   return (
     <View
       className={

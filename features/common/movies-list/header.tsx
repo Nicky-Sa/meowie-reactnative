@@ -4,11 +4,13 @@ import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ReactNode } from "react";
 
 type Props = {
   title: string;
+  rightTopComponent?: ReactNode;
 };
-export const Header = ({ title }: Props) => {
+export const Header = ({ title, rightTopComponent }: Props) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -18,17 +20,22 @@ export const Header = ({ title }: Props) => {
   return (
     <View
       className={
-        "absolute z-10 flex w-full flex-1 flex-row items-center justify-start px-2"
+        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between px-2"
       }
       style={{
         marginTop:
           insets.top + Platform.select({ android: 10, ios: 2, default: 0 }),
       }}
     >
-      <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
-        <Icon i={NavArrowLeft} />
-      </Button>
-      <Text className={"title-t2-strong text-neutral-10-default"}>{title}</Text>
+      <View className={"flex flex-row items-center"}>
+        <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
+          <Icon i={NavArrowLeft} />
+        </Button>
+        <Text className={"title-t2-strong text-neutral-10-default"}>
+          {title}
+        </Text>
+      </View>
+      {rightTopComponent}
     </View>
   );
 };

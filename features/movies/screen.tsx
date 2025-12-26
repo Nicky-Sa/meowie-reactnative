@@ -1,5 +1,5 @@
 import { useFetchPurifiedMoviesIds } from "@/features/movies/data/useFetchPurifiedMoviesIds";
-import { MoviesList } from "@/features/movies/elements/movies-list";
+import { MoviesList } from "@/features/common/movies-list/movies-list";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { SortHeaderButton } from "@/features/sort/header-button";
 import { Header } from "@/features/general/layout/header";

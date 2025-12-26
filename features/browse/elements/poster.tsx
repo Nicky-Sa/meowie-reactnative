@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
+import { MoviePosterInfo } from "@/features/movies/models/movie-info";
 import { Pressable } from "react-native";
 
 type Props = {

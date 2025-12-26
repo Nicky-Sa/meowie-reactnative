@@ -7,7 +7,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
-import { MovieDetails } from "@/features/movies/elements/details";
+import { MovieDetails } from "@/features/common/movies-list/details/movie-details";
 
 type Props = {
   movieId: ID;

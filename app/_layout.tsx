@@ -112,13 +112,20 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
+                        name="filters/movies-list"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
                         name="browse/index"
                         options={{
                           animation: "slide_from_right",
                         }}
                       />
                       <Stack.Screen
-                        name="browse/movies-info"
+                        name="browse/movies-list"
                         options={{
                           animation: "slide_from_right",
                         }}

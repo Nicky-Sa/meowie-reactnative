@@ -1,11 +1,11 @@
 import { ErrorState } from "@/features/general/error-state";
-import { useListRef } from "@/features/movies/hooks/useListRef";
-import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
-import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
+import { useListRef } from "@/features/browse/hooks/list/useListRef";
+import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
+import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { DetailsSkeleton } from "@/features/movies/elements/details-skeleton";
-import { MoviesListItem } from "@/features/movies/elements/movies-list-item";
+import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
+import { MoviesListItem } from "@/features/common/movies-list/movies-list-item";
 
 type Props = {
   data: number[];
@@ -83,7 +83,7 @@ export const MoviesList = ({
         error ? (
           <ErrorState tryAgain={mutate} error={error} />
         ) : isInitialLoad ? (
-          <DetailsSkeleton />
+          <MovieDetailsSkeleton />
         ) : null
       }
     />

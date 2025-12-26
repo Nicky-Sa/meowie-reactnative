@@ -1,10 +1,11 @@
 import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { useScrollHandler } from "@/features/movies/hooks/useScrollHandler";
-import { useLocalSearchParams } from "expo-router";
+import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/browse/elements/posters-list";
+import { useCallback } from "react";
 
 const NUM_COLUMNS = 3;
 
@@ -12,12 +13,26 @@ export const Screen = () => {
   const { personId } = useLocalSearchParams<{
     personId: string;
   }>();
-  const searchParams = { personId };
 
   const { scrollHandler, scrollY } = useScrollHandler();
 
   const { data: personData, isLoading: personInfoLoading } =
     useFetchPersonInfo(personId);
+
+  const router = useRouter();
+  const onPosterPress = useCallback(
+    (index: number) => {
+      router.push({
+        pathname: "/browse/movies-list",
+        params: {
+          initialIndex: index,
+          title: personData?.name,
+          personId,
+        },
+      });
+    },
+    [router, personData?.name, personId],
+  );
 
   return (
     <InnerScreen
@@ -27,10 +42,10 @@ export const Screen = () => {
       fullWidth
     >
       <PostersList
-        moviesListTitle={personData?.name}
         numColumns={NUM_COLUMNS}
-        searchParams={searchParams}
+        searchParams={{ personId }}
         scrollHandler={scrollHandler}
+        onPosterPress={onPosterPress}
         ListHeaderComponent={
           <View className={"px-4 pb-4"}>
             <PersonBrief

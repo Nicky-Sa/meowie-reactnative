@@ -1,20 +1,20 @@
-import { useFetchMovieInfo } from "@/features/movies/movies-info/data/useFetchMovieInfo";
+import { useFetchMovieInfo } from "@/features/movies/data/useFetchMovieInfo";
 import { View, Text } from "react-native";
-import { TrailerPlayer } from "@/features/movies/elements/trailer-player";
+import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
 import { memo, useEffect } from "react";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
-import { Ratings } from "@/features/movies/elements/ratings";
+import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
 import { ScrollView } from "react-native-gesture-handler";
 import { ErrorState } from "@/features/general/error-state";
-import { Genres } from "@/features/movies/elements/genres";
-import { Casts } from "@/features/movies/elements/casts";
+import { Genres } from "@/features/common/movies-list/details/elements/genres";
+import { Casts } from "@/features/common/movies-list/details/elements/casts";
 import { Button } from "@/features/common/button";
 import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
 import { Icon } from "@/features/common/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/movies/elements/cast";
-import { DetailsSkeleton } from "@/features/movies/elements/details-skeleton";
+import { Cast } from "@/features/common/movies-list/details/elements/cast";
+import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
 import { ID } from "@/features/common/data/query";
 
 type Props = {
@@ -32,7 +32,7 @@ export const MovieDetails = memo(({ movieId, shouldPlay }: Props) => {
   }, [data?.posterProps, setColor, shouldPlay]);
 
   return isLoading || !data ? (
-    <DetailsSkeleton />
+    <MovieDetailsSkeleton />
   ) : error ? (
     <ErrorState tryAgain={mutate} error={error} />
   ) : (

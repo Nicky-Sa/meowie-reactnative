@@ -27,7 +27,7 @@ export const YearDecades = () => {
     <BottomSheetWrapper
       title={"Decade"}
       filterKey={"decade"}
-      chipText={`${decades.find((dec) => dec.id === filters.decade[0])?.label}`}
+      chipText={`${decades.find((dec) => dec.id === filters.decade)?.label}`}
     >
       {({ currentValues, setCurrentValues }) => (
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>

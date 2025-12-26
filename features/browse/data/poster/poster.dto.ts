@@ -1,4 +1,4 @@
-import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
+import { MoviePosterInfo } from "@/features/movies/models/movie-info";
 
 export type MoviePosterResDto = {
   page: number;

@@ -3,12 +3,11 @@ import { ErrorState } from "@/features/general/error-state";
 import { PostersSkeletons } from "@/features/browse/elements/poster-skeletons";
 import Animated, { ScrollHandlerProcessed } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
+import { MoviePosterInfo } from "@/features/movies/models/movie-info";
 import { usePosterWidth } from "@/features/browse/hooks/usePosterWidth";
 import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMoviesPoster";
-import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
-import { useRouter } from "expo-router";
-import { ReactElement, useCallback } from "react";
+import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
+import { ReactElement } from "react";
 import { SearchParams } from "@/features/common/data/query";
 import { Loading } from "@/features/common/loading";
 
@@ -17,17 +16,17 @@ const AnimatedFlashList = Animated.createAnimatedComponent(
 );
 
 type Props = {
-  moviesListTitle: string | undefined;
   numColumns: number;
   searchParams: Partial<SearchParams>;
+  onPosterPress: (index: number) => void;
   scrollHandler?: ScrollHandlerProcessed;
   ListHeaderComponent?: ReactElement;
 };
 
 export const PostersList = ({
-  moviesListTitle,
   numColumns,
   searchParams,
+  onPosterPress,
   scrollHandler,
   ListHeaderComponent,
 }: Props) => {
@@ -53,21 +52,6 @@ export const PostersList = ({
   });
 
   const isInitialLoad = isLoading && (!data || data.length === 0);
-
-  const router = useRouter();
-  const onPosterPress = useCallback(
-    (index: number) => {
-      router.push({
-        pathname: "/browse/movies-info",
-        params: {
-          initialIndex: index,
-          title: moviesListTitle,
-          ...searchParams,
-        },
-      });
-    },
-    [router, searchParams, moviesListTitle],
-  );
 
   return (
     <AnimatedFlashList
