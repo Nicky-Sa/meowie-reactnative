@@ -1,5 +1,5 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
-import { SearchResultCard } from "@/features/search/elements/results/card";
+import { SearchResultCard } from "@/features/search/elements/card";
 import { View, Text, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/skeleton-item";
 import { FlashList } from "@shopify/flash-list";

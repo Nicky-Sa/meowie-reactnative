@@ -1,4 +1,4 @@
-import { Screen } from "@/features/search/elements/results/screen";
+import { Screen } from "@/features/search/elements/screen";
 
 export default function SearchScreen() {
   return <Screen />;

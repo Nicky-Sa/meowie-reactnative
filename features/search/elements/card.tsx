@@ -1,7 +1,7 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
-import { PersonCard } from "@/features/search/elements/results/items/person";
-import { MovieCard } from "@/features/search/elements/results/items/movie";
-import { GenreCard } from "@/features/search/elements/results/items/genre";
+import { PersonCard } from "@/features/search/elements/items/person";
+import { MovieCard } from "@/features/search/elements/items/movie";
+import { GenreCard } from "@/features/search/elements/items/genre";
 
 type Props = {
   item: MultiSearchResults;
