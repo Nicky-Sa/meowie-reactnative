@@ -17,7 +17,7 @@ export type ID = number | string;
 
 // Sort
 export type Sort = "popularity.desc" | "primary_release_date.desc" | "random";
-export const InitialSort: Sort = "popularity.desc";
+export const initialSort: Sort = "popularity.desc";
 
 // Browse include items that don't have an individual modifier in the filters page,
 // but can still be used to filter results

@@ -1,15 +1,16 @@
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-import { useAtom } from "jotai";
-import { sortAtom } from "@/atoms";
 import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
+import { Sort } from "@/features/common/data/query";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
-export const useFetchPurifiedMoviesIds = () => {
-  const [sort] = useAtom(sortAtom);
+type Args = {
+  sort: Sort;
+};
 
+export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
   const getKey = useCallback(
     (
       pageIndex: number,

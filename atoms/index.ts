@@ -1,12 +1,7 @@
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
-import {
-  Filters,
-  initialFiltersValue,
-  InitialSort,
-  Sort,
-} from "@/features/common/data/query";
+import { Filters, initialFiltersValue } from "@/features/common/data/query";
 
 // It's allowed to play YT videos
 export const allowYTPlayingAtom = atom(true);
@@ -17,5 +12,3 @@ export const colorAtom = atom(
 );
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
-
-export const sortAtom = atom<Sort>(InitialSort);

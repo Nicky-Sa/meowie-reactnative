@@ -9,10 +9,8 @@ import {
 import { useRef } from "react";
 import { Segment } from "@/features/common/segment";
 import { useImmer } from "use-immer";
-import { useRouter } from "expo-router";
-import { InitialSort, Sort } from "@/features/common/data/query";
-import { useAtom } from "jotai";
-import { sortAtom } from "@/atoms";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { initialSort, Sort } from "@/features/common/data/query";
 
 const sortOptions: { id: Sort; label: string; description: string }[] = [
   {
@@ -34,9 +32,9 @@ const sortOptions: { id: Sort; label: string; description: string }[] = [
 ];
 
 export const SortHeaderButton = () => {
-  const [sort, setSort] = useAtom(sortAtom);
-  const [draftSort, setDraftSort] = useImmer(sort);
-  const isModified = sort !== InitialSort;
+  const { sort } = useLocalSearchParams<{ sort?: Sort }>();
+  const [draftSort, setDraftSort] = useImmer(sort || initialSort);
+  const isModified = !!sort && sort !== initialSort;
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const router = useRouter();
 
@@ -66,8 +64,10 @@ export const SortHeaderButton = () => {
             variant="white"
             size="lg"
             onPress={() => {
-              setSort(draftSort);
-              router.replace("/movies");
+              router.replace({
+                pathname: "/movies",
+                params: { sort: draftSort },
+              });
               bottomSheetRef.current?.dismiss();
             }}
           >

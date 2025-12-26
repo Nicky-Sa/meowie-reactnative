@@ -3,8 +3,11 @@ import { MoviesList } from "@/features/common/movies-list/movies-list";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { SortHeaderButton } from "@/features/sort/header-button";
 import { Header } from "@/features/general/layout/header";
+import { useLocalSearchParams } from "expo-router";
+import { Sort } from "@/features/common/data/query";
 
 export const Screen = () => {
+  const { sort } = useLocalSearchParams<{ sort: Sort }>();
   const {
     data,
     dataLength,
@@ -15,7 +18,7 @@ export const Screen = () => {
     isValidating,
     error,
     mutate,
-  } = useFetchPurifiedMoviesIds();
+  } = useFetchPurifiedMoviesIds({ sort });
 
   return (
     <MainScreen>
