@@ -12,11 +12,11 @@ export const Screen = () => {
   return (
     <MainScreen>
       <SafeAreaView
-        className={"flex flex-1 flex-col justify-between px-4 pt-4"}
+        className={"flex flex-1 flex-col justify-between px-4 pt-2"}
         edges={["top", "left", "right"]}
       >
         <View
-          className={"flex w-full flex-row items-center justify-between gap-3"}
+          className={"flex w-full flex-row items-center justify-between gap-2"}
         >
           <View className={"flex-grow"}>
             <SearchTrigger />
