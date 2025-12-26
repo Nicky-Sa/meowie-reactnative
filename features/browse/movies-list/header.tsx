@@ -4,14 +4,11 @@ import { Icon } from "@/features/common/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFetchPersonInfo } from "@/features/person/data/person/useFetchPersonInfo";
 
 type Props = {
-  personId: number;
+  title: string;
 };
-export const Header = ({ personId }: Props) => {
-  const { data: personData } = useFetchPersonInfo(personId);
-
+export const Header = ({ title }: Props) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -31,9 +28,7 @@ export const Header = ({ personId }: Props) => {
       <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
         <Icon i={NavArrowLeft} />
       </Button>
-      <Text className={"title-t2-strong text-neutral-10-default"}>
-        {personData ? personData.name : "..."}
-      </Text>
+      <Text className={"title-t2-strong text-neutral-10-default"}>{title}</Text>
     </View>
   );
 };

@@ -1,41 +1,38 @@
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
+import { MoviePosterResDto } from "@/features/browse/data/poster/poster.dto";
 import { SearchParams } from "@/features/common/data/query";
-import { MovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
 import { searchParamsToQuery } from "@/lib/functions";
-import { useAtom } from "jotai";
-import { sortAtom } from "@/atoms";
 import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
-
-const random = Math.floor(Math.random() * 100) + 1;
 
 type Args = Partial<SearchParams>;
 
-export const useFetchMoviesIds = (searchParams?: Args) => {
-  const [sort] = useAtom(sortAtom);
-
+export const useFetchMoviesPoster = (searchParams: Args) => {
   const getKey = useCallback(
-    (pageIndex: number, previousPageData: SuccessResponse<MovieIdsResDto>) => {
-      const baseUrl = "/movies/ids";
-      const searchQuery = searchParamsToQuery(searchParams);
-
-      const initialPage = sort === "random" ? random : 1;
+    (
+      pageIndex: number,
+      previousPageData: SuccessResponse<MoviePosterResDto>,
+    ) => {
+      const baseUrl = "/movies/poster";
+      const query = searchParamsToQuery(searchParams);
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}&${searchQuery}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + 1}&${query}`; // SWR key
     },
-    [searchParams, sort],
+    [searchParams],
   );
 
-  const { data: response, ...rest } =
-    useSWRInfiniteConfigured<MovieIdsResDto>(getKey);
+  const {
+    data: response,
+    size,
+    setSize,
+    ...rest
+  } = useSWRInfiniteConfigured<MoviePosterResDto>(getKey);
 
-  // Extract `id` from each movie
-  // The list is accumulated from all pages
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)
     : [];
@@ -50,6 +47,8 @@ export const useFetchMoviesIds = (searchParams?: Args) => {
     data: flattenedData,
     dataLength: flattenedData.length,
     totalPages,
+    size,
+    setSize,
     ...rest,
   };
 };

@@ -1,38 +1,44 @@
 import { useCallback } from "react";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { MoviePosterResDto } from "@/features/person/data/poster/poster.dto";
 import { SearchParams } from "@/features/common/data/query";
+import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
 import { searchParamsToQuery } from "@/lib/functions";
+import { useAtom } from "jotai";
+import { sortAtom } from "@/atoms";
 import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
+
+const random = Math.floor(Math.random() * 100) + 1;
 
 type Args = Partial<SearchParams>;
 
-export const useFetchMoviesPoster = (searchParams: Args) => {
+export const useFetchPurifiedMoviesIds = (searchParams?: Args) => {
+  const [sort] = useAtom(sortAtom);
+
   const getKey = useCallback(
     (
       pageIndex: number,
-      previousPageData: SuccessResponse<MoviePosterResDto>,
+      previousPageData: SuccessResponse<PurifiedMovieIdsResDto>,
     ) => {
-      const baseUrl = "/movies/poster";
+      const baseUrl = "/movies/purified-ids";
       const searchQuery = searchParamsToQuery(searchParams);
+
+      const initialPage = sort === "random" ? random : 1;
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + 1}&${searchQuery}`; // SWR key
+      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}&${searchQuery}`; // SWR key
     },
-    [searchParams],
+    [searchParams, sort],
   );
 
-  const {
-    data: response,
-    size,
-    setSize,
-    ...rest
-  } = useSWRInfiniteConfigured<MoviePosterResDto>(getKey);
+  const { data: response, ...rest } =
+    useSWRInfiniteConfigured<PurifiedMovieIdsResDto>(getKey);
 
+  // Extract `id` from each movie
+  // The list is accumulated from all pages
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)
     : [];
@@ -47,8 +53,6 @@ export const useFetchMoviesPoster = (searchParams: Args) => {
     data: flattenedData,
     dataLength: flattenedData.length,
     totalPages,
-    size,
-    setSize,
     ...rest,
   };
 };

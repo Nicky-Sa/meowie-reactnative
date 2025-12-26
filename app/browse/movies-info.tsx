@@ -1,4 +1,4 @@
-import { Screen } from "@/features/person/movies-list/screen";
+import { Screen } from "@/features/browse/movies-list/screen";
 
 export default function PersonMoviesInfoScreen() {
   return <Screen />;

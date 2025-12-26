@@ -8,7 +8,7 @@ type Props = {
 
 export const MovieBrief = ({ data }: Props) => {
   return (
-    <View>
+    <View className={"flex flex-row items-center gap-2"}>
       <Image
         source={data.posterPath}
         style={{

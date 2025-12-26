@@ -1,15 +1,17 @@
 import { MoviesList } from "@/features/movies/elements/movies-list";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchMoviesPoster } from "@/features/person/data/poster/useFetchMoviesPoster";
-import { Header } from "@/features/person/movies-list/header";
+import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMoviesPoster";
+import { Header } from "@/features/browse/movies-list/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
+import { Browse } from "@/features/common/data/query";
 
 export const Screen = () => {
-  const { initialIndex, personId: personIdStr } = useLocalSearchParams<{
-    initialIndex: string;
-    personId: string;
-  }>();
-  const personId = Number(personIdStr);
+  const { title, initialIndex, ...searchParams } = useLocalSearchParams<
+    {
+      title: string;
+      initialIndex: string;
+    } & Browse
+  >();
 
   const {
     data: moviePosterData,
@@ -18,9 +20,10 @@ export const Screen = () => {
     setSize,
     totalPages,
     isLoading,
+    isValidating,
     error,
     mutate,
-  } = useFetchMoviesPoster({ personId });
+  } = useFetchMoviesPoster(searchParams);
   const data = moviePosterData?.map((item) => item.id) || [];
 
   // Technically, this is an inner screen,
@@ -28,11 +31,12 @@ export const Screen = () => {
   // I have to use MainScreen + custom absolute header here.
   return (
     <MainScreen>
-      <Header personId={personId} />
+      <Header title={title} />
       <MoviesList
         data={data}
         dataLength={dataLength}
         isLoading={isLoading}
+        isValidating={isValidating}
         size={size}
         setSize={setSize}
         totalPages={totalPages}

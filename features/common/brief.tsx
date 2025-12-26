@@ -18,9 +18,16 @@ type Props = {
   firstLine: string;
   secondLine: string;
   size: "lg" | "md";
+  borderRadius?: number;
 };
 
-export const Brief = ({ imageUrl, firstLine, secondLine, size }: Props) => {
+export const Brief = ({
+  imageUrl,
+  firstLine,
+  secondLine,
+  size,
+  borderRadius = 9999,
+}: Props) => {
   return (
     <View className={"flex flex-row items-center gap-3"}>
       <Image
@@ -28,7 +35,7 @@ export const Brief = ({ imageUrl, firstLine, secondLine, size }: Props) => {
         style={{
           width: sizes[size].imageWidth,
           aspectRatio: 1,
-          borderRadius: 9999,
+          borderRadius,
         }}
         contentFit="cover"
         placeholder={{

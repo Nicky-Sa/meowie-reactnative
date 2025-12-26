@@ -4,7 +4,6 @@ export type Filters = {
   languages: string[];
   decade: string;
   tmdbRatings: number[];
-  personId?: number;
 };
 
 export const initialFiltersValue: Filters = {
@@ -12,12 +11,22 @@ export const initialFiltersValue: Filters = {
   languages: [],
   decade: "",
   tmdbRatings: [0, 10],
-  personId: undefined,
 };
+
+export type ID = number | string;
 
 // Sort
 export type Sort = "popularity.desc" | "primary_release_date.desc" | "random";
 export const InitialSort: Sort = "popularity.desc";
 
-// Search params = filters, etc. Since sort's persisted, it will not be in searchParams
-export type SearchParams = Filters;
+// Search params = filters, browse, etc. Since sort's persisted, it will not be in searchParams
+
+export type Browse =
+  | {
+      genres: string[];
+    }
+  | {
+      personId: string;
+    };
+
+export type SearchParams = Filters & Browse;

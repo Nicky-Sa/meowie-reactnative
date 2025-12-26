@@ -1,4 +1,4 @@
-import { useFetchMoviesIds } from "@/features/movies/data/useFetchMoviesIds";
+import { useFetchPurifiedMoviesIds } from "@/features/movies/data/useFetchPurifiedMoviesIds";
 import { MoviesList } from "@/features/movies/elements/movies-list";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { SortHeaderButton } from "@/features/sort/header-button";
@@ -12,9 +12,10 @@ export const Screen = () => {
     setSize,
     totalPages,
     isLoading,
+    isValidating,
     error,
     mutate,
-  } = useFetchMoviesIds();
+  } = useFetchPurifiedMoviesIds();
 
   return (
     <MainScreen>
@@ -23,6 +24,7 @@ export const Screen = () => {
         data={data}
         dataLength={dataLength}
         isLoading={isLoading}
+        isValidating={isValidating}
         size={size}
         setSize={setSize}
         totalPages={totalPages}

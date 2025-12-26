@@ -105,6 +105,25 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
+                        name="browse/index"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="browse/movies-info"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+                      <Stack.Screen
+                        name="browse/movie-details"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
                         name="onboarding/index"
                         options={{
                           animation: "slide_from_bottom",
@@ -127,13 +146,6 @@ function RootLayout() {
 
                       <Stack.Screen
                         name="person/index"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
-
-                      <Stack.Screen
-                        name="person/movies-info"
                         options={{
                           animation: "slide_from_right",
                         }}
