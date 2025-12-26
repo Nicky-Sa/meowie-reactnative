@@ -7,6 +7,7 @@ const actionVariants = {
   black: {
     backgroundColor: [tailwind.theme.backgroundColor.neutral[14].default],
     borderColor: tailwind.theme.borderColor.neutral[3].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
   },
 } as const;
 
@@ -45,6 +46,7 @@ export const Action = ({
   ...props
 }: PropsWithChildren<Props>) => {
   const [focused, setFocused] = useState(false);
+  const isTextOnly = typeof children === "string";
 
   return (
     <View>
@@ -81,12 +83,10 @@ export const Action = ({
             ...(props.style as object),
           }}
         >
-          {typeof children === "string" ? (
+          {isTextOnly ? (
             <Text
-              className={cn(
-                "body-b1-strong text-center text-neutral-1-default",
-                props.className,
-              )}
+              style={{ color: actionVariants[variant].textColor }}
+              className={cn("body-b1-strong", props.className)}
             >
               {children}
             </Text>

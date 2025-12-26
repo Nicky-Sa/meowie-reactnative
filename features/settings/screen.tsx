@@ -5,6 +5,7 @@ import { PrivacyPolicy } from "@/features/settings/items/privacy-policy";
 import { DeleteAccount } from "@/features/settings/items/delete-account";
 import { Logout } from "@/features/settings/items/logout";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { EmptyCache } from "@/features/settings/items/empty-cache";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -15,6 +16,7 @@ export const Screen = () => {
         <View className={"flex w-full flex-col gap-2"}>
           <TermsConditions />
           <PrivacyPolicy />
+          <EmptyCache />
           {isLoggedIn && (
             <>
               <DeleteAccount />
