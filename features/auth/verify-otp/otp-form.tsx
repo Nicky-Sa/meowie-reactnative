@@ -42,7 +42,7 @@ export const OtpForm = ({ email }: Props) => {
       const { data: response } = await triggerVerifyOtp({ ...data, email });
       await SecureStore.setItemAsync("access-token", response.accessToken);
       await SecureStore.setItemAsync("refresh-token", response.refreshToken);
-      router.replace("/(tabs)/movies");
+      router.replace("/movies");
     } catch (error) {
       setError("otp", { message: (error as Error).message });
     }

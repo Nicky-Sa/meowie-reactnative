@@ -8,7 +8,7 @@ export const SkipAuth = () => {
 
   const onPress = async () => {
     await AsyncStorage.setItem("skipped-auth", "true");
-    router.replace("/(tabs)/movies");
+    router.replace("/movies");
   };
 
   return (

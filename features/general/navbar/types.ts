@@ -1,10 +1,6 @@
 import { SvgImage } from "@/features/common/icon";
 
-export type TabsName =
-  | "movies/index"
-  | "explore/index"
-  | "watchlist/index"
-  | "profile/index";
+export type TabsName = "movies" | "explore" | "watchlist" | "profile";
 
 export type RootTabParamList = {
   Movies: undefined;

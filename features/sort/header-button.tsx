@@ -67,7 +67,7 @@ export const SortHeaderButton = () => {
             size="lg"
             onPress={() => {
               setSort(draftSort);
-              router.replace("/(tabs)/movies");
+              router.replace("/movies");
               bottomSheetRef.current?.dismiss();
             }}
           >
