@@ -3,14 +3,14 @@ import { useLocalSearchParams } from "expo-router";
 import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMoviesPoster";
 import { Header } from "@/features/browse/movies-list/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { Browse } from "@/features/common/data/query";
+import { SearchParams } from "@/features/common/data/query";
 
 export const Screen = () => {
   const { title, initialIndex, ...searchParams } = useLocalSearchParams<
     {
       title: string;
       initialIndex: string;
-    } & Browse
+    } & Partial<SearchParams>
   >();
 
   const {

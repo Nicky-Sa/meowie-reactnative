@@ -18,8 +18,8 @@ const CustomMarker = ({ currentValue }: { currentValue: number }) => (
 );
 
 type Props = {
-  currentValues: number[];
-  setCurrentValues: Updater<number[]>;
+  currentValues: string[];
+  setCurrentValues: Updater<string[]>;
   min: number;
   max: number;
   step?: number;
@@ -37,7 +37,7 @@ export const Slider = ({
   // Create a debounced setter
   const debouncedSetCurrentValues = useMemo(
     () =>
-      _.debounce((values: number[]) => {
+      _.debounce((values: string[]) => {
         setCurrentValues(values);
       }, 200),
     [setCurrentValues],
@@ -46,12 +46,12 @@ export const Slider = ({
   return (
     <View className={"flex w-full flex-col items-start px-4"}>
       <MultiSlider
-        values={currentValues}
+        values={currentValues.map(Number)}
         min={min}
         max={max}
         step={step}
         onValuesChange={(values) => {
-          debouncedSetCurrentValues(values);
+          debouncedSetCurrentValues(values.map(String));
         }}
         selectedStyle={{
           backgroundColor: tailwind.theme.backgroundColor.brand[1].default,

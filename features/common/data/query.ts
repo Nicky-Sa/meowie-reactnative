@@ -3,14 +3,14 @@ export type Filters = {
   genres: string[];
   languages: string[];
   decade: string;
-  tmdbRatings: number[];
+  tmdbRatings: string[];
 };
 
 export const initialFiltersValue: Filters = {
   genres: [],
   languages: [],
   decade: "",
-  tmdbRatings: [0, 10],
+  tmdbRatings: ["0", "10"],
 };
 
 export type ID = number | string;
@@ -19,14 +19,12 @@ export type ID = number | string;
 export type Sort = "popularity.desc" | "primary_release_date.desc" | "random";
 export const InitialSort: Sort = "popularity.desc";
 
-// Search params = filters, browse, etc. Since sort's persisted, it will not be in searchParams
+// Browse include items that don't have an individual modifier in the filters page,
+// but can still be used to filter results
+type Browse = {
+  personId: string;
+};
 
-export type Browse =
-  | {
-      genres: string[];
-    }
-  | {
-      personId: string;
-    };
-
+// Search params = anything that can be used to filter results.
+// Since the sort's persisted, it will not be in SearchParams
 export type SearchParams = Filters & Browse;

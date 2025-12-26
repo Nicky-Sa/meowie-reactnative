@@ -1,13 +1,13 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useLocalSearchParams } from "expo-router";
-import { Browse } from "@/features/common/data/query";
 import { PostersList } from "@/features/browse/elements/posters-list";
+import { SearchParams } from "@/features/common/data/query";
 
 const NUM_COLUMNS = 3;
 
 export const Screen = () => {
   const { title, ...searchParams } = useLocalSearchParams<
-    { title: string } & Browse
+    { title: string } & Partial<SearchParams>
   >();
 
   return (

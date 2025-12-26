@@ -6,7 +6,7 @@ import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { initialFiltersValue } from "@/features/common/data/query";
+import { Filters, initialFiltersValue } from "@/features/common/data/query";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { Icon } from "@/features/common/icon";
@@ -40,22 +40,36 @@ export const Screen = () => {
     [filters],
   );
 
-  const handleExit = () => {
+  const modifiedFieldsNumber = useMemo(
+    () =>
+      (Object.keys(filters) as (keyof Filters)[]).filter(
+        (key) => !_.isEqual(filters[key], initialFiltersValue[key]),
+      ).length,
+    [filters],
+  );
+
+  const clearFilters = () => {
+    setFilters(initialFiltersValue);
+  };
+
+  const onExit = () => {
+    clearFilters();
     router.back();
+  };
+
+  const handleApply = () => {
+    router.push({
+      pathname: "/filters/posters-list",
+      params: { ...filters, modifiedFieldsNumber },
+    });
   };
 
   return (
     <InnerScreen
       title={"Filters"}
-      onBack={handleExit}
+      onBack={onExit}
       rightTopComponent={
-        hasSelectedFilter && (
-          <ClearSelection
-            onPress={() => {
-              setFilters(initialFiltersValue);
-            }}
-          />
-        )
+        hasSelectedFilter && <ClearSelection onPress={clearFilters} />
       }
     >
       <View className={"flex w-full flex-col gap-8"}>
@@ -65,7 +79,7 @@ export const Screen = () => {
           <YearDecades />
           <TMDBRating />
         </View>
-        <Button variant={"white"} size={"lg"} onPress={handleExit}>
+        <Button variant={"white"} size={"lg"} onPress={handleApply}>
           Apply
         </Button>
       </View>

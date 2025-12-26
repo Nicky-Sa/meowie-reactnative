@@ -105,6 +105,13 @@ function RootLayout() {
                       />
 
                       <Stack.Screen
+                        name="filters/posters-list"
+                        options={{
+                          animation: "slide_from_right",
+                        }}
+                      />
+
+                      <Stack.Screen
                         name="browse/index"
                         options={{
                           animation: "slide_from_right",
