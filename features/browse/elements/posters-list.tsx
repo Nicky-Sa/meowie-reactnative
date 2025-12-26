@@ -1,7 +1,6 @@
 import { Poster } from "@/features/browse/elements/poster";
 import { ErrorState } from "@/features/general/error-state";
 import { PostersSkeletons } from "@/features/browse/elements/poster-skeletons";
-import LottieView from "lottie-react-native";
 import Animated, { ScrollHandlerProcessed } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { MoviePosterInfo } from "@/features/movies/movies-info/models/movie-info";
@@ -11,6 +10,7 @@ import { useFetchMore } from "@/features/movies/hooks/useFetchMore";
 import { useRouter } from "expo-router";
 import { ReactElement, useCallback } from "react";
 import { SearchParams } from "@/features/common/data/query";
+import { Loading } from "@/features/common/loading";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList<MoviePosterInfo>,
@@ -95,17 +95,7 @@ export const PostersList = ({
       }
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={
-        (isLoading || isValidating) && !isInitialLoad ? (
-          <LottieView
-            source={{
-              uri: "https://lottie.host/099429f0-1128-4b7b-9e48-562fb873b761/eQhxLE6Pc5.lottie",
-            }}
-            autoPlay
-            loop
-            resizeMode={"cover"}
-            style={{ alignSelf: "center", width: 48, height: 20 }}
-          />
-        ) : null
+        (isLoading || isValidating) && !isInitialLoad ? <Loading /> : null
       }
     />
   );

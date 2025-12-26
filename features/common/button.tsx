@@ -2,7 +2,7 @@ import * as Haptics from "expo-haptics";
 import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn, tailwind } from "@/lib/tailwind";
 import { PropsWithChildren, useState } from "react";
-import LottieView from "lottie-react-native";
+import { Loading } from "@/features/common/loading";
 
 const buttonVariants = {
   primary: {
@@ -155,15 +155,7 @@ export const Button = ({
       >
         {isLoading ? (
           <View className={cn(props.className)}>
-            <LottieView
-              source={{
-                uri: "https://lottie.host/099429f0-1128-4b7b-9e48-562fb873b761/eQhxLE6Pc5.lottie",
-              }}
-              autoPlay
-              loop
-              resizeMode={"cover"}
-              style={{ alignSelf: "center", width: 48, height: 20 }}
-            />
+            <Loading />
           </View>
         ) : isTextOnly ? (
           <Text

@@ -11,7 +11,9 @@ export const OnboardingItem = ({ lottiePath, title, body }: Props) => {
   return (
     <View className={"flex h-full w-full flex-col justify-between px-6"}>
       <LottieView
-        source={lottiePath}
+        source={{
+          uri: lottiePath,
+        }}
         autoPlay
         loop
         resizeMode={"cover"}

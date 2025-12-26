@@ -43,7 +43,9 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
       className={"flex h-full w-full flex-col items-center justify-center"}
     >
       <LottieView
-        source={require("@/assets/lottie/splash.json")}
+        source={{
+          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/splash-lottie.json",
+        }}
         autoPlay
         loop={false}
         resizeMode={"contain"}
