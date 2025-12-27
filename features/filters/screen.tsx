@@ -35,11 +35,6 @@ export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
   const router = useRouter();
 
-  const hasSelectedFilter = useMemo(
-    () => !_.isEqual(filters, initialFiltersValue),
-    [filters],
-  );
-
   const modifiedFieldsNumber = useMemo(
     () =>
       (Object.keys(filters) as (keyof Filters)[]).filter(
@@ -47,6 +42,8 @@ export const Screen = () => {
       ).length,
     [filters],
   );
+
+  const hasSelectedFilter = modifiedFieldsNumber > 0;
 
   const clearFilters = () => {
     setFilters(initialFiltersValue);
@@ -79,7 +76,12 @@ export const Screen = () => {
           <YearDecades />
           <TMDBRating />
         </View>
-        <Button variant={"white"} size={"lg"} onPress={handleApply}>
+        <Button
+          variant={"white"}
+          size={"lg"}
+          disabled={!hasSelectedFilter}
+          onPress={handleApply}
+        >
           Apply
         </Button>
       </View>
