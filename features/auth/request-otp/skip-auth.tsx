@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

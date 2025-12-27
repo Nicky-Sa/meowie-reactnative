@@ -2,17 +2,17 @@ import { Text, View } from "react-native";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
-} from "@/features/common/bottom-sheet";
+} from "@/features/common/ui/bottom-sheet";
 import { NavArrowRight, Xmark } from "iconoir-react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { ReactNode, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
 import { Filters, initialFiltersValue } from "@/features/common/data/query";
 import { Updater, useImmer } from "use-immer";
-import { Chip } from "@/features/common/chip";
+import { Chip } from "@/features/common/ui/chip";
 import _ from "lodash";
-import { Action } from "@/features/common/action";
-import { Icon } from "@/features/common/icon";
+import { Action } from "@/features/common/ui/action";
+import { Icon } from "@/features/common/ui/icon";
 import { filtersAtom } from "@/atoms";
 
 type Props<T extends keyof Filters> = {

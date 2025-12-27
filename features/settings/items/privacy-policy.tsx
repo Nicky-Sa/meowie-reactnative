@@ -1,7 +1,7 @@
-import { Action } from "@/features/common/action";
+import { Action } from "@/features/common/ui/action";
 import { Text, View } from "react-native";
 import { NavArrowRight } from "iconoir-react-native";
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 import * as WebBrowser from "expo-web-browser";
 
 export const PrivacyPolicy = () => {

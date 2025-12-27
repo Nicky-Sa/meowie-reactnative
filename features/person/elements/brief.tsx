@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { SkeletonItem } from "@/features/common/skeleton-item";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { cn } from "@/lib/tailwind";
 import { PersonResDto } from "@/features/person/data/person.dto";
 import { Brief } from "@/features/common/brief";

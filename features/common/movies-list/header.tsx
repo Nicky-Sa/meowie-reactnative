@@ -1,6 +1,6 @@
 import { View, Text, Platform } from "react-native";
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

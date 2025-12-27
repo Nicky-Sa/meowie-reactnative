@@ -12,12 +12,12 @@ import {
   useSharedValue,
 } from "react-native-reanimated";
 import { tailwind } from "@/lib/tailwind";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { NavArrowRight } from "iconoir-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 
 const items = [
   {

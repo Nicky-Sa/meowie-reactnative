@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 
 type Props = {

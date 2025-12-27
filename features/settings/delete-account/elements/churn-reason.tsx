@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { Updater } from "use-immer";
-import { Segment } from "@/features/common/segment";
+import { Segment } from "@/features/common/ui/segment";
 import { useChurnReasons } from "@/features/general/data/constants/useChurnReasons";
 
 type Props = {

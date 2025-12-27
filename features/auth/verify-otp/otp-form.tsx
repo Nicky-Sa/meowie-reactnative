@@ -3,7 +3,7 @@ import { TextInput } from "@/features/common/form/text-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
 import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";

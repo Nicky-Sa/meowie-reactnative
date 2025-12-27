@@ -1,7 +1,7 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
 import { SearchResultCard } from "@/features/search/elements/card";
 import { View, Text, Platform } from "react-native";
-import { SkeletonItem } from "@/features/common/skeleton-item";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import NoMatchSearch from "@/assets/images/errors/no-match-search.svg";

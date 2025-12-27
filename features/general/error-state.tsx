@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import ErrorStateSvg from "@/assets/images/errors/error-state.svg";
 
 type Props = {

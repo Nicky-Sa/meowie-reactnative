@@ -1,9 +1,9 @@
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
-} from "@/features/common/bottom-sheet";
+} from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/crying-meowie.svg";

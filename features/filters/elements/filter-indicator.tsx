@@ -1,10 +1,10 @@
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { useRouter } from "expo-router";
 import { Filter } from "iconoir-react-native";
 import { View } from "react-native";
 import { tailwind } from "@/lib/tailwind";
-import { Chip } from "@/features/common/chip";
+import { Chip } from "@/features/common/ui/chip";
 
 type Props = {
   modifiedFieldsNumber: number;

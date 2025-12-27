@@ -1,6 +1,6 @@
 import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
 import { View } from "react-native";
-import { Segment, SegmentItem } from "@/features/common/segment";
+import { Segment, SegmentItem } from "@/features/common/ui/segment";
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";

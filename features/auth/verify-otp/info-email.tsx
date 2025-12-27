@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 
 type Props = {
   email: string;

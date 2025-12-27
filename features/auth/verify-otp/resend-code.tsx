@@ -1,4 +1,4 @@
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useEffect, useState } from "react";
 
 type Props = {

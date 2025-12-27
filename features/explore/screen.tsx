@@ -2,8 +2,8 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
 import { SearchTrigger } from "@/features/explore/search-trigger";
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { Filter } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 

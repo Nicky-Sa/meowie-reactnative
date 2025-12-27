@@ -1,8 +1,8 @@
 import { Text, View } from "react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useState } from "react";
 import { CenteredModal } from "@/features/common/centered-modal";
-import { SvgImage } from "@/features/common/icon";
+import { SvgImage } from "@/features/common/ui/icon";
 
 type Props = {
   img: SvgImage;

@@ -8,9 +8,9 @@ import {
 } from "react-hook-form";
 import { TextInputProps } from "react-native/Libraries/Components/TextInput/TextInput";
 import { tailwind } from "@/lib/tailwind";
-import { Icon, SvgImage } from "@/features/common/icon";
+import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useEffect, useRef, useState } from "react";
 
 const textInputStates = {

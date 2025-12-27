@@ -1,4 +1,4 @@
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 import Logo from "@/assets/images/logo/logo.svg";
 import { Text, View } from "react-native";
 import LogoType from "@/assets/images/logo/logo-type.svg";

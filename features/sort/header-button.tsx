@@ -1,13 +1,13 @@
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { DataTransferBoth } from "iconoir-react-native";
 import { View } from "react-native";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
-} from "@/features/common/bottom-sheet";
+} from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
-import { Segment } from "@/features/common/segment";
+import { Segment } from "@/features/common/ui/segment";
 import { useImmer } from "use-immer";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initialSort, Sort } from "@/features/common/data/query";

@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { PropsWithChildren } from "react";
 import { useNetInfoInstance } from "@react-native-community/netinfo";
 import NoInternet from "@/assets/images/errors/no-internet.svg";

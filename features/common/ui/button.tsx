@@ -2,7 +2,7 @@ import * as Haptics from "expo-haptics";
 import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn, tailwind } from "@/lib/tailwind";
 import { PropsWithChildren, useState } from "react";
-import { Loading } from "@/features/common/loading";
+import { Loading } from "@/features/common/ui/loading";
 
 const buttonVariants = {
   primary: {

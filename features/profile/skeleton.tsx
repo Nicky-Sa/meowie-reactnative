@@ -1,4 +1,4 @@
-import { SkeletonItem } from "@/features/common/skeleton-item";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 export const Skeleton = () => {
   return (

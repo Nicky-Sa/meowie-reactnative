@@ -1,5 +1,5 @@
 import { Pressable, View } from "react-native";
-import { Chip } from "@/features/common/chip";
+import { Chip } from "@/features/common/ui/chip";
 import { useRouter } from "expo-router";
 import { type Genre } from "@/features/general/data/constants/useGenres";
 

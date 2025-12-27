@@ -1,14 +1,14 @@
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
-} from "@/features/common/bottom-sheet";
+} from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import EmptyCacheSvg from "@/assets/images/empty-cache.svg";
 import { Image } from "expo-image";
 import { useSWRConfig } from "swr";
-import { Action } from "@/features/common/action";
+import { Action } from "@/features/common/ui/action";
 
 export const EmptyCache = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);

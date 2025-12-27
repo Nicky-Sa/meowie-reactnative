@@ -1,5 +1,5 @@
-import { Button } from "@/features/common/button";
-import { Icon } from "@/features/common/icon";
+import { Button } from "@/features/common/ui/button";
+import { Icon } from "@/features/common/ui/icon";
 import { Settings } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 

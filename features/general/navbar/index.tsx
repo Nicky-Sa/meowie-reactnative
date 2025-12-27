@@ -3,7 +3,7 @@ import { cn, tailwind } from "@/lib/tailwind";
 import { Pressable, PressableProps, View } from "react-native";
 import { PropsWithChildren } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
 
 type Props = {

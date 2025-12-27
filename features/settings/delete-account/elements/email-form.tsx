@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "expo-router";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useDeleteAccount } from "@/features/settings/delete-account/data/useDeleteAccount";
 
 type Props = {

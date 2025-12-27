@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native";
 import { Image } from "expo-image";
 import { tailwind } from "@/lib/tailwind";
 import { CenteredModal } from "@/features/common/centered-modal";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 
 type Props = {
   source: string;

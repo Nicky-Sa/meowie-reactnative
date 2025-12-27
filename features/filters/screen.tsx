@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { Erase } from "iconoir-react-native";
 import { Genres } from "@/features/filters/items/genres";
 import { Languages } from "@/features/filters/items/languages";
@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import { Filters, initialFiltersValue } from "@/features/common/data/query";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { filtersAtom } from "@/atoms";

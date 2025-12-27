@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import { Image } from "expo-image";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
 
 export const Guest = () => {

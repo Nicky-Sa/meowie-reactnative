@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { SkeletonItem } from "@/features/common/skeleton-item";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
   width: number;

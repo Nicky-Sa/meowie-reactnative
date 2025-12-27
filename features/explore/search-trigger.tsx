@@ -1,6 +1,6 @@
 import { Pressable, Text } from "react-native";
 import { Search } from "iconoir-react-native";
-import { Icon } from "@/features/common/icon";
+import { Icon } from "@/features/common/ui/icon";
 import { useRouter } from "expo-router";
 
 export const SearchTrigger = () => {

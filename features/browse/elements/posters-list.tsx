@@ -9,7 +9,7 @@ import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMovi
 import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
 import { ReactElement } from "react";
 import { SearchParams } from "@/features/common/data/query";
-import { Loading } from "@/features/common/loading";
+import { Loading } from "@/features/common/ui/loading";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList<MoviePosterInfo>,

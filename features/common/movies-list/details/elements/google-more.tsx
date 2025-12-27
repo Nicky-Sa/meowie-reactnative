@@ -10,7 +10,7 @@ import Google from "@/assets/icons/google.svg";
 import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { ArrowLeft } from "iconoir-react-native";
-import { Button } from "@/features/common/button";
+import { Button } from "@/features/common/ui/button";
 
 type Props = {
   title: string;
