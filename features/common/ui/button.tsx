@@ -55,8 +55,8 @@ const buttonSizes = {
   segment: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["8"]),
-    iconOffset: 8,
+    paddingHorizontal: Number(tailwind.theme.spacing["4"]),
+    iconOffset: 4,
   },
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
