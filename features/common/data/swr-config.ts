@@ -2,12 +2,13 @@ import { createMMKV } from "react-native-mmkv";
 import useSWR, { Cache, State, SWRConfiguration } from "swr";
 import { AppState, AppStateStatus } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
-import { fetcher } from "@/features/common/data/fetcher";
+import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import useSWRInfinite, {
   SWRInfiniteConfiguration,
   SWRInfiniteKeyLoader,
 } from "swr/infinite";
 import { SuccessResponse } from "@/features/common/data/transformers";
+import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
 
 const MAX_ENTRIES = 5000;
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
@@ -108,11 +109,29 @@ export const swrConfig: SWRConfiguration = {
   isVisible: () => AppState.currentState === "active",
 };
 
+type SWRKey = string | null;
+
 export const useSWRConfigured = <Data, Err = Error>(
-  key: string | null,
+  key: SWRKey,
   config?: SWRConfiguration<SuccessResponse<Data>, Err>,
 ) => {
   return useSWR<SuccessResponse<Data>, Err>(key, fetcher, config);
+};
+
+export const useSWRMutationConfigured = <REQ, RES, Err = Error>(
+  key: SWRKey,
+  config?: SWRMutationConfiguration<
+    SuccessResponse<RES>,
+    Err,
+    SWRKey,
+    MutationArg<REQ>
+  >,
+) => {
+  return useSWRMutation<SuccessResponse<RES>, Err, SWRKey, MutationArg<REQ>>(
+    key,
+    fetcher,
+    config,
+  );
 };
 
 export const useSWRInfiniteConfigured = <Data, Err = Error>(

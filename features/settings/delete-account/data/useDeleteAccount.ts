@@ -1,20 +1,16 @@
-import { SuccessResponse } from "@/features/common/data/transformers";
-import { fetcher, MutationArg } from "@/features/common/data/fetcher";
-import useSWRMutation from "swr/mutation";
 import {
   DeleteAccountReqDto,
   DeleteAccountResDto,
 } from "@/features/settings/delete-account/data/dto/delete-account.dto";
+import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
 
 export const useDeleteAccount = () => {
   const url = "/auth/delete-account";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutation<
-    SuccessResponse<DeleteAccountResDto>,
-    Error,
-    string,
-    MutationArg<DeleteAccountReqDto>
-  >(url, fetcher);
+  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+    DeleteAccountReqDto,
+    DeleteAccountResDto
+  >(url);
 
   const trigger = async (body: DeleteAccountReqDto) => {
     return swrTrigger({ method: "POST", body });

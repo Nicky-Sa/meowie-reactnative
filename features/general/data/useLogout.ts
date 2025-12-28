@@ -1,6 +1,4 @@
-import useSWRMutation from "swr/mutation";
-import { SuccessResponse } from "@/features/common/data/transformers";
-import { fetcher, MutationArg } from "@/features/common/data/fetcher";
+import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
 
 type LogoutResDto = {
   successful: boolean;
@@ -9,12 +7,10 @@ type LogoutResDto = {
 export const useLogout = () => {
   const url = "/auth/logout";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutation<
-    SuccessResponse<LogoutResDto>,
-    Error,
-    string,
-    MutationArg<undefined>
-  >(url, fetcher);
+  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+    undefined,
+    LogoutResDto
+  >(url);
 
   const trigger = async () => {
     return swrTrigger({ method: "POST" });
