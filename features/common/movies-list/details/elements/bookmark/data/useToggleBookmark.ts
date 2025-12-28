@@ -5,8 +5,13 @@ import {
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import useSWRMutation from "swr/mutation";
+import { ID } from "@/features/common/data/query";
 
-export const useToggleBookmark = ({ id }: ToggleBookmarkReqDto) => {
+type Args = {
+  id: ID;
+};
+
+export const useToggleBookmark = ({ id }: Args) => {
   const url = "/movie-states/bookmark";
 
   const {
@@ -21,7 +26,16 @@ export const useToggleBookmark = ({ id }: ToggleBookmarkReqDto) => {
   >(url, fetcher);
 
   const trigger = async () => {
-    return swrTrigger({ method: "POST", body: { id } });
+    return swrTrigger(
+      {
+        method: "POST",
+        body: { id: Number(id) },
+      },
+      {
+        optimisticData: { data: { bookmarked: !response?.data.bookmarked } },
+        rollbackOnError: true,
+      },
+    );
   };
   return { trigger, data: response?.data, ...rest };
 };

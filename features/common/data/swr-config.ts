@@ -66,10 +66,12 @@ export function createSWRProvider<Data = unknown>(): Cache<Data> {
   };
 }
 
-const providerInstance = createSWRProvider();
+const globalSWRCache = createSWRProvider();
+
+const getProvider = () => globalSWRCache;
 
 export const swrConfig: SWRConfiguration = {
-  provider: () => providerInstance,
+  provider: getProvider,
   keepPreviousData: true,
   shouldRetryOnError: true,
   dedupingInterval: 10 * 60 * 1000, // 10 minutes

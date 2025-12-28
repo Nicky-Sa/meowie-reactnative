@@ -9,13 +9,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
 import { Casts } from "@/features/common/movies-list/details/elements/casts";
-import { Button } from "@/features/common/ui/button";
-import { Bookmark } from "iconoir-react-native";
-import { Icon } from "@/features/common/ui/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Cast } from "@/features/common/movies-list/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
 import { ID } from "@/features/common/data/query";
+import { Bookmark } from "@/features/common/movies-list/details/elements/bookmark/bookmark";
 
 type Props = {
   movieId: ID;
@@ -109,9 +107,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       <View
         className={"mt-2 flex w-full flex-row items-center justify-end gap-2"}
       >
-        <Button variant={"ghost"} size={"md"} iconOnly>
-          <Icon i={Bookmark} />
-        </Button>
+        <Bookmark id={movieId} />
       </View>
     </View>
   );
