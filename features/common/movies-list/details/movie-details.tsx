@@ -10,7 +10,7 @@ import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
 import { Casts } from "@/features/common/movies-list/details/elements/casts";
 import { Button } from "@/features/common/ui/button";
-import { Heart, Eye, Bookmark, Play } from "iconoir-react-native";
+import { Bookmark } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Cast } from "@/features/common/movies-list/details/elements/cast";
@@ -106,29 +106,11 @@ export const MovieDetails = memo(({ movieId, shouldPlay }: Props) => {
         <Casts casts={data.credits.casts} />
       </ScrollView>
 
-      <View className={"mt-4 flex w-full flex-row items-center gap-2"}>
-        <Button variant={"ghost"} size={"md"} iconOnly>
-          <Icon i={Heart} />
-        </Button>
-        <Button variant={"ghost"} size={"md"} iconOnly>
-          <Icon i={Eye} />
-        </Button>
+      <View
+        className={"mt-2 flex w-full flex-row items-center justify-end gap-2"}
+      >
         <Button variant={"ghost"} size={"md"} iconOnly>
           <Icon i={Bookmark} />
-        </Button>
-        <Button
-          variant={"primary"}
-          size={"md"}
-          iconPosition={"left"}
-          className={"flex-1"}
-        >
-          <View className={"flex flex-row items-center justify-center gap-2"}>
-            <Icon i={Play} />
-
-            <Text className={"body-b1-strong text-neutral-10-default"}>
-              Watch
-            </Text>
-          </View>
         </Button>
       </View>
     </View>
