@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { View, Text } from "react-native";
-import YoutubePlayer, { YoutubeIframeRef } from "react-native-youtube-iframe";
+import YoutubePlayer, {
+  PLAYER_STATES,
+  YoutubeIframeRef,
+} from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
-import { allowYTPlayingAtom } from "@/atoms";
+import { allowYTPlayingAtom, autoplayAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { tailwind } from "@/lib/tailwind";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useIsFocused } from "@react-navigation/native";
 
 type Props = {
   YTKey: string;
@@ -18,21 +22,20 @@ const RETRY_ATTEMPTS = 1;
 export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
   const playerRef = useRef<YoutubeIframeRef>(null);
   const retryAttemptRef = useRef(0);
+  const isFocused = useIsFocused(); // checks if the player is present on the current screen
 
+  const appState = useAppState();
   const [canNotPlay, setCanNotPlay] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
+  const [autoplay] = useAtom(autoplayAtom);
 
   const { width: w } = useScreenDimensions();
   const width = w - 2.5 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
-
-  const appState = useAppState();
 
   const handleReload = useCallback(() => {
     setCanNotPlay(false);
     if (playerRef.current) {
       playerRef.current.seekTo(0, true);
-      setPlaying(true);
     }
   }, []);
 
@@ -47,21 +50,23 @@ export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
     }
   }, [canNotPlay, handleReload]);
 
+  const [play, setPlay] = useState(false);
   useEffect(() => {
-    if (inScreen && appState === "active") {
-      setPlaying(true);
-    } else {
-      setPlaying(false);
-    }
-  }, [inScreen, appState]);
-
-  useEffect(() => {
-    if (!inScreen) {
-      if (playerRef.current) {
+    if (inScreen && appState === "active" && allowYTPlaying && isFocused) {
+      setPlay(autoplay);
+      if (autoplay && playerRef.current) {
         playerRef.current.seekTo(0, true);
       }
+    } else {
+      setPlay(false);
     }
-  }, [inScreen]);
+  }, [allowYTPlaying, appState, autoplay, inScreen, isFocused]);
+
+  const handleStateChange = useCallback((state: PLAYER_STATES) => {
+    if (state === PLAYER_STATES.PLAYING) {
+      setPlay(true);
+    }
+  }, []);
 
   return canNotPlay ? (
     <View
@@ -84,10 +89,12 @@ export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
         ref={playerRef}
         height={200}
         width={width}
-        play={playing && allowYTPlaying}
+        play={play}
+        onChangeState={handleStateChange}
         volume={30}
         forceAndroidAutoplay
         initialPlayerParams={{
+          start: 0,
           controls: false,
           loop: true,
           preventFullScreen: true,

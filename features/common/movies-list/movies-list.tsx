@@ -35,6 +35,7 @@ export const MoviesList = ({
 }: Props) => {
   const listRef = useListRef();
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
+  // const path = usePathname();
 
   const { onEndReached } = useFetchMore({
     size,
