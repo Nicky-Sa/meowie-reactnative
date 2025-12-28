@@ -8,15 +8,21 @@ import { useRef } from "react";
 import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/useLogout";
+import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
+import { useRouter } from "expo-router";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const { trigger: triggerLogout } = useLogout();
+  const { revalidate } = useRevalidateAuth();
+  const router = useRouter();
 
   const handleLogout = async () => {
     await triggerLogout();
     Emitter.emit("clearTokens");
+    await revalidate();
     bottomSheetRef.current?.dismiss();
+    router.replace("/movies");
   };
 
   return (

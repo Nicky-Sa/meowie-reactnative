@@ -9,6 +9,7 @@ import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/verify-otp/resend-code";
 import * as SecureStore from "expo-secure-store";
+import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -31,6 +32,8 @@ export const OtpForm = ({ email }: Props) => {
       },
     },
   );
+
+  const { revalidate } = useRevalidateAuth();
   const { trigger: triggerVerifyOtp, isMutating: isMutatingVerifyOtp } =
     useVerifyOtp();
   const { trigger: triggerRequestOtp, isMutating: isMutatingRequestOtp } =
@@ -42,6 +45,7 @@ export const OtpForm = ({ email }: Props) => {
       const { data: response } = await triggerVerifyOtp({ ...data, email });
       await SecureStore.setItemAsync("access-token", response.accessToken);
       await SecureStore.setItemAsync("refresh-token", response.refreshToken);
+      await revalidate();
       router.replace("/movies");
     } catch (error) {
       setError("otp", { message: (error as Error).message });
