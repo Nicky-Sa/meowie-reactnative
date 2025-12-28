@@ -1,5 +1,5 @@
 import { Navbar } from "@/features/general/navbar";
-import { Bookmark, HomeSimple, Search, User } from "iconoir-react-native";
+import { HomeSimple, Search, User } from "iconoir-react-native";
 import { Tab } from "@/features/general/navbar/types";
 
 const tabs: Tab[] = [
@@ -12,11 +12,6 @@ const tabs: Tab[] = [
     name: "explore",
     title: "Explore",
     icon: Search,
-  },
-  {
-    name: "watchlist",
-    title: "Watchlist",
-    icon: Bookmark,
   },
   {
     name: "profile",
