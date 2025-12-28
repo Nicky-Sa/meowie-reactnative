@@ -11,13 +11,13 @@ import { MovieDetails } from "@/features/common/movies-list/details/movie-detail
 
 type Props = {
   movieId: ID;
-  shouldPlay: boolean;
+  inScreen: boolean;
   index: number;
   scrollY: SharedValue<number>;
 };
 
 export const MoviesListItem = memo(
-  ({ movieId, shouldPlay, index, scrollY }: Props) => {
+  ({ movieId, inScreen, index, scrollY }: Props) => {
     const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
 
@@ -49,7 +49,7 @@ export const MoviesListItem = memo(
     return (
       <Animated.View style={[animatedStyle]} className={"w-full"}>
         <View style={contentStyle}>
-          <MovieDetails movieId={movieId} shouldPlay={shouldPlay} />
+          <MovieDetails movieId={movieId} inScreen={inScreen} />
         </View>
       </Animated.View>
     );

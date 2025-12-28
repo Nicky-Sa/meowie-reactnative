@@ -8,7 +8,7 @@ export const Screen = () => {
   return (
     <InnerScreen title={"Movie Details"}>
       <View className={"flex-1 items-center justify-center"}>
-        <MovieDetails movieId={movieId} shouldPlay />
+        <MovieDetails movieId={movieId} inScreen />
       </View>
     </InnerScreen>
   );

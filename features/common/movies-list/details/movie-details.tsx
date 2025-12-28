@@ -19,17 +19,17 @@ import { ID } from "@/features/common/data/query";
 
 type Props = {
   movieId: ID;
-  shouldPlay: boolean;
+  inScreen: boolean;
 };
 
-export const MovieDetails = memo(({ movieId, shouldPlay }: Props) => {
+export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
   const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
   const [, setColor] = useAtom(colorAtom);
 
   useEffect(() => {
-    if (shouldPlay && data?.posterProps.primaryColorHex)
+    if (inScreen && data?.posterProps.primaryColorHex)
       setColor(data.posterProps.primaryColorHex);
-  }, [data?.posterProps, setColor, shouldPlay]);
+  }, [data?.posterProps, setColor, inScreen]);
 
   return isLoading || !data ? (
     <MovieDetailsSkeleton />
@@ -76,7 +76,7 @@ export const MovieDetails = memo(({ movieId, shouldPlay }: Props) => {
         </View>
       </View>
 
-      <TrailerPlayer YTKey={data.trailerKey} shouldPlay={shouldPlay} />
+      <TrailerPlayer YTKey={data.trailerKey} inScreen={inScreen} />
 
       <Ratings ratings={data.ratings} />
 

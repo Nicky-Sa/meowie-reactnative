@@ -65,7 +65,7 @@ export const MoviesList = ({
         <MoviesListItem
           key={movieId}
           movieId={movieId}
-          shouldPlay={index === currentIndex}
+          inScreen={index === currentIndex}
           index={index}
           scrollY={scrollY}
         />
