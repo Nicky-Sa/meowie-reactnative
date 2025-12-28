@@ -12,7 +12,7 @@ import { SuccessResponse } from "@/features/common/data/transformers";
 const MAX_ENTRIES = 5000;
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 
-export const storage = createMMKV({ id: "swr-cache" });
+const storage = createMMKV({ id: "swr-cache" });
 
 /**
  * Granular Provider: Each SWR key is a unique key in MMKV.

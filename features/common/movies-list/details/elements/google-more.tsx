@@ -7,10 +7,10 @@ import {
 import { Modal, View, Platform, Text } from "react-native";
 import { WebView } from "react-native-webview";
 import Google from "@/assets/icons/google.svg";
-import { allowYTPlayingAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { ArrowLeft } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
+import { allowYTPlayingAtom } from "@/atoms";
 
 type Props = {
   title: string;

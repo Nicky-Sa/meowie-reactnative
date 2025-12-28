@@ -2,9 +2,7 @@ import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
 import { Filters, initialFiltersValue } from "@/features/common/data/query";
-
-// It's allowed to play YT videos
-export const allowYTPlayingAtom = atom(true);
+import { atomPersisted } from "@/atoms/storage";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -12,3 +10,9 @@ export const colorAtom = atom(
 );
 
 export const filtersAtom = atomWithImmer<Filters>(initialFiltersValue);
+
+// It's allowed to play YT videos -> e.g. if a modal wants to pause the trailer
+export const allowYTPlayingAtom = atom(true);
+
+// Autoplay trailer
+export const autoplayAtom = atomPersisted("autoplay", true);
