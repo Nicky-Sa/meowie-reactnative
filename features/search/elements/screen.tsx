@@ -36,7 +36,7 @@ export const Screen = () => {
 
       <SearchResultList
         debouncedQuery={query}
-        data={data}
+        data={data?.results}
         isLoading={isLoading || isDebouncing}
         error={error}
         mutate={mutate}

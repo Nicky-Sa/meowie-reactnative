@@ -43,3 +43,5 @@ app-example
 
 local-builds/
 /.sentryclirc
+
+/orval/generated

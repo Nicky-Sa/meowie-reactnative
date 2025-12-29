@@ -9,16 +9,15 @@ import { useMemo } from "react";
 
 export const Genres = () => {
   const [filters] = useAtom(filtersAtom);
-  const { data: rawGenres } = useGenres();
+  const { data } = useGenres();
 
-  const genres: SegmentItem[] | undefined = useMemo(
-    () =>
-      rawGenres?.map((genre) => ({
-        id: String(genre.id),
-        label: `${genre.emoji} ${genre.name}`,
-      })),
-    [rawGenres],
-  );
+  const genres: SegmentItem[] | undefined = useMemo(() => {
+    if (!data || !data.genres) return;
+    return data.genres?.map((genre) => ({
+      id: String(genre.id),
+      label: `${genre.emoji} ${genre.name}`,
+    }));
+  }, [data]);
 
   if (!genres) return null;
 

@@ -5,7 +5,7 @@ type ChurnReason = {
   label: string;
 };
 
-type ChurnReasonsResDto = ChurnReason[];
+type ChurnReasonsResDto = { reasons: ChurnReason[] };
 
 export const useChurnReasons = () => {
   const url = "/constants/churn-reasons";

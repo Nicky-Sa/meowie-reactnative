@@ -6,7 +6,9 @@ export type Genre = {
   emoji: string;
 };
 
-type GenresResDto = Genre[];
+type GenresResDto = {
+  genres: Genre[];
+};
 
 export const useGenres = () => {
   const url = "/constants/genres";

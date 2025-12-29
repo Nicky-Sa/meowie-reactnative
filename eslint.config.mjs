@@ -27,6 +27,7 @@ export default defineConfig([
       "figma/*",
       "tailwind.config.ts",
       "metro.config.js",
+      "orval/*",
     ],
   },
 ]);

@@ -4,4 +4,6 @@ export type SearchReqQueryDto = {
   query: string;
 };
 
-export type MultiSearchResDto = MultiSearchResults[];
+export type MultiSearchResDto = {
+  results: MultiSearchResults[];
+};

@@ -20,6 +20,7 @@ export const Bookmark = ({ id }: Props) => {
   const isBookmarked = !!movieStates?.bookmarked;
 
   const onPress = async () => {
+    // TODO: modal to login
     if (!currentUser?.user) return;
 
     // Trigger now handles the cache update for useFetchMovieStates

@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const ChurnReason = ({ churnReasonId, setChurnReasonId }: Props) => {
-  const { data: churnReasons } = useChurnReasons();
-  if (!churnReasons) return null;
+  const { data } = useChurnReasons();
+  if (!data || !data.reasons) return null;
 
   return (
     <View className={"flex flex-col gap-4"}>
@@ -18,7 +18,7 @@ export const ChurnReason = ({ churnReasonId, setChurnReasonId }: Props) => {
         Help us improve. Why are you deleting your account? (Optional)
       </Text>
       <View className={"flex flex-col gap-2"}>
-        {churnReasons.map((reason) => (
+        {data.reasons.map((reason) => (
           <Segment
             key={reason.id}
             item={reason}
