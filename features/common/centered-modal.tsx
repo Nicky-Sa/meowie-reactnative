@@ -22,7 +22,7 @@ export const CenteredModal = ({
     >
       <Pressable
         className={
-          "flex-1 items-center justify-center bg-neutral-15-default/80"
+          "flex-1 items-center justify-center bg-neutral-10-default/80"
         }
         onPress={() => setModalVisible(false)}
       >
