@@ -4,7 +4,7 @@ import ErrorStateSvg from "@/assets/images/errors/error-state.svg";
 
 type Props = {
   tryAgain: () => void;
-  error: Error | undefined;
+  error: Error | string | undefined;
 };
 
 export const ErrorState = ({ tryAgain, error }: Props) => {

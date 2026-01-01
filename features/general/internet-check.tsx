@@ -1,63 +1,66 @@
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { PropsWithChildren, useEffect, useState } from "react";
-import { useNetInfoInstance } from "@react-native-community/netinfo";
 import NoInternet from "@/assets/images/errors/no-internet.svg";
 import VpnWarning from "@/assets/images/errors/vpn-warning.svg";
-import { useCountryCheck } from "@/hooks/useCountryCheck";
 import { InformationModal } from "@/features/common/information-modal";
+import { useConnectionCheck } from "@/hooks/useConnectionCheck";
+import { ErrorState } from "@/features/general/error-state";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
-  const {
-    netInfo: { isConnected, isInternetReachable },
-    refresh,
-  } = useNetInfoInstance();
-  const noInternet = isConnected === false || isInternetReachable === false;
-  const showVPNAlert = useCountryCheck();
+  const { isOffline, isRestricted, isBackendUnreachable, refresh } =
+    useConnectionCheck();
+
   const [warningVisible, setWarningVisible] = useState(false);
 
   useEffect(() => {
-    if (showVPNAlert) {
-      setWarningVisible(true);
-    }
-  }, [showVPNAlert]);
+    if (isRestricted) setWarningVisible(true);
+  }, [isRestricted]);
 
-  if (noInternet) {
+  // Strictly "No Radio" state
+  if (isOffline) {
     return (
-      <View className={"flex-1 flex-col items-center justify-center gap-8"}>
+      <View className="flex-1 flex-col items-center justify-center gap-8 px-6">
         <NoInternet />
-
-        <Text className={"body-b1 text-center text-neutral-5-default"}>
-          There is no internet connection!
+        <Text className="body-b1 text-center text-neutral-5-default">
+          Please check your internet settings.
         </Text>
-        <Button onPress={refresh} variant={"white"}>
+        <Button onPress={refresh} variant="white">
           Try again
         </Button>
       </View>
     );
   }
 
+  if (isBackendUnreachable) {
+    return <ErrorState tryAgain={refresh} error={"Backend unreachable"} />;
+  }
+
+  // Covers "VPN Needed" AND "Bad WiFi"
   return (
     <>
       {children}
       <InformationModal
         img={VpnWarning}
         informationText={
-          "اگه این متن رو میفهمی VPN رو روشن کن!" +
-          "\n\n" +
-          "If you have trouble viewing the app content, please enable your VPN."
+          "اگه این متن رو میفهمی VPN رو روشن کن!\n\n" +
+          "We can't connect to the server. If you are online, please try enabling your VPN."
         }
         modalVisible={warningVisible}
         setModalVisible={setWarningVisible}
       >
-        <Button
-          onPress={() => setWarningVisible(false)}
-          variant={"white"}
-          size={"md"}
-          className={"w-full"}
-        >
-          OK
-        </Button>
+        <View className="flex flex-row items-center gap-4">
+          <Button
+            onPress={() => {
+              setWarningVisible(false);
+            }}
+            variant="white"
+            size="md"
+            className="w-full"
+          >
+            Ok, understood.
+          </Button>
+        </View>
       </InformationModal>
     </>
   );
