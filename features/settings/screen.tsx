@@ -8,6 +8,7 @@ import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { EmptyCache } from "@/features/settings/items/empty-cache";
 import { Title } from "@/features/settings/elements/tilte";
 import { Autoplay } from "@/features/settings/items/autoplay";
+import { TMDBStatement } from "@/features/settings/items/tmdb-statement";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -32,6 +33,7 @@ export const Screen = () => {
               </>
             )}
           </View>
+          <TMDBStatement />
         </View>
       </View>
     </InnerScreen>
