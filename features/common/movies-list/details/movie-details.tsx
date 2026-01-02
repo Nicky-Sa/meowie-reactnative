@@ -105,7 +105,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       </ScrollView>
 
       <View
-        className={"mt-2 flex w-full flex-row items-center justify-start gap-2"}
+        className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
         <Bookmark id={movieId} />
       </View>

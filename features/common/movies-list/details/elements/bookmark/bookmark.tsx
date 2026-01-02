@@ -1,16 +1,17 @@
-import { Icon } from "@/features/common/ui/icon";
 import { Button } from "@/features/common/ui/button";
-import { Bookmark as BookmarkIcon } from "iconoir-react-native";
 import { useToggleBookmark } from "@/features/common/movies-list/details/elements/bookmark/data/useToggleBookmark";
 import { ID } from "@/features/common/data/query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
-import { tailwind } from "@/lib/tailwind";
 import { View, Text } from "react-native";
 import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/bookmark/data/useFetchMovieStates";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
 import EmptyBookmark from "@/assets/images/empty-bookmark.svg";
 import { useRouter } from "expo-router";
+import {
+  BookmarkIcon,
+  BookmarkIconHandle,
+} from "@/features/common/movies-list/details/elements/bookmark/icon";
 
 type Props = {
   id: ID;
@@ -25,27 +26,26 @@ export const Bookmark = ({ id }: Props) => {
   const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  const bookmarkIconRef = useRef<BookmarkIconHandle>(null);
+
   const onPress = async () => {
     if (!currentUser?.user) {
       setShowLoginModal(true);
       return;
     }
-
-    // Trigger now handles the cache update for useFetchMovieStates
+    if (isBookmarked) {
+      bookmarkIconRef.current?.unbookmark();
+    } else {
+      bookmarkIconRef.current?.bookmark();
+    }
+    // Trigger handles the cache update for useFetchMovieStates
     await trigger(isBookmarked);
   };
   return (
     <>
-      <Button variant={"ghost"} size={"md"} iconOnly onPress={onPress}>
+      <Button variant={"link"} size={"md"} onPress={onPress}>
         <View className={"flex flex-row items-center justify-center gap-2"}>
-          <Icon
-            i={BookmarkIcon}
-            fill={
-              isBookmarked
-                ? tailwind.theme.backgroundColor.neutral[1].default
-                : "none"
-            }
-          />
+          <BookmarkIcon ref={bookmarkIconRef} isBookmarked={isBookmarked} />
           <Text className={"body-b2-strong text-neutral-10-default"}>
             {isBookmarked ? "Saved" : "Save"}
           </Text>
