@@ -16,6 +16,7 @@ import { useEventListener } from "@/features/common/event-emitting/useEventListe
 import { swrConfig } from "@/features/common/data/swr-config";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
+import { env } from "@/lib/env";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -23,16 +24,16 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
-  environment: process.env.EXPO_PUBLIC_SENTRY_ENVIRONMENT,
+  environment: env.EXPO_PUBLIC_APP_VARIANT,
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
   sendDefaultPii: true,
   replaysSessionSampleRate:
-    process.env.EXPO_PUBLIC_SENTRY_ENVIRONMENT === "development" ? 1.0 : 0.1,
+    env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.1,
   replaysOnErrorSampleRate: 1.0,
 
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-  tracesSampleRate: process.env.APP_VARIANT === "development" ? 1.0 : 0.5,
+  tracesSampleRate: env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.5,
   tracePropagationTargets: [/.*?/],
   // profilesSampleRate is relative to tracesSampleRate.
   // Here, we'll capture profiles for 100% of transactions.

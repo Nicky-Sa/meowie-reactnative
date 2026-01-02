@@ -1,10 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import { env } from "@/lib/env";
 
 // We use a YouTube-specific 204 endpoint.
 // If this fails but the internet is on, we know YouTube specifically is blocked.
 const YOUTUBE_CANARY = "https://www.youtube.com/generate_204";
-const BACKEND_CANARY = process.env.EXPO_PUBLIC_BACKEND_URL;
+const BACKEND_CANARY = env.EXPO_PUBLIC_BACKEND_URL;
 
 type ConnectivityStatus =
   | "CHECKING"

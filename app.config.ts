@@ -2,7 +2,7 @@ import { ExpoConfig } from "expo/config";
 import { withSentry } from "@sentry/react-native/expo";
 import pkg from "./package.json";
 
-const APP_VARIANT = process.env.APP_VARIANT;
+const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
 
 const getUniqueIdentifier = () => {
   let bundleIdentifier: string;

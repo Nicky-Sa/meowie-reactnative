@@ -1,6 +1,7 @@
 import axios, { isAxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { Emitter } from "@/features/common/event-emitting/emitter";
+import { env } from "@/lib/env";
 
 const onClearTokens = async () => {
   console.log("Refresh token failed -> clearing tokens");
@@ -10,7 +11,7 @@ const onClearTokens = async () => {
 
 // Create the axios instance
 const axiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_BACKEND_URL,
+  baseURL: env.EXPO_PUBLIC_BACKEND_URL,
 });
 
 // --- Request Interceptor ---
@@ -98,7 +99,7 @@ axiosInstance.interceptors.response.use(
         // NOTE: Use a *new* axios instance or 'axios.post' to avoid
         // the interceptor trying to add an 'Authorization' header.
         const refreshResponse = await axios.post(
-          `${process.env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh-token`,
+          `${env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh-token`,
           {
             refreshToken,
           },
