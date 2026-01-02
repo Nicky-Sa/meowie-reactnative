@@ -74,10 +74,21 @@ const getProvider = () => globalSWRCache;
 export const swrConfig: SWRConfiguration = {
   provider: getProvider,
   keepPreviousData: true,
-  shouldRetryOnError: true,
   dedupingInterval: 10 * 60 * 1000, // 10 minutes
+  shouldRetryOnError: true,
   errorRetryInterval: 3000, // 3 seconds
   errorRetryCount: 3,
+  onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+    // 1. NEVER retry on 401 (Unauthorized)
+    //    Axios already tried to refresh. If we are here, it's over.
+    if (error.response?.status === 401) return;
+
+    // 2. Stop if we hit the limit defined in 'errorRetryCount' above
+    if (retryCount >= config.errorRetryCount!) return;
+
+    // 3. Retry after the interval defined in 'errorRetryInterval' above
+    setTimeout(() => revalidate({ retryCount }), config.errorRetryInterval);
+  },
   revalidateOnFocus: true,
   initFocus(callback) {
     let appState = AppState.currentState;
