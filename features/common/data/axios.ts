@@ -1,13 +1,7 @@
 import axios, { isAxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
-import { Emitter } from "@/features/common/event-emitting/emitter";
 import { env } from "@/lib/env";
-
-const onClearTokens = async () => {
-  console.log("Refresh token failed -> clearing tokens");
-  // Emit logout event to be listened to by the root layout
-  Emitter.emit("clearTokens");
-};
+import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 // Create the axios instance
 const axiosInstance = axios.create({
@@ -27,19 +21,23 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// A flag to prevent infinite loops during token refresh
+// Flag to prevent multiple refresh attempts
 let isRefreshing = false;
-// A list of requests to retry after token is refreshed
+
+// Queue to hold requests while refreshing
+// Note: 'resolve' now accepts string OR null (for Guest mode)
 let failedQueue: {
-  resolve: (token: string) => void;
+  resolve: (token: string | null) => void;
   reject: (error: unknown) => void;
 }[] = [];
 
-const processQueue = (error: unknown, token: string | null) => {
+// Helper to process the queue
+const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue.forEach((prom) => {
-    if (error || !token) {
+    if (error) {
       prom.reject(error);
     } else {
+      // Resolve the promise (passing null if we are downgrading to guest)
       prom.resolve(token);
     }
   });
@@ -49,12 +47,11 @@ const processQueue = (error: unknown, token: string | null) => {
 // --- Response Interceptor ---
 // Runs *after* a response is received
 axiosInstance.interceptors.response.use(
-  (response) => {
-    // Any 2xx status code triggers this
-    return response;
-  },
+  // Any 2xx or 3xx status code triggers this
+  (response) => response,
+
+  // Any 4xx/5xx status code triggers this
   async (error) => {
-    // Any non-2xx status code triggers this
     if (!isAxiosError(error)) {
       return Promise.reject(error);
     }
@@ -66,18 +63,24 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && originalRequest) {
       // Prevent infinite 401 loops
       if (originalRequest._retry) {
+        // If it fails AGAIN after retry, we must reject it to avoid a loop.
         return Promise.reject(error);
       }
       originalRequest._retry = true;
 
-      // Handle token refresh logic
+      // 1. If refreshing is already in progress, queue this request
       if (isRefreshing) {
-        // If already refreshing, add this request to the queue
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
+            if (token) {
+              // Valid token refreshed: Attach it
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+            } else {
+              // Refresh failed / Guest mode: Remove header
+              delete originalRequest.headers.Authorization;
+            }
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
@@ -85,24 +88,21 @@ axiosInstance.interceptors.response.use(
           });
       }
 
-      // Start the token refresh
+      // 2. Start the token refresh
       isRefreshing = true;
 
       try {
         const refreshToken = await SecureStore.getItemAsync("refresh-token");
+
+        // Scenario A: No refresh token exists -> Downgrade to Guest immediately
         if (!refreshToken) {
-          await onClearTokens();
-          return Promise.reject(error);
+          throw new Error("No refresh token available");
         }
 
-        // Make the refresh token request
-        // NOTE: Use a *new* axios instance or 'axios.post' to avoid
-        // the interceptor trying to add an 'Authorization' header.
+        // Scenario B: Attempt to refresh
         const refreshResponse = await axios.post(
           `${env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh-token`,
-          {
-            refreshToken,
-          },
+          { refreshToken },
         );
 
         const { accessToken, refreshToken: newRefreshToken } =
@@ -112,26 +112,36 @@ axiosInstance.interceptors.response.use(
         await SecureStore.setItemAsync("access-token", accessToken);
         await SecureStore.setItemAsync("refresh-token", newRefreshToken);
 
-        // Update the header on the original request
+        // Update header for the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
-        // Retry all queued requests
+        // Process queue with the NEW token
         processQueue(null, accessToken);
 
-        // Retry the original request
+        // Retry original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.log({ refreshError });
-        // If refresh fails, clear tokens
-        await onClearTokens();
-        processQueue(refreshError, null);
-        return Promise.reject(refreshError);
+        // Scenario C: Refresh Failed (or didn't exist)
+        console.log(
+          "Token refresh failed. Downgrading to Guest.",
+          refreshError,
+        );
+
+        // 1. Clear tokens safely (waits for storage deletion)
+        await clearTokens();
+
+        // 2. Process the queue with NULL (Trigger Guest Retry for all waiting requests)
+        processQueue(null, null);
+
+        // 3. Retry the ORIGINAL request as Guest (remove header)
+        delete originalRequest.headers.Authorization;
+        return axiosInstance(originalRequest);
       } finally {
         isRefreshing = false;
       }
     }
 
-    // Return other errors
+    // Return other errors (400, 403, 500, etc.)
     return Promise.reject(error);
   },
 );

@@ -20,6 +20,7 @@ export const useRevalidateAuth = () => {
       // Check if the current cache key includes any of our restricted paths
       return authRequiredPaths.some((path) => keyString.includes(path));
     });
+    console.log("Revalidated auth");
   }, [mutate]);
 
   return { revalidate };

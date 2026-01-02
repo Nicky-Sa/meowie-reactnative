@@ -1,5 +1,5 @@
-import { useLogoutEvent } from "@/features/common/event-emitting/events/useLogoutEvent";
+import { useTokensClearedEvent } from "@/features/common/event-emitting/events/useTokensClearedEvent";
 
 export const useEventListener = () => {
-  useLogoutEvent();
+  useTokensClearedEvent();
 };
