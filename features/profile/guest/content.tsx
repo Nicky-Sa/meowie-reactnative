@@ -30,9 +30,7 @@ export const Guest = () => {
       >
         {tabs.map((tab) => (
           <Tabs.Tab key={tab.name} name={tab.name}>
-            {/*<Tabs.ScrollView>*/}
             <tab.children />
-            {/*</Tabs.ScrollView>*/}
           </Tabs.Tab>
         ))}
       </Tabs.Container>

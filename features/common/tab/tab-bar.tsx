@@ -21,7 +21,7 @@ export const TabBar = memo(({ tabs, index, onTabPress }: Props) => {
   const tabWidth = width / tabs.length;
 
   return (
-    <View className="relative h-14 flex-row bg-neutral-15-default">
+    <View className="relative flex-row bg-neutral-15-default py-3">
       <TabIndicator index={index} tabWidth={tabWidth} />
       {tabs.map((tab, i) => (
         <TabItem

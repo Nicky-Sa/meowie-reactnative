@@ -6,6 +6,7 @@ import { SeenList } from "@/features/profile/logged-in/seen-list";
 import { TabBar, TabElement } from "@/features/common/tab/tab-bar";
 import { Header } from "@/features/profile/logged-in/header";
 import { User } from "@/entities/user";
+import { TabContent } from "@/features/common/tab/tab-content";
 
 const tabs: TabElement[] = [
   {
@@ -35,7 +36,9 @@ export const LoggedIn = ({ user }: Props) => {
       >
         {tabs.map((tab) => (
           <Tabs.Tab key={tab.name} name={tab.name}>
-            <tab.children />
+            <TabContent>
+              <tab.children />
+            </TabContent>
           </Tabs.Tab>
         ))}
       </Tabs.Container>
