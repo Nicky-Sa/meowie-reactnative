@@ -1,4 +1,5 @@
 import { TabBarProps } from "react-native-collapsible-tab-view";
+import { View } from "react-native"; // Import View for the inner line
 import Animated, {
   useAnimatedStyle,
   withSpring,
@@ -32,8 +33,10 @@ export const TabIndicator = ({ index, tabWidth }: Props) => {
 
   return (
     <Animated.View
-      style={animatedStyle}
-      className="absolute bottom-0 left-[13%] z-10 h-[3px] w-1/4 rounded-t-sm bg-neutral-1-default"
-    />
+      style={[animatedStyle, { width: tabWidth }]}
+      className="absolute bottom-0 left-0 z-10 items-center justify-center"
+    >
+      <View className="h-[3px] w-1/2 rounded-t-sm bg-neutral-1-default" />
+    </Animated.View>
   );
 };
