@@ -8,7 +8,7 @@ export const BookmarkedList = () => {
   return (
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
       <EmptyBookmark />
-      <Text className={"body-b1 text-center text-neutral-5-default"}>
+      <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
         Sign in to start building your watchlist.
       </Text>
       <Button

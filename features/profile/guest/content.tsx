@@ -164,17 +164,19 @@ TabBar.displayName = "TabBar";
 
 export const Guest = () => {
   return (
-    <Tabs.Container
-      renderHeader={Header}
-      renderTabBar={(props) => <TabBar tabs={tabs} {...props} />}
-    >
-      {tabs.map((tab) => (
-        <Tabs.Tab key={tab.name} name={tab.name}>
-          <Tabs.ScrollView>
-            <tab.children />
-          </Tabs.ScrollView>
-        </Tabs.Tab>
-      ))}
-    </Tabs.Container>
+    <View className={"flex flex-1 flex-col"}>
+      <Header />
+      <Tabs.Container
+        renderTabBar={(props) => <TabBar tabs={tabs} {...props} />}
+      >
+        {tabs.map((tab) => (
+          <Tabs.Tab key={tab.name} name={tab.name}>
+            <Tabs.ScrollView>
+              <tab.children />
+            </Tabs.ScrollView>
+          </Tabs.Tab>
+        ))}
+      </Tabs.Container>
+    </View>
   );
 };
