@@ -27,7 +27,18 @@ export const searchParamsToQuery = (
   searchParams: Record<string, string | string[]> | undefined,
 ) => {
   if (!searchParams) return "";
-  return `${Object.entries(searchParams)
-    .map(([key, value]) => `${key}=${value.toString()}`)
-    .join("&")}`;
+
+  return Object.keys(searchParams)
+    .sort()
+    .flatMap((key) => {
+      const value = searchParams[key];
+      if (Array.isArray(value)) {
+        return value
+          .slice()
+          .sort()
+          .map((v) => `${key}=${encodeURIComponent(v)}`);
+      }
+      return `${key}=${encodeURIComponent(value)}`;
+    })
+    .join("&");
 };

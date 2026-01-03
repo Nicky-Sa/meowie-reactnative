@@ -19,7 +19,7 @@ const storage = createMMKV({ id: "swr-cache" });
  * Granular Provider: Each SWR key is a unique key in MMKV.
  * This prevents massive JSON serialization overhead.
  */
-export function createSWRProvider<Data = unknown>(): Cache<Data> {
+function createSWRProvider<Data = unknown>(): Cache<Data> {
   return {
     get: (key: string) => {
       const value = storage.getString(key);
