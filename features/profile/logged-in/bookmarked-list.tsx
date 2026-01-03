@@ -5,6 +5,7 @@ import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler"
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const NUM_COLUMNS = 3;
 
@@ -30,16 +31,24 @@ export const BookmarkedList = () => {
         pathname: "/browse/movies-list",
         params: {
           initialIndex: index,
+          url: "/movie-states/poster",
+          movieState: "bookmarked",
         },
       });
     },
     [router],
   );
+
+  const apiDetails: PosterAPIDetails = {
+    url: "/movie-states/poster",
+    queryParams: { movieState: "bookmarked" },
+  };
+
   return (
     <View className={"flex-1"}>
       <PostersList
         numColumns={NUM_COLUMNS}
-        searchParams={{ personId: "65731" }}
+        apiDetails={apiDetails}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
         ListEmptyComponent={<EmptyState />}

@@ -6,6 +6,7 @@ import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/browse/elements/posters-list";
 import { useCallback } from "react";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const NUM_COLUMNS = 3;
 
@@ -27,12 +28,18 @@ export const Screen = () => {
         params: {
           initialIndex: index,
           title: personData?.name,
+          url: "/movies/poster",
           personId,
         },
       });
     },
     [router, personData?.name, personId],
   );
+
+  const apiDetails: PosterAPIDetails = {
+    url: "/movies/poster",
+    queryParams: { personId },
+  };
 
   return (
     <InnerScreen
@@ -43,7 +50,7 @@ export const Screen = () => {
     >
       <PostersList
         numColumns={NUM_COLUMNS}
-        searchParams={{ personId }}
+        apiDetails={apiDetails}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
         ListHeaderComponent={

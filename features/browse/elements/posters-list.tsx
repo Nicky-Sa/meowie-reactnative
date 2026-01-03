@@ -8,9 +8,9 @@ import { usePosterWidth } from "@/features/browse/hooks/usePosterWidth";
 import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMoviesPoster";
 import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
 import { ReactElement } from "react";
-import { SearchParams } from "@/features/common/data/query";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, Text, ViewStyle } from "react-native";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList<MoviePosterInfo>,
@@ -18,8 +18,8 @@ const AnimatedFlashList = Animated.createAnimatedComponent(
 
 type Props = {
   numColumns: number;
-  searchParams: Partial<SearchParams>;
   onPosterPress: (index: number) => void;
+  apiDetails: PosterAPIDetails;
   scrollHandler?: ScrollHandlerProcessed;
   ListHeaderComponent?: ReactElement;
   ListEmptyComponent?: ReactElement;
@@ -28,8 +28,8 @@ type Props = {
 
 export const PostersList = ({
   numColumns,
-  searchParams,
   onPosterPress,
+  apiDetails,
   scrollHandler,
   ListHeaderComponent,
   ListEmptyComponent,
@@ -46,7 +46,7 @@ export const PostersList = ({
     error,
     mutate,
     isValidating,
-  } = useFetchMoviesPoster(searchParams);
+  } = useFetchMoviesPoster(apiDetails);
 
   const { onEndReached } = useFetchMore({
     size,

@@ -1,5 +1,3 @@
-import { SearchParams } from "@/features/common/data/query";
-
 export const isDarkColor = (hexColor: string): boolean => {
   // Remove the '#' if it exists
   const hex = hexColor.replace("#", "");
@@ -26,7 +24,7 @@ export const isUrl = (text: string): boolean => {
 };
 
 export const searchParamsToQuery = (
-  searchParams: Partial<SearchParams> | undefined,
+  searchParams: Record<string, string | string[]> | undefined,
 ) => {
   if (!searchParams) return "";
   return `${Object.entries(searchParams)

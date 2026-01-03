@@ -4,6 +4,7 @@ import { SearchParams } from "@/features/common/data/query";
 import { PostersList } from "@/features/browse/elements/posters-list";
 import { FilterIndicator } from "@/features/filters/elements/filter-indicator";
 import { useCallback } from "react";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const NUM_COLUMNS = 3;
 
@@ -30,6 +31,11 @@ export const Screen = () => {
     [modifiedFieldsNumber, router, searchParams],
   );
 
+  const apiDetails: PosterAPIDetails = {
+    url: "/movies/poster",
+    queryParams: searchParams,
+  };
+
   return (
     <InnerScreen
       title={"Filtered"}
@@ -41,7 +47,7 @@ export const Screen = () => {
     >
       <PostersList
         numColumns={NUM_COLUMNS}
-        searchParams={searchParams}
+        apiDetails={apiDetails}
         onPosterPress={onPosterPress}
       />
     </InnerScreen>

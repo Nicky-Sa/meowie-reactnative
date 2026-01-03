@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { PostersList } from "@/features/browse/elements/posters-list";
 import { SearchParams } from "@/features/common/data/query";
 import { useCallback } from "react";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const NUM_COLUMNS = 3;
 
@@ -19,6 +20,7 @@ export const Screen = () => {
         params: {
           initialIndex: index,
           title,
+          url: "/movies/poster",
           ...searchParams,
         },
       });
@@ -26,11 +28,16 @@ export const Screen = () => {
     [router, searchParams, title],
   );
 
+  const apiDetails: PosterAPIDetails = {
+    url: "/movies/poster",
+    queryParams: searchParams,
+  };
+
   return (
     <InnerScreen title={title} fullHeight fullWidth>
       <PostersList
         numColumns={NUM_COLUMNS}
-        searchParams={searchParams}
+        apiDetails={apiDetails}
         onPosterPress={onPosterPress}
       />
     </InnerScreen>

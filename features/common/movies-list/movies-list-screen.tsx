@@ -3,19 +3,23 @@ import { useLocalSearchParams } from "expo-router";
 import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMoviesPoster";
 import { Header } from "@/features/common/movies-list/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { SearchParams } from "@/features/common/data/query";
 import { ReactNode } from "react";
+import {
+  PosterQueryParams,
+  PosterURL,
+} from "@/features/browse/data/poster/type";
 
 type Props = {
   rightTopComponent?: ReactNode;
 };
 
 export const MoviesListScreen = ({ rightTopComponent }: Props) => {
-  const { title, initialIndex, ...searchParams } = useLocalSearchParams<
+  const { title, initialIndex, url, ...queryParams } = useLocalSearchParams<
     {
       title: string;
       initialIndex: string;
-    } & Partial<SearchParams>
+      url: PosterURL;
+    } & PosterQueryParams
   >();
 
   const {
@@ -28,7 +32,7 @@ export const MoviesListScreen = ({ rightTopComponent }: Props) => {
     isValidating,
     error,
     mutate,
-  } = useFetchMoviesPoster(searchParams);
+  } = useFetchMoviesPoster({ url, queryParams });
   const data = moviePosterData?.map((item) => item.id) || [];
 
   // Technically, this is an inner screen,
