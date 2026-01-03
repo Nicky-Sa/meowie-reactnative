@@ -7,24 +7,13 @@ import { useRef } from "react";
 import { Text, View } from "react-native";
 import EmptyCacheSvg from "@/assets/images/profile/empty-cache.svg";
 import { Image } from "expo-image";
-import { useSWRConfig } from "swr";
 import { Action } from "@/features/common/ui/action";
+import { useEmptySWRCache } from "@/features/general/data/useEmptySWRCache";
 
 export const EmptyCache = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
-  const { cache, mutate } = useSWRConfig();
-
-  const clearSWRCache = async () => {
-    const allKeys = Array.from(cache.keys());
-
-    allKeys.forEach((key) => {
-      cache.delete(key);
-    });
-
-    // Clear the in-memory state for active hooks
-    await mutate(() => true, undefined, { revalidate: false });
-  };
+  const { clearSWRCache } = useEmptySWRCache();
 
   const clearImageCache = async () => {
     await Image.clearDiskCache();
