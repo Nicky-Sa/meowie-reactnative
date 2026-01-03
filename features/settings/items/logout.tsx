@@ -5,7 +5,7 @@ import {
 } from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
 import { Text, View } from "react-native";
-import CryingMeowie from "@/assets/images/crying-meowie.svg";
+import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/useLogout";
 import { useRouter } from "expo-router";
 import { clearTokens } from "@/features/general/data/utils/clear-tokens";

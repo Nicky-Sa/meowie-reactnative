@@ -5,7 +5,7 @@ import {
 } from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
 import { Text, View } from "react-native";
-import EmptyCacheSvg from "@/assets/images/empty-cache.svg";
+import EmptyCacheSvg from "@/assets/images/profile/empty-cache.svg";
 import { Image } from "expo-image";
 import { useSWRConfig } from "swr";
 import { Action } from "@/features/common/ui/action";

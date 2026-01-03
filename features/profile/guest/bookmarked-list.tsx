@@ -1,4 +1,4 @@
-import EmptyBookmark from "@/assets/images/empty-bookmark.svg";
+import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";

@@ -6,7 +6,7 @@ import { View, Text } from "react-native";
 import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/bookmark/data/useFetchMovieStates";
 import { useRef, useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
-import EmptyBookmark from "@/assets/images/empty-bookmark.svg";
+import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
 import { useRouter } from "expo-router";
 import {
   BookmarkIcon,

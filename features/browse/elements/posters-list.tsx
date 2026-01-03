@@ -10,6 +10,7 @@ import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
 import { ReactElement } from "react";
 import { SearchParams } from "@/features/common/data/query";
 import { Loading } from "@/features/common/ui/loading";
+import { StyleProp, Text, ViewStyle } from "react-native";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList<MoviePosterInfo>,
@@ -21,6 +22,8 @@ type Props = {
   onPosterPress: (index: number) => void;
   scrollHandler?: ScrollHandlerProcessed;
   ListHeaderComponent?: ReactElement;
+  ListEmptyComponent?: ReactElement;
+  contentContainerStyle?: StyleProp<ViewStyle>;
 };
 
 export const PostersList = ({
@@ -29,6 +32,8 @@ export const PostersList = ({
   onPosterPress,
   scrollHandler,
   ListHeaderComponent,
+  ListEmptyComponent,
+  contentContainerStyle,
 }: Props) => {
   const { posterWidth } = usePosterWidth({ numColumns });
 
@@ -70,12 +75,18 @@ export const PostersList = ({
       onEndReachedThreshold={0.5}
       onEndReached={onEndReached}
       showsVerticalScrollIndicator={false}
+      contentContainerClassName={"grow"}
+      contentContainerStyle={contentContainerStyle}
       ListEmptyComponent={
         error ? (
           <ErrorState tryAgain={mutate} error={error} />
         ) : isInitialLoad ? (
           <PostersSkeletons width={posterWidth} number={numColumns * 4} />
-        ) : null
+        ) : (
+          ListEmptyComponent || (
+            <Text className={"body-b1 text-neutral-10-default"}>No data</Text>
+          )
+        )
       }
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={
