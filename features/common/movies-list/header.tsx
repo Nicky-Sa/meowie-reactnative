@@ -23,8 +23,8 @@ export const Header = ({ title, rightTopComponent }: Props) => {
         "absolute z-10 flex w-full flex-1 flex-row items-center justify-between px-2"
       }
       style={{
-        marginTop:
-          insets.top + Platform.select({ android: 10, ios: 2, default: 0 }),
+        paddingTop:
+          insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
       }}
     >
       <View className={"flex flex-row items-center"}>

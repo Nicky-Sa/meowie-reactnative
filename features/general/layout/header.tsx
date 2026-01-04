@@ -42,7 +42,7 @@ export const Header = ({ headerButton, scrollY }: Props) => {
         animatedStyle,
         {
           paddingTop:
-            insets.top + Platform.select({ android: 10, ios: 2, default: 0 }),
+            insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
         },
       ]}
     >

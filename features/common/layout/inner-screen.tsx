@@ -74,7 +74,7 @@ export const InnerScreen = ({
 
   const edges = useMemo(
     () =>
-      ["top", "left", "right", "bottom"].filter((edge) =>
+      ["top", "bottom"].filter((edge) =>
         fullHeight ? edge !== "bottom" : true,
       ) as Edges,
     [fullHeight],
@@ -89,9 +89,10 @@ export const InnerScreen = ({
           })}
         >
           <View
-            className={cn("flex w-full flex-row items-center justify-between", {
-              "px-2": fullWidth, // the fullWidth prop should have no effect on the back button
-            })}
+            className={cn(
+              "flex w-full flex-row items-center justify-between",
+              fullWidth ? "mx-2" : "-mx-2", // the fullWidth prop should have no effect on the back button
+            )}
           >
             <View className={"flex flex-row items-center justify-start"}>
               <Button
