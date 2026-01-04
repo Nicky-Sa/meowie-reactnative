@@ -35,6 +35,7 @@ export const SearchResultList = ({
         contentContainerStyle={{
           paddingBottom: bottom,
         }}
+        keyboardShouldPersistTaps="always"
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={

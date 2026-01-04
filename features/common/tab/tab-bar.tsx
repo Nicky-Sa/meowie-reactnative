@@ -29,7 +29,7 @@ export const TabBar = memo(({ tabsConfig, index, onTabPress }: Props) => {
       {tabsConfig.map((tab, i) => (
         <TabItem
           key={tab.name}
-          name={tab.name}
+          name={tab.title}
           icon={tab.icon}
           index={i}
           currentIndex={index}

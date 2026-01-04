@@ -90,7 +90,7 @@ export const InnerScreen = ({
         >
           <View
             className={cn("flex w-full flex-row items-center justify-between", {
-              "px-4": fullWidth, // the fullWidth prop should have no effect on the back button
+              "px-2": fullWidth, // the fullWidth prop should have no effect on the back button
             })}
           >
             <View className={"flex flex-row items-center justify-start"}>

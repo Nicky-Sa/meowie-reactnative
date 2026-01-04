@@ -33,6 +33,7 @@ export const BookmarkedList = ({ scrollHandler }: Props) => {
         params: {
           initialIndex: index,
           url: "/movie-states/poster",
+          title: "Saved",
           movieState: "bookmarked",
         },
       });

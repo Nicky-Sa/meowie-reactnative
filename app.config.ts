@@ -88,7 +88,6 @@ const config: ExpoConfig = {
       backgroundImage: "./assets/images/logo/logo-background.android.png",
     },
     package: getUniqueIdentifier(),
-    edgeToEdgeEnabled: true,
     softwareKeyboardLayoutMode: "pan",
   },
   web: {
