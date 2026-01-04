@@ -4,14 +4,11 @@ import { ID } from "@/features/common/data/query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
 import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/bookmark/data/useFetchMovieStates";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
 import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
 import { useRouter } from "expo-router";
-import {
-  BookmarkIcon,
-  BookmarkIconHandle,
-} from "@/features/common/movies-list/details/elements/bookmark/icon";
+import { BookmarkIcon } from "@/features/common/movies-list/details/elements/bookmark/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
@@ -28,18 +25,12 @@ export const Bookmark = ({ id }: Props) => {
   const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const bookmarkIconRef = useRef<BookmarkIconHandle>(null);
-
   const onPress = async () => {
     if (!currentUser?.user) {
       setShowLoginModal(true);
       return;
     }
-    if (isBookmarked) {
-      bookmarkIconRef.current?.unbookmark();
-    } else {
-      bookmarkIconRef.current?.bookmark();
-    }
+
     // Trigger handles the cache update for useFetchMovieStates
     await trigger(isBookmarked);
   };
@@ -52,7 +43,7 @@ export const Bookmark = ({ id }: Props) => {
             <SkeletonItem className={"h-6 w-16"} />
           ) : (
             <>
-              <BookmarkIcon ref={bookmarkIconRef} isBookmarked={isBookmarked} />
+              <BookmarkIcon isBookmarked={isBookmarked} />
               <Text className={"body-b2-strong text-neutral-10-default"}>
                 {isBookmarked ? "Saved" : "Save"}
               </Text>
