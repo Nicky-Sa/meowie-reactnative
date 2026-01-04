@@ -12,6 +12,7 @@ import {
   BookmarkIcon,
   BookmarkIconHandle,
 } from "@/features/common/movies-list/details/elements/bookmark/icon";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
   id: ID;
@@ -19,7 +20,8 @@ type Props = {
 
 export const Bookmark = ({ id }: Props) => {
   const { data: currentUser } = useCurrentUser();
-  const { data: movieStates } = useFetchMovieStates({ id });
+  const { data: movieStates, isLoading: isMovieStatesLoading } =
+    useFetchMovieStates({ id });
   const { trigger } = useToggleBookmark({ id });
   const isBookmarked = !!movieStates?.bookmarked;
 
@@ -41,14 +43,21 @@ export const Bookmark = ({ id }: Props) => {
     // Trigger handles the cache update for useFetchMovieStates
     await trigger(isBookmarked);
   };
+
   return (
     <>
       <Button variant={"link"} size={"md"} onPress={onPress}>
         <View className={"flex flex-row items-center justify-center gap-2"}>
-          <BookmarkIcon ref={bookmarkIconRef} isBookmarked={isBookmarked} />
-          <Text className={"body-b2-strong text-neutral-10-default"}>
-            {isBookmarked ? "Saved" : "Save"}
-          </Text>
+          {isMovieStatesLoading ? (
+            <SkeletonItem className={"h-6 w-16"} />
+          ) : (
+            <>
+              <BookmarkIcon ref={bookmarkIconRef} isBookmarked={isBookmarked} />
+              <Text className={"body-b2-strong text-neutral-10-default"}>
+                {isBookmarked ? "Saved" : "Save"}
+              </Text>
+            </>
+          )}
         </View>
       </Button>
       <InformationModal
