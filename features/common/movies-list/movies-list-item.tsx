@@ -48,7 +48,10 @@ export const MoviesListItem = memo(
     });
     return (
       <Animated.View style={[animatedStyle]} className={"w-full"}>
-        <View style={contentStyle}>
+        <View
+          style={contentStyle}
+          className={"flex items-center justify-center"}
+        >
           <MovieDetails movieId={movieId} inScreen={inScreen} />
         </View>
       </Animated.View>
