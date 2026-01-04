@@ -1,11 +1,11 @@
 import { useFetchMovieInfo } from "@/features/movies/data/useFetchMovieInfo";
-import { View, Text } from "react-native";
+// ScrollView imported from react-native to avoid interference with gesture handler (back)
+import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
 import { memo, useEffect } from "react";
 import { useAtom } from "jotai";
 import { colorAtom } from "@/atoms";
 import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
-import { ScrollView } from "react-native-gesture-handler";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
 import { Casts } from "@/features/common/movies-list/details/elements/casts";
