@@ -1,8 +1,10 @@
 import { useCallback } from "react";
-import { SuccessResponse } from "@/features/common/data/transformers";
 import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
-import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
 import { Sort } from "@/features/common/data/query";
+import {
+  SWRInfiniteKeyLoader,
+  useSWRPaginatedConfigured,
+} from "@/features/common/data/swr-config";
 
 const random = Math.floor(Math.random() * 100) + 1;
 
@@ -11,11 +13,8 @@ type Args = {
 };
 
 export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
-  const getKey = useCallback(
-    (
-      pageIndex: number,
-      previousPageData: SuccessResponse<PurifiedMovieIdsResDto>,
-    ) => {
+  const getKey: SWRInfiniteKeyLoader<PurifiedMovieIdsResDto> = useCallback(
+    (pageIndex, previousPageData) => {
       const baseUrl = "/movies/purified-ids";
 
       const initialPage = sort === "random" ? random : 1;
@@ -31,7 +30,7 @@ export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
   );
 
   const { data: response, ...rest } =
-    useSWRInfiniteConfigured<PurifiedMovieIdsResDto>(getKey);
+    useSWRPaginatedConfigured<PurifiedMovieIdsResDto>(getKey);
 
   // Extract `id` from each movie
   // The list is accumulated from all pages

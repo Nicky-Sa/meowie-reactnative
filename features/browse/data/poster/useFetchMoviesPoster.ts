@@ -1,8 +1,10 @@
 import { useCallback } from "react";
-import { SuccessResponse } from "@/features/common/data/transformers";
 import { MoviePosterResDto } from "@/features/browse/data/poster/poster.dto";
 import { searchParamsToQuery } from "@/lib/functions";
-import { useSWRInfiniteConfigured } from "@/features/common/data/swr-config";
+import {
+  SWRInfiniteKeyLoader,
+  useSWRPaginatedConfigured,
+} from "@/features/common/data/swr-config";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 import { useFocusEffect } from "expo-router";
 
@@ -10,11 +12,8 @@ export const useFetchMoviesPoster = ({
   queryParams,
   url,
 }: PosterAPIDetails) => {
-  const getKey = useCallback(
-    (
-      pageIndex: number,
-      previousPageData: SuccessResponse<MoviePosterResDto>,
-    ) => {
+  const getKey: SWRInfiniteKeyLoader<MoviePosterResDto> = useCallback(
+    (pageIndex, previousPageData) => {
       const baseUrl = url;
       const query = searchParamsToQuery(queryParams);
 
@@ -34,7 +33,7 @@ export const useFetchMoviesPoster = ({
     setSize,
     mutate,
     ...rest
-  } = useSWRInfiniteConfigured<MoviePosterResDto>(getKey);
+  } = useSWRPaginatedConfigured<MoviePosterResDto>(getKey);
 
   // Workaround for not refetching on focus
   useFocusEffect(
