@@ -120,7 +120,8 @@ function RootLayout() {
                       <Stack.Screen
                         name="filters/movies-list"
                         options={{
-                          animation: "fade_from_bottom",
+                          animation: "fade",
+                          animationDuration: 300,
                         }}
                       />
 
@@ -133,7 +134,8 @@ function RootLayout() {
                       <Stack.Screen
                         name="browse/movies-list"
                         options={{
-                          animation: "fade_from_bottom",
+                          animation: "fade",
+                          animationDuration: 300,
                         }}
                       />
                       <Stack.Screen
