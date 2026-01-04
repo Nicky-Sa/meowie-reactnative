@@ -22,7 +22,7 @@ export const useToggleBookmark = ({ id }: Args) => {
 
   const trigger = async (currentState: boolean) => {
     // Use global mutate to update the specific reading cache key
-    return mutate(
+    await mutate(
       cacheKey,
       // Pass the mutation promise here
       swrTrigger({
@@ -42,6 +42,12 @@ export const useToggleBookmark = ({ id }: Args) => {
         revalidate: false, // Prevent double-fetching immediately after
       },
     );
+
+    await mutate(
+      (key) => typeof key === "string" && key.includes("/movie-states/poster"),
+    );
+
+    return;
   };
 
   return { trigger, ...rest };

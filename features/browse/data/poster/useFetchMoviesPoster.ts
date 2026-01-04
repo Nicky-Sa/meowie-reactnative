@@ -6,7 +6,6 @@ import {
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr-config";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
-import { useFocusEffect } from "expo-router";
 
 export const useFetchMoviesPoster = ({
   queryParams,
@@ -31,19 +30,8 @@ export const useFetchMoviesPoster = ({
     data: response,
     size,
     setSize,
-    mutate,
     ...rest
   } = useSWRPaginatedConfigured<MoviePosterResDto>(getKey);
-
-  // Workaround for not refetching on focus
-  useFocusEffect(
-    useCallback(() => {
-      // This forces a revalidation every time the screen comes into focus
-      mutate().then(() => {
-        console.log("Revalidated posters");
-      });
-    }, [mutate]),
-  );
 
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)
@@ -61,7 +49,6 @@ export const useFetchMoviesPoster = ({
     totalPages,
     size,
     setSize,
-    mutate,
     ...rest,
   };
 };
