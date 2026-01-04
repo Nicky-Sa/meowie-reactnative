@@ -23,6 +23,7 @@ export const Screen = () => {
         params: {
           initialIndex: index,
           title: "Filtered",
+          url: "/movies/poster",
           modifiedFieldsNumber,
           ...searchParams,
         },

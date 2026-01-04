@@ -48,6 +48,8 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
     setDraftCurrentValues(filters[filterKey]);
   }, [filters, filterKey, setDraftCurrentValues]);
 
+  const isApplyingRef = useRef(false);
+
   return (
     <>
       <Action onPress={() => bottomSheetRef.current?.present()}>
@@ -92,6 +94,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             variant="white"
             size="lg"
             onPress={() => {
+              isApplyingRef.current = true;
               // Commit local draft to filtersAtom
               setFilters((draft) => {
                 draft[filterKey] = draftCurrentValues;
@@ -105,6 +108,10 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
         enableContentPanningGesture={enableContentPanningGesture}
         index={index}
         onDismiss={() => {
+          if (isApplyingRef.current) {
+            isApplyingRef.current = false;
+            return;
+          }
           // Reset draft if user closes the BottomSheet without applying
           setDraftCurrentValues(filters[filterKey]);
         }}

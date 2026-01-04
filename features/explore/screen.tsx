@@ -5,10 +5,23 @@ import { SearchTrigger } from "@/features/explore/search-trigger";
 import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
 import { Filter } from "iconoir-react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useAtom } from "jotai/index";
+import { filtersAtom } from "@/atoms";
+import { initialFiltersValue } from "@/features/common/data/query";
+import { useCallback } from "react";
 
 export const Screen = () => {
   const router = useRouter();
+  const [, setFilters] = useAtom(filtersAtom);
+
+  // clear filters when coming back to explore
+  useFocusEffect(
+    useCallback(() => {
+      setFilters(initialFiltersValue);
+    }, [setFilters]),
+  );
+
   return (
     <MainScreen>
       <SafeAreaView

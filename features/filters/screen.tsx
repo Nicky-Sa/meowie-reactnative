@@ -49,11 +49,6 @@ export const Screen = () => {
     setFilters(initialFiltersValue);
   };
 
-  const onExit = () => {
-    clearFilters();
-    router.back();
-  };
-
   const handleApply = () => {
     router.push({
       pathname: "/filters/posters-list",
@@ -64,7 +59,6 @@ export const Screen = () => {
   return (
     <InnerScreen
       title={"Filters"}
-      onBack={onExit}
       rightTopComponent={
         hasSelectedFilter && <ClearSelection onPress={clearFilters} />
       }
