@@ -94,7 +94,12 @@ function RootLayout() {
                         statusBarStyle: "light",
                       }}
                     >
-                      <Stack.Screen name="(tabs)" />
+                      <Stack.Screen
+                        name="(tabs)"
+                        options={{
+                          animation: "slide_from_bottom",
+                        }}
+                      />
 
                       <Stack.Screen name="auth" />
 
@@ -115,7 +120,7 @@ function RootLayout() {
                       <Stack.Screen
                         name="filters/movies-list"
                         options={{
-                          animation: "slide_from_right",
+                          animation: "fade_from_bottom",
                         }}
                       />
 
@@ -128,7 +133,7 @@ function RootLayout() {
                       <Stack.Screen
                         name="browse/movies-list"
                         options={{
-                          animation: "slide_from_right",
+                          animation: "fade_from_bottom",
                         }}
                       />
                       <Stack.Screen

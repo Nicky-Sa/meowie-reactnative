@@ -46,6 +46,7 @@ export const Navbar = ({ tabs }: Props) => {
           name={tab.name}
           options={{
             title: tab.title,
+            animation: "fade",
             tabBarIcon: ({ color, size, focused }) => (
               <TabIcon focused={focused}>
                 <Icon i={tab.icon} height={size} width={size} color={color} />
