@@ -3,44 +3,52 @@ import { Tabs } from "react-native-collapsible-tab-view";
 import { Bookmark, Eye } from "iconoir-react-native";
 import { BookmarkedList } from "@/features/profile/logged-in/bookmarked-list";
 import { SeenList } from "@/features/profile/logged-in/seen-list";
-import { TabBar, TabElement } from "@/features/common/tab/tab-bar";
+import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
 import { Header } from "@/features/profile/logged-in/header";
 import { User } from "@/entities/user";
 import { TabContent } from "@/features/common/tab/tab-content";
+import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
+import { TabHeader } from "@/features/common/tab/tab-header";
 
-const tabs: TabElement[] = [
+const tabsConfig: TabConfig[] = [
   {
     name: "saved",
     title: "Saved",
     icon: Bookmark,
-    children: BookmarkedList,
   },
   {
     name: "seen",
     title: "Seen",
     icon: Eye,
-    children: SeenList,
   },
 ];
 
 type Props = {
   user: User;
+  scrollY: SharedValue<number>;
+  scrollHandler: ScrollHandlerProcessed;
 };
 
-export const LoggedIn = ({ user }: Props) => {
+export const LoggedIn = ({ user, scrollY, scrollHandler }: Props) => {
   return (
-    <View className={"flex flex-1 flex-col"}>
-      <Header email={user.email} />
+    <View className={"flex flex-1 flex-col gap-8"}>
+      <TabHeader scrollY={scrollY}>
+        <Header email={user.email} />
+      </TabHeader>
       <Tabs.Container
-        renderTabBar={(props) => <TabBar tabs={tabs} {...props} />}
+        renderTabBar={(props) => <TabBar tabsConfig={tabsConfig} {...props} />}
       >
-        {tabs.map((tab) => (
-          <Tabs.Tab key={tab.name} name={tab.name}>
-            <TabContent>
-              <tab.children />
-            </TabContent>
-          </Tabs.Tab>
-        ))}
+        <Tabs.Tab name={tabsConfig[0].name}>
+          <TabContent>
+            <BookmarkedList scrollHandler={scrollHandler} />
+          </TabContent>
+        </Tabs.Tab>
+
+        <Tabs.Tab name={tabsConfig[1].name}>
+          <TabContent>
+            <SeenList scrollHandler={scrollHandler} />
+          </TabContent>
+        </Tabs.Tab>
       </Tabs.Container>
     </View>
   );

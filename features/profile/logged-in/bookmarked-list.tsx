@@ -1,11 +1,11 @@
 import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
 import { View, Text } from "react-native";
 import { PostersList } from "@/features/browse/elements/posters-list";
-import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
+import { TabChildProps } from "@/features/common/tab/tab-bar";
 
 const NUM_COLUMNS = 3;
 
@@ -20,8 +20,9 @@ const EmptyState = () => {
   );
 };
 
-export const BookmarkedList = () => {
-  const { scrollHandler } = useScrollHandler();
+type Props = TabChildProps;
+
+export const BookmarkedList = ({ scrollHandler }: Props) => {
   const { paddingBottom } = useMainScreenContentStyle();
 
   const router = useRouter();

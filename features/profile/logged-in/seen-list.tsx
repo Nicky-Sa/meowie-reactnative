@@ -1,7 +1,10 @@
 import { View, Text } from "react-native";
 import EmptySeen from "@/assets/images/profile/empty-seen.svg";
+import { TabChildProps } from "@/features/common/tab/tab-bar";
 
-export const SeenList = () => {
+type Props = TabChildProps;
+
+export const SeenList = ({ scrollHandler }: Props) => {
   return (
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
       <EmptySeen />

@@ -1,29 +1,32 @@
-import { memo, ReactNode } from "react";
+import { memo } from "react";
 import { TabBarProps } from "react-native-collapsible-tab-view";
 import { useWindowDimensions, View } from "react-native";
 import { TabItem } from "@/features/common/tab/tab-item";
 import { TabIndicator } from "@/features/common/tab/tab-indicator";
 import { SvgImage } from "@/features/common/ui/icon";
+import { ScrollHandlerProcessed } from "react-native-reanimated";
 
-export type TabElement = {
+export type TabChildProps = {
+  scrollHandler: ScrollHandlerProcessed;
+};
+export type TabConfig = {
   name: string;
   title: string;
   icon: SvgImage;
-  children: () => ReactNode;
 };
 
 type Props = TabBarProps & {
-  tabs: TabElement[];
+  tabsConfig: TabConfig[];
 };
 
-export const TabBar = memo(({ tabs, index, onTabPress }: Props) => {
+export const TabBar = memo(({ tabsConfig, index, onTabPress }: Props) => {
   const { width } = useWindowDimensions();
-  const tabWidth = width / tabs.length;
+  const tabWidth = width / tabsConfig.length;
 
   return (
-    <View className="relative flex-row bg-neutral-15-default py-3">
+    <View className="relative flex-row border-b-2 border-neutral-5-default bg-neutral-15-default py-3">
       <TabIndicator index={index} tabWidth={tabWidth} />
-      {tabs.map((tab, i) => (
+      {tabsConfig.map((tab, i) => (
         <TabItem
           key={tab.name}
           name={tab.name}
