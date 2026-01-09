@@ -1,11 +1,18 @@
 import { createMMKV } from "react-native-mmkv";
-import useSWR, { Cache, State, SWRConfiguration } from "swr";
+import useSWR, {
+  Cache,
+  State,
+  SWRConfiguration,
+  useSWRConfig,
+  MutatorCallback,
+  MutatorOptions,
+} from "swr";
 import { AppState, AppStateStatus } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useImmer } from "use-immer";
 import _ from "lodash";
 import { castDraft } from "immer";
@@ -195,4 +202,36 @@ export const useSWRMutationConfigured = <REQ, RES, Err = Error>(
     fetcher,
     config,
   );
+};
+
+export const useRevalidateByPattern = () => {
+  const { mutate, cache } = useSWRConfig();
+
+  const revalidateByPattern = useCallback(
+    async <Data, MutationData>(
+      pattern?: string,
+      data?:
+        | MutationData
+        | Promise<MutationData>
+        | MutatorCallback<MutationData>,
+      opts?: boolean | MutatorOptions<Data, MutationData>,
+    ) => {
+      const keys = Array.from(cache.keys());
+      const mutations = [];
+
+      for (const key of keys) {
+        if (!pattern) {
+          // No pattern provided, mutate all keys
+          mutations.push(mutate(key, data, opts));
+        } else if (key.includes(pattern)) {
+          mutations.push(mutate(key, data, opts));
+        }
+      }
+
+      await Promise.all(mutations);
+    },
+    [cache, mutate],
+  );
+
+  return { revalidateByPattern };
 };

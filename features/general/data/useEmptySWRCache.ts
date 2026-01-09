@@ -1,19 +1,17 @@
-import { useSWRConfig } from "swr";
 import { useCallback } from "react";
+import { useRevalidateByPattern } from "@/features/common/data/swr-config";
 
 export const useEmptySWRCache = () => {
-  const { cache, mutate } = useSWRConfig();
+  const { revalidateByPattern } = useRevalidateByPattern();
 
   const clearSWRCache = useCallback(async () => {
-    const allKeys = Array.from(cache.keys());
-
-    allKeys.forEach((key) => {
-      cache.delete(key);
-    });
-
-    // Clear the in-memory state for active hooks
-    await mutate(() => true, undefined, { revalidate: false });
-  }, [cache, mutate]);
+    try {
+      // Clear the in-memory state for active hooks
+      await revalidateByPattern(undefined, undefined, { revalidate: false });
+    } catch (error) {
+      console.log({ error });
+    }
+  }, [revalidateByPattern]);
 
   return { clearSWRCache };
 };
