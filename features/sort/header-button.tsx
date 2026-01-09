@@ -11,6 +11,7 @@ import { Segment } from "@/features/common/ui/segment";
 import { useImmer } from "use-immer";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { initialSort, Sort } from "@/features/common/data/query";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 const sortOptions: { id: Sort; label: string; description: string }[] = [
   {
@@ -37,11 +38,15 @@ export const SortHeaderButton = () => {
   const isModified = !!sort && sort !== initialSort;
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const router = useRouter();
+  const { capture } = useCaptureEvent();
 
   return (
     <>
       <Button
-        onPress={() => bottomSheetRef.current?.present()}
+        onPress={() => {
+          bottomSheetRef.current?.present();
+          capture("sort_opened");
+        }}
         variant={"ghost"}
         size={"md"}
         iconOnly
@@ -64,6 +69,7 @@ export const SortHeaderButton = () => {
             variant="white"
             size="lg"
             onPress={() => {
+              capture("sort_applied", { sort_type: draftSort });
               router.replace({
                 pathname: "/movies",
                 params: { sort: draftSort },
