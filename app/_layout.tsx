@@ -17,6 +17,7 @@ import { swrConfig } from "@/features/common/data/swr/config";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { env } from "@/lib/env";
+import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -81,117 +82,119 @@ function RootLayout() {
         captureScreens: true,
       }}
     >
-      <ThemeProvider value={themeConfig}>
-        <SWRConfig value={swrConfig}>
-          <KeyboardProvider>
-            <SafeAreaProvider>
-              <GestureHandlerRootView>
-                <BottomSheetModalProvider>
-                  <InternetCheck>
-                    <Stack
-                      screenOptions={{
-                        headerShown: false,
-                        statusBarStyle: "light",
-                      }}
-                    >
-                      <Stack.Screen
-                        name="(tabs)"
-                        options={{
-                          animation: "slide_from_bottom",
+      <ScreenTracker>
+        <ThemeProvider value={themeConfig}>
+          <SWRConfig value={swrConfig}>
+            <KeyboardProvider>
+              <SafeAreaProvider>
+                <GestureHandlerRootView>
+                  <BottomSheetModalProvider>
+                    <InternetCheck>
+                      <Stack
+                        screenOptions={{
+                          headerShown: false,
+                          statusBarStyle: "light",
                         }}
-                      />
+                      >
+                        <Stack.Screen
+                          name="(tabs)"
+                          options={{
+                            animation: "slide_from_bottom",
+                          }}
+                        />
 
-                      <Stack.Screen name="auth" />
+                        <Stack.Screen name="auth" />
 
-                      <Stack.Screen
-                        name="filters/index"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="filters/index"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="filters/posters-list"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="filters/posters-list"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="filters/movies-list"
-                        options={{
-                          animation: "fade",
-                          animationDuration: 300,
-                        }}
-                      />
+                        <Stack.Screen
+                          name="filters/movies-list"
+                          options={{
+                            animation: "fade",
+                            animationDuration: 300,
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="browse/index"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
-                      <Stack.Screen
-                        name="browse/movies-list"
-                        options={{
-                          animation: "fade",
-                          animationDuration: 300,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="browse/movie-details"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="browse/index"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
+                        <Stack.Screen
+                          name="browse/movies-list"
+                          options={{
+                            animation: "fade",
+                            animationDuration: 300,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="browse/movie-details"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="onboarding/index"
-                        options={{
-                          animation: "slide_from_bottom",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="onboarding/index"
+                          options={{
+                            animation: "slide_from_bottom",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="settings/index"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="settings/index"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="settings/delete-account"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="settings/delete-account"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="person/index"
-                        options={{
-                          animation: "slide_from_right",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="person/index"
+                          options={{
+                            animation: "slide_from_right",
+                          }}
+                        />
 
-                      <Stack.Screen
-                        name="search/index"
-                        options={{
-                          animation: "fade",
-                          animationDuration: 300,
-                          presentation: "card",
-                        }}
-                      />
+                        <Stack.Screen
+                          name="search/index"
+                          options={{
+                            animation: "fade",
+                            animationDuration: 300,
+                            presentation: "card",
+                          }}
+                        />
 
-                      <Stack.Screen name="+not-found" />
-                    </Stack>
-                    <PortalHost name="global-overlay" />
-                  </InternetCheck>
-                </BottomSheetModalProvider>
-              </GestureHandlerRootView>
-            </SafeAreaProvider>
-          </KeyboardProvider>
-        </SWRConfig>
-      </ThemeProvider>
+                        <Stack.Screen name="+not-found" />
+                      </Stack>
+                      <PortalHost name="global-overlay" />
+                    </InternetCheck>
+                  </BottomSheetModalProvider>
+                </GestureHandlerRootView>
+              </SafeAreaProvider>
+            </KeyboardProvider>
+          </SWRConfig>
+        </ThemeProvider>
+      </ScreenTracker>
     </PostHogProvider>
   );
 }
