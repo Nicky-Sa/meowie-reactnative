@@ -2,6 +2,7 @@ import axios, { isAxiosError } from "axios";
 import * as SecureStore from "expo-secure-store";
 import { env } from "@/lib/env";
 import { clearTokens } from "@/features/general/data/utils/clear-tokens";
+import { setTokens } from "@/features/general/data/utils/set-tokens";
 
 // Create the axios instance
 const axiosInstance = axios.create({
@@ -109,8 +110,7 @@ axiosInstance.interceptors.response.use(
           refreshResponse.data.data;
 
         // Save new tokens
-        await SecureStore.setItemAsync("access-token", accessToken);
-        await SecureStore.setItemAsync("refresh-token", newRefreshToken);
+        await setTokens({ accessToken, refreshToken: newRefreshToken });
 
         // Update header for the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
