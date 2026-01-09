@@ -160,7 +160,7 @@ export const TextInput = <T extends FieldValues>({
               <RNTextInput
                 {...textInputProps}
                 ref={ref}
-                className={"body-b1-text-input flex-grow"}
+                className={"body-b1-text-input h-6 flex-grow"}
                 style={{
                   color: textInputStates[currentStateKey].textColor,
                 }}

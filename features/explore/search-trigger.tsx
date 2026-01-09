@@ -13,7 +13,7 @@ export const SearchTrigger = () => {
       onPress={() => router.push("/search")}
     >
       <Icon i={Search} />
-      <Text className={"body-b1 pb-1 text-neutral-3-default"}>
+      <Text className={"body-b1-text-input h-6 pt-0.5 text-neutral-3-default"}>
         Search movie, actor, genre
       </Text>
     </Pressable>
