@@ -1,12 +1,16 @@
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
+import { useRouter } from "expo-router";
 
 type Props = {
   email: string;
-  handleBack: () => void;
 };
 
-export const InfoEmail = ({ email, handleBack }: Props) => {
+export const InfoEmail = ({ email }: Props) => {
+  const router = useRouter();
+  const handleBack = () => {
+    router.back();
+  };
   return (
     <>
       <Text className={"body-b2 text-neutral-10-default"}>
