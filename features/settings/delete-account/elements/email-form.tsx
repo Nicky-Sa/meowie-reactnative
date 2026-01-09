@@ -11,6 +11,7 @@ import { useDeleteAccount } from "@/features/settings/delete-account/data/useDel
 type Props = {
   email: string;
   churnReasonId?: string;
+  onInputFocus?: () => void;
 };
 
 const EmailSchema = z.object({
@@ -19,7 +20,7 @@ const EmailSchema = z.object({
 
 type EmailFormData = z.infer<typeof EmailSchema>;
 
-export const EmailForm = ({ email, churnReasonId }: Props) => {
+export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
   const { control, handleSubmit, clearErrors, setError } =
     useForm<EmailFormData>({
       resolver: zodResolver(EmailSchema),
@@ -58,6 +59,7 @@ export const EmailForm = ({ email, churnReasonId }: Props) => {
         autoCapitalize={"none"}
         autoCorrect={false}
         icon={Mail}
+        onFocus={onInputFocus}
       />
       <Button
         variant={"white"}
