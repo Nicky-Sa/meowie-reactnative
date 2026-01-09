@@ -5,7 +5,6 @@ import {
 import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
 import { setTokens } from "@/features/general/data/utils/set-tokens";
 import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
-import { usePostHog } from "posthog-react-native";
 
 export const useVerifyOtp = () => {
   const url = "/auth/verify-otp";
@@ -15,7 +14,6 @@ export const useVerifyOtp = () => {
     VerifyOtpResDto
   >(url);
   const { revalidateAuth } = useRevalidateAuth();
-  const posthog = usePostHog();
 
   const trigger = async (body: VerifyOtpReqDto) => {
     return swrTrigger(
@@ -25,9 +23,9 @@ export const useVerifyOtp = () => {
           await setTokens({
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
+            userId: response.data.user.id,
           });
           await revalidateAuth();
-          posthog.identify(String(response.data.user.id));
         },
       },
     );

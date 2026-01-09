@@ -106,11 +106,18 @@ axiosInstance.interceptors.response.use(
           { refreshToken },
         );
 
-        const { accessToken, refreshToken: newRefreshToken } =
-          refreshResponse.data.data;
+        const {
+          accessToken,
+          refreshToken: newRefreshToken,
+          user,
+        } = refreshResponse.data.data;
 
         // Save new tokens
-        await setTokens({ accessToken, refreshToken: newRefreshToken });
+        await setTokens({
+          accessToken,
+          refreshToken: newRefreshToken,
+          userId: user.id,
+        });
 
         // Update header for the original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;

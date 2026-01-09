@@ -7,7 +7,7 @@ export const ScreenTracker = ({ children }: PropsWithChildren) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname && posthog) {
+    if (pathname) {
       posthog.screen(pathname).catch((error) => {
         console.log("Error tracking screen: ", error);
       });

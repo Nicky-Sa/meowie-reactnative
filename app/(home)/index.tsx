@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useFonts } from "@expo-google-fonts/lato";
 import * as Lato from "@expo-google-fonts/lato";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { Emitter } from "@/features/common/event-emitting/emitter";
 
 export default function Home() {
   const [loaded] = useFonts(Lato);
@@ -22,12 +23,14 @@ export default function Home() {
       } else {
         // onboarded
         AsyncStorage.getItem("skipped-auth").then((skippedAuth) => {
-          // skipped-auth
-          if (skippedAuth === "true") {
+          // check if authenticated
+          if (data?.user) {
             router.replace("/movies");
           } else {
-            // not skipped-auth -> check if authenticated
-            if (data?.user) {
+            // not authenticated
+            Emitter.emit("userUnregistered");
+            // check skipped-auth
+            if (skippedAuth === "true") {
               router.replace("/movies");
             } else {
               router.replace("/auth/request-otp");
