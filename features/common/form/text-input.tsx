@@ -12,7 +12,14 @@ import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
 import { useEffect, useRef, useState } from "react";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolateColor,
+} from "react-native-reanimated";
 
+// ... (Keep textInputStates and textInputSizes exactly as they were) ...
 const textInputStates = {
   default: {
     backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
@@ -62,15 +69,9 @@ const getStateKey = (
   disabled?: boolean,
   error?: FieldError,
 ) => {
-  if (disabled) {
-    return "disabled";
-  }
-  if (error) {
-    return "error";
-  }
-  if (isTouched) {
-    return "focus";
-  }
+  if (disabled) return "disabled";
+  if (error) return "error";
+  if (isTouched) return "focus";
   return "default";
 };
 
@@ -95,11 +96,26 @@ export const TextInput = <T extends FieldValues>({
   const [isFocused, setIsFocused] = useState(false);
   const ref = useRef<RNTextInput>(null);
 
+  const focusProgress = useSharedValue(0);
+
   useEffect(() => {
     if (autoFocus) {
       ref.current?.focus();
     }
   }, [autoFocus]);
+
+  useEffect(() => {
+    focusProgress.value = withTiming(isFocused ? 1 : 0, { duration: 500 });
+  }, [focusProgress, isFocused]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const borderColor = interpolateColor(
+      focusProgress.value,
+      [0, 1],
+      [textInputStates.default.borderColor, textInputStates.focus.borderColor],
+    );
+    return { borderColor };
+  });
 
   return (
     <Controller
@@ -113,37 +129,40 @@ export const TextInput = <T extends FieldValues>({
           onChange(text);
           if (error) clearErrors([name]);
         };
+
+        const currentStateKey = getStateKey(isFocused, disabled, error);
+        const shouldUseAnimation = !error && !disabled;
+
         return (
           <View className={"flex flex-col gap-2"}>
             {title && (
               <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
             )}
 
-            <View
+            <Animated.View
               className={"flex flex-row items-center justify-between gap-2"}
-              style={{
-                backgroundColor:
-                  textInputStates[getStateKey(isFocused, disabled, error)]
-                    .backgroundColor + "b3", // 70% opacity
-                borderColor:
-                  textInputStates[getStateKey(isFocused, disabled, error)]
-                    .borderColor,
-                borderRadius: textInputSizes[size].borderRadius,
-                borderWidth: 1,
-                paddingVertical: textInputSizes[size].paddingVertical,
-                paddingRight: textInputSizes[size].paddingRight,
-                paddingLeft: textInputSizes[size].paddingLeft,
-              }}
+              style={[
+                {
+                  backgroundColor:
+                    textInputStates[currentStateKey].backgroundColor + "b3",
+                  // Static border color (fallback for error/disabled)
+                  borderColor: textInputStates[currentStateKey].borderColor,
+                  borderRadius: textInputSizes[size].borderRadius,
+                  borderWidth: 1,
+                  paddingVertical: textInputSizes[size].paddingVertical,
+                  paddingRight: textInputSizes[size].paddingRight,
+                  paddingLeft: textInputSizes[size].paddingLeft,
+                },
+                shouldUseAnimation ? animatedStyle : undefined,
+              ]}
             >
               {icon && <Icon i={icon} />}
               <RNTextInput
                 {...textInputProps}
                 ref={ref}
-                className={"body-b1 flex-grow pb-1"}
+                className={"body-b1 flex-grow"}
                 style={{
-                  color:
-                    textInputStates[getStateKey(isFocused, disabled, error)]
-                      .textColor,
+                  color: textInputStates[currentStateKey].textColor,
                 }}
                 placeholderTextColor={
                   tailwind.theme.textColor.neutral[3].default
@@ -168,7 +187,7 @@ export const TextInput = <T extends FieldValues>({
                   <Icon i={Xmark} />
                 </Button>
               )}
-            </View>
+            </Animated.View>
 
             {error?.message && (
               <View className={"flex flex-row items-center gap-1"}>
