@@ -2,9 +2,9 @@ import { useFetchMovieInfo } from "@/features/movies/data/useFetchMovieInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useAtom } from "jotai";
-import { colorAtom } from "@/atoms";
+import { autoplayAtom, colorAtom } from "@/atoms";
 import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
@@ -14,6 +14,7 @@ import { Cast } from "@/features/common/movies-list/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
 import { ID } from "@/features/common/data/query";
 import { Bookmark } from "@/features/common/movies-list/details/elements/bookmark/bookmark";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 type Props = {
   movieId: ID;
@@ -23,11 +24,29 @@ type Props = {
 export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
   const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
   const [, setColor] = useAtom(colorAtom);
+  const [autoplay] = useAtom(autoplayAtom);
+
+  const { capture } = useCaptureEvent();
 
   useEffect(() => {
     if (inScreen && data?.posterProps.primaryColorHex)
       setColor(data.posterProps.primaryColorHex);
   }, [data?.posterProps, setColor, inScreen]);
+
+  const onPlay = useCallback(() => {
+    capture("trailer_played", {
+      movie_id: movieId,
+      movie_title: data?.title || "",
+      autoplay,
+    });
+  }, [capture, data?.title, movieId]);
+
+  const onPause = useCallback(() => {
+    capture("trailer_paused", {
+      movie_id: movieId,
+      movie_title: data?.title || "",
+    });
+  }, [capture, data?.title, movieId]);
 
   return isLoading || !data ? (
     <MovieDetailsSkeleton />
@@ -74,7 +93,13 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
         </View>
       </View>
 
-      <TrailerPlayer YTKey={data.trailerKey} inScreen={inScreen} />
+      <TrailerPlayer
+        YTKey={data.trailerKey}
+        inScreen={inScreen}
+        autoplay={autoplay}
+        onPlay={onPlay}
+        onPause={onPause}
+      />
 
       <Ratings ratings={data.ratings} />
 

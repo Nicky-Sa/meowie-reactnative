@@ -5,7 +5,7 @@ import YoutubePlayer, {
   YoutubeIframeRef,
 } from "react-native-youtube-iframe";
 import { useAtom } from "jotai";
-import { allowYTPlayingAtom, autoplayAtom } from "@/atoms";
+import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { tailwind } from "@/lib/tailwind";
@@ -15,11 +15,20 @@ import { useIsFocused } from "@react-navigation/native";
 type Props = {
   YTKey: string;
   inScreen: boolean;
+  autoplay: boolean;
+  onPlay: () => void;
+  onPause: () => void;
 };
 
 const RETRY_ATTEMPTS = 1;
 
-export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
+export const TrailerPlayer = ({
+  YTKey,
+  inScreen,
+  autoplay,
+  onPlay,
+  onPause,
+}: Props) => {
   const playerRef = useRef<YoutubeIframeRef>(null);
   const retryAttemptRef = useRef(0);
   const isFocused = useIsFocused(); // checks if the player is present on the current screen
@@ -27,7 +36,6 @@ export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
   const appState = useAppState();
   const [canNotPlay, setCanNotPlay] = useState(false);
   const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
-  const [autoplay] = useAtom(autoplayAtom);
 
   const { width: w } = useScreenDimensions();
   const width = w - 2.5 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
@@ -62,11 +70,18 @@ export const TrailerPlayer = ({ YTKey, inScreen }: Props) => {
     }
   }, [allowYTPlaying, appState, autoplay, inScreen, isFocused]);
 
-  const handleStateChange = useCallback((state: PLAYER_STATES) => {
-    if (state === PLAYER_STATES.PLAYING) {
-      setPlay(true);
-    }
-  }, []);
+  const handleStateChange = useCallback(
+    (state: PLAYER_STATES) => {
+      if (state === PLAYER_STATES.PLAYING) {
+        setPlay(true);
+        onPlay();
+      }
+      if (state === PLAYER_STATES.PAUSED) {
+        onPause();
+      }
+    },
+    [onPause],
+  );
 
   return canNotPlay ? (
     <View
