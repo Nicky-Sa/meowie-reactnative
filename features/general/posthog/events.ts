@@ -35,12 +35,32 @@ export type AUTOPLAY_TOGGLED = {
   };
 };
 
+export type MOVIE_BOOKMARKED = {
+  event: "movie_bookmarked";
+  properties: {
+    movie_id: ID;
+    movie_title: string;
+    genres: string[];
+  };
+};
+
+export type MOVIE_UNBOOKMARKED = {
+  event: "movie_unbookmarked";
+  properties: {
+    movie_id: ID;
+    movie_title: string;
+    genres: string[];
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | AUTOPLAY_TOGGLED;
+  | AUTOPLAY_TOGGLED
+  | MOVIE_BOOKMARKED
+  | MOVIE_UNBOOKMARKED;
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
   Events,

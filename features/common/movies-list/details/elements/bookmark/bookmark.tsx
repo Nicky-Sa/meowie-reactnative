@@ -13,9 +13,11 @@ import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
   id: ID;
+  onBookmark: () => void;
+  onUnbookmark: () => void;
 };
 
-export const Bookmark = ({ id }: Props) => {
+export const Bookmark = ({ id, onBookmark, onUnbookmark }: Props) => {
   const { data: currentUser } = useCurrentUser();
   const { data: movieStates, isLoading: isMovieStatesLoading } =
     useFetchMovieStates({ id });
@@ -33,6 +35,12 @@ export const Bookmark = ({ id }: Props) => {
 
     // Trigger handles the cache update for useFetchMovieStates
     await trigger(isBookmarked);
+
+    if (isBookmarked) {
+      onUnbookmark();
+    } else {
+      onBookmark();
+    }
   };
 
   return (

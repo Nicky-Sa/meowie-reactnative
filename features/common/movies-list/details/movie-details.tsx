@@ -33,13 +33,14 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       setColor(data.posterProps.primaryColorHex);
   }, [data?.posterProps, setColor, inScreen]);
 
+  // Posthog Events:
   const onPlay = useCallback(() => {
     capture("trailer_played", {
       movie_id: movieId,
       movie_title: data?.title || "",
       autoplay,
     });
-  }, [capture, data?.title, movieId]);
+  }, [autoplay, capture, data?.title, movieId]);
 
   const onPause = useCallback(() => {
     capture("trailer_paused", {
@@ -47,6 +48,22 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       movie_title: data?.title || "",
     });
   }, [capture, data?.title, movieId]);
+
+  const onBookmark = useCallback(() => {
+    capture("movie_bookmarked", {
+      movie_id: movieId,
+      movie_title: data?.title || "",
+      genres: data?.genres.map((genre) => genre.name) || [],
+    });
+  }, [capture, data?.genres, data?.title, movieId]);
+
+  const onUnbookmark = useCallback(() => {
+    capture("movie_unbookmarked", {
+      movie_id: movieId,
+      movie_title: data?.title || "",
+      genres: data?.genres.map((genre) => genre.name) || [],
+    });
+  }, [capture, data?.genres, data?.title, movieId]);
 
   return isLoading || !data ? (
     <MovieDetailsSkeleton />
@@ -132,7 +149,11 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Bookmark id={movieId} />
+        <Bookmark
+          id={movieId}
+          onBookmark={onBookmark}
+          onUnbookmark={onUnbookmark}
+        />
       </View>
     </View>
   );
