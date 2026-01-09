@@ -1,4 +1,4 @@
-import { useSWRConfigured } from "@/features/common/data/swr-config";
+import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 import {
   MultiSearchResDto,
   SearchReqQueryDto,

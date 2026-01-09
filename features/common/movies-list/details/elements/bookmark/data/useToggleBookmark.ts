@@ -7,7 +7,7 @@ import { ID } from "@/features/common/data/query";
 import {
   useRevalidateByPattern,
   useSWRMutationConfigured,
-} from "@/features/common/data/swr-config";
+} from "@/features/common/data/swr/hooks";
 
 type Args = {
   id: ID;

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useRevalidateByPattern } from "@/features/common/data/swr-config";
+import { useRevalidateByPattern } from "@/features/common/data/swr/hooks";
 
 export const useEmptySWRCache = () => {
   const { revalidateByPattern } = useRevalidateByPattern();

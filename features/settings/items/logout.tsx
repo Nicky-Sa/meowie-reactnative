@@ -8,7 +8,6 @@ import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/useLogout";
 import { useRouter } from "expo-router";
-import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
@@ -17,7 +16,6 @@ export const Logout = () => {
 
   const handleLogout = async () => {
     await triggerLogout();
-    await clearTokens();
     bottomSheetRef.current?.dismiss();
     router.replace("/movies");
   };

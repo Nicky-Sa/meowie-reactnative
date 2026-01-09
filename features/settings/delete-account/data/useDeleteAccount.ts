@@ -2,7 +2,7 @@ import {
   DeleteAccountReqDto,
   DeleteAccountResDto,
 } from "@/features/settings/delete-account/data/dto/delete-account.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
+import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
 
 export const useDeleteAccount = () => {
   const url = "/auth/delete-account";

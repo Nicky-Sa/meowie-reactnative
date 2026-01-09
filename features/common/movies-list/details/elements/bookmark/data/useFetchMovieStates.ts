@@ -1,4 +1,4 @@
-import { useSWRConfigured } from "@/features/common/data/swr-config";
+import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 import { ID } from "@/features/common/data/query";
 import { MovieStatesResDto } from "@/features/common/movies-list/details/elements/bookmark/data/dto/movie-states.dto";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";

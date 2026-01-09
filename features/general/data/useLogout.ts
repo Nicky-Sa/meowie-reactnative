@@ -1,4 +1,5 @@
-import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
+import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
+import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 type LogoutResDto = {
   successful: boolean;
@@ -13,7 +14,14 @@ export const useLogout = () => {
   >(url);
 
   const trigger = async () => {
-    return swrTrigger({ method: "POST" });
+    return swrTrigger(
+      { method: "POST" },
+      {
+        onSuccess: async () => {
+          await clearTokens();
+        },
+      },
+    );
   };
   return { trigger, ...rest };
 };

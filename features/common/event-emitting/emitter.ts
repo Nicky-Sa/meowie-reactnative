@@ -1,7 +1,7 @@
 import { EventEmitter } from "expo-modules-core";
 
 type EventMap = {
-  tokensCleared: () => void;
+  eventName: () => void;
 };
 
 // Create and export a single instance

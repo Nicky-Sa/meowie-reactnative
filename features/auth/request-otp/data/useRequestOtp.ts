@@ -1,5 +1,5 @@
 import { RequestOtpReqDto } from "@/features/auth/request-otp/data/dto/request-otp.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
+import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
 
 export const useRequestOtp = () => {
   const url = "/auth/request-otp";

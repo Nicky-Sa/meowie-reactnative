@@ -1,5 +1,5 @@
 import { User } from "@/entities/user";
-import { useSWRConfigured } from "@/features/common/data/swr-config";
+import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 
 type CurrentUserResDto = {
   user: User | null;

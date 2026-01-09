@@ -4,7 +4,7 @@ import { searchParamsToQuery } from "@/lib/functions";
 import {
   SWRInfiniteKeyLoader,
   useSWRPaginatedConfigured,
-} from "@/features/common/data/swr-config";
+} from "@/features/common/data/swr/hooks";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 export const useFetchMoviesPoster = ({

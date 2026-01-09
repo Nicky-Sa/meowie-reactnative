@@ -2,7 +2,7 @@ import {
   VerifyOtpReqDto,
   VerifyOtpResDto,
 } from "@/features/auth/verify-otp/data/dto/verify-otp.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr-config";
+import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
 
 export const useVerifyOtp = () => {
   const url = "/auth/verify-otp";

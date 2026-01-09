@@ -4,7 +4,7 @@ import { Sort } from "@/features/common/data/query";
 import {
   SWRInfiniteKeyLoader,
   useSWRPaginatedConfigured,
-} from "@/features/common/data/swr-config";
+} from "@/features/common/data/swr/hooks";
 
 const random = Math.floor(Math.random() * 100) + 1;
 

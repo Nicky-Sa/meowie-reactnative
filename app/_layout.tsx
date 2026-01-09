@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { useEventListener } from "@/features/common/event-emitting/useEventListener";
-import { swrConfig } from "@/features/common/data/swr-config";
+import { swrConfig } from "@/features/common/data/swr/config";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { env } from "@/lib/env";
