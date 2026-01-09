@@ -73,6 +73,10 @@
         @apply text-base leading-6 font-Lato-400;
     }
 
+    .body-b1-text-input {
+        @apply text-base font-Lato-400;
+    }
+
     .body-b1-strong {
         @apply text-base leading-6 font-Lato-700;
     }
