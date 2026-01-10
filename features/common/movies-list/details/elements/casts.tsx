@@ -10,7 +10,7 @@ export const Casts = ({ casts }: Props) => {
   return (
     <View className={"flex flex-row gap-5 px-4"}>
       {casts.map((cast) => (
-        <Cast key={cast.name} {...cast} />
+        <Cast key={cast.id} {...cast} />
       ))}
     </View>
   );
