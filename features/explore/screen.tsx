@@ -10,10 +10,18 @@ import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
 import { initialFiltersValue } from "@/features/common/data/query";
 import { useCallback } from "react";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 export const Screen = () => {
   const router = useRouter();
   const [, setFilters] = useAtom(filtersAtom);
+
+  const { capture } = useCaptureEvent();
+
+  const onFilterPress = () => {
+    capture("filters_opened");
+    router.push("/filters");
+  };
 
   // clear filters when coming back to explore
   useFocusEffect(
@@ -35,7 +43,7 @@ export const Screen = () => {
             <SearchTrigger />
           </View>
           <Button
-            onPress={() => router.push("/filters")}
+            onPress={onFilterPress}
             variant={"ghost"}
             size={"md"}
             iconOnly

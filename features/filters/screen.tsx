@@ -13,6 +13,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { filtersAtom } from "@/atoms";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 const ClearSelection = ({ onPress }: { onPress: () => void }) => {
   return (
@@ -34,6 +35,7 @@ const ClearSelection = ({ onPress }: { onPress: () => void }) => {
 export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
   const router = useRouter();
+  const { capture } = useCaptureEvent();
 
   const modifiedFieldsNumber = useMemo(
     () =>
@@ -50,6 +52,7 @@ export const Screen = () => {
   };
 
   const handleApply = () => {
+    capture("filters_applied", { filters });
     router.push({
       pathname: "/filters/posters-list",
       params: { ...filters, modifiedFieldsNumber },

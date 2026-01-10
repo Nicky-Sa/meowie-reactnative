@@ -1,4 +1,4 @@
-import { ID } from "@/features/common/data/query";
+import { Filters, ID } from "@/features/common/data/query";
 
 export type SORT_OPENED = {
   event: "sort_opened";
@@ -85,6 +85,25 @@ export type NAVIGATION_CLICKED = {
   };
 };
 
+export type SEARCH_SUBMITTED = {
+  event: "search_submitted";
+  properties: {
+    query: string;
+  };
+};
+
+export type FILTERS_OPENED = {
+  event: "filters_opened";
+  properties: undefined;
+};
+
+export type FILTERS_APPLIED = {
+  event: "filters_applied";
+  properties: {
+    filters: Filters;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -96,7 +115,11 @@ export type Events =
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED
-  | NAVIGATION_CLICKED;
+  | NAVIGATION_CLICKED
+  | SEARCH_SUBMITTED
+  | FILTERS_OPENED
+  | FILTERS_APPLIED;
+
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
   Events,

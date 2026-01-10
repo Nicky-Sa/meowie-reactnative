@@ -1,5 +1,6 @@
 import { usePostHog } from "posthog-react-native";
 import { Event, Properties } from "@/features/general/posthog/events";
+import { useCallback } from "react";
 
 type CaptureArgs<E extends Event> =
   undefined extends Properties<E>
@@ -11,14 +12,17 @@ type CaptureArgs<E extends Event> =
 export const useCaptureEvent = () => {
   const posthog = usePostHog();
 
-  const capture = <E extends Event>(...args: CaptureArgs<E>) => {
-    const [event, properties] = args;
-    try {
-      posthog.capture(event, properties);
-    } catch (error) {
-      console.log("Error capturing event: ", error);
-    }
-  };
+  const capture = useCallback(
+    <E extends Event>(...args: CaptureArgs<E>) => {
+      const [event, properties] = args;
+      try {
+        posthog.capture(event, properties);
+      } catch (error) {
+        console.log("Error capturing event: ", error);
+      }
+    },
+    [posthog],
+  );
 
   return { capture };
 };
