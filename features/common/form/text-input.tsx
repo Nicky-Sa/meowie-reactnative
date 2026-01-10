@@ -81,6 +81,7 @@ type Props<T extends FieldValues> = UseControllerProps<T> & {
   size?: keyof typeof textInputSizes;
   icon?: SvgImage;
   autoFocus?: boolean;
+  maskInReplay?: boolean;
 } & TextInputProps;
 
 export const TextInput = <T extends FieldValues>({
@@ -91,6 +92,7 @@ export const TextInput = <T extends FieldValues>({
   icon,
   size = "lg",
   autoFocus,
+  maskInReplay = false,
   ...textInputProps
 }: Props<T>) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -160,6 +162,7 @@ export const TextInput = <T extends FieldValues>({
               <RNTextInput
                 {...textInputProps}
                 ref={ref}
+                {...(maskInReplay ? { "ph-no-capture": true } : {})} // posthog prop to mask or not the input
                 className={"body-b1-text-input h-6 flex-grow"}
                 style={{
                   color: textInputStates[currentStateKey].textColor,

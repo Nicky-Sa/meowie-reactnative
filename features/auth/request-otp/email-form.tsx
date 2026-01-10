@@ -51,6 +51,7 @@ export const EmailForm = () => {
         autoCapitalize={"none"}
         autoCorrect={false}
         icon={Mail}
+        maskInReplay
       />
       <Button
         variant={"white"}

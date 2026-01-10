@@ -58,6 +58,7 @@ export const OtpForm = ({ email }: Props) => {
           keyboardType={"number-pad"}
           autoCapitalize={"none"}
           autoCorrect={false}
+          maskInReplay
         />
         <ResendCode onPress={() => triggerRequestOtp({ email })} />
       </View>
