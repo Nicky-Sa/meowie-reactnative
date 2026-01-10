@@ -65,6 +65,13 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
     });
   }, [capture, data?.genres, data?.title, movieId]);
 
+  const onPosterExpanded = useCallback(() => {
+    capture("poster_expanded", {
+      movie_id: movieId,
+      movie_title: data?.title || "",
+    });
+  }, [capture, data?.title, movieId]);
+
   return isLoading || !data ? (
     <MovieDetailsSkeleton />
   ) : error ? (
@@ -78,6 +85,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
           source={data.posterPath}
           blurhash={data.posterProps.blurhash}
           width={60}
+          onPress={onPosterExpanded}
         />
         <View className={"flex flex-1 flex-col justify-center gap-2"}>
           <ScrollView

@@ -9,14 +9,25 @@ type Props = {
   source: string;
   blurhash: string;
   width: number;
+  onPress?: () => void;
 };
 
-export const EnlargeableImage = ({ source, blurhash, width }: Props) => {
+export const EnlargeableImage = ({
+  source,
+  blurhash,
+  width,
+  onPress,
+}: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handlePress = () => {
+    setModalVisible(true);
+    onPress?.();
+  };
 
   return (
     <>
-      <Pressable onPress={() => setModalVisible(true)}>
+      <Pressable onPress={handlePress}>
         <Image
           source={source}
           style={{

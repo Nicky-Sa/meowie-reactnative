@@ -2,11 +2,23 @@ import { CastInfo } from "@/features/movies/models/movie-info";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
+import { useCallback } from "react";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
-export const Cast = ({ id, name, profilePath }: CastInfo) => {
+export const Cast = ({ id, name, profilePath, character }: CastInfo) => {
   const router = useRouter();
+  const { capture } = useCaptureEvent();
+
+  const onCastPressed = useCallback(() => {
+    capture("person_clicked", {
+      person_id: id,
+      person_name: name,
+      role: character === "Director" ? "director" : "cast",
+    });
+  }, [capture, character, id, name]);
 
   const handlePress = () => {
+    onCastPressed();
     router.push({ pathname: "/person", params: { personId: id } });
   };
 

@@ -80,7 +80,7 @@ export const TrailerPlayer = ({
         onPause();
       }
     },
-    [onPause],
+    [onPause, onPlay],
   );
 
   return canNotPlay ? (

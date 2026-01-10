@@ -53,6 +53,31 @@ export type MOVIE_UNBOOKMARKED = {
   };
 };
 
+export type POSTER_EXPANDED = {
+  event: "poster_expanded";
+  properties: {
+    movie_id: ID;
+    movie_title: string;
+  };
+};
+
+export type PERSON_CLICKED = {
+  event: "person_clicked";
+  properties: {
+    person_id: ID;
+    person_name: string;
+    role: "director" | "cast";
+  };
+};
+
+export type GENRE_CLICKED = {
+  event: "genre_clicked";
+  properties: {
+    genre_id: ID;
+    genre_name: string;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -60,7 +85,10 @@ export type Events =
   | TRAILER_PLAYED
   | AUTOPLAY_TOGGLED
   | MOVIE_BOOKMARKED
-  | MOVIE_UNBOOKMARKED;
+  | MOVIE_UNBOOKMARKED
+  | POSTER_EXPANDED
+  | PERSON_CLICKED
+  | GENRE_CLICKED;
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
   Events,
