@@ -32,9 +32,9 @@ export const useConnectionCheck = () => {
     }
 
     // 2. Canary Pings
-    const checkUrl = async (url: string) => {
+    const checkUrl = async (url: string, timeout = 3000) => {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s Timeout
+      const timeoutId = setTimeout(() => controller.abort(), timeout); // 3s Timeout
       try {
         // We use 'no-cache' to ensure we aren't reading a stale success from memory and pass a query string to bypass cache.
         const response = await fetch(`${url}?t=${Date.now()}`, {
@@ -53,7 +53,7 @@ export const useConnectionCheck = () => {
 
     const [youtubeAlive, backendAlive] = await Promise.all([
       checkUrl(YOUTUBE_CANARY),
-      checkUrl(BACKEND_CANARY),
+      checkUrl(BACKEND_CANARY, 30_000), // 30 second, lambda timeout
     ]);
 
     // 3. Logic Determination
