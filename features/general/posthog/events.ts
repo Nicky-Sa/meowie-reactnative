@@ -28,13 +28,6 @@ export type TRAILER_PAUSED = {
   };
 };
 
-export type AUTOPLAY_TOGGLED = {
-  event: "autoplay_toggled";
-  properties: {
-    autoplay: boolean;
-  };
-};
-
 export type MOVIE_BOOKMARKED = {
   event: "movie_bookmarked";
   properties: {
@@ -118,12 +111,23 @@ export type PROFILE_TAB_CHANGED = {
   };
 };
 
+export type AUTOPLAY_TOGGLED = {
+  event: "autoplay_toggled";
+  properties: {
+    autoplay: boolean;
+  };
+};
+
+export type CACHE_CLEARED = {
+  event: "cache_cleared";
+  properties: undefined;
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | AUTOPLAY_TOGGLED
   | MOVIE_BOOKMARKED
   | MOVIE_UNBOOKMARKED
   | POSTER_EXPANDED
@@ -134,7 +138,9 @@ export type Events =
   | SEARCH_SUBMITTED
   | FILTERS_OPENED
   | FILTERS_APPLIED
-  | PROFILE_TAB_CHANGED;
+  | PROFILE_TAB_CHANGED
+  | AUTOPLAY_TOGGLED
+  | CACHE_CLEARED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
