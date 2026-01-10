@@ -123,6 +123,11 @@ export type CACHE_CLEARED = {
   properties: undefined;
 };
 
+export type AUTH_SKIPPED = {
+  event: "auth_skipped";
+  properties: undefined;
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -140,7 +145,8 @@ export type Events =
   | FILTERS_APPLIED
   | PROFILE_TAB_CHANGED
   | AUTOPLAY_TOGGLED
-  | CACHE_CLEARED;
+  | CACHE_CLEARED
+  | AUTH_SKIPPED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
