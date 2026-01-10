@@ -17,7 +17,7 @@ export const KeyboardAvoidingWrapper = ({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       className={"flex-1"}
       enabled={avoidKeyboard}
-      keyboardVerticalOffset={-1 * bottom} // keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset
+      keyboardVerticalOffset={-0.5 * bottom} // keyboardVerticalOffset is set to a negative value to account for the safe area bottom inset
     >
       {children}
     </KeyboardAvoidingView>
