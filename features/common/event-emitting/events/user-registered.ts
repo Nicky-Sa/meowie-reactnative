@@ -6,10 +6,8 @@ export const useUserRegistered = () => {
   const posthog = usePostHog();
 
   useEffect(() => {
-    const listener = Emitter.addListener("userRegistered", async (data) => {
+    const listener = Emitter.addListener("userRegistered", async () => {
       try {
-        posthog.identify(String(data.userId));
-
         await posthog.register({
           is_guest: false,
         });

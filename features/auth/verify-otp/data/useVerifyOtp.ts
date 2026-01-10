@@ -23,7 +23,6 @@ export const useVerifyOtp = () => {
           await setTokens({
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
-            userId: response.data.user.id,
           });
           await revalidateAuth();
         },

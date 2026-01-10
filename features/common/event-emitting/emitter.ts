@@ -1,7 +1,7 @@
 import { EventEmitter } from "expo-modules-core";
 
 type EventMap = {
-  userRegistered: (data: { userId: number }) => void;
+  userRegistered: () => void;
   userUnregistered: () => void;
 };
 
