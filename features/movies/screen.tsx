@@ -33,6 +33,7 @@ export const Screen = () => {
         totalPages={totalPages}
         error={error}
         mutate={mutate}
+        scrollToTopIfChanges={sort}
       />
     </MainScreen>
   );

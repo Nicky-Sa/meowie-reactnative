@@ -5,7 +5,7 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RootTabParamList } from "@/features/general/navbar/types";
 import { useScrollToTop } from "@react-navigation/native";
 
-export const useListRef = () => {
+export const useListRef = (resetDependency?: unknown) => {
   const listRef = useRef<FlashListRef<number>>(null);
   const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
 
@@ -20,6 +20,14 @@ export const useListRef = () => {
       }
     });
   }, [navigation]);
+
+  // Scroll to top immediately when the dependency changes
+  useEffect(() => {
+    if (resetDependency !== undefined) {
+      // animated: false is better to feel instant
+      listRef.current?.scrollToTop({ animated: false });
+    }
+  }, [resetDependency]);
 
   return listRef;
 };

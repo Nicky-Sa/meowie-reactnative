@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
 import { Sort } from "@/features/common/data/query";
 import {
@@ -6,18 +6,19 @@ import {
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
 
-const random = Math.floor(Math.random() * 100) + 1;
-
 type Args = {
   sort: Sort;
 };
 
 export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
+  const initialPage = useMemo(
+    () => (sort === "random" ? Math.floor(Math.random() * 100) + 1 : 1),
+    [sort],
+  );
+
   const getKey: SWRInfiniteKeyLoader<PurifiedMovieIdsResDto> = useCallback(
     (pageIndex, previousPageData) => {
       const baseUrl = "/movies/purified-ids";
-
-      const initialPage = sort === "random" ? random : 1;
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
@@ -26,11 +27,19 @@ export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
 
       return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}`; // SWR key
     },
-    [sort],
+    [initialPage, sort],
   );
 
-  const { data: response, ...rest } =
-    useSWRPaginatedConfigured<PurifiedMovieIdsResDto>(getKey);
+  const {
+    data: response,
+    setSize,
+    ...rest
+  } = useSWRPaginatedConfigured<PurifiedMovieIdsResDto>(getKey);
+
+  // Force reset size when sort changes
+  useEffect(() => {
+    setSize(1);
+  }, [sort, setSize]);
 
   // Extract `id` from each movie
   // The list is accumulated from all pages
@@ -48,6 +57,7 @@ export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
     data: flattenedData,
     dataLength: flattenedData.length,
     totalPages,
+    setSize,
     ...rest,
   };
 };

@@ -7,7 +7,7 @@ const getProvider = () => globalSWRCache;
 
 export const swrConfig: SWRConfiguration = {
   provider: getProvider,
-  keepPreviousData: true,
+  keepPreviousData: false,
   dedupingInterval: 10 * 60 * 1000, // 10 minutes
   shouldRetryOnError: true,
   errorRetryInterval: 3000, // 3 seconds

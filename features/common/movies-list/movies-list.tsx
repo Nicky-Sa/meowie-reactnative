@@ -18,6 +18,7 @@ type Props = {
   error: Error | undefined;
   mutate: () => void;
   initialScrollIndex?: number;
+  scrollToTopIfChanges?: unknown;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
@@ -32,10 +33,10 @@ export const MoviesList = ({
   error,
   mutate,
   initialScrollIndex,
+  scrollToTopIfChanges,
 }: Props) => {
-  const listRef = useListRef();
+  const listRef = useListRef(scrollToTopIfChanges);
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
-  // const path = usePathname();
 
   const { onEndReached } = useFetchMore({
     size,
