@@ -11,6 +11,7 @@ export type Credits = {
 };
 
 export type MoviePosterInfo = {
+  title: unknown;
   id: number;
   posterPath: string;
   blurhash: string;

@@ -78,6 +78,13 @@ export type GENRE_CLICKED = {
   };
 };
 
+export type POSTER_CLICKED = {
+  event: "poster_clicked";
+  properties: {
+    movie_id: ID;
+  };
+};
+
 export type NAVIGATION_CLICKED = {
   event: "navigation_clicked";
   properties: {
@@ -122,6 +129,7 @@ export type Events =
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED
+  | POSTER_CLICKED
   | NAVIGATION_CLICKED
   | SEARCH_SUBMITTED
   | FILTERS_OPENED
