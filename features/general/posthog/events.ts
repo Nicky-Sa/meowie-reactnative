@@ -104,6 +104,13 @@ export type FILTERS_APPLIED = {
   };
 };
 
+export type PROFILE_TAB_CHANGED = {
+  event: "profile_tab_changed";
+  properties: {
+    tab_name: string;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -118,7 +125,8 @@ export type Events =
   | NAVIGATION_CLICKED
   | SEARCH_SUBMITTED
   | FILTERS_OPENED
-  | FILTERS_APPLIED;
+  | FILTERS_APPLIED
+  | PROFILE_TAB_CHANGED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
