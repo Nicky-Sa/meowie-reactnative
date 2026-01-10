@@ -78,6 +78,13 @@ export type GENRE_CLICKED = {
   };
 };
 
+export type NAVIGATION_CLICKED = {
+  event: "navigation_clicked";
+  properties: {
+    destination: string;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -88,7 +95,8 @@ export type Events =
   | MOVIE_UNBOOKMARKED
   | POSTER_EXPANDED
   | PERSON_CLICKED
-  | GENRE_CLICKED;
+  | GENRE_CLICKED
+  | NAVIGATION_CLICKED;
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
   Events,

@@ -5,6 +5,7 @@ import { PropsWithChildren } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 type Props = {
   tabs: Tab[];
@@ -12,6 +13,11 @@ type Props = {
 
 export const Navbar = ({ tabs }: Props) => {
   const { bottom } = useSafeAreaInsets();
+  const { capture } = useCaptureEvent();
+
+  const onTabPress = (tabName: string) => {
+    capture("navigation_clicked", { destination: tabName });
+  };
 
   return (
     <Tabs
@@ -51,8 +57,16 @@ export const Navbar = ({ tabs }: Props) => {
                 <Icon i={tab.icon} height={size} width={size} color={color} />
               </TabIcon>
             ),
-            tabBarButton: (props: PressableProps) => {
-              return <Pressable {...props} />;
+            tabBarButton: ({ onPress, ...props }: PressableProps) => {
+              return (
+                <Pressable
+                  onPress={(event) => {
+                    onTabPress(tab.name);
+                    onPress?.(event);
+                  }}
+                  {...props}
+                />
+              );
             },
           }}
         />
