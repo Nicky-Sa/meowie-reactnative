@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
 import { Bookmark, Eye } from "iconoir-react-native";
-import { BookmarkedList } from "@/features/profile/guest/bookmarked-list";
+import { SavedList } from "@/features/profile/guest/saved-list";
 import { SeenList } from "@/features/profile/guest/seen-list";
 import { Header } from "@/features/profile/guest/header";
 import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
@@ -35,7 +35,7 @@ export const Guest = ({ scrollY }: Props) => {
         renderTabBar={(props) => <TabBar tabsConfig={tabsConfig} {...props} />}
       >
         <Tabs.Tab name={tabsConfig[0].name}>
-          <BookmarkedList />
+          <SavedList />
         </Tabs.Tab>
 
         <Tabs.Tab name={tabsConfig[1].name}>

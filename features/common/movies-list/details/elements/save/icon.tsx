@@ -2,38 +2,38 @@ import LottieView from "lottie-react-native";
 import { useCallback, useEffect, useRef } from "react";
 
 type Props = {
-  isBookmarked: boolean;
+  isSaved: boolean;
 };
 
-const BOOKMARKED_END_FRAME = 75;
-const UNBOOKMARKED_START_FRAME = 100;
-const UNBOOKMARKED_END_FRAME = 160;
+const SAVED_END_FRAME = 75;
+const UNSAVED_START_FRAME = 100;
+const UNSAVED_END_FRAME = 160;
 
-export const BookmarkIcon = ({ isBookmarked }: Props) => {
+export const SaveIcon = ({ isSaved }: Props) => {
   const lottieRef = useRef<LottieView>(null);
 
   const determineInitialAnimation = useCallback(() => {
-    if (isBookmarked) {
+    if (isSaved) {
       // Play from end frame to end frame to "snap" instantly
-      lottieRef.current?.play(BOOKMARKED_END_FRAME, BOOKMARKED_END_FRAME);
+      lottieRef.current?.play(SAVED_END_FRAME, SAVED_END_FRAME);
     } else {
-      lottieRef.current?.play(UNBOOKMARKED_END_FRAME, UNBOOKMARKED_END_FRAME);
+      lottieRef.current?.play(UNSAVED_END_FRAME, UNSAVED_END_FRAME);
     }
-  }, [isBookmarked]);
+  }, [isSaved]);
 
   useEffect(() => {
-    if (isBookmarked) {
-      lottieRef.current?.play(0, BOOKMARKED_END_FRAME);
+    if (isSaved) {
+      lottieRef.current?.play(0, SAVED_END_FRAME);
     } else {
-      lottieRef.current?.play(UNBOOKMARKED_START_FRAME, UNBOOKMARKED_END_FRAME);
+      lottieRef.current?.play(UNSAVED_START_FRAME, UNSAVED_END_FRAME);
     }
-  }, [isBookmarked]);
+  }, [isSaved]);
 
   return (
     <LottieView
       ref={lottieRef}
       source={{
-        uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/bookmark-lottie.json",
+        uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/save-lottie.json",
       }}
       resizeMode={"cover"}
       loop={false}

@@ -1,3 +1,3 @@
 export type MovieStatesResDto = {
-  bookmarked: boolean;
+  saved: boolean;
 };

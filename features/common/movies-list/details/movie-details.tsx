@@ -13,7 +13,7 @@ import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Cast } from "@/features/common/movies-list/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
 import { ID } from "@/features/common/data/query";
-import { Bookmark } from "@/features/common/movies-list/details/elements/bookmark/bookmark";
+import { Save } from "@/features/common/movies-list/details/elements/save/save";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 type Props = {
@@ -49,21 +49,17 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
     });
   }, [capture, data?.title, movieId]);
 
-  const onBookmark = useCallback(() => {
-    capture("movie_bookmarked", {
-      movie_id: movieId,
-      movie_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
-    });
-  }, [capture, data?.genres, data?.title, movieId]);
-
-  const onUnbookmark = useCallback(() => {
-    capture("movie_unbookmarked", {
-      movie_id: movieId,
-      movie_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
-    });
-  }, [capture, data?.genres, data?.title, movieId]);
+  const onSavePress = useCallback(
+    (saved: boolean | null) => {
+      capture("movie_saved", {
+        movie_id: movieId,
+        movie_title: data?.title || "",
+        genres: data?.genres.map((genre) => genre.name) || [],
+        saved,
+      });
+    },
+    [capture, data?.genres, data?.title, movieId],
+  );
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
@@ -157,11 +153,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Bookmark
-          id={movieId}
-          onBookmark={onBookmark}
-          onUnbookmark={onUnbookmark}
-        />
+        <Save id={movieId} onPress={onSavePress} />
       </View>
     </View>
   );

@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
 import { Bookmark, Eye } from "iconoir-react-native";
-import { BookmarkedList } from "@/features/profile/logged-in/bookmarked-list";
+import { SavedList } from "@/features/profile/logged-in/saved-list";
 import { SeenList } from "@/features/profile/logged-in/seen-list";
 import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
 import { Header } from "@/features/profile/logged-in/header";
@@ -40,7 +40,7 @@ export const LoggedIn = ({ user, scrollY, scrollHandler }: Props) => {
       >
         <Tabs.Tab name={tabsConfig[0].name}>
           <TabContent>
-            <BookmarkedList scrollHandler={scrollHandler} />
+            <SavedList scrollHandler={scrollHandler} />
           </TabContent>
         </Tabs.Tab>
 

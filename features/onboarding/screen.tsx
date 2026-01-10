@@ -35,7 +35,7 @@ const items = [
   {
     lottiePath:
       "https://meowie-public.s3.eu-central-1.amazonaws.com/onboarding/3.json",
-    title: "Bookmark Favorites",
+    title: "Saved Favorites",
     body: "Keep track of movies you don’t want to miss.",
   },
 ];

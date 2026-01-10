@@ -1,13 +1,13 @@
-import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
+import EmptySaved from "@/assets/images/profile/empty-saved.svg";
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
 
-export const BookmarkedList = () => {
+export const SavedList = () => {
   const router = useRouter();
   return (
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
-      <EmptyBookmark />
+      <EmptySaved />
       <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
         Sign in to start building your watchlist.
       </Text>

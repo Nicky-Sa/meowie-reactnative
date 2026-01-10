@@ -28,21 +28,13 @@ export type TRAILER_PAUSED = {
   };
 };
 
-export type MOVIE_BOOKMARKED = {
-  event: "movie_bookmarked";
+export type MOVIE_SAVED = {
+  event: "movie_saved";
   properties: {
     movie_id: ID;
     movie_title: string;
     genres: string[];
-  };
-};
-
-export type MOVIE_UNBOOKMARKED = {
-  event: "movie_unbookmarked";
-  properties: {
-    movie_id: ID;
-    movie_title: string;
-    genres: string[];
+    saved: boolean | null; // null for guest
   };
 };
 
@@ -133,8 +125,7 @@ export type Events =
   | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | MOVIE_BOOKMARKED
-  | MOVIE_UNBOOKMARKED
+  | MOVIE_SAVED
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED

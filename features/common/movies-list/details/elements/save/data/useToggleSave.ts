@@ -1,7 +1,7 @@
 import {
-  ToggleBookmarkReqDto,
-  ToggleBookmarkResDto,
-} from "@/features/common/movies-list/details/elements/bookmark/data/dto/toggle-bookmark.dto";
+  ToggleSaveReqDto,
+  ToggleSaveResDto,
+} from "@/features/common/movies-list/details/elements/save/data/dto/toggle-save.dto";
 import { useSWRConfig } from "swr";
 import { ID } from "@/features/common/data/query";
 import {
@@ -13,15 +13,15 @@ type Args = {
   id: ID;
 };
 
-export const useToggleBookmark = ({ id }: Args) => {
-  const url = "/movie-states/bookmark";
+export const useToggleSave = ({ id }: Args) => {
+  const url = "/movie-states/save";
   const cacheKey = `/movie-states/${id}`;
   const { mutate } = useSWRConfig();
   const { revalidateByPattern } = useRevalidateByPattern();
 
   const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
-    ToggleBookmarkReqDto,
-    ToggleBookmarkResDto
+    ToggleSaveReqDto,
+    ToggleSaveResDto
   >(url);
 
   const trigger = async (currentState: boolean) => {
@@ -39,7 +39,7 @@ export const useToggleBookmark = ({ id }: Args) => {
             ...currentData,
             data: {
               ...currentData?.data,
-              bookmarked: !currentState,
+              saved: !currentState,
             },
           }),
           rollbackOnError: true,

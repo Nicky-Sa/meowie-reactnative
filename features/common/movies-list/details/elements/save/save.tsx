@@ -1,66 +1,61 @@
 import { Button } from "@/features/common/ui/button";
-import { useToggleBookmark } from "@/features/common/movies-list/details/elements/bookmark/data/useToggleBookmark";
+import { useToggleSave } from "@/features/common/movies-list/details/elements/save/data/useToggleSave";
 import { ID } from "@/features/common/data/query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
-import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/bookmark/data/useFetchMovieStates";
+import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/save/data/useFetchMovieStates";
 import { useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
-import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
+import EmptySaved from "@/assets/images/profile/empty-saved.svg";
 import { useRouter } from "expo-router";
-import { BookmarkIcon } from "@/features/common/movies-list/details/elements/bookmark/icon";
+import { SaveIcon } from "@/features/common/movies-list/details/elements/save/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
   id: ID;
-  onBookmark: () => void;
-  onUnbookmark: () => void;
+  onPress: (saved: boolean | null) => void;
 };
 
-export const Bookmark = ({ id, onBookmark, onUnbookmark }: Props) => {
+export const Save = ({ id, onPress }: Props) => {
   const { data: currentUser } = useCurrentUser();
   const { data: movieStates, isLoading: isMovieStatesLoading } =
     useFetchMovieStates({ id });
-  const { trigger } = useToggleBookmark({ id });
-  const isBookmarked = !!movieStates?.bookmarked;
+  const { trigger } = useToggleSave({ id });
+  const isSaved = !!movieStates?.saved;
 
   const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const onPress = async () => {
+  const handlePress = async () => {
+    onPress(!currentUser?.user ? null : !isSaved);
+
     if (!currentUser?.user) {
       setShowLoginModal(true);
       return;
     }
 
     // Trigger handles the cache update for useFetchMovieStates
-    await trigger(isBookmarked);
-
-    if (isBookmarked) {
-      onUnbookmark();
-    } else {
-      onBookmark();
-    }
+    await trigger(isSaved);
   };
 
   return (
     <>
-      <Button variant={"link"} size={"md"} onPress={onPress}>
+      <Button variant={"link"} size={"md"} onPress={handlePress}>
         <View className={"flex flex-row items-center justify-center gap-2"}>
           {isMovieStatesLoading ? (
             <SkeletonItem className={"h-6 w-16"} />
           ) : (
             <>
-              <BookmarkIcon isBookmarked={isBookmarked} />
+              <SaveIcon isSaved={isSaved} />
               <Text className={"body-b2-strong text-neutral-10-default"}>
-                {isBookmarked ? "Saved" : "Save"}
+                {isSaved ? "Saved" : "Save"}
               </Text>
             </>
           )}
         </View>
       </Button>
       <InformationModal
-        img={EmptyBookmark}
+        img={EmptySaved}
         informationText={
           "You'll need an account to keep track of movies you want to watch."
         }

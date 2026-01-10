@@ -1,4 +1,4 @@
-import EmptyBookmark from "@/assets/images/profile/empty-bookmark.svg";
+import EmptySaved from "@/assets/images/profile/empty-saved.svg";
 import { View, Text } from "react-native";
 import { PostersList } from "@/features/browse/elements/posters-list";
 import { useRouter } from "expo-router";
@@ -12,7 +12,7 @@ const NUM_COLUMNS = 3;
 const EmptyState = () => {
   return (
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
-      <EmptyBookmark />
+      <EmptySaved />
       <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
         Save movies you want to watch later.
       </Text>
@@ -22,7 +22,7 @@ const EmptyState = () => {
 
 type Props = TabChildProps;
 
-export const BookmarkedList = ({ scrollHandler }: Props) => {
+export const SavedList = ({ scrollHandler }: Props) => {
   const { paddingBottom } = useMainScreenContentStyle();
 
   const router = useRouter();
@@ -34,7 +34,7 @@ export const BookmarkedList = ({ scrollHandler }: Props) => {
           initialIndex: index,
           url: "/movie-states/poster",
           title: "Saved",
-          movieState: "bookmarked",
+          movieState: "saved",
         },
       });
     },
@@ -43,7 +43,7 @@ export const BookmarkedList = ({ scrollHandler }: Props) => {
 
   const apiDetails: PosterAPIDetails = {
     url: "/movie-states/poster",
-    queryParams: { movieState: "bookmarked" },
+    queryParams: { movieState: "saved" },
   };
 
   return (
