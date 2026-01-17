@@ -1,9 +1,8 @@
-import { EventEmitter } from "expo-modules-core";
+import mitt from "mitt";
 
 type EventMap = {
-  userRegistered: () => void;
-  userUnregistered: () => void;
+  userRegistered: void;
+  userUnregistered: void;
 };
 
-// Create and export a single instance
-export const Emitter = new EventEmitter<EventMap>();
+export const Emitter = mitt<EventMap>();

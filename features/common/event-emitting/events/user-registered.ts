@@ -6,19 +6,21 @@ export const useUserRegistered = () => {
   const posthog = usePostHog();
 
   useEffect(() => {
-    const listener = Emitter.addListener("userRegistered", async () => {
+    const handleRegistration = async () => {
       try {
         await posthog.register({
           is_guest: false,
         });
-        console.log("User registered event processed");
+        console.log("✅ User registered event processed");
       } catch (error) {
-        console.log("Error tracking user registered: ", error);
+        console.error("❌ Error tracking user registered: ", error);
       }
-    });
+    };
+
+    Emitter.on("userRegistered", handleRegistration);
 
     return () => {
-      listener.remove();
+      Emitter.off("userRegistered", handleRegistration);
     };
   }, [posthog]);
 };

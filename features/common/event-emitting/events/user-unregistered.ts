@@ -6,21 +6,22 @@ export const useUserUnregistered = () => {
   const posthog = usePostHog();
 
   useEffect(() => {
-    const listener = Emitter.addListener("userUnregistered", async () => {
+    const handleUnregistration = async () => {
       try {
         posthog.reset();
 
         await posthog.register({
           is_guest: true,
         });
-        console.log("User unregistered event processed");
+        console.log("✅ User unregistered event processed");
       } catch (error) {
-        console.log("Error tracking user unregistered: ", error);
+        console.log("❌ Error tracking user unregistered: ", error);
       }
-    });
+    };
+    Emitter.on("userUnregistered", handleUnregistration);
 
     return () => {
-      listener.remove();
+      Emitter.off("userUnregistered", handleUnregistration);
     };
   }, [posthog]);
 };

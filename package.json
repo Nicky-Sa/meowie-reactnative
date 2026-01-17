@@ -70,6 +70,7 @@
     "jotai-immer": "^0.4.1",
     "lodash": "^4.17.21",
     "lottie-react-native": "^7.3.5",
+    "mitt": "^3.0.1",
     "nativewind": "^4.2.1",
     "posthog-react-native": "^4.17.3",
     "posthog-react-native-session-replay": "^1.2.3",
@@ -135,7 +136,8 @@
   "overrides": {
     "iconoir-react-native": {
       "react": "$react"
-    }
+    },
+    "diff": "^8.0.3"
   },
   "expo": {
     "doctor": {
