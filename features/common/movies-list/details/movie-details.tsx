@@ -29,8 +29,9 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
   const { capture } = useCaptureEvent();
 
   useEffect(() => {
-    if (inScreen && data?.posterProps.primaryColorHex)
+    if (inScreen && data?.posterProps.primaryColorHex) {
       setColor(data.posterProps.primaryColorHex);
+    }
   }, [data?.posterProps, setColor, inScreen]);
 
   // Posthog Events:
@@ -105,12 +106,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
               {data.duration}
             </Text>
           </View>
-          <Cast
-            id={data.credits.director.id}
-            name={data.credits.director.name}
-            profilePath={data.credits.director.profilePath}
-            character={data.credits.director.character}
-          />
+          <Cast {...data.credits.director} />
         </View>
       </View>
 

@@ -8,9 +8,10 @@ import { ReactNode } from "react";
 
 type Props = {
   title: string;
+  subtitle?: string;
   rightTopComponent?: ReactNode;
 };
-export const Header = ({ title, rightTopComponent }: Props) => {
+export const Header = ({ title, subtitle, rightTopComponent }: Props) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -31,9 +32,14 @@ export const Header = ({ title, rightTopComponent }: Props) => {
         <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
           <Icon i={NavArrowLeft} />
         </Button>
-        <Text className={"title-t2-strong text-neutral-10-default"}>
-          {title}
-        </Text>
+        <View className={"flex flex-col"}>
+          <Text className={"title-t2-strong text-neutral-10-default"}>
+            {title}
+          </Text>
+          {subtitle && (
+            <Text className={"body-b1 text-neutral-5-default"}>{subtitle}</Text>
+          )}
+        </View>
       </View>
       {rightTopComponent}
     </View>
