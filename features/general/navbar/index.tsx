@@ -2,7 +2,6 @@ import { Tabs } from "expo-router";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Pressable, PressableProps, View } from "react-native";
 import { PropsWithChildren } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
@@ -12,7 +11,6 @@ type Props = {
 };
 
 export const Navbar = ({ tabs }: Props) => {
-  const { bottom } = useSafeAreaInsets();
   const { capture } = useCaptureEvent();
 
   const onTabPress = (tabName: string) => {
@@ -32,8 +30,10 @@ export const Navbar = ({ tabs }: Props) => {
           tailwind.theme.backgroundColor.neutral[9].default,
         tabBarStyle: {
           position: "absolute",
-          bottom,
-          marginHorizontal: Number(tailwind.theme.spacing[4]),
+          bottom: Number(tailwind.theme.spacing[6]),
+          left: 0,
+          right: 0,
+          marginHorizontal: "20%",
           borderRadius: Number(tailwind.theme.borderRadius.full),
           backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
           borderTopWidth: 1,
