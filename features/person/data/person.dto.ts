@@ -4,3 +4,7 @@ export type PersonResDto = {
   profilePath: string;
   knownForDepartment: string;
 };
+
+export type RoleInMovieResDto = {
+  role: string;
+};

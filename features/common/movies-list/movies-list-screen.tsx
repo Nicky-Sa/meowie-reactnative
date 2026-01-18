@@ -8,6 +8,10 @@ import {
   PosterQueryParams,
   PosterURL,
 } from "@/features/browse/data/poster/type";
+import { useAtom } from "jotai";
+import { currentMovieIdAtom } from "@/atoms";
+import { useFetchRoleInMovie } from "@/features/person/data/useFetchRoleInMovie";
+import { SearchParams } from "@/features/common/data/query";
 
 type Props = {
   rightTopComponent?: ReactNode;
@@ -21,6 +25,8 @@ export const MoviesListScreen = ({ rightTopComponent }: Props) => {
       url: PosterURL;
     } & PosterQueryParams
   >();
+  const [currentMovieId] = useAtom(currentMovieIdAtom);
+  const personId = (queryParams as Partial<SearchParams>).personId;
 
   const {
     data: moviePosterData,
@@ -35,12 +41,20 @@ export const MoviesListScreen = ({ rightTopComponent }: Props) => {
   } = useFetchMoviesPoster({ url, queryParams });
   const data = moviePosterData?.map((item) => item.id) || [];
 
+  const { data: roleInMovie, isLoading: isRoleInMovieLoading } =
+    useFetchRoleInMovie(personId, currentMovieId);
+
   // Technically, this is an inner screen,
   // but since the MoviesList is a special component and doesn't tolerate external paddings or sibling components,
   // I have to use MainScreen + custom absolute header here.
   return (
     <MainScreen>
-      <Header title={title} rightTopComponent={rightTopComponent} />
+      <Header
+        title={title}
+        subtitle={currentMovieId ? roleInMovie?.role : undefined}
+        subtitleIsLoading={isRoleInMovieLoading}
+        rightTopComponent={rightTopComponent}
+      />
       <MoviesList
         data={data}
         dataLength={dataLength}

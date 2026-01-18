@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
-import { Filters, initialFiltersValue } from "@/features/common/data/query";
+import { Filters, ID, initialFiltersValue } from "@/features/common/data/query";
 import { atomPersisted } from "@/atoms/storage";
 
 // Color based on the movie poster
@@ -16,3 +16,5 @@ export const allowYTPlayingAtom = atom(true);
 
 // Autoplay trailer
 export const autoplayAtom = atomPersisted("autoplay", true);
+
+export const currentMovieIdAtom = atom<ID>();

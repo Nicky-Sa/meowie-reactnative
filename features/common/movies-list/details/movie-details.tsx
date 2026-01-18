@@ -2,9 +2,9 @@ import { useFetchMovieInfo } from "@/features/movies/data/useFetchMovieInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback } from "react";
 import { useAtom } from "jotai";
-import { autoplayAtom, colorAtom } from "@/atoms";
+import { autoplayAtom, colorAtom, currentMovieIdAtom } from "@/atoms";
 import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
@@ -15,6 +15,7 @@ import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movi
 import { ID } from "@/features/common/data/query";
 import { Save } from "@/features/common/movies-list/details/elements/save/save";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useFocusEffect } from "expo-router";
 
 type Props = {
   movieId: ID;
@@ -28,11 +29,36 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
 
   const { capture } = useCaptureEvent();
 
-  useEffect(() => {
-    if (inScreen && data?.posterProps.primaryColorHex) {
-      setColor(data.posterProps.primaryColorHex);
-    }
-  }, [data?.posterProps, setColor, inScreen]);
+  const [, setCurrentMovieId] = useAtom(currentMovieIdAtom);
+
+  // useEffect(() => {
+  //   if (inScreen && data?.posterProps.primaryColorHex) {
+  //     setColor(data.posterProps.primaryColorHex);
+  //   }
+  // }, [data?.posterProps, setColor, inScreen]);
+  //
+  // useEffect(() => {
+  //   if (inScreen) {
+  //     setCurrentMovieId(movieId);
+  //   }
+  // }, [inScreen, movieId, setCurrentMovieId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (inScreen) {
+        if (data?.posterProps.primaryColorHex) {
+          setColor(data.posterProps.primaryColorHex);
+        }
+        setCurrentMovieId(movieId);
+      }
+    }, [
+      data?.posterProps.primaryColorHex,
+      inScreen,
+      movieId,
+      setColor,
+      setCurrentMovieId,
+    ]),
+  );
 
   // Posthog Events:
   const onPlay = useCallback(() => {
