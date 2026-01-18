@@ -1,8 +1,13 @@
 import { ExpoConfig } from "expo/config";
 import { withSentry } from "@sentry/react-native/expo";
-import pkg from "./package.json";
 
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
+
+// READ THE VERSION FROM ENV
+// If the CI didn't provide one (local dev), fall back to "1.0.0"
+const SYSTEM_VERSION = (process.env.APP_VERSION || "1.0.0")
+  .replace(/^v/, "")
+  .split("-")[0];
 
 const getUniqueIdentifier = () => {
   let bundleIdentifier: string;
@@ -60,7 +65,7 @@ const getScheme = () => {
 const config: ExpoConfig = {
   name: getAppName(),
   slug: "meowie",
-  version: pkg.version,
+  version: SYSTEM_VERSION,
   orientation: "portrait",
   icon: "./assets/images/logo/logo-large.png",
   scheme: getScheme(),
