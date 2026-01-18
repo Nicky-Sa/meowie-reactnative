@@ -92,6 +92,16 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Cache CocoaPods
+        id: pod-cache
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          # This key ensures we invalidate the cache if package.json or the lockfile changes
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
       - name: EAS Build
         env:
           APP_VERSION: ${{ needs.calculate-version.outputs.new_tag }}
