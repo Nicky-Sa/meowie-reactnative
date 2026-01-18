@@ -1,7 +1,14 @@
-import { OMDB_Source } from "@/features/movies/models/omdb";
+export const RATING_SOURCES = [
+  "IMDb",
+  "Rotten Tomatoes",
+  "Metacritic",
+  "TMDB",
+] as const;
+
+export type Rating_Source = (typeof RATING_SOURCES)[number];
 
 export type RatingEntry = {
-  source: OMDB_Source | "The Movie Database";
+  source: Rating_Source;
   value: string;
 };
 
