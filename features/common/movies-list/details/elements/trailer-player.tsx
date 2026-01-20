@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef, RefObject } from "react";
 import { View, Text } from "react-native";
 import YoutubePlayer, {
   PLAYER_STATES,
@@ -10,7 +10,13 @@ import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { tailwind } from "@/lib/tailwind";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-import { useIsFocused } from "@react-navigation/native";
+import { SkeletonItem } from "@/features/common/ui/skeleton-item";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { useFocusEffect } from "expo-router";
 
 type Props = {
   YTKey: string;
@@ -20,7 +26,9 @@ type Props = {
   onPause: () => void;
 };
 
-const RETRY_ATTEMPTS = 1;
+/**
+ * The player wrapper.
+ */
 
 export const TrailerPlayer = ({
   YTKey,
@@ -29,23 +37,125 @@ export const TrailerPlayer = ({
   onPlay,
   onPause,
 }: Props) => {
-  const playerRef = useRef<YoutubeIframeRef>(null);
-  const retryAttemptRef = useRef(0);
-  const isFocused = useIsFocused(); // checks if the player is present on the current screen
+  return (
+    <View className={"h-[208px] w-full"}>
+      {inScreen && (
+        <Player
+          YTKey={YTKey}
+          autoplay={autoplay}
+          onPlay={onPlay}
+          onPause={onPause}
+        />
+      )}
+    </View>
+  );
+};
 
-  const appState = useAppState();
-  const [canNotPlay, setCanNotPlay] = useState(false);
-  const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
+/**
+ * The player itself.
+ */
+
+const RETRY_ATTEMPTS = 1;
+export const Player = ({
+  YTKey,
+  autoplay,
+  onPlay,
+  onPause,
+}: Omit<Props, "inScreen">) => {
+  const playerRef = useRef<YoutubeIframeRef>(null);
+
+  const { canNotPlay, handleError } = useLoad(playerRef);
+  const { isReady, shouldPlay, handleReady } = usePlay(playerRef, autoplay);
+
+  const handleStateChange = useCallback(
+    (state: PLAYER_STATES) => {
+      if (state === PLAYER_STATES.PLAYING) {
+        onPlay();
+      } else if (state === PLAYER_STATES.PAUSED) {
+        onPause();
+      }
+    },
+    [onPlay, onPause],
+  );
 
   const { width: w } = useScreenDimensions();
   const width = w - 2.5 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
+
+  const opacity = useSharedValue(0);
+
+  useEffect(() => {
+    opacity.value = withTiming(isReady ? 1 : 0, { duration: 500 });
+  }, [isReady, opacity]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  return (
+    <>
+      {!isReady && <SkeletonItem className={"absolute h-full w-full"} />}
+      <Animated.View
+        style={animatedStyle}
+        className={"flex h-full w-full items-center justify-center"}
+      >
+        {canNotPlay ? (
+          <View
+            className={
+              "flex h-full w-full flex-col items-center justify-center gap-3 rounded-xl bg-brand-10"
+            }
+          >
+            <NoTrailer />
+            <Text className={"body-b1 text-neutral-6-default"}>
+              Failed to load the trailer.
+            </Text>
+          </View>
+        ) : (
+          <YoutubePlayer
+            ref={playerRef}
+            height={200}
+            width={width}
+            play={shouldPlay}
+            onReady={handleReady}
+            onChangeState={handleStateChange}
+            forceAndroidAutoplay
+            initialPlayerParams={{
+              start: 0,
+              controls: false,
+              loop: true,
+              preventFullScreen: true,
+            }}
+            videoId={YTKey}
+            playList={[YTKey]}
+            onError={handleError}
+            webViewProps={{
+              injectedJavaScript: `
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            var container = document.getElementsByClassName('container')[0];
+            if (container) {
+              container.style.overflow = 'hidden';
+              container.style.position = 'unset';
+            }
+            true;
+          `,
+            }}
+          />
+        )}
+      </Animated.View>
+    </>
+  );
+};
+
+const useLoad = (playerRef: RefObject<YoutubeIframeRef | null>) => {
+  const retryAttemptRef = useRef(0);
+  const [canNotPlay, setCanNotPlay] = useState(true); // true to prevent flicker
 
   const handleReload = useCallback(() => {
     setCanNotPlay(false);
     if (playerRef.current) {
       playerRef.current.seekTo(0, true);
     }
-  }, []);
+  }, [playerRef]);
 
   const handleError = useCallback(() => {
     setCanNotPlay(true);
@@ -58,78 +168,32 @@ export const TrailerPlayer = ({
     }
   }, [canNotPlay, handleReload]);
 
-  const [play, setPlay] = useState(false);
-  useEffect(() => {
-    if (inScreen && appState === "active" && allowYTPlaying && isFocused) {
-      setPlay(autoplay);
-      if (autoplay && playerRef.current) {
-        playerRef.current.seekTo(0, true);
-      }
-    } else {
-      setPlay(false);
-    }
-  }, [allowYTPlaying, appState, autoplay, inScreen, isFocused]);
+  return { canNotPlay, handleError, playerRef };
+};
 
-  const handleStateChange = useCallback(
-    (state: PLAYER_STATES) => {
-      if (state === PLAYER_STATES.PLAYING) {
-        setPlay(true);
-        onPlay();
+const usePlay = (
+  playerRef: RefObject<YoutubeIframeRef | null>,
+  autoplay: boolean,
+) => {
+  const appState = useAppState();
+  const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
+  const [isReady, setIsReady] = useState(false);
+  const shouldPlay =
+    isReady && autoplay && allowYTPlaying && appState === "active";
+
+  const handleReady = useCallback(() => {
+    setIsReady(true);
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (shouldPlay) {
+        playerRef.current?.getCurrentTime().then((time) => {
+          playerRef.current?.seekTo(time, true);
+        });
       }
-      if (state === PLAYER_STATES.PAUSED) {
-        onPause();
-      }
-    },
-    [onPause, onPlay],
+    }, [playerRef, shouldPlay]),
   );
 
-  return canNotPlay ? (
-    <View
-      className={
-        "flex h-[208px] w-full flex-col items-center justify-center gap-3 rounded-xl bg-brand-10"
-      }
-    >
-      <NoTrailer />
-      <Text className={"body-b1 text-neutral-6-default"}>
-        Failed to load the trailer.
-      </Text>
-    </View>
-  ) : (
-    <View
-      className={
-        "border-neutral-13-default mx-auto flex h-[208px] w-full items-center justify-center rounded-xl border-1.5 bg-black"
-      }
-    >
-      <YoutubePlayer
-        ref={playerRef}
-        height={200}
-        width={width}
-        play={play}
-        onChangeState={handleStateChange}
-        volume={30}
-        forceAndroidAutoplay
-        initialPlayerParams={{
-          start: 0,
-          controls: false,
-          loop: true,
-          preventFullScreen: true,
-        }}
-        videoId={YTKey}
-        playList={[YTKey]}
-        onError={handleError}
-        webViewProps={{
-          injectedJavaScript: `
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.overflow = 'hidden';
-            var container = document.getElementsByClassName('container')[0];
-            if (container) {
-              container.style.overflow = 'hidden';
-              container.style.position = 'unset';
-            }
-            true;
-          `,
-        }}
-      />
-    </View>
-  );
+  return { isReady, shouldPlay, handleReady };
 };

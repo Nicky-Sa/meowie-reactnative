@@ -31,18 +31,6 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
 
   const [, setCurrentMovieId] = useAtom(currentMovieIdAtom);
 
-  // useEffect(() => {
-  //   if (inScreen && data?.posterProps.primaryColorHex) {
-  //     setColor(data.posterProps.primaryColorHex);
-  //   }
-  // }, [data?.posterProps, setColor, inScreen]);
-  //
-  // useEffect(() => {
-  //   if (inScreen) {
-  //     setCurrentMovieId(movieId);
-  //   }
-  // }, [inScreen, movieId, setCurrentMovieId]);
-
   useFocusEffect(
     useCallback(() => {
       if (inScreen) {
