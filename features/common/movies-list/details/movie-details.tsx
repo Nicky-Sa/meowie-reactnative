@@ -88,17 +88,15 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
   ) : error ? (
     <ErrorState tryAgain={mutate} error={error} />
   ) : (
-    <View className={"flex w-full flex-col items-center justify-start gap-4"}>
-      <View
-        className={"flex w-full flex-row items-stretch justify-start gap-2"}
-      >
+    <View className={"flex w-full flex-col gap-4"}>
+      <View className={"flex w-full flex-row gap-2"}>
         <EnlargeableImage
           source={data.posterPath}
           blurhash={data.posterProps.blurhash}
           width={60}
           onPress={onPosterExpanded}
         />
-        <View className={"flex flex-1 flex-col justify-center gap-2"}>
+        <View className={"flex flex-1 flex-col gap-2"}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -135,9 +133,9 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       <Ratings ratings={data.ratings} />
 
       <Text
-        numberOfLines={4}
+        numberOfLines={3}
         ellipsizeMode="tail"
-        className={"body-b2 overflow-hidden text-neutral-6-default"}
+        className={"body-b2 h-[52px] overflow-hidden text-neutral-6-default"}
       >
         {data.overview}
       </Text>
@@ -146,7 +144,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         className={"-mx-4 grow-0"}
-        contentContainerClassName={"min-w-full"}
+        contentContainerClassName={"min-w-full h-6"} // fixed height in case the array is empty to prevent layout shift
       >
         <Genres genres={data.genres} />
       </ScrollView>
@@ -155,7 +153,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         className={"-mx-4 grow-0"}
-        contentContainerClassName={"min-w-full"}
+        contentContainerClassName={"min-w-full h-6"}
       >
         <Casts casts={data.credits.casts} />
       </ScrollView>
