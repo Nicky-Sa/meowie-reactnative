@@ -18,8 +18,11 @@ export const Cast = ({ id, name, profilePath, character }: CastInfo) => {
   }, [capture, character, id, name]);
 
   const handlePress = () => {
-    onCastPressed();
-    router.push({ pathname: "/person", params: { personId: id } });
+    // id = -1 is a placeholder for unknown cast
+    if (id > 0) {
+      onCastPressed();
+      router.push({ pathname: "/person", params: { personId: id } });
+    }
   };
 
   return (
