@@ -111,7 +111,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
           </ScrollView>
           <View className={"flex flex-row gap-5"}>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.publishYear}
+              {data.screeningStatus}
             </Text>
             <Text className={"body-b2 text-neutral-5-default"}>
               {data.certification}

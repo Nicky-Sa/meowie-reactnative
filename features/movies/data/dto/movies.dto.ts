@@ -5,7 +5,7 @@ import { Genre } from "@/features/general/data/constants/useGenres";
 
 export type MovieInfoResDto = {
   title: string;
-  publishYear: string;
+  screeningStatus: string | null;
   duration: string;
   certification: string;
   trailerKey: string;
