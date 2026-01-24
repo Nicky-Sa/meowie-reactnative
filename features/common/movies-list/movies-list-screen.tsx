@@ -4,10 +4,7 @@ import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMovi
 import { Header } from "@/features/common/movies-list/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactNode } from "react";
-import {
-  PosterQueryParams,
-  PosterURL,
-} from "@/features/browse/data/poster/type";
+import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 import { useAtom } from "jotai";
 import { currentMovieIdAtom } from "@/atoms";
 import { useFetchRoleInMovie } from "@/features/person/data/useFetchRoleInMovie";
@@ -22,8 +19,8 @@ export const MoviesListScreen = ({ rightTopComponent }: Props) => {
     {
       title: string;
       initialIndex: string;
-      url: PosterURL;
-    } & PosterQueryParams
+      url: PosterAPIDetails["url"];
+    } & PosterAPIDetails["queryParams"]
   >();
   const [currentMovieId] = useAtom(currentMovieIdAtom);
   const personId = (queryParams as Partial<SearchParams>).personId;
@@ -38,7 +35,7 @@ export const MoviesListScreen = ({ rightTopComponent }: Props) => {
     isValidating,
     error,
     mutate,
-  } = useFetchMoviesPoster({ url, queryParams });
+  } = useFetchMoviesPoster({ url, queryParams } as PosterAPIDetails);
   const data = moviePosterData?.map((item) => item.id) || [];
 
   const { data: roleInMovie, isLoading: isRoleInMovieLoading } =
