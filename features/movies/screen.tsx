@@ -1,4 +1,4 @@
-import { useFetchPurifiedMoviesIds } from "@/features/movies/data/useFetchPurifiedMoviesIds";
+import { useFetchInterestingMoviesIds } from "@/features/movies/data/useFetchInterestingMoviesIds";
 import { MoviesList } from "@/features/common/movies-list/movies-list";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { SortHeaderButton } from "@/features/sort/header-button";
@@ -18,7 +18,7 @@ export const Screen = () => {
     isValidating,
     error,
     mutate,
-  } = useFetchPurifiedMoviesIds({ sort });
+  } = useFetchInterestingMoviesIds({ sort });
 
   return (
     <MainScreen>

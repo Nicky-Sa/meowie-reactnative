@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { PurifiedMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
+import { InterestingMovieIdsResDto } from "@/features/movies/data/dto/movie-ids.dto";
 import { Sort } from "@/features/common/data/query";
 import {
   SWRInfiniteKeyLoader,
@@ -10,15 +10,15 @@ type Args = {
   sort: Sort;
 };
 
-export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
+export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
   const initialPage = useMemo(
     () => (sort === "random" ? Math.floor(Math.random() * 100) + 1 : 1),
     [sort],
   );
 
-  const getKey: SWRInfiniteKeyLoader<PurifiedMovieIdsResDto> = useCallback(
+  const getKey: SWRInfiniteKeyLoader<InterestingMovieIdsResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = "/movies/purified-ids";
+      const baseUrl = "/movies/interesting-ids";
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
@@ -34,7 +34,7 @@ export const useFetchPurifiedMoviesIds = ({ sort }: Args) => {
     data: response,
     setSize,
     ...rest
-  } = useSWRPaginatedConfigured<PurifiedMovieIdsResDto>(getKey);
+  } = useSWRPaginatedConfigured<InterestingMovieIdsResDto>(getKey);
 
   // Force reset size when sort changes
   useEffect(() => {
