@@ -8,6 +8,6 @@ export type SuccessResponse<T> = {
 export type ErrorResponse = {
   success: false;
   statusCode: number;
-  errors: string[];
+  errors: string;
   timestamp: string;
 };

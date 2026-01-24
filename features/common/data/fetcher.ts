@@ -43,7 +43,7 @@ export async function fetcher<REQ, RES>(
         const res = error.response.data as ErrorResponse;
 
         // Throw the error in the format SWR expects
-        throw new Error(JSON.stringify(res.errors));
+        throw new Error(res.errors);
       }
 
       // Fallback for network errors or other issues
