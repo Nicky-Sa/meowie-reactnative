@@ -38,7 +38,7 @@ export const TrailerPlayer = ({
   onPause,
 }: Props) => {
   return (
-    <View className={"h-[208px] w-full"}>
+    <View className={"h-[200px] w-full"}>
       {inScreen && (
         <Player
           YTKey={YTKey}
@@ -79,7 +79,7 @@ export const Player = ({
   );
 
   const { width: w } = useScreenDimensions();
-  const width = w - 2.5 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
+  const width = w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
 
   const opacity = useSharedValue(0);
 
@@ -127,6 +127,9 @@ export const Player = ({
             videoId={YTKey}
             playList={[YTKey]}
             onError={handleError}
+            webViewStyle={{
+              borderRadius: Number(tailwind.theme.borderRadius.xl),
+            }}
             webViewProps={{
               injectedJavaScript: `
             document.documentElement.style.overflow = 'hidden';
