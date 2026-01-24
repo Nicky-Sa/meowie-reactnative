@@ -61,7 +61,7 @@ export const MoviesList = ({
     <AnimatedFlashList
       data={data}
       ref={listRef}
-      keyExtractor={(id) => `movie-${id}-info`}
+      keyExtractor={(id) => `movie-info-${id}`}
       initialScrollIndex={safeInitialIndex}
       renderItem={({ item: movieId, index }) => (
         <MoviesListItem

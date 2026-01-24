@@ -39,13 +39,15 @@ export const TrailerPlayer = ({
 }: Props) => {
   return (
     <View className={"h-[200px] w-full"}>
-      {inScreen && (
+      {inScreen ? (
         <Player
           YTKey={YTKey}
           autoplay={autoplay}
           onPlay={onPlay}
           onPause={onPause}
         />
+      ) : (
+        <Loading />
       )}
     </View>
   );
@@ -93,7 +95,7 @@ export const Player = ({
 
   return (
     <>
-      {!isReady && <SkeletonItem className={"absolute h-full w-full"} />}
+      {!isReady && <Loading />}
       <Animated.View
         style={animatedStyle}
         className={"flex h-full w-full items-center justify-center"}
@@ -147,6 +149,10 @@ export const Player = ({
       </Animated.View>
     </>
   );
+};
+
+const Loading = () => {
+  return <SkeletonItem className={"absolute h-full w-full"} />;
 };
 
 const useLoad = (playerRef: RefObject<YoutubeIframeRef | null>) => {

@@ -3,18 +3,14 @@ import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 export const MovieDetailsSkeleton = () => {
   return (
-    <View
-      className={
-        "flex w-full flex-1 flex-col items-center justify-center gap-4"
-      }
-    >
-      <SkeletonItem className={"h-20"} />
-      <SkeletonItem className={"h-48"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-16"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-8"} />
-      <SkeletonItem className={"h-16"} />
+    <View className={"flex w-full flex-col gap-4"}>
+      <SkeletonItem className={"h-[90px]"} />
+      <SkeletonItem className={"h-56"} />
+      <SkeletonItem className={"h-6"} />
+      <SkeletonItem className={"h-14"} />
+      <SkeletonItem className={"h-6"} />
+      <SkeletonItem className={"h-6"} />
+      <SkeletonItem className={"h-10"} />
     </View>
   );
 };

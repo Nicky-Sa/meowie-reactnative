@@ -2,7 +2,6 @@ import { View } from "react-native";
 import { memo } from "react";
 import { ID } from "@/features/common/data/query";
 import Animated, {
-  Extrapolation,
   interpolate,
   SharedValue,
   useAnimatedStyle,
@@ -30,22 +29,13 @@ export const MoviesListItem = memo(
         (index + 1) * height,
       ];
 
-      const scale = interpolate(
-        scrollY.value,
-        inputRange,
-        [1.2, 1, 0.8], // Scale down as you scroll away
-        Extrapolation.CLAMP,
-      );
-
       const opacity = interpolate(
         scrollY.value,
         inputRange,
         [0.1, 1, 0.1], // Fade out as you scroll away
-        Extrapolation.CLAMP,
       );
 
       return {
-        transform: [{ scale }],
         opacity,
       };
     });

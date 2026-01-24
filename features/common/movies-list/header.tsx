@@ -39,7 +39,7 @@ export const Header = ({
         <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
           <Icon i={NavArrowLeft} />
         </Button>
-        <View className={"flex flex-col"}>
+        <View className={"flex flex-col gap-0.5"}>
           <Text className={"title-t2-strong text-neutral-10-default"}>
             {title}
           </Text>
