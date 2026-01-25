@@ -9,7 +9,7 @@ import { useFetchMoviesPoster } from "@/features/browse/data/poster/useFetchMovi
 import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
 import { ReactElement } from "react";
 import { Loading } from "@/features/common/ui/loading";
-import { StyleProp, Text, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
@@ -83,9 +83,7 @@ export const PostersList = ({
         ) : isInitialLoad ? (
           <PostersSkeletons width={posterWidth} number={numColumns * 4} />
         ) : (
-          ListEmptyComponent || (
-            <Text className={"body-b1 text-neutral-10-default"}>No data</Text>
-          )
+          ListEmptyComponent
         )
       }
       ListHeaderComponent={ListHeaderComponent}

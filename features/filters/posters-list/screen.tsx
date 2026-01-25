@@ -5,6 +5,7 @@ import { PostersList } from "@/features/browse/elements/posters-list";
 import { FilterIndicator } from "@/features/filters/elements/filter-indicator";
 import { useCallback } from "react";
 import { PosterAPIDetails } from "@/features/browse/data/poster/type";
+import { SearchEmptyState } from "@/features/search/elements/empty-state";
 
 const NUM_COLUMNS = 3;
 
@@ -50,6 +51,7 @@ export const Screen = () => {
         numColumns={NUM_COLUMNS}
         apiDetails={apiDetails}
         onPosterPress={onPosterPress}
+        ListEmptyComponent={<SearchEmptyState />}
       />
     </InnerScreen>
   );

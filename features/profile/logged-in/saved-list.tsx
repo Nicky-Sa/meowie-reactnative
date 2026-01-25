@@ -9,17 +9,6 @@ import { TabChildProps } from "@/features/common/tab/tab-bar";
 
 const NUM_COLUMNS = 3;
 
-const EmptyState = () => {
-  return (
-    <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
-      <EmptySaved />
-      <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
-        Save movies you want to watch later.
-      </Text>
-    </View>
-  );
-};
-
 type Props = TabChildProps;
 
 export const SavedList = ({ scrollHandler }: Props) => {
@@ -53,9 +42,20 @@ export const SavedList = ({ scrollHandler }: Props) => {
         apiDetails={apiDetails}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
-        ListEmptyComponent={<EmptyState />}
+        ListEmptyComponent={<SavedEmptyState />}
         contentContainerStyle={{ paddingBottom }}
       />
+    </View>
+  );
+};
+
+const SavedEmptyState = () => {
+  return (
+    <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
+      <EmptySaved />
+      <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
+        Save movies you want to watch later.
+      </Text>
     </View>
   );
 };

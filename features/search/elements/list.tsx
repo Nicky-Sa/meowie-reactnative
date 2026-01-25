@@ -1,11 +1,11 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
 import { SearchResultCard } from "@/features/search/elements/card";
-import { View, Text, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import NoMatchSearch from "@/assets/images/errors/no-match-search.svg";
 import { ErrorState } from "@/features/general/error-state";
+import { SearchEmptyState } from "@/features/search/elements/empty-state";
 
 type Props = {
   debouncedQuery: string;
@@ -42,7 +42,7 @@ export const SearchResultList = ({
           error ? (
             <ErrorState tryAgain={mutate} error={error} />
           ) : debouncedQuery && !isLoading ? (
-            <EmptyState />
+            <SearchEmptyState />
           ) : isLoading ? (
             <SearchResultSkeleton />
           ) : null
@@ -58,18 +58,6 @@ const SearchResultSkeleton = () => {
       {Array.from({ length: 4 }).map((_, index) => (
         <SkeletonItem key={index} className={"h-20"} />
       ))}
-    </View>
-  );
-};
-
-const EmptyState = () => {
-  return (
-    <View className={"flex-1 flex-col items-center justify-center gap-8"}>
-      <NoMatchSearch />
-      <Text className={"body-b1 text-center text-neutral-5-default"}>
-        Nothing matched your input! {"\n"}
-        Please try something else.
-      </Text>
     </View>
   );
 };
