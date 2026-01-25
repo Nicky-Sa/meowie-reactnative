@@ -6,7 +6,6 @@ on:
       - ios-preview
       - ios-production
 
-# Global permissions (needed for creating releases/tags)
 permissions:
   contents: write
 
@@ -19,32 +18,17 @@ jobs:
       PREVIEW_BRANCH: ios-preview
       PRODUCTION_BRANCH: ios-production
     outputs:
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+      final_tag: ${{ steps.format.outputs.FINAL_TAG }}
+      clean_version: ${{ steps.format.outputs.CLEAN_VERSION }}
       changelog: ${{ steps.tag_version.outputs.changelog }}
-      is_prerelease: ${{ steps.config.outputs.IS_PRERELEASE }}
-      suffix: ${{ steps.config.outputs.SUFFIX }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 
-      # 1. Setup variables
-      - name: Set Release Config
-        id: config
-        run: |
-          if [[ "${{ github.ref_name }}" == "$PRODUCTION_BRANCH" ]]; then
-            echo "IS_PRERELEASE=false" >> $GITHUB_OUTPUT
-            echo "SUFFIX=" >> $GITHUB_OUTPUT
-            echo "Environment: Production (Release)"
-          else
-            echo "IS_PRERELEASE=true" >> $GITHUB_OUTPUT
-            echo "SUFFIX=beta" >> $GITHUB_OUTPUT
-            echo "Environment: Preview (Pre-release)"
-          fi
-
-      # 2. Calculate Tag (Dry Run - just to get the number)
-      - name: Bump Version
+      # 1. Calculate the Next "Clean" Patch Version (e.g., v1.0.2)
+      - name: Calculate Next Version
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
         with:
@@ -52,7 +36,26 @@ jobs:
           default_bump: patch
           tag_prefix: "v"
           dry_run: true
-          append_to_pre_release_tag: ${{ steps.config.outputs.SUFFIX }}
+          release_branches: "preview,production"
+
+      # 2. Format the Tag and Clean Version manually
+      - name: Format Version Output
+        id: format
+        run: |
+          # The action returns 'v1.0.2'. We strip 'v' to get '1.0.2' for Apple.
+          RAW_TAG="${{ steps.tag_version.outputs.new_tag }}"
+          CLEAN_VERSION="${RAW_TAG#v}"
+          
+          if [[ "${{ github.ref_name }}" == "$PRODUCTION_BRANCH" ]]; then
+            echo "FINAL_TAG=$RAW_TAG" >> $GITHUB_OUTPUT
+            echo "Environment: Production ($RAW_TAG)"
+          else
+            # Force the -beta suffix manually
+            echo "FINAL_TAG=${RAW_TAG}-beta" >> $GITHUB_OUTPUT
+            echo "Environment: Preview (${RAW_TAG}-beta)"
+          fi
+          
+          echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
 
   # --- JOB 1: Build and upload to TestFlight ---
   build-and-upload:
@@ -60,7 +63,7 @@ jobs:
     runs-on: macos-26
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Determine APP_VARIANT
         run: |
@@ -74,9 +77,10 @@ jobs:
           esac      
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -84,7 +88,7 @@ jobs:
       - name: Making Sentry token available
         run: |
           rm -rf .sentryclirc
-          echo "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
+          echo -e "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -92,19 +96,23 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Cache CocoaPods
-        id: pod-cache
-        uses: actions/cache@v4
+      # 2. Cache Global CocoaPods
+      - name: Cache CocoaPods Global
+        uses: actions/cache@v5
         with:
-          path: ios/Pods
-          # This key ensures we invalidate the cache if package.json or the lockfile changes
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+          path: |
+            ~/.cocoapods
+            ~/Library/Caches/CocoaPods
+          # Hash package-lock.json because the JS deps dictate the Native deps
+          key: ${{ runner.os }}-pods-global-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-pods-global-
 
       - name: EAS Build
         env:
-          APP_VERSION: ${{ needs.calculate-version.outputs.new_tag }}
+          # Use Clean Version (e.g. "1.0.2") for the Apple Binary
+          # Apple rejects versions with letters like "-beta"
+          APP_VERSION: ${{ needs.calculate-version.outputs.clean_version }}
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           rm -rf .env.local
@@ -118,34 +126,23 @@ jobs:
             --username ${{ secrets.APPLE_ID }} \
             --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
 
-  # --- JOB 2: RELEASE (Runs only after Deploy succeeds) ---
+  # --- JOB 2: RELEASE ---
   smart-release:
     needs: [ build-and-upload, calculate-version ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 
-
-      # 3. Create the Release
-      # Since we already calculated the tag in job 0, we just create the tag/release here
-      # We use the same 'Bump Version' action (without dry_run) to handle the git tagging
-      - name: Bump Version and Push Tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: patch
-          tag_prefix: "v"
-          append_to_pre_release_tag: ${{ needs.calculate-version.outputs.suffix }}
-
+      # 3. Create the Release using the manually constructed tag
+      # This creates v1.0.2-beta (preview) or v1.0.2 (production)
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          name: ${{ needs.calculate-version.outputs.is_prerelease == 'false' && 'Production' || 'Preview' }} Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-          prerelease: ${{ needs.calculate-version.outputs.is_prerelease }}
+          tag_name: ${{ needs.calculate-version.outputs.final_tag }}
+          name: Release ${{ needs.calculate-version.outputs.final_tag }}
+          body: ${{ needs.calculate-version.outputs.changelog }}
+          prerelease: false
           draft: false
