@@ -1,12 +1,12 @@
 import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";
-import { PostersList } from "@/features/browse/elements/posters-list";
+import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
-import { PosterAPIDetails } from "@/features/browse/data/poster/type";
+import { useFetchMoviePosters } from "@/features/common/posters/useFetchMoviePosters";
 
 const NUM_COLUMNS = 3;
 
@@ -20,26 +20,22 @@ export const Screen = () => {
   const { data: personData, isLoading: personInfoLoading } =
     useFetchPersonInfo(personId);
 
+  const posterData = useFetchMoviePosters({ personId });
+
   const router = useRouter();
   const onPosterPress = useCallback(
     (index: number) => {
       router.push({
-        pathname: "/browse/movies-list",
+        pathname: "/person/movies-list",
         params: {
           initialIndex: index,
           title: personData?.name,
-          url: "/movies/poster",
           personId,
         },
       });
     },
     [router, personData?.name, personId],
   );
-
-  const apiDetails: PosterAPIDetails = {
-    url: "/movies/poster",
-    queryParams: { personId },
-  };
 
   return (
     <InnerScreen
@@ -50,7 +46,7 @@ export const Screen = () => {
     >
       <PostersList
         numColumns={NUM_COLUMNS}
-        apiDetails={apiDetails}
+        posterData={posterData}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
         ListHeaderComponent={

@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { memo } from "react";
-import { ID } from "@/features/common/data/query";
+import { ID } from "@/features/common/data/media-query";
 import Animated, {
   interpolate,
   SharedValue,

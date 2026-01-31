@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { useRevalidateByPattern } from "@/features/common/data/swr/hooks";
 
-export const authRequiredPaths = [
-  "/auth/current-user",
-  "/movie-states",
-] as const;
+const authRequiredPaths = [
+  new RegExp("/auth/current-user"),
+  new RegExp("^/library/saved/.*"),
+];
 
 export const useRevalidateAuth = () => {
   const { revalidateByPattern } = useRevalidateByPattern();
@@ -14,7 +14,7 @@ export const useRevalidateAuth = () => {
     for (const path of authRequiredPaths) {
       await revalidateByPattern(path);
     }
-    console.log("Revalidated auth");
+    console.log("Revalidated auth required paths");
   }, [revalidateByPattern]);
 
   return { revalidateAuth };

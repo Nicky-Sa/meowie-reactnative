@@ -20,7 +20,7 @@ export const GenreCard = ({ item }: Props) => {
   const router = useRouter();
   const onPress = () => {
     router.push({
-      pathname: "/browse",
+      pathname: "/discover/posters",
       params: { title: item.name, genres: [item.id] },
     });
   };

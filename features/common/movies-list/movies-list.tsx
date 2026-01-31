@@ -1,7 +1,7 @@
 import { ErrorState } from "@/features/general/error-state";
-import { useListRef } from "@/features/browse/hooks/list/useListRef";
-import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
-import { useFetchMore } from "@/features/browse/hooks/list/useFetchMore";
+import { useListRef } from "@/features/discover/hooks/list/useListRef";
+import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
+import { useFetchMore } from "@/features/discover/hooks/list/useFetchMore";
 import Animated from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";

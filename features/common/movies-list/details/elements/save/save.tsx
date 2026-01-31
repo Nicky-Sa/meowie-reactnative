@@ -1,9 +1,9 @@
 import { Button } from "@/features/common/ui/button";
-import { useToggleSave } from "@/features/common/movies-list/details/elements/save/data/useToggleSave";
-import { ID } from "@/features/common/data/query";
+import { useToggleLibraryItem } from "@/features/common/movies-list/details/elements/save/data/useToggleLibraryItem";
+import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
-import { useFetchMovieStates } from "@/features/common/movies-list/details/elements/save/data/useFetchMovieStates";
+import { useFetchLibraryStatus } from "@/features/common/movies-list/details/elements/save/data/useFetchLibraryStatus";
 import { useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
 import EmptySaved from "@/assets/images/profile/empty-saved.svg";
@@ -11,17 +11,24 @@ import { useRouter } from "expo-router";
 import { SaveIcon } from "@/features/common/movies-list/details/elements/save/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
+import { LibraryMediaType } from "@/features/profile/data/library.constants";
+
 type Props = {
   id: ID;
+  mediaType: LibraryMediaType;
   onPress: (saved: boolean | null) => void;
 };
 
-export const Save = ({ id, onPress }: Props) => {
+export const Save = ({ id, mediaType, onPress }: Props) => {
   const { data: currentUser } = useCurrentUser();
-  const { data: movieStates, isLoading: isMovieStatesLoading } =
-    useFetchMovieStates({ id });
-  const { trigger } = useToggleSave({ id });
-  const isSaved = !!movieStates?.saved;
+  const { data: libraryStatus, isLoading: isLibraryStatusLoading } =
+    useFetchLibraryStatus({ id, mediaType });
+  const { trigger } = useToggleLibraryItem({
+    id,
+    mediaType,
+    category: "saved",
+  });
+  const isSaved = Boolean(libraryStatus?.saved);
 
   const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -34,7 +41,6 @@ export const Save = ({ id, onPress }: Props) => {
       return;
     }
 
-    // Trigger handles the cache update for useFetchMovieStates
     await trigger(isSaved);
   };
 
@@ -42,7 +48,7 @@ export const Save = ({ id, onPress }: Props) => {
     <>
       <Button variant={"link"} size={"md"} onPress={handlePress}>
         <View className={"flex flex-row items-center justify-center gap-2"}>
-          {isMovieStatesLoading ? (
+          {isLibraryStatusLoading ? (
             <SkeletonItem className={"h-6 w-16"} />
           ) : (
             <>

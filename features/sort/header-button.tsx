@@ -10,30 +10,30 @@ import { useRef } from "react";
 import { Segment } from "@/features/common/ui/segment";
 import { useImmer } from "use-immer";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { initialSort, Sort } from "@/features/common/data/query";
+import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
-const sortOptions: { id: Sort; label: string; description: string }[] = [
+const sortOptions: { id: SortOption; label: string; description: string }[] = [
   {
-    id: "popularity.desc",
+    id: SortOption.POPULARITY,
     label: "Popularity (default)",
     description:
       "Shows the movies that are currently being watched the most or have the highest ratings.",
   },
   {
-    id: "primary_release_date.desc",
+    id: SortOption.RELEASE_DATE,
     label: "Newest",
     description: "Shows the most recently added or released movies.",
   },
   {
-    id: "random",
+    id: SortOption.RANDOM,
     label: "Random",
     description: "Shows a completely unpredictable mix of good movies.",
   },
 ];
 
 export const SortHeaderButton = () => {
-  const { sort } = useLocalSearchParams<{ sort?: Sort }>();
+  const { sort } = useLocalSearchParams<{ sort?: SortOption }>();
   const [draftSort, setDraftSort] = useImmer(sort || initialSort);
   const isModified = !!sort && sort !== initialSort;
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
@@ -87,7 +87,7 @@ export const SortHeaderButton = () => {
               key={option.id}
               item={option}
               currentValues={draftSort}
-              setCurrentValues={(val) => setDraftSort(val as Sort)}
+              setCurrentValues={(val) => setDraftSort(val as SortOption)}
               multiple={false}
             />
           ))}

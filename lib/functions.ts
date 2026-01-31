@@ -33,10 +33,8 @@ export const searchParamsToQuery = (
     .flatMap((key) => {
       const value = searchParams[key];
       if (Array.isArray(value)) {
-        return value
-          .slice()
-          .sort()
-          .map((v) => `${key}=${encodeURIComponent(v)}`);
+        if (value.length === 0) return [];
+        return `${key}=${value.map((v) => encodeURIComponent(v)).join(",")}`;
       }
       return `${key}=${encodeURIComponent(value)}`;
     })

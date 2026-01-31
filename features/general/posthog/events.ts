@@ -1,4 +1,4 @@
-import { Filters, ID } from "@/features/common/data/query";
+import { Filters, ID } from "@/features/common/data/media-query";
 
 export type SORT_OPENED = {
   event: "sort_opened";

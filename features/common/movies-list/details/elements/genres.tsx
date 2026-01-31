@@ -33,7 +33,7 @@ const GenreItem = ({ item }: { item: Genre }) => {
   const onPress = () => {
     onGenrePressed();
     router.push({
-      pathname: "/browse",
+      pathname: "/discover/posters",
       params: { title: item.name, genres: [item.id] },
     });
   };

@@ -6,7 +6,10 @@ import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
-import { Filters, initialFiltersValue } from "@/features/common/data/query";
+import {
+  Filters,
+  initialFiltersValue,
+} from "@/features/common/data/media-query";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { Icon } from "@/features/common/ui/icon";
@@ -54,7 +57,7 @@ export const Screen = () => {
   const handleApply = () => {
     capture("filters_applied", { filters });
     router.push({
-      pathname: "/filters/posters-list",
+      pathname: "/discover/posters",
       params: { ...filters, modifiedFieldsNumber },
     });
   };

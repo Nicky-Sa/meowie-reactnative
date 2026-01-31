@@ -94,7 +94,7 @@ export const useRevalidateByPattern = () => {
 
   const revalidateByPattern = useCallback(
     async <Data, MutationData>(
-      pattern?: string,
+      pattern?: RegExp,
       data?:
         | MutationData
         | Promise<MutationData>
@@ -108,7 +108,7 @@ export const useRevalidateByPattern = () => {
         if (!pattern) {
           // No pattern provided, mutate all keys
           mutations.push(mutate(key, data, opts));
-        } else if (key.includes(pattern)) {
+        } else if (pattern.test(key)) {
           mutations.push(mutate(key, data, opts));
         }
       }

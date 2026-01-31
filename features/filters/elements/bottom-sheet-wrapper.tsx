@@ -7,7 +7,10 @@ import { NavArrowRight, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
 import { ReactNode, useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { Filters, initialFiltersValue } from "@/features/common/data/query";
+import {
+  Filters,
+  initialFiltersValue,
+} from "@/features/common/data/media-query";
 import { Updater, useImmer } from "use-immer";
 import { Chip } from "@/features/common/ui/chip";
 import _ from "lodash";

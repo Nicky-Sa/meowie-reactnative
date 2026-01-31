@@ -1,4 +1,4 @@
-import { CastInfo } from "@/features/movies/models/movie-info";
+import { CastInfo } from "@/features/common/data/models/cast";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";

@@ -12,7 +12,7 @@ import { Casts } from "@/features/common/movies-list/details/elements/casts";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Cast } from "@/features/common/movies-list/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
-import { ID } from "@/features/common/data/query";
+import { ID } from "@/features/common/data/media-query";
 import { Save } from "@/features/common/movies-list/details/elements/save/save";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
@@ -83,10 +83,10 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
     });
   }, [capture, data?.title, movieId]);
 
-  return isLoading || !data ? (
-    <MovieDetailsSkeleton />
-  ) : error ? (
+  return error ? (
     <ErrorState tryAgain={mutate} error={error} />
+  ) : isLoading || !data ? (
+    <MovieDetailsSkeleton />
   ) : (
     <View className={"flex w-full flex-col gap-4"}>
       <View className={"flex w-full flex-row gap-2"}>
@@ -161,7 +161,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Save id={movieId} onPress={onSavePress} />
+        <Save id={movieId} mediaType="movie" onPress={onSavePress} />
       </View>
     </View>
   );

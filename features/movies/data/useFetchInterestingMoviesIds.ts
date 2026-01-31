@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { InterestingMovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
-import { Sort } from "@/features/common/data/query";
+import { SortOption } from "@/features/common/data/media-query";
 import {
   SWRInfiniteKeyLoader,
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
 
 type Args = {
-  sort: Sort;
+  sort: SortOption;
 };
 
 export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
   const initialPage = useMemo(
-    () => (sort === "random" ? Math.floor(Math.random() * 100) + 1 : 1),
+    () =>
+      sort === SortOption.RANDOM ? Math.floor(Math.random() * 100) + 1 : 1,
     [sort],
   );
 

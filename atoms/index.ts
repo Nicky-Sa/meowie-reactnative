@@ -1,7 +1,11 @@
 import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
-import { Filters, ID, initialFiltersValue } from "@/features/common/data/query";
+import {
+  Filters,
+  ID,
+  initialFiltersValue,
+} from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 
 // Color based on the movie poster

@@ -11,7 +11,7 @@ export const MovieCard = ({ item }: Props) => {
   const router = useRouter();
   const onPress = () => {
     router.push({
-      pathname: "/browse/movie-details",
+      pathname: "/discover/movie-details",
       params: { movieId: item.id },
     });
   };

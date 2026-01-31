@@ -1,12 +1,17 @@
 import { Text, View } from "react-native";
-import { AllRatings, Rating_Source } from "@/features/movies/models/ratings";
+import {
+  Rating_Source,
+  RatingEntry,
+} from "@/features/common/data/models/ratings";
 import TMDBLogo from "@/assets/icons/ratings/tmdb.svg";
 import IMDBLogo from "@/assets/icons/ratings/imdb.svg";
 import RottenTomatoLogo from "@/assets/icons/ratings/rotten-tomato.svg";
 import MetacriticLogo from "@/assets/icons/ratings/metacritic.svg";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 
-type Props = AllRatings;
+type Props = {
+  ratings: RatingEntry[];
+};
 
 const ratingsItems: { title: Rating_Source; logo: SvgImage }[] = [
   {

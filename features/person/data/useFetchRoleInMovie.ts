@@ -1,6 +1,6 @@
 import { RoleInMovieResDto } from "@/features/person/data/person.dto";
 import { useSWRConfigured } from "@/features/common/data/swr/hooks";
-import { ID } from "@/features/common/data/query";
+import { ID } from "@/features/common/data/media-query";
 
 export const useFetchRoleInMovie = (
   personId: ID | undefined,

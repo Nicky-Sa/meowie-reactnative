@@ -1,7 +1,8 @@
-import { RatingEntry } from "@/features/movies/models/ratings";
-import { PosterProps } from "@/features/movies/models/image";
-import { Credits } from "@/features/movies/models/movie-info";
+import { RatingEntry } from "@/features/common/data/models/ratings";
+import { PosterProps } from "@/features/common/data/models/poster";
+import { CastInfo } from "@/features/common/data/models/cast";
 import { Genre } from "@/features/general/data/constants/useGenres";
+import { PaginatedResponse } from "@/features/common/data/paginated-response";
 
 export type MovieInfoResDto = {
   title: string;
@@ -13,13 +14,13 @@ export type MovieInfoResDto = {
   overview: string;
   genres: Genre[];
   posterProps: PosterProps;
-  credits: Credits;
+  credits: MovieCredits;
   ratings: RatingEntry[];
 };
 
-export type InterestingMovieIdsResDto = {
-  page: number;
-  results: number[];
-  total_pages: number;
-  total_results: number;
+export type InterestingMovieIdsResDto = PaginatedResponse<number>;
+
+export type MovieCredits = {
+  casts: CastInfo[];
+  director: CastInfo;
 };

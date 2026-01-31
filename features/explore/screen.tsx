@@ -8,7 +8,7 @@ import { Filter } from "iconoir-react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useAtom } from "jotai/index";
 import { filtersAtom } from "@/atoms";
-import { initialFiltersValue } from "@/features/common/data/query";
+import { initialFiltersValue } from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 

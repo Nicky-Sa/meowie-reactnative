@@ -5,7 +5,7 @@ import { Header } from "@/features/general/layout/header";
 import { ProfileHeaderButton } from "@/features/profile/header-button";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { LoggedIn } from "@/features/profile/logged-in/content";
-import { useScrollHandler } from "@/features/browse/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
 
 export const Screen = () => {
   const { data } = useCurrentUser();

@@ -113,35 +113,20 @@ function RootLayout() {
                           />
 
                           <Stack.Screen
-                            name="filters/posters-list"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
-
-                          <Stack.Screen
-                            name="filters/movies-list"
-                            options={{
-                              animation: "fade",
-                              animationDuration: 300,
-                            }}
-                          />
-
-                          <Stack.Screen
-                            name="browse/index"
+                            name="discover/posters"
                             options={{
                               animation: "slide_from_right",
                             }}
                           />
                           <Stack.Screen
-                            name="browse/movies-list"
+                            name="discover/movies-list"
                             options={{
                               animation: "fade",
                               animationDuration: 300,
                             }}
                           />
                           <Stack.Screen
-                            name="browse/movie-details"
+                            name="discover/movie-details"
                             options={{
                               animation: "slide_from_right",
                             }}
@@ -176,11 +161,27 @@ function RootLayout() {
                           />
 
                           <Stack.Screen
+                            name="person/movies-list"
+                            options={{
+                              animation: "fade",
+                              animationDuration: 300,
+                            }}
+                          />
+
+                          <Stack.Screen
                             name="search/index"
                             options={{
                               animation: "fade",
                               animationDuration: 300,
                               presentation: "card",
+                            }}
+                          />
+
+                          <Stack.Screen
+                            name="library/movies-list"
+                            options={{
+                              animation: "fade",
+                              animationDuration: 300,
                             }}
                           />
 
