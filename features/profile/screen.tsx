@@ -1,11 +1,10 @@
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { Guest } from "@/features/profile/guest/content";
 import { View } from "react-native";
-import { Header } from "@/features/general/layout/header";
-import { ProfileHeaderButton } from "@/features/profile/header-button";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { LoggedIn } from "@/features/profile/logged-in/content";
-import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
+import { Header } from "@/features/profile/header";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -13,7 +12,7 @@ export const Screen = () => {
 
   return (
     <MainScreen>
-      <Header scrollY={scrollY} headerButton={<ProfileHeaderButton />} />
+      <Header scrollY={scrollY} />
       <View className={"flex-1"}>
         {data?.user ? (
           <LoggedIn

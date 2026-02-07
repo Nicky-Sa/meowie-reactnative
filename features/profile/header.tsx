@@ -2,26 +2,22 @@ import { View, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Logo from "@/assets/images/logo/logo.svg";
 import LogoType from "@/assets/images/logo/logo-type.svg";
-import { ReactNode } from "react";
 import Animated, {
   interpolateColor,
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { tailwind } from "@/lib/tailwind";
+import { ProfileHeaderButton } from "@/features/profile/header-button";
 
 type Props = {
-  headerButton: ReactNode;
-  scrollY?: SharedValue<number>;
+  scrollY: SharedValue<number>;
 };
 
-export const Header = ({ headerButton, scrollY }: Props) => {
+export const Header = ({ scrollY }: Props) => {
   const insets = useSafeAreaInsets();
 
   const animatedStyle = useAnimatedStyle(() => {
-    // Default to solid black if scrollY is not defined
-    if (!scrollY) return { backgroundColor: "transparent" };
-
     const targetColor = tailwind.theme.backgroundColor.neutral[15].default;
 
     const backgroundColor = interpolateColor(
@@ -48,7 +44,9 @@ export const Header = ({ headerButton, scrollY }: Props) => {
     >
       <Logo />
       <LogoType />
-      <View className={"relative"}>{headerButton}</View>
+      <View className={"relative"}>
+        <ProfileHeaderButton />
+      </View>
     </Animated.View>
   );
 };

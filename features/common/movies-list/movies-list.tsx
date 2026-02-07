@@ -1,8 +1,10 @@
 import { ErrorState } from "@/features/general/error-state";
-import { useListRef } from "@/features/discover/hooks/list/useListRef";
-import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
-import { useFetchMore } from "@/features/discover/hooks/list/useFetchMore";
-import Animated from "react-native-reanimated";
+import { useListRef } from "@/features/common/hooks/list/useListRef";
+import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
+import Animated, {
+  ScrollHandlerProcessed,
+  SharedValue,
+} from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
 import { MoviesListItem } from "@/features/common/movies-list/movies-list-item";
@@ -19,6 +21,10 @@ type Props = {
   mutate: () => void;
   initialScrollIndex?: number;
   scrollToTopIfChanges?: unknown;
+  currentIndex: number;
+  scrollY: SharedValue<number>;
+  scrollHandler: ScrollHandlerProcessed;
+  onLoad: () => void;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
@@ -34,9 +40,12 @@ export const MoviesList = ({
   mutate,
   initialScrollIndex,
   scrollToTopIfChanges,
+  currentIndex,
+  scrollY,
+  scrollHandler,
+  onLoad,
 }: Props) => {
   const listRef = useListRef(scrollToTopIfChanges);
-  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
 
   const { onEndReached } = useFetchMore({
     size,

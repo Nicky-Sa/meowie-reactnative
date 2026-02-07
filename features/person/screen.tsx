@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { useScrollHandler } from "@/features/discover/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";

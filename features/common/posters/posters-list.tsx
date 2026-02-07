@@ -5,7 +5,7 @@ import Animated, { ScrollHandlerProcessed } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
-import { useFetchMore } from "@/features/discover/hooks/list/useFetchMore";
+import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
 import { ReactElement } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, ViewStyle } from "react-native";

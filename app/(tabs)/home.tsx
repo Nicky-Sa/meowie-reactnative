@@ -1,4 +1,4 @@
-import { Screen } from "@/features/movies/screen";
+import { Screen } from "@/features/home/screen";
 
 export default function Home() {
   return <Screen />;
