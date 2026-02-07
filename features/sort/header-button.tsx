@@ -71,7 +71,7 @@ export const SortHeaderButton = () => {
             onPress={() => {
               capture("sort_applied", { sort_type: draftSort });
               router.replace({
-                pathname: "/movies",
+                pathname: "/home",
                 params: { sort: draftSort },
               });
               bottomSheetRef.current?.dismiss();

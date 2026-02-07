@@ -4,7 +4,7 @@ import { Tab } from "@/features/general/navbar/types";
 
 const tabs: Tab[] = [
   {
-    name: "movies",
+    name: "home",
     title: "Home",
     icon: HomeSimple,
   },

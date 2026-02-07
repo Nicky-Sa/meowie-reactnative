@@ -40,7 +40,7 @@ export const OtpForm = ({ email }: Props) => {
   const onSubmit = handleSubmit(async (data: OtpFormData) => {
     try {
       await triggerVerifyOtp({ ...data, email });
-      router.replace("/movies");
+      router.replace("/home");
     } catch (error) {
       setError("otp", { message: (error as Error).message });
     }

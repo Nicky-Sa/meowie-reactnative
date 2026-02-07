@@ -17,7 +17,7 @@ export const Logout = () => {
   const handleLogout = async () => {
     await triggerLogout();
     bottomSheetRef.current?.dismiss();
-    router.replace("/movies");
+    router.replace("/home");
   };
 
   return (

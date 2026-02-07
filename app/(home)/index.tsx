@@ -25,13 +25,13 @@ export default function Home() {
         AsyncStorage.getItem("skipped-auth").then((skippedAuth) => {
           // check if authenticated
           if (data?.user) {
-            router.replace("/movies");
+            router.replace("/home");
           } else {
             // not authenticated
             Emitter.emit("userUnregistered");
             // check skipped-auth
             if (skippedAuth === "true") {
-              router.replace("/movies");
+              router.replace("/home");
             } else {
               router.replace("/auth/request-otp");
             }
