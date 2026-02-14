@@ -21,7 +21,7 @@ const sortOptions: { id: SortOption; label: string; description: string }[] = [
       "Shows the movies that are currently being watched the most or have the highest ratings.",
   },
   {
-    id: SortOption.RELEASE_DATE,
+    id: SortOption.NEWEST,
     label: "Newest",
     description: "Shows the most recently added or released movies.",
   },
