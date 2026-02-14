@@ -2,6 +2,7 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Content as MoviesContent } from "@/features/movies/content";
+import { Content as SeriesContent } from "@/features/series/content";
 import { useState, useEffect } from "react";
 import { useWindowDimensions } from "react-native";
 import Animated, {
@@ -57,7 +58,7 @@ export const Screen = () => {
         />
 
         {/* Tab 2: Series */}
-        <MoviesContent
+        <SeriesContent
           currentIndex={currentIndex}
           scrollY={scrollY}
           scrollHandler={scrollHandler}

@@ -14,8 +14,10 @@ export type SORT_APPLIED = {
 export type TRAILER_PLAYED = {
   event: "trailer_played";
   properties: {
-    movie_id: ID;
-    movie_title: string;
+    movie_id?: ID;
+    movie_title?: string;
+    series_id?: ID;
+    series_title?: string;
     autoplay: boolean;
   };
 };
@@ -23,8 +25,10 @@ export type TRAILER_PLAYED = {
 export type TRAILER_PAUSED = {
   event: "trailer_paused";
   properties: {
-    movie_id: ID;
-    movie_title: string;
+    movie_id?: ID;
+    movie_title?: string;
+    series_id?: ID;
+    series_title?: string;
   };
 };
 
@@ -38,11 +42,23 @@ export type MOVIE_SAVED = {
   };
 };
 
+export type SERIES_SAVED = {
+  event: "series_saved";
+  properties: {
+    series_id: ID;
+    series_title: string;
+    genres: string[];
+    saved: boolean | null; // null for guest
+  };
+};
+
 export type POSTER_EXPANDED = {
   event: "poster_expanded";
   properties: {
-    movie_id: ID;
-    movie_title: string;
+    movie_id?: ID;
+    movie_title?: string;
+    series_id?: ID;
+    series_title?: string;
   };
 };
 
@@ -51,7 +67,7 @@ export type PERSON_CLICKED = {
   properties: {
     person_id: ID;
     person_name: string;
-    role: "director" | "cast";
+    role: "director" | "cast" | "creator";
   };
 };
 
@@ -66,7 +82,8 @@ export type GENRE_CLICKED = {
 export type POSTER_CLICKED = {
   event: "poster_clicked";
   properties: {
-    movie_id: ID;
+    movie_id?: ID;
+    series_id?: ID;
   };
 };
 
@@ -126,6 +143,7 @@ export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
   | MOVIE_SAVED
+  | SERIES_SAVED
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED
