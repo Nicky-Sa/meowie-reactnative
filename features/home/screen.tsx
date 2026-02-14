@@ -3,68 +3,63 @@ import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Content as MoviesContent } from "@/features/movies/content";
 import { Content as SeriesContent } from "@/features/series/content";
-import { useState, useEffect } from "react";
-import { useWindowDimensions } from "react-native";
+import { useEffect, useState } from "react";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing,
+  SlideInRight,
+  SlideOutLeft,
+  SlideInLeft,
+  SlideOutRight,
 } from "react-native-reanimated";
 
-const items = ["Movies", "Series"];
+const mediaTypes = ["Movies", "Series"];
 
 export const Screen = () => {
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
-  const [activeMediaType, setActiveMediaType] = useState(items[0]);
+  const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
 
-  const { width: screenWidth } = useWindowDimensions();
-
-  const translateX = useSharedValue(0);
-
-  // Trigger Animation when tab changes
   useEffect(() => {
-    const index = items.indexOf(activeMediaType);
-    translateX.value = withTiming(-index * screenWidth, {
-      duration: 300,
-      easing: Easing.out(Easing.exp), // Smooth exponential easing
-    });
-  }, [activeMediaType, screenWidth, translateX]);
-
-  const slideStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
+    // Reset scroll position so the new list starts at the top
+    scrollY.value = 0;
+  }, [activeMediaType, scrollY]);
 
   return (
     <MainScreen>
       <Header
         scrollY={scrollY}
-        mediaTypes={items}
+        mediaTypes={mediaTypes}
         activeMediaType={activeMediaType}
         setActiveMediaType={setActiveMediaType}
       />
 
-      {/* Sliding Container: Width = 200% of screen (for 2 tabs) */}
-      <Animated.View
-        className="flex-1 flex-row"
-        style={[{ width: screenWidth * items.length }, slideStyle]}
-      >
-        {/* Tab 1: Movies */}
-        <MoviesContent
-          currentIndex={currentIndex}
-          scrollY={scrollY}
-          scrollHandler={scrollHandler}
-          onLoad={onLoad}
-        />
+      {activeMediaType === mediaTypes[0] && (
+        <Animated.View
+          entering={SlideInLeft.duration(300)}
+          exiting={SlideOutLeft.duration(300)}
+          className={"flex-1"}
+        >
+          <MoviesContent
+            currentIndex={currentIndex}
+            scrollY={scrollY}
+            scrollHandler={scrollHandler}
+            onLoad={onLoad}
+          />
+        </Animated.View>
+      )}
 
-        {/* Tab 2: Series */}
-        <SeriesContent
-          currentIndex={currentIndex}
-          scrollY={scrollY}
-          scrollHandler={scrollHandler}
-          onLoad={onLoad}
-        />
-      </Animated.View>
+      {activeMediaType === mediaTypes[1] && (
+        <Animated.View
+          entering={SlideInRight.duration(300)}
+          exiting={SlideOutRight.duration(300)}
+          className={"flex-1"}
+        >
+          <SeriesContent
+            currentIndex={currentIndex}
+            scrollY={scrollY}
+            scrollHandler={scrollHandler}
+            onLoad={onLoad}
+          />
+        </Animated.View>
+      )}
     </MainScreen>
   );
 };
