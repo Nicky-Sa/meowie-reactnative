@@ -1,9 +1,9 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchDiscoveredPosters } from "@/features/common/posters/useFetchDiscoveredPosters";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { useAtom } from "jotai";
 import { currentMovieIdAtom } from "@/atoms";
-import { useFetchRoleInMovie } from "@/features/person/data/useFetchRoleInMovie";
+import { useFetchRole } from "@/features/person/data/useFetchRole";
 
 export const Screen = () => {
   const { title, initialIndex, personId } = useLocalSearchParams<{
@@ -14,10 +14,14 @@ export const Screen = () => {
 
   const [currentMovieId] = useAtom(currentMovieIdAtom);
 
-  const posterData = useFetchDiscoveredPosters({ personId }, "movie");
+  const posterData = useFetchPosters(`/person/${personId}/posters`, {
+    personId,
+  });
 
-  const { data: roleInMovie, isLoading: isRoleInMovieLoading } =
-    useFetchRoleInMovie(personId, currentMovieId);
+  const { data: roleInMovie, isLoading: isRoleInMovieLoading } = useFetchRole(
+    personId,
+    currentMovieId,
+  );
 
   return (
     <MediaListScreen

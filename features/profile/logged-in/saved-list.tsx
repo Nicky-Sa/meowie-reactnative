@@ -4,8 +4,8 @@ import { PostersList } from "@/features/common/posters/posters-list";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
-import { useFetchLibrarySavedPosters } from "@/features/common/posters/useFetchLibrarySavedPosters";
 import { TabChildProps } from "@/features/common/tab/tab-bar";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 
 const NUM_COLUMNS = 3;
 
@@ -14,7 +14,7 @@ type Props = TabChildProps;
 export const SavedList = ({ scrollHandler }: Props) => {
   const { paddingBottom } = useMainScreenContentStyle();
 
-  const posterData = useFetchLibrarySavedPosters();
+  const posterData = useFetchPosters("/library/saved");
 
   const router = useRouter();
   const onPosterPress = useCallback(

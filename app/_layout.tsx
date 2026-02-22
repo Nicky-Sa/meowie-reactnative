@@ -161,7 +161,7 @@ function RootLayout() {
                           />
 
                           <Stack.Screen
-                            name="person/movies-list"
+                            name="person/media-list"
                             options={{
                               animation: "fade",
                               animationDuration: 300,

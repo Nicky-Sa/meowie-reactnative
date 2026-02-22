@@ -8,13 +8,17 @@ import {
 import { SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 
-export const useFetchDiscoveredPosters = (
-  queryParams: Partial<SearchParams>,
-  mediaType: MediaType,
+type URL =
+  | `/person/${string}/posters`
+  | `/${MediaType}/posters`
+  | "/library/saved";
+
+export const useFetchPosters = (
+  url: URL,
+  queryParams?: Partial<SearchParams>,
 ) => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = `/${mediaType}/posters`;
       const query = searchParamsToQuery(queryParams);
 
       // Stop fetching if there are no more results
@@ -22,9 +26,9 @@ export const useFetchDiscoveredPosters = (
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + 1}&${query}`; // SWR key
+      return `${url}?page=${pageIndex + 1}&${query}`; // SWR key
     },
-    [mediaType, queryParams],
+    [queryParams, url],
   );
 
   const {
