@@ -9,7 +9,7 @@ import { SearchParams } from "@/features/common/data/media-query";
 
 export const useFetchPosters = (
   queryParams: Partial<SearchParams>,
-  mediaType: "movies" | "series",
+  mediaType: "movies" | "tv",
 ) => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {

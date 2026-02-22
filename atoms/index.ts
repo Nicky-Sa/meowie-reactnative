@@ -22,4 +22,4 @@ export const allowYTPlayingAtom = atom(true);
 export const autoplayAtom = atomPersisted("autoplay", true);
 
 export const currentMovieIdAtom = atom<ID>();
-export const currentSeriesIdAtom = atom<ID>();
+export const currentTvIdAtom = atom<ID>();

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { InterestingSeriesIdsResDto } from "@/features/series/data/dto/series.dto";
+import { InterestingTvIdsResDto } from "@/features/tv/data/dto/tv.dto";
 import { SortOption } from "@/features/common/data/media-query";
 import {
   SWRInfiniteKeyLoader,
@@ -10,16 +10,16 @@ type Args = {
   sort: SortOption;
 };
 
-export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
+export const useFetchInterestingTvIds = ({ sort }: Args) => {
   const initialPage = useMemo(
     () =>
       sort === SortOption.RANDOM ? Math.floor(Math.random() * 100) + 1 : 1,
     [sort],
   );
 
-  const getKey: SWRInfiniteKeyLoader<InterestingSeriesIdsResDto> = useCallback(
+  const getKey: SWRInfiniteKeyLoader<InterestingTvIdsResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = "/series/interesting-ids";
+      const baseUrl = "/tv/interesting-ids";
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
@@ -35,14 +35,14 @@ export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
     data: response,
     setSize,
     ...rest
-  } = useSWRPaginatedConfigured<InterestingSeriesIdsResDto>(getKey);
+  } = useSWRPaginatedConfigured<InterestingTvIdsResDto>(getKey);
 
   // Force reset size when sort changes
   useEffect(() => {
     setSize(1);
   }, [sort, setSize]);
 
-  // Extract `id` from each series
+  // Extract `id` from each tv
   // The list is accumulated from all pages
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)

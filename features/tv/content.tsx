@@ -1,5 +1,5 @@
-import { useFetchInterestingSeriesIds } from "@/features/series/data/useFetchInterestingSeriesIds";
-import { SeriesList } from "@/features/series/series-list";
+import { useFetchInterestingTvIds } from "@/features/tv/data/useFetchInterestingTvIds";
+import { TvList } from "@/features/tv/tv-list";
 import { useLocalSearchParams } from "expo-router";
 import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
@@ -28,10 +28,10 @@ export const Content = ({
     isValidating,
     error,
     mutate,
-  } = useFetchInterestingSeriesIds({ sort });
+  } = useFetchInterestingTvIds({ sort });
 
   return (
-    <SeriesList
+    <TvList
       data={data}
       dataLength={dataLength}
       isLoading={isLoading}

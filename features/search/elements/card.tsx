@@ -14,7 +14,7 @@ export const SearchResultCard = ({ item }: Props) => {
     case "movie":
       return <MovieCard item={item} />;
     case "movie-genre":
-    case "series-genre":
+    case "tv-genre":
       return <GenreCard item={item} />;
     default:
       return null;

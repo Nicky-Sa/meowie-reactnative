@@ -2,98 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
-    /* Text Styles  */
-    .headline-h1 {
-        @apply text-8xl font-Lato-400;
-    }
+  /* Text Styles  */
+  .headline-h1 {
+    @apply font-Lato-400 text-8xl;
+  }
 
-    .headline-h1-strong {
-        @apply text-8xl font-Lato-700;
-    }
+  .headline-h1-strong {
+    @apply font-Lato-700 text-8xl;
+  }
 
-    .headline-h2 {
-        @apply text-7xl font-Lato-400;
-    }
+  .headline-h2 {
+    @apply font-Lato-400 text-7xl;
+  }
 
-    .headline-h2-strong {
-        @apply text-7xl font-Lato-700;
-    }
+  .headline-h2-strong {
+    @apply font-Lato-700 text-7xl;
+  }
 
-    .headline-h3 {
-        @apply text-6xl font-Lato-400;
-    }
+  .headline-h3 {
+    @apply font-Lato-400 text-6xl;
+  }
 
-    .headline-h3-strong {
-        @apply text-6xl font-Lato-700;
-    }
+  .headline-h3-strong {
+    @apply font-Lato-700 text-6xl;
+  }
 
-    .headline-h4 {
-        @apply text-5xl font-Lato-400;
-    }
+  .headline-h4 {
+    @apply font-Lato-400 text-5xl;
+  }
 
-    .headline-h4-strong {
-        @apply text-5xl font-Lato-700;
-    }
+  .headline-h4-strong {
+    @apply font-Lato-700 text-5xl;
+  }
 
-    .headline-h5 {
-        @apply text-3xl font-Lato-400;
-    }
+  .headline-h5 {
+    @apply font-Lato-400 text-3xl;
+  }
 
-    .headline-h5-strong {
-        @apply text-3xl font-Lato-700;
-    }
+  .headline-h5-strong {
+    @apply font-Lato-700 text-3xl;
+  }
 
-    .title-t1 {
-        @apply text-2xl font-Lato-400;
-    }
+  .title-t1 {
+    @apply font-Lato-400 text-2xl;
+  }
 
-    .title-t1-strong {
-        @apply text-2xl font-Lato-700;
-    }
+  .title-t1-strong {
+    @apply font-Lato-700 text-2xl;
+  }
 
-    .title-t2 {
-        @apply text-xl font-Lato-400;
-    }
+  .title-t2 {
+    @apply font-Lato-400 text-xl;
+  }
 
-    .title-t2-strong {
-        @apply text-xl font-Lato-700;
-    }
+  .title-t2-strong {
+    @apply font-Lato-700 text-xl;
+  }
 
-    .title-t3 {
-        @apply text-lg font-Lato-400;
-    }
+  .title-t3 {
+    @apply font-Lato-400 text-lg;
+  }
 
-    .title-t3-strong {
-        @apply text-lg font-Lato-700;
-    }
+  .title-t3-strong {
+    @apply font-Lato-700 text-lg;
+  }
 
-    .body-b1 {
-        @apply text-base leading-6 font-Lato-400;
-    }
+  .body-b1 {
+    @apply font-Lato-400 text-base leading-6;
+  }
 
-    .body-b1-text-input {
-        @apply text-base font-Lato-400;
-    }
+  .body-b1-text-input {
+    @apply font-Lato-400 text-base;
+  }
 
-    .body-b1-strong {
-        @apply text-base leading-6 font-Lato-700;
-    }
+  .body-b1-strong {
+    @apply font-Lato-700 text-base leading-6;
+  }
 
-    .body-b2 {
-        @apply text-sm font-Lato-400;
-    }
+  .body-b2 {
+    @apply font-Lato-400 text-sm;
+  }
 
-    .body-b2-strong {
-        @apply text-sm font-Lato-700;
-    }
+  .body-b2-strong {
+    @apply font-Lato-700 text-sm;
+  }
 
-    .caption-c1 {
-        @apply text-xs font-Lato-400;
-    }
+  .caption-c1 {
+    @apply font-Lato-400 text-xs;
+  }
 
-    .caption-c1-strong {
-        @apply text-xs font-Lato-700;
-    }
+  .caption-c1-strong {
+    @apply font-Lato-700 text-xs;
+  }
 }

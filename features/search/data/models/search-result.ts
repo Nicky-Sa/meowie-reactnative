@@ -21,12 +21,12 @@ export type SearchResultMovieGenre = Genre & {
   mediaType: "movie-genre";
 };
 
-export type SearchResultSeriesGenre = Genre & {
-  mediaType: "series-genre";
+export type SearchResultTvGenre = Genre & {
+  mediaType: "tv-genre";
 };
 
 export type MultiSearchResults =
   | SearchResultPerson
   | SearchResultMovie
   | SearchResultMovieGenre
-  | SearchResultSeriesGenre;
+  | SearchResultTvGenre;

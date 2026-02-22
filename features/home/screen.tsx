@@ -2,7 +2,7 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Content as MoviesContent } from "@/features/movies/content";
-import { Content as SeriesContent } from "@/features/series/content";
+import { Content as TvContent } from "@/features/tv/content";
 import { useEffect, useState } from "react";
 import Animated, {
   SlideInRight,
@@ -11,7 +11,7 @@ import Animated, {
   SlideOutRight,
 } from "react-native-reanimated";
 
-const mediaTypes = ["Movies", "Series"];
+const mediaTypes = ["Movies", "Tv"];
 
 export const Screen = () => {
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
@@ -52,7 +52,7 @@ export const Screen = () => {
           exiting={SlideOutRight.duration(300)}
           className={"flex-1"}
         >
-          <SeriesContent
+          <TvContent
             currentIndex={currentIndex}
             scrollY={scrollY}
             scrollHandler={scrollHandler}

@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
 
       # 1. Calculate the Next "Clean" Patch Version (e.g., v1.0.2)
       - name: Calculate Next Version
@@ -45,7 +45,7 @@ jobs:
           # The action returns 'v1.0.2'. We strip 'v' to get '1.0.2' for Apple.
           RAW_TAG="${{ steps.tag_version.outputs.new_tag }}"
           CLEAN_VERSION="${RAW_TAG#v}"
-          
+
           if [[ "${{ github.ref_name }}" == "$PRODUCTION_BRANCH" ]]; then
             echo "FINAL_TAG=$RAW_TAG" >> $GITHUB_OUTPUT
             echo "Environment: Production ($RAW_TAG)"
@@ -54,7 +54,7 @@ jobs:
             echo "FINAL_TAG=${RAW_TAG}-beta" >> $GITHUB_OUTPUT
             echo "Environment: Preview (${RAW_TAG}-beta)"
           fi
-          
+
           echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
 
   # --- JOB 1: Build and upload to TestFlight ---
@@ -74,13 +74,13 @@ jobs:
             ios-preview)
               echo "APP_VARIANT=preview" >> "$GITHUB_ENV"
               ;;
-          esac      
+          esac
 
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -128,13 +128,13 @@ jobs:
 
   # --- JOB 2: RELEASE ---
   smart-release:
-    needs: [ build-and-upload, calculate-version ]
+    needs: [build-and-upload, calculate-version]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          fetch-depth: '0'
+          fetch-depth: "0"
 
       # 3. Create the Release using the manually constructed tag
       # This creates v1.0.2-beta (preview) or v1.0.2 (production)

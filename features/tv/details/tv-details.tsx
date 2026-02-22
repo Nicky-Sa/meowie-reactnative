@@ -1,10 +1,10 @@
-import { useFetchSeriesInfo } from "@/features/series/data/useFetchSeriesInfo";
+import { useFetchTvInfo } from "@/features/tv/data/useFetchTvInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
 import { memo, useCallback } from "react";
 import { useAtom } from "jotai";
-import { autoplayAtom, colorAtom, currentSeriesIdAtom } from "@/atoms";
+import { autoplayAtom, colorAtom, currentTvIdAtom } from "@/atoms";
 import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/common/movies-list/details/elements/genres";
@@ -18,18 +18,18 @@ import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-eve
 import { useFocusEffect } from "expo-router";
 
 type Props = {
-  seriesId: ID;
+  tvId: ID;
   inScreen: boolean;
 };
 
-export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
-  const { data, isLoading, error, mutate } = useFetchSeriesInfo(seriesId);
+export const TvDetails = memo(({ tvId, inScreen }: Props) => {
+  const { data, isLoading, error, mutate } = useFetchTvInfo(tvId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
 
   const { capture } = useCaptureEvent();
 
-  const [, setCurrentSeriesId] = useAtom(currentSeriesIdAtom);
+  const [, setCurrentTvId] = useAtom(currentTvIdAtom);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,51 +37,51 @@ export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
         if (data?.posterProps.primaryColorHex) {
           setColor(data.posterProps.primaryColorHex);
         }
-        setCurrentSeriesId(seriesId);
+        setCurrentTvId(tvId);
       }
     }, [
       data?.posterProps.primaryColorHex,
       inScreen,
-      seriesId,
+      tvId,
       setColor,
-      setCurrentSeriesId,
+      setCurrentTvId,
     ]),
   );
 
   // Posthog Events:
   const onPlay = useCallback(() => {
     capture("trailer_played", {
-      series_id: seriesId,
-      series_title: data?.title || "",
+      tv_id: tvId,
+      tv_title: data?.title || "",
       autoplay,
     });
-  }, [autoplay, capture, data?.title, seriesId]);
+  }, [autoplay, capture, data?.title, tvId]);
 
   const onPause = useCallback(() => {
     capture("trailer_paused", {
-      series_id: seriesId,
-      series_title: data?.title || "",
+      tv_id: tvId,
+      tv_title: data?.title || "",
     });
-  }, [capture, data?.title, seriesId]);
+  }, [capture, data?.title, tvId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
-      capture("series_saved", {
-        series_id: seriesId,
-        series_title: data?.title || "",
+      capture("tv_saved", {
+        tv_id: tvId,
+        tv_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
         saved,
       });
     },
-    [capture, data?.genres, data?.title, seriesId],
+    [capture, data?.genres, data?.title, tvId],
   );
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
-      series_id: seriesId,
-      series_title: data?.title || "",
+      tv_id: tvId,
+      tv_title: data?.title || "",
     });
-  }, [capture, data?.title, seriesId]);
+  }, [capture, data?.title, tvId]);
 
   return error ? (
     <ErrorState tryAgain={mutate} error={error} />
@@ -108,7 +108,7 @@ export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
             </Text>
           </ScrollView>
           <View className={"flex flex-row gap-5"}>
-            <Text className={"body-b2 text-neutral-5-default"}>TV-series</Text>
+            <Text className={"body-b2 text-neutral-5-default"}>TV-tv</Text>
             <Text className={"body-b2 text-neutral-5-default"}>
               {data.airingYears}
             </Text>
@@ -162,10 +162,10 @@ export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Save id={seriesId} mediaType="tv" onPress={onSavePress} />
+        <Save id={tvId} mediaType="tv" onPress={onSavePress} />
       </View>
     </View>
   );
 });
 
-SeriesDetails.displayName = "SeriesDetails";
+TvDetails.displayName = "TvDetails";
