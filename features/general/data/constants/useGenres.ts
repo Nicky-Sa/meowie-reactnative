@@ -7,7 +7,8 @@ export type Genre = {
 };
 
 type GenresResDto = {
-  genres: Genre[];
+  movieGenres: Genre[];
+  seriesGenres: Genre[];
 };
 
 export const useGenres = () => {

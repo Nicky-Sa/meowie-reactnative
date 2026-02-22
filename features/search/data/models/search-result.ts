@@ -17,11 +17,16 @@ export type SearchResultMovie = {
   releaseYear: string;
 };
 
-export type SearchResultGenre = Genre & {
-  mediaType: "genre";
+export type SearchResultMovieGenre = Genre & {
+  mediaType: "movie-genre";
+};
+
+export type SearchResultSeriesGenre = Genre & {
+  mediaType: "series-genre";
 };
 
 export type MultiSearchResults =
   | SearchResultPerson
   | SearchResultMovie
-  | SearchResultGenre;
+  | SearchResultMovieGenre
+  | SearchResultSeriesGenre;

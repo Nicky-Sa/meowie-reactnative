@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { Erase } from "iconoir-react-native";
-import { Genres } from "@/features/filters/items/genres";
+import { MoviesGenres } from "@/features/filters/items/movies-genres";
 import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
@@ -71,7 +71,7 @@ export const Screen = () => {
     >
       <View className={"flex w-full flex-col gap-8"}>
         <View className={"flex w-full flex-col gap-2"}>
-          <Genres />
+          <MoviesGenres />
           <Languages />
           <YearDecades />
           <TMDBRating />

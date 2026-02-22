@@ -1,10 +1,13 @@
-import { SearchResultGenre } from "@/features/search/data/models/search-result";
+import {
+  SearchResultMovieGenre,
+  SearchResultSeriesGenre,
+} from "@/features/search/data/models/search-result";
 import { Brief } from "@/features/common/brief";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
 
 type Props = {
-  item: SearchResultGenre;
+  item: SearchResultMovieGenre | SearchResultSeriesGenre;
 };
 
 const emojiToImage = (emoji: string) => {
@@ -29,7 +32,9 @@ export const GenreCard = ({ item }: Props) => {
       <Brief
         imageUrl={imageUrl}
         firstLine={item.name}
-        secondLine={"Genre"}
+        secondLine={
+          item.mediaType === "movie-genre" ? "Movie Genre" : "Series Genre"
+        }
         size="md"
         borderRadius={0}
       />

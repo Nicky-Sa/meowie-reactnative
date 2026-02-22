@@ -13,7 +13,8 @@ export const SearchResultCard = ({ item }: Props) => {
       return <PersonCard item={item} />;
     case "movie":
       return <MovieCard item={item} />;
-    case "genre":
+    case "movie-genre":
+    case "series-genre":
       return <GenreCard item={item} />;
     default:
       return null;

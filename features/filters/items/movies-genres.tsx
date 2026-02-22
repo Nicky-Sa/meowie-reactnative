@@ -7,42 +7,44 @@ import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useGenres } from "@/features/general/data/constants/useGenres";
 import { useMemo } from "react";
 
-export const Genres = () => {
+export const MoviesGenres = () => {
   const [filters] = useAtom(filtersAtom);
   const { data } = useGenres();
 
-  const genres: SegmentItem[] | undefined = useMemo(() => {
-    if (!data || !data.genres) return;
-    return data.genres?.map((genre) => ({
+  const movieGenres: SegmentItem[] = useMemo(() => {
+    if (!data?.movieGenres) return [];
+    return data.movieGenres.map((genre) => ({
       id: String(genre.id),
       label: `${genre.emoji} ${genre.name}`,
     }));
   }, [data]);
 
-  if (!genres) return null;
+  if (!movieGenres.length) return null;
 
   return (
     <BottomSheetWrapper
-      title={"Genres"}
+      title={"MoviesGenres"}
       filterKey={"genres"}
       chipText={
         filters.genres.length === 1
-          ? `${genres.find((genre) => String(genre.id) === filters.genres[0])?.label}`
+          ? `${movieGenres.find((genre) => String(genre.id) === filters.genres[0])?.label}`
           : `${filters.genres.length}`
       }
     >
       {({ currentValues, setCurrentValues }) => (
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
-          <View className="flex flex-col gap-2">
-            {genres.map((genre) => (
-              <Segment
-                key={genre.id}
-                item={genre}
-                currentValues={currentValues}
-                setCurrentValues={setCurrentValues}
-                multiple
-              />
-            ))}
+          <View className="flex flex-col gap-6 pb-6">
+            <View className="flex flex-col gap-2">
+              {movieGenres.map((genre) => (
+                <Segment
+                  key={`movie-${genre.id}`}
+                  item={genre}
+                  currentValues={currentValues}
+                  setCurrentValues={setCurrentValues}
+                  multiple
+                />
+              ))}
+            </View>
           </View>
         </BottomSheetScrollView>
       )}
