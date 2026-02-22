@@ -6,8 +6,8 @@ import Animated, {
   SharedValue,
 } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
-import { TvListItem } from "@/features/tv/tv-list-item";
+import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
+import { MoviesListItem } from "@/features/media/movie/movies-list-item";
 
 type Props = {
   data: number[];
@@ -29,7 +29,7 @@ type Props = {
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
-export const TvList = ({
+export const MoviesList = ({
   data,
   isLoading,
   isValidating,
@@ -70,12 +70,12 @@ export const TvList = ({
     <AnimatedFlashList
       data={data}
       ref={listRef}
-      keyExtractor={(id) => `tv-info-${id}`}
+      keyExtractor={(id) => `movie-info-${id}`}
       initialScrollIndex={safeInitialIndex}
-      renderItem={({ item: tvId, index }) => (
-        <TvListItem
-          key={tvId}
-          tvId={tvId}
+      renderItem={({ item: movieId, index }) => (
+        <MoviesListItem
+          key={movieId}
+          movieId={movieId}
           inScreen={index === currentIndex}
           index={index}
           scrollY={scrollY}

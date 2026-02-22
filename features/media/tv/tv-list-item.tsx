@@ -7,7 +7,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
-import { TvDetails } from "@/features/tv/details/tv-details";
+import { TvDetails } from "@/features/media/tv/tv-details";
 
 type Props = {
   tvId: ID;

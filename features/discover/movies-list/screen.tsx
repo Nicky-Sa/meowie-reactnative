@@ -1,4 +1,4 @@
-import { MoviesListScreen } from "@/features/common/movies-list/movies-list-screen";
+import { MoviesListScreen } from "@/features/media/movie/movies-list-screen";
 import { useLocalSearchParams } from "expo-router";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { SearchParams } from "@/features/common/data/media-query";

@@ -1,4 +1,4 @@
-import { TvInfoResDto } from "@/features/tv/data/dto/tv.dto";
+import { TvInfoResDto } from "@/features/media/tv/data/dto/tv.dto";
 import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 import { ID } from "@/features/common/data/media-query";
 

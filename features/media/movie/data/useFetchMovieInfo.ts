@@ -1,4 +1,4 @@
-import { MovieInfoResDto } from "@/features/movies/data/dto/movies.dto";
+import { MovieInfoResDto } from "@/features/media/movie/data/dto/movies.dto";
 import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 import { ID } from "@/features/common/data/media-query";
 

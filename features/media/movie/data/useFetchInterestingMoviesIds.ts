@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { InterestingMovieIdsResDto } from "@/features/movies/data/dto/movies.dto";
+import { InterestingMovieIdsResDto } from "@/features/media/movie/data/dto/movies.dto";
 import { SortOption } from "@/features/common/data/media-query";
 import {
   SWRInfiniteKeyLoader,

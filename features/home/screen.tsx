@@ -1,8 +1,8 @@
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
-import { Content as MoviesContent } from "@/features/movies/content";
-import { Content as TvContent } from "@/features/tv/content";
+import { Content as MoviesContent } from "@/features/media/movie/content";
+import { Content as TvContent } from "@/features/media/tv/content";
 import { useEffect, useState } from "react";
 import Animated, {
   SlideInRight,

@@ -1,35 +1,35 @@
-import { useFetchTvInfo } from "@/features/tv/data/useFetchTvInfo";
+import { useFetchMovieInfo } from "@/features/media/movie/data/useFetchMovieInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
-import { TrailerPlayer } from "@/features/common/movies-list/details/elements/trailer-player";
+import { TrailerPlayer } from "@/features/media/components/details/elements/trailer-player";
 import { memo, useCallback } from "react";
 import { useAtom } from "jotai";
-import { autoplayAtom, colorAtom, currentTvIdAtom } from "@/atoms";
-import { Ratings } from "@/features/common/movies-list/details/elements/ratings";
+import { autoplayAtom, colorAtom, currentMovieIdAtom } from "@/atoms";
+import { Ratings } from "@/features/media/components/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
-import { Genres } from "@/features/common/movies-list/details/elements/genres";
-import { Casts } from "@/features/common/movies-list/details/elements/casts";
+import { Genres } from "@/features/media/components/details/elements/genres";
+import { Casts } from "@/features/media/components/details/elements/casts";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/common/movies-list/details/elements/cast";
-import { MovieDetailsSkeleton } from "@/features/common/movies-list/details/movie-details-skeleton";
+import { Cast } from "@/features/media/components/details/elements/cast";
+import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ID } from "@/features/common/data/media-query";
-import { Save } from "@/features/common/movies-list/details/elements/save/save";
+import { Save } from "@/features/media/components/details/elements/save/save";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
 
 type Props = {
-  tvId: ID;
+  movieId: ID;
   inScreen: boolean;
 };
 
-export const TvDetails = memo(({ tvId, inScreen }: Props) => {
-  const { data, isLoading, error, mutate } = useFetchTvInfo(tvId);
+export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
+  const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
 
   const { capture } = useCaptureEvent();
 
-  const [, setCurrentTvId] = useAtom(currentTvIdAtom);
+  const [, setCurrentMovieId] = useAtom(currentMovieIdAtom);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,51 +37,51 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
         if (data?.posterProps.primaryColorHex) {
           setColor(data.posterProps.primaryColorHex);
         }
-        setCurrentTvId(tvId);
+        setCurrentMovieId(movieId);
       }
     }, [
       data?.posterProps.primaryColorHex,
       inScreen,
-      tvId,
+      movieId,
       setColor,
-      setCurrentTvId,
+      setCurrentMovieId,
     ]),
   );
 
   // Posthog Events:
   const onPlay = useCallback(() => {
     capture("trailer_played", {
-      tv_id: tvId,
-      tv_title: data?.title || "",
+      movie_id: movieId,
+      movie_title: data?.title || "",
       autoplay,
     });
-  }, [autoplay, capture, data?.title, tvId]);
+  }, [autoplay, capture, data?.title, movieId]);
 
   const onPause = useCallback(() => {
     capture("trailer_paused", {
-      tv_id: tvId,
-      tv_title: data?.title || "",
+      movie_id: movieId,
+      movie_title: data?.title || "",
     });
-  }, [capture, data?.title, tvId]);
+  }, [capture, data?.title, movieId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
-      capture("tv_saved", {
-        tv_id: tvId,
-        tv_title: data?.title || "",
+      capture("movie_saved", {
+        movie_id: movieId,
+        movie_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
         saved,
       });
     },
-    [capture, data?.genres, data?.title, tvId],
+    [capture, data?.genres, data?.title, movieId],
   );
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
-      tv_id: tvId,
-      tv_title: data?.title || "",
+      movie_id: movieId,
+      movie_title: data?.title || "",
     });
-  }, [capture, data?.title, tvId]);
+  }, [capture, data?.title, movieId]);
 
   return error ? (
     <ErrorState tryAgain={mutate} error={error} />
@@ -108,18 +108,17 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
             </Text>
           </ScrollView>
           <View className={"flex flex-row gap-5"}>
-            <Text className={"body-b2 text-neutral-5-default"}>TV-tv</Text>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.airingYears}
+              {data.screeningStatus}
             </Text>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.contentRating}
+              {data.certification}
             </Text>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.avgDuration}
+              {data.duration}
             </Text>
           </View>
-          <Cast {...data.credits.creator} />
+          <Cast {...data.credits.director} />
         </View>
       </View>
 
@@ -162,10 +161,10 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Save id={tvId} mediaType="tv" onPress={onSavePress} />
+        <Save id={movieId} mediaType="movie" onPress={onSavePress} />
       </View>
     </View>
   );
 });
 
-TvDetails.displayName = "TvDetails";
+MovieDetails.displayName = "MovieDetails";

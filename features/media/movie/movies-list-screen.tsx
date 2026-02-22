@@ -1,5 +1,5 @@
-import { MoviesList } from "@/features/common/movies-list/movies-list";
-import { Header } from "@/features/common/movies-list/header";
+import { MoviesList } from "@/features/media/movie/movies-list";
+import { Header } from "@/features/media/components/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactNode } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";

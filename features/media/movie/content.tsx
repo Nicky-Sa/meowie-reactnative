@@ -1,5 +1,5 @@
-import { useFetchInterestingMoviesIds } from "@/features/movies/data/useFetchInterestingMoviesIds";
-import { MoviesList } from "@/features/common/movies-list/movies-list";
+import { useFetchInterestingMoviesIds } from "@/features/media/movie/data/useFetchInterestingMoviesIds";
+import { MoviesList } from "@/features/media/movie/movies-list";
 import { useLocalSearchParams } from "expo-router";
 import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";

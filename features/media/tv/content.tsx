@@ -1,5 +1,5 @@
-import { useFetchInterestingTvIds } from "@/features/tv/data/useFetchInterestingTvIds";
-import { TvList } from "@/features/tv/tv-list";
+import { useFetchInterestingTvIds } from "@/features/media/tv/data/useFetchInterestingTvIds";
+import { TvList } from "@/features/media/tv/tv-list";
 import { useLocalSearchParams } from "expo-router";
 import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";

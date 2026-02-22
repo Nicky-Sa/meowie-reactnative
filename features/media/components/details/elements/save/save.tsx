@@ -1,14 +1,14 @@
 import { Button } from "@/features/common/ui/button";
-import { useToggleLibraryItem } from "@/features/common/movies-list/details/elements/save/data/useToggleLibraryItem";
+import { useToggleLibraryItem } from "@/features/media/components/details/elements/save/data/useToggleLibraryItem";
 import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
-import { useFetchLibraryStatus } from "@/features/common/movies-list/details/elements/save/data/useFetchLibraryStatus";
+import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
 import { useState } from "react";
 import { InformationModal } from "@/features/common/information-modal";
 import EmptySaved from "@/assets/images/profile/empty-saved.svg";
 import { useRouter } from "expo-router";
-import { SaveIcon } from "@/features/common/movies-list/details/elements/save/icon";
+import { SaveIcon } from "@/features/media/components/details/elements/save/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 import { LibraryMediaType } from "@/features/profile/data/library.constants";

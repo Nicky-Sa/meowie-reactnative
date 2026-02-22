@@ -1,6 +1,6 @@
 import { SearchResultMovie } from "@/features/search/data/models/search-result";
 import { Pressable } from "react-native";
-import { MovieBrief } from "@/features/common/movies-list/details/elements/brief";
+import { MovieBrief } from "@/features/media/components/details/elements/brief";
 import { useRouter } from "expo-router";
 
 type Props = {
