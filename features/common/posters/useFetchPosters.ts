@@ -7,10 +7,13 @@ import {
 } from "@/features/common/data/swr/hooks";
 import { SearchParams } from "@/features/common/data/media-query";
 
-export const useFetchMoviePosters = (queryParams: Partial<SearchParams>) => {
+export const useFetchPosters = (
+  queryParams: Partial<SearchParams>,
+  mediaType: "movies" | "series",
+) => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = "/movies/posters";
+      const baseUrl = `/${mediaType}/posters`;
       const query = searchParamsToQuery(queryParams);
 
       // Stop fetching if there are no more results
@@ -20,7 +23,7 @@ export const useFetchMoviePosters = (queryParams: Partial<SearchParams>) => {
 
       return `${baseUrl}?page=${pageIndex + 1}&${query}`; // SWR key
     },
-    [queryParams],
+    [mediaType, queryParams],
   );
 
   const {

@@ -1,6 +1,6 @@
 import { MoviesListScreen } from "@/features/common/movies-list/movies-list-screen";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchMoviePosters } from "@/features/common/posters/useFetchMoviePosters";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { SearchParams } from "@/features/common/data/media-query";
 
 export const Screen = () => {
@@ -11,7 +11,7 @@ export const Screen = () => {
     } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchMoviePosters(queryParams);
+  const posterData = useFetchPosters(queryParams, "movies");
 
   return (
     <MoviesListScreen

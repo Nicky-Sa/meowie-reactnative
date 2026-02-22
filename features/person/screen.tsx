@@ -6,7 +6,7 @@ import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
-import { useFetchMoviePosters } from "@/features/common/posters/useFetchMoviePosters";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 
 const NUM_COLUMNS = 3;
 
@@ -20,7 +20,7 @@ export const Screen = () => {
   const { data: personData, isLoading: personInfoLoading } =
     useFetchPersonInfo(personId);
 
-  const posterData = useFetchMoviePosters({ personId });
+  const moviesPosterData = useFetchPosters({ personId }, "movies");
 
   const router = useRouter();
   const onPosterPress = useCallback(
@@ -46,7 +46,7 @@ export const Screen = () => {
     >
       <PostersList
         numColumns={NUM_COLUMNS}
-        posterData={posterData}
+        posterData={moviesPosterData}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
         ListHeaderComponent={

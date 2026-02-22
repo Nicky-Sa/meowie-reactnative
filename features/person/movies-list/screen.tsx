@@ -1,6 +1,6 @@
 import { MoviesListScreen } from "@/features/common/movies-list/movies-list-screen";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchMoviePosters } from "@/features/common/posters/useFetchMoviePosters";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { useAtom } from "jotai";
 import { currentMovieIdAtom } from "@/atoms";
 import { useFetchRoleInMovie } from "@/features/person/data/useFetchRoleInMovie";
@@ -14,7 +14,7 @@ export const Screen = () => {
 
   const [currentMovieId] = useAtom(currentMovieIdAtom);
 
-  const posterData = useFetchMoviePosters({ personId });
+  const posterData = useFetchPosters({ personId }, "movies");
 
   const { data: roleInMovie, isLoading: isRoleInMovieLoading } =
     useFetchRoleInMovie(personId, currentMovieId);

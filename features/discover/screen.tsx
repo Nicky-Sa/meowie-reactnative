@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
-import { useFetchMoviePosters } from "@/features/common/posters/useFetchMoviePosters";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 
 const NUM_COLUMNS = 3;
 
@@ -12,7 +12,7 @@ export const Screen = () => {
     { title: string } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchMoviePosters(searchParams);
+  const posterData = useFetchPosters(searchParams, "movies");
 
   const router = useRouter();
   const onPosterPress = useCallback(
