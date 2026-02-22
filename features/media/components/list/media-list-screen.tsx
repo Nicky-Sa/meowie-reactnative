@@ -10,7 +10,6 @@ type Props = {
   title: string;
   initialIndex?: number;
   subtitle?: string;
-  subtitleIsLoading?: boolean;
   posterData: PosterHookResult;
   rightTopComponent?: ReactNode;
 };
@@ -19,7 +18,6 @@ export const MediaListScreen = ({
   title,
   initialIndex,
   subtitle,
-  subtitleIsLoading,
   posterData,
   rightTopComponent,
 }: Props) => {
@@ -39,6 +37,7 @@ export const MediaListScreen = ({
     rawPosterData?.map((item) => ({
       id: item.id,
       mediaType: item.mediaType,
+      roleInMedia: item.role,
     })) || [];
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
 
@@ -47,7 +46,6 @@ export const MediaListScreen = ({
       <Header
         title={title}
         subtitle={subtitle}
-        subtitleIsLoading={subtitleIsLoading}
         rightTopComponent={rightTopComponent}
       />
       <MediaList

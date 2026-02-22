@@ -4,7 +4,7 @@ import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/details/elements/trailer-player";
 import { memo, useCallback } from "react";
 import { useAtom } from "jotai";
-import { autoplayAtom, colorAtom, currentTvIdAtom } from "@/atoms";
+import { autoplayAtom, colorAtom } from "@/atoms";
 import { Ratings } from "@/features/media/components/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/media/components/details/elements/genres";
@@ -29,23 +29,14 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
 
   const { capture } = useCaptureEvent();
 
-  const [, setCurrentTvId] = useAtom(currentTvIdAtom);
-
   useFocusEffect(
     useCallback(() => {
       if (inScreen) {
         if (data?.posterProps.primaryColorHex) {
           setColor(data.posterProps.primaryColorHex);
         }
-        setCurrentTvId(tvId);
       }
-    }, [
-      data?.posterProps.primaryColorHex,
-      inScreen,
-      tvId,
-      setColor,
-      setCurrentTvId,
-    ]),
+    }, [data?.posterProps.primaryColorHex, inScreen, setColor]),
   );
 
   // Posthog Events:

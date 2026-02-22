@@ -73,11 +73,11 @@ export const MediaList = ({
     <AnimatedFlashList
       data={data}
       ref={listRef}
-      keyExtractor={(item) => `info-${item.mediaType}-${item.id}`}
+      keyExtractor={(item, index) => `info-${item.mediaType}-${item.id}`}
       initialScrollIndex={safeInitialIndex}
       renderItem={({ item, index }) => (
         <MediaListItem
-          key={item.id}
+          key={`${item.mediaType}-${item.id}`}
           item={item}
           inScreen={index === currentIndex}
           index={index}

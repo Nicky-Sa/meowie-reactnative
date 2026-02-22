@@ -5,20 +5,13 @@ import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ReactNode } from "react";
-import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
 type Props = {
   title: string;
   subtitle?: string;
-  subtitleIsLoading?: boolean;
   rightTopComponent?: ReactNode;
 };
-export const Header = ({
-  title,
-  subtitle,
-  subtitleIsLoading,
-  rightTopComponent,
-}: Props) => {
+export const Header = ({ title, subtitle, rightTopComponent }: Props) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -43,14 +36,10 @@ export const Header = ({
           <Text className={"title-t2-strong text-neutral-10-default"}>
             {title}
           </Text>
-          {subtitleIsLoading ? (
-            <SkeletonItem className={"h-6 w-32"} />
-          ) : (
-            subtitle && (
-              <Text className={"body-b1 h-6 text-neutral-5-default"}>
-                {subtitle}
-              </Text>
-            )
+          {subtitle && (
+            <Text className={"body-b1 h-6 text-neutral-5-default"}>
+              {subtitle}
+            </Text>
           )}
         </View>
       </View>

@@ -60,7 +60,7 @@ export const PostersList = ({
   return (
     <AnimatedFlashList
       data={data}
-      keyExtractor={({ id }) => `movie-${id}-poster`}
+      keyExtractor={({ id, mediaType }) => `${mediaType}-${id}-poster`}
       renderItem={({ item, index }) => (
         <Poster
           key={item.id}

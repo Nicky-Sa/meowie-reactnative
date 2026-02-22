@@ -3,7 +3,6 @@ import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
 import {
   Filters,
-  ID,
   initialFiltersValue,
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
@@ -21,5 +20,4 @@ export const allowYTPlayingAtom = atom(true);
 // Autoplay trailer
 export const autoplayAtom = atomPersisted("autoplay", true);
 
-export const currentMovieIdAtom = atom<ID>();
-export const currentTvIdAtom = atom<ID>();
+export const currentRoleInMediaAtom = atom<string>();

@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Animated, {
   interpolate,
   SharedValue,
@@ -9,6 +9,8 @@ import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreen
 import { MovieDetails } from "@/features/media/movie/movie-details";
 import { TvDetails } from "@/features/media/tv/tv-details";
 import { MediaListItemData } from "@/features/media/components/list/types";
+import { currentRoleInMediaAtom } from "@/atoms";
+import { useAtom } from "jotai";
 
 type Props = {
   item: MediaListItemData;
@@ -21,7 +23,14 @@ export const MediaListItem = memo(
   ({ item, inScreen, index, scrollY }: Props) => {
     const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
-    const { id, mediaType } = item;
+    const { id, mediaType, roleInMedia } = item;
+    const [, setCurrentRoleInMedia] = useAtom(currentRoleInMediaAtom);
+
+    useEffect(() => {
+      if (inScreen && roleInMedia) {
+        setCurrentRoleInMedia(roleInMedia);
+      }
+    }, [inScreen, roleInMedia, setCurrentRoleInMedia]);
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
