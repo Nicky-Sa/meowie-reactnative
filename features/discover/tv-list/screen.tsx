@@ -1,6 +1,6 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchDiscoveredPosters } from "@/features/common/posters/useFetchDiscoveredPosters";
 import { SearchParams } from "@/features/common/data/media-query";
 
 export const Screen = () => {
@@ -11,7 +11,7 @@ export const Screen = () => {
     } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchPosters(queryParams, "tv");
+  const posterData = useFetchDiscoveredPosters(queryParams, "tv");
 
   return (
     <MediaListScreen

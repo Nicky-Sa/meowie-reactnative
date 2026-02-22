@@ -5,8 +5,8 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { RootTabParamList } from "@/features/general/navbar/types";
 import { useScrollToTop } from "@react-navigation/native";
 
-export const useListRef = (resetDependency?: unknown) => {
-  const listRef = useRef<FlashListRef<number>>(null);
+export const useListRef = <T>(resetDependency?: unknown) => {
+  const listRef = useRef<FlashListRef<T>>(null);
   const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList>>();
 
   useScrollToTop(listRef);

@@ -5,6 +5,7 @@ import {
   SWRInfiniteKeyLoader,
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
+import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Args = {
   sort: SortOption;
@@ -48,7 +49,10 @@ export const useFetchInterestingTvIds = ({ sort }: Args) => {
     ? response.map((page) => page.data.results)
     : [];
 
-  const flattenedData = rawData.flat();
+  const flattenedData: MediaListItemData[] = rawData.flat().map((id) => ({
+    id,
+    mediaType: "tv",
+  }));
 
   const totalPages = Array.isArray(response)
     ? response[0]?.data.total_pages

@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import { memo } from "react";
-import { ID } from "@/features/common/data/media-query";
 import Animated, {
   interpolate,
   SharedValue,
@@ -9,20 +8,20 @@ import Animated, {
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { MovieDetails } from "@/features/media/movie/movie-details";
 import { TvDetails } from "@/features/media/tv/tv-details";
-import { MediaType } from "@/features/common/data/models/media-type";
+import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
-  id: ID;
+  item: MediaListItemData;
   inScreen: boolean;
   index: number;
   scrollY: SharedValue<number>;
-  mediaType: MediaType;
 };
 
 export const MediaListItem = memo(
-  ({ id, inScreen, index, scrollY, mediaType }: Props) => {
+  ({ item, inScreen, index, scrollY }: Props) => {
     const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
+    const { id, mediaType } = item;
 
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {

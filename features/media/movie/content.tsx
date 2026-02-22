@@ -46,7 +46,6 @@ export const Content = ({
       scrollY={scrollY}
       scrollHandler={scrollHandler}
       onLoad={onLoad}
-      mediaType="movie"
     />
   );
 };

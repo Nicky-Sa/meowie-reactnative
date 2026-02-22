@@ -1,30 +1,22 @@
 import { useCallback } from "react";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
-import { searchParamsToQuery } from "@/lib/functions";
 import {
   SWRInfiniteKeyLoader,
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
-import { SearchParams } from "@/features/common/data/media-query";
-import { MediaType } from "@/features/common/data/models/media-type";
 
-export const useFetchPosters = (
-  queryParams: Partial<SearchParams>,
-  mediaType: MediaType,
-) => {
+export const useFetchLibrarySavedPosters = () => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = `/${mediaType}/posters`;
-      const query = searchParamsToQuery(queryParams);
-
+      const url = "/library/saved";
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
         return null;
       }
 
-      return `${baseUrl}?page=${pageIndex + 1}&${query}`; // SWR key
+      return `${url}?page=${pageIndex + 1}`; // SWR key
     },
-    [mediaType, queryParams],
+    [],
   );
 
   const {

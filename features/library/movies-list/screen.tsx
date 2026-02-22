@@ -1,15 +1,14 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
 import { useLocalSearchParams } from "expo-router";
-import { useFetchLibraryPosters } from "@/features/common/posters/useFetchLibraryPosters";
+import { useFetchLibrarySavedPosters } from "@/features/common/posters/useFetchLibrarySavedPosters";
 
 export const Screen = () => {
-  const { title, initialIndex, url } = useLocalSearchParams<{
+  const { title, initialIndex } = useLocalSearchParams<{
     title: string;
     initialIndex: string;
-    url: `/library/${string}`;
   }>();
 
-  const posterData = useFetchLibraryPosters(url);
+  const posterData = useFetchLibrarySavedPosters();
 
   return (
     <MediaListScreen

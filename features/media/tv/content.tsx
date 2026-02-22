@@ -32,7 +32,7 @@ export const Content = ({
 
   return (
     <MediaList
-      data={data as number[]}
+      data={data}
       dataLength={dataLength}
       isLoading={isLoading}
       isValidating={isValidating}
@@ -46,7 +46,6 @@ export const Content = ({
       scrollY={scrollY}
       scrollHandler={scrollHandler}
       onLoad={onLoad}
-      mediaType="tv"
     />
   );
 };

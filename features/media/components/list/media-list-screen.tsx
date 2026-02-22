@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { MediaType } from "@/features/common/data/models/media-type";
+import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
   title: string;
@@ -37,7 +38,11 @@ export const MediaListScreen = ({
     mutate,
   } = posterData;
 
-  const data = rawPosterData?.map((item) => item.id) || [];
+  const data: MediaListItemData[] =
+    rawPosterData?.map((item) => ({
+      id: item.id,
+      mediaType: item.mediaType,
+    })) || [];
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
 
   return (
@@ -63,7 +68,6 @@ export const MediaListScreen = ({
         scrollY={scrollY}
         currentIndex={currentIndex}
         onLoad={onLoad}
-        mediaType={mediaType}
       />
     </MainScreen>
   );

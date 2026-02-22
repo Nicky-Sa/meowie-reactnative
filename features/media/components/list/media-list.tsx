@@ -8,10 +8,10 @@ import Animated, {
 import { FlashList } from "@shopify/flash-list";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
-import { MediaType } from "@/features/common/data/models/media-type";
+import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
-  data: number[];
+  data: MediaListItemData[];
   dataLength: number;
   isLoading: boolean;
   isValidating: boolean;
@@ -26,10 +26,11 @@ type Props = {
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
   onLoad: () => void;
-  mediaType: MediaType;
 };
 
-const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
+const AnimatedFlashList = Animated.createAnimatedComponent(
+  FlashList<MediaListItemData>,
+);
 
 export const MediaList = ({
   data,
@@ -46,9 +47,8 @@ export const MediaList = ({
   scrollY,
   scrollHandler,
   onLoad,
-  mediaType,
 }: Props) => {
-  const listRef = useListRef(scrollToTopIfChanges);
+  const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
 
   const { onEndReached } = useFetchMore({
     size,
@@ -73,16 +73,15 @@ export const MediaList = ({
     <AnimatedFlashList
       data={data}
       ref={listRef}
-      keyExtractor={(id) => `${mediaType}-info-${id}`}
+      keyExtractor={(item) => `info-${item.mediaType}-${item.id}`}
       initialScrollIndex={safeInitialIndex}
-      renderItem={({ item: id, index }) => (
+      renderItem={({ item, index }) => (
         <MediaListItem
-          key={id}
-          id={id}
+          key={item.id}
+          item={item}
           inScreen={index === currentIndex}
           index={index}
           scrollY={scrollY}
-          mediaType={mediaType}
         />
       )}
       pagingEnabled
