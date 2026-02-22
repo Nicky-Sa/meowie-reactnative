@@ -119,7 +119,7 @@ function RootLayout() {
                             }}
                           />
                           <Stack.Screen
-                            name="discover/movies-list"
+                            name="discover/media-list"
                             options={{
                               animation: "fade",
                               animationDuration: 300,
@@ -178,7 +178,7 @@ function RootLayout() {
                           />
 
                           <Stack.Screen
-                            name="library/movies-list"
+                            name="library/media-list"
                             options={{
                               animation: "fade",
                               animationDuration: 300,

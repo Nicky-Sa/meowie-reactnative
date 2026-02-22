@@ -4,7 +4,6 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactNode } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
-import { MediaType } from "@/features/common/data/models/media-type";
 import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
@@ -14,7 +13,6 @@ type Props = {
   subtitleIsLoading?: boolean;
   posterData: PosterHookResult;
   rightTopComponent?: ReactNode;
-  mediaType: MediaType;
 };
 
 export const MediaListScreen = ({
@@ -24,7 +22,6 @@ export const MediaListScreen = ({
   subtitleIsLoading,
   posterData,
   rightTopComponent,
-  mediaType,
 }: Props) => {
   const {
     data: rawPosterData,

@@ -30,7 +30,6 @@ export const Screen = () => {
       subtitle={currentMovieId ? roleInMovie?.role : undefined}
       subtitleIsLoading={isRoleInMovieLoading}
       posterData={posterData}
-      mediaType="movie"
     />
   );
 };

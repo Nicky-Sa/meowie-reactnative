@@ -18,10 +18,8 @@ export const Screen = () => {
   const router = useRouter();
   const onPosterPress = useCallback(
     (index: number) => {
-      const pathname =
-        mediaType === "tv" ? "/discover/tv-list" : "/discover/movies-list";
       router.push({
-        pathname,
+        pathname: "/discover/media-list",
         params: {
           initialIndex: index,
           title,

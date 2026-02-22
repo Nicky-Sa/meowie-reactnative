@@ -20,7 +20,7 @@ export const SavedList = ({ scrollHandler }: Props) => {
   const onPosterPress = useCallback(
     (index: number) => {
       router.push({
-        pathname: "/library/movies-list",
+        pathname: "/library/media-list",
         params: {
           initialIndex: index,
           title: "Saved",

@@ -15,7 +15,6 @@ export const Screen = () => {
       title={title}
       initialIndex={initialIndex ? Number(initialIndex) : undefined}
       posterData={posterData}
-      mediaType="movie"
     />
   );
 };
