@@ -1,4 +1,4 @@
-import { MoviesListScreen } from "@/features/media/movie/movies-list-screen";
+import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
 import { useLocalSearchParams } from "expo-router";
 import { useFetchLibraryPosters } from "@/features/common/posters/useFetchLibraryPosters";
 
@@ -12,10 +12,11 @@ export const Screen = () => {
   const posterData = useFetchLibraryPosters(url);
 
   return (
-    <MoviesListScreen
+    <MediaListScreen
       title={title}
       initialIndex={initialIndex ? Number(initialIndex) : undefined}
       posterData={posterData}
+      mediaType="movie"
     />
   );
 };

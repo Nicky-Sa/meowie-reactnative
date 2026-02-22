@@ -8,16 +8,19 @@ import Animated, {
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { MovieDetails } from "@/features/media/movie/movie-details";
+import { TvDetails } from "@/features/media/tv/tv-details";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 type Props = {
-  movieId: ID;
+  id: ID;
   inScreen: boolean;
   index: number;
   scrollY: SharedValue<number>;
+  mediaType: MediaType;
 };
 
-export const MoviesListItem = memo(
-  ({ movieId, inScreen, index, scrollY }: Props) => {
+export const MediaListItem = memo(
+  ({ id, inScreen, index, scrollY, mediaType }: Props) => {
     const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
 
@@ -45,11 +48,15 @@ export const MoviesListItem = memo(
           style={contentStyle}
           className={"flex items-center justify-center"}
         >
-          <MovieDetails movieId={movieId} inScreen={inScreen} />
+          {mediaType === "movie" ? (
+            <MovieDetails movieId={id} inScreen={inScreen} />
+          ) : mediaType === "tv" ? (
+            <TvDetails tvId={id} inScreen={inScreen} />
+          ) : null}
         </View>
       </Animated.View>
     );
   },
 );
 
-MoviesListItem.displayName = "MoviesListItem";
+MediaListItem.displayName = "MediaListItem";

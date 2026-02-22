@@ -24,7 +24,11 @@ export const GenreCard = ({ item }: Props) => {
   const onPress = () => {
     router.push({
       pathname: "/discover/posters",
-      params: { title: item.name, genres: [item.id] },
+      params: {
+        title: `${item.name} ${item.mediaType === "movie-genre" ? "Movies" : "TV Shows"}`,
+        genres: [item.id],
+        mediaType: item.mediaType === "movie-genre" ? "movie" : "tv",
+      },
     });
   };
   return (
@@ -33,7 +37,7 @@ export const GenreCard = ({ item }: Props) => {
         imageUrl={imageUrl}
         firstLine={item.name}
         secondLine={
-          item.mediaType === "movie-genre" ? "Movie Genre" : "Tv Genre"
+          item.mediaType === "movie-genre" ? "Movie genre" : "TV genre"
         }
         size="md"
         borderRadius={0}

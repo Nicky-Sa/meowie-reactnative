@@ -7,7 +7,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
-import { MoviesListItem } from "@/features/media/movie/movies-list-item";
+import { MediaListItem } from "@/features/media/components/list/media-list-item";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 type Props = {
   data: number[];
@@ -25,11 +26,12 @@ type Props = {
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
   onLoad: () => void;
+  mediaType: MediaType;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(FlashList<number>);
 
-export const MoviesList = ({
+export const MediaList = ({
   data,
   isLoading,
   isValidating,
@@ -44,6 +46,7 @@ export const MoviesList = ({
   scrollY,
   scrollHandler,
   onLoad,
+  mediaType,
 }: Props) => {
   const listRef = useListRef(scrollToTopIfChanges);
 
@@ -70,15 +73,16 @@ export const MoviesList = ({
     <AnimatedFlashList
       data={data}
       ref={listRef}
-      keyExtractor={(id) => `movie-info-${id}`}
+      keyExtractor={(id) => `${mediaType}-info-${id}`}
       initialScrollIndex={safeInitialIndex}
-      renderItem={({ item: movieId, index }) => (
-        <MoviesListItem
-          key={movieId}
-          movieId={movieId}
+      renderItem={({ item: id, index }) => (
+        <MediaListItem
+          key={id}
+          id={id}
           inScreen={index === currentIndex}
           index={index}
           scrollY={scrollY}
+          mediaType={mediaType}
         />
       )}
       pagingEnabled

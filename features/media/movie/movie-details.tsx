@@ -146,7 +146,7 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
         className={"-mx-4 grow-0"}
         contentContainerClassName={"min-w-full h-6"} // fixed height in case the array is empty to prevent layout shift
       >
-        <Genres genres={data.genres} />
+        <Genres genres={data.genres} mediaType="movie" />
       </ScrollView>
 
       <ScrollView

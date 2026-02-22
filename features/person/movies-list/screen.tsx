@@ -1,4 +1,4 @@
-import { MoviesListScreen } from "@/features/media/movie/movies-list-screen";
+import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
 import { useLocalSearchParams } from "expo-router";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { useAtom } from "jotai";
@@ -20,12 +20,13 @@ export const Screen = () => {
     useFetchRoleInMovie(personId, currentMovieId);
 
   return (
-    <MoviesListScreen
+    <MediaListScreen
       title={title}
       initialIndex={initialIndex ? Number(initialIndex) : undefined}
       subtitle={currentMovieId ? roleInMovie?.role : undefined}
       subtitleIsLoading={isRoleInMovieLoading}
       posterData={posterData}
+      mediaType="movie"
     />
   );
 };

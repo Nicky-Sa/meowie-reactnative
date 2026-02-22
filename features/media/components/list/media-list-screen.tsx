@@ -1,9 +1,10 @@
-import { MoviesList } from "@/features/media/movie/movies-list";
+import { MediaList } from "@/features/media/components/list/media-list";
 import { Header } from "@/features/media/components/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactNode } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 type Props = {
   title: string;
@@ -12,18 +13,20 @@ type Props = {
   subtitleIsLoading?: boolean;
   posterData: PosterHookResult;
   rightTopComponent?: ReactNode;
+  mediaType: MediaType;
 };
 
-export const MoviesListScreen = ({
+export const MediaListScreen = ({
   title,
   initialIndex,
   subtitle,
   subtitleIsLoading,
   posterData,
   rightTopComponent,
+  mediaType,
 }: Props) => {
   const {
-    data: moviePosterData,
+    data: rawPosterData,
     dataLength,
     size,
     setSize,
@@ -34,12 +37,9 @@ export const MoviesListScreen = ({
     mutate,
   } = posterData;
 
-  const data = moviePosterData?.map((item) => item.id) || [];
+  const data = rawPosterData?.map((item) => item.id) || [];
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
 
-  // Technically, this is an inner screen,
-  // but since the MoviesList is a special component and doesn't tolerate external paddings or sibling components,
-  // I have to use MainScreen + custom absolute header here.
   return (
     <MainScreen>
       <Header
@@ -48,7 +48,7 @@ export const MoviesListScreen = ({
         subtitleIsLoading={subtitleIsLoading}
         rightTopComponent={rightTopComponent}
       />
-      <MoviesList
+      <MediaList
         data={data}
         dataLength={dataLength}
         isLoading={isLoading}
@@ -63,6 +63,7 @@ export const MoviesListScreen = ({
         scrollY={scrollY}
         currentIndex={currentIndex}
         onLoad={onLoad}
+        mediaType={mediaType}
       />
     </MainScreen>
   );

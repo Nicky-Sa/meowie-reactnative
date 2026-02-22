@@ -1,5 +1,5 @@
 import { useFetchInterestingTvIds } from "@/features/media/tv/data/useFetchInterestingTvIds";
-import { TvList } from "@/features/media/tv/tv-list";
+import { MediaList } from "@/features/media/components/list/media-list";
 import { useLocalSearchParams } from "expo-router";
 import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
@@ -31,8 +31,8 @@ export const Content = ({
   } = useFetchInterestingTvIds({ sort });
 
   return (
-    <TvList
-      data={data}
+    <MediaList
+      data={data as number[]}
       dataLength={dataLength}
       isLoading={isLoading}
       isValidating={isValidating}
@@ -46,6 +46,7 @@ export const Content = ({
       scrollY={scrollY}
       scrollHandler={scrollHandler}
       onLoad={onLoad}
+      mediaType="tv"
     />
   );
 };

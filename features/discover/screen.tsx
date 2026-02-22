@@ -4,29 +4,33 @@ import { PostersList } from "@/features/common/posters/posters-list";
 import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 const NUM_COLUMNS = 3;
 
 export const Screen = () => {
-  const { title, ...searchParams } = useLocalSearchParams<
-    { title: string } & Partial<SearchParams>
+  const { title, mediaType, ...searchParams } = useLocalSearchParams<
+    { title: string; mediaType: MediaType } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchPosters(searchParams, "movie");
+  const posterData = useFetchPosters(searchParams, mediaType);
 
   const router = useRouter();
   const onPosterPress = useCallback(
     (index: number) => {
+      const pathname =
+        mediaType === "tv" ? "/discover/tv-list" : "/discover/movies-list";
       router.push({
-        pathname: "/discover/movies-list",
+        pathname,
         params: {
           initialIndex: index,
           title,
+          mediaType,
           ...searchParams,
         },
       });
     },
-    [router, searchParams, title],
+    [router, searchParams, title, mediaType],
   );
 
   return (

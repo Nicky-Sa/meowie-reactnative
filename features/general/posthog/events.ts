@@ -76,6 +76,7 @@ export type GENRE_CLICKED = {
   properties: {
     genre_id: ID;
     genre_name: string;
+    media_type: string;
   };
 };
 

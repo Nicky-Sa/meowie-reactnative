@@ -1,5 +1,5 @@
 import { useFetchInterestingMoviesIds } from "@/features/media/movie/data/useFetchInterestingMoviesIds";
-import { MoviesList } from "@/features/media/movie/movies-list";
+import { MediaList } from "@/features/media/components/list/media-list";
 import { useLocalSearchParams } from "expo-router";
 import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
@@ -31,7 +31,7 @@ export const Content = ({
   } = useFetchInterestingMoviesIds({ sort });
 
   return (
-    <MoviesList
+    <MediaList
       data={data}
       dataLength={dataLength}
       isLoading={isLoading}
@@ -46,6 +46,7 @@ export const Content = ({
       scrollY={scrollY}
       scrollHandler={scrollHandler}
       onLoad={onLoad}
+      mediaType="movie"
     />
   );
 };

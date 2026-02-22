@@ -11,7 +11,7 @@ import Animated, {
   SlideOutRight,
 } from "react-native-reanimated";
 
-const mediaTypes = ["Movies", "Tv"];
+const mediaTypes = ["Movies", "TV"];
 
 export const Screen = () => {
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
