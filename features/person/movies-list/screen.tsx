@@ -14,7 +14,7 @@ export const Screen = () => {
 
   const [currentMovieId] = useAtom(currentMovieIdAtom);
 
-  const posterData = useFetchPosters({ personId }, "movies");
+  const posterData = useFetchPosters({ personId }, "movie");
 
   const { data: roleInMovie, isLoading: isRoleInMovieLoading } =
     useFetchRoleInMovie(personId, currentMovieId);

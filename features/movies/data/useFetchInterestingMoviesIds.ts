@@ -19,7 +19,7 @@ export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
 
   const getKey: SWRInfiniteKeyLoader<InterestingMovieIdsResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = "/movies/interesting-ids";
+      const baseUrl = "/movie/interesting-ids";
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {

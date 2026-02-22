@@ -11,7 +11,7 @@ export const Screen = () => {
     } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchPosters(queryParams, "movies");
+  const posterData = useFetchPosters(queryParams, "movie");
 
   return (
     <MoviesListScreen

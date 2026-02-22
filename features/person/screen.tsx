@@ -20,7 +20,7 @@ export const Screen = () => {
   const { data: personData, isLoading: personInfoLoading } =
     useFetchPersonInfo(personId);
 
-  const moviesPosterData = useFetchPosters({ personId }, "movies");
+  const moviesPosterData = useFetchPosters({ personId }, "movie");
 
   const router = useRouter();
   const onPosterPress = useCallback(

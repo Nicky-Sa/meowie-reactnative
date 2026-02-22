@@ -12,7 +12,7 @@ export const Screen = () => {
     { title: string } & Partial<SearchParams>
   >();
 
-  const posterData = useFetchPosters(searchParams, "movies");
+  const posterData = useFetchPosters(searchParams, "movie");
 
   const router = useRouter();
   const onPosterPress = useCallback(

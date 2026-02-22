@@ -6,10 +6,11 @@ import {
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
 import { SearchParams } from "@/features/common/data/media-query";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 export const useFetchPosters = (
   queryParams: Partial<SearchParams>,
-  mediaType: "movies" | "tv",
+  mediaType: MediaType,
 ) => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {
