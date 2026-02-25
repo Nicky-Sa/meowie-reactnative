@@ -5,6 +5,7 @@ import Animated, {
   SlideInLeft,
   SlideOutRight,
 } from "react-native-reanimated";
+import { useIsInitialRender } from "@/features/common/hooks/useIsInitialRender";
 
 type Props = {
   isActive: boolean;
@@ -18,6 +19,8 @@ export const SlidingContent = ({
   children,
   className,
 }: PropsWithChildren<Props>) => {
+  const isInitialRender = useIsInitialRender();
+
   if (!isActive) return null;
 
   const entering = slideDirection === "left" ? SlideInLeft : SlideInRight;
@@ -25,7 +28,7 @@ export const SlidingContent = ({
 
   return (
     <Animated.View
-      entering={entering.duration(300)}
+      entering={isInitialRender ? undefined : entering.duration(300)}
       exiting={exiting.duration(300)}
       className={className}
     >
