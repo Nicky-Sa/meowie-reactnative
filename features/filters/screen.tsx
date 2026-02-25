@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Button } from "@/features/common/ui/button";
-import { Erase } from "iconoir-react-native";
 import { MediaGenres } from "@/features/filters/items/media-genres";
 import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
@@ -12,7 +11,6 @@ import {
 } from "@/features/common/data/media-query";
 import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
-import { Icon } from "@/features/common/ui/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { filtersAtom, filtersMediaTypeAtom } from "@/atoms";
@@ -22,23 +20,8 @@ import {
   MediaType,
   MEDIA_TYPES,
 } from "@/features/common/data/models/media-type";
-
-const ClearSelection = ({ onPress }: { onPress: () => void }) => {
-  return (
-    <Button
-      onPress={onPress}
-      variant={"ghost"}
-      size={"md"}
-      iconPosition={"left"}
-    >
-      <View className={"flex flex-row items-center justify-center gap-2"}>
-        <Icon i={Erase} />
-
-        <Text className={"body-b1-strong text-neutral-10-default"}>Clear</Text>
-      </View>
-    </Button>
-  );
-};
+import { SlidingContent } from "@/features/common/ui/sliding-content";
+import { ClearSelection } from "@/features/filters/elements/clear-selection";
 
 export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
@@ -82,28 +65,49 @@ export const Screen = () => {
     >
       <View className={"flex w-full flex-col gap-8"}>
         <View className={"flex w-full flex-col gap-2"}>
-          <View className="flex items-center justify-center">
-            <SlidingToggle
-              containerClassName="w-full rounded-xl h-[56px]"
-              tabClassName="rounded-lg"
-              items={MEDIA_TYPES.map((t) => t.label)}
-              activeItem={
-                MEDIA_TYPES.find((t) => t.value === mediaType)?.label || "Movie"
+          <SlidingToggle
+            containerClassName="w-full rounded-xl h-[56px]"
+            tabClassName="rounded-lg"
+            items={MEDIA_TYPES.map((t) => t.label)}
+            activeItem={
+              MEDIA_TYPES.find((t) => t.value === mediaType)?.label || "Movie"
+            }
+            setActiveItem={(label) => {
+              const newType =
+                MEDIA_TYPES.find((t) => t.label === label)?.value || "movie";
+              if (newType !== mediaType) {
+                setMediaType(newType as MediaType);
               }
-              setActiveItem={(label) => {
-                const newType =
-                  MEDIA_TYPES.find((t) => t.label === label)?.value || "movie";
-                if (newType !== mediaType) {
-                  setMediaType(newType as MediaType);
-                }
-              }}
-            />
+            }}
+          />
+
+          <View className="w-full">
+            <SlidingContent
+              isActive={mediaType === "movie"}
+              slideDirection="left"
+            >
+              <View className="flex flex-col gap-2">
+                <MediaGenres mediaType="movie" />
+                <Languages />
+                <YearDecades />
+                <TMDBRating />
+              </View>
+            </SlidingContent>
+
+            <SlidingContent
+              isActive={mediaType === "tv"}
+              slideDirection="right"
+            >
+              <View className="flex flex-col gap-2">
+                <MediaGenres mediaType="tv" />
+                <Languages />
+                <YearDecades />
+                <TMDBRating />
+              </View>
+            </SlidingContent>
           </View>
-          <MediaGenres mediaType={mediaType} />
-          <Languages />
-          <YearDecades />
-          <TMDBRating />
         </View>
+
         <Button
           variant={"white"}
           size={"lg"}

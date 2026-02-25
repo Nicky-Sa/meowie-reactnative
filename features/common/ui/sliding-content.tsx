@@ -1,0 +1,35 @@
+import { PropsWithChildren } from "react";
+import Animated, {
+  SlideInRight,
+  SlideOutLeft,
+  SlideInLeft,
+  SlideOutRight,
+} from "react-native-reanimated";
+
+type Props = {
+  isActive: boolean;
+  slideDirection: "left" | "right";
+  className?: string;
+};
+
+export const SlidingContent = ({
+  isActive,
+  slideDirection,
+  children,
+  className,
+}: PropsWithChildren<Props>) => {
+  if (!isActive) return null;
+
+  const entering = slideDirection === "left" ? SlideInLeft : SlideInRight;
+  const exiting = slideDirection === "left" ? SlideOutLeft : SlideOutRight;
+
+  return (
+    <Animated.View
+      entering={entering.duration(300)}
+      exiting={exiting.duration(300)}
+      className={className}
+    >
+      {children}
+    </Animated.View>
+  );
+};
