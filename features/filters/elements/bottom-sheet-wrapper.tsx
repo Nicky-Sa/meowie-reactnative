@@ -68,7 +68,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
                 variant="link"
                 iconOnly
                 onPress={() => {
-                  setFilters((draft) => {
+                  setFilters((draft: Filters) => {
                     draft[filterKey] = initialFiltersValue[filterKey];
                   });
                 }}
@@ -99,7 +99,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             onPress={() => {
               isApplyingRef.current = true;
               // Commit local draft to filtersAtom
-              setFilters((draft) => {
+              setFilters((draft: Filters) => {
                 draft[filterKey] = draftCurrentValues;
               });
               bottomSheetRef.current?.dismiss();

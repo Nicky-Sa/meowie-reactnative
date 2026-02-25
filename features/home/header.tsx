@@ -91,6 +91,7 @@ export const Header = ({
         {/* Toggle */}
         <Animated.View style={switchStyle}>
           <SlidingToggle
+            containerClassName={"h-14 w-44"}
             items={mediaTypes}
             activeItem={activeMediaType}
             setActiveItem={setActiveMediaType}

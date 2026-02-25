@@ -10,8 +10,9 @@ import Animated, {
   SlideInLeft,
   SlideOutRight,
 } from "react-native-reanimated";
+import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 
-const mediaTypes = ["Movies", "TV"];
+const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
 export const Screen = () => {
   const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();

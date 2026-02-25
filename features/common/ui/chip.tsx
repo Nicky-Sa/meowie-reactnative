@@ -11,7 +11,7 @@ type Props = {
 export const Chip = ({ text, backgroundColor, textColor, bold }: Props) => {
   return (
     <View
-      className={"rounded-full px-2.5 py-1"}
+      className={"flex h-6 items-center justify-center rounded-full px-2.5"}
       style={{
         backgroundColor:
           backgroundColor ??

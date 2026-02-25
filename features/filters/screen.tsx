@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { Erase } from "iconoir-react-native";
-import { MoviesGenres } from "@/features/filters/items/movies-genres";
+import { MediaGenres } from "@/features/filters/items/media-genres";
 import { Languages } from "@/features/filters/items/languages";
 import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
@@ -15,8 +15,13 @@ import _ from "lodash";
 import { Icon } from "@/features/common/ui/icon";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
-import { filtersAtom } from "@/atoms";
+import { filtersAtom, filtersMediaTypeAtom } from "@/atoms";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
+import {
+  MediaType,
+  MEDIA_TYPES,
+} from "@/features/common/data/models/media-type";
 
 const ClearSelection = ({ onPress }: { onPress: () => void }) => {
   return (
@@ -37,6 +42,7 @@ const ClearSelection = ({ onPress }: { onPress: () => void }) => {
 
 export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);
+  const [mediaType, setMediaType] = useAtom(filtersMediaTypeAtom);
   const router = useRouter();
   const { capture } = useCaptureEvent();
 
@@ -55,23 +61,45 @@ export const Screen = () => {
   };
 
   const handleApply = () => {
-    capture("filters_applied", { filters });
+    capture("filters_applied", { filters, mediaType });
     router.push({
       pathname: "/discover/posters",
-      params: { ...filters, modifiedFieldsNumber },
+      params: {
+        ...filters,
+        modifiedFieldsNumber,
+        mediaType,
+        title: `Filtered ${mediaType === "movie" ? "Movies" : "TV Shows"}`,
+      },
     });
   };
 
   return (
     <InnerScreen
-      title={"Filters"}
+      title={"Filter"}
       rightTopComponent={
         hasSelectedFilter && <ClearSelection onPress={clearFilters} />
       }
     >
       <View className={"flex w-full flex-col gap-8"}>
         <View className={"flex w-full flex-col gap-2"}>
-          <MoviesGenres />
+          <View className="flex items-center justify-center">
+            <SlidingToggle
+              containerClassName="w-full rounded-xl h-[56px]"
+              tabClassName="rounded-lg"
+              items={MEDIA_TYPES.map((t) => t.label)}
+              activeItem={
+                MEDIA_TYPES.find((t) => t.value === mediaType)?.label || "Movie"
+              }
+              setActiveItem={(label) => {
+                const newType =
+                  MEDIA_TYPES.find((t) => t.label === label)?.value || "movie";
+                if (newType !== mediaType) {
+                  setMediaType(newType as MediaType);
+                }
+              }}
+            />
+          </View>
+          <MediaGenres mediaType={mediaType} />
           <Languages />
           <YearDecades />
           <TMDBRating />

@@ -111,6 +111,7 @@ export type FILTERS_APPLIED = {
   event: "filters_applied";
   properties: {
     filters: Filters;
+    mediaType: string;
   };
 };
 

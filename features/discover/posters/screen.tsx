@@ -5,13 +5,19 @@ import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { MediaType } from "@/features/common/data/models/media-type";
+import { FilterIndicator } from "@/features/filters/elements/filter-indicator";
 
 const NUM_COLUMNS = 3;
 
 export const Screen = () => {
-  const { title, mediaType, ...searchParams } = useLocalSearchParams<
-    { title: string; mediaType: MediaType } & Partial<SearchParams>
-  >();
+  const { title, mediaType, modifiedFieldsNumber, ...searchParams } =
+    useLocalSearchParams<
+      {
+        title: string;
+        mediaType: MediaType;
+        modifiedFieldsNumber: string;
+      } & Partial<SearchParams>
+    >();
 
   const posterData = useFetchPosters(`/${mediaType}/posters`, searchParams);
 
@@ -32,7 +38,18 @@ export const Screen = () => {
   );
 
   return (
-    <InnerScreen title={title} fullHeight fullWidth>
+    <InnerScreen
+      title={title}
+      fullHeight
+      fullWidth
+      rightTopComponent={
+        modifiedFieldsNumber ? (
+          <FilterIndicator
+            modifiedFieldsNumber={Number(modifiedFieldsNumber)}
+          />
+        ) : undefined
+      }
+    >
       <PostersList
         numColumns={NUM_COLUMNS}
         posterData={posterData}

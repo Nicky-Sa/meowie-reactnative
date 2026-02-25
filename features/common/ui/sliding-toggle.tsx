@@ -12,9 +12,17 @@ type Props = {
   items: string[];
   activeItem: string;
   setActiveItem: (item: string) => void;
+  containerClassName?: string;
+  tabClassName?: string;
 };
 
-export const SlidingToggle = ({ items, activeItem, setActiveItem }: Props) => {
+export const SlidingToggle = ({
+  items,
+  activeItem,
+  setActiveItem,
+  containerClassName,
+  tabClassName,
+}: Props) => {
   const [containerWidth, setContainerWidth] = useState(0);
 
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -35,7 +43,10 @@ export const SlidingToggle = ({ items, activeItem, setActiveItem }: Props) => {
 
   return (
     <View
-      className="relative h-14 w-44 flex-row items-center rounded-full bg-neutral-14-default p-1"
+      className={cn(
+        "relative flex-row items-center rounded-full bg-neutral-14-default p-1",
+        containerClassName,
+      )}
       onLayout={(e: LayoutChangeEvent) =>
         setContainerWidth(
           e.nativeEvent.layout.width - Number(tailwind.theme.spacing[1]) * 2,
@@ -43,7 +54,10 @@ export const SlidingToggle = ({ items, activeItem, setActiveItem }: Props) => {
       }
     >
       <Animated.View
-        className="absolute bottom-1 left-1 top-1 w-1/2 rounded-full bg-neutral-10-default shadow-md"
+        className={cn(
+          "absolute bottom-1 left-1 top-1 w-1/2 rounded-full bg-neutral-10-default shadow-md",
+          tabClassName,
+        )}
         style={{ transform: [{ translateX }] }}
       />
 
