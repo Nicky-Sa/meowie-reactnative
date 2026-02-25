@@ -1,12 +1,12 @@
 import { useSWRConfigured } from "@/features/common/data/swr/hooks";
 import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
-import { LibraryMediaType } from "@/features/profile/data/library.constants";
+import { MediaType } from "@/features/common/data/models/media-type";
 import { LibraryStatusResDto } from "@/features/profile/data/dto/library.dto";
 
 type Args = {
   id: ID;
-  mediaType: LibraryMediaType;
+  mediaType: MediaType;
 };
 
 /**

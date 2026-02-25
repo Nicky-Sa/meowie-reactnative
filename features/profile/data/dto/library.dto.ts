@@ -1,11 +1,9 @@
-import {
-  LibraryCategory,
-  LibraryMediaType,
-} from "@/features/profile/data/library.constants";
+import { LibraryCategory } from "@/features/profile/data/library.constants";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 export type ToggleLibraryItemReqDto = {
   tmdbId: number;
-  mediaType: LibraryMediaType;
+  mediaType: MediaType;
   category: LibraryCategory;
 };
 

@@ -4,10 +4,8 @@ import {
   useRevalidateByPattern,
   useSWRMutationConfigured,
 } from "@/features/common/data/swr/hooks";
-import {
-  LibraryCategory,
-  LibraryMediaType,
-} from "@/features/profile/data/library.constants";
+import { LibraryCategory } from "@/features/profile/data/library.constants";
+import { MediaType } from "@/features/common/data/models/media-type";
 import {
   LibraryStatusResDto,
   ToggleLibraryItemReqDto,
@@ -15,7 +13,7 @@ import {
 
 type Args = {
   id: ID;
-  mediaType: LibraryMediaType;
+  mediaType: MediaType;
   category: LibraryCategory;
 };
 

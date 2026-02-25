@@ -11,11 +11,11 @@ import { useRouter } from "expo-router";
 import { SaveIcon } from "@/features/media/components/details/elements/save/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 
-import { LibraryMediaType } from "@/features/profile/data/library.constants";
+import { MediaType } from "@/features/common/data/models/media-type";
 
 type Props = {
   id: ID;
-  mediaType: LibraryMediaType;
+  mediaType: MediaType;
   onPress: (saved: boolean | null) => void;
 };
 
