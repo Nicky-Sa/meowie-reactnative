@@ -21,8 +21,6 @@ export const MediaGenres = ({ mediaType }: { mediaType: MediaType }) => {
     }));
   }, [data, mediaType]);
 
-  if (!activeGenres.length) return null;
-
   return (
     <BottomSheetWrapper
       title={"Genre"}
