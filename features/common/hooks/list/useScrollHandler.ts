@@ -1,5 +1,5 @@
 import { scheduleOnRN } from "react-native-worklets";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -22,10 +22,10 @@ export const useScrollHandler = () => {
   });
 
   // Reset scroll position when data resets
-  const onLoad = () => {
-    // Doesn't work, delete later if not needed (issue with blank list after applying filter)
-    // scrollY.value = 0;
-  };
+  const resetScroll = useCallback(() => {
+    scrollY.value = 0;
+    setCurrentIndex(0);
+  }, [scrollY]);
 
-  return { scrollHandler, scrollY, currentIndex, onLoad };
+  return { scrollHandler, scrollY, currentIndex, resetScroll };
 };

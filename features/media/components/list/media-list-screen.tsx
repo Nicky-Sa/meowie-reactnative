@@ -39,7 +39,7 @@ export const MediaListScreen = ({
       mediaType: item.mediaType,
       roleInMedia: item.role,
     })) || [];
-  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
+  const { scrollHandler, scrollY, currentIndex } = useScrollHandler();
 
   return (
     <MainScreen>
@@ -62,7 +62,6 @@ export const MediaListScreen = ({
         scrollHandler={scrollHandler}
         scrollY={scrollY}
         currentIndex={currentIndex}
-        onLoad={onLoad}
       />
     </MainScreen>
   );

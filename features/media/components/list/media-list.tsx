@@ -25,7 +25,7 @@ type Props = {
   currentIndex: number;
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
-  onLoad: () => void;
+  isActive?: boolean;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
@@ -46,7 +46,7 @@ export const MediaList = ({
   currentIndex,
   scrollY,
   scrollHandler,
-  onLoad,
+  isActive = true,
 }: Props) => {
   const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
 
@@ -79,7 +79,7 @@ export const MediaList = ({
         <MediaListItem
           key={`${item.mediaType}-${item.id}`}
           item={item}
-          inScreen={index === currentIndex}
+          inScreen={index === currentIndex && isActive}
           index={index}
           scrollY={scrollY}
         />
@@ -90,7 +90,6 @@ export const MediaList = ({
       // Pagination Handlers
       onEndReached={onEndReached}
       onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
-      onLoad={onLoad}
       showsVerticalScrollIndicator={false}
       contentContainerClassName={"grow px-4"}
       ListEmptyComponent={

@@ -10,13 +10,14 @@ import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
 export const Screen = () => {
-  const { scrollHandler, scrollY, currentIndex, onLoad } = useScrollHandler();
+  const { scrollHandler, scrollY, currentIndex, resetScroll } =
+    useScrollHandler();
   const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
 
   useEffect(() => {
     // Reset scroll position so the new list starts at the top
-    scrollY.value = 0;
-  }, [activeMediaType, scrollY]);
+    resetScroll();
+  }, [activeMediaType, resetScroll]);
 
   return (
     <MainScreen>
@@ -33,10 +34,10 @@ export const Screen = () => {
         className={"flex-1"}
       >
         <MoviesContent
+          isActive={activeMediaType === mediaTypes[0]}
           currentIndex={currentIndex}
           scrollY={scrollY}
           scrollHandler={scrollHandler}
-          onLoad={onLoad}
         />
       </SlidingContent>
 
@@ -46,10 +47,10 @@ export const Screen = () => {
         className={"flex-1"}
       >
         <TvContent
+          isActive={activeMediaType === mediaTypes[1]}
           currentIndex={currentIndex}
           scrollY={scrollY}
           scrollHandler={scrollHandler}
-          onLoad={onLoad}
         />
       </SlidingContent>
     </MainScreen>

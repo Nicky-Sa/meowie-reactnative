@@ -8,14 +8,14 @@ type Props = {
   currentIndex: number;
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
-  onLoad: () => void;
+  isActive: boolean;
 };
 
 export const Content = ({
   currentIndex,
   scrollY,
   scrollHandler,
-  onLoad,
+  isActive,
 }: Props) => {
   const { sort = initialSort } = useLocalSearchParams<{ sort: SortOption }>();
   const {
@@ -45,7 +45,7 @@ export const Content = ({
       currentIndex={currentIndex}
       scrollY={scrollY}
       scrollHandler={scrollHandler}
-      onLoad={onLoad}
+      isActive={isActive}
     />
   );
 };
