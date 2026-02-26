@@ -152,7 +152,7 @@ export const Screen = () => {
                 />
                 {isLastItem && (
                   <Text className={"body-b1-strong text-neutral-1-default"}>
-                    Let’s Go
+                    {"Let's Go"}
                   </Text>
                 )}
               </View>

@@ -4,20 +4,41 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "internal-development": {
+    "local-development": {
       "environment": "development",
       "developmentClient": true,
       "distribution": "internal"
     },
-    "internal-development-ios-simulator": {
-      "extends": "internal-development",
+    "local-development-ios-simulator": {
+      "extends": "local-development",
       "ios": {
         "simulator": true
       }
     },
-    "internal-preview": {
+    "e2e-detox-ios-development": {
+      "extends": "local-development-ios-simulator"
+    },
+    "e2e-detox-android-development": {
+      "extends": "local-development",
+      "android": {
+        "gradleCommand": ":app:assembleDebug :app:assembleDebugAndroidTest -x lint -x test"
+      }
+    },
+    "local-preview": {
       "environment": "preview",
       "distribution": "internal"
+    },
+    "e2e-detox-ios-preview": {
+      "extends": "local-preview",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "e2e-detox-android-preview": {
+      "extends": "local-preview",
+      "android": {
+        "gradleCommand": ":app:assembleDebug :app:assembleDebugAndroidTest -x lint -x test"
+      }
     },
     "testflight-preview": {
       "environment": "preview",

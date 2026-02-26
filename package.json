@@ -6,15 +6,22 @@
   "scripts": {
     "start": "expo start --clear --dev-client",
     "prebuild": "expo prebuild --clean",
-    "eas-build:internal-dev:android": "eas env:pull --environment development && eas build --platform android --profile internal-development --clear-cache --local --output=./local-builds/dev/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
-    "eas-build:internal-dev:ios-simulator": "eas env:pull --environment development && eas build --platform ios --profile internal-development-ios-simulator --clear-cache --local --output=./local-builds/dev/ios-simulator/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
-    "eas-build:internal-dev:ios-device": "eas env:pull --environment development && eas build --platform ios --profile internal-development --clear-cache --local --output=./local-builds/dev/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
-    "eas-build:internal-preview:android": "eas env:pull --environment preview && eas build --platform android --profile internal-preview --clear-cache --local --output=./local-builds/preview/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
-    "eas-build:internal-preview:ios-device": "eas env:pull --environment preview && eas build --platform ios --profile internal-preview --clear-cache --local --output=./local-builds/preview/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
+    "eas-build:local-dev:android": "eas env:pull --environment development && eas build --platform android --profile local-development --clear-cache --local --output=./local-builds/dev/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
+    "eas-build:local-dev:ios-simulator": "eas env:pull --environment development && eas build --platform ios --profile local-development-ios-simulator --clear-cache --local --output=./local-builds/dev/ios-simulator/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
+    "eas-build:local-dev:ios-device": "eas env:pull --environment development && eas build --platform ios --profile local-development --clear-cache --local --output=./local-builds/dev/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
+    "eas-build:local-preview:android": "eas env:pull --environment preview && eas build --platform android --profile local-preview --clear-cache --local --output=./local-builds/preview/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
+    "eas-build:local-preview:ios-device": "eas env:pull --environment preview && eas build --platform ios --profile local-preview --clear-cache --local --output=./local-builds/preview/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
     "eas-build:testflight-preview": "eas env:pull --environment preview && eas build --platform ios --profile testflight-preview --local --non-interactive --output=./local-builds/testflight/preview/meowie.ipa",
     "eas-build:testflight-production": "eas env:pull --environment production && eas build --platform ios --profile testflight-production --local --non-interactive --output=./local-builds/testflight/production/meowie.ipa",
+    "eas-build:detox-dev:ios": "eas env:pull --environment development && eas build --platform ios --profile e2e-detox-ios-development --clear-cache --local --output=./local-builds/detox/ios/meowie-dev.tar.gz && tar -xzf ./local-builds/detox/ios/meowie-dev.tar.gz -C ./local-builds/detox/ios/",
+    "eas-build:detox-dev:android": "eas env:pull --environment development && eas build --platform android --profile e2e-detox-android-development --clear-cache --local --output=./local-builds/detox/android/meowie-dev.tar.gz && tar -xzf ./local-builds/detox/android/meowie-dev.tar.gz -C ./local-builds/detox/android/",
+    "eas-build:detox-preview:ios": "eas env:pull --environment preview && eas build --platform ios --profile e2e-detox-ios-preview --clear-cache --local --output=./local-builds/detox/ios/meowie-preview.tar.gz && tar -xzf ./local-builds/detox/ios/meowie-preview.tar.gz -C ./local-builds/detox/ios/",
+    "eas-build:detox-preview:android": "eas env:pull --environment preview && eas build --platform android --profile e2e-detox-android-preview --clear-cache --local --output=./local-builds/detox/android/meowie-preview.tar.gz && tar -xzf ./local-builds/detox/android/meowie-preview.tar.gz -C ./local-builds/detox/android/",
     "eas-build-post-install": "node ./scripts/eas-build-post-install.mjs",
-    "test": "jest --watchAll",
+    "test:unit": "jest --watchAll",
+    "test:e2e-dev:ios": "CUSTOM_BINARY_APP_NAME=Meowiedev detox test -c ios.sim.local",
+    "test:e2e-preview:ios": "detox test -c ios.sim.local",
+    "test:e2e-preview:android": "detox test -c android.emu.local",
     "lint": "eslint",
     "eas-update": "eas update --auto && npx sentry-expo-upload-sourcemaps dist",
     "generate-figma-variables": "npx ts-node figma/processor.ts",
@@ -104,15 +111,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
+    "@config-plugins/detox": "^11.0.0",
     "@eslint/js": "^9.39.2",
     "@sentry/cli": "^3.0.3",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^13.3.3",
+    "@types/detox": "^17.14.3",
     "@types/jest": "29.5.14",
     "@types/lodash": "^4.17.23",
     "@types/node": "^25.0.5",
     "@types/react": "~19.1.10",
     "@types/react-test-renderer": "^19.1.0",
+    "detox": "^20.47.0",
     "eslint": "^9.39.2",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
@@ -128,19 +138,28 @@
     "react-native-svg-transformer": "^1.5.2",
     "react-test-renderer": "19.1.0",
     "tailwindcss": "^3.4.19",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.52.0"
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/e2e/"
+    ]
   },
   "overrides": {
     "iconoir-react-native": {
       "react": "$react"
     },
-    "diff": "^8.0.3"
+    "diff": "^8.0.3",
+    "@config-plugins/detox": {
+      "expo": "$expo"
+    }
   },
   "expo": {
     "doctor": {

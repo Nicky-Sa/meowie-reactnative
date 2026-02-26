@@ -138,6 +138,7 @@ const config: ExpoConfig = {
         supportsPictureInPicture: true,
       },
     ],
+    "@config-plugins/detox",
   ],
   experiments: {
     typedRoutes: true,
