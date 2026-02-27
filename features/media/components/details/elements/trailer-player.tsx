@@ -41,6 +41,7 @@ export const TrailerPlayer = ({
     <View className={"h-[200px] w-full"}>
       {inScreen ? (
         <Player
+          key={YTKey}
           YTKey={YTKey}
           autoplay={autoplay}
           onPlay={onPlay}
