@@ -3,7 +3,7 @@ import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Content as MoviesContent } from "@/features/media/movie/content";
 import { Content as TvContent } from "@/features/media/tv/content";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 
@@ -14,10 +14,10 @@ export const Screen = () => {
     useScrollHandler();
   const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
 
-  useEffect(() => {
-    // Reset scroll position so the new list starts at the top
+  const handleMediaTypeChange = (type: string) => {
     resetScroll();
-  }, [activeMediaType, resetScroll]);
+    setActiveMediaType(type);
+  };
 
   return (
     <MainScreen>
@@ -25,7 +25,7 @@ export const Screen = () => {
         scrollY={scrollY}
         mediaTypes={mediaTypes}
         activeMediaType={activeMediaType}
-        setActiveMediaType={setActiveMediaType}
+        setActiveMediaType={handleMediaTypeChange}
       />
 
       <SlidingContent
