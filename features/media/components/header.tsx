@@ -32,12 +32,18 @@ export const Header = ({ title, subtitle, rightTopComponent }: Props) => {
         <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
           <Icon i={NavArrowLeft} />
         </Button>
-        <View className={"flex flex-col gap-0.5"}>
-          <Text className={"title-t2-strong text-neutral-10-default"}>
+        <View className={"mr-2 flex flex-1 flex-col gap-0.5"}>
+          <Text
+            numberOfLines={1}
+            className={"title-t2-strong text-neutral-10-default"}
+          >
             {title}
           </Text>
           {subtitle && (
-            <Text className={"body-b1 h-6 text-neutral-5-default"}>
+            <Text
+              numberOfLines={1}
+              className={"body-b1 h-6 text-neutral-5-default"}
+            >
               {subtitle}
             </Text>
           )}
