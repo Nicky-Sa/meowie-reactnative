@@ -10,60 +10,14 @@ permissions:
   contents: write
 
 jobs:
-  # --- JOB 0: Calculate Version First ---
-  # We run this first so we can pass the version number to the Build job.
-  calculate-version:
-    runs-on: ubuntu-latest
-    env:
-      PREVIEW_BRANCH: ios-preview
-      PRODUCTION_BRANCH: ios-production
-    outputs:
-      final_tag: ${{ steps.format.outputs.FINAL_TAG }}
-      clean_version: ${{ steps.format.outputs.CLEAN_VERSION }}
-      changelog: ${{ steps.tag_version.outputs.changelog }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: "0"
-
-      # 1. Calculate the Next "Clean" Patch Version (e.g., v1.0.2)
-      - name: Calculate Next Version
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: patch
-          tag_prefix: "v"
-          dry_run: true
-          release_branches: "preview,production"
-
-      # 2. Format the Tag and Clean Version manually
-      - name: Format Version Output
-        id: format
-        run: |
-          # The action returns 'v1.0.2'. We strip 'v' to get '1.0.2' for Apple.
-          RAW_TAG="${{ steps.tag_version.outputs.new_tag }}"
-          CLEAN_VERSION="${RAW_TAG#v}"
-
-          if [[ "${{ github.ref_name }}" == "$PRODUCTION_BRANCH" ]]; then
-            echo "FINAL_TAG=$RAW_TAG" >> $GITHUB_OUTPUT
-            echo "Environment: Production ($RAW_TAG)"
-          else
-            # Force the -beta suffix manually
-            echo "FINAL_TAG=${RAW_TAG}-beta" >> $GITHUB_OUTPUT
-            echo "Environment: Preview (${RAW_TAG}-beta)"
-          fi
-
-          echo "CLEAN_VERSION=$CLEAN_VERSION" >> $GITHUB_OUTPUT
-
   # --- JOB 1: Build and upload to TestFlight ---
   build-and-upload:
-    needs: calculate-version
     runs-on: macos-26
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: "0"
 
       - name: Determine APP_VARIANT
         run: |
@@ -75,6 +29,23 @@ jobs:
               echo "APP_VARIANT=preview" >> "$GITHUB_ENV"
               ;;
           esac
+
+      - name: Calculate Version
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          tag_prefix: "v"
+          dry_run: true
+          release_branches: "ios-preview,ios-production"
+
+      - name: Format Version
+        id: format
+        run: |
+          RAW_TAG="${{ steps.tag_version.outputs.new_tag }}"
+          CLEAN_VERSION="${RAW_TAG#v}"
+          echo "APP_VERSION=$CLEAN_VERSION" >> "$GITHUB_ENV"
 
       - name: Set up Node
         uses: actions/setup-node@v6
@@ -110,25 +81,22 @@ jobs:
 
       - name: EAS Build
         env:
-          # Use Clean Version (e.g. "1.0.2") for the Apple Binary
-          # Apple rejects versions with letters like "-beta"
-          APP_VERSION: ${{ needs.calculate-version.outputs.clean_version }}
           BUILD_NUMBER: ${{ github.run_number }}
         run: |
           rm -rf .env.local
-          npm run eas-build:testflight-${{ env.APP_VARIANT }}
+          npm run eas-build:testflight-${APP_VARIANT}
 
       - name: Upload to TestFlight
         run: |
           xcrun altool --upload-app \
-            --file ./local-builds/testflight/${{ env.APP_VARIANT }}/meowie.ipa \
+            --file ./local-builds/testflight/${APP_VARIANT}/meowie.ipa \
             --type ios \
             --username ${{ secrets.APPLE_ID }} \
             --password ${{ secrets.APP_SPECIFIC_PASSWORD }}
 
   # --- JOB 2: RELEASE ---
-  smart-release:
-    needs: [build-and-upload, calculate-version]
+  release:
+    needs: build-and-upload
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -136,13 +104,40 @@ jobs:
         with:
           fetch-depth: "0"
 
-      # 3. Create the Release using the manually constructed tag
-      # This creates v1.0.2-beta (preview) or v1.0.2 (production)
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
+      - name: Calculate Version
+        id: calc_version
+        uses: mathieudutour/github-tag-action@v6.2
         with:
-          tag_name: ${{ needs.calculate-version.outputs.final_tag }}
-          name: Release ${{ needs.calculate-version.outputs.final_tag }}
-          body: ${{ needs.calculate-version.outputs.changelog }}
-          prerelease: false
-          draft: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+          tag_prefix: "v"
+          dry_run: ${{ github.ref_name != 'ios-production' }}
+          release_branches: "ios-preview,ios-production"
+
+      - name: Manage Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VER: ${{ steps.calc_version.outputs.new_tag }}
+          CHANGELOG: ${{ steps.calc_version.outputs.changelog }}
+        run: |
+          if [[ "${{ github.ref_name }}" == "ios-production" ]]; then
+            # 1. Create solid full release
+            FINAL_TAG="$NEW_VER"
+            gh release create "$FINAL_TAG" --title "Release $FINAL_TAG" --notes "$CHANGELOG" --repo ${{ github.repository }} --target ${{ github.sha }}
+            
+            # 2. Clean up beta release upon production deployment
+            BETA_TAG="${NEW_VER}-beta"
+            if gh release view "$BETA_TAG" --repo ${{ github.repository }} > /dev/null 2>&1; then
+               echo "Found existing beta release: $BETA_TAG. Deleting it to avoid duplicate releases..."
+               gh release delete "$BETA_TAG" --yes --cleanup-tag --repo ${{ github.repository }}
+            fi
+          else
+            # 1. Create beta prerelease
+            FINAL_TAG="${NEW_VER}-beta"
+            if gh release view "$FINAL_TAG" --repo ${{ github.repository }} > /dev/null 2>&1; then
+               echo "Found existing beta release. Deleting it so we can push the updated tag..."
+               gh release delete "$FINAL_TAG" --yes --cleanup-tag --repo ${{ github.repository }}
+               sleep 2
+            fi
+            gh release create "$FINAL_TAG" --title "Release $FINAL_TAG" --notes "$CHANGELOG" --prerelease --repo ${{ github.repository }} --target ${{ github.sha }}
+          fi
