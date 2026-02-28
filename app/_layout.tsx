@@ -28,7 +28,7 @@ Sentry.init({
   environment: env.EXPO_PUBLIC_APP_VARIANT,
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
-  sendDefaultPii: true,
+  sendDefaultPii: false,
   replaysSessionSampleRate:
     env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.1,
   replaysOnErrorSampleRate: 1.0,
@@ -43,7 +43,7 @@ Sentry.init({
   integrations: [
     navigationIntegration,
     Sentry.mobileReplayIntegration({
-      maskAllText: false,
+      maskAllText: true,
       maskAllImages: false,
       maskAllVectors: false,
     }),
@@ -71,7 +71,7 @@ function RootLayout() {
         captureAppLifecycleEvents: true,
         enableSessionReplay: true,
         sessionReplayConfig: {
-          maskAllTextInputs: false,
+          maskAllTextInputs: true,
           maskAllImages: false,
           maskAllSandboxedViews: false,
         },
