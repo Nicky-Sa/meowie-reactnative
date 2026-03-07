@@ -14,7 +14,7 @@ type Props = TabChildProps;
 export const SavedList = ({ scrollHandler }: Props) => {
   const { paddingBottom } = useMainScreenContentStyle();
 
-  const posterData = useFetchPosters("/library/saved");
+  const posterData = useFetchPosters("/library/saved/");
 
   const router = useRouter();
   const onPosterPress = useCallback(

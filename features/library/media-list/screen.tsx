@@ -8,7 +8,7 @@ export const Screen = () => {
     initialIndex: string;
   }>();
 
-  const posterData = useFetchPosters("/library/saved");
+  const posterData = useFetchPosters("/library/saved/");
 
   return (
     <MediaListScreen

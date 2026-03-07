@@ -11,7 +11,7 @@ import { MediaType } from "@/features/common/data/models/media-type";
 type URL =
   | `/person/${string}/posters`
   | `/${MediaType}/posters`
-  | "/library/saved";
+  | "/library/saved/";
 
 export const useFetchPosters = (
   url: URL,

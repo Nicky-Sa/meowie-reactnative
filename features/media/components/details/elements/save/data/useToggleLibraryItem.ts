@@ -57,7 +57,7 @@ export const useToggleLibraryItem = ({ id, mediaType, category }: Args) => {
         },
       );
 
-      await revalidateByPattern(new RegExp("^/library/saved/.*")); // Revalidate library saved list
+      await revalidateByPattern(new RegExp(`^/library/${category}/.*`)); // Revalidate library saved/seen list
     } catch (error) {
       console.log({ error });
     }
