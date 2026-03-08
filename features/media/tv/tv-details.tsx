@@ -99,7 +99,7 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
             </Text>
           </ScrollView>
           <View className={"flex flex-row gap-5"}>
-            <Text className={"body-b2 text-neutral-5-default"}>TV Series</Text>
+            <Text className={"body-b2 text-neutral-5-default"}>TV-Series</Text>
             <Text className={"body-b2 text-neutral-5-default"}>
               {data.airingYears}
             </Text>

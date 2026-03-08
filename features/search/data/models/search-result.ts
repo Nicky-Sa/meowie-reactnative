@@ -17,6 +17,15 @@ export type SearchResultMovie = {
   releaseYear: string;
 };
 
+export type SearchResultTv = {
+  id: number;
+  title: string;
+  posterPath: string;
+  mediaType: "tv";
+  genres: string[];
+  firstAirDate: string;
+};
+
 export type SearchResultMovieGenre = Genre & {
   mediaType: "movie-genre";
 };
@@ -28,5 +37,6 @@ export type SearchResultTvGenre = Genre & {
 export type MultiSearchResults =
   | SearchResultPerson
   | SearchResultMovie
+  | SearchResultTv
   | SearchResultMovieGenre
   | SearchResultTvGenre;

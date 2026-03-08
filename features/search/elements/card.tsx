@@ -2,6 +2,7 @@ import { MultiSearchResults } from "@/features/search/data/models/search-result"
 import { PersonCard } from "@/features/search/elements/items/person";
 import { MovieCard } from "@/features/search/elements/items/movie";
 import { GenreCard } from "@/features/search/elements/items/genre";
+import { TvCard } from "@/features/search/elements/items/tv";
 
 type Props = {
   item: MultiSearchResults;
@@ -13,6 +14,8 @@ export const SearchResultCard = ({ item }: Props) => {
       return <PersonCard item={item} />;
     case "movie":
       return <MovieCard item={item} />;
+    case "tv":
+      return <TvCard item={item} />;
     case "movie-genre":
     case "tv-genre":
       return <GenreCard item={item} />;
