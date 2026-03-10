@@ -7,7 +7,7 @@ export const useEmptySWRCache = () => {
   const clearSWRCache = useCallback(async () => {
     try {
       // Clear the in-memory state for active hooks
-      await revalidateByPattern(undefined, undefined, { revalidate: false });
+      await revalidateByPattern(undefined, undefined, { revalidate: true });
     } catch (error) {
       console.log({ error });
     }

@@ -71,7 +71,8 @@ export const EmptyCache = () => {
         <View className={"flex flex-col items-center gap-4"}>
           <EmptyCacheSvg />
           <Text className={"body-b1 text-center text-neutral-10-default"}>
-            Are you sure you want to empty the cache?
+            Are you sure you want to empty the cache? After this action,
+            fetching fresh data will start immediately.
           </Text>
         </View>
       </BottomSheet>
