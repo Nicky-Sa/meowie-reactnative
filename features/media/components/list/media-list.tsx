@@ -58,23 +58,28 @@ export const MediaList = ({
     totalPages,
   });
 
-  const isInitialLoad = isLoading && (!data || data.length === 0);
-
-  // Only use initialScrollIndex if we are NOT loading
-  // AND the index actually exists in the current data array.
-  const safeInitialIndex =
-    !isInitialLoad &&
+  const isWaitingForInitialData =
     initialScrollIndex !== undefined &&
-    initialScrollIndex < (data?.length ?? 0)
-      ? initialScrollIndex
-      : undefined;
+    (!data || data.length <= initialScrollIndex);
+
+  const isInitialLoad =
+    isWaitingForInitialData || (isLoading && (!data || data.length === 0));
 
   return (
     <AnimatedFlashList
+      key={
+        initialScrollIndex !== undefined
+          ? isWaitingForInitialData
+            ? "loading"
+            : "ready"
+          : "static"
+      }
       data={data}
       ref={listRef}
-      keyExtractor={(item, index) => `info-${item.mediaType}-${item.id}`}
-      initialScrollIndex={safeInitialIndex}
+      keyExtractor={(item) => `info-${item.mediaType}-${item.id}`}
+      initialScrollIndex={
+        isWaitingForInitialData ? undefined : initialScrollIndex
+      }
       renderItem={({ item, index }) => (
         <MediaListItem
           key={`${item.mediaType}-${item.id}`}

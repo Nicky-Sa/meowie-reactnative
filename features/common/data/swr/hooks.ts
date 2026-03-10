@@ -29,15 +29,27 @@ export type SWRInfiniteKeyLoader<Data> = (
 
 export const useSWRPaginatedConfigured = <Data, Err = Error>(
   getKey: SWRInfiniteKeyLoader<Data>,
-  config?: SWRConfiguration<SuccessResponse<Data>, Err>,
+  config?: SWRConfiguration<SuccessResponse<Data>, Err> & {
+    initialSize?: number;
+  },
 ) => {
-  const [size, setSize] = useState(1);
+  const [size, setSize] = useState(config?.initialSize || 1);
   const [data, setData] = useImmer<SuccessResponse<Data>[] | undefined>(
     undefined,
   );
 
-  const previousPageData = data ? data[size - 2] || null : null;
-  const key = getKey(size - 1, previousPageData);
+  // Bridging logic: If we have gaps (e.g. size is 3 but data only has page 1),
+  // we find the FIRST missing index and fetch it. This sequentially fills the array.
+  let targetIndex = size - 1;
+  if (data) {
+    const firstMissing = data.findIndex((page) => page === undefined);
+    if (firstMissing !== -1 && firstMissing < size) {
+      targetIndex = firstMissing;
+    }
+  }
+
+  const previousPageData = data ? data[targetIndex - 1] || null : null;
+  const key = getKey(targetIndex, previousPageData);
 
   const { data: currentPageData, ...rest } = useSWRConfigured<Data, Err>(
     key,
@@ -51,19 +63,18 @@ export const useSWRPaginatedConfigured = <Data, Err = Error>(
         // We must return a NEW state to replace undefined (Immer rule).
         if (!draft) {
           const newArray = [];
-          newArray[size - 1] = currentPageData;
+          newArray[targetIndex] = currentPageData;
           return newArray;
         }
-
         // Case B: State is an array.
         // Mutate the draft directly.
         // Reference check to prevent infinite loops:
-        if (!_.isEqual(draft[size - 1], currentPageData)) {
-          draft[size - 1] = castDraft(currentPageData); // Cast helps TS infer the draft type correctly if strict
+        if (!_.isEqual(draft[targetIndex], currentPageData)) {
+          draft[targetIndex] = castDraft(currentPageData);
         }
       });
     }
-  }, [currentPageData, size, setData]);
+  }, [currentPageData, targetIndex, setData]);
 
   return {
     data, // This matches the SWRInfinite return type (array of pages)

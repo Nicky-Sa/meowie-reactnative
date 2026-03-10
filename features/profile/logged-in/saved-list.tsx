@@ -23,11 +23,12 @@ export const SavedList = ({ scrollHandler }: Props) => {
         pathname: "/library/media-list",
         params: {
           initialIndex: index,
+          initialSize: posterData.size,
           title: "Saved",
         },
       });
     },
-    [router],
+    [router, posterData.size],
   );
 
   return (

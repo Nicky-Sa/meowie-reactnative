@@ -5,17 +5,22 @@ import { useAtom } from "jotai";
 import { currentRoleInMediaAtom } from "@/atoms";
 
 export const Screen = () => {
-  const { title, initialIndex, personId } = useLocalSearchParams<{
+  const { title, initialIndex, initialSize, personId } = useLocalSearchParams<{
     title: string;
     initialIndex: string;
+    initialSize: string;
     personId: string;
   }>();
 
   const [currentRoleInMedia] = useAtom(currentRoleInMediaAtom);
 
-  const posterData = useFetchPosters(`/person/${personId}/posters`, {
-    personId,
-  });
+  const posterData = useFetchPosters(
+    `/person/${personId}/posters`,
+    {
+      personId,
+    },
+    initialSize ? Number(initialSize) : undefined,
+  );
 
   return (
     <MediaListScreen

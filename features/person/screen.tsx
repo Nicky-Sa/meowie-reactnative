@@ -31,12 +31,13 @@ export const Screen = () => {
         pathname: "/person/media-list",
         params: {
           initialIndex: index,
+          initialSize: posterData.size,
           title: personData?.name,
           personId,
         },
       });
     },
-    [router, personData?.name, personId],
+    [router, personData?.name, personId, posterData.size],
   );
 
   return (

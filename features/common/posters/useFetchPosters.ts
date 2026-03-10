@@ -16,6 +16,7 @@ type URL =
 export const useFetchPosters = (
   url: URL,
   queryParams?: Partial<SearchParams>,
+  initialSize?: number,
 ) => {
   const getKey: SWRInfiniteKeyLoader<PosterResDto> = useCallback(
     (pageIndex, previousPageData) => {
@@ -36,7 +37,7 @@ export const useFetchPosters = (
     size,
     setSize,
     ...rest
-  } = useSWRPaginatedConfigured<PosterResDto>(getKey);
+  } = useSWRPaginatedConfigured<PosterResDto>(getKey, { initialSize });
 
   const rawData = Array.isArray(response)
     ? response.map((page) => page.data.results)

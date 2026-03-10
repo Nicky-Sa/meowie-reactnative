@@ -28,13 +28,14 @@ export const Screen = () => {
         pathname: "/discover/media-list",
         params: {
           initialIndex: index,
+          initialSize: posterData.size,
           title,
           mediaType,
           ...searchParams,
         },
       });
     },
-    [router, searchParams, title, mediaType],
+    [router, searchParams, title, mediaType, posterData.size],
   );
 
   return (
