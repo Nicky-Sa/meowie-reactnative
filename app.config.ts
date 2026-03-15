@@ -138,6 +138,7 @@ const config: ExpoConfig = {
       },
     ],
     "@config-plugins/detox",
+    "@sentry/react-native",
   ],
   experiments: {
     typedRoutes: true,
