@@ -3,7 +3,6 @@ import { SearchResultCard } from "@/features/search/elements/card";
 import { View, Platform } from "react-native";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { SearchEmptyState } from "@/features/search/elements/empty-state";
 
@@ -22,9 +21,6 @@ export const SearchResultList = ({
   error,
   mutate,
 }: Props) => {
-  // If I use SafeAreaView, it won't feel like a full screen list and it will add margins
-  const { bottom } = useSafeAreaInsets();
-
   return (
     <View className={"flex flex-1"}>
       <FlashList
@@ -32,9 +28,7 @@ export const SearchResultList = ({
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <SearchResultCard item={item} />}
         contentContainerClassName={"grow pt-4"}
-        contentContainerStyle={{
-          paddingBottom: bottom,
-        }}
+        contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="always"
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}

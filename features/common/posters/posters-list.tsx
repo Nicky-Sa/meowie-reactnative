@@ -74,6 +74,7 @@ export const PostersList = ({
       onEndReachedThreshold={0.5}
       onEndReached={onEndReached}
       showsVerticalScrollIndicator={false}
+      contentInsetAdjustmentBehavior="automatic"
       contentContainerClassName={"grow"}
       contentContainerStyle={contentContainerStyle}
       ListEmptyComponent={
