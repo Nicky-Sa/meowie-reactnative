@@ -9,7 +9,7 @@ export const SeenList = ({ scrollHandler }: Props) => {
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
       <EmptySeen />
       <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
-        Tracking is coming soon...
+        ${`Tracking what you've seen is coming soon...`}
       </Text>
     </View>
   );
