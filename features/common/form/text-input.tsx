@@ -7,7 +7,7 @@ import {
   UseFormClearErrors,
 } from "react-hook-form";
 import { TextInputProps } from "react-native/Libraries/Components/TextInput/TextInput";
-import { tailwind } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
@@ -163,7 +163,7 @@ export const TextInput = <T extends FieldValues>({
                 {...textInputProps}
                 ref={ref}
                 {...(maskInReplay ? { "ph-no-capture": true } : {})} // posthog prop to mask or not the input
-                className={"body-b1-text-input h-6 flex-grow"}
+                className={"body-b1-text-input flex-grow"}
                 style={{
                   color: textInputStates[currentStateKey].textColor,
                 }}
@@ -181,15 +181,17 @@ export const TextInput = <T extends FieldValues>({
                   textInputProps.onBlur?.(e);
                 }}
               />
-              {!!value && isFocused && (
-                <Button
-                  variant={"link"}
-                  iconOnly
-                  onPress={() => onChangeText("")}
-                >
-                  <Icon i={Xmark} />
-                </Button>
-              )}
+
+              <Button
+                variant={"link"}
+                iconOnly
+                onPress={() => onChangeText("")}
+                className={cn(
+                  !!value && isFocused ? "opacity-100" : "opacity-0",
+                )}
+              >
+                <Icon i={Xmark} />
+              </Button>
             </Animated.View>
 
             {error?.message && (
