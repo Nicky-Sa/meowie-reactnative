@@ -6,7 +6,7 @@ import { TvDetails } from "@/features/media/tv/tv-details";
 export const Screen = () => {
   const { tvId } = useLocalSearchParams<{ tvId: string }>();
   return (
-    <InnerScreen title={"Movie Details"}>
+    <InnerScreen title={"TV Details"}>
       <View className={"flex-1 items-center justify-center"}>
         <TvDetails tvId={tvId} inScreen />
       </View>
