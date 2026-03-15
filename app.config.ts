@@ -70,7 +70,6 @@ const config: ExpoConfig = {
   icon: "./assets/images/logo/logo-large.png",
   scheme: getScheme(),
   userInterfaceStyle: "automatic",
-  newArchEnabled: true,
   ios: {
     supportsTablet: false,
     requireFullScreen: true,
