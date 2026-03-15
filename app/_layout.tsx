@@ -26,6 +26,7 @@ const navigationIntegration = Sentry.reactNavigationIntegration({
 Sentry.init({
   dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
   environment: env.EXPO_PUBLIC_APP_VARIANT,
+  release: env.EXPO_PUBLIC_SENTRY_RELEASE,
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
   sendDefaultPii: false,
