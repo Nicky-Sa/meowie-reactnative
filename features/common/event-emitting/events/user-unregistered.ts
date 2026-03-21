@@ -8,8 +8,6 @@ export const useUserUnregistered = () => {
   useEffect(() => {
     const handleUnregistration = async () => {
       try {
-        posthog.reset();
-
         await posthog.register({
           is_guest: true,
         });

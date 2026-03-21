@@ -42,24 +42,27 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
   // Posthog Events:
   const onPlay = useCallback(() => {
     capture("trailer_played", {
-      movie_id: movieId,
-      movie_title: data?.title || "",
+      media_type: "movie",
+      media_id: movieId,
+      media_title: data?.title || "",
       autoplay,
     });
   }, [autoplay, capture, data?.title, movieId]);
 
   const onPause = useCallback(() => {
     capture("trailer_paused", {
-      movie_id: movieId,
-      movie_title: data?.title || "",
+      media_type: "movie",
+      media_id: movieId,
+      media_title: data?.title || "",
     });
   }, [capture, data?.title, movieId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
-      capture("movie_saved", {
-        movie_id: movieId,
-        movie_title: data?.title || "",
+      capture("media_saved", {
+        media_type: "movie",
+        media_id: movieId,
+        media_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
         saved,
       });
@@ -69,8 +72,9 @@ export const MovieDetails = memo(({ movieId, inScreen }: Props) => {
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
-      movie_id: movieId,
-      movie_title: data?.title || "",
+      media_type: "movie",
+      media_id: movieId,
+      media_title: data?.title || "",
     });
   }, [capture, data?.title, movieId]);
 

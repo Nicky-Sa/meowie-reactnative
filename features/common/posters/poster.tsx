@@ -14,10 +14,11 @@ export const Poster = ({ data, width, onPress }: Props) => {
   const { capture } = useCaptureEvent();
   const onPosterPressed = useCallback(() => {
     capture("poster_clicked", {
-      movie_id: data.id,
+      media_type: data.mediaType,
+      media_id: data.id,
     });
     onPress();
-  }, [capture, data.id, onPress]);
+  }, [capture, data.id, data.mediaType, onPress]);
 
   return (
     <Pressable onPress={onPosterPressed}>

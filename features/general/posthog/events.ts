@@ -1,4 +1,5 @@
 import { Filters, ID } from "@/features/common/data/media-query";
+import { MediaType } from "lightningcss";
 
 export type SORT_OPENED = {
   event: "sort_opened";
@@ -14,10 +15,9 @@ export type SORT_APPLIED = {
 export type TRAILER_PLAYED = {
   event: "trailer_played";
   properties: {
-    movie_id?: ID;
-    movie_title?: string;
-    tv_id?: ID;
-    tv_title?: string;
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
     autoplay: boolean;
   };
 };
@@ -25,28 +25,18 @@ export type TRAILER_PLAYED = {
 export type TRAILER_PAUSED = {
   event: "trailer_paused";
   properties: {
-    movie_id?: ID;
-    movie_title?: string;
-    tv_id?: ID;
-    tv_title?: string;
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
   };
 };
 
-export type MOVIE_SAVED = {
-  event: "movie_saved";
+export type MEDIA_SAVED = {
+  event: "media_saved";
   properties: {
-    movie_id: ID;
-    movie_title: string;
-    genres: string[];
-    saved: boolean | null; // null for guest
-  };
-};
-
-export type TV_SAVED = {
-  event: "tv_saved";
-  properties: {
-    tv_id: ID;
-    tv_title: string;
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
     genres: string[];
     saved: boolean | null; // null for guest
   };
@@ -55,10 +45,9 @@ export type TV_SAVED = {
 export type POSTER_EXPANDED = {
   event: "poster_expanded";
   properties: {
-    movie_id?: ID;
-    movie_title?: string;
-    tv_id?: ID;
-    tv_title?: string;
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
   };
 };
 
@@ -76,15 +65,15 @@ export type GENRE_CLICKED = {
   properties: {
     genre_id: ID;
     genre_name: string;
-    media_type: string;
+    media_type: MediaType;
   };
 };
 
 export type POSTER_CLICKED = {
   event: "poster_clicked";
   properties: {
-    movie_id?: ID;
-    tv_id?: ID;
+    media_type: MediaType;
+    media_id: ID;
   };
 };
 
@@ -144,8 +133,7 @@ export type Events =
   | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | MOVIE_SAVED
-  | TV_SAVED
+  | MEDIA_SAVED
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED
