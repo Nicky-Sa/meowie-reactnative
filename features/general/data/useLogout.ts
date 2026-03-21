@@ -1,4 +1,7 @@
-import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
+import {
+  useRevalidateByPattern,
+  useSWRMutationConfigured,
+} from "@/features/common/data/swr/hooks";
 import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 type LogoutResDto = {
@@ -13,12 +16,15 @@ export const useLogout = () => {
     LogoutResDto
   >(url);
 
+  const { revalidateByPattern } = useRevalidateByPattern();
+
   const trigger = async () => {
     return swrTrigger(
       { method: "POST" },
       {
         onSuccess: async () => {
           await clearTokens();
+          await revalidateByPattern(undefined, undefined, { revalidate: true });
         },
       },
     );
