@@ -1,5 +1,6 @@
 import { createMMKV } from "react-native-mmkv";
 import { Cache as SWRCache, State } from "swr";
+import { stringify, parse } from "flatted";
 
 const MAX_ENTRIES = 5000;
 const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
@@ -41,7 +42,7 @@ function createSWRProvider<Data = unknown>(): Cache<Data> {
 
       try {
         // We include our custom _timestamp for expiry checks
-        const state = JSON.parse(value) as State<Data> & { _timestamp: number };
+        const state = parse(value) as State<Data> & { _timestamp: number };
 
         // ENFORCE HARD EXPIRY (e.g., 3 Days)
         // Even if SWR wants to show 'stale' data, we decide it's too old.
@@ -82,7 +83,7 @@ function createSWRProvider<Data = unknown>(): Cache<Data> {
       map.set(key, state);
 
       // Update Disk (Background persistence)
-      storage.set(key, JSON.stringify(state));
+      storage.set(key, stringify(state));
     },
     delete: (key: string) => {
       map.delete(key);

@@ -72,6 +72,7 @@
     "expo-updates": "~55.0.13",
     "expo-video": "~55.0.10",
     "expo-web-browser": "~55.0.9",
+    "flatted": "^3.4.2",
     "iconoir-react-native": "^7.11.0",
     "jotai": "^2.18.1",
     "jotai-immer": "^0.4.1",
