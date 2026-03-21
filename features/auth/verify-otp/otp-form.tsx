@@ -59,6 +59,8 @@ export const OtpForm = ({ email }: Props) => {
           autoCapitalize={"none"}
           autoCorrect={false}
           maskInReplay
+          textContentType={"oneTimeCode"}
+          autoComplete={"one-time-code"}
         />
         <ResendCode onPress={() => triggerRequestOtp({ email })} />
       </View>
