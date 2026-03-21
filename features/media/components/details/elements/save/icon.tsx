@@ -33,7 +33,7 @@ export const SaveIcon = ({ isSaved }: Props) => {
     <LottieView
       ref={lottieRef}
       source={{
-        uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/save-lottie.json",
+        uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/saved-lottie.json",
       }}
       resizeMode={"cover"}
       loop={false}
