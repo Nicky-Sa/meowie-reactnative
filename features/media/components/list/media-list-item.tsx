@@ -57,7 +57,11 @@ export const MediaListItem = memo(
           className={"flex items-center justify-center"}
         >
           {mediaType === "movie" ? (
-            <MovieDetails movieId={id} inScreen={inScreen} />
+            <MovieDetails
+              movieId={id}
+              inScreen={inScreen}
+              tourEnabled={inScreen}
+            />
           ) : mediaType === "tv" ? (
             <TvDetails tvId={id} inScreen={inScreen} />
           ) : null}

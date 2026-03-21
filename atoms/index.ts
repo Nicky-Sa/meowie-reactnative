@@ -37,3 +37,4 @@ export const allowYTPlayingAtom = atom(true);
 export const autoplayAtom = atomPersisted("autoplay", true);
 
 export const currentRoleInMediaAtom = atom<string>();
+export const homeTourSeenAtom = atomPersisted("home-tour-seen", false);

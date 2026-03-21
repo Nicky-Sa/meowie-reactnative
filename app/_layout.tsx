@@ -18,6 +18,8 @@ import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { env } from "@/lib/env";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";
+import { TourGuideProvider } from "rn-tourguide";
+import { TourTooltip } from "@/features/common/ui/tour/tooltip";
 
 const navigationIntegration = Sentry.reactNavigationIntegration({
   enableTimeToInitialDisplay: !isRunningInExpoGo(),
@@ -91,110 +93,117 @@ function RootLayout() {
                   <GestureHandlerRootView>
                     <BottomSheetModalProvider>
                       <InternetCheck>
-                        <Stack
-                          screenOptions={{
-                            headerShown: false,
-                            statusBarStyle: "light",
-                          }}
+                        <TourGuideProvider
+                          animationDuration={250}
+                          tooltipComponent={TourTooltip}
+                          backdropColor={"#595BEFAA"}
+                          preventOutsideInteraction
                         >
-                          <Stack.Screen
-                            name="(tabs)"
-                            options={{
-                              animation: "slide_from_bottom",
+                          <Stack
+                            screenOptions={{
+                              headerShown: false,
+                              statusBarStyle: "light",
                             }}
-                          />
+                          >
+                            <Stack.Screen
+                              name="(tabs)"
+                              options={{
+                                animation: "slide_from_bottom",
+                              }}
+                            />
 
-                          <Stack.Screen name="auth" />
+                            <Stack.Screen name="auth" />
 
-                          <Stack.Screen
-                            name="filters/index"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="filters/index"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="discover/posters"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
-                          <Stack.Screen
-                            name="discover/media-list"
-                            options={{
-                              animation: "fade",
-                              animationDuration: 300,
-                            }}
-                          />
-                          <Stack.Screen
-                            name="discover/movie-details"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
-                          <Stack.Screen
-                            name="discover/tv-details"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="discover/posters"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
+                            <Stack.Screen
+                              name="discover/media-list"
+                              options={{
+                                animation: "fade",
+                                animationDuration: 300,
+                              }}
+                            />
+                            <Stack.Screen
+                              name="discover/movie-details"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
+                            <Stack.Screen
+                              name="discover/tv-details"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="onboarding/index"
-                            options={{
-                              animation: "slide_from_bottom",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="onboarding/index"
+                              options={{
+                                animation: "slide_from_bottom",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="settings/index"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="settings/index"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="settings/delete-account"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="settings/delete-account"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="person/index"
-                            options={{
-                              animation: "slide_from_right",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="person/index"
+                              options={{
+                                animation: "slide_from_right",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="person/media-list"
-                            options={{
-                              animation: "fade",
-                              animationDuration: 300,
-                            }}
-                          />
+                            <Stack.Screen
+                              name="person/media-list"
+                              options={{
+                                animation: "fade",
+                                animationDuration: 300,
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="search/index"
-                            options={{
-                              animation: "fade",
-                              animationDuration: 300,
-                              presentation: "card",
-                            }}
-                          />
+                            <Stack.Screen
+                              name="search/index"
+                              options={{
+                                animation: "fade",
+                                animationDuration: 300,
+                                presentation: "card",
+                              }}
+                            />
 
-                          <Stack.Screen
-                            name="library/media-list"
-                            options={{
-                              animation: "fade",
-                              animationDuration: 300,
-                            }}
-                          />
+                            <Stack.Screen
+                              name="library/media-list"
+                              options={{
+                                animation: "fade",
+                                animationDuration: 300,
+                              }}
+                            />
 
-                          <Stack.Screen name="+not-found" />
-                        </Stack>
-                        <PortalHost name="global-overlay" />
+                            <Stack.Screen name="+not-found" />
+                          </Stack>
+                          <PortalHost name="global-overlay" />
+                        </TourGuideProvider>
                       </InternetCheck>
                     </BottomSheetModalProvider>
                   </GestureHandlerRootView>

@@ -12,6 +12,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { SortHeaderButton } from "@/features/sort/header-button";
+import { Tourable } from "@/features/common/ui/tour/Tourable";
+import { TourStep } from "@/features/common/ui/tour/steps";
 
 type Props = {
   scrollY: SharedValue<number>;
@@ -90,12 +92,21 @@ export const Header = ({
       <View className="relative items-center justify-center">
         {/* Toggle */}
         <Animated.View style={switchStyle}>
-          <SlidingToggle
-            containerClassName={"h-14 w-44"}
-            items={mediaTypes}
-            activeItem={activeMediaType}
-            setActiveItem={setActiveMediaType}
-          />
+          <Tourable
+            tour={{
+              step: TourStep.HeaderToggle,
+              text: "Switch between Movies and TV shows here.",
+              shape: "rectangle",
+              borderRadius: 28,
+            }}
+          >
+            <SlidingToggle
+              containerClassName={"h-14 w-44"}
+              items={mediaTypes}
+              activeItem={activeMediaType}
+              setActiveItem={setActiveMediaType}
+            />
+          </Tourable>
         </Animated.View>
 
         {/* LogoType */}
@@ -108,7 +119,15 @@ export const Header = ({
       </View>
 
       <View className="relative">
-        <SortHeaderButton />
+        <Tourable
+          tour={{
+            step: TourStep.HeaderSort,
+            text: "Sort content by date or popularity.",
+            shape: "circle",
+          }}
+        >
+          <SortHeaderButton />
+        </Tourable>
       </View>
     </Animated.View>
   );

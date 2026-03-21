@@ -3,9 +3,9 @@ import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Content as MoviesContent } from "@/features/media/movie/content";
 import { Content as TvContent } from "@/features/media/tv/content";
-import { useState } from "react";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
+import { useState } from "react";
 
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
