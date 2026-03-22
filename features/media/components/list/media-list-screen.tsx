@@ -1,24 +1,26 @@
 import { MediaList } from "@/features/media/components/list/media-list";
 import { Header } from "@/features/media/components/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
   title: string;
+  posterData: PosterHookResult;
   initialIndex?: number;
   subtitle?: string;
-  posterData: PosterHookResult;
+  ListEmptyComponent?: ReactElement;
   rightTopComponent?: ReactNode;
 };
 
 export const MediaListScreen = ({
   title,
+  posterData,
   initialIndex,
   subtitle,
-  posterData,
+  ListEmptyComponent,
   rightTopComponent,
 }: Props) => {
   const {
@@ -62,6 +64,7 @@ export const MediaListScreen = ({
         scrollHandler={scrollHandler}
         scrollY={scrollY}
         currentIndex={currentIndex}
+        ListEmptyComponent={ListEmptyComponent}
       />
     </MainScreen>
   );

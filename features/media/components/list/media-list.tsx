@@ -9,6 +9,8 @@ import { FlashList } from "@shopify/flash-list";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
 import { MediaListItemData } from "@/features/media/components/list/types";
+import { EmptyState } from "@/features/general/empty-state";
+import { ReactElement } from "react";
 
 type Props = {
   data: MediaListItemData[];
@@ -25,6 +27,7 @@ type Props = {
   currentIndex: number;
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
+  ListEmptyComponent?: ReactElement;
   isActive?: boolean;
 };
 
@@ -46,6 +49,7 @@ export const MediaList = ({
   currentIndex,
   scrollY,
   scrollHandler,
+  ListEmptyComponent = <EmptyState />,
   isActive = true,
 }: Props) => {
   const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
@@ -58,9 +62,12 @@ export const MediaList = ({
     totalPages,
   });
 
+  const isDataEmpty = data.length === 0;
+
   const isWaitingForInitialData =
     initialScrollIndex !== undefined &&
-    (!data || data.length <= initialScrollIndex);
+    (!data || data.length <= initialScrollIndex) &&
+    !isDataEmpty;
 
   const isInitialLoad =
     isWaitingForInitialData || (isLoading && (!data || data.length === 0));
@@ -102,7 +109,9 @@ export const MediaList = ({
           <ErrorState tryAgain={mutate} error={error} />
         ) : isInitialLoad ? (
           <MovieDetailsSkeleton />
-        ) : null
+        ) : (
+          ListEmptyComponent
+        )
       }
     />
   );

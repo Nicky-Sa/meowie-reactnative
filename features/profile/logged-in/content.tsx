@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import { Tabs } from "react-native-collapsible-tab-view";
 import { Bookmark, Eye } from "iconoir-react-native";
-import { SavedList } from "@/features/profile/logged-in/saved-list";
-import { SeenList } from "@/features/profile/logged-in/seen-list";
+import { SavedList } from "@/features/profile/logged-in/saved/saved-list";
+import { SeenList } from "@/features/profile/logged-in/seen/seen-list";
 import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
 import { Header } from "@/features/profile/logged-in/header";
 import { User } from "@/entities/user";
