@@ -38,3 +38,4 @@ export const autoplayAtom = atomPersisted("autoplay", true);
 
 export const currentRoleInMediaAtom = atom<string>();
 export const homeTourSeenAtom = atomPersisted("home-tour-seen", false);
+export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);

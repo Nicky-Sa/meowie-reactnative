@@ -6,6 +6,7 @@ import { Content as TvContent } from "@/features/media/tv/content";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 import { useState } from "react";
+import { SwipeGuide } from "@/features/home/swipe-guide";
 
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
@@ -53,6 +54,8 @@ export const Screen = () => {
           scrollHandler={scrollHandler}
         />
       </SlidingContent>
+
+      <SwipeGuide currentIndex={currentIndex} />
     </MainScreen>
   );
 };
