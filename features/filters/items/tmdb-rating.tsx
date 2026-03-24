@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { filtersAtom } from "@/atoms";
-import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
+import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { Slider } from "@/features/common/ui/slider";
 
 export const TMDBRating = () => {

@@ -21,7 +21,7 @@ import {
   MEDIA_TYPES,
 } from "@/features/common/data/models/media-type";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
-import { ClearSelection } from "@/features/filters/elements/clear-selection";
+import { ClearSelection } from "@/features/filters/clear-selection";
 
 export const Screen = () => {
   const [filters, setFilters] = useAtom(filtersAtom);

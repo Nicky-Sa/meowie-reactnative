@@ -1,4 +1,4 @@
-import { BottomSheetWrapper } from "@/features/filters/elements/bottom-sheet-wrapper";
+import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { SegmentItem, Segment } from "@/features/common/ui/segment";
 import { useAtom } from "jotai";

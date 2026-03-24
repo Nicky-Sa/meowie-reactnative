@@ -5,7 +5,7 @@ import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { FilterIndicator } from "@/features/filters/elements/filter-indicator";
+import { FilterIndicator } from "@/features/filters/filter-indicator";
 
 const NUM_COLUMNS = 3;
 
