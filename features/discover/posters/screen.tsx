@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { FilterIndicator } from "@/features/filters/filter-indicator";
+import { FilterEmptyState } from "@/features/filters/empty-state";
 
 const NUM_COLUMNS = 3;
 
@@ -55,6 +56,9 @@ export const Screen = () => {
         numColumns={NUM_COLUMNS}
         posterData={posterData}
         onPosterPress={onPosterPress}
+        ListEmptyComponent={
+          modifiedFieldsNumber ? <FilterEmptyState /> : undefined
+        }
       />
     </InnerScreen>
   );
