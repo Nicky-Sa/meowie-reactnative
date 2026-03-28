@@ -4,6 +4,7 @@ import { tailwind } from "@/lib/tailwind";
 import {
   Filters,
   initialFiltersValue,
+  SortOption,
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
@@ -37,5 +38,13 @@ export const allowYTPlayingAtom = atom(true);
 export const autoplayAtom = atomPersisted("autoplay", true);
 
 export const currentRoleInMediaAtom = atom<string>();
+
+// sort (persisted)
+export const sortAtom = atomPersisted<SortOption>(
+  "sort",
+  SortOption.POPULARITY,
+);
+
+// Tour and onboarding
 export const homeTourSeenAtom = atomPersisted("home-tour-seen", false);
 export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);

@@ -8,8 +8,6 @@ export enum SortOption {
   RANDOM = "random",
 }
 
-export const initialSort = SortOption.POPULARITY;
-
 export type Sort = {
   sort?: SortOption;
 };

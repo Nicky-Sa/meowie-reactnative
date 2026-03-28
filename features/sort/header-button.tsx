@@ -6,77 +6,69 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { Segment } from "@/features/common/ui/segment";
 import { useImmer } from "use-immer";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { initialSort, SortOption } from "@/features/common/data/media-query";
+import { SortOption } from "@/features/common/data/media-query";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAtom } from "jotai";
+import { sortAtom } from "@/atoms";
 
 const sortOptions: { id: SortOption; label: string; description: string }[] = [
   {
     id: SortOption.POPULARITY,
-    label: "Popularity (default)",
+    label: "Popularity",
     description:
-      "Shows the movies that are currently being watched the most or have the highest ratings.",
+      "Shows the movies and TV shows that are currently being watched the most or have the highest ratings.",
   },
   {
     id: SortOption.NEWEST,
     label: "Newest",
-    description: "Shows the most recently added or released movies.",
+    description:
+      "Shows the most recently added or released movies and TV shows.",
   },
   {
     id: SortOption.RANDOM,
     label: "Random",
-    description: "Shows a completely unpredictable mix of good movies.",
+    description:
+      "Shows a completely unpredictable mix of good movies and TV shows.",
   },
 ];
 
 export const SortHeaderButton = () => {
-  const { sort } = useLocalSearchParams<{ sort?: SortOption }>();
-  const [draftSort, setDraftSort] = useImmer(sort || initialSort);
-  const isModified = !!sort && sort !== initialSort;
+  const [sort, setSort] = useAtom(sortAtom);
+  const [draftSort, setDraftSort] = useImmer(sort);
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
-  const router = useRouter();
   const { capture } = useCaptureEvent();
+
+  const applySort = useCallback(() => {
+    capture("sort_applied", { sort_type: draftSort });
+    setSort(draftSort);
+    bottomSheetRef.current?.dismiss();
+  }, [capture, draftSort, setSort]);
+
+  const sortBottomsheetOpened = useCallback(() => {
+    setDraftSort(sort);
+    capture("sort_opened");
+    bottomSheetRef.current?.present();
+  }, [capture, setDraftSort, sort]);
 
   return (
     <>
       <Button
-        onPress={() => {
-          bottomSheetRef.current?.present();
-          capture("sort_opened");
-        }}
+        onPress={sortBottomsheetOpened}
         variant={"ghost"}
         size={"md"}
         iconOnly
       >
         <Icon i={DataTransferBoth} />
       </Button>
-      {isModified && (
-        <View
-          className={
-            "absolute left-1 top-1 h-2 w-2 rounded-full bg-brand-1-default"
-          }
-        />
-      )}
       <BottomSheet
         ref={bottomSheetRef}
         title={"Sort options"}
         index={1}
         footer={
-          <Button
-            variant="white"
-            size="lg"
-            onPress={() => {
-              capture("sort_applied", { sort_type: draftSort });
-              router.replace({
-                pathname: "/home",
-                params: { sort: draftSort },
-              });
-              bottomSheetRef.current?.dismiss();
-            }}
-          >
+          <Button variant="white" size="lg" onPress={applySort}>
             Apply
           </Button>
         }

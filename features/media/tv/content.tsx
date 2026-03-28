@@ -1,8 +1,8 @@
 import { useFetchInterestingTvIds } from "@/features/media/tv/data/useFetchInterestingTvIds";
 import { MediaList } from "@/features/media/components/list/media-list";
-import { useLocalSearchParams } from "expo-router";
-import { initialSort, SortOption } from "@/features/common/data/media-query";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
+import { useAtomValue } from "jotai";
+import { sortAtom } from "@/atoms";
 
 type Props = {
   currentIndex: number;
@@ -17,7 +17,7 @@ export const Content = ({
   scrollHandler,
   isActive,
 }: Props) => {
-  const { sort = initialSort } = useLocalSearchParams<{ sort: SortOption }>();
+  const sort = useAtomValue(sortAtom);
   const {
     data,
     dataLength,
