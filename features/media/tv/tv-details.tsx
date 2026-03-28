@@ -111,7 +111,7 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
               {data.contentRating}
             </Text>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.avgDuration}
+              {data.numberOfSeasons} Seasons
             </Text>
           </View>
           <Cast {...data.credits.creator} />
