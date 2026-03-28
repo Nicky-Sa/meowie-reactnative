@@ -7,10 +7,8 @@ import useSWR, {
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
-import { useState, useEffect, useCallback } from "react";
-import { useImmer } from "use-immer";
-import _ from "lodash";
-import { castDraft } from "immer";
+import { useCallback } from "react";
+import useSWRInfinite, { SWRInfiniteConfiguration } from "swr/infinite";
 
 type SWRKey = string | null;
 
@@ -29,59 +27,9 @@ export type SWRInfiniteKeyLoader<Data> = (
 
 export const useSWRPaginatedConfigured = <Data, Err = Error>(
   getKey: SWRInfiniteKeyLoader<Data>,
-  config?: SWRConfiguration<SuccessResponse<Data>, Err> & {
-    initialSize?: number;
-  },
+  config?: SWRInfiniteConfiguration<SuccessResponse<Data>, Err>,
 ) => {
-  const [size, setSize] = useState(config?.initialSize || 1);
-  const [data, setData] = useImmer<SuccessResponse<Data>[] | undefined>(
-    undefined,
-  );
-
-  // Bridging logic: If we have gaps (e.g. size is 3 but data only has page 1),
-  // we find the FIRST missing index and fetch it. This sequentially fills the array.
-  let targetIndex = size - 1;
-  if (data) {
-    const firstMissing = data.findIndex((page) => page === undefined);
-    if (firstMissing !== -1 && firstMissing < size) {
-      targetIndex = firstMissing;
-    }
-  }
-
-  const previousPageData = data ? data[targetIndex - 1] || null : null;
-  const key = getKey(targetIndex, previousPageData);
-
-  const { data: currentPageData, ...rest } = useSWRConfigured<Data, Err>(
-    key,
-    config,
-  );
-
-  useEffect(() => {
-    if (currentPageData) {
-      setData((draft) => {
-        // Case A: State is currently undefined.
-        // We must return a NEW state to replace undefined (Immer rule).
-        if (!draft) {
-          const newArray = [];
-          newArray[targetIndex] = currentPageData;
-          return newArray;
-        }
-        // Case B: State is an array.
-        // Mutate the draft directly.
-        // Reference check to prevent infinite loops:
-        if (!_.isEqual(draft[targetIndex], currentPageData)) {
-          draft[targetIndex] = castDraft(currentPageData);
-        }
-      });
-    }
-  }, [currentPageData, targetIndex, setData]);
-
-  return {
-    data, // This matches the SWRInfinite return type (array of pages)
-    size,
-    setSize,
-    ...rest,
-  };
+  return useSWRInfinite<SuccessResponse<Data>, Err>(getKey, fetcher, config);
 };
 
 export const useSWRMutationConfigured = <REQ, RES, Err = Error>(
