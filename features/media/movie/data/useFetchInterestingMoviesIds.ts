@@ -6,6 +6,7 @@ import {
   useSWRPaginatedConfigured,
 } from "@/features/common/data/swr/hooks";
 import { MediaListItemData } from "@/features/media/components/list/types";
+import { deduplicate } from "@/features/common/data/deduplicate";
 
 type Args = {
   sort: SortOption;
@@ -49,10 +50,13 @@ export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
     ? response.map((page) => page.data.results)
     : [];
 
-  const flattenedData: MediaListItemData[] = rawData.flat().map((id) => ({
-    id,
-    mediaType: "movie",
-  }));
+  const flattenedData: MediaListItemData[] = deduplicate(
+    rawData.flat().map((id) => ({
+      id,
+      mediaType: "movie" as const,
+    })),
+    (item) => `${item.mediaType}-${item.id}`,
+  );
 
   const totalPages = Array.isArray(response)
     ? response[0]?.data.total_pages

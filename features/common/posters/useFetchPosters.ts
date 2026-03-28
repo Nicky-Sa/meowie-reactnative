@@ -7,6 +7,7 @@ import {
 } from "@/features/common/data/swr/hooks";
 import { SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
+import { deduplicate } from "@/features/common/data/deduplicate";
 
 type URL =
   | `/person/${string}/posters`
@@ -43,7 +44,10 @@ export const useFetchPosters = (
     ? response.map((page) => page.data.results)
     : [];
 
-  const flattenedData = rawData.flat();
+  const flattenedData = deduplicate(
+    rawData.flat(),
+    (item) => `${item.mediaType}-${item.id}`,
+  );
 
   const totalPages = Array.isArray(response)
     ? response[0]?.data.total_pages

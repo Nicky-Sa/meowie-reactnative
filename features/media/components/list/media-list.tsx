@@ -83,13 +83,12 @@ export const MediaList = ({
       }
       data={data}
       ref={listRef}
-      keyExtractor={(item) => `info-${item.mediaType}-${item.id}`}
+      keyExtractor={({ mediaType, id }) => `${mediaType}-${id}`}
       initialScrollIndex={
         isWaitingForInitialData ? undefined : initialScrollIndex
       }
       renderItem={({ item, index }) => (
         <MediaListItem
-          key={`${item.mediaType}-${item.id}`}
           item={item}
           inScreen={index === currentIndex && isActive}
           index={index}

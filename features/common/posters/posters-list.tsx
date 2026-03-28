@@ -60,10 +60,9 @@ export const PostersList = ({
   return (
     <AnimatedFlashList
       data={data}
-      keyExtractor={({ id, mediaType }) => `${mediaType}-${id}-poster`}
+      keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
       renderItem={({ item, index }) => (
         <Poster
-          key={item.id}
           data={item}
           width={posterWidth}
           onPress={() => onPosterPress(index)}
