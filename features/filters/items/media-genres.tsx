@@ -13,7 +13,8 @@ export const MediaGenres = ({ mediaType }: { mediaType: MediaType }) => {
   const { data } = useGenres();
 
   const activeGenres: SegmentItem[] = useMemo(() => {
-    const genresData = mediaType === "tv" ? data?.tvGenres : data?.movieGenres;
+    const genresData =
+      mediaType === "series" ? data?.seriesGenres : data?.movieGenres;
     if (!genresData) return [];
     return genresData.map((genre) => ({
       id: String(genre.id),

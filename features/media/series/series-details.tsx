@@ -1,4 +1,4 @@
-import { useFetchTvInfo } from "@/features/media/tv/data/useFetchTvInfo";
+import { useFetchSeriesInfo } from "@/features/media/series/data/useFetchSeriesInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/details/elements/trailer-player";
@@ -18,12 +18,12 @@ import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-eve
 import { useFocusEffect } from "expo-router";
 
 type Props = {
-  tvId: ID;
+  seriesId: ID;
   inScreen: boolean;
 };
 
-export const TvDetails = memo(({ tvId, inScreen }: Props) => {
-  const { data, isLoading, error, mutate } = useFetchTvInfo(tvId);
+export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
+  const { data, isLoading, error, mutate } = useFetchSeriesInfo(seriesId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
 
@@ -42,41 +42,41 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
   // Posthog Events:
   const onPlay = useCallback(() => {
     capture("trailer_played", {
-      media_type: "tv",
-      media_id: tvId,
+      media_type: "series",
+      media_id: seriesId,
       media_title: data?.title || "",
       autoplay,
     });
-  }, [autoplay, capture, data?.title, tvId]);
+  }, [autoplay, capture, data?.title, seriesId]);
 
   const onPause = useCallback(() => {
     capture("trailer_paused", {
-      media_type: "tv",
-      media_id: tvId,
+      media_type: "series",
+      media_id: seriesId,
       media_title: data?.title || "",
     });
-  }, [capture, data?.title, tvId]);
+  }, [capture, data?.title, seriesId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
       capture("media_saved", {
-        media_type: "tv",
-        media_id: tvId,
+        media_type: "series",
+        media_id: seriesId,
         media_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
         saved,
       });
     },
-    [capture, data?.genres, data?.title, tvId],
+    [capture, data?.genres, data?.title, seriesId],
   );
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
-      media_type: "tv",
-      media_id: tvId,
+      media_type: "series",
+      media_id: seriesId,
       media_title: data?.title || "",
     });
-  }, [capture, data?.title, tvId]);
+  }, [capture, data?.title, seriesId]);
 
   return error ? (
     <ErrorState tryAgain={mutate} error={error} />
@@ -103,7 +103,7 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
             </Text>
           </ScrollView>
           <View className={"flex flex-row gap-5"}>
-            <Text className={"body-b2 text-neutral-5-default"}>TV-Series</Text>
+            <Text className={"body-b2 text-neutral-5-default"}>Series</Text>
             <Text className={"body-b2 text-neutral-5-default"}>
               {data.airingYears}
             </Text>
@@ -142,7 +142,7 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
         className={"-mx-4 grow-0"}
         contentContainerClassName={"min-w-full h-6"} // fixed height in case the array is empty to prevent layout shift
       >
-        <Genres genres={data.genres} mediaType="tv" />
+        <Genres genres={data.genres} mediaType="series" />
       </ScrollView>
 
       <ScrollView
@@ -157,10 +157,10 @@ export const TvDetails = memo(({ tvId, inScreen }: Props) => {
       <View
         className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
       >
-        <Save id={tvId} mediaType="tv" onPress={onSavePress} />
+        <Save id={seriesId} mediaType="series" onPress={onSavePress} />
       </View>
     </View>
   );
 });
 
-TvDetails.displayName = "TvDetails";
+SeriesDetails.displayName = "SeriesDetails";

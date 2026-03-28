@@ -95,7 +95,7 @@ export const Header = ({
           <Tourable
             tour={{
               step: TourStep.HeaderToggle,
-              text: "Switch between Movies and TV shows here.",
+              text: "Switch between Movies and Series here.",
               shape: "rectangle",
               borderRadius: 28,
             }}

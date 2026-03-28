@@ -1,4 +1,4 @@
-import { useFetchInterestingTvIds } from "@/features/media/tv/data/useFetchInterestingTvIds";
+import { useFetchInterestingSeriesIds } from "@/features/media/series/data/useFetchInterestingSeriesIds";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
 import { useAtomValue } from "jotai";
@@ -28,7 +28,7 @@ export const Content = ({
     isValidating,
     error,
     mutate,
-  } = useFetchInterestingTvIds({ sort });
+  } = useFetchInterestingSeriesIds({ sort });
 
   return (
     <MediaList

@@ -19,19 +19,18 @@ const sortOptions: { id: SortOption; label: string; description: string }[] = [
     id: SortOption.POPULARITY,
     label: "Popularity",
     description:
-      "Shows the movies and TV shows that are currently being watched the most or have the highest ratings.",
+      "Shows the movies and series that are currently being watched the most or have the highest ratings.",
   },
   {
     id: SortOption.NEWEST,
     label: "Newest",
-    description:
-      "Shows the most recently added or released movies and TV shows.",
+    description: "Shows the most recently added or released movies and series.",
   },
   {
     id: SortOption.RANDOM,
     label: "Random",
     description:
-      "Shows a completely unpredictable mix of good movies and TV shows.",
+      "Shows a completely unpredictable mix of good movies and series.",
   },
 ];
 

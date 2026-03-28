@@ -4,12 +4,12 @@ import { CastInfo } from "@/features/common/data/models/cast";
 import { Genre } from "@/features/general/data/constants/useGenres";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
 
-export type TvCredits = {
+export type SeriesCredits = {
   casts: CastInfo[];
   creator: CastInfo;
 };
 
-export type TvInfoResDto = {
+export type SeriesInfoResDto = {
   title: string;
   airingYears: `${string} - ${string}` | "N/A";
   numberOfSeasons: number;
@@ -19,8 +19,8 @@ export type TvInfoResDto = {
   overview: string;
   genres: Genre[];
   posterProps: PosterProps;
-  credits: TvCredits;
+  credits: SeriesCredits;
   ratings: RatingEntry[];
 };
 
-export type InterestingTvIdsResDto = PaginatedResponse<number>;
+export type InterestingSeriesIdsResDto = PaginatedResponse<number>;

@@ -1,12 +1,12 @@
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
-import { SearchResultTv } from "@/features/search/data/models/search-result";
+import { SearchResultSeries } from "@/features/search/data/models/search-result";
 
 type Props = {
-  data: SearchResultTv;
+  data: SearchResultSeries;
 };
 
-export const TvBrief = ({ data }: Props) => {
+export const SeriesBrief = ({ data }: Props) => {
   return (
     <View className={"flex flex-row items-center gap-2"}>
       <Image
@@ -32,7 +32,7 @@ export const TvBrief = ({ data }: Props) => {
           {data.title}
         </Text>
         <View className={"flex flex-row items-center gap-3"}>
-          <Text className={"body-b2 text-neutral-5-default"}>TV-Series</Text>
+          <Text className={"body-b2 text-neutral-5-default"}>Series</Text>
           <Text className={"body-b2 text-neutral-5-default"}>
             {data.firstAirDate}
           </Text>

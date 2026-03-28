@@ -52,7 +52,7 @@ export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
       control={control}
       size={"md"}
       clearErrors={clearErrors}
-      placeholder={"Search movie, actor, genre"}
+      placeholder={"Search anything..."}
       autoCapitalize={"none"}
       autoCorrect={false}
       autoFocus

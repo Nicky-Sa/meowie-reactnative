@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { InterestingTvIdsResDto } from "@/features/media/tv/data/dto/tv.dto";
+import { InterestingSeriesIdsResDto } from "@/features/media/series/data/dto/series.dto";
 import { SortOption } from "@/features/common/data/media-query";
 import {
   SWRInfiniteKeyLoader,
@@ -11,16 +11,16 @@ type Args = {
   sort: SortOption;
 };
 
-export const useFetchInterestingTvIds = ({ sort }: Args) => {
+export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
   const initialPage = useMemo(
     () =>
       sort === SortOption.RANDOM ? Math.floor(Math.random() * 100) + 1 : 1,
     [sort],
   );
 
-  const getKey: SWRInfiniteKeyLoader<InterestingTvIdsResDto> = useCallback(
+  const getKey: SWRInfiniteKeyLoader<InterestingSeriesIdsResDto> = useCallback(
     (pageIndex, previousPageData) => {
-      const baseUrl = "/tv/interesting-ids";
+      const baseUrl = "/series/interesting-ids";
 
       // Stop fetching if there are no more results
       if (previousPageData && previousPageData.data.results.length === 0) {
@@ -36,7 +36,7 @@ export const useFetchInterestingTvIds = ({ sort }: Args) => {
     data: response,
     setSize,
     ...rest
-  } = useSWRPaginatedConfigured<InterestingTvIdsResDto>(getKey);
+  } = useSWRPaginatedConfigured<InterestingSeriesIdsResDto>(getKey);
 
   // Force reset size when sort changes
   useEffect(() => {
@@ -51,7 +51,7 @@ export const useFetchInterestingTvIds = ({ sort }: Args) => {
 
   const flattenedData: MediaListItemData[] = rawData.flat().map((id) => ({
     id,
-    mediaType: "tv",
+    mediaType: "series",
   }));
 
   const totalPages = Array.isArray(response)

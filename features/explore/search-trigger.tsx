@@ -14,7 +14,7 @@ export const SearchTrigger = () => {
     >
       <Icon i={Search} />
       <Text className={"body-b1-text-input h-6 pt-0.5 text-neutral-3-default"}>
-        Search movie, actor, genre
+        Search anything...
       </Text>
     </Pressable>
   );

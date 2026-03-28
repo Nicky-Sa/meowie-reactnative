@@ -1,14 +1,14 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
-import { TvDetails } from "@/features/media/tv/tv-details";
+import { SeriesDetails } from "@/features/media/series/series-details";
 
 export const Screen = () => {
-  const { tvId } = useLocalSearchParams<{ tvId: string }>();
+  const { seriesId } = useLocalSearchParams<{ seriesId: string }>();
   return (
-    <InnerScreen title={"TV Details"}>
+    <InnerScreen title={"Series Details"}>
       <View className={"flex-1 items-center justify-center"}>
-        <TvDetails tvId={tvId} inScreen />
+        <SeriesDetails seriesId={seriesId} inScreen />
       </View>
     </InnerScreen>
   );

@@ -17,11 +17,11 @@ export type SearchResultMovie = {
   releaseYear: string;
 };
 
-export type SearchResultTv = {
+export type SearchResultSeries = {
   id: number;
   title: string;
   posterPath: string;
-  mediaType: "tv";
+  mediaType: "series";
   genres: string[];
   firstAirDate: string;
 };
@@ -30,13 +30,13 @@ export type SearchResultMovieGenre = Genre & {
   mediaType: "movie-genre";
 };
 
-export type SearchResultTvGenre = Genre & {
-  mediaType: "tv-genre";
+export type SearchResultSeriesGenre = Genre & {
+  mediaType: "series-genre";
 };
 
 export type MultiSearchResults =
   | SearchResultPerson
   | SearchResultMovie
-  | SearchResultTv
+  | SearchResultSeries
   | SearchResultMovieGenre
-  | SearchResultTvGenre;
+  | SearchResultSeriesGenre;

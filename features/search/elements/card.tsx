@@ -2,7 +2,7 @@ import { MultiSearchResults } from "@/features/search/data/models/search-result"
 import { PersonCard } from "@/features/search/elements/items/person";
 import { MovieCard } from "@/features/search/elements/items/movie";
 import { GenreCard } from "@/features/search/elements/items/genre";
-import { TvCard } from "@/features/search/elements/items/tv";
+import { SeriesCard } from "@/features/search/elements/items/series";
 
 type Props = {
   item: MultiSearchResults;
@@ -14,10 +14,10 @@ export const SearchResultCard = ({ item }: Props) => {
       return <PersonCard item={item} />;
     case "movie":
       return <MovieCard item={item} />;
-    case "tv":
-      return <TvCard item={item} />;
+    case "series":
+      return <SeriesCard item={item} />;
     case "movie-genre":
-    case "tv-genre":
+    case "series-genre":
       return <GenreCard item={item} />;
     default:
       return null;

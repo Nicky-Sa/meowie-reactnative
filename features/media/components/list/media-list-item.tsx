@@ -7,7 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { MovieDetails } from "@/features/media/movie/movie-details";
-import { TvDetails } from "@/features/media/tv/tv-details";
+import { SeriesDetails } from "@/features/media/series/series-details";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { currentRoleInMediaAtom } from "@/atoms";
 import { useAtom } from "jotai";
@@ -62,8 +62,8 @@ export const MediaListItem = memo(
               inScreen={inScreen}
               tourEnabled={inScreen}
             />
-          ) : mediaType === "tv" ? (
-            <TvDetails tvId={id} inScreen={inScreen} />
+          ) : mediaType === "series" ? (
+            <SeriesDetails seriesId={id} inScreen={inScreen} />
           ) : null}
         </View>
       </Animated.View>

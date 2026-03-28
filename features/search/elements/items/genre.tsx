@@ -1,13 +1,13 @@
 import {
   SearchResultMovieGenre,
-  SearchResultTvGenre,
+  SearchResultSeriesGenre,
 } from "@/features/search/data/models/search-result";
 import { Brief } from "@/features/common/brief";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
 
 type Props = {
-  item: SearchResultMovieGenre | SearchResultTvGenre;
+  item: SearchResultMovieGenre | SearchResultSeriesGenre;
 };
 
 const emojiToImage = (emoji: string) => {
@@ -25,9 +25,9 @@ export const GenreCard = ({ item }: Props) => {
     router.push({
       pathname: "/discover/posters",
       params: {
-        title: `${item.name} ${item.mediaType === "movie-genre" ? "Movies" : "TV Shows"}`,
+        title: `${item.name} ${item.mediaType === "movie-genre" ? "Movies" : "Series"}`,
         genres: [item.id],
-        mediaType: item.mediaType === "movie-genre" ? "movie" : "tv",
+        mediaType: item.mediaType === "movie-genre" ? "movie" : "series",
       },
     });
   };
@@ -37,7 +37,7 @@ export const GenreCard = ({ item }: Props) => {
         imageUrl={imageUrl}
         firstLine={item.name}
         secondLine={
-          item.mediaType === "movie-genre" ? "Movie genre" : "TV genre"
+          item.mediaType === "movie-genre" ? "Movie genre" : "Series genre"
         }
         size="md"
         borderRadius={0}

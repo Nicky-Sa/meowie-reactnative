@@ -51,7 +51,7 @@ export const Screen = () => {
         ...filters,
         modifiedFieldsNumber,
         mediaType,
-        title: `Filtered ${mediaType === "movie" ? "Movies" : "TV Shows"}`,
+        title: `Filtered ${mediaType === "movie" ? "Movies" : "Series"}`,
       },
     });
   };
@@ -95,11 +95,11 @@ export const Screen = () => {
             </SlidingContent>
 
             <SlidingContent
-              isActive={mediaType === "tv"}
+              isActive={mediaType === "series"}
               slideDirection="right"
             >
               <View className="flex flex-col gap-2">
-                <MediaGenres mediaType="tv" />
+                <MediaGenres mediaType="series" />
                 <Languages />
                 <YearDecades />
                 <TMDBRating />

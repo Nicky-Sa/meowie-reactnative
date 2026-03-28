@@ -44,7 +44,7 @@ const GenreItem = ({
     router.push({
       pathname: "/discover/posters",
       params: {
-        title: `${item.name} ${mediaType === "movie" ? "Movies" : "TV Shows"}`,
+        title: `${item.name} ${mediaType === "movie" ? "Movies" : "Series"}`,
         genres: [item.id],
         mediaType,
       },
