@@ -111,7 +111,9 @@ export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
               {data.contentRating}
             </Text>
             <Text className={"body-b2 text-neutral-5-default"}>
-              {data.numberOfSeasons} Seasons
+              {`${data.numberOfSeasons} Season${
+                data.numberOfSeasons === 1 ? "" : "s"
+              }`}
             </Text>
           </View>
           <Cast {...data.credits.creator} />
