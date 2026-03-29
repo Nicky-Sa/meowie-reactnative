@@ -1,55 +1,54 @@
+import { ReactNode, useEffect, useRef } from "react";
 import { Text, View } from "react-native";
+import { Updater, useImmer } from "use-immer";
+import { Chip } from "@/features/common/ui/chip";
+import { Action } from "@/features/common/ui/action";
+import { Icon } from "@/features/common/ui/icon";
+import { Button } from "@/features/common/ui/button";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
 import { NavArrowRight, Xmark } from "iconoir-react-native";
-import { Button } from "@/features/common/ui/button";
-import { ReactNode, useEffect, useRef } from "react";
-import { useAtom } from "jotai";
-import {
-  Filters,
-  initialFiltersValue,
-} from "@/features/common/data/media-query";
-import { Updater, useImmer } from "use-immer";
-import { Chip } from "@/features/common/ui/chip";
-import _ from "lodash";
-import { Action } from "@/features/common/ui/action";
-import { Icon } from "@/features/common/ui/icon";
-import { filtersAtom } from "@/atoms";
 
-type Props<T extends keyof Filters> = {
+type Props<TValue> = {
   title: string;
-  filterKey: T;
   chipText: string;
   enableContentPanningGesture?: boolean;
   index?: number;
+
+  // Controlled Data
+  value: TValue;
+  isClearable: boolean;
+  onApply: (updatedValue: TValue) => void;
+  onClear: () => void;
+
   children: (props: {
-    currentValues: Filters[T];
-    setCurrentValues: Updater<Filters[T]>;
+    currentValues: TValue;
+    setCurrentValues: Updater<TValue>;
   }) => ReactNode;
 };
 
-export const BottomSheetWrapper = <T extends keyof Filters>({
+export const BottomSheetWrapper = <TValue,>({
   title,
-  filterKey,
   chipText,
   enableContentPanningGesture,
   index,
+  value,
+  isClearable,
+  onApply,
+  onClear,
   children,
-}: Props<T>) => {
+}: Props<TValue>) => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
-  const [filters, setFilters] = useAtom(filtersAtom);
 
   // Local draft values for editing inside the BottomSheet
-  const [draftCurrentValues, setDraftCurrentValues] = useImmer(
-    filters[filterKey],
-  );
+  const [draftCurrentValues, setDraftCurrentValues] = useImmer<TValue>(value);
 
-  // Sync draft with atom whenever the BottomSheet opens or filters change externally
+  // Sync draft with fresh value whenever it opens or changes externally
   useEffect(() => {
-    setDraftCurrentValues(filters[filterKey]);
-  }, [filters, filterKey, setDraftCurrentValues]);
+    setDraftCurrentValues(value);
+  }, [value, setDraftCurrentValues]);
 
   const isApplyingRef = useRef(false);
 
@@ -61,17 +60,13 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             {title}
           </Text>
 
-          {!_.isEqual(filters[filterKey], initialFiltersValue[filterKey]) ? (
+          {isClearable ? (
             <View className="flex flex-row items-center justify-center">
               <Chip text={chipText} />
               <Button
                 variant="link"
                 iconOnly
-                onPress={() => {
-                  setFilters((draft: Filters) => {
-                    draft[filterKey] = initialFiltersValue[filterKey];
-                  });
-                }}
+                onPress={onClear}
                 className="ml-2"
               >
                 <Icon i={Xmark} />
@@ -98,10 +93,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             size="lg"
             onPress={() => {
               isApplyingRef.current = true;
-              // Commit local draft to filtersAtom
-              setFilters((draft: Filters) => {
-                draft[filterKey] = draftCurrentValues;
-              });
+              onApply(draftCurrentValues);
               bottomSheetRef.current?.dismiss();
             }}
           >
@@ -115,8 +107,7 @@ export const BottomSheetWrapper = <T extends keyof Filters>({
             isApplyingRef.current = false;
             return;
           }
-          // Reset draft if user closes the BottomSheet without applying
-          setDraftCurrentValues(filters[filterKey]);
+          setDraftCurrentValues(value);
         }}
       >
         {/* Pass local state to children */}

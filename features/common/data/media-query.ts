@@ -1,35 +1,45 @@
-export type Page = {
-  page?: number;
-};
-
 export enum SortOption {
   POPULARITY = "popularity",
   NEWEST = "newest",
   RANDOM = "random",
 }
 
-export type Sort = {
-  sort?: SortOption;
-};
-
 export type Browse = {
   personId: string;
 };
 
-export type Filters = {
+export type ID = number | string;
+
+export type SearchParams = SeriesFilters & MovieFilters & Browse;
+
+// Movie
+export type MovieFilters = {
   genres: string[];
   languages: string[];
   decade: string;
   tmdbRatings: string[];
 };
 
-export const initialFiltersValue: Filters = {
+export const initialMovieFiltersValue: MovieFilters = {
   genres: [],
   languages: [],
-  decade: "",
+  decade: "any",
   tmdbRatings: ["0", "10"],
 };
 
-export type ID = number | string;
+// Series
+export type SeriesFilters = {
+  genres: string[];
+  format: string;
+  languages: string[];
+  decade: string;
+  tmdbRatings: string[];
+};
 
-export type SearchParams = Filters & Browse;
+export const initialSeriesFiltersValue: SeriesFilters = {
+  genres: [],
+  format: "any",
+  languages: [],
+  decade: "any",
+  tmdbRatings: ["0", "10"],
+};

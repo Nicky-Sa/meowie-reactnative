@@ -1,36 +1,44 @@
 import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { SegmentItem, Segment } from "@/features/common/ui/segment";
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useGenres } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/useGenres";
 import { useMemo } from "react";
-import { MediaType } from "@/features/common/data/models/media-type";
 
-export const MediaGenres = ({ mediaType }: { mediaType: MediaType }) => {
-  const [filters] = useAtom(filtersAtom);
-  const { data } = useGenres();
+type Props = {
+  genres: Genre[];
+  value: string[];
+  isClearable: boolean;
+  onApply: (newVal: string[]) => void;
+  onClear: () => void;
+};
 
+export const Genres = ({
+  genres,
+  value,
+  isClearable,
+  onApply,
+  onClear,
+}: Props) => {
   const activeGenres: SegmentItem[] = useMemo(() => {
-    const genresData =
-      mediaType === "series" ? data?.seriesGenres : data?.movieGenres;
-    if (!genresData) return [];
-    return genresData.map((genre) => ({
+    return genres.map((genre) => ({
       id: String(genre.id),
       label: `${genre.emoji} ${genre.name}`,
     }));
-  }, [data, mediaType]);
+  }, [genres]);
 
   return (
     <BottomSheetWrapper
       title={"Genre"}
-      filterKey={"genres"}
       chipText={
-        filters.genres.length === 1
-          ? `${activeGenres.find((genre) => String(genre.id) === filters.genres[0])?.label}`
-          : `${filters.genres.length}`
+        value.length === 1
+          ? `${activeGenres.find((genre) => String(genre.id) === value[0])?.label}`
+          : `${value.length}`
       }
+      value={value}
+      isClearable={isClearable}
+      onApply={onApply}
+      onClear={onClear}
     >
       {({ currentValues, setCurrentValues }) => (
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>

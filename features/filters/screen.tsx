@@ -1,19 +1,15 @@
 import { View } from "react-native";
 import { Button } from "@/features/common/ui/button";
-import { MediaGenres } from "@/features/filters/items/media-genres";
-import { Languages } from "@/features/filters/items/languages";
-import { YearDecades } from "@/features/filters/items/year-decades";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
 import {
-  Filters,
-  initialFiltersValue,
+  initialMovieFiltersValue,
+  initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
-import { TMDBRating } from "@/features/filters/items/tmdb-rating";
 import _ from "lodash";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
-import { filtersAtom, filtersMediaTypeAtom } from "@/atoms";
+import { filtersMediaTypeAtom, movieFiltersAtom, tvFiltersAtom } from "@/atoms";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import {
@@ -22,25 +18,39 @@ import {
 } from "@/features/common/data/models/media-type";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { ClearSelection } from "@/features/filters/clear-selection";
+import { SeriesFiltersContent } from "@/features/filters/series-filters";
+import { MovieFiltersContent } from "@/features/filters/movie-filters";
 
 export const Screen = () => {
-  const [filters, setFilters] = useAtom(filtersAtom);
+  const [movieFilters, setMovieFilters] = useAtom(movieFiltersAtom);
+  const [seriesFilters, setSeriesFilters] = useAtom(tvFiltersAtom);
   const [mediaType, setMediaType] = useAtom(filtersMediaTypeAtom);
   const router = useRouter();
   const { capture } = useCaptureEvent();
 
+  const filters = mediaType === "movie" ? movieFilters : seriesFilters;
+
+  const initialValue =
+    mediaType === "movie"
+      ? initialMovieFiltersValue
+      : initialSeriesFiltersValue;
+
   const modifiedFieldsNumber = useMemo(
     () =>
-      (Object.keys(filters) as (keyof Filters)[]).filter(
-        (key) => !_.isEqual(filters[key], initialFiltersValue[key]),
+      (Object.keys(filters) as (keyof typeof initialValue)[]).filter(
+        (key) => !_.isEqual(filters[key], initialValue[key]),
       ).length,
-    [filters],
+    [filters, initialValue],
   );
 
   const hasSelectedFilter = modifiedFieldsNumber > 0;
 
   const clearFilters = () => {
-    setFilters(initialFiltersValue);
+    if (mediaType === "movie") {
+      setMovieFilters(initialMovieFiltersValue);
+    } else {
+      setSeriesFilters(initialSeriesFiltersValue);
+    }
   };
 
   const handleApply = () => {
@@ -86,24 +96,14 @@ export const Screen = () => {
               isActive={mediaType === "movie"}
               slideDirection="left"
             >
-              <View className="flex flex-col gap-2">
-                <MediaGenres mediaType="movie" />
-                <Languages />
-                <YearDecades />
-                <TMDBRating />
-              </View>
+              <MovieFiltersContent />
             </SlidingContent>
 
             <SlidingContent
               isActive={mediaType === "series"}
               slideDirection="right"
             >
-              <View className="flex flex-col gap-2">
-                <MediaGenres mediaType="series" />
-                <Languages />
-                <YearDecades />
-                <TMDBRating />
-              </View>
+              <SeriesFiltersContent />
             </SlidingContent>
           </View>
         </View>

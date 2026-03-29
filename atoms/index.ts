@@ -2,9 +2,11 @@ import { atom } from "jotai";
 import { atomWithImmer } from "jotai-immer";
 import { tailwind } from "@/lib/tailwind";
 import {
-  Filters,
-  initialFiltersValue,
+  MovieFilters,
+  initialMovieFiltersValue,
   SortOption,
+  SeriesFilters,
+  initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
@@ -16,19 +18,11 @@ export const colorAtom = atom(
 
 export const filtersMediaTypeAtom = atom<MediaType>("movie");
 
-export const movieFiltersAtom = atomWithImmer<Filters>(initialFiltersValue);
-export const tvFiltersAtom = atomWithImmer<Filters>(initialFiltersValue);
-
-export const filtersAtom = atom(
-  (get) => {
-    const mediaType = get(filtersMediaTypeAtom);
-    return mediaType === "movie" ? get(movieFiltersAtom) : get(tvFiltersAtom);
-  },
-  (get, set, arg: Filters | ((draft: Filters) => void)) => {
-    const mediaType = get(filtersMediaTypeAtom);
-    const target = mediaType === "movie" ? movieFiltersAtom : tvFiltersAtom;
-    set(target, arg);
-  },
+export const movieFiltersAtom = atomWithImmer<MovieFilters>(
+  initialMovieFiltersValue,
+);
+export const tvFiltersAtom = atomWithImmer<SeriesFilters>(
+  initialSeriesFiltersValue,
 );
 
 // It's allowed to play YT videos -> e.g. if a modal wants to pause the trailer

@@ -1,4 +1,8 @@
-import { Filters, ID } from "@/features/common/data/media-query";
+import {
+  MovieFilters,
+  ID,
+  SeriesFilters,
+} from "@/features/common/data/media-query";
 import { MediaType } from "lightningcss";
 
 export type SORT_OPENED = {
@@ -99,7 +103,7 @@ export type FILTERS_OPENED = {
 export type FILTERS_APPLIED = {
   event: "filters_applied";
   properties: {
-    filters: Filters;
+    filters: MovieFilters | SeriesFilters;
     mediaType: string;
   };
 };

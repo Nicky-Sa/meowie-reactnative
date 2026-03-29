@@ -1,11 +1,10 @@
 import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { Segment, SegmentItem } from "@/features/common/ui/segment";
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const decades: SegmentItem[] = [
+  { id: "any", label: "Any decade" },
   { id: "2020", label: "2020–Now" },
   { id: "2010", label: "2010–2019" },
   { id: "2000", label: "2000–2009" },
@@ -20,14 +19,23 @@ const decades: SegmentItem[] = [
   { id: "1910", label: "1910–1919" },
   { id: "1900", label: "1900–1909" },
 ];
-export const YearDecades = () => {
-  const [filters] = useAtom(filtersAtom);
 
+type Props = {
+  value: string;
+  isClearable: boolean;
+  onApply: (newVal: string) => void;
+  onClear: () => void;
+};
+
+export const Decades = ({ value, isClearable, onApply, onClear }: Props) => {
   return (
     <BottomSheetWrapper
       title={"Decade"}
-      filterKey={"decade"}
-      chipText={`${decades.find((dec) => dec.id === filters.decade)?.label}`}
+      chipText={`${decades.find((dec) => dec.id === value)?.label}`}
+      value={value}
+      isClearable={isClearable}
+      onApply={onApply}
+      onClear={onClear}
     >
       {({ currentValues, setCurrentValues }) => (
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>

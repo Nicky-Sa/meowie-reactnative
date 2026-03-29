@@ -1,18 +1,24 @@
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { Slider } from "@/features/common/ui/slider";
 
-export const TMDBRating = () => {
-  const [filters] = useAtom(filtersAtom);
+type Props = {
+  value: string[];
+  isClearable: boolean;
+  onApply: (newVal: string[]) => void;
+  onClear: () => void;
+};
 
+export const TMDBRating = ({ value, isClearable, onApply, onClear }: Props) => {
   return (
     <BottomSheetWrapper
       title={"Ratings (TMDB)"}
-      filterKey={"tmdbRatings"}
-      chipText={`${filters.tmdbRatings[0]} - ${filters.tmdbRatings[1]}`}
+      chipText={`${value[0]} - ${value[1]}`}
       enableContentPanningGesture={false}
       index={0}
+      value={value}
+      isClearable={isClearable}
+      onApply={onApply}
+      onClear={onClear}
     >
       {({ currentValues, setCurrentValues }) => (
         <Slider

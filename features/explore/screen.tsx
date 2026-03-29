@@ -6,15 +6,19 @@ import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
 import { Filter } from "iconoir-react-native";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useAtom } from "jotai/index";
-import { filtersAtom } from "@/atoms";
-import { initialFiltersValue } from "@/features/common/data/media-query";
+import { useSetAtom } from "jotai";
+import { movieFiltersAtom, tvFiltersAtom } from "@/atoms";
+import {
+  initialMovieFiltersValue,
+  initialSeriesFiltersValue,
+} from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 export const Screen = () => {
   const router = useRouter();
-  const [, setFilters] = useAtom(filtersAtom);
+  const setMovieFilters = useSetAtom(movieFiltersAtom);
+  const setTvFilters = useSetAtom(tvFiltersAtom);
 
   const { capture } = useCaptureEvent();
 
@@ -26,8 +30,9 @@ export const Screen = () => {
   // clear filters when coming back to explore
   useFocusEffect(
     useCallback(() => {
-      setFilters(initialFiltersValue);
-    }, [setFilters]),
+      setMovieFilters(initialMovieFiltersValue);
+      setTvFilters(initialSeriesFiltersValue);
+    }, [setMovieFilters, setTvFilters]),
   );
 
   return (

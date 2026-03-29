@@ -1,8 +1,6 @@
 import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { SegmentItem, Segment } from "@/features/common/ui/segment";
-import { useAtom } from "jotai";
-import { filtersAtom } from "@/atoms";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 const languages: SegmentItem[] = [
@@ -27,18 +25,27 @@ const languages: SegmentItem[] = [
   { id: "vi", label: "Vietnamese" },
   { id: "he", label: "Hebrew" },
 ];
-export const Languages = () => {
-  const [filters] = useAtom(filtersAtom);
 
+type Props = {
+  value: string[];
+  isClearable: boolean;
+  onApply: (newVal: string[]) => void;
+  onClear: () => void;
+};
+
+export const Languages = ({ value, isClearable, onApply, onClear }: Props) => {
   return (
     <BottomSheetWrapper
       title={"Languages"}
-      filterKey={"languages"}
       chipText={
-        filters.languages.length === 1
-          ? `${languages.find((lang) => lang.id === filters.languages[0])?.label}`
-          : `${filters.languages.length}`
+        value.length === 1
+          ? `${languages.find((lang) => lang.id === value[0])?.label}`
+          : `${value.length}`
       }
+      value={value}
+      isClearable={isClearable}
+      onApply={onApply}
+      onClear={onClear}
     >
       {({ currentValues, setCurrentValues }) => (
         <BottomSheetScrollView showsVerticalScrollIndicator={false}>
