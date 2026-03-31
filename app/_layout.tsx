@@ -17,6 +17,7 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { env } from "@/lib/env";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
+import { posthogStorage } from "@/features/general/posthog/storage";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";
 import { TourGuideProvider } from "rn-tourguide";
 import { TourTooltip } from "@/features/common/ui/tour/tooltip";
@@ -73,6 +74,7 @@ function RootLayout() {
         apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
         options={{
           host: "https://eu.i.posthog.com",
+          customStorage: posthogStorage,
           captureAppLifecycleEvents: true,
           enableSessionReplay: true,
           sessionReplayConfig: {
