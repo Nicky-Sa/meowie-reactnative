@@ -18,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { Icon } from "@/features/common/ui/icon";
+import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 
 const items = [
   {
@@ -46,6 +47,7 @@ export const Screen = () => {
   const ref = useRef<ICarouselInstance>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const progress = useSharedValue<number>(0);
+  const { data } = useCurrentUser();
 
   const onPressPagination = useCallback(
     (index: number) => {
@@ -133,9 +135,13 @@ export const Screen = () => {
               variant={"white"}
               onPress={() => {
                 if (isLastItem) {
-                  AsyncStorage.setItem("onboarded", "true").then(() =>
-                    router.replace("/auth/request-otp"),
-                  );
+                  AsyncStorage.setItem("onboarded", "true").then(() => {
+                    if (data?.user) {
+                      router.replace("/home");
+                    } else {
+                      router.replace("/auth/request-otp");
+                    }
+                  });
                 } else {
                   onPressPagination(currentIndex + 1);
                 }
