@@ -6,7 +6,7 @@ import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
 import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
-import { ReactElement } from "react";
+import { ReactElement, useCallback } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, ViewStyle } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
@@ -55,17 +55,22 @@ export const PostersList = ({
 
   const isInitialLoad = isLoading && (!data || data.length === 0);
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: PosterInfo; index: number }) => (
+      <Poster
+        data={item}
+        width={posterWidth}
+        onPress={() => onPosterPress(index)}
+      />
+    ),
+    [onPosterPress, posterWidth],
+  );
+
   return (
     <AnimatedFlashList
       data={data}
       keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
-      renderItem={({ item, index }) => (
-        <Poster
-          data={item}
-          width={posterWidth}
-          onPress={() => onPosterPress(index)}
-        />
-      )}
+      renderItem={renderItem}
       numColumns={numColumns}
       onScroll={scrollHandler}
       onEndReachedThreshold={0.5}

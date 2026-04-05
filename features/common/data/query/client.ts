@@ -47,7 +47,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 10 * 60 * 1000, // 10 minutes
-      gcTime: 3 * 24 * 60 * 60 * 1000, // 3 days
+      gcTime: 30 * 60 * 1000, // 30 minutes
       retry: (failureCount, error) => {
         // 1. NEVER retry on 401 (Unauthorized)
         //    Axios already tried to refresh. If we are here, it's over.

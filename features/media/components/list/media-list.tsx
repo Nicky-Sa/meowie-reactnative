@@ -10,7 +10,7 @@ import { MovieDetailsSkeleton } from "@/features/media/components/details/media-
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { EmptyState } from "@/features/general/empty-state";
-import { ReactElement } from "react";
+import { ReactElement, useCallback } from "react";
 
 type Props = {
   data: MediaListItemData[];
@@ -69,6 +69,18 @@ export const MediaList = ({
   const isInitialLoad =
     isWaitingForInitialData || (isLoading && (!data || data.length === 0));
 
+  const renderItem = useCallback(
+    ({ item, index }: { item: MediaListItemData; index: number }) => (
+      <MediaListItem
+        item={item}
+        inScreen={index === currentIndex && isActive}
+        index={index}
+        scrollY={scrollY}
+      />
+    ),
+    [currentIndex, isActive, scrollY],
+  );
+
   return (
     <AnimatedFlashList
       key={
@@ -84,14 +96,7 @@ export const MediaList = ({
       initialScrollIndex={
         isWaitingForInitialData ? undefined : initialScrollIndex
       }
-      renderItem={({ item, index }) => (
-        <MediaListItem
-          item={item}
-          inScreen={index === currentIndex && isActive}
-          index={index}
-          scrollY={scrollY}
-        />
-      )}
+      renderItem={renderItem}
       pagingEnabled
       // Animation Handler
       onScroll={scrollHandler}

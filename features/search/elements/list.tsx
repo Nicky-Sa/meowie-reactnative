@@ -5,6 +5,7 @@ import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
 import { SearchEmptyState } from "@/features/search/elements/empty-state";
+import { useCallback } from "react";
 
 type Props = {
   debouncedQuery: string;
@@ -21,12 +22,19 @@ export const SearchResultList = ({
   error,
   refetch,
 }: Props) => {
+  const renderItem = useCallback(
+    ({ item }: { item: MultiSearchResults }) => (
+      <SearchResultCard item={item} />
+    ),
+    [],
+  );
+
   return (
     <View className={"flex flex-1"}>
       <FlashList
         data={data}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <SearchResultCard item={item} />}
+        renderItem={renderItem}
         contentContainerClassName={"grow pt-4"}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="always"

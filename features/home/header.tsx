@@ -9,6 +9,7 @@ import Animated, {
   useSharedValue,
   useAnimatedReaction,
   withTiming,
+  useAnimatedProps, // Added import
 } from "react-native-reanimated";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { SortHeaderButton } from "@/features/sort/header-button";
@@ -68,8 +69,13 @@ export const Header = ({
     transform: [
       { translateY: interpolate(animationValue.value, [0, 1], [0, -10]) },
     ],
-    // Hides the element from the accessibility tree and touch events when invisible
-    display: animationValue.value > 0.9 ? "none" : "flex",
+  }));
+
+  // Controls touch events without forcing a layout recalculation 💡
+  const switchAnimatedProps = useAnimatedProps(() => ({
+    pointerEvents: (animationValue.value > 0.5 ? "none" : "auto") as
+      | "none"
+      | "auto",
   }));
 
   const logoTypeStyle = useAnimatedStyle(() => ({
@@ -91,7 +97,7 @@ export const Header = ({
 
       <View className="relative items-center justify-center">
         {/* Toggle */}
-        <Animated.View style={switchStyle}>
+        <Animated.View style={switchStyle} animatedProps={switchAnimatedProps}>
           <Tourable
             tour={{
               step: TourStep.HeaderToggle,
@@ -113,6 +119,7 @@ export const Header = ({
         <Animated.View
           className="absolute inset-0 items-center justify-center"
           style={logoTypeStyle}
+          pointerEvents="none" // Hardcoded to none to prevent it from stealing clicks when invisible
         >
           <LogoType />
         </Animated.View>

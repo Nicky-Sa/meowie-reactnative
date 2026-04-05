@@ -34,23 +34,21 @@ Sentry.init({
   enableNativeFramesTracking: !isRunningInExpoGo(),
 
   sendDefaultPii: false,
-  replaysSessionSampleRate:
-    env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.1,
+  replaysSessionSampleRate: 0,
   replaysOnErrorSampleRate: 1.0,
 
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-  tracesSampleRate: env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.5,
+  tracesSampleRate: env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.2,
   tracePropagationTargets: [/.*?/],
   // profilesSampleRate is relative to tracesSampleRate.
-  // Here, we'll capture profiles for 100% of transactions.
-  profilesSampleRate: 1.0,
+  profilesSampleRate: 0.1,
 
   integrations: [
     navigationIntegration,
     Sentry.mobileReplayIntegration({
       maskAllText: true,
-      maskAllImages: false,
-      maskAllVectors: false,
+      maskAllImages: true, // Also masking here for performance if an error occurs
+      maskAllVectors: true,
     }),
     Sentry.reactNativeTracingIntegration(),
   ],
@@ -78,9 +76,9 @@ function RootLayout() {
           captureAppLifecycleEvents: true,
           enableSessionReplay: true,
           sessionReplayConfig: {
+            sampleRate: 0.1,
             maskAllTextInputs: true,
-            maskAllImages: false,
-            maskAllSandboxedViews: false,
+            maskAllImages: true, // Reduced CPU by not processing bitmaps
           },
         }}
         autocapture={{

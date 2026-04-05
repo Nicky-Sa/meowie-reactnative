@@ -2,7 +2,7 @@ import { Image } from "expo-image";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { Pressable } from "react-native";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 
 type Props = {
   data: PosterInfo;
@@ -10,7 +10,7 @@ type Props = {
   onPress: () => void;
 };
 
-export const Poster = ({ data, width, onPress }: Props) => {
+export const Poster = memo(({ data, width, onPress }: Props) => {
   const { capture } = useCaptureEvent();
   const onPosterPressed = useCallback(() => {
     capture("poster_clicked", {
@@ -39,4 +39,6 @@ export const Poster = ({ data, width, onPress }: Props) => {
       />
     </Pressable>
   );
-};
+});
+
+Poster.displayName = "Poster";
