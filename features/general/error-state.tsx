@@ -5,7 +5,7 @@ import { env } from "@/lib/env";
 
 type Props = {
   tryAgain: () => void;
-  error: Error | string | undefined;
+  error: Error | string | null;
 };
 
 export const ErrorState = ({ tryAgain, error }: Props) => {

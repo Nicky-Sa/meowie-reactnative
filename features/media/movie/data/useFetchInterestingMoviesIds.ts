@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { InterestingMovieIdsResDto } from "@/features/media/movie/data/dto/movies.dto";
 import { SortOption } from "@/features/common/data/media-query";
-import {
-  SWRInfiniteKeyLoader,
-  useSWRPaginatedConfigured,
-} from "@/features/common/data/swr/hooks";
+import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { deduplicate } from "@/features/common/data/deduplicate";
 
@@ -19,30 +16,18 @@ export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
     [sort],
   );
 
-  const getKey: SWRInfiniteKeyLoader<InterestingMovieIdsResDto> = useCallback(
-    (pageIndex, previousPageData) => {
-      const baseUrl = "/movie/interesting-ids";
-
-      // Stop fetching if there are no more results
-      if (previousPageData && previousPageData.data.results.length === 0) {
-        return null;
-      }
-
-      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}`; // SWR key
-    },
-    [initialPage, sort],
-  );
-
+  const baseUrl = "/movie/interesting-ids";
   const {
     data: response,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     ...rest
-  } = useSWRPaginatedConfigured<InterestingMovieIdsResDto>(getKey);
-
-  // Force reset size when sort changes
-  useEffect(() => {
-    setSize(1);
-  }, [sort, setSize]);
+  } = useQueryPaginatedConfigured<InterestingMovieIdsResDto>(
+    [baseUrl, sort, initialPage],
+    (pageParam: number) =>
+      `${baseUrl}?page=${pageParam + initialPage}&sort=${sort}`,
+  );
 
   // Extract `id` from each movie
   // The list is accumulated from all pages
@@ -66,7 +51,9 @@ export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
     data: flattenedData,
     dataLength: flattenedData.length,
     totalPages,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     ...rest,
   };
 };

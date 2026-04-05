@@ -42,7 +42,7 @@ export async function fetcher<REQ, RES>(
         // Extract the error data
         const res = error.response.data as ErrorResponse;
 
-        // Throw the error in the format SWR expects
+        // Throw the error in a format the query layer expects
         throw new Error(res.errors);
       }
 

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useRevalidateByPattern } from "@/features/common/data/swr/hooks";
+import { useInvalidateByPattern } from "@/features/common/data/query/hooks";
 
 const authRequiredPaths = [
   new RegExp("/auth/current-user"),
@@ -7,15 +7,15 @@ const authRequiredPaths = [
 ];
 
 export const useRevalidateAuth = () => {
-  const { revalidateByPattern } = useRevalidateByPattern();
+  const { invalidateByPattern } = useInvalidateByPattern();
 
   const revalidateAuth = useCallback(async () => {
-    // Manually iterate keys to avoid the internal SWR iterator crash
+    // Invalidate each auth-required path pattern
     for (const path of authRequiredPaths) {
-      await revalidateByPattern(path);
+      await invalidateByPattern(path);
     }
     console.log("Revalidated auth required paths");
-  }, [revalidateByPattern]);
+  }, [invalidateByPattern]);
 
   return { revalidateAuth };
 };

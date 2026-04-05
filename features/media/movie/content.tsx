@@ -21,13 +21,12 @@ export const Content = ({
   const {
     data,
     dataLength,
-    size,
-    setSize,
-    totalPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    isValidating,
     error,
-    mutate,
+    refetch,
   } = useFetchInterestingMoviesIds({ sort });
 
   return (
@@ -35,12 +34,11 @@ export const Content = ({
       data={data}
       dataLength={dataLength}
       isLoading={isLoading}
-      isValidating={isValidating}
-      size={size}
-      setSize={setSize}
-      totalPages={totalPages}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
       error={error}
-      mutate={mutate}
+      refetch={refetch}
       scrollToTopIfChanges={sort}
       currentIndex={currentIndex}
       scrollY={scrollY}

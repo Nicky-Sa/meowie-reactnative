@@ -39,20 +39,18 @@ export const PostersList = ({
   const {
     data,
     isLoading,
-    size,
-    setSize,
-    totalPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     error,
-    mutate,
-    isValidating,
+    refetch,
   } = posterData;
 
   const { onEndReached } = useFetchMore({
-    size,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    isValidating,
-    totalPages,
   });
 
   const isInitialLoad = isLoading && (!data || data.length === 0);
@@ -78,7 +76,7 @@ export const PostersList = ({
       contentContainerStyle={contentContainerStyle}
       ListEmptyComponent={
         error ? (
-          <ErrorState tryAgain={mutate} error={error} />
+          <ErrorState tryAgain={refetch} error={error} />
         ) : isInitialLoad ? (
           <PostersSkeletons width={posterWidth} number={numColumns * 4} />
         ) : (
@@ -87,7 +85,7 @@ export const PostersList = ({
       }
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={
-        (isLoading || isValidating) && !isInitialLoad ? <Loading /> : null
+        isFetchingNextPage && !isInitialLoad ? <Loading /> : null
       }
     />
   );

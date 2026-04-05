@@ -8,14 +8,14 @@ import { Text, View } from "react-native";
 import EmptyCacheSvg from "@/assets/images/profile/empty-cache.svg";
 import { Image } from "expo-image";
 import { Action } from "@/features/common/ui/action";
-import { useEmptySWRCache } from "@/features/general/data/useEmptySWRCache";
+import { useClearQueryCache } from "@/features/general/data/useClearQueryCache";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 export const EmptyCache = () => {
   const { capture } = useCaptureEvent();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
-  const { clearSWRCache } = useEmptySWRCache();
+  const { clearCache } = useClearQueryCache();
 
   const clearImageCache = async () => {
     await Image.clearDiskCache();
@@ -24,7 +24,7 @@ export const EmptyCache = () => {
   const handleEmptyCache = async () => {
     try {
       await clearImageCache();
-      await clearSWRCache();
+      await clearCache();
       capture("cache_cleared");
     } catch (error) {
       console.log({ error });

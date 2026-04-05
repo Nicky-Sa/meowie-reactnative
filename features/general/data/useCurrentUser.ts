@@ -1,5 +1,5 @@
 import { User } from "@/entities/user";
-import { useSWRConfigured } from "@/features/common/data/swr/hooks";
+import { useQueryConfigured } from "@/features/common/data/query/hooks";
 
 type CurrentUserResDto = {
   user: User | null;
@@ -8,7 +8,8 @@ type CurrentUserResDto = {
 export const useCurrentUser = () => {
   const url = "/auth/current-user";
 
-  const { data: response, ...rest } = useSWRConfigured<CurrentUserResDto>(url);
+  const { data: response, ...rest } =
+    useQueryConfigured<CurrentUserResDto>(url);
 
   return {
     data: response?.data,

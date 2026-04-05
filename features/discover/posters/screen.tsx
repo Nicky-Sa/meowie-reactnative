@@ -29,7 +29,6 @@ export const Screen = () => {
         pathname: "/discover/media-list",
         params: {
           initialIndex: index,
-          initialSize: posterData.size,
           title,
           mediaType,
           ...searchParams,

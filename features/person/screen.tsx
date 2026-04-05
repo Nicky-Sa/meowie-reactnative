@@ -31,7 +31,6 @@ export const Screen = () => {
         pathname: "/person/media-list",
         params: {
           initialIndex: index,
-          initialSize: posterData.size,
           title: personData?.name,
           personId,
         },

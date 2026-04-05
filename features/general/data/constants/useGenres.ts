@@ -1,4 +1,4 @@
-import { useSWRConfigured } from "@/features/common/data/swr/hooks";
+import { useQueryConfigured } from "@/features/common/data/query/hooks";
 
 export type Genre = {
   id: number;
@@ -14,7 +14,7 @@ type GenresResDto = {
 export const useGenres = () => {
   const url = "/constants/genres";
 
-  const { data: response, ...rest } = useSWRConfigured<GenresResDto>(url);
+  const { data: response, ...rest } = useQueryConfigured<GenresResDto>(url);
 
   return {
     data: response?.data,

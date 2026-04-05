@@ -11,7 +11,7 @@ export const Screen = () => {
   const { query = "" } = useLocalSearchParams<{ query: string }>();
   const router = useRouter();
   const [isDebouncing, setIsDebouncing] = useState(false);
-  const { data, isLoading, error, mutate } = useMultiSearchQuery({ query });
+  const { data, isLoading, error, refetch } = useMultiSearchQuery({ query });
 
   return (
     <SafeAreaView
@@ -39,7 +39,7 @@ export const Screen = () => {
         data={data?.results}
         isLoading={isLoading || isDebouncing}
         error={error}
-        mutate={mutate}
+        refetch={refetch}
       />
     </SafeAreaView>
   );

@@ -16,12 +16,11 @@ type Props = {
   data: MediaListItemData[];
   dataLength: number;
   isLoading: boolean;
-  isValidating: boolean;
-  size: number;
-  setSize: (size: number) => void;
-  totalPages: number;
-  error: Error | undefined;
-  mutate: () => void;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  error: Error | null;
+  refetch: () => void;
   initialScrollIndex?: number;
   scrollToTopIfChanges?: unknown;
   currentIndex: number;
@@ -38,12 +37,11 @@ const AnimatedFlashList = Animated.createAnimatedComponent(
 export const MediaList = ({
   data,
   isLoading,
-  isValidating,
-  size,
-  setSize,
-  totalPages,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
   error,
-  mutate,
+  refetch,
   initialScrollIndex,
   scrollToTopIfChanges,
   currentIndex,
@@ -55,11 +53,10 @@ export const MediaList = ({
   const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
 
   const { onEndReached } = useFetchMore({
-    size,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    isValidating,
-    totalPages,
   });
 
   const isDataEmpty = data.length === 0;
@@ -105,7 +102,7 @@ export const MediaList = ({
       contentContainerClassName={"grow px-4"}
       ListEmptyComponent={
         error ? (
-          <ErrorState tryAgain={mutate} error={error} />
+          <ErrorState tryAgain={refetch} error={error} />
         ) : isInitialLoad ? (
           <MovieDetailsSkeleton />
         ) : (

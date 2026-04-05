@@ -1,7 +1,7 @@
 import {
-  useRevalidateByPattern,
-  useSWRMutationConfigured,
-} from "@/features/common/data/swr/hooks";
+  useInvalidateByPattern,
+  useMutationConfigured,
+} from "@/features/common/data/query/hooks";
 import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 type LogoutResDto = {
@@ -11,23 +11,18 @@ type LogoutResDto = {
 export const useLogout = () => {
   const url = "/auth/logout";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     undefined,
     LogoutResDto
   >(url);
 
-  const { revalidateByPattern } = useRevalidateByPattern();
+  const { invalidateByPattern } = useInvalidateByPattern();
 
   const trigger = async () => {
-    return swrTrigger(
-      { method: "POST" },
-      {
-        onSuccess: async () => {
-          await clearTokens();
-          await revalidateByPattern(undefined, undefined, { revalidate: true });
-        },
-      },
-    );
+    const response = await mutateAsync({ method: "POST" });
+    await clearTokens();
+    await invalidateByPattern(); // Invalidate all queries
+    return response;
   };
   return { trigger, ...rest };
 };

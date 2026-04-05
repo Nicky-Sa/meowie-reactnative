@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { InterestingSeriesIdsResDto } from "@/features/media/series/data/dto/series.dto";
 import { SortOption } from "@/features/common/data/media-query";
-import {
-  SWRInfiniteKeyLoader,
-  useSWRPaginatedConfigured,
-} from "@/features/common/data/swr/hooks";
+import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { deduplicate } from "@/features/common/data/deduplicate";
 
@@ -19,30 +16,18 @@ export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
     [sort],
   );
 
-  const getKey: SWRInfiniteKeyLoader<InterestingSeriesIdsResDto> = useCallback(
-    (pageIndex, previousPageData) => {
-      const baseUrl = "/series/interesting-ids";
-
-      // Stop fetching if there are no more results
-      if (previousPageData && previousPageData.data.results.length === 0) {
-        return null;
-      }
-
-      return `${baseUrl}?page=${pageIndex + initialPage}&sort=${sort}`; // SWR key
-    },
-    [initialPage, sort],
-  );
-
+  const baseUrl = "/series/interesting-ids";
   const {
     data: response,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     ...rest
-  } = useSWRPaginatedConfigured<InterestingSeriesIdsResDto>(getKey);
-
-  // Force reset size when sort changes
-  useEffect(() => {
-    setSize(1);
-  }, [sort, setSize]);
+  } = useQueryPaginatedConfigured<InterestingSeriesIdsResDto>(
+    [baseUrl, sort, initialPage],
+    (pageParam: number) =>
+      `${baseUrl}?page=${pageParam + initialPage}&sort=${sort}`,
+  );
 
   // Extract `id` from each tv
   // The list is accumulated from all pages
@@ -66,7 +51,9 @@ export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
     data: flattenedData,
     dataLength: flattenedData.length,
     totalPages,
-    setSize,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     ...rest,
   };
 };

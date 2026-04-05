@@ -26,13 +26,12 @@ export const MediaListScreen = ({
   const {
     data: rawPosterData,
     dataLength,
-    size,
-    setSize,
-    totalPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    isValidating,
     error,
-    mutate,
+    refetch,
   } = posterData;
 
   const data: MediaListItemData[] =
@@ -54,12 +53,11 @@ export const MediaListScreen = ({
         data={data}
         dataLength={dataLength}
         isLoading={isLoading}
-        isValidating={isValidating}
-        size={size}
-        setSize={setSize}
-        totalPages={totalPages}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
         error={error}
-        mutate={mutate}
+        refetch={refetch}
         initialScrollIndex={initialIndex}
         scrollHandler={scrollHandler}
         scrollY={scrollY}

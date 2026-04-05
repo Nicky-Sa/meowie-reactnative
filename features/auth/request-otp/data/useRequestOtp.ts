@@ -1,16 +1,16 @@
 import { RequestOtpReqDto } from "@/features/auth/request-otp/data/dto/request-otp.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
+import { useMutationConfigured } from "@/features/common/data/query/hooks";
 
 export const useRequestOtp = () => {
   const url = "/auth/request-otp";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     RequestOtpReqDto,
     undefined
   >(url);
 
   const trigger = async (body: RequestOtpReqDto) => {
-    return swrTrigger({ method: "POST", body });
+    return mutateAsync({ method: "POST", body });
   };
   return { trigger, ...rest };
 };

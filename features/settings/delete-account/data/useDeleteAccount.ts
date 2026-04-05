@@ -2,26 +2,21 @@ import {
   DeleteAccountReqDto,
   DeleteAccountResDto,
 } from "@/features/settings/delete-account/data/dto/delete-account.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
+import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { clearTokens } from "@/features/general/data/utils/clear-tokens";
 
 export const useDeleteAccount = () => {
   const url = "/auth/delete-account";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     DeleteAccountReqDto,
     DeleteAccountResDto
   >(url);
 
   const trigger = async (body: DeleteAccountReqDto) => {
-    return swrTrigger(
-      { method: "POST", body },
-      {
-        onSuccess: async () => {
-          await clearTokens();
-        },
-      },
-    );
+    const response = await mutateAsync({ method: "POST", body });
+    await clearTokens();
+    return response;
   };
   return { trigger, ...rest };
 };

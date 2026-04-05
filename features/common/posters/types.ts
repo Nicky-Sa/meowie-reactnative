@@ -4,10 +4,11 @@ export type PosterHookResult = {
   data: PosterInfo[];
   dataLength: number;
   totalPages: number;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
   size: number;
-  setSize: (size: number | ((size: number) => number)) => void;
   isLoading: boolean;
-  isValidating: boolean;
-  error: Error | undefined;
-  mutate: () => void;
+  error: Error | null;
+  refetch: () => void;
 };

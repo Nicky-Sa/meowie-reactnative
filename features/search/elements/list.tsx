@@ -10,8 +10,8 @@ type Props = {
   debouncedQuery: string;
   data: MultiSearchResults[] | undefined;
   isLoading: boolean;
-  error: Error | undefined;
-  mutate: () => void;
+  error: Error | null;
+  refetch: () => void;
 };
 
 export const SearchResultList = ({
@@ -19,7 +19,7 @@ export const SearchResultList = ({
   data,
   isLoading,
   error,
-  mutate,
+  refetch,
 }: Props) => {
   return (
     <View className={"flex flex-1"}>
@@ -34,7 +34,7 @@ export const SearchResultList = ({
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
           error ? (
-            <ErrorState tryAgain={mutate} error={error} />
+            <ErrorState tryAgain={refetch} error={error} />
           ) : debouncedQuery && !isLoading ? (
             <SearchEmptyState />
           ) : isLoading ? (

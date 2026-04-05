@@ -1,25 +1,23 @@
 import { useCallback } from "react";
 
 type Args = {
-  size: number;
-  setSize: (size: number) => void;
+  hasNextPage: boolean;
+  fetchNextPage: () => void;
+  isFetchingNextPage: boolean;
   isLoading: boolean;
-  isValidating: boolean;
-  totalPages: number;
 };
 
 export const useFetchMore = ({
-  size,
-  setSize,
+  hasNextPage,
+  fetchNextPage,
+  isFetchingNextPage,
   isLoading,
-  isValidating,
-  totalPages,
 }: Args) => {
   const onEndReached = useCallback(async () => {
-    if (!(isLoading || isValidating) && size < totalPages) {
-      setSize(size + 1);
+    if (!isLoading && !isFetchingNextPage && hasNextPage) {
+      fetchNextPage();
     }
-  }, [isLoading, isValidating, size, totalPages, setSize]);
+  }, [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   return { onEndReached };
 };

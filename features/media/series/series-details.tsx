@@ -23,7 +23,7 @@ type Props = {
 };
 
 export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
-  const { data, isLoading, error, mutate } = useFetchSeriesInfo(seriesId);
+  const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
 
@@ -79,7 +79,7 @@ export const SeriesDetails = memo(({ seriesId, inScreen }: Props) => {
   }, [capture, data?.title, seriesId]);
 
   return error ? (
-    <ErrorState tryAgain={mutate} error={error} />
+    <ErrorState tryAgain={refetch} error={error} />
   ) : isLoading || !data ? (
     <MovieDetailsSkeleton />
   ) : (

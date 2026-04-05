@@ -1,4 +1,4 @@
-import { useSWRConfigured } from "@/features/common/data/swr/hooks";
+import { useQueryConfigured } from "@/features/common/data/query/hooks";
 import {
   MultiSearchResDto,
   SearchReqQueryDto,
@@ -8,7 +8,8 @@ type Args = SearchReqQueryDto;
 
 export const useMultiSearchQuery = ({ query }: Args) => {
   const url = `/search/multi?query=${encodeURIComponent(query)}`;
-  const { data: response, ...rest } = useSWRConfigured<MultiSearchResDto>(url);
+  const { data: response, ...rest } =
+    useQueryConfigured<MultiSearchResDto>(url);
 
   return {
     data: response?.data,

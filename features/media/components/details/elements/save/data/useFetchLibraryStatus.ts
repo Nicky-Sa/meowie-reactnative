@@ -1,4 +1,4 @@
-import { useSWRConfigured } from "@/features/common/data/swr/hooks";
+import { useQueryConfigured } from "@/features/common/data/query/hooks";
 import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { MediaType } from "@/features/common/data/models/media-type";
@@ -15,9 +15,11 @@ type Args = {
  */
 export const useFetchLibraryStatus = ({ id, mediaType }: Args) => {
   const { data } = useCurrentUser();
-  const url = data?.user ? `/library/status/${mediaType}/${id}` : null;
-  const { data: response, ...rest } =
-    useSWRConfigured<LibraryStatusResDto>(url);
+  const url = `/library/status/${mediaType}/${id}`;
+  const { data: response, ...rest } = useQueryConfigured<LibraryStatusResDto>(
+    url,
+    { enabled: !!data?.user },
+  );
 
   return {
     data: response?.data,

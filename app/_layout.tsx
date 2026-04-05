@@ -2,7 +2,7 @@ import { ThemeProvider } from "@react-navigation/native";
 import { Stack, useNavigationContainerRef } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
-import { SWRConfig } from "swr";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
@@ -12,7 +12,7 @@ import * as Sentry from "@sentry/react-native";
 import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
-import { swrConfig } from "@/features/common/data/swr/config";
+import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
 import { env } from "@/lib/env";
@@ -91,7 +91,7 @@ function RootLayout() {
         <ScreenTracker>
           <EventListenerWrapper>
             <ThemeProvider value={themeConfig}>
-              <SWRConfig value={swrConfig}>
+              <QueryClientProvider client={queryClient}>
                 <KeyboardProvider>
                   <SafeAreaProvider>
                     <GestureHandlerRootView>
@@ -213,7 +213,7 @@ function RootLayout() {
                     </GestureHandlerRootView>
                   </SafeAreaProvider>
                 </KeyboardProvider>
-              </SWRConfig>
+              </QueryClientProvider>
             </ThemeProvider>
           </EventListenerWrapper>
         </ScreenTracker>

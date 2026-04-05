@@ -5,21 +5,16 @@ import { SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 
 export const Screen = () => {
-  const { title, initialIndex, initialSize, mediaType, ...queryParams } =
+  const { title, initialIndex, mediaType, ...queryParams } =
     useLocalSearchParams<
       {
         title: string;
         initialIndex: string;
-        initialSize: string;
         mediaType: MediaType;
       } & Partial<SearchParams>
     >();
 
-  const posterData = useFetchPosters(
-    `/${mediaType}/posters`,
-    queryParams,
-    initialSize ? Number(initialSize) : undefined,
-  );
+  const posterData = useFetchPosters(`/${mediaType}/posters`, queryParams);
 
   return (
     <MediaListScreen

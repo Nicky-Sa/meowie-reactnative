@@ -2,32 +2,27 @@ import {
   VerifyOtpReqDto,
   VerifyOtpResDto,
 } from "@/features/auth/verify-otp/data/dto/verify-otp.dto";
-import { useSWRMutationConfigured } from "@/features/common/data/swr/hooks";
+import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { setTokens } from "@/features/general/data/utils/set-tokens";
 import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
 
 export const useVerifyOtp = () => {
   const url = "/auth/verify-otp";
 
-  const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     VerifyOtpReqDto,
     VerifyOtpResDto
   >(url);
   const { revalidateAuth } = useRevalidateAuth();
 
   const trigger = async (body: VerifyOtpReqDto) => {
-    return swrTrigger(
-      { method: "POST", body },
-      {
-        onSuccess: async (response) => {
-          await setTokens({
-            accessToken: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
-          });
-          await revalidateAuth();
-        },
-      },
-    );
+    const response = await mutateAsync({ method: "POST", body });
+    await setTokens({
+      accessToken: response.data.accessToken,
+      refreshToken: response.data.refreshToken,
+    });
+    await revalidateAuth();
+    return response;
   };
   return { trigger, ...rest };
 };

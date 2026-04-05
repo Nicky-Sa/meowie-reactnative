@@ -27,7 +27,7 @@ type Props = {
 
 export const MovieDetails = memo(
   ({ movieId, inScreen, tourEnabled }: Props) => {
-    const { data, isLoading, error, mutate } = useFetchMovieInfo(movieId);
+    const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
     const [, setColor] = useAtom(colorAtom);
     const [autoplay] = useAtom(autoplayAtom);
 
@@ -83,7 +83,7 @@ export const MovieDetails = memo(
     }, [capture, data?.title, movieId]);
 
     return error ? (
-      <ErrorState tryAgain={mutate} error={error} />
+      <ErrorState tryAgain={refetch} error={error} />
     ) : isLoading || !data ? (
       <MovieDetailsSkeleton />
     ) : (
