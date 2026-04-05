@@ -9,6 +9,7 @@ import { SuccessResponse } from "@/features/common/data/transformers";
 import useSWRMutation, { SWRMutationConfiguration } from "swr/mutation";
 import { useCallback } from "react";
 import useSWRInfinite, { SWRInfiniteConfiguration } from "swr/infinite";
+import { Cache } from "@/features/common/data/swr/cache";
 
 type SWRKey = string | null;
 
@@ -48,8 +49,16 @@ export const useSWRMutationConfigured = <REQ, RES, Err = Error>(
   );
 };
 
+export const useSWRConfigTyped = () => {
+  const { cache, ...rest } = useSWRConfig();
+  return {
+    cache: cache as Cache<unknown>,
+    ...rest,
+  };
+};
+
 export const useRevalidateByPattern = () => {
-  const { mutate, cache } = useSWRConfig();
+  const { mutate, cache } = useSWRConfigTyped();
 
   const revalidateByPattern = useCallback(
     async <Data, MutationData>(
@@ -59,20 +68,24 @@ export const useRevalidateByPattern = () => {
         | Promise<MutationData>
         | MutatorCallback<MutationData>,
       opts?: boolean | MutatorOptions<Data, MutationData>,
-    ) => {
+    ): Promise<string[]> => {
       const keys = Array.from(cache.keys());
-      const mutations = [];
+      const mutations: Promise<MutationData | undefined>[] = [];
+      const mutatedKey: string[] = [];
 
       for (const key of keys) {
         if (!pattern) {
           // No pattern provided, mutate all keys
           mutations.push(mutate(key, data, opts));
+          mutatedKey.push(key);
         } else if (pattern.test(key)) {
           mutations.push(mutate(key, data, opts));
+          mutatedKey.push(key);
         }
       }
 
       await Promise.all(mutations);
+      return mutatedKey;
     },
     [cache, mutate],
   );

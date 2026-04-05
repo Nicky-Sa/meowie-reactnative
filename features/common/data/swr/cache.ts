@@ -7,15 +7,15 @@ const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
 
 const storage = createMMKV({ id: "swr-cache" });
 
-type Cache<Data> = SWRCache<Data> & {
-  empty: () => void;
+export type Cache<Data> = SWRCache<Data> & {
+  clear: () => void;
 };
 
 /**
  * Granular Provider: Each SWR key is a unique key in MMKV.
  * This prevents massive JSON serialization overhead.
  */
-function createSWRProvider<Data = unknown>(): Cache<Data> {
+export function createSWRProvider<Data = unknown>(): Cache<Data> {
   // In-memory map to maintain referential stability.
   // This prevents React from detecting "changes" when we just parse the same JSON string, but stored in different memory locations.
   const map = new Map<string, State<Data> & { _timestamp: number }>();
@@ -89,7 +89,7 @@ function createSWRProvider<Data = unknown>(): Cache<Data> {
       map.delete(key);
       storage.remove(key);
     },
-    empty: () => {
+    clear: () => {
       map.clear();
       storage.clearAll();
     },
@@ -101,5 +101,3 @@ function createSWRProvider<Data = unknown>(): Cache<Data> {
     },
   };
 }
-
-export const globalSWRCache = createSWRProvider();

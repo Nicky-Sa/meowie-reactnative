@@ -3,7 +3,7 @@ import { useRevalidateByPattern } from "@/features/common/data/swr/hooks";
 
 const authRequiredPaths = [
   new RegExp("/auth/current-user"),
-  new RegExp("^/library/.*"),
+  new RegExp("/library/.*"),
 ];
 
 export const useRevalidateAuth = () => {

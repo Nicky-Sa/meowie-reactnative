@@ -11,7 +11,7 @@ export const Screen = () => {
   }>();
 
   const posterData = useFetchPosters(
-    "/library/saved/",
+    "/library/saved",
     {},
     initialSize ? Number(initialSize) : undefined,
   );

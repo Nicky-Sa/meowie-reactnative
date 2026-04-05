@@ -1,12 +1,10 @@
-import { globalSWRCache } from "@/features/common/data/swr/cache";
+import { createSWRProvider } from "@/features/common/data/swr/cache";
 import { SWRConfiguration } from "swr";
 import { AppState, AppStateStatus } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 
-const getProvider = () => globalSWRCache;
-
 export const swrConfig: SWRConfiguration = {
-  provider: getProvider,
+  provider: () => createSWRProvider(),
   keepPreviousData: false,
   dedupingInterval: 10 * 60 * 1000, // 10 minutes
   shouldRetryOnError: true,

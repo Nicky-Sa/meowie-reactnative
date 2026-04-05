@@ -1,7 +1,7 @@
-import { useSWRConfig } from "swr";
 import { ID } from "@/features/common/data/media-query";
 import {
   useRevalidateByPattern,
+  useSWRConfigTyped,
   useSWRMutationConfigured,
 } from "@/features/common/data/swr/hooks";
 import { LibraryCategory } from "@/features/profile/data/library.constants";
@@ -20,7 +20,7 @@ type Args = {
 export const useToggleLibraryItem = ({ id, mediaType, category }: Args) => {
   const url = "/library";
   const cacheKey = `/library/status/${mediaType}/${id}`;
-  const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfigTyped();
   const { revalidateByPattern } = useRevalidateByPattern();
 
   const { trigger: swrTrigger, ...rest } = useSWRMutationConfigured<
@@ -57,7 +57,7 @@ export const useToggleLibraryItem = ({ id, mediaType, category }: Args) => {
         },
       );
 
-      await revalidateByPattern(new RegExp(`^/library/${category}/.*`)); // Revalidate library saved/seen list
+      await revalidateByPattern(new RegExp(`/library/${category}.*`)); // Revalidate library saved/seen list
     } catch (error) {
       console.log({ error });
     }

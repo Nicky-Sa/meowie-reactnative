@@ -12,7 +12,7 @@ import { deduplicate } from "@/features/common/data/deduplicate";
 type URL =
   | `/person/${string}/posters`
   | `/${MediaType}/posters`
-  | "/library/saved/";
+  | "/library/saved";
 
 export const useFetchPosters = (
   url: URL,
