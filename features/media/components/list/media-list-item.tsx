@@ -60,7 +60,7 @@ export const MediaListItem = memo(
             <MovieDetails
               movieId={id}
               inScreen={inScreen}
-              tourEnabled={inScreen}
+              tourEnabled={index === 0} // first item
             />
           ) : mediaType === "series" ? (
             <SeriesDetails seriesId={id} inScreen={inScreen} />

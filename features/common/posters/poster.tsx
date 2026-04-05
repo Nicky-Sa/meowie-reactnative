@@ -28,6 +28,7 @@ export const Poster = ({ data, width, onPress }: Props) => {
           aspectRatio: 2 / 3,
           width,
         }}
+        recyclingKey={data.posterPath}
         contentFit="cover"
         placeholder={{
           blurhash: data.blurhash,
