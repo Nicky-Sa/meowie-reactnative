@@ -1,6 +1,8 @@
+import { View } from "react-native";
 import { ErrorState } from "@/features/general/error-state";
 import { useListRef } from "@/features/common/hooks/list/useListRef";
 import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
+import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import Animated, {
   ScrollHandlerProcessed,
   SharedValue,
@@ -52,6 +54,7 @@ export const MediaList = ({
 }: Props) => {
   const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
 
+  const contentStyle = useMainScreenContentStyle();
   const { onEndReached } = useFetchMore({
     fetchNextPage,
     hasNextPage,
@@ -106,13 +109,18 @@ export const MediaList = ({
       showsVerticalScrollIndicator={false}
       contentContainerClassName={"grow px-4"}
       ListEmptyComponent={
-        error ? (
-          <ErrorState tryAgain={refetch} error={error} />
-        ) : isInitialLoad ? (
-          <MovieDetailsSkeleton />
-        ) : (
-          ListEmptyComponent
-        )
+        <View
+          style={contentStyle}
+          className={"flex items-center justify-center"}
+        >
+          {error ? (
+            <ErrorState tryAgain={refetch} error={error} />
+          ) : isInitialLoad ? (
+            <MovieDetailsSkeleton />
+          ) : (
+            ListEmptyComponent
+          )}
+        </View>
       }
     />
   );
