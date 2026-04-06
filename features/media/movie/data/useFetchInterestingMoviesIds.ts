@@ -3,7 +3,7 @@ import { InterestingMovieIdsResDto } from "@/features/media/movie/data/dto/movie
 import { SortOption } from "@/features/common/data/media-query";
 import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
 import { MediaListItemData } from "@/features/media/components/list/types";
-import { deduplicate } from "@/features/common/data/deduplicate";
+import { deduplicate } from "@/features/common/data/utils/deduplicate";
 
 type Args = {
   sort: SortOption;

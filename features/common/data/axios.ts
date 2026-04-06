@@ -1,8 +1,8 @@
 import axios, { isAxiosError } from "axios";
-import * as SecureStore from "expo-secure-store";
+import { getAccessToken, getRefreshToken } from "./utils/token-storage";
 import { env } from "@/lib/env";
-import { clearTokens } from "@/features/general/data/utils/clear-tokens";
-import { setTokens } from "@/features/general/data/utils/set-tokens";
+import { unregisterUser } from "@/features/common/data/utils/unregister-user";
+import { registerUser } from "@/features/common/data/utils/register-user";
 
 // Create the axios instance
 const axiosInstance = axios.create({
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 // Runs *before* every request is sent
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = await SecureStore.getItemAsync("access-token");
+    const token = await getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -93,7 +93,7 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const refreshToken = await SecureStore.getItemAsync("refresh-token");
+        const refreshToken = await getRefreshToken();
 
         // Scenario A: No refresh token exists -> Downgrade to Guest immediately
         if (!refreshToken) {
@@ -110,7 +110,7 @@ axiosInstance.interceptors.response.use(
           refreshResponse.data.data;
 
         // Save new tokens
-        await setTokens({
+        await registerUser({
           accessToken,
           refreshToken: newRefreshToken,
         });
@@ -131,7 +131,7 @@ axiosInstance.interceptors.response.use(
         );
 
         // 1. Clear tokens safely (waits for storage deletion)
-        await clearTokens();
+        await unregisterUser();
 
         // 2. Process the queue with NULL (Trigger Guest Retry for all waiting requests)
         processQueue(null, null);

@@ -3,7 +3,7 @@ import { searchParamsToQuery } from "@/lib/functions";
 import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
 import { SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { deduplicate } from "@/features/common/data/deduplicate";
+import { deduplicate } from "@/features/common/data/utils/deduplicate";
 
 type URL =
   | `/person/${string}/posters`
