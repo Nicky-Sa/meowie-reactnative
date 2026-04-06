@@ -41,10 +41,14 @@ export const SearchResultList = ({
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
-          error ? (
-            <ErrorState tryAgain={refetch} error={error} />
-          ) : debouncedQuery && !isLoading ? (
-            <SearchEmptyState />
+          error || (!isLoading && debouncedQuery) ? (
+            <View className="mt-32">
+              {error ? (
+                <ErrorState tryAgain={refetch} error={error} />
+              ) : (
+                <SearchEmptyState />
+              )}
+            </View>
           ) : isLoading ? (
             <SearchResultSkeleton />
           ) : null
