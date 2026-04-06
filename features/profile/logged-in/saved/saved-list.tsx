@@ -27,7 +27,7 @@ export const SavedList = ({ scrollHandler }: Props) => {
         },
       });
     },
-    [router, posterData.size],
+    [router],
   );
 
   return (

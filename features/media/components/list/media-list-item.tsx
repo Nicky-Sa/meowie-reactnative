@@ -10,7 +10,7 @@ import { MovieDetails } from "@/features/media/movie/movie-details";
 import { SeriesDetails } from "@/features/media/series/series-details";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { currentRoleInMediaAtom } from "@/atoms";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 
 type Props = {
   item: MediaListItemData;
@@ -24,7 +24,7 @@ export const MediaListItem = memo(
     const contentStyle = useMainScreenContentStyle();
     const { height } = contentStyle;
     const { id, mediaType, roleInMedia } = item;
-    const [, setCurrentRoleInMedia] = useAtom(currentRoleInMediaAtom);
+    const setCurrentRoleInMedia = useSetAtom(currentRoleInMediaAtom);
 
     useEffect(() => {
       if (inScreen && roleInMedia) {

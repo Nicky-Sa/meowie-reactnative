@@ -35,7 +35,7 @@ export const Screen = () => {
         },
       });
     },
-    [router, searchParams, title, mediaType, posterData.size],
+    [router, searchParams, title, mediaType],
   );
 
   return (

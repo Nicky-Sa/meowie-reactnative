@@ -6,7 +6,7 @@ import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
 import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
-import { ReactElement, useCallback } from "react";
+import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, ViewStyle } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
@@ -25,73 +25,77 @@ type Props = {
   contentContainerStyle?: StyleProp<ViewStyle>;
 };
 
-export const PostersList = ({
-  numColumns,
-  onPosterPress,
-  posterData,
-  scrollHandler,
-  ListHeaderComponent,
-  ListEmptyComponent,
-  contentContainerStyle,
-}: Props) => {
-  const { posterWidth } = usePosterWidth({ numColumns });
+export const PostersList = memo(
+  ({
+    numColumns,
+    onPosterPress,
+    posterData,
+    scrollHandler,
+    ListHeaderComponent,
+    ListEmptyComponent,
+    contentContainerStyle,
+  }: Props) => {
+    const { posterWidth } = usePosterWidth({ numColumns });
 
-  const {
-    data,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    error,
-    refetch,
-  } = posterData;
+    const {
+      data,
+      isLoading,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+      error,
+      refetch,
+    } = posterData;
 
-  const { onEndReached } = useFetchMore({
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-  });
+    const { onEndReached } = useFetchMore({
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+      isLoading,
+    });
 
-  const isInitialLoad = isLoading && (!data || data.length === 0);
+    const isInitialLoad = isLoading && (!data || data.length === 0);
 
-  const renderItem = useCallback(
-    ({ item, index }: { item: PosterInfo; index: number }) => (
-      <Poster
-        data={item}
-        width={posterWidth}
-        onPress={() => onPosterPress(index)}
+    const renderItem = useCallback(
+      ({ item, index }: { item: PosterInfo; index: number }) => (
+        <Poster
+          data={item}
+          width={posterWidth}
+          onPress={() => onPosterPress(index)}
+        />
+      ),
+      [onPosterPress, posterWidth],
+    );
+
+    return (
+      <AnimatedFlashList
+        data={data}
+        keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
+        renderItem={renderItem}
+        numColumns={numColumns}
+        onScroll={scrollHandler}
+        onEndReachedThreshold={0.5}
+        onEndReached={onEndReached}
+        showsVerticalScrollIndicator={false}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName={"grow"}
+        contentContainerStyle={contentContainerStyle}
+        ListEmptyComponent={
+          error ? (
+            <ErrorState tryAgain={refetch} error={error} />
+          ) : isInitialLoad ? (
+            <PostersSkeletons width={posterWidth} number={numColumns * 4} />
+          ) : (
+            ListEmptyComponent
+          )
+        }
+        ListHeaderComponent={ListHeaderComponent}
+        ListFooterComponent={
+          isFetchingNextPage && !isInitialLoad ? <Loading /> : null
+        }
       />
-    ),
-    [onPosterPress, posterWidth],
-  );
+    );
+  },
+);
 
-  return (
-    <AnimatedFlashList
-      data={data}
-      keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
-      renderItem={renderItem}
-      numColumns={numColumns}
-      onScroll={scrollHandler}
-      onEndReachedThreshold={0.5}
-      onEndReached={onEndReached}
-      showsVerticalScrollIndicator={false}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerClassName={"grow"}
-      contentContainerStyle={contentContainerStyle}
-      ListEmptyComponent={
-        error ? (
-          <ErrorState tryAgain={refetch} error={error} />
-        ) : isInitialLoad ? (
-          <PostersSkeletons width={posterWidth} number={numColumns * 4} />
-        ) : (
-          ListEmptyComponent
-        )
-      }
-      ListHeaderComponent={ListHeaderComponent}
-      ListFooterComponent={
-        isFetchingNextPage && !isInitialLoad ? <Loading /> : null
-      }
-    />
-  );
-};
+PostersList.displayName = "PostersList";

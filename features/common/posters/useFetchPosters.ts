@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { searchParamsToQuery } from "@/lib/functions";
 import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
@@ -28,22 +29,26 @@ export const useFetchPosters = (
     (pageParam: number) => `${url}?page=${pageParam + 1}&${query}`,
   );
 
-  const rawData = Array.isArray(response)
-    ? response.map((page) => page.data.results)
-    : [];
+  const data = useMemo(() => {
+    const rawData = Array.isArray(response)
+      ? response.map((page) => page.data.results)
+      : [];
 
-  const flattenedData = deduplicate(
-    rawData.flat(),
-    (item) => `${item.mediaType}-${item.id}`,
-  );
+    return deduplicate(
+      rawData.flat(),
+      (item) => `${item.mediaType}-${item.id}`,
+    );
+  }, [response]);
 
-  const totalPages = Array.isArray(response)
-    ? response[0]?.data.total_pages
-    : 0;
+  const dataLength = data.length;
+
+  const totalPages = useMemo(() => {
+    return Array.isArray(response) ? response[0]?.data.total_pages : 0;
+  }, [response]);
 
   return {
-    data: flattenedData,
-    dataLength: flattenedData.length,
+    data,
+    dataLength,
     totalPages,
     size,
     fetchNextPage,

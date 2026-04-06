@@ -12,11 +12,11 @@ export const useScrollHandler = () => {
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
-      const { contentOffset, layoutMeasurement } = event;
-      const heightFromTop = contentOffset.y;
-      scrollY.value = heightFromTop;
-
-      const progress = heightFromTop / layoutMeasurement.height;
+      scrollY.value = event.contentOffset.y;
+    },
+    onMomentumEnd: (event) => {
+      const heightFromTop = event.contentOffset.y;
+      const progress = heightFromTop / event.layoutMeasurement.height;
       const newCurrentIndex = Math.round(progress);
 
       // Only update if the index has changed, not on every scroll event

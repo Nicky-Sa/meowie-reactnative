@@ -1,7 +1,7 @@
 import { MediaList } from "@/features/media/components/list/media-list";
 import { Header } from "@/features/media/components/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useMemo } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { MediaListItemData } from "@/features/media/components/list/types";
@@ -34,12 +34,16 @@ export const MediaListScreen = ({
     refetch,
   } = posterData;
 
-  const data: MediaListItemData[] =
-    rawPosterData?.map((item) => ({
-      id: item.id,
-      mediaType: item.mediaType,
-      roleInMedia: item.role,
-    })) || [];
+  const data: MediaListItemData[] = useMemo(() => {
+    return (
+      rawPosterData?.map((item) => ({
+        id: item.id,
+        mediaType: item.mediaType,
+        roleInMedia: item.role,
+      })) || []
+    );
+  }, [rawPosterData]);
+
   const { scrollHandler, scrollY, currentIndex } = useScrollHandler();
 
   return (

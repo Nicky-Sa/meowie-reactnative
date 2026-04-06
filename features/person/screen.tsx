@@ -36,7 +36,7 @@ export const Screen = () => {
         },
       });
     },
-    [router, personData?.name, personId, posterData.size],
+    [router, personData?.name, personId],
   );
 
   return (

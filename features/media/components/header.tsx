@@ -4,14 +4,14 @@ import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
 type Props = {
   title: string;
   subtitle?: string;
   rightTopComponent?: ReactNode;
 };
-export const Header = ({ title, subtitle, rightTopComponent }: Props) => {
+export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
   const router = useRouter();
   const handleBack = () => {
     router.back();
@@ -52,4 +52,6 @@ export const Header = ({ title, subtitle, rightTopComponent }: Props) => {
       {rightTopComponent}
     </View>
   );
-};
+});
+
+Header.displayName = "Header";
