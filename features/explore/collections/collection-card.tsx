@@ -3,6 +3,7 @@ import { Pressable, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { CollectionResDto } from "./collection.dto";
 import { useRouter } from "expo-router";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 type Props = {
   collection: CollectionResDto;
@@ -10,8 +11,14 @@ type Props = {
 
 export const CollectionCard = memo(({ collection }: Props) => {
   const router = useRouter();
+  const { capture } = useCaptureEvent();
 
   const onPress = () => {
+    capture("collection_clicked", {
+      id: collection.id,
+      title: collection.title,
+      sourceType: collection.sourceType,
+    });
     if (collection.sourceType === "group") {
       router.push({
         pathname: "/discover/sub-collections",

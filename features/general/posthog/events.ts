@@ -4,6 +4,7 @@ import {
   SeriesFilters,
 } from "@/features/common/data/media-query";
 import { MediaType } from "lightningcss";
+import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 
 export type SORT_OPENED = {
   event: "sort_opened";
@@ -132,6 +133,15 @@ export type AUTH_SKIPPED = {
   properties: undefined;
 };
 
+export type COLLECTION_CLICKED = {
+  event: "collection_clicked";
+  properties: {
+    id: number;
+    title: string;
+    sourceType: CollectionSourceType;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -149,7 +159,8 @@ export type Events =
   | PROFILE_TAB_CHANGED
   | AUTOPLAY_TOGGLED
   | CACHE_CLEARED
-  | AUTH_SKIPPED;
+  | AUTH_SKIPPED
+  | COLLECTION_CLICKED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
