@@ -6,16 +6,17 @@ import { SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
 
-type URL =
+export type URL =
   | `/person/${string}/posters`
   | `/${MediaType}/posters`
-  | "/library/saved";
+  | "/library/saved"
+  | `/collections/${string}/items`;
 
 export const useFetchPosters = (
   url: URL,
-  queryParams?: Partial<SearchParams>,
+  searchParams?: Partial<SearchParams>,
 ) => {
-  const query = searchParamsToQuery(queryParams);
+  const query = searchParamsToQuery(searchParams);
 
   const {
     data: response,

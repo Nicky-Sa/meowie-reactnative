@@ -5,6 +5,11 @@ import {
 import { Brief } from "@/features/common/brief";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
+import { capitalize } from "@/lib/functions";
+import {
+  MEDIA_TYPES_PLURALS,
+  MediaType,
+} from "@/features/common/data/models/media-type";
 
 type Props = {
   item: SearchResultMovieGenre | SearchResultSeriesGenre;
@@ -21,13 +26,15 @@ const emojiToImage = (emoji: string) => {
 export const GenreCard = ({ item }: Props) => {
   const imageUrl = emojiToImage(item.emoji);
   const router = useRouter();
+  const mediaType = item.mediaType.split("-")[0] as MediaType;
+
   const onPress = () => {
     router.push({
       pathname: "/discover/posters",
       params: {
-        title: `${item.name} ${item.mediaType === "movie-genre" ? "Movies" : "Series"}`,
+        title: `${item.name} ${capitalize(MEDIA_TYPES_PLURALS[mediaType])}`,
+        endpoint: `${mediaType}/posters`,
         genres: [item.id],
-        mediaType: item.mediaType === "movie-genre" ? "movie" : "series",
       },
     });
   };
@@ -36,9 +43,7 @@ export const GenreCard = ({ item }: Props) => {
       <Brief
         imageUrl={imageUrl}
         firstLine={item.name}
-        secondLine={
-          item.mediaType === "movie-genre" ? "Movie genre" : "Series genre"
-        }
+        secondLine={`${capitalize(mediaType)} genre`}
         size="md"
         borderRadius={0}
       />

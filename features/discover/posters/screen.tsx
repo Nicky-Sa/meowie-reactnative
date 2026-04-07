@@ -3,24 +3,26 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
-import { MediaType } from "@/features/common/data/models/media-type";
+import {
+  URL,
+  useFetchPosters,
+} from "@/features/common/posters/useFetchPosters";
 import { FilterIndicator } from "@/features/filters/filter-indicator";
 import { FilterEmptyState } from "@/features/filters/empty-state";
 
 const NUM_COLUMNS = 3;
 
-export const Screen = () => {
-  const { title, mediaType, modifiedFieldsNumber, ...searchParams } =
-    useLocalSearchParams<
-      {
-        title: string;
-        mediaType: MediaType;
-        modifiedFieldsNumber: string;
-      } & Partial<SearchParams>
-    >();
+type Params = {
+  title: string;
+  endpoint: URL;
+  modifiedFieldsNumber: string;
+} & Partial<SearchParams>;
 
-  const posterData = useFetchPosters(`/${mediaType}/posters`, searchParams);
+export const Screen = () => {
+  const { title, endpoint, modifiedFieldsNumber, ...searchParams } =
+    useLocalSearchParams<Params>();
+
+  const posterData = useFetchPosters(endpoint, searchParams);
 
   const router = useRouter();
   const onPosterPress = useCallback(
@@ -28,14 +30,14 @@ export const Screen = () => {
       router.push({
         pathname: "/discover/media-list",
         params: {
-          initialIndex: index,
           title,
-          mediaType,
+          endpoint,
+          initialIndex: index,
           ...searchParams,
         },
       });
     },
-    [router, searchParams, title, mediaType],
+    [endpoint, router, searchParams, title],
   );
 
   return (

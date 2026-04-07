@@ -202,6 +202,13 @@ function RootLayout() {
                                 }}
                               />
 
+                              <Stack.Screen
+                                name="discover/sub-collections"
+                                options={{
+                                  animation: "slide_from_right",
+                                }}
+                              />
+
                               <Stack.Screen name="+not-found" />
                             </Stack>
                             <PortalHost name="global-overlay" />

@@ -4,7 +4,11 @@ import { useRouter } from "expo-router";
 import { type Genre } from "@/features/general/data/constants/useGenres";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
-import { MediaType } from "@/features/common/data/models/media-type";
+import {
+  MEDIA_TYPES_PLURALS,
+  MediaType,
+} from "@/features/common/data/models/media-type";
+import { capitalize } from "@/lib/functions";
 
 type Props = {
   genres: Genre[];
@@ -44,9 +48,9 @@ const GenreItem = ({
     router.push({
       pathname: "/discover/posters",
       params: {
-        title: `${item.name} ${mediaType === "movie" ? "Movies" : "Series"}`,
+        title: `${item.name} ${capitalize(MEDIA_TYPES_PLURALS[mediaType])}`,
+        endpoint: `${mediaType}/posters`,
         genres: [item.id],
-        mediaType,
       },
     });
   };

@@ -14,6 +14,7 @@ import {
 } from "@/features/common/data/media-query";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { CollectionsList } from "@/features/explore/collections/collections-list";
 
 export const Screen = () => {
   const router = useRouter();
@@ -38,23 +39,29 @@ export const Screen = () => {
   return (
     <MainScreen>
       <SafeAreaView
-        className={"flex flex-1 flex-col justify-between px-4 pt-2"}
+        className={"flex-1 px-4 pt-2"}
         edges={["top", "left", "right"]}
       >
-        <View
-          className={"flex w-full flex-row items-center justify-between gap-2"}
-        >
-          <View className={"flex-grow"}>
-            <SearchTrigger />
-          </View>
-          <Button
-            onPress={onFilterPress}
-            variant={"ghost"}
-            size={"md"}
-            iconOnly
+        <View className={"flex flex-col gap-4"}>
+          <View
+            className={
+              "flex w-full flex-row items-center justify-between gap-2"
+            }
           >
-            <Icon i={Filter} />
-          </Button>
+            <View className={"flex-grow"}>
+              <SearchTrigger />
+            </View>
+            <Button
+              onPress={onFilterPress}
+              variant={"ghost"}
+              size={"md"}
+              iconOnly
+            >
+              <Icon i={Filter} />
+            </Button>
+          </View>
+
+          <CollectionsList />
         </View>
       </SafeAreaView>
     </MainScreen>

@@ -58,10 +58,10 @@ export const Screen = () => {
     router.push({
       pathname: "/discover/posters",
       params: {
+        title: `Filtered ${mediaType === "movie" ? "Movies" : "Series"}`,
+        endpoint: `${mediaType}/posters`,
         ...filters,
         modifiedFieldsNumber,
-        mediaType,
-        title: `Filtered ${mediaType === "movie" ? "Movies" : "Series"}`,
       },
     });
   };
