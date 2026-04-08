@@ -83,6 +83,17 @@ jobs:
           rm -rf .sentryclirc
           echo -e "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
 
+      # --- Caching ---
+      - name: Cache CocoaPods Global
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cocoapods
+            ~/Library/Caches/CocoaPods
+          # Hash package-lock.json because the JS deps dictate the Native deps
+          key: ${{ runner.os }}-pods-global-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-global-
 
       # --- Build ---
       - name: EAS Build
@@ -105,7 +116,7 @@ jobs:
 
   # --- JOB 2: RELEASE ---
   release:
-    needs: [ prepare, build-and-upload ]
+    needs: [prepare, build-and-upload]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

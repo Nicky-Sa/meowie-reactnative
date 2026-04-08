@@ -121,10 +121,6 @@ const config: ExpoConfig = {
     [
       "expo-build-properties",
       {
-        ios: {
-          useFrameworks: "static",
-          forceStaticLinking: ["RNFBApp", "RNFBAuth"],
-        },
         android: {
           usesCleartextTraffic: true,
         },
