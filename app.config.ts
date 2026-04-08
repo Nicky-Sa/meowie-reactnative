@@ -121,6 +121,9 @@ const config: ExpoConfig = {
     [
       "expo-build-properties",
       {
+        ios: {
+          useFrameworks: "static",
+        },
         android: {
           usesCleartextTraffic: true,
         },
