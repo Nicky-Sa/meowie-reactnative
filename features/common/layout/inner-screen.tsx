@@ -81,41 +81,34 @@ export const InnerScreen = ({
   );
 
   return (
-    <View className={"flex-1"}>
-      <SafeAreaView edges={edges}>
+    <SafeAreaView className={"flex-1"} edges={edges}>
+      <View
+        className={cn("flex flex-1 flex-col justify-between gap-2", {
+          "px-4": !fullWidth,
+        })}
+      >
         <View
-          className={cn("flex h-full flex-col justify-between gap-2", {
-            "px-4": !fullWidth,
-          })}
+          className={cn(
+            "flex w-full flex-row items-center justify-between",
+            fullWidth ? "mx-2" : "-mx-2", // the fullWidth prop should have no effect on the back button
+          )}
         >
-          <View
-            className={cn(
-              "flex w-full flex-row items-center justify-between",
-              fullWidth ? "mx-2" : "-mx-2", // the fullWidth prop should have no effect on the back button
-            )}
-          >
-            <View className={"flex flex-row items-center justify-start"}>
-              <Button
-                onPress={handleBack}
-                variant={"ghost"}
-                size={"md"}
-                iconOnly
-              >
-                <Icon i={NavArrowLeft} />
-              </Button>
-              <Animated.Text
-                style={[titleAnimatedStyle]}
-                className={"title-t2-strong text-neutral-10-default"}
-              >
-                {title}
-              </Animated.Text>
-            </View>
-            {rightTopComponent}
+          <View className={"flex flex-row items-center justify-start"}>
+            <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
+              <Icon i={NavArrowLeft} />
+            </Button>
+            <Animated.Text
+              style={[titleAnimatedStyle]}
+              className={"title-t2-strong text-neutral-10-default"}
+            >
+              {title}
+            </Animated.Text>
           </View>
-
-          {children}
+          {rightTopComponent}
         </View>
-      </SafeAreaView>
-    </View>
+
+        {children}
+      </View>
+    </SafeAreaView>
   );
 };

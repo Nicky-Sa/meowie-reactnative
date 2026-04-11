@@ -29,7 +29,7 @@ export const CollectionsList = memo(({ parentId }: Props) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerClassName={"flex flex-col gap-4"}
+      contentContainerClassName={"flex flex-col gap-4 pb-20"}
     >
       {collectionsData.map((item) => (
         <CollectionCard key={item.id} collection={item} />

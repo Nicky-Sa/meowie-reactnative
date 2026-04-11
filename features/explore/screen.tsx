@@ -42,7 +42,7 @@ export const Screen = () => {
         className={"flex-1 px-4 pt-2"}
         edges={["top", "left", "right"]}
       >
-        <View className={"flex flex-col gap-4"}>
+        <View className={"flex flex-1 flex-col gap-4"}>
           <View
             className={
               "flex w-full flex-row items-center justify-between gap-2"
