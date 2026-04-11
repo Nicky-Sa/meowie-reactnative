@@ -18,7 +18,6 @@ export const env = createEnv({
         "EXPO_PUBLIC_APP_VARIANT is required",
       )
       .default("development"),
-    EXPO_PUBLIC_SENTRY_RELEASE: z.string().optional(),
   },
 
   /*
@@ -34,7 +33,6 @@ export const env = createEnv({
   runtimeEnv: {
     EXPO_PUBLIC_APP_VARIANT: process.env.EXPO_PUBLIC_APP_VARIANT,
     EXPO_PUBLIC_BACKEND_URL: process.env.EXPO_PUBLIC_BACKEND_URL,
-    EXPO_PUBLIC_SENTRY_RELEASE: process.env.EXPO_PUBLIC_SENTRY_RELEASE,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

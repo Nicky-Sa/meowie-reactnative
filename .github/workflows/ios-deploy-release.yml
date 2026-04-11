@@ -77,11 +77,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- Sentry ---
-      - name: Making Sentry token available
-        run: |
-          rm -rf .sentryclirc
-          echo -e "[auth]\ntoken=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .sentryclirc
 
       # --- Caching ---
       - name: Cache CocoaPods Global
@@ -100,7 +95,6 @@ jobs:
         env:
           BUILD_NUMBER: ${{ github.run_number }}
           APP_VERSION: ${{ env.APP_VERSION }}
-          EXPO_PUBLIC_SENTRY_RELEASE: meowie-reactnative@${{ needs.prepare.outputs.new_tag }}
         run: |
           rm -rf .env.local
           npm run eas-build:testflight-${APP_VARIANT}
@@ -116,7 +110,7 @@ jobs:
 
   # --- JOB 2: RELEASE ---
   release:
-    needs: [prepare, build-and-upload]
+    needs: [ prepare, build-and-upload ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

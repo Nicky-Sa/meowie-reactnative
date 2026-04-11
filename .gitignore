@@ -42,6 +42,5 @@ app-example
 /figma/output.ts
 
 local-builds/
-/.sentryclirc
 
 /orval/generated

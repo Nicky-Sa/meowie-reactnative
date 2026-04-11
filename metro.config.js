@@ -1,11 +1,10 @@
 const path = require("path");
 const { withNativeWind } = require("nativewind/metro");
-const { getSentryExpoConfig } = require("@sentry/react-native/metro");
+const { getDefaultConfig } = require("expo/metro-config");
 
-// 📦 Get base Sentry config (with Expo + Debug ID support)
-const config = getSentryExpoConfig(__dirname, {
-  isCSSEnabled: true,
-});
+// 📦 Get base config
+const config = getDefaultConfig(__dirname);
+
 // 🪽Support cjs files
 config.resolver.sourceExts.push("cjs");
 

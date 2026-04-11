@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@react-navigation/native";
-import { Stack, useNavigationContainerRef } from "expo-router";
+import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -7,15 +7,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider } from "posthog-react-native";
-import { isRunningInExpoGo } from "expo";
-import * as Sentry from "@sentry/react-native";
-import { useEffect } from "react";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/useThemeConfig";
-import { env } from "@/lib/env";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
 import { posthogStorage } from "@/features/general/posthog/storage";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";
@@ -23,48 +19,8 @@ import { TourGuideProvider } from "rn-tourguide";
 import { TourTooltip } from "@/features/common/ui/tour/tooltip";
 import { View } from "react-native";
 
-const navigationIntegration = Sentry.reactNavigationIntegration({
-  enableTimeToInitialDisplay: !isRunningInExpoGo(),
-});
-
-Sentry.init({
-  dsn: "https://a18ee70ea5c101f42678d08d5ec187f2@o4509265002037248.ingest.de.sentry.io/4509265005576272",
-  environment: env.EXPO_PUBLIC_APP_VARIANT,
-  release: env.EXPO_PUBLIC_SENTRY_RELEASE,
-  enableNativeFramesTracking: !isRunningInExpoGo(),
-
-  sendDefaultPii: false,
-  replaysSessionSampleRate: 0,
-  replaysOnErrorSampleRate: 1.0,
-
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-  tracesSampleRate: env.EXPO_PUBLIC_APP_VARIANT === "development" ? 1.0 : 0.2,
-  tracePropagationTargets: [/.*?/],
-  // profilesSampleRate is relative to tracesSampleRate.
-  profilesSampleRate: 0.1,
-
-  integrations: [
-    navigationIntegration,
-    Sentry.mobileReplayIntegration({
-      maskAllText: true,
-      maskAllImages: true, // Also masking here for performance if an error occurs
-      maskAllVectors: true,
-    }),
-    Sentry.reactNativeTracingIntegration(),
-  ],
-
-  spotlight: __DEV__,
-});
-
 function RootLayout() {
   const themeConfig = useThemeConfig();
-
-  const ref = useNavigationContainerRef();
-  useEffect(() => {
-    if (ref?.current) {
-      navigationIntegration.registerNavigationContainer(ref);
-    }
-  }, [ref]);
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
@@ -227,4 +183,4 @@ function RootLayout() {
   );
 }
 
-export default Sentry.wrap(RootLayout);
+export default RootLayout;

@@ -1,5 +1,4 @@
 import { ExpoConfig } from "expo/config";
-import { withSentry } from "@sentry/react-native/expo";
 
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
 
@@ -137,7 +136,6 @@ const config: ExpoConfig = {
       },
     ],
     "@config-plugins/detox",
-    "@sentry/react-native",
   ],
   experiments: {
     typedRoutes: true,
@@ -159,8 +157,4 @@ const config: ExpoConfig = {
   },
 };
 
-export default withSentry(config, {
-  url: process.env.SENTRY_URL,
-  project: process.env.SENTRY_PROJECT,
-  organization: process.env.SENTRY_ORG,
-});
+export default config;
