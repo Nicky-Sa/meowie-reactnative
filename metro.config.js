@@ -1,22 +1,19 @@
 const path = require("path");
+
 const { withNativeWind } = require("nativewind/metro");
 const { getPostHogExpoConfig } = require("posthog-react-native/metro");
 
-// 📦 Get base config
-const config = getPostHogExpoConfig(__dirname);
+// 📂 Project root for Metro config
+const projectRoot = __dirname;
 
-// 🪽Support cjs files
+// 📦 Get base config
+const config = getPostHogExpoConfig(projectRoot);
+
+// 🪽 Support cjs files
 config.resolver.sourceExts.push("cjs");
 
-// 📂 Monorepo support
-const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, "../..");
-config.watchFolders = [workspaceRoot];
-// config.resolver.disableHierarchicalLookup = true;
-config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, "node_modules"),
-  path.resolve(workspaceRoot, "node_modules"),
-];
+config.watchFolders = [projectRoot];
+config.resolver.nodeModulesPaths = [path.resolve(projectRoot, "node_modules")];
 
 // 🖼️ SVG support (use transformer, remove from assetExts, add to sourceExts)
 config.transformer = {
@@ -34,7 +31,7 @@ config.resolver.sourceExts = [
 // 🪄 Add aliases (e.g., "@" -> project root)
 config.resolver.alias = {
   ...config.resolver.alias,
-  "@": __dirname,
+  "@": projectRoot,
 };
 
 // 🌱 Log envs (for verification/debugging)
