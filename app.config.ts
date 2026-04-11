@@ -135,6 +135,7 @@ const config: ExpoConfig = {
         supportsPictureInPicture: true,
       },
     ],
+    "posthog-react-native/expo",
     "@config-plugins/detox",
   ],
   experiments: {

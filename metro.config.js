@@ -1,9 +1,9 @@
 const path = require("path");
 const { withNativeWind } = require("nativewind/metro");
-const { getDefaultConfig } = require("expo/metro-config");
+const { getPostHogExpoConfig } = require("posthog-react-native/metro");
 
 // 📦 Get base config
-const config = getDefaultConfig(__dirname);
+const config = getPostHogExpoConfig(__dirname);
 
 // 🪽Support cjs files
 config.resolver.sourceExts.push("cjs");

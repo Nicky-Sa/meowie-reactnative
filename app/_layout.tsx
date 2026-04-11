@@ -31,6 +31,13 @@ function RootLayout() {
           customStorage: posthogStorage,
           captureAppLifecycleEvents: true,
           enableSessionReplay: true,
+          errorTracking: {
+            autocapture: {
+              uncaughtExceptions: true,
+              unhandledRejections: true,
+              console: ["error", "warn"],
+            },
+          },
           sessionReplayConfig: {
             sampleRate: 0.1,
             maskAllTextInputs: true,
