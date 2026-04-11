@@ -1,40 +1,35 @@
 import { useFetchCollections } from "./useFetchCollections";
 import { CollectionCard } from "./collection-card";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { CollectionListSkeleton } from "@/features/explore/collections/collection-list-skeleton";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlashList } from "@shopify/flash-list";
+import { View } from "react-native";
+import { CollectionResDto } from "@/features/explore/collections/collection.dto";
 
 type Props = {
   parentId?: number;
 };
 
 export const CollectionsList = memo(({ parentId }: Props) => {
-  const { data, isLoading, isError } = useFetchCollections(parentId);
+  const { data, isLoading } = useFetchCollections(parentId);
 
-  const collectionsData = data?.data;
-
-  if (isLoading) {
-    return <CollectionListSkeleton />;
-  }
-
-  // no error state for now
-  if (isError || !collectionsData) {
-    return;
-  }
-
-  if (collectionsData.length === 0) {
-    return;
-  }
+  const renderItem = useCallback(({ item }: { item: CollectionResDto }) => {
+    return <CollectionCard collection={item} />;
+  }, []);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerClassName={"flex flex-col gap-4 pb-20"}
-    >
-      {collectionsData.map((item) => (
-        <CollectionCard key={item.id} collection={item} />
-      ))}
-    </ScrollView>
+    <View className={"flex flex-1"}>
+      <FlashList
+        data={data}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={renderItem}
+        contentContainerClassName={"grow"}
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View className="h-4" />}
+        ListEmptyComponent={isLoading ? <CollectionListSkeleton /> : null}
+      />
+    </View>
   );
 });
 
