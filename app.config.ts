@@ -100,6 +100,17 @@ const config: ExpoConfig = {
     favicon: "./assets/images/logo/logo-large.png",
   },
   plugins: [
+    [
+      "expo-build-properties",
+      {
+        ios: {
+          useFrameworks: "static",
+        },
+        android: {
+          usesCleartextTraffic: true,
+        },
+      },
+    ],
     "expo-router",
     "expo-localization",
     "expo-secure-store",
@@ -116,17 +127,6 @@ const config: ExpoConfig = {
         imageWidth: 150,
         resizeMode: "contain",
         backgroundColor: "#0A0A0A",
-      },
-    ],
-    [
-      "expo-build-properties",
-      {
-        ios: {
-          useFrameworks: "static",
-        },
-        android: {
-          usesCleartextTraffic: true,
-        },
       },
     ],
     [
