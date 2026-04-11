@@ -8,8 +8,8 @@ export const SeenList = ({ scrollHandler }: Props) => {
   return (
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
       <EmptySeen />
-      <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
-        ${`Tracking what you've seen is coming soon...`}
+      <Text className={"body-b1 w-2/3 text-center text-neutral-5-default"}>
+        Tracking what you&#39;ve seen is coming soon...
       </Text>
     </View>
   );
