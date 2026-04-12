@@ -95,6 +95,7 @@ jobs:
         env:
           BUILD_NUMBER: ${{ github.run_number }}
           APP_VERSION: ${{ env.APP_VERSION }}
+          EAS_LOCAL_BUILD_WORKINGDIR: ${{ runner.temp }}/eas-build
         run: |
           rm -rf .env.local
           npm run eas-build:testflight-${APP_VARIANT}

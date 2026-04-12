@@ -81,7 +81,7 @@
     "nativewind": "^4.2.3",
     "patch-package": "^8.0.1",
     "posthog-react-native": "^4.41.1",
-    "posthog-react-native-session-replay": "^1.5.1",
+    "posthog-react-native-session-replay": "^1.5.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.71.2",

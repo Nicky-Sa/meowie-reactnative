@@ -1,19 +1,12 @@
 const path = require("path");
-
 const { withNativeWind } = require("nativewind/metro");
 const { getPostHogExpoConfig } = require("posthog-react-native/metro");
 
-// 📂 Project root for Metro config
-const projectRoot = __dirname;
-
 // 📦 Get base config
-const config = getPostHogExpoConfig(projectRoot);
+const config = getPostHogExpoConfig(__dirname);
 
 // 🪽 Support cjs files
 config.resolver.sourceExts.push("cjs");
-
-config.watchFolders = [projectRoot];
-config.resolver.nodeModulesPaths = [path.resolve(projectRoot, "node_modules")];
 
 // 🖼️ SVG support (use transformer, remove from assetExts, add to sourceExts)
 config.transformer = {
@@ -31,7 +24,7 @@ config.resolver.sourceExts = [
 // 🪄 Add aliases (e.g., "@" -> project root)
 config.resolver.alias = {
   ...config.resolver.alias,
-  "@": projectRoot,
+  "@": __dirname,
 };
 
 // 🌱 Log envs (for verification/debugging)
@@ -45,7 +38,7 @@ console.log(
 // 🌈 Combine with NativeWind
 module.exports = withNativeWind(config, {
   input: "./styles/global.css",
-  projectRoot,
+  projectRoot: __dirname,
   inlineRem: false,
   features: {
     transformPercentagePolyfill: true,
