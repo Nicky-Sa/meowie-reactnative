@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/features/common/ui/button";
-import { useRouter } from "expo-router";
 import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/verify-otp/resend-code";
+import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -35,12 +35,12 @@ export const OtpForm = ({ email }: Props) => {
     useVerifyOtp();
   const { trigger: triggerRequestOtp, isMutating: isMutatingRequestOtp } =
     useRequestOtp();
-  const router = useRouter();
+  const { dismissScreen } = useDismissScreen();
 
   const onSubmit = handleSubmit(async (data: OtpFormData) => {
     try {
       await triggerVerifyOtp({ ...data, email });
-      router.replace("/home");
+      dismissScreen();
     } catch (error) {
       setError("otp", { message: (error as Error).message });
     }
