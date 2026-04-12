@@ -18,6 +18,8 @@ import { EventListenerWrapper } from "@/features/common/event-emitting/event-lis
 import { TourGuideProvider } from "rn-tourguide";
 import { TourTooltip } from "@/features/common/ui/tour/tooltip";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "@/features/common/ui/toast";
 
 function RootLayout() {
   const themeConfig = useThemeConfig();
@@ -174,6 +176,12 @@ function RootLayout() {
 
                               <Stack.Screen name="+not-found" />
                             </Stack>
+                            <Toast
+                              config={toastConfig}
+                              topOffset={60}
+                              swipeable
+                              visibilityTime={4000}
+                            />
                             <PortalHost name="global-overlay" />
                           </TourGuideProvider>
                         </InternetCheck>
