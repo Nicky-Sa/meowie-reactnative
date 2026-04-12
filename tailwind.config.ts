@@ -5,8 +5,8 @@ const primitives = {
   color: {
     brand: {
       "0": "#000000",
-      "2": "#020208",
-      "4": "#05050E",
+      "2": "#030309",
+      "4": "#05050F",
       "6": "#090918",
       "8": "#121230",
       "10": "#1B1B48",
@@ -26,8 +26,8 @@ const primitives = {
       "92": "#CDCEFA",
       "94": "#DEDEFC",
       "96": "#EEEFFD",
-      "98": "#EEEFF7",
-      "99": "#F3F3F9",
+      "98": "#EFF0F8",
+      "99": "#F3F4F9",
       "100": "#FFFFFF",
     },
     orange: {
@@ -86,7 +86,61 @@ const primitives = {
       "94": "#F5F5F5",
       "96": "#F6F6F6",
       "98": "#F8F8F8",
-      "100": "#F9F9F9",
+      "100": "#FAFAFA",
+      white: {
+        alpha: {
+          white: {
+            alpha: {
+              "5": "#FFFFFF0D",
+              "10": "#FFFFFF1A",
+              "15": "#FFFFFF26",
+              "20": "#FFFFFF33",
+              "25": "#FFFFFF40",
+              "30": "#FFFFFF4D",
+              "35": "#FFFFFF59",
+              "40": "#FFFFFF66",
+              "45": "#FFFFFF73",
+              "50": "#FFFFFF80",
+              "55": "#FFFFFF8C",
+              "60": "#FFFFFF99",
+              "65": "#FFFFFFA6",
+              "70": "#FFFFFFB2",
+              "75": "#FFFFFFBF",
+              "80": "#FFFFFFCC",
+              "85": "#FFFFFFD9",
+              "90": "#FFFFFFE5",
+              "95": "#FFFFFFF2",
+            },
+          },
+        },
+      },
+      black: {
+        alpha: {
+          black: {
+            alpha: {
+              "5": "#0000000D",
+              "10": "#0000001A",
+              "15": "#00000026",
+              "20": "#00000033",
+              "25": "#00000040",
+              "30": "#0000004D",
+              "35": "#00000059",
+              "40": "#00000066",
+              "45": "#00000073",
+              "50": "#00000080",
+              "55": "#0000008C",
+              "60": "#00000099",
+              "65": "#000000A6",
+              "70": "#000000B2",
+              "75": "#000000BF",
+              "80": "#000000CC",
+              "85": "#000000D9",
+              "90": "#000000E5",
+              "95": "#000000F2",
+            },
+          },
+        },
+      },
     },
     red: {
       "0": "#000000",
@@ -236,6 +290,9 @@ const primitives = {
     circular: "9999",
   },
   typography: {
+    fontfamily: {
+      font: "Lato",
+    },
     size: {
       "2xs": "10",
       xs: "12",
@@ -255,7 +312,6 @@ const primitives = {
     weight: {
       regular: "400",
       medium: "500",
-      semibold: "600",
       bold: "700",
       black: "900",
     },
@@ -276,7 +332,10 @@ export default {
             hover: primitives["color"]["yellow"]["45"],
             press: primitives["color"]["yellow"]["40"],
             select: primitives["color"]["yellow"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         neutral: {
@@ -285,105 +344,150 @@ export default {
             hover: primitives["color"]["neutral"]["96"],
             press: primitives["color"]["neutral"]["90"],
             select: primitives["color"]["neutral"]["85"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "2": {
             default: primitives["color"]["neutral"]["98"],
             hover: primitives["color"]["neutral"]["94"],
             press: primitives["color"]["neutral"]["90"],
             select: primitives["color"]["neutral"]["85"],
-            disable: primitives["color"]["neutral"]["96"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "3": {
             default: primitives["color"]["neutral"]["96"],
             hover: primitives["color"]["neutral"]["92"],
             press: primitives["color"]["neutral"]["85"],
             select: primitives["color"]["neutral"]["80"],
-            disable: primitives["color"]["neutral"]["90"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "4": {
             default: primitives["color"]["neutral"]["90"],
             hover: primitives["color"]["neutral"]["85"],
             press: primitives["color"]["neutral"]["80"],
             select: primitives["color"]["neutral"]["75"],
-            disable: primitives["color"]["neutral"]["92"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "5": {
             default: primitives["color"]["neutral"]["80"],
             hover: primitives["color"]["neutral"]["75"],
             press: primitives["color"]["neutral"]["70"],
             select: primitives["color"]["neutral"]["65"],
-            disable: primitives["color"]["neutral"]["90"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "6": {
             default: primitives["color"]["neutral"]["70"],
             hover: primitives["color"]["neutral"]["65"],
             press: primitives["color"]["neutral"]["60"],
             select: primitives["color"]["neutral"]["55"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "7": {
             default: primitives["color"]["neutral"]["60"],
             hover: primitives["color"]["neutral"]["45"],
             press: primitives["color"]["neutral"]["35"],
             select: primitives["color"]["neutral"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "8": {
             default: primitives["color"]["neutral"]["50"],
             hover: primitives["color"]["neutral"]["40"],
             press: primitives["color"]["neutral"]["30"],
             select: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "9": {
             default: primitives["color"]["neutral"]["30"],
             hover: primitives["color"]["neutral"]["45"],
             press: primitives["color"]["neutral"]["55"],
             select: primitives["color"]["neutral"]["60"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "10": {
             default: primitives["color"]["neutral"]["15"],
             hover: primitives["color"]["neutral"]["30"],
             press: primitives["color"]["neutral"]["40"],
             select: primitives["color"]["neutral"]["50"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "11": {
             default: primitives["color"]["neutral"]["8"],
             hover: primitives["color"]["neutral"]["15"],
             press: primitives["color"]["neutral"]["25"],
             select: primitives["color"]["neutral"]["35"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "12": {
             default: primitives["color"]["neutral"]["6"],
             hover: primitives["color"]["neutral"]["10"],
             press: primitives["color"]["neutral"]["20"],
             select: primitives["color"]["neutral"]["25"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "13": {
             default: primitives["color"]["neutral"]["4"],
             hover: primitives["color"]["neutral"]["8"],
             press: primitives["color"]["neutral"]["20"],
             select: primitives["color"]["neutral"]["25"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "14": {
             default: primitives["color"]["neutral"]["2"],
             hover: primitives["color"]["neutral"]["8"],
             press: primitives["color"]["neutral"]["15"],
             select: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "15": {
             default: primitives["color"]["neutral"]["0"],
             hover: primitives["color"]["neutral"]["6"],
             press: primitives["color"]["neutral"]["10"],
             select: primitives["color"]["neutral"]["15"],
-            disable: primitives["color"]["neutral"]["75"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         brand: {
@@ -392,7 +496,10 @@ export default {
             hover: primitives["color"]["brand"]["40"],
             press: primitives["color"]["brand"]["30"],
             select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         error: {
@@ -401,7 +508,20 @@ export default {
             hover: primitives["color"]["red"]["40"],
             press: primitives["color"]["red"]["30"],
             select: primitives["color"]["red"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
+          },
+          "2": {
+            default: primitives["color"]["red"]["20"],
+            hover: primitives["color"]["red"]["30"],
+            press: primitives["color"]["red"]["40"],
+            select: primitives["color"]["red"]["50"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         success: {
@@ -410,7 +530,20 @@ export default {
             hover: primitives["color"]["green"]["50"],
             press: primitives["color"]["green"]["40"],
             select: primitives["color"]["green"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
+          },
+          "2": {
+            default: primitives["color"]["green"]["20"],
+            hover: primitives["color"]["green"]["30"],
+            press: primitives["color"]["green"]["40"],
+            select: primitives["color"]["green"]["50"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         orange: {
@@ -419,7 +552,10 @@ export default {
             hover: primitives["color"]["orange"]["45"],
             press: primitives["color"]["orange"]["40"],
             select: primitives["color"]["orange"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         info: {
@@ -428,7 +564,10 @@ export default {
             hover: primitives["color"]["brand"]["40"],
             press: primitives["color"]["brand"]["30"],
             select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         purple: {
@@ -437,7 +576,10 @@ export default {
             hover: primitives["color"]["purple"]["45"],
             press: primitives["color"]["purple"]["40"],
             select: primitives["color"]["purple"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
       },
@@ -448,7 +590,10 @@ export default {
             hover: primitives["color"]["yellow"]["45"],
             press: primitives["color"]["yellow"]["40"],
             select: primitives["color"]["yellow"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         brand: {
@@ -457,7 +602,10 @@ export default {
             hover: primitives["color"]["brand"]["40"],
             press: primitives["color"]["brand"]["30"],
             select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         neutral: {
@@ -466,63 +614,90 @@ export default {
             hover: primitives["color"]["neutral"]["10"],
             press: primitives["color"]["neutral"]["15"],
             select: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "2": {
             default: primitives["color"]["neutral"]["10"],
             hover: primitives["color"]["neutral"]["15"],
-            press: primitives["color"]["neutral"]["20"],
+            Press: primitives["color"]["neutral"]["20"],
             select: primitives["color"]["neutral"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "3": {
             default: primitives["color"]["neutral"]["20"],
             hover: primitives["color"]["neutral"]["25"],
             press: primitives["color"]["neutral"]["30"],
             select: primitives["color"]["neutral"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "4": {
             default: primitives["color"]["neutral"]["40"],
             hover: primitives["color"]["neutral"]["50"],
             press: primitives["color"]["neutral"]["60"],
             select: primitives["color"]["neutral"]["55"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "5": {
             default: primitives["color"]["neutral"]["50"],
             hover: primitives["color"]["neutral"]["40"],
             press: primitives["color"]["neutral"]["30"],
             select: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "6": {
             default: primitives["color"]["neutral"]["65"],
             hover: primitives["color"]["neutral"]["50"],
             press: primitives["color"]["neutral"]["40"],
             select: primitives["color"]["neutral"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "8": {
             default: primitives["color"]["neutral"]["80"],
             hover: primitives["color"]["neutral"]["70"],
             press: primitives["color"]["neutral"]["60"],
             select: primitives["color"]["neutral"]["55"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "9": {
             default: primitives["color"]["neutral"]["90"],
             hover: primitives["color"]["neutral"]["80"],
             press: primitives["color"]["neutral"]["70"],
             select: primitives["color"]["neutral"]["65"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "10": {
             default: primitives["color"]["neutral"]["100"],
             hover: primitives["color"]["neutral"]["90"],
             press: primitives["color"]["neutral"]["80"],
             select: primitives["color"]["neutral"]["75"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         error: {
@@ -531,7 +706,10 @@ export default {
             hover: primitives["color"]["red"]["40"],
             press: primitives["color"]["red"]["30"],
             select: primitives["color"]["red"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         success: {
@@ -540,7 +718,10 @@ export default {
             hover: primitives["color"]["green"]["50"],
             press: primitives["color"]["green"]["40"],
             select: primitives["color"]["green"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         purple: {
@@ -549,7 +730,10 @@ export default {
             hover: primitives["color"]["purple"]["45"],
             press: primitives["color"]["purple"]["40"],
             select: primitives["color"]["purple"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         orange: {
@@ -558,7 +742,10 @@ export default {
             hover: primitives["color"]["orange"]["45"],
             press: primitives["color"]["orange"]["40"],
             select: primitives["color"]["orange"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         info: {
@@ -567,7 +754,10 @@ export default {
             hover: primitives["color"]["brand"]["40"],
             press: primitives["color"]["brand"]["30"],
             select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
       },
@@ -577,70 +767,103 @@ export default {
             default: primitives["color"]["neutral"]["0"],
             hover: primitives["color"]["neutral"]["10"],
             press: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "2": {
             default: primitives["color"]["neutral"]["4"],
             hover: primitives["color"]["neutral"]["10"],
             press: primitives["color"]["neutral"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "3": {
             default: primitives["color"]["neutral"]["8"],
             hover: primitives["color"]["neutral"]["15"],
             press: primitives["color"]["neutral"]["30"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "4": {
             default: primitives["color"]["neutral"]["15"],
             hover: primitives["color"]["neutral"]["30"],
             press: primitives["color"]["neutral"]["40"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "5": {
             default: primitives["color"]["neutral"]["20"],
             hover: primitives["color"]["neutral"]["30"],
             press: primitives["color"]["neutral"]["40"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "6": {
             default: primitives["color"]["neutral"]["50"],
             hover: primitives["color"]["neutral"]["35"],
             press: primitives["color"]["neutral"]["20"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "7": {
             default: primitives["color"]["neutral"]["80"],
             hover: primitives["color"]["neutral"]["70"],
             press: primitives["color"]["neutral"]["60"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "8": {
             default: primitives["color"]["neutral"]["85"],
             hover: primitives["color"]["neutral"]["75"],
             press: primitives["color"]["neutral"]["65"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "9": {
             default: primitives["color"]["neutral"]["90"],
             hover: primitives["color"]["neutral"]["85"],
             press: primitives["color"]["neutral"]["75"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
           "10": {
             default: primitives["color"]["neutral"]["100"],
             hover: primitives["color"]["neutral"]["90"],
             press: primitives["color"]["neutral"]["80"],
-            disable: primitives["color"]["neutral"]["100"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         brand: {
           "1": {
-            default: primitives["color"]["brand"]["50"],
-            hover: primitives["color"]["brand"]["40"],
-            press: primitives["color"]["brand"]["30"],
-            select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            default: primitives["color"]["brand"]["45"],
+            hover: primitives["color"]["brand"]["35"],
+            press: primitives["color"]["brand"]["25"],
+            select: primitives["color"]["brand"]["20"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         error: {
@@ -649,7 +872,10 @@ export default {
             hover: primitives["color"]["red"]["40"],
             press: primitives["color"]["red"]["30"],
             select: primitives["color"]["red"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         success: {
@@ -658,7 +884,10 @@ export default {
             hover: primitives["color"]["green"]["40"],
             press: primitives["color"]["green"]["30"],
             select: primitives["color"]["green"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         orange: {
@@ -667,7 +896,10 @@ export default {
             hover: primitives["color"]["orange"]["45"],
             press: primitives["color"]["orange"]["40"],
             select: primitives["color"]["orange"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         purple: {
@@ -676,7 +908,10 @@ export default {
             hover: primitives["color"]["purple"]["45"],
             press: primitives["color"]["purple"]["40"],
             select: primitives["color"]["purple"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         info: {
@@ -685,7 +920,10 @@ export default {
             hover: primitives["color"]["brand"]["40"],
             press: primitives["color"]["brand"]["30"],
             select: primitives["color"]["brand"]["25"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
         warning: {
@@ -694,7 +932,10 @@ export default {
             hover: primitives["color"]["yellow"]["45"],
             press: primitives["color"]["yellow"]["40"],
             select: primitives["color"]["yellow"]["35"],
-            disable: primitives["color"]["neutral"]["80"],
+            disable:
+              primitives["color"]["neutral"]["white"]["alpha"]["white"][
+                "alpha"
+              ]["25"],
           },
         },
       },
@@ -759,7 +1000,6 @@ export default {
       fontWeight: {
         regular: "400",
         medium: "500",
-        semibold: "600",
         bold: "700",
         black: "900",
       },

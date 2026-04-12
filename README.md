@@ -140,3 +140,10 @@ npm run eas-build:detox-dev:android
 # 2. Run the detox tests
 npm run test:e2e-dev:android
 ```
+
+
+## Design system
+1. To export all figma variables and primitives, use [Export Variables (CSS, SCSS, Tailwind)](https://www.figma.com/community/plugin/1382804904426179542/export-variables-css-scss-tailwind) plugin
+2. Update `/figma/input.ts`
+3. Run `npm run generate-figma-variables`
+4. Check `/figma/output.ts` and extract what you need to `tailwind.config.ts`
