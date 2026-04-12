@@ -163,7 +163,7 @@ export const TextInput = <T extends FieldValues>({
                 {...textInputProps}
                 ref={ref}
                 {...(maskInReplay ? { "ph-no-capture": true } : {})} // posthog prop to mask or not the input
-                className={"body-b1-text-input flex-grow"}
+                className={"body-b1-text-input flex-1"}
                 style={{
                   color: textInputStates[currentStateKey].textColor,
                 }}
