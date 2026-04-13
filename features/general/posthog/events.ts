@@ -3,7 +3,7 @@ import {
   ID,
   SeriesFilters,
 } from "@/features/common/data/media-query";
-import { MediaType } from "lightningcss";
+import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 
 export type SORT_OPENED = {
@@ -76,6 +76,14 @@ export type GENRE_CLICKED = {
 
 export type POSTER_CLICKED = {
   event: "poster_clicked";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+  };
+};
+
+export type POSTER_LONG_PRESSED = {
+  event: "poster_long_pressed";
   properties: {
     media_type: MediaType;
     media_id: ID;
@@ -176,6 +184,7 @@ export type Events =
   | PERSON_CLICKED
   | GENRE_CLICKED
   | POSTER_CLICKED
+  | POSTER_LONG_PRESSED
   | NAVIGATION_CLICKED
   | SEARCH_SUBMITTED
   | FILTERS_OPENED
