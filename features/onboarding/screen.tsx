@@ -14,7 +14,7 @@ import {
 import { tailwind } from "@/lib/tailwind";
 import { Button } from "@/features/common/ui/button";
 import { NavArrowRight } from "iconoir-react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppStorage } from "@/features/common/data/utils/app-storage";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { Icon } from "@/features/common/ui/icon";
@@ -135,13 +135,12 @@ export const Screen = () => {
               variant={"white"}
               onPress={() => {
                 if (isLastItem) {
-                  AsyncStorage.setItem("onboarded", "true").then(() => {
-                    if (data?.user) {
-                      router.replace("/home");
-                    } else {
-                      router.replace("/auth/request-otp");
-                    }
-                  });
+                  AppStorage.setItem("onboarded", "true");
+                  if (data?.user) {
+                    router.replace("/home");
+                  } else {
+                    router.replace("/auth/request-otp");
+                  }
                 } else {
                   onPressPagination(currentIndex + 1);
                 }
