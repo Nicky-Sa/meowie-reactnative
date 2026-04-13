@@ -10,8 +10,8 @@ export const Autoplay = () => {
   const { capture } = useCaptureEvent();
 
   const handleToggle = () => {
-    setValue(!value);
     capture("autoplay_toggled", { autoplay: !value });
+    setValue(!value);
   };
 
   return (

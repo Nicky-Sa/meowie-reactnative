@@ -8,13 +8,16 @@ import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/useLogout";
 import { useRouter } from "expo-router";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
   const { trigger: triggerLogout } = useLogout();
   const router = useRouter();
+  const { capture } = useCaptureEvent();
 
   const handleLogout = async () => {
+    capture("logout");
     await triggerLogout();
     bottomSheetRef.current?.dismiss();
     router.replace("/home");

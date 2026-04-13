@@ -47,8 +47,8 @@ export const SortHeaderButton = () => {
   }, [capture, draftSort, setSort]);
 
   const sortBottomsheetOpened = useCallback(() => {
-    setDraftSort(sort);
     capture("sort_opened");
+    setDraftSort(sort);
     bottomSheetRef.current?.present();
   }, [capture, setDraftSort, sort]);
 

@@ -18,6 +18,10 @@ export const env = createEnv({
         "EXPO_PUBLIC_APP_VARIANT is required",
       )
       .default("development"),
+    EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN: z.string(
+      "EXPO_PUBLIC_PROJECT_TOKEN is required",
+    ),
+    EXPO_PUBLIC_POSTHOG_HOST: z.string("EXPO_PUBLIC_POSTHOG_HOST is required"),
   },
 
   /*
@@ -33,6 +37,9 @@ export const env = createEnv({
   runtimeEnv: {
     EXPO_PUBLIC_APP_VARIANT: process.env.EXPO_PUBLIC_APP_VARIANT,
     EXPO_PUBLIC_BACKEND_URL: process.env.EXPO_PUBLIC_BACKEND_URL,
+    EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN:
+      process.env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN,
+    EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

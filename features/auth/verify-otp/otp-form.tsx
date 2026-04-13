@@ -8,6 +8,7 @@ import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/verify-otp/resend-code";
 import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
+import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -36,10 +37,12 @@ export const OtpForm = ({ email }: Props) => {
   const { trigger: triggerRequestOtp, isMutating: isMutatingRequestOtp } =
     useRequestOtp();
   const { dismissScreen } = useDismissScreen();
+  const { capture } = useCaptureEvent();
 
   const onSubmit = handleSubmit(async (data: OtpFormData) => {
     try {
-      await triggerVerifyOtp({ ...data, email });
+      const response = await triggerVerifyOtp({ ...data, email });
+      capture("login_completed", { is_new_user: response.data.isNewUser });
       dismissScreen();
     } catch (error) {
       setError("otp", { message: (error as Error).message });

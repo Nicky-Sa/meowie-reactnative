@@ -20,6 +20,7 @@ import { TourTooltip } from "@/features/common/ui/tour/tooltip";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
+import { env } from "@/lib/env";
 
 function RootLayout() {
   const themeConfig = useThemeConfig();
@@ -27,9 +28,9 @@ function RootLayout() {
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
       <PostHogProvider
-        apiKey="phc_cXl1Ma3aVz8gdU0dVlkMFoGhaEjpDZwOWI6p3DP32Jo"
+        apiKey={env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN}
         options={{
-          host: "https://eu.i.posthog.com",
+          host: env.EXPO_PUBLIC_POSTHOG_HOST,
           customStorage: posthogStorage,
           captureAppLifecycleEvents: true,
           enableSessionReplay: true,
@@ -37,7 +38,6 @@ function RootLayout() {
             autocapture: {
               uncaughtExceptions: true,
               unhandledRejections: true,
-              console: ["error", "warn"],
             },
           },
           sessionReplayConfig: {

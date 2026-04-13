@@ -9,8 +9,8 @@ export const SkipAuth = () => {
   const { capture } = useCaptureEvent();
 
   const onPress = async () => {
-    await AsyncStorage.setItem("skipped-auth", "true");
     capture("auth_skipped");
+    await AsyncStorage.setItem("skipped-auth", "true");
     dismissScreen();
   };
 

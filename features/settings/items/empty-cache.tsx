@@ -23,9 +23,9 @@ export const EmptyCache = () => {
 
   const handleEmptyCache = async () => {
     try {
+      capture("cache_cleared");
       await clearImageCache();
       await clearCache();
-      capture("cache_cleared");
     } catch (error) {
       console.log({ error });
     }

@@ -142,6 +142,30 @@ export type COLLECTION_CLICKED = {
   };
 };
 
+export type OTP_REQUESTED = {
+  event: "otp_requested";
+  properties?: undefined;
+};
+
+export type LOGIN_COMPLETED = {
+  event: "login_completed";
+  properties: {
+    is_new_user: boolean;
+  };
+};
+
+export type LOGOUT = {
+  event: "logout";
+  properties?: undefined;
+};
+
+export type ACCOUNT_DELETED = {
+  event: "account_deleted";
+  properties: {
+    churn_reason_id?: string;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -160,7 +184,11 @@ export type Events =
   | AUTOPLAY_TOGGLED
   | CACHE_CLEARED
   | AUTH_SKIPPED
-  | COLLECTION_CLICKED;
+  | COLLECTION_CLICKED
+  | OTP_REQUESTED
+  | LOGIN_COMPLETED
+  | LOGOUT
+  | ACCOUNT_DELETED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
