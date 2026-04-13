@@ -7,6 +7,7 @@ import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { PersonEmptyState } from "@/features/person/elements/empty-state";
 
 const NUM_COLUMNS = 3;
 
@@ -60,6 +61,7 @@ export const Screen = () => {
             />
           </View>
         }
+        ListEmptyComponent={<PersonEmptyState />}
       />
     </InnerScreen>
   );
