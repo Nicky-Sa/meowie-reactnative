@@ -19,7 +19,6 @@ import Animated, {
   interpolateColor,
 } from "react-native-reanimated";
 
-// ... (Keep textInputStates and textInputSizes exactly as they were) ...
 const textInputStates = {
   default: {
     backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
@@ -77,6 +76,7 @@ const getStateKey = (
 
 type Props<T extends FieldValues> = UseControllerProps<T> & {
   clearErrors: UseFormClearErrors<T>;
+  isTextArea?: boolean;
   title?: string;
   size?: keyof typeof textInputSizes;
   icon?: SvgImage;
@@ -88,11 +88,13 @@ export const TextInput = <T extends FieldValues>({
   name,
   control,
   clearErrors,
+  isTextArea = false,
   title,
   icon,
   size = "lg",
   autoFocus,
   maskInReplay = false,
+  className,
   ...textInputProps
 }: Props<T>) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -163,7 +165,11 @@ export const TextInput = <T extends FieldValues>({
                 {...textInputProps}
                 ref={ref}
                 {...(maskInReplay ? { "ph-no-capture": true } : {})} // posthog prop to mask or not the input
-                className={"body-b1-text-input flex-1"}
+                className={cn(
+                  "body-b1-text-input flex-1",
+                  isTextArea && "h-32",
+                  className,
+                )}
                 style={{
                   color: textInputStates[currentStateKey].textColor,
                 }}
@@ -182,16 +188,18 @@ export const TextInput = <T extends FieldValues>({
                 }}
               />
 
-              <Button
-                variant={"link"}
-                iconOnly
-                onPress={() => onChangeText("")}
-                className={cn(
-                  !!value && isFocused ? "opacity-100" : "opacity-0",
-                )}
-              >
-                <Icon i={Xmark} />
-              </Button>
+              {!isTextArea && (
+                <Button
+                  variant={"link"}
+                  iconOnly
+                  onPress={() => onChangeText("")}
+                  className={cn(
+                    !!value && isFocused ? "opacity-100" : "opacity-0",
+                  )}
+                >
+                  <Icon i={Xmark} />
+                </Button>
+              )}
             </Animated.View>
 
             {error?.message && (

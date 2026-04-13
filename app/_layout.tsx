@@ -6,7 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { PostHogProvider } from "posthog-react-native";
+import { PostHogProvider, PostHogSurveyProvider } from "posthog-react-native";
 import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
@@ -51,148 +51,157 @@ function RootLayout() {
           captureScreens: true,
         }}
       >
-        <ScreenTracker>
-          <EventListenerWrapper>
-            <ThemeProvider value={themeConfig}>
-              <QueryClientProvider client={queryClient}>
-                <KeyboardProvider>
-                  <SafeAreaProvider>
-                    <GestureHandlerRootView>
-                      <BottomSheetModalProvider>
-                        <InternetCheck>
-                          <TourGuideProvider
-                            animationDuration={250}
-                            tooltipComponent={TourTooltip}
-                            backdropColor={"#595BEFAA"}
-                            preventOutsideInteraction
-                          >
-                            <Stack
-                              screenOptions={{
-                                headerShown: false,
-                                statusBarStyle: "light",
-                              }}
+        <PostHogSurveyProvider>
+          <ScreenTracker>
+            <EventListenerWrapper>
+              <ThemeProvider value={themeConfig}>
+                <QueryClientProvider client={queryClient}>
+                  <KeyboardProvider>
+                    <SafeAreaProvider>
+                      <GestureHandlerRootView>
+                        <BottomSheetModalProvider>
+                          <InternetCheck>
+                            <TourGuideProvider
+                              animationDuration={250}
+                              tooltipComponent={TourTooltip}
+                              backdropColor={"#595BEFAA"}
+                              preventOutsideInteraction
                             >
-                              <Stack.Screen
-                                name="(tabs)"
-                                options={{
-                                  animation: "slide_from_bottom",
+                              <Stack
+                                screenOptions={{
+                                  headerShown: false,
+                                  statusBarStyle: "light",
                                 }}
-                              />
+                              >
+                                <Stack.Screen
+                                  name="(tabs)"
+                                  options={{
+                                    animation: "slide_from_bottom",
+                                  }}
+                                />
 
-                              <Stack.Screen name="auth" />
+                                <Stack.Screen name="auth" />
 
-                              <Stack.Screen
-                                name="filters/index"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="filters/index"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="discover/posters"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
-                              <Stack.Screen
-                                name="discover/media-list"
-                                options={{
-                                  animation: "fade",
-                                  animationDuration: 300,
-                                }}
-                              />
-                              <Stack.Screen
-                                name="discover/movie-details"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
-                              <Stack.Screen
-                                name="discover/series-details"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="discover/posters"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+                                <Stack.Screen
+                                  name="discover/media-list"
+                                  options={{
+                                    animation: "fade",
+                                    animationDuration: 300,
+                                  }}
+                                />
+                                <Stack.Screen
+                                  name="discover/movie-details"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+                                <Stack.Screen
+                                  name="discover/series-details"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="onboarding/index"
-                                options={{
-                                  animation: "slide_from_bottom",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="onboarding/index"
+                                  options={{
+                                    animation: "slide_from_bottom",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="settings/index"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="settings/index"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="settings/delete-account"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="settings/delete-account"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="person/index"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="settings/feedback"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="person/media-list"
-                                options={{
-                                  animation: "fade",
-                                  animationDuration: 300,
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="person/index"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="search/index"
-                                options={{
-                                  animation: "fade",
-                                  animationDuration: 300,
-                                  presentation: "card",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="person/media-list"
+                                  options={{
+                                    animation: "fade",
+                                    animationDuration: 300,
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="library/media-list"
-                                options={{
-                                  animation: "fade",
-                                  animationDuration: 300,
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="search/index"
+                                  options={{
+                                    animation: "fade",
+                                    animationDuration: 300,
+                                    presentation: "card",
+                                  }}
+                                />
 
-                              <Stack.Screen
-                                name="discover/sub-collections"
-                                options={{
-                                  animation: "slide_from_right",
-                                }}
-                              />
+                                <Stack.Screen
+                                  name="library/media-list"
+                                  options={{
+                                    animation: "fade",
+                                    animationDuration: 300,
+                                  }}
+                                />
 
-                              <Stack.Screen name="+not-found" />
-                            </Stack>
-                            <Toast
-                              config={toastConfig}
-                              topOffset={60}
-                              swipeable
-                              visibilityTime={4000}
-                            />
-                            <PortalHost name="global-overlay" />
-                          </TourGuideProvider>
-                        </InternetCheck>
-                      </BottomSheetModalProvider>
-                    </GestureHandlerRootView>
-                  </SafeAreaProvider>
-                </KeyboardProvider>
-              </QueryClientProvider>
-            </ThemeProvider>
-          </EventListenerWrapper>
-        </ScreenTracker>
+                                <Stack.Screen
+                                  name="discover/sub-collections"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+
+                                <Stack.Screen name="+not-found" />
+                              </Stack>
+                              <Toast
+                                config={toastConfig}
+                                topOffset={60}
+                                swipeable
+                                visibilityTime={4000}
+                              />
+                              <PortalHost name="global-overlay" />
+                            </TourGuideProvider>
+                          </InternetCheck>
+                        </BottomSheetModalProvider>
+                      </GestureHandlerRootView>
+                    </SafeAreaProvider>
+                  </KeyboardProvider>
+                </QueryClientProvider>
+              </ThemeProvider>
+            </EventListenerWrapper>
+          </ScreenTracker>
+        </PostHogSurveyProvider>
       </PostHogProvider>
     </View>
   );

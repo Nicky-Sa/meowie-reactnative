@@ -11,6 +11,7 @@ import { Autoplay } from "@/features/settings/items/autoplay";
 import { TMDBStatement } from "@/features/settings/items/tmdb-statement";
 import { usePostHog } from "posthog-react-native";
 import { env } from "@/lib/env";
+import { Feedback } from "@/features/settings/items/feedback";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -25,6 +26,7 @@ export const Screen = () => {
             <Title>App</Title>
             <Autoplay />
             <EmptyCache />
+            <Feedback />
           </View>
           <View className={"flex flex-col gap-2"}>
             <Title>Account</Title>
