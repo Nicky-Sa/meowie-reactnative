@@ -1,13 +1,17 @@
-import * as SecureStore from "expo-secure-store";
+import { createMMKV } from "react-native-mmkv";
+
+const phStorage = createMMKV({
+  id: "posthog-storage",
+});
 
 export const posthogStorage = {
   getItem: async (key: string) => {
-    return await SecureStore.getItemAsync(key);
+    return phStorage.getString(key) ?? null;
   },
   setItem: async (key: string, value: string) => {
-    await SecureStore.setItemAsync(key, value);
+    phStorage.set(key, value);
   },
   removeItem: async (key: string) => {
-    await SecureStore.deleteItemAsync(key);
+    phStorage.remove(key);
   },
 };
