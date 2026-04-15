@@ -7,6 +7,7 @@ import Animated, {
   ZoomIn,
   ZoomOut,
 } from "react-native-reanimated";
+import { Chip } from "@/features/common/ui/chip";
 
 type Props = {
   data: PosterInfo;
@@ -52,12 +53,13 @@ export const PosterPreview = ({ data }: Props) => {
           </View>
           <View className="flex-row flex-wrap gap-3">
             {data.preview.genres.map((genre) => (
-              <Text
+              <Chip
                 key={genre.id}
-                className="body-b2-strong text-neutral-6-default"
-              >
-                {genre.emoji} {genre.name}
-              </Text>
+                text={`${genre.emoji} ${genre.name}`}
+                variant={"ghost"}
+                size={"unset"}
+                clickable
+              />
             ))}
           </View>
           <Text className="body-b2 text-neutral-6-default" numberOfLines={3}>

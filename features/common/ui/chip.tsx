@@ -1,27 +1,55 @@
 import { View, Text } from "react-native";
-import { tailwind } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
+
+const chipVariants = {
+  dark: {
+    backgroundColor: tailwind.theme.backgroundColor["neutral"][11].default,
+    textColor: tailwind.theme.textColor["neutral"][6].default,
+  },
+  primary: {
+    backgroundColor: tailwind.theme.backgroundColor["brand"][1].default,
+    textColor: tailwind.theme.textColor["neutral"][6].default,
+  },
+  ghost: {
+    backgroundColor: "transparent",
+    textColor: tailwind.theme.textColor["neutral"][6].default,
+  },
+} as const;
+
+const chipSizes = {
+  regular: {
+    paddingHorizontal: Number(tailwind.theme.spacing["2"]),
+  },
+  unset: {
+    paddingHorizontal: 0,
+  },
+} as const;
 
 type Props = {
   text: string | number;
-  backgroundColor?: string;
-  textColor?: string;
-  bold?: boolean;
+  variant?: keyof typeof chipVariants;
+  size?: keyof typeof chipSizes;
+  clickable?: boolean;
 };
 
-export const Chip = ({ text, backgroundColor, textColor, bold }: Props) => {
+export const Chip = ({
+  text,
+  variant = "dark",
+  size = "regular",
+  clickable,
+}: Props) => {
   return (
     <View
-      className={"flex h-6 items-center justify-center rounded-full px-2.5"}
+      className={cn("flex h-6 items-center justify-center rounded-full")}
       style={{
-        backgroundColor:
-          backgroundColor ??
-          tailwind.theme.backgroundColor["neutral"][11].default,
+        paddingHorizontal: chipSizes[size].paddingHorizontal,
+        backgroundColor: chipVariants[variant].backgroundColor,
       }}
     >
       <Text
-        className={bold ? "body-b2-strong" : "body-b2"}
+        className={clickable ? "body-b2-strong" : "body-b2"}
         style={{
-          color: textColor ?? tailwind.theme.textColor["neutral"][6].default,
+          color: chipVariants[variant].textColor,
         }}
       >
         {text}

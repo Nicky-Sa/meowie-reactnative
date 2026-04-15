@@ -3,7 +3,6 @@ import { Icon } from "@/features/common/ui/icon";
 import { useRouter } from "expo-router";
 import { Filter } from "iconoir-react-native";
 import { View } from "react-native";
-import { tailwind } from "@/lib/tailwind";
 import { Chip } from "@/features/common/ui/chip";
 
 type Props = {
@@ -24,10 +23,7 @@ export const FilterIndicator = ({ modifiedFieldsNumber }: Props) => {
       </Button>
       {modifiedFieldsNumber > 0 && (
         <View className={"absolute -left-2"}>
-          <Chip
-            text={modifiedFieldsNumber}
-            backgroundColor={tailwind.theme.backgroundColor.brand[1].default}
-          />
+          <Chip text={modifiedFieldsNumber} variant={"primary"} />
         </View>
       )}
     </View>
