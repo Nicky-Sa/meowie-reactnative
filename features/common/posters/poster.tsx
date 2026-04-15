@@ -44,7 +44,7 @@ export const Poster = memo(({ data, width, onPress }: Props) => {
   const longPressGesture = useMemo(
     () =>
       Gesture.LongPress()
-        .minDuration(250)
+        .minDuration(200)
         .maxDistance(1000) // Allow moving finger anywhere
         .shouldCancelWhenOutside(false)
         .onBegin(() => {

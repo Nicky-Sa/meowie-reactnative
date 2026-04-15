@@ -8,6 +8,7 @@ import Animated, {
   ZoomOut,
 } from "react-native-reanimated";
 import { Chip } from "@/features/common/ui/chip";
+import { tailwind } from "@/lib/tailwind";
 
 type Props = {
   data: PosterInfo;
@@ -31,13 +32,14 @@ export const PosterPreview = ({ data }: Props) => {
       <Animated.View
         entering={ZoomIn.delay(100)}
         exiting={ZoomOut}
-        className="w-[85%] rounded-3xl bg-neutral-15-default p-4 shadow-2xl"
+        className="w-[85%] gap-4 rounded-3xl bg-neutral-15-default p-4 shadow-2xl"
       >
         <Image
           source={data.posterPath}
           style={{
             width: "100%",
             aspectRatio: 2 / 3,
+            borderRadius: Number(tailwind.theme.borderRadius.xl),
           }}
           contentFit="cover"
           placeholder={{ blurhash: data.blurhash }}
@@ -51,7 +53,7 @@ export const PosterPreview = ({ data }: Props) => {
               {data.preview.title}
             </Text>
           </View>
-          <View className="flex-row flex-wrap gap-3">
+          <View className="flex-row flex-wrap gap-x-3 gap-y-1">
             {data.preview.genres.map((genre) => (
               <Chip
                 key={genre.id}
