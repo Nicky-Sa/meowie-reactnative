@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import { Lato_100Thin, Lato_700Bold } from "@expo-google-fonts/lato";
 
 const primitives = {
   color: {

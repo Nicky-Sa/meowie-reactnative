@@ -1,14 +1,13 @@
 import { SplashScreen } from "@/features/general/splash-screen";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { useFonts } from "@expo-google-fonts/lato";
-import * as Lato from "@expo-google-fonts/lato";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
+import { latoFonts, useLatoFont } from "@/assets/fonts/Lato";
 
 export default function Home() {
-  const [loaded] = useFonts(Lato);
+  const [loaded] = useLatoFont(latoFonts);
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
   const { data, isPending } = useCurrentUser();
@@ -44,12 +43,11 @@ export default function Home() {
     checkState();
   }, [data?.user, router, splashDone]);
 
+  const onFinish = useCallback(() => setSplashDone(true), []);
+
   return (
     <>
-      <SplashScreen
-        onFinish={() => setSplashDone(true)}
-        isLoading={!loaded || isPending}
-      />
+      <SplashScreen onFinish={onFinish} isLoading={!loaded || isPending} />
     </>
   );
 }
