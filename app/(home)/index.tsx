@@ -17,7 +17,7 @@ export default function Home() {
     if (!splashDone) return;
 
     const checkState = async () => {
-      const onBoarded = await AppStorage.getItem("onboarded");
+      const onBoarded = AppStorage.getItem("onboarded");
 
       if (onBoarded === null) {
         // not onboarded
@@ -31,7 +31,7 @@ export default function Home() {
           // not authenticated
           Emitter.emit("userUnregistered");
           // check skipped-auth
-          const skippedAuth = await AppStorage.getItem("skipped-auth");
+          const skippedAuth = AppStorage.getItem("skipped-auth");
           if (skippedAuth === "true") {
             router.replace("/home");
           } else {
