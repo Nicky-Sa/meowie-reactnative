@@ -8,8 +8,8 @@ import Animated, {
 import LottieView from "lottie-react-native";
 
 type Props = {
-  isLoading?: boolean;
-  onFinish?: () => void;
+  isLoading: boolean;
+  onFinish: () => void;
 };
 
 export const SplashScreen = ({ isLoading, onFinish }: Props) => {
@@ -24,7 +24,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
           easing: Easing.ease,
         }); // Fade out splash screen
       }
-      onFinish?.();
+      onFinish();
     }, 2000); // Minimum time for splash screen
 
     return () => clearTimeout(timeout);

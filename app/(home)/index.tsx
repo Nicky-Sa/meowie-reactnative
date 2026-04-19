@@ -11,7 +11,7 @@ export default function Home() {
   const [loaded] = useFonts(Lato);
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
-  const { data } = useCurrentUser();
+  const { data, isPending } = useCurrentUser();
 
   useEffect(() => {
     if (!splashDone) return;
@@ -24,7 +24,6 @@ export default function Home() {
         router.replace("/onboarding");
       } else {
         // onboarded
-        const skippedAuth = await AppStorage.getItem("skipped-auth");
         // check if authenticated
         if (data?.user) {
           router.replace("/home");
@@ -32,6 +31,7 @@ export default function Home() {
           // not authenticated
           Emitter.emit("userUnregistered");
           // check skipped-auth
+          const skippedAuth = await AppStorage.getItem("skipped-auth");
           if (skippedAuth === "true") {
             router.replace("/home");
           } else {
@@ -46,7 +46,10 @@ export default function Home() {
 
   return (
     <>
-      <SplashScreen onFinish={() => setSplashDone(true)} isLoading={!loaded} />
+      <SplashScreen
+        onFinish={() => setSplashDone(true)}
+        isLoading={!loaded || isPending}
+      />
     </>
   );
 }
