@@ -3,10 +3,12 @@ import { getAccessToken, getRefreshToken } from "./utils/token-storage";
 import { env } from "@/lib/env";
 import { unregisterUser } from "@/features/common/data/utils/unregister-user";
 import { registerUser } from "@/features/common/data/utils/register-user";
+import { GENERAL_TIMEOUT } from "@/lib/consts";
 
 // Create the axios instance
 const axiosInstance = axios.create({
   baseURL: env.EXPO_PUBLIC_BACKEND_URL,
+  timeout: GENERAL_TIMEOUT, // requests hanging beyond this will throw an ECONNABORTED error
 });
 
 // --- Request Interceptor ---
@@ -58,7 +60,11 @@ axiosInstance.interceptors.response.use(
     }
 
     const originalRequest = error.config;
-    console.log({ error, apiError: error.response?.data.errors });
+    console.log({
+      error,
+      apiError: error.response?.data.errors,
+      url: error.response?.config?.url,
+    });
 
     // Check for 401 Unauthorized
     if (error.response?.status === 401 && originalRequest) {

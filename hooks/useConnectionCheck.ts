@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import { env } from "@/lib/env";
+import { GENERAL_TIMEOUT } from "@/lib/consts";
 
 // We use a YouTube-specific 204 endpoint.
 // If this fails but the internet is on, we know YouTube specifically is blocked.
@@ -53,7 +54,7 @@ export const useConnectionCheck = () => {
 
     const [youtubeAlive, backendAlive] = await Promise.all([
       checkUrl(YOUTUBE_CANARY),
-      checkUrl(BACKEND_CANARY, 30_000), // 30 second, lambda timeout
+      checkUrl(BACKEND_CANARY, GENERAL_TIMEOUT),
     ]);
 
     // 3. Logic Determination
