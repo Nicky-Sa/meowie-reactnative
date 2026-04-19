@@ -17,7 +17,7 @@ type Props = {
 
 export const Genres = ({ genres, mediaType }: Props) => {
   return (
-    <View className={"flex flex-row gap-3 px-4"}>
+    <View className={"flex flex-row gap-3"}>
       {genres.map((item) => (
         <GenreItem key={item.id} item={item} mediaType={mediaType} />
       ))}
