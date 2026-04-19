@@ -35,6 +35,7 @@ export const Guest = ({ scrollY }: Props) => {
         renderTabBar={(props) => <TabBar tabsConfig={tabsConfig} {...props} />}
       >
         <Tabs.Tab name={tabsConfig[0].name}>
+          {/*Not using TabContent here to preserve the item in the centre of the tab visually*/}
           <SavedList />
         </Tabs.Tab>
 

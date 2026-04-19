@@ -5,23 +5,26 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { LoggedIn } from "@/features/profile/logged-in/content";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
 import { Header } from "@/features/profile/header";
+import { Loading } from "@/features/profile/loading/content";
 
 export const Screen = () => {
-  const { data } = useCurrentUser();
+  const { data, isLoading } = useCurrentUser();
   const { scrollY, scrollHandler } = useScrollHandler();
 
   return (
     <MainScreen>
       <Header scrollY={scrollY} />
       <View className={"flex-1"}>
-        {data?.user ? (
+        {isLoading ? (
+          <Loading scrollY={scrollY} />
+        ) : !data?.user ? (
+          <Guest scrollY={scrollY} />
+        ) : (
           <LoggedIn
             scrollY={scrollY}
             scrollHandler={scrollHandler}
             user={data.user}
           />
-        ) : (
-          <Guest scrollY={scrollY} />
         )}
       </View>
     </MainScreen>
