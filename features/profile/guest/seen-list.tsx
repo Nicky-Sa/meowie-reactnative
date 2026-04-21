@@ -10,7 +10,7 @@ export const SeenList = () => {
     <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
       <EmptySeen />
       <Text className={"body-b1 w-1/2 text-center text-neutral-5-default"}>
-        Sign in to be ready when this feature drops.
+        Sign in to keep track of what you&#39;ve seen.
       </Text>
       <Button
         variant={"white"}

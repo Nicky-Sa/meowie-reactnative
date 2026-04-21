@@ -14,6 +14,7 @@ import { Cast } from "@/features/media/components/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ID } from "@/features/common/data/media-query";
 import { Save } from "@/features/media/components/details/elements/save/save";
+import { Seen } from "@/features/media/components/details/elements/seen/seen";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
 import { Tourable } from "@/features/common/ui/tour/Tourable";
@@ -69,6 +70,19 @@ export const MovieDetailsA = memo(
           media_title: data?.title || "",
           genres: data?.genres.map((genre) => genre.name) || [],
           saved,
+        });
+      },
+      [capture, data?.genres, data?.title, movieId],
+    );
+
+    const onSeenPress = useCallback(
+      (seen: boolean | null) => {
+        capture("media_seen", {
+          media_type: "movie",
+          media_id: movieId,
+          media_title: data?.title || "",
+          genres: data?.genres.map((genre) => genre.name) || [],
+          seen,
         });
       },
       [capture, data?.genres, data?.title, movieId],
@@ -198,7 +212,7 @@ export const MovieDetailsA = memo(
 
         <View
           className={
-            "mt-4 flex w-full flex-row items-center justify-start gap-2"
+            "mt-4 flex w-full flex-row items-center justify-start gap-6"
           }
         >
           <Tourable
@@ -215,6 +229,7 @@ export const MovieDetailsA = memo(
           >
             <Save id={movieId} mediaType="movie" onPress={onSavePress} />
           </Tourable>
+          <Seen id={movieId} mediaType="movie" onPress={onSeenPress} />
         </View>
       </View>
     );

@@ -47,6 +47,17 @@ export type MEDIA_SAVED = {
   };
 };
 
+export type MEDIA_SEEN = {
+  event: "media_seen";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
+    genres: string[];
+    seen: boolean | null; // null for guest
+  };
+};
+
 export type POSTER_EXPANDED = {
   event: "poster_expanded";
   properties: {
@@ -180,6 +191,7 @@ export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
   | MEDIA_SAVED
+  | MEDIA_SEEN
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED

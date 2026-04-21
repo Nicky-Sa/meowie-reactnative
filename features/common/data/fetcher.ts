@@ -6,7 +6,7 @@ import {
 import axiosInstance from "@/features/common/data/axios";
 
 export type MutationArg<REQ> = {
-  method: "POST" | "PUT" | "DELETE";
+  method: "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: { [key: string]: string };
   body?: REQ;
 };

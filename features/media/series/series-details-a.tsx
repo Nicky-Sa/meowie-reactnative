@@ -14,6 +14,7 @@ import { Cast } from "@/features/media/components/details/elements/cast";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ID } from "@/features/common/data/media-query";
 import { Save } from "@/features/media/components/details/elements/save/save";
+import { Seen } from "@/features/media/components/details/elements/seen/seen";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
 
@@ -65,6 +66,19 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
         media_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
         saved,
+      });
+    },
+    [capture, data?.genres, data?.title, seriesId],
+  );
+
+  const onSeenPress = useCallback(
+    (seen: boolean | null) => {
+      capture("media_seen", {
+        media_type: "series",
+        media_id: seriesId,
+        media_title: data?.title || "",
+        genres: data?.genres.map((genre) => genre.name) || [],
+        seen,
       });
     },
     [capture, data?.genres, data?.title, seriesId],
@@ -157,9 +171,10 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
       </ScrollView>
 
       <View
-        className={"mt-4 flex w-full flex-row items-center justify-start gap-2"}
+        className={"mt-4 flex w-full flex-row items-center justify-start gap-6"}
       >
         <Save id={seriesId} mediaType="series" onPress={onSavePress} />
+        <Seen id={seriesId} mediaType="series" onPress={onSeenPress} />
       </View>
     </View>
   );

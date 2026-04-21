@@ -10,6 +10,7 @@ export type URL =
   | `/person/${string}/posters`
   | `/${MediaType}/posters`
   | "/library/saved"
+  | "/library/seen"
   | `/collections/${string}/items`;
 
 export const useFetchPosters = (

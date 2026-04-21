@@ -1,16 +1,46 @@
-import { View, Text } from "react-native";
-import EmptySeen from "@/assets/images/profile/empty-seen.svg";
+import { View } from "react-native";
+import { PostersList } from "@/features/common/posters/posters-list";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
+import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 import { TabChildProps } from "@/features/common/tab/tab-bar";
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { SeenEmptyState } from "@/features/profile/logged-in/seen/seen-empty-state";
+
+const NUM_COLUMNS = 3;
 
 type Props = TabChildProps;
 
 export const SeenList = ({ scrollHandler }: Props) => {
+  const { paddingBottom } = useMainScreenContentStyle();
+
+  const posterData = useFetchPosters("/library/seen");
+
+  const router = useRouter();
+  const onPosterPress = useCallback(
+    (index: number) => {
+      router.push({
+        pathname: "/library/media-list",
+        params: {
+          initialIndex: index,
+          category: "seen",
+          title: "Seen",
+        },
+      });
+    },
+    [router],
+  );
+
   return (
-    <View className={"flex flex-1 flex-col items-center justify-center gap-8"}>
-      <EmptySeen />
-      <Text className={"body-b1 w-2/3 text-center text-neutral-5-default"}>
-        Tracking what you&#39;ve seen is coming soon...
-      </Text>
+    <View className={"flex-1"}>
+      <PostersList
+        numColumns={NUM_COLUMNS}
+        posterData={posterData}
+        scrollHandler={scrollHandler}
+        onPosterPress={onPosterPress}
+        ListEmptyComponent={<SeenEmptyState />}
+        contentContainerStyle={{ paddingBottom }}
+      />
     </View>
   );
 };

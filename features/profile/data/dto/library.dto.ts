@@ -1,10 +1,23 @@
 import { LibraryCategory } from "@/features/profile/data/library.constants";
 import { MediaType } from "@/features/common/data/models/media-type";
 
-export type ToggleLibraryItemReqDto = {
+type LibraryItemIdentifier = {
   tmdbId: number;
   mediaType: MediaType;
-  category: LibraryCategory;
 };
 
-export type LibraryStatusResDto = Partial<Record<LibraryCategory, boolean>>;
+export type MarkSavedReqDto = LibraryItemIdentifier;
+
+export type RemoveItemReqDto = LibraryItemIdentifier;
+
+export type MarkSeenReqDto = LibraryItemIdentifier & {
+  rating?: number;
+};
+
+export type UpdateRatingReqDto = LibraryItemIdentifier & {
+  rating?: number;
+};
+
+export type LibraryStatusResDto = Partial<Record<LibraryCategory, boolean>> & {
+  rating?: number | null;
+};

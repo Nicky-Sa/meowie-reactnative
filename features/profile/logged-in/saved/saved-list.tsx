@@ -23,6 +23,7 @@ export const SavedList = ({ scrollHandler }: Props) => {
         pathname: "/library/media-list",
         params: {
           initialIndex: index,
+          category: "saved",
           title: "Saved",
         },
       });
