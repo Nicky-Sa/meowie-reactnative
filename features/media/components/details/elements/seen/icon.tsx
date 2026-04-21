@@ -1,7 +1,7 @@
 import { Eye } from "iconoir-react-native";
-import RatingSkip from "@/assets/images/ratings/rating-skip.svg";
 import { Icon } from "@/features/common/ui/icon";
-import { RATINGS } from "@/features/media/components/details/elements/seen/rating-icons";
+import { RatingLottie } from "@/features/media/components/details/elements/seen/rating-lottie";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   isSeen: boolean;
@@ -9,15 +9,28 @@ type Props = {
 };
 
 export const SeenIcon = ({ isSeen, rating }: Props) => {
+  const [play, setPlay] = useState(false);
+  const prevRating = useRef(rating);
+  const prevSeen = useRef(isSeen);
+
+  useEffect(() => {
+    if (isSeen !== prevSeen.current || rating !== prevRating.current) {
+      if (isSeen) {
+        setPlay(true);
+      }
+    }
+    prevSeen.current = isSeen;
+    prevRating.current = rating;
+  }, [isSeen, rating]);
+
   if (!isSeen) {
     return <Icon i={Eye} />;
   }
 
   if (rating) {
-    const icon = RATINGS.find((r) => r.value === rating)?.icon;
-    if (icon) return <Icon i={icon} />;
+    return <RatingLottie rating={rating} play={play} />;
   }
 
   // Seen but no rating (skipped)
-  return <Icon i={RatingSkip} />;
+  return <RatingLottie rating={"skip"} play={play} />;
 };

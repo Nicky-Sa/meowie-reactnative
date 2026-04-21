@@ -73,7 +73,12 @@ export const Seen = ({ id, mediaType, onPress }: Props) => {
 
   return (
     <>
-      <Button variant={"link"} size={"md"} onPress={handlePress}>
+      <Button
+        variant={"link"}
+        size={"md"}
+        onPress={handlePress}
+        style={{ overflow: "visible" }}
+      >
         <View className={"flex flex-row items-center justify-center gap-2"}>
           {isLibraryStatusLoading ? (
             <SkeletonItem className={"h-6 w-16"} />

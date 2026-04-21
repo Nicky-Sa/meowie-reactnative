@@ -70,7 +70,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
           ) : (
             <>
               <SaveIcon isSaved={isSaved} />
-              <Text className={"body-b2-strong text-neutral-10-default"}>
+              <Text className={"body-b2-strong w-10 text-neutral-10-default"}>
                 {isSaved ? "Saved" : "Save"}
               </Text>
             </>
