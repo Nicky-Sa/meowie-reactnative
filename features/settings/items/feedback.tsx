@@ -10,7 +10,9 @@ export const Feedback = () => {
   return (
     <Action onPress={() => router.push("/settings/feedback")}>
       <View className="flex w-full flex-row items-center justify-between">
-        <Text className="body-b1 text-neutral-10-default">Send Feedback</Text>
+        <Text className="body-b1-strong text-neutral-10-default">
+          Send Feedback
+        </Text>
         <Icon i={NavArrowRight} />
       </View>
     </Action>
