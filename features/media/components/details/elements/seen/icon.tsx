@@ -2,6 +2,8 @@ import { Eye } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
 import { RatingLottie } from "@/features/media/components/details/elements/seen/rating-lottie";
 import { useEffect, useRef, useState } from "react";
+import { View } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 type Props = {
   isSeen: boolean;
@@ -23,14 +25,27 @@ export const SeenIcon = ({ isSeen, rating }: Props) => {
     prevRating.current = rating;
   }, [isSeen, rating]);
 
-  if (!isSeen) {
-    return <Icon i={Eye} />;
-  }
-
-  if (rating) {
-    return <RatingLottie rating={rating} play={play} />;
-  }
-
-  // Seen but no rating (skipped)
-  return <RatingLottie rating={"skip"} play={play} />;
+  return (
+    <View className="h-6 w-6 items-center justify-center">
+      {!isSeen ? (
+        <Animated.View
+          key="eye"
+          entering={FadeIn.duration(300)}
+          exiting={FadeOut.duration(300)}
+          className="absolute"
+        >
+          <Icon i={Eye} />
+        </Animated.View>
+      ) : (
+        <Animated.View
+          key={rating ? `rating-${rating}` : "skip"}
+          entering={FadeIn.duration(400)}
+          exiting={FadeOut.duration(400)}
+          className="absolute"
+        >
+          <RatingLottie rating={rating ?? "skip"} play={play} />
+        </Animated.View>
+      )}
+    </View>
+  );
 };

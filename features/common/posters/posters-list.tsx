@@ -1,7 +1,12 @@
 import { Poster } from "@/features/common/posters/poster";
 import { ErrorState } from "@/features/general/error-state";
 import { PostersSkeletons } from "@/features/common/posters/poster-skeletons";
-import Animated, { ScrollHandlerProcessed } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
+  ScrollHandlerProcessed,
+} from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
@@ -58,11 +63,18 @@ export const PostersList = memo(
 
     const renderItem = useCallback(
       ({ item, index }: { item: PosterInfo; index: number }) => (
-        <Poster
-          data={item}
-          width={posterWidth}
-          onPress={() => onPosterPress(index)}
-        />
+        <Animated.View
+          entering={FadeIn.duration(400)}
+          exiting={FadeOut.duration(300)}
+          layout={LinearTransition.duration(400)}
+          key={`${item.mediaType}-${item.id}`}
+        >
+          <Poster
+            data={item}
+            width={posterWidth}
+            onPress={() => onPosterPress(index)}
+          />
+        </Animated.View>
       ),
       [onPosterPress, posterWidth],
     );

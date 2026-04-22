@@ -1,8 +1,5 @@
 import { ID } from "@/features/common/data/media-query";
-import {
-  useInvalidateByPattern,
-  useMutationConfigured,
-} from "@/features/common/data/query/hooks";
+import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import {
@@ -19,7 +16,6 @@ type Args = {
 export const useRemoveSaved = ({ id, mediaType }: Args) => {
   const cacheKey = `/library/status/${mediaType}/${id}`;
   const queryClient = useQueryClient();
-  const { invalidateByPattern } = useInvalidateByPattern();
 
   const { mutateAsync, ...rest } = useMutationConfigured<
     RemoveItemReqDto,
@@ -51,8 +47,6 @@ export const useRemoveSaved = ({ id, mediaType }: Args) => {
     } finally {
       await queryClient.invalidateQueries({ queryKey: [cacheKey] });
     }
-
-    await invalidateByPattern(/\/library\/saved.*/); // Invalidate saved list
   };
 
   return { removeSaved, ...rest };
