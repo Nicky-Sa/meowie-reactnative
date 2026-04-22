@@ -123,9 +123,9 @@ export const Button = ({
       disabled={props.disabled || isLoading}
     >
       <View
-        className={cn("overflow-hidden", focused && "opacity-50")}
+        className={cn("overflow-hidden")}
         style={{
-          opacity: props.disabled ? 0.5 : 1,
+          opacity: props.disabled ? 0.5 : focused ? 0.7 : 1,
           backgroundColor: buttonVariants[variant].backgroundColor,
           borderRadius: variant !== "link" ? buttonSizes[size].borderRadius : 0,
           borderWidth: buttonVariants[variant].borderWidth,
