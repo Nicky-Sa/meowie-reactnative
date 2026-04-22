@@ -1,10 +1,20 @@
 import { Tabs } from "expo-router";
-import { cn, tailwind } from "@/lib/tailwind";
-import { Pressable, PressableProps, View } from "react-native";
-import { PropsWithChildren } from "react";
-import { Icon } from "@/features/common/ui/icon";
+import { tailwind } from "@/lib/tailwind";
+import { useWindowDimensions, View, Pressable } from "react-native";
+import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import Animated, {
+  interpolateColor,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useDerivedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 type Props = {
   tabs: Tab[];
@@ -13,39 +23,20 @@ type Props = {
 export const Navbar = ({ tabs }: Props) => {
   const { capture } = useCaptureEvent();
 
-  const onTabPress = (tabName: string) => {
-    capture("navigation_clicked", { destination: tabName });
-  };
-
   return (
     <Tabs
       safeAreaInsets={{ bottom: 15 }}
+      tabBar={(props) => (
+        <CustomTabBar
+          {...props}
+          onTabPress={(name) =>
+            capture("navigation_clicked", { destination: name })
+          }
+        />
+      )}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIconStyle: { width: "100%", height: "150%" },
-        tabBarActiveTintColor:
-          tailwind.theme.backgroundColor.neutral[1].default,
-        tabBarInactiveTintColor:
-          tailwind.theme.backgroundColor.neutral[9].default,
-        tabBarStyle: {
-          position: "absolute",
-          bottom: Number(tailwind.theme.spacing[6]),
-          left: 0,
-          right: 0,
-          marginHorizontal: "20%",
-          borderRadius: Number(tailwind.theme.borderRadius.full),
-          backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
-          borderTopWidth: 1,
-          borderRightWidth: 1,
-          borderLeftWidth: 1,
-          borderColor: tailwind.theme.borderColor.neutral[3].default,
-          shadowColor: tailwind.theme.backgroundColor.neutral[10].default,
-          shadowOpacity: 0.2,
-          shadowRadius: Number(tailwind.theme.borderRadius.xl),
-          elevation: 5,
-          zIndex: 10,
-        },
       }}
     >
       {tabs.map((tab) => (
@@ -54,22 +45,9 @@ export const Navbar = ({ tabs }: Props) => {
           name={tab.name}
           options={{
             title: tab.title,
-            tabBarIcon: ({ color, size, focused }) => (
-              <TabIcon focused={focused}>
-                <Icon i={tab.icon} height={size} width={size} color={color} />
-              </TabIcon>
+            tabBarIcon: (props) => (
+              <AnimatedTabIcon {...props} icon={tab.icon} />
             ),
-            tabBarButton: ({ onPress, ...props }: PressableProps) => {
-              return (
-                <Pressable
-                  onPress={(event) => {
-                    onTabPress(tab.name);
-                    onPress?.(event);
-                  }}
-                  {...props}
-                />
-              );
-            },
           }}
         />
       ))}
@@ -77,19 +55,122 @@ export const Navbar = ({ tabs }: Props) => {
   );
 };
 
-const TabIcon = ({
-  children,
+const AnimatedTabIcon = ({
   focused,
-}: PropsWithChildren<{ focused: boolean }>) => {
+  icon,
+}: {
+  focused: boolean;
+  icon: SvgImage;
+}) => {
+  const activeColor = tailwind.theme.backgroundColor.neutral[1].default;
+  const inactiveColor = tailwind.theme.backgroundColor.neutral[9].default;
+
+  const progress = useDerivedValue(() => {
+    return withTiming(focused ? 1 : 0, { duration: 250 });
+  });
+
+  const animatedProps = useAnimatedProps(() => {
+    return {
+      color: interpolateColor(
+        progress.value,
+        [0, 1],
+        [inactiveColor, activeColor],
+      ),
+    };
+  });
+
   return (
-    <View className="flex h-full w-full flex-col items-center justify-center gap-1.5">
-      {children}
-      <View
-        className={cn(
-          "h-1 w-3 rounded-full",
-          focused && "bg-neutral-1-default",
-        )}
-      />
+    <View className="mb-1">
+      <AnimatedIcon i={icon} animatedProps={animatedProps} />
     </View>
+  );
+};
+
+const CustomTabBar = ({
+  state,
+  descriptors,
+  navigation,
+  onTabPress,
+}: BottomTabBarProps & {
+  onTabPress: (name: string) => void;
+}) => {
+  const { width } = useWindowDimensions();
+  const barWidth = width * 0.6;
+  const tabWidth = barWidth / state.routes.length - 0.7;
+
+  return (
+    <View
+      className={
+        "shadow-neutral-10-default absolute bottom-7 z-10 h-[70px] flex-row items-center rounded-full border-l border-r border-t border-neutral-3-default bg-neutral-14-default shadow-xl"
+      }
+      style={{
+        width: barWidth,
+        left: (width - barWidth) / 2,
+        elevation: 5,
+      }}
+    >
+      <SlidingIndicator index={state.index} tabWidth={tabWidth} />
+
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            onTabPress(route.name);
+            navigation.navigate(route.name);
+          }
+        };
+
+        return (
+          <Pressable
+            key={route.key}
+            onPress={onPress}
+            className="h-full flex-1 items-center justify-center"
+          >
+            {options.tabBarIcon?.({
+              focused: isFocused,
+              color: "", // Handled by AnimatedTabIcon internally
+              size: 24,
+            })}
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+};
+
+const SlidingIndicator = ({
+  index,
+  tabWidth,
+}: {
+  index: number;
+  tabWidth: number;
+}) => {
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: withSpring(index * tabWidth, {
+          damping: 20,
+          stiffness: 150,
+          mass: 0.5,
+        }),
+      },
+    ],
+  }));
+
+  return (
+    <Animated.View
+      className="absolute bottom-4 left-0 items-center justify-center"
+      style={[animatedStyle, { width: tabWidth }]}
+    >
+      <View className="h-1 w-3 rounded-full bg-neutral-1-default" />
+    </Animated.View>
   );
 };
