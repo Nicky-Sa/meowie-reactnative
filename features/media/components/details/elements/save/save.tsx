@@ -6,11 +6,10 @@ import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
 import { useState, useRef } from "react";
-import { InformationModal } from "@/features/common/information-modal";
-import EmptySaved from "@/assets/images/profile/empty-saved.svg";
-import { useRouter } from "expo-router";
 import { SaveIcon } from "@/features/media/components/details/elements/save/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
+import { LoginWarningModal } from "@/features/auth/login-warning-modal";
+import EmptySaved from "@/assets/images/profile/empty-saved.svg";
 
 import { MediaType } from "@/features/common/data/models/media-type";
 import {
@@ -33,7 +32,6 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
   const isSaved = Boolean(libraryStatus?.saved);
   const isSeen = Boolean(libraryStatus?.seen);
 
-  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
@@ -96,26 +94,14 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
         </View>
       </BottomSheet>
 
-      <InformationModal
+      <LoginWarningModal
         img={EmptySaved}
-        informationText={
+        text={
           "You'll need an account to keep track of movies you want to watch."
         }
         modalVisible={showLoginModal}
         setModalVisible={setShowLoginModal}
-      >
-        <Button
-          onPress={() => {
-            router.push("/auth/request-otp");
-            setShowLoginModal(false);
-          }}
-          variant={"white"}
-          size={"md"}
-          className={"w-full"}
-        >
-          Login or Sign Up
-        </Button>
-      </InformationModal>
+      />
     </>
   );
 };

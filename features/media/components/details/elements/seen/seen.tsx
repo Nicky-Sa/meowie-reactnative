@@ -7,12 +7,11 @@ import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
 import { useRef, useState } from "react";
-import { InformationModal } from "@/features/common/information-modal";
-import EmptySeen from "@/assets/images/profile/empty-seen.svg";
-import { useRouter } from "expo-router";
+import { LoginWarningModal } from "@/features/auth/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/details/elements/seen/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
+import EmptySeen from "@/assets/images/profile/empty-seen.svg";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
@@ -50,7 +49,6 @@ export const Seen = ({
   const currentRating = libraryStatus?.rating;
   const showSaveWarning = !isSeen && isSaved;
 
-  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
@@ -176,24 +174,12 @@ export const Seen = ({
         </View>
       </BottomSheet>
 
-      <InformationModal
+      <LoginWarningModal
         img={EmptySeen}
-        informationText={"You'll need an account to track what you've seen."}
+        text={"You'll need an account to track what you've seen."}
         modalVisible={showLoginModal}
         setModalVisible={setShowLoginModal}
-      >
-        <Button
-          onPress={() => {
-            router.push("/auth/request-otp");
-            setShowLoginModal(false);
-          }}
-          variant={"white"}
-          size={"md"}
-          className={"w-full"}
-        >
-          Login or Sign Up
-        </Button>
-      </InformationModal>
+      />
     </>
   );
 };
