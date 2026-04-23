@@ -64,29 +64,65 @@ export const MovieDetailsA = memo(
 
     const onSavePress = useCallback(
       (saved: boolean | null) => {
-        capture("media_saved", {
+        if (saved === true) {
+          capture("media_save_clicked", {
+            media_type: "movie",
+            media_id: movieId,
+            media_title: data?.title || "",
+            genres: data?.genres.map((genre) => genre.name) || [],
+          });
+        } else if (saved === false) {
+          capture("media_unsave_clicked", {
+            media_type: "movie",
+            media_id: movieId,
+            media_title: data?.title || "",
+            genres: data?.genres.map((genre) => genre.name) || [],
+          });
+        }
+      },
+      [capture, data?.genres, data?.title, movieId],
+    );
+
+    const onSeenPress = useCallback(() => {
+      capture("media_seen_clicked", {
+        media_type: "movie",
+        media_id: movieId,
+        media_title: data?.title || "",
+        genres: data?.genres.map((genre) => genre.name) || [],
+      });
+    }, [capture, data?.genres, data?.title, movieId]);
+
+    const onRate = useCallback(
+      (rating: number | null, isFirstTime: boolean) => {
+        capture("media_rated", {
           media_type: "movie",
           media_id: movieId,
           media_title: data?.title || "",
           genres: data?.genres.map((genre) => genre.name) || [],
-          saved,
+          rating,
+          is_first_time_rating: isFirstTime,
         });
       },
       [capture, data?.genres, data?.title, movieId],
     );
 
-    const onSeenPress = useCallback(
-      (seen: boolean | null) => {
-        capture("media_seen", {
-          media_type: "movie",
-          media_id: movieId,
-          media_title: data?.title || "",
-          genres: data?.genres.map((genre) => genre.name) || [],
-          seen,
-        });
-      },
-      [capture, data?.genres, data?.title, movieId],
-    );
+    const onSkip = useCallback(() => {
+      capture("media_rating_skipped", {
+        media_type: "movie",
+        media_id: movieId,
+        media_title: data?.title || "",
+        genres: data?.genres.map((genre) => genre.name) || [],
+      });
+    }, [capture, data?.genres, data?.title, movieId]);
+
+    const onRemoveSeen = useCallback(() => {
+      capture("media_unseen_clicked", {
+        media_type: "movie",
+        media_id: movieId,
+        media_title: data?.title || "",
+        genres: data?.genres.map((genre) => genre.name) || [],
+      });
+    }, [capture, data?.genres, data?.title, movieId]);
 
     const onPosterExpanded = useCallback(() => {
       capture("poster_expanded", {
@@ -229,7 +265,14 @@ export const MovieDetailsA = memo(
           >
             <Save id={movieId} mediaType="movie" onPress={onSavePress} />
           </Tourable>
-          <Seen id={movieId} mediaType="movie" onPress={onSeenPress} />
+          <Seen
+            id={movieId}
+            mediaType="movie"
+            onPress={onSeenPress}
+            onRate={onRate}
+            onSkip={onSkip}
+            onRemove={onRemoveSeen}
+          />
         </View>
       </View>
     );

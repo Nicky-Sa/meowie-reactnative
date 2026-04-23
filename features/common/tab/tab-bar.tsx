@@ -28,6 +28,11 @@ export const TabBar = memo(({ tabsConfig, index, onTabPress }: Props) => {
 
   const onTabItemPress = (tabName: string) => {
     capture("profile_tab_changed", { tab_name: tabName });
+    if (tabName === "saved") {
+      capture("profile_saved_tab_clicked");
+    } else if (tabName === "seen") {
+      capture("profile_seen_tab_clicked");
+    }
     onTabPress(tabName);
   };
 

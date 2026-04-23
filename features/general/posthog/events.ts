@@ -36,25 +36,65 @@ export type TRAILER_PAUSED = {
   };
 };
 
-export type MEDIA_SAVED = {
-  event: "media_saved";
+export type MEDIA_SAVE_CLICKED = {
+  event: "media_save_clicked";
   properties: {
-    media_type: MediaType;
     media_id: ID;
+    media_type: MediaType;
     media_title: string;
     genres: string[];
-    saved: boolean | null; // null for guest
   };
 };
 
-export type MEDIA_SEEN = {
-  event: "media_seen";
+export type MEDIA_UNSAVE_CLICKED = {
+  event: "media_unsave_clicked";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+    media_title: string;
+    genres: string[];
+  };
+};
+
+export type MEDIA_SEEN_CLICKED = {
+  event: "media_seen_clicked";
   properties: {
     media_type: MediaType;
     media_id: ID;
     media_title: string;
     genres: string[];
-    seen: boolean | null; // null for guest
+  };
+};
+
+export type MEDIA_UNSEEN_CLICKED = {
+  event: "media_unseen_clicked";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
+    genres: string[];
+  };
+};
+
+export type MEDIA_RATED = {
+  event: "media_rated";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
+    genres: string[];
+    rating: number | null;
+    is_first_time_rating: boolean;
+  };
+};
+
+export type MEDIA_RATING_SKIPPED = {
+  event: "media_rating_skipped";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
+    genres: string[];
   };
 };
 
@@ -135,6 +175,16 @@ export type PROFILE_TAB_CHANGED = {
   };
 };
 
+export type PROFILE_SAVED_TAB_CLICKED = {
+  event: "profile_saved_tab_clicked";
+  properties?: undefined;
+};
+
+export type PROFILE_SEEN_TAB_CLICKED = {
+  event: "profile_seen_tab_clicked";
+  properties?: undefined;
+};
+
 export type AUTOPLAY_TOGGLED = {
   event: "autoplay_toggled";
   properties: {
@@ -190,8 +240,12 @@ export type Events =
   | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | MEDIA_SAVED
-  | MEDIA_SEEN
+  | MEDIA_SAVE_CLICKED
+  | MEDIA_UNSAVE_CLICKED
+  | MEDIA_SEEN_CLICKED
+  | MEDIA_RATED
+  | MEDIA_UNSEEN_CLICKED
+  | MEDIA_RATING_SKIPPED
   | POSTER_EXPANDED
   | PERSON_CLICKED
   | GENRE_CLICKED
@@ -202,6 +256,8 @@ export type Events =
   | FILTERS_OPENED
   | FILTERS_APPLIED
   | PROFILE_TAB_CHANGED
+  | PROFILE_SAVED_TAB_CLICKED
+  | PROFILE_SEEN_TAB_CLICKED
   | AUTOPLAY_TOGGLED
   | CACHE_CLEARED
   | AUTH_SKIPPED

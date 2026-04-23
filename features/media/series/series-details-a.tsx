@@ -60,29 +60,65 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
-      capture("media_saved", {
+      if (saved === true) {
+        capture("media_save_clicked", {
+          media_type: "series",
+          media_id: seriesId,
+          media_title: data?.title || "",
+          genres: data?.genres.map((genre) => genre.name) || [],
+        });
+      } else if (saved === false) {
+        capture("media_unsave_clicked", {
+          media_type: "series",
+          media_id: seriesId,
+          media_title: data?.title || "",
+          genres: data?.genres.map((genre) => genre.name) || [],
+        });
+      }
+    },
+    [capture, data?.genres, data?.title, seriesId],
+  );
+
+  const onSeenPress = useCallback(() => {
+    capture("media_seen_clicked", {
+      media_type: "series",
+      media_id: seriesId,
+      media_title: data?.title || "",
+      genres: data?.genres.map((genre) => genre.name) || [],
+    });
+  }, [capture, data?.genres, data?.title, seriesId]);
+
+  const onRate = useCallback(
+    (rating: number | null, isFirstTime: boolean) => {
+      capture("media_rated", {
         media_type: "series",
         media_id: seriesId,
         media_title: data?.title || "",
         genres: data?.genres.map((genre) => genre.name) || [],
-        saved,
+        rating,
+        is_first_time_rating: isFirstTime,
       });
     },
     [capture, data?.genres, data?.title, seriesId],
   );
 
-  const onSeenPress = useCallback(
-    (seen: boolean | null) => {
-      capture("media_seen", {
-        media_type: "series",
-        media_id: seriesId,
-        media_title: data?.title || "",
-        genres: data?.genres.map((genre) => genre.name) || [],
-        seen,
-      });
-    },
-    [capture, data?.genres, data?.title, seriesId],
-  );
+  const onSkip = useCallback(() => {
+    capture("media_rating_skipped", {
+      media_type: "series",
+      media_id: seriesId,
+      media_title: data?.title || "",
+      genres: data?.genres.map((genre) => genre.name) || [],
+    });
+  }, [capture, data?.genres, data?.title, seriesId]);
+
+  const onRemoveSeen = useCallback(() => {
+    capture("media_unseen_clicked", {
+      media_type: "series",
+      media_id: seriesId,
+      media_title: data?.title || "",
+      genres: data?.genres.map((genre) => genre.name) || [],
+    });
+  }, [capture, data?.genres, data?.title, seriesId]);
 
   const onPosterExpanded = useCallback(() => {
     capture("poster_expanded", {
@@ -174,7 +210,14 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
         className={"mt-4 flex w-full flex-row items-center justify-start gap-6"}
       >
         <Save id={seriesId} mediaType="series" onPress={onSavePress} />
-        <Seen id={seriesId} mediaType="series" onPress={onSeenPress} />
+        <Seen
+          id={seriesId}
+          mediaType="series"
+          onPress={onSeenPress}
+          onRate={onRate}
+          onSkip={onSkip}
+          onRemove={onRemoveSeen}
+        />
       </View>
     </View>
   );

@@ -25,10 +25,20 @@ import RatingSkip from "@/assets/images/ratings/rating-skip.svg";
 type Props = {
   id: ID;
   mediaType: MediaType;
-  onPress: (seen: boolean | null) => void;
+  onPress: () => void;
+  onRate: (rating: number | null, isFirstTime: boolean) => void;
+  onSkip: () => void;
+  onRemove: () => void;
 };
 
-export const Seen = ({ id, mediaType, onPress }: Props) => {
+export const Seen = ({
+  id,
+  mediaType,
+  onPress,
+  onRate,
+  onSkip,
+  onRemove,
+}: Props) => {
   const { data: currentUser } = useCurrentUser();
   const { data: libraryStatus, isLoading: isLibraryStatusLoading } =
     useFetchLibraryStatus({ id, mediaType });
@@ -46,29 +56,36 @@ export const Seen = ({ id, mediaType, onPress }: Props) => {
 
   const handlePress = async () => {
     if (!currentUser?.user) {
-      onPress(null);
+      onPress();
       setShowLoginModal(true);
       return;
     }
 
     // Always open the bottom sheet — for both initial and update flows
     bottomSheetRef.current?.present();
-    onPress(!isSeen);
+    onPress();
   };
 
   const handleRate = async (rating: number | null) => {
     bottomSheetRef.current?.dismiss();
+    const isFirstTime = !isSeen;
     if (isSeen) {
       await updateRating(rating ?? undefined);
     } else {
       await markAsSeen(rating ?? undefined);
+    }
+
+    if (rating === null) {
+      onSkip();
+    } else {
+      onRate(rating, isFirstTime);
     }
   };
 
   const handleUnseen = async () => {
     bottomSheetRef.current?.dismiss();
     await removeSeen();
-    onPress(false);
+    onRemove();
   };
 
   return (
