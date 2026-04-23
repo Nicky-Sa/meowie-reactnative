@@ -6,7 +6,7 @@ import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
 import { useState, useRef } from "react";
-import { SaveIcon } from "@/features/media/components/details/elements/save/icon";
+import { SaveIcon } from "@/features/media/components/details/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { LoginWarningModal } from "@/features/auth/login-warning-modal";
 import EmptySaved from "@/assets/images/profile/empty-saved.svg";

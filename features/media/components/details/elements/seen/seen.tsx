@@ -8,7 +8,7 @@ import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
 import { useRef, useState } from "react";
 import { LoginWarningModal } from "@/features/auth/login-warning-modal";
-import { SeenIcon } from "@/features/media/components/details/elements/seen/icon";
+import { SeenIcon } from "@/features/media/components/details/elements/seen/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
 import EmptySeen from "@/assets/images/profile/empty-seen.svg";
@@ -16,10 +16,10 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
-import { RATINGS } from "@/features/media/components/details/elements/seen/rating-icons";
-import { cn } from "@/lib/tailwind";
+import { RATINGS } from "@/features/media/components/details/elements/seen/elements/rating-icons";
 import { Icon } from "@/features/common/ui/icon";
 import RatingSkip from "@/assets/images/ratings/rating-skip.svg";
+import { RatingButton } from "@/features/media/components/details/elements/seen/elements/rating-button";
 
 type Props = {
   id: ID;
@@ -150,24 +150,13 @@ export const Seen = ({
             {RATINGS.map(({ value, icon }) => {
               const isSelected = currentRating === value;
               return (
-                <Button
+                <RatingButton
                   key={value}
-                  variant={"ghost"}
-                  size={"unset"}
-                  onPress={() => handleRate(value)}
-                >
-                  <View
-                    className={cn(
-                      "flex flex-col items-center gap-2 rounded-xl border border-neutral-3-default p-2",
-                      isSelected && "bg-brand-1-default",
-                    )}
-                  >
-                    <Icon i={icon} width={48} height={48} />
-                    <Text className="body-b2 text-neutral-10-default">
-                      {value}
-                    </Text>
-                  </View>
-                </Button>
+                  value={value}
+                  handleRate={handleRate}
+                  isSelected={isSelected}
+                  icon={icon}
+                />
               );
             })}
           </View>
