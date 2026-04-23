@@ -235,6 +235,15 @@ export type ACCOUNT_DELETED = {
   };
 };
 
+export type MEDIA_DETAILS_VIEWED = {
+  event: "media_details_viewed";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+    duration_ms: number;
+  };
+};
+
 export type Events =
   | SORT_OPENED
   | SORT_APPLIED
@@ -265,7 +274,8 @@ export type Events =
   | OTP_REQUESTED
   | LOGIN_COMPLETED
   | LOGOUT
-  | ACCOUNT_DELETED;
+  | ACCOUNT_DELETED
+  | MEDIA_DETAILS_VIEWED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
