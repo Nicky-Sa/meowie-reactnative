@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "expo start --clear --dev-client",
+    "start": "npx ts-node ./scripts/set-backend-url-env.ts && expo start --clear --dev-client --lan",
     "prebuild": "expo prebuild --clean",
     "eas-build:local-dev:android": "eas env:pull --environment development && eas build --platform android --profile local-development --clear-cache --local --output=./local-builds/dev/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
     "eas-build:local-dev:ios-simulator": "eas env:pull --environment development && eas build --platform ios --profile local-development-ios-simulator --clear-cache --local --output=./local-builds/dev/ios-simulator/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
