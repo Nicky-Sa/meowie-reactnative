@@ -17,7 +17,7 @@ import { Save } from "@/features/media/components/details/elements/save/save";
 import { Seen } from "@/features/media/components/details/elements/seen/seen";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
-import { Tourable } from "@/features/common/ui/tour/Tourable";
+import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 
 type Props = {
@@ -140,16 +140,12 @@ export const MovieDetailsA = memo(
       <View className={"flex w-full flex-col gap-4"}>
         <View className={"flex w-full flex-row gap-2"}>
           <Tourable
-            tour={
-              tourEnabled
-                ? {
-                    step: TourStep.MediaPoster,
-                    text: "Click to expand the poster.",
-                    shape: "rectangle",
-                    borderRadius: 12,
-                  }
-                : null
-            }
+            tourEnabled={tourEnabled}
+            tour={{
+              step: TourStep.MediaPoster,
+              shape: "rectangle",
+              borderRadius: 12,
+            }}
           >
             <EnlargeableImage
               source={data.posterPath}
@@ -181,16 +177,12 @@ export const MovieDetailsA = memo(
               </Text>
             </View>
             <Tourable
-              tour={
-                tourEnabled
-                  ? {
-                      step: TourStep.MediaDirector,
-                      text: "Click to see the director's page.",
-                      shape: "rectangle",
-                      borderRadius: 14,
-                    }
-                  : null
-              }
+              tourEnabled={tourEnabled}
+              tour={{
+                step: TourStep.MediaDirector,
+                shape: "rectangle",
+                borderRadius: 14,
+              }}
             >
               <Cast {...data.credits.director} />
             </Tourable>
@@ -216,16 +208,12 @@ export const MovieDetailsA = memo(
         </Text>
 
         <Tourable
-          tour={
-            tourEnabled
-              ? {
-                  step: TourStep.MediaGenres,
-                  text: "Click on any genre to filter by it.",
-                  shape: "rectangle",
-                  borderRadius: 14,
-                }
-              : null
-          }
+          tourEnabled={tourEnabled}
+          tour={{
+            step: TourStep.MediaGenres,
+            shape: "rectangle",
+            borderRadius: 14,
+          }}
         >
           <ScrollView
             horizontal
@@ -252,27 +240,32 @@ export const MovieDetailsA = memo(
           }
         >
           <Tourable
-            tour={
-              tourEnabled
-                ? {
-                    step: TourStep.MediaSave,
-                    text: "Save it for later!",
-                    shape: "rectangle",
-                    borderRadius: 14,
-                  }
-                : null
-            }
+            tourEnabled={tourEnabled}
+            tour={{
+              step: TourStep.MediaSave,
+              shape: "rectangle",
+              borderRadius: 14,
+            }}
           >
             <Save id={movieId} mediaType="movie" onPress={onSavePress} />
           </Tourable>
-          <Seen
-            id={movieId}
-            mediaType="movie"
-            onPress={onSeenPress}
-            onRate={onRate}
-            onSkip={onSkip}
-            onRemove={onRemoveSeen}
-          />
+          <Tourable
+            tourEnabled={tourEnabled}
+            tour={{
+              step: TourStep.MediaSeen,
+              shape: "rectangle",
+              borderRadius: 14,
+            }}
+          >
+            <Seen
+              id={movieId}
+              mediaType="movie"
+              onPress={onSeenPress}
+              onRate={onRate}
+              onSkip={onSkip}
+              onRemove={onRemoveSeen}
+            />
+          </Tourable>
         </View>
       </View>
     );

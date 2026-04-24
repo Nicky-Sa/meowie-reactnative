@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { SortHeaderButton } from "@/features/sort/header-button";
-import { Tourable } from "@/features/common/ui/tour/Tourable";
+import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 
 type Props = {
@@ -101,7 +101,6 @@ export const Header = ({
           <Tourable
             tour={{
               step: TourStep.HeaderToggle,
-              text: "Switch between Movies and Series here.",
               shape: "rectangle",
               borderRadius: 28,
             }}
@@ -129,7 +128,6 @@ export const Header = ({
         <Tourable
           tour={{
             step: TourStep.HeaderSort,
-            text: "Sort content by date or popularity.",
             shape: "circle",
           }}
         >
