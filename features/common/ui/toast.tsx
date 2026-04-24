@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 import { View, Text } from "react-native";
 import { ToastConfig } from "react-native-toast-message";
 import {
@@ -13,15 +13,22 @@ import { tailwind } from "@/lib/tailwind";
 //     Toast.show({
 //       type: "success",
 //       text1: "Thanks for your feedback!",
+//       text2: "We'll be in touch!"
 //     });
 
 type BaseToastContentProps = {
   text1?: string;
-  icon: React.ReactNode;
+  text2?: string;
+  icon: ReactNode;
   bgColor: string;
 };
 
-const BaseToastContent = ({ text1, icon, bgColor }: BaseToastContentProps) => (
+const BaseToastContent = ({
+  text1,
+  text2,
+  icon,
+  bgColor,
+}: BaseToastContentProps) => (
   <View
     className={
       "w-[70%] flex-row items-center gap-2 rounded-full px-4 py-3 shadow-lg"
@@ -31,18 +38,27 @@ const BaseToastContent = ({ text1, icon, bgColor }: BaseToastContentProps) => (
     }}
   >
     {icon}
-    <Text className="body-b1 flex-1 text-neutral-10-default" numberOfLines={2}>
-      {text1}
-    </Text>
+    <View className={"flex flex-col items-start"}>
+      <Text
+        className="body-b1 flex-1 text-neutral-10-default"
+        numberOfLines={2}
+      >
+        {text1}
+      </Text>
+      <Text className="body-b2 flex-1 text-neutral-8-default" numberOfLines={2}>
+        {text2}
+      </Text>
+    </View>
   </View>
 );
 
-type CustomToastProps = Pick<BaseToastContentProps, "text1">;
+type CustomToastProps = Pick<BaseToastContentProps, "text1" | "text2">;
 
 export const toastConfig: ToastConfig = {
-  success: ({ text1 }: CustomToastProps) => (
+  success: ({ text1, text2 }: CustomToastProps) => (
     <BaseToastContent
       text1={text1}
+      text2={text2}
       bgColor={tailwind.theme.backgroundColor.success["2"].default}
       icon={
         <Icon
@@ -52,9 +68,10 @@ export const toastConfig: ToastConfig = {
       }
     />
   ),
-  error: ({ text1 }: CustomToastProps) => (
+  error: ({ text1, text2 }: CustomToastProps) => (
     <BaseToastContent
       text1={text1}
+      text2={text2}
       bgColor={tailwind.theme.backgroundColor.error["2"].default}
       icon={
         <Icon
@@ -64,9 +81,10 @@ export const toastConfig: ToastConfig = {
       }
     />
   ),
-  info: ({ text1 }: CustomToastProps) => (
+  info: ({ text1, text2 }: CustomToastProps) => (
     <BaseToastContent
       text1={text1}
+      text2={text2}
       bgColor={tailwind.theme.backgroundColor.neutral["11"].default}
       icon={
         <Icon

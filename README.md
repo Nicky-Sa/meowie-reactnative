@@ -32,7 +32,7 @@ This is an [Expo](https://expo.dev) project created with [
         - Open the "Orbit" on Mac and select the detected device or simulator (its icon should have a blue background).
         - Create a build:
           ```bash
-          npm run eas-build:local-dev:android
+          npm run eas-build:local-development:android
           ```
         - Select Y at the end of build to open the emulator or Open the build
           in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'.
@@ -44,14 +44,14 @@ This is an [Expo](https://expo.dev) project created with [
     - **[iOS simulator](https://docs.expo.dev/tutorial/eas/ios-development-build-for-simulators/)**:
         - Create a build:
           ```bash
-          npm run eas-build:local-dev:ios-simulator
+          npm run eas-build:local-development:ios-simulator
           ```
         - Select Y at the end of build to open the simulator or Open the build
           in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on 'Open with Orbit'.
     - **[iOS device](https://docs.expo.dev/tutorial/eas/ios-development-build-for-devices/)**:
         - Create a build:
           ```bash
-          npm run eas-build:local-dev:ios-device
+          npm run eas-build:local-development:ios-device
           ```
         - Open the build in [EAS dashboard](https://expo.dev/accounts/nicky_sa/projects/meowie/builds) and click on '
           Open with Orbit' or scan the QR code.
@@ -71,7 +71,7 @@ There are many hooks than can run commands before and after the build. Follow
 them [here](https://docs.expo.dev/build-reference/npm-hooks/)
 
 > **⚠️ EAS Local Build on macOS:** Local builds require `EAS_LOCAL_BUILD_WORKINGDIR` to be set to a non-symlinked path (
-> e.g. `$HOME/tmp/eas-build`). This avoids `/tmp` → `/private/tmp` symlink mismatches that break Metro resolution. 
+> e.g. `$HOME/tmp/eas-build`). This avoids `/tmp` → `/private/tmp` symlink mismatches that break Metro resolution.
 > Add `export EAS_LOCAL_BUILD_WORKINGDIR="$HOME/tmp/eas-build"` to your `~/.zshrc`. If a build fails mid-way, clean the
 > directory before retrying: `rm -rf ~/tmp/eas-build && mkdir ~/tmp/eas-build`.
 
@@ -113,10 +113,10 @@ npm run test:e2e-preview:ios
 
 ```bash
 # 1. Build the app binary for Detox using the preview environment variables
-npm run eas-build:detox-dev:ios
+npm run eas-build:detox-development:ios
 
 # 2. Run the detox tests
-npm run test:e2e-dev:ios
+npm run test:e2e-development:ios
 ```
 
 **To run on Android Emulator:**
@@ -135,15 +135,44 @@ npm run test:e2e-preview:android
 
 ```bash
 # 1. Build the app binary for Detox using the preview environment variables
-npm run eas-build:detox-dev:android
+npm run eas-build:detox-development:android
 
 # 2. Run the detox tests
-npm run test:e2e-dev:android
+npm run test:e2e-development:android
 ```
 
+## OTA Updates (EAS Update)
+
+This project is configured to use [EAS Update](https://docs.expo.dev/eas-update/introduction/) for over-the-air (OTA)
+updates. This allows you to push JS-only changes (like bug fixes or UI updates) instantly without resubmitting to the
+App Store.
+
+**Important 1**: Currently, only **iOS** updates are supported by these scripts.
+**Important 2**: Make sure the version in `package.json` matches your target version. You can revert that change after
+the update.
+
+To push an update, you must provide a message describing your changes. Use the `--` separator to pass the message to the
+command:
+
+```bash
+# For Development (Internal)
+npm run eas-update:development:ios -- "your message"
+
+# For Preview (TestFlight)
+npm run eas-update:preview:iospreview -- "your message"
+
+# For Production (App Store)
+npm run eas-update:production:iospreview -- "your message"
+```
+
+The app includes an `UpdatesListener` that will automatically detect these updates on launch, download them in the
+background, and reload the app to apply them.
 
 ## Design system
-1. To export all figma variables and primitives, use [Export Variables (CSS, SCSS, Tailwind)](https://www.figma.com/community/plugin/1382804904426179542/export-variables-css-scss-tailwind) plugin
+
+1. To export all figma variables and primitives,
+   use [Export Variables (CSS, SCSS, Tailwind)](https://www.figma.com/community/plugin/1382804904426179542/export-variables-css-scss-tailwind)
+   plugin
 2. Update `/figma/input.ts`
 3. Run `npm run generate-figma-variables`
 4. Check `/figma/output.ts` and extract what you need to `tailwind.config.ts`

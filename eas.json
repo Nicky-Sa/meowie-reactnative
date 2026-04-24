@@ -5,6 +5,7 @@
   },
   "build": {
     "local-development": {
+      "channel": "development",
       "environment": "development",
       "developmentClient": true,
       "distribution": "internal"
@@ -25,6 +26,7 @@
       }
     },
     "local-preview": {
+      "channel": "preview",
       "environment": "preview",
       "distribution": "internal"
     },
@@ -41,16 +43,19 @@
       }
     },
     "testflight-preview": {
+      "channel": "preview",
       "environment": "preview",
       "distribution": "store",
       "autoIncrement": true
     },
     "testflight-production": {
+      "channel": "production",
       "environment": "production",
       "distribution": "store",
       "autoIncrement": true
     },
     "production": {
+      "channel": "production",
       "environment": "production",
       "autoIncrement": true
     }

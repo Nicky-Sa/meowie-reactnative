@@ -21,6 +21,7 @@ import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
 import { env } from "@/lib/env";
+import { UpdatesListener } from "@/features/general/updates-listener";
 
 function RootLayout() {
   const themeConfig = useThemeConfig();
@@ -51,6 +52,7 @@ function RootLayout() {
           captureScreens: true,
         }}
       >
+        <UpdatesListener />
         <PostHogSurveyProvider>
           <ScreenTracker>
             <EventListenerWrapper>
