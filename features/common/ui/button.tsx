@@ -1,7 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { Pressable, PressableProps, Text, View } from "react-native";
 import { cn, tailwind } from "@/lib/tailwind";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, ReactNode, useState } from "react";
 import { Loading } from "@/features/common/ui/loading";
 
 const buttonVariants = {
@@ -87,24 +87,25 @@ const buttonSizes = {
 type Props = PressableProps & {
   variant?: keyof typeof buttonVariants;
   size?: keyof typeof buttonSizes;
-  iconOnly?: boolean;
   haptic?: boolean;
-  iconPosition?: "left" | "right";
+  iconPosition?: "left" | "right" | "only";
   isLoading?: boolean;
+  icon?: ReactNode;
 };
 
 export const Button = ({
   variant = "primary",
   size = "lg",
-  iconOnly = false,
   haptic = true,
-  iconPosition,
   isLoading,
+  icon,
+  iconPosition = "left",
   children,
   ...props
 }: PropsWithChildren<Props>) => {
   const [focused, setFocused] = useState(false);
-  const isTextOnly = typeof children === "string";
+  const textOnly = typeof children === "string" && !!children;
+  const iconOnly = iconPosition === "only";
 
   return (
     <Pressable
@@ -132,23 +133,11 @@ export const Button = ({
           borderColor: buttonVariants[variant].borderColor,
           paddingVertical:
             variant !== "link" ? buttonSizes[size].paddingVertical : 0,
-          paddingRight:
+          paddingHorizontal:
             variant !== "link"
               ? iconOnly
                 ? buttonSizes[size].paddingVertical
-                : iconPosition === "right"
-                  ? buttonSizes[size].paddingHorizontal -
-                    buttonSizes[size].iconOffset
-                  : buttonSizes[size].paddingHorizontal
-              : 0,
-          paddingLeft:
-            variant !== "link"
-              ? iconOnly
-                ? buttonSizes[size].paddingVertical
-                : iconPosition === "left"
-                  ? buttonSizes[size].paddingHorizontal -
-                    buttonSizes[size].iconOffset
-                  : buttonSizes[size].paddingHorizontal
+                : buttonSizes[size].paddingHorizontal
               : 0,
           ...(props.style as object),
         }}
@@ -157,23 +146,34 @@ export const Button = ({
           <View className={cn(props.className)}>
             <Loading />
           </View>
-        ) : isTextOnly ? (
-          <Text
-            style={{ color: buttonVariants[variant].textColor }}
+        ) : (
+          <View
             className={cn(
-              {
-                "text-center": variant !== "link",
-                "body-b1-strong": size === "lg",
-                "body-b2-strong": size === "md",
-                "caption-c1-strong": size === "sm",
-              },
+              "flex-row items-center",
+              (textOnly || !!icon) && variant !== "link" && "justify-center",
               props.className,
             )}
+            style={textOnly ? { gap: buttonSizes[size].iconOffset } : undefined}
           >
-            {children}
-          </Text>
-        ) : (
-          children
+            {(iconPosition === "left" || iconPosition === "only") && icon}
+            {!iconOnly &&
+              (textOnly ? (
+                <Text
+                  style={{ color: buttonVariants[variant].textColor }}
+                  className={cn({
+                    "text-center": variant !== "link",
+                    "body-b1-strong": size === "lg",
+                    "body-b2-strong": size === "md",
+                    "caption-c1-strong": size === "sm",
+                  })}
+                >
+                  {children}
+                </Text>
+              ) : (
+                children
+              ))}
+            {iconPosition === "right" && icon}
+          </View>
         )}
       </View>
     </Pressable>

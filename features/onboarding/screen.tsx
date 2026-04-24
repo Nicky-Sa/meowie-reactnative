@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Carousel, {
   ICarouselInstance,
   Pagination,
@@ -130,9 +130,14 @@ export const Screen = () => {
             />
             <Button
               size={"lg"}
-              iconOnly={!isLastItem}
-              iconPosition={isLastItem ? "right" : undefined}
               variant={"white"}
+              iconPosition={isLastItem ? "right" : "only"}
+              icon={
+                <Icon
+                  i={NavArrowRight}
+                  color={tailwind.theme.textColor.neutral[1].default}
+                />
+              }
               onPress={() => {
                 if (isLastItem) {
                   AppStorage.setItem("onboarded", "true");
@@ -146,21 +151,7 @@ export const Screen = () => {
                 }
               }}
             >
-              <View
-                className={
-                  "flex flex-row-reverse items-center justify-center gap-2"
-                }
-              >
-                <Icon
-                  i={NavArrowRight}
-                  color={tailwind.theme.textColor.neutral[1].default}
-                />
-                {isLastItem && (
-                  <Text className={"body-b1-strong text-neutral-1-default"}>
-                    {"Let's Go"}
-                  </Text>
-                )}
-              </View>
+              {isLastItem ? "Let's Go" : null}
             </Button>
           </View>
         </View>

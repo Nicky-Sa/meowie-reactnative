@@ -65,12 +65,11 @@ export const BottomSheetWrapper = <TValue,>({
               <Chip text={chipText} />
               <Button
                 variant="link"
-                iconOnly
+                iconPosition={"only"}
                 onPress={onClear}
                 className="ml-2"
-              >
-                <Icon i={Xmark} />
-              </Button>
+                icon={<Icon i={Xmark} />}
+              />
             </View>
           ) : (
             <View className="flex flex-row">

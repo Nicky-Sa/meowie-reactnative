@@ -58,10 +58,9 @@ export const SortHeaderButton = () => {
         onPress={sortBottomsheetOpened}
         variant={"ghost"}
         size={"md"}
-        iconOnly
-      >
-        <Icon i={DataTransferBoth} />
-      </Button>
+        iconPosition={"only"}
+        icon={<Icon i={DataTransferBoth} />}
+      />
       <BottomSheet
         ref={bottomSheetRef}
         title={"Sort options"}

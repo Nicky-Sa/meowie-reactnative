@@ -94,9 +94,13 @@ export const InnerScreen = ({
           )}
         >
           <View className={"flex flex-row items-center justify-start"}>
-            <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
-              <Icon i={NavArrowLeft} />
-            </Button>
+            <Button
+              onPress={handleBack}
+              variant={"ghost"}
+              size={"md"}
+              iconPosition={"only"}
+              icon={<Icon i={NavArrowLeft} />}
+            />
             <Animated.Text
               style={[titleAnimatedStyle]}
               className={"title-t2-strong text-neutral-10-default"}

@@ -17,10 +17,9 @@ export const FilterIndicator = ({ modifiedFieldsNumber }: Props) => {
         onPress={() => router.push("/filters")}
         variant={"ghost"}
         size={"md"}
-        iconOnly
-      >
-        <Icon i={Filter} />
-      </Button>
+        iconPosition={"only"}
+        icon={<Icon i={Filter} />}
+      />
       {modifiedFieldsNumber > 0 && (
         <View className={"absolute -left-2"}>
           <Chip text={modifiedFieldsNumber} variant={"primary"} />

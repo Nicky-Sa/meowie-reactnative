@@ -10,9 +10,8 @@ export const ProfileHeaderButton = () => {
       onPress={() => router.push("/settings")}
       variant={"ghost"}
       size={"md"}
-      iconOnly
-    >
-      <Icon i={Settings} />
-    </Button>
+      iconPosition={"only"}
+      icon={<Icon i={Settings} />}
+    />
   );
 };

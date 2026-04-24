@@ -29,9 +29,13 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
       }}
     >
       <View className={"flex flex-row items-center"}>
-        <Button onPress={handleBack} variant={"ghost"} size={"md"} iconOnly>
-          <Icon i={NavArrowLeft} />
-        </Button>
+        <Button
+          onPress={handleBack}
+          variant={"ghost"}
+          size={"md"}
+          iconPosition={"only"}
+          icon={<Icon i={NavArrowLeft} />}
+        />
         <View className={"mr-2 flex flex-1 flex-col gap-0.5"}>
           <Text
             numberOfLines={1}

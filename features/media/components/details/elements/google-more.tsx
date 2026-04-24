@@ -45,9 +45,13 @@ export const GoogleMore = ({ title }: Props) => {
 
   return (
     <>
-      <Button onPress={openLink} variant={"white"} size={"md"} iconOnly>
-        <Google />
-      </Button>
+      <Button
+        onPress={openLink}
+        variant={"white"}
+        size={"md"}
+        iconPosition={"only"}
+        icon={<Google />}
+      />
 
       {Platform.OS === "android" && visible && (
         <Modal
@@ -62,10 +66,9 @@ export const GoogleMore = ({ title }: Props) => {
               onPress={() => setVisible(false)}
               variant={"white"}
               size={"sm"}
-              iconOnly
-            >
-              <ArrowLeft />
-            </Button>
+              iconPosition={"only"}
+              icon={<ArrowLeft />}
+            />
             <Text className={"body-b1-strong text-neutral-10-default"}>
               Back to app
             </Text>

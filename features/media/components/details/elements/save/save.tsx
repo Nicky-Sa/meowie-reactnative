@@ -61,19 +61,19 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
 
   return (
     <>
-      <Button variant={"link"} size={"md"} onPress={handlePress}>
-        <View className={"flex flex-row items-center justify-center gap-2"}>
-          {isLibraryStatusLoading ? (
-            <SkeletonItem className={"h-6 w-16"} />
-          ) : (
-            <>
-              <SaveIcon isSaved={isSaved} />
-              <Text className={"body-b2-strong w-10 text-neutral-10-default"}>
-                {isSaved ? "Saved" : "Save"}
-              </Text>
-            </>
-          )}
-        </View>
+      <Button
+        variant={"link"}
+        size={"md"}
+        onPress={handlePress}
+        icon={isLibraryStatusLoading ? null : <SaveIcon isSaved={isSaved} />}
+      >
+        {isLibraryStatusLoading ? (
+          <SkeletonItem className={"h-6 w-16"} />
+        ) : isSaved ? (
+          "Saved"
+        ) : (
+          "Save"
+        )}
       </Button>
 
       <BottomSheet

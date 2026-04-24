@@ -159,10 +159,9 @@ export const BottomSheet = forwardRef<
                 onPress={() => bottomSheetRef.current?.dismiss()}
                 variant={"ghost"}
                 size={"md"}
-                iconOnly
-              >
-                <Icon i={Xmark} />
-              </Button>
+                iconPosition={"only"}
+                icon={<Icon i={Xmark} />}
+              />
             </View>
             {children}
           </View>

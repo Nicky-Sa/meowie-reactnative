@@ -24,12 +24,7 @@ export const Screen = () => {
         <View className={"flex-grow"}>
           <SearchInput currentQuery={query} setIsDebouncing={setIsDebouncing} />
         </View>
-        <Button
-          onPress={() => router.back()}
-          variant={"link"}
-          size={"lg"}
-          iconOnly
-        >
+        <Button onPress={() => router.back()} variant={"link"} size={"lg"}>
           Cancel
         </Button>
       </View>

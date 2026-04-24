@@ -40,9 +40,13 @@ export const TourTooltip = ({
       <View className="flex-row items-center justify-between">
         <View className="flex-row gap-2">
           {!isFirstStep ? (
-            <Button onPress={handlePrev} variant={"black"} iconOnly size={"md"}>
-              <Icon i={NavArrowLeft} />
-            </Button>
+            <Button
+              onPress={handlePrev}
+              variant={"black"}
+              iconPosition={"only"}
+              size={"md"}
+              icon={<Icon i={NavArrowLeft} />}
+            />
           ) : (
             <View />
           )}

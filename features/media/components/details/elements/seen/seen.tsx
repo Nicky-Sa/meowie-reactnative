@@ -93,19 +93,17 @@ export const Seen = ({
         size={"md"}
         onPress={handlePress}
         style={{ overflow: "visible" }}
+        icon={
+          isLibraryStatusLoading ? null : (
+            <SeenIcon isSeen={isSeen} rating={currentRating} />
+          )
+        }
       >
-        <View className={"flex flex-row items-center justify-center gap-2"}>
-          {isLibraryStatusLoading ? (
-            <SkeletonItem className={"h-6 w-16"} />
-          ) : (
-            <>
-              <SeenIcon isSeen={isSeen} rating={currentRating} />
-              <Text className={"body-b2-strong text-neutral-10-default"}>
-                Seen
-              </Text>
-            </>
-          )}
-        </View>
+        {isLibraryStatusLoading ? (
+          <SkeletonItem className={"h-6 w-16"} />
+        ) : (
+          "Seen"
+        )}
       </Button>
 
       <BottomSheet
@@ -126,15 +124,9 @@ export const Seen = ({
               variant={"ghost"}
               size={"lg"}
               onPress={() => handleRate(null)}
+              icon={<Icon i={RatingSkip} />}
             >
-              <View
-                className={"flex flex-row items-center justify-center gap-2"}
-              >
-                <Icon i={RatingSkip} />
-                <Text className={"body-b1-strong text-neutral-10-default"}>
-                  Skip rating
-                </Text>
-              </View>
+              Skip rating
             </Button>
           )
         }

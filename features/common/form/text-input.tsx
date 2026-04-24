@@ -191,14 +191,13 @@ export const TextInput = <T extends FieldValues>({
               {!isTextArea && (
                 <Button
                   variant={"link"}
-                  iconOnly
+                  iconPosition={"only"}
                   onPress={() => onChangeText("")}
                   className={cn(
                     !!value && isFocused ? "opacity-100" : "opacity-0",
                   )}
-                >
-                  <Icon i={Xmark} />
-                </Button>
+                  icon={<Icon i={Xmark} />}
+                />
               )}
             </Animated.View>
 

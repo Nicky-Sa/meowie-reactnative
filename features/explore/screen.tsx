@@ -55,10 +55,9 @@ export const Screen = () => {
               onPress={onFilterPress}
               variant={"ghost"}
               size={"md"}
-              iconOnly
-            >
-              <Icon i={Filter} />
-            </Button>
+              iconPosition={"only"}
+              icon={<Icon i={Filter} />}
+            />
           </View>
 
           <CollectionsList />
