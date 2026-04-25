@@ -2,8 +2,12 @@ import { View, Text } from "react-native";
 import { cn, tailwind } from "@/lib/tailwind";
 
 const chipVariants = {
-  dark: {
+  dirty: {
     backgroundColor: tailwind.theme.backgroundColor["neutral"][11].default,
+    textColor: tailwind.theme.textColor["neutral"][6].default,
+  },
+  dark: {
+    backgroundColor: tailwind.theme.backgroundColor["neutral"][12].default,
     textColor: tailwind.theme.textColor["neutral"][6].default,
   },
   primary: {

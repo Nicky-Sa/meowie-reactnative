@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Chip } from "@/features/common/ui/chip";
 import { tailwind } from "@/lib/tailwind";
+import { capitalize } from "@/lib/functions";
 
 type Props = {
   data: PosterInfo;
@@ -34,16 +35,21 @@ export const PosterPreview = ({ data }: Props) => {
         exiting={ZoomOut}
         className="w-[85%] gap-4 rounded-3xl bg-neutral-15-default p-4 shadow-2xl"
       >
-        <Image
-          source={data.posterPath}
-          style={{
-            width: "100%",
-            aspectRatio: 2 / 3,
-            borderRadius: Number(tailwind.theme.borderRadius.xl),
-          }}
-          contentFit="cover"
-          placeholder={{ blurhash: data.blurhash }}
-        />
+        <View className={"relative"}>
+          <Image
+            source={data.posterPath}
+            style={{
+              width: "100%",
+              aspectRatio: 2 / 3,
+              borderRadius: Number(tailwind.theme.borderRadius.xl),
+            }}
+            contentFit="cover"
+            placeholder={{ blurhash: data.blurhash }}
+          />
+          <View className="absolute bottom-1 left-1">
+            <Chip text={capitalize(data.mediaType)} variant="dirty" />
+          </View>
+        </View>
         <View className="gap-2">
           <View className="flex-row items-center justify-between">
             <Text
