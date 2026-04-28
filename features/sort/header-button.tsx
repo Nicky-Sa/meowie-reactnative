@@ -64,7 +64,7 @@ export const SortHeaderButton = () => {
       <BottomSheet
         ref={bottomSheetRef}
         title={"Sort options"}
-        index={1}
+        enableDynamicSizing
         footer={
           <Button variant="white" size="lg" onPress={applySort}>
             Apply

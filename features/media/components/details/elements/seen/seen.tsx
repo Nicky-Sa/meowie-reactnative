@@ -108,10 +108,9 @@ export const Seen = ({
 
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[showSaveWarning ? "40%" : "35%"]}
         index={0}
         title={isSeen ? "Update Rating" : `Rate this ${mediaType}`}
-        enableDynamicSizing={false}
+        enableDynamicSizing
         footer={
           isSeen ? (
             // Already seen: let the user remove it

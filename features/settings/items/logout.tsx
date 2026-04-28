@@ -36,6 +36,7 @@ export const Logout = () => {
         ref={bottomSheetRef}
         title={"Logout"}
         index={0}
+        enableDynamicSizing
         footer={
           <View className={"flex flex-row gap-4"}>
             <Button

@@ -12,9 +12,10 @@ import {
   BottomSheetBackdropProps,
   BottomSheetFooter,
   BottomSheetModal,
+  BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { Button } from "@/features/common/ui/button";
-import { tailwind } from "@/lib/tailwind";
+import { tailwind, cn } from "@/lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Xmark } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
@@ -141,30 +142,14 @@ export const BottomSheet = forwardRef<
             </BottomSheetFooter>
           )}
         >
-          <View
-            className={"flex flex-1 flex-col bg-neutral-15-default px-4"}
-            style={{
-              paddingBottom: footerHeight + 16,
-            }}
+          <BottomSheetInner
+            title={title}
+            footerHeight={footerHeight}
+            enableDynamicSizing={enableDynamicSizing}
+            onDismiss={() => bottomSheetRef.current?.dismiss()}
           >
-            <View
-              className={
-                "flex w-full flex-row items-center justify-between pb-4"
-              }
-            >
-              <Text className={"title-t2 text-neutral-10-default"}>
-                {title}
-              </Text>
-              <Button
-                onPress={() => bottomSheetRef.current?.dismiss()}
-                variant={"ghost"}
-                size={"md"}
-                iconPosition={"only"}
-                icon={<Icon i={Xmark} />}
-              />
-            </View>
             {children}
-          </View>
+          </BottomSheetInner>
         </BottomSheetModal>
       </>
     );
@@ -172,3 +157,45 @@ export const BottomSheet = forwardRef<
 );
 
 BottomSheet.displayName = "BottomSheet";
+
+type BottomSheetInnerProps = {
+  title: string;
+  children: ReactNode;
+  footerHeight: number;
+  enableDynamicSizing: boolean;
+  onDismiss: () => void;
+};
+
+const BottomSheetInner = ({
+  title,
+  children,
+  footerHeight,
+  enableDynamicSizing,
+  onDismiss,
+}: BottomSheetInnerProps) => {
+  const Container = enableDynamicSizing ? BottomSheetView : View;
+
+  return (
+    <Container
+      className={cn(
+        "flex flex-col bg-neutral-15-default px-4",
+        !enableDynamicSizing && "flex-1",
+      )}
+      style={{
+        paddingBottom: footerHeight + 16,
+      }}
+    >
+      <View className="flex w-full flex-row items-center justify-between pb-4">
+        <Text className="title-t2 text-neutral-10-default">{title}</Text>
+        <Button
+          onPress={onDismiss}
+          variant="ghost"
+          size="md"
+          iconPosition="only"
+          icon={<Icon i={Xmark} />}
+        />
+      </View>
+      {children}
+    </Container>
+  );
+};

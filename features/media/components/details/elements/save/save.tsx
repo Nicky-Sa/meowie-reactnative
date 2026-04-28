@@ -80,17 +80,18 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
         ref={bottomSheetRef}
         title="Move to Saved?"
         index={0}
-        snapPoints={["32%"]}
-        enableDynamicSizing={false}
+        enableDynamicSizing
+        footer={
+          <Button variant="white" onPress={handleConfirmMove}>
+            Yes, move to saved
+          </Button>
+        }
       >
         <View className="flex flex-col gap-8">
           <Text className="body-b1 text-neutral-10-default">
             You&#39;ve already marked this as seen. Saving it now will remove it
             from your history and clear your rating.
           </Text>
-          <Button variant="white" onPress={handleConfirmMove}>
-            Yes, move to saved
-          </Button>
         </View>
       </BottomSheet>
 

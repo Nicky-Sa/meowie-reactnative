@@ -45,6 +45,7 @@ export const EmptyCache = () => {
         ref={bottomSheetRef}
         title={"Empty Cache"}
         index={0}
+        enableDynamicSizing
         footer={
           <View className={"flex flex-row gap-4"}>
             <Button
