@@ -46,7 +46,7 @@ export const PosterPreview = ({ data }: Props) => {
             contentFit="cover"
             placeholder={{ blurhash: data.blurhash }}
           />
-          <View className="absolute bottom-1 left-1">
+          <View className="absolute bottom-2 left-2">
             <Chip text={capitalize(data.mediaType)} variant="dirty" />
           </View>
         </View>
