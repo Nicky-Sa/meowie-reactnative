@@ -97,7 +97,7 @@ export const Poster = memo(({ data, width, onPress }: Props) => {
               width: 100,
               height: 150,
             }}
-            transition={200}
+            transition={400}
           />
           {isPressed && (
             <View className="absolute inset-0 bg-neutral-15-default/30" />
