@@ -8,9 +8,9 @@ import { autoplayAtom, colorAtom } from "@/atoms";
 import { Ratings } from "@/features/media/components/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/media/components/details/elements/genres";
-import { Casts } from "@/features/media/components/details/elements/casts";
+import { Credits } from "@/features/media/components/details/elements/credits";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/media/components/details/elements/cast";
+import { Credit } from "@/features/media/components/details/elements/credit";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ID } from "@/features/common/data/media-query";
 import { Save } from "@/features/media/components/details/elements/save/save";
@@ -166,7 +166,7 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
               }`}
             </Text>
           </View>
-          <Cast {...data.credits.creator} />
+          <Credit {...data.credits.creator} />
         </View>
       </View>
 
@@ -203,7 +203,7 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
         className={"-ml-4 grow-0 pl-4"}
         contentContainerClassName={"min-w-full h-6"}
       >
-        <Casts casts={data.credits.casts} />
+        <Credits credits={data.credits.casts.slice(0, 5)} />
       </ScrollView>
 
       <View

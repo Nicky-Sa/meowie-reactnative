@@ -1,7 +1,7 @@
-export type CastInfo = {
+export type CreditInfo = {
   id: number;
   name: string;
-  character: string;
+  role: string;
   creditId: string;
   profilePath: string;
 };

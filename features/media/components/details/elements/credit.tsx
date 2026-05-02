@@ -1,11 +1,11 @@
-import { CastInfo } from "@/features/common/data/models/cast";
+import { CreditInfo } from "@/features/common/data/models/credit";
 import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 
-export const Cast = ({ id, name, profilePath, character }: CastInfo) => {
+export const Credit = ({ id, name, profilePath, role }: CreditInfo) => {
   const router = useRouter();
   const { capture } = useCaptureEvent();
 
@@ -13,9 +13,9 @@ export const Cast = ({ id, name, profilePath, character }: CastInfo) => {
     capture("person_clicked", {
       person_id: id,
       person_name: name,
-      role: character === "Director" ? "director" : "cast",
+      role: role === "Director" ? "director" : "cast",
     });
-  }, [capture, character, id, name]);
+  }, [capture, role, id, name]);
 
   const handlePress = () => {
     // id = -1 is a placeholder for unknown cast

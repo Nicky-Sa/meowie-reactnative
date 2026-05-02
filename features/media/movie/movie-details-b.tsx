@@ -8,9 +8,9 @@ import { autoplayAtom, colorAtom } from "@/atoms";
 import { Ratings } from "@/features/media/components/details/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
 import { Genres } from "@/features/media/components/details/elements/genres";
-import { Casts } from "@/features/media/components/details/elements/casts";
+import { Credits } from "@/features/media/components/details/elements/credits";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Cast } from "@/features/media/components/details/elements/cast";
+import { Credit } from "@/features/media/components/details/elements/credit";
 import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ID } from "@/features/common/data/media-query";
 import { Save } from "@/features/media/components/details/elements/save/save";
@@ -230,12 +230,12 @@ export const MovieDetailsB = memo(
               borderRadius: 14,
             }}
           >
-            <Cast {...data.credits.director} />
+            <Credit {...data.credits.director} />
           </Tourable>
 
           <View className={"h-4 w-[1px] rounded-xl bg-neutral-10-default"} />
 
-          <Casts casts={data.credits.casts} />
+          <Credits credits={data.credits.casts.slice(0, 5)} />
         </ScrollView>
 
         <View

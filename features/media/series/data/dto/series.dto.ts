@@ -1,13 +1,8 @@
 import { RatingEntry } from "@/features/common/data/models/ratings";
 import { PosterProps } from "@/features/common/data/models/poster";
-import { CastInfo } from "@/features/common/data/models/cast";
+import { CreditInfo } from "@/features/common/data/models/credit";
 import { Genre } from "@/features/general/data/constants/useGenres";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
-
-export type SeriesCredits = {
-  casts: CastInfo[];
-  creator: CastInfo;
-};
 
 export type SeriesInfoResDto = {
   title: string;
@@ -24,3 +19,9 @@ export type SeriesInfoResDto = {
 };
 
 export type InterestingSeriesIdsResDto = PaginatedResponse<number>;
+
+export type SeriesCredits = {
+  casts: CreditInfo[];
+  crew: CreditInfo[];
+  creator: CreditInfo;
+};
