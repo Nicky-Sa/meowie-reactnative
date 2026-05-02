@@ -6,7 +6,7 @@ import { GENERAL_TIMEOUT } from "@/lib/consts";
 // We use a YouTube-specific 204 endpoint.
 // If this fails but the internet is on, we know YouTube specifically is blocked.
 const YOUTUBE_CANARY = "https://www.youtube.com/generate_204";
-const BACKEND_CANARY = env.EXPO_PUBLIC_BACKEND_URL;
+const BACKEND_CANARY = `${env.EXPO_PUBLIC_BACKEND_URL}/health`;
 
 type ConnectivityStatus =
   | "CHECKING"
@@ -76,7 +76,7 @@ export const useConnectionCheck = () => {
   // Auto-recovery
   useEffect(() => {
     if (netInfo.isConnected && wasOffline.current) {
-      checkConnectivity();
+      void checkConnectivity();
     }
   }, [netInfo.isConnected, checkConnectivity]);
 
