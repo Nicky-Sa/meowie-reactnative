@@ -62,7 +62,7 @@ export const BottomSheetWrapper = <TValue,>({
 
           {isClearable ? (
             <View className="flex flex-row items-center justify-center">
-              <Chip text={chipText} />
+              <Chip text={chipText} variant={"dirty"} />
               <Button
                 variant="link"
                 iconPosition={"only"}

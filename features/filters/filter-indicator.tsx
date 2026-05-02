@@ -14,7 +14,7 @@ export const FilterIndicator = ({ modifiedFieldsNumber }: Props) => {
   return (
     <View className={"relative"}>
       <Button
-        onPress={() => router.push("/filters")}
+        onPress={() => router.navigate("/filters")}
         variant={"ghost"}
         size={"md"}
         iconPosition={"only"}

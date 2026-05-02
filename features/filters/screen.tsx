@@ -55,7 +55,8 @@ export const Screen = () => {
 
   const handleApply = () => {
     capture("filters_applied", { filters, mediaType });
-    router.push({
+    // dismissTo: so the user feels like the filters are applies in-place, instead of feeling being navigated to a new screen
+    router.dismissTo({
       pathname: "/discover/posters",
       params: {
         title: `Filtered ${mediaType === "movie" ? "Movies" : "Series"}`,

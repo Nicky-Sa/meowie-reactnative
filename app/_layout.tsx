@@ -87,7 +87,9 @@ function RootLayout() {
                                 <Stack.Screen
                                   name="filters/index"
                                   options={{
-                                    animation: "slide_from_right",
+                                    animation: "fade",
+                                    animationDuration: 300,
+                                    presentation: "card",
                                   }}
                                 />
 
