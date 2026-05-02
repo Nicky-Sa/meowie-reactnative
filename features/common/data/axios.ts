@@ -15,6 +15,14 @@ const axiosInstance = axios.create({
 // Runs *before* every request is sent
 axiosInstance.interceptors.request.use(
   async (config) => {
+    // 1. Handle automatic API versioning
+    // If the URL doesn't already start with a version prefix (like /v1, /v2, or v1, v2)
+    if (config.url && !/^\/?v\d+\//.test(config.url)) {
+      const prefix = config.url.startsWith("/") ? "/v1" : "/v1/";
+      config.url = `${prefix}${config.url}`;
+    }
+
+    // 2. Attach auth token
     const token = await getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -108,7 +116,7 @@ axiosInstance.interceptors.response.use(
 
         // Scenario B: Attempt to refresh
         const refreshResponse = await axios.post(
-          `${env.EXPO_PUBLIC_BACKEND_URL}/auth/refresh-token`,
+          `${env.EXPO_PUBLIC_BACKEND_URL}/v1/auth/refresh-token`,
           { refreshToken },
         );
 
