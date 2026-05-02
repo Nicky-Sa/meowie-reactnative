@@ -13,7 +13,7 @@ import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
 import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
 import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle, View } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
@@ -92,6 +92,7 @@ export const PostersList = memo(
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName={"grow"}
         contentContainerStyle={contentContainerStyle}
+        ItemSeparatorComponent={() => <View className={"h-0.5"} />}
         ListEmptyComponent={
           error ? (
             <ErrorState tryAgain={refetch} error={error} />

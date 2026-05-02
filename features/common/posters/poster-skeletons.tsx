@@ -9,7 +9,7 @@ type Props = {
 export const PostersSkeletons = ({ width, number }: Props) => {
   const height = width * (3 / 2);
   return (
-    <View className={"flex flex-row flex-wrap"}>
+    <View className={"flex flex-row flex-wrap gap-0.5"}>
       {Array.from({ length: number }).map((_, index) => (
         <SkeletonItem
           key={index}
