@@ -83,14 +83,15 @@ export const InnerScreen = ({
   return (
     <SafeAreaView className={"flex-1"} edges={edges}>
       <View
-        className={cn("flex flex-1 flex-col justify-between gap-2", {
-          "px-4": !fullWidth,
-        })}
+        className={cn(
+          "flex flex-1 flex-col justify-between gap-2",
+          !fullWidth && "px-4",
+        )}
       >
         <View
           className={cn(
-            "flex w-full flex-row items-center justify-between",
-            fullWidth ? "mx-2" : "-mx-2", // the fullWidth prop should have no effect on the back button
+            "flex flex-row items-center justify-between",
+            !fullWidth && "-mx-4", // the fullWidth prop should have no effect on the back button
           )}
         >
           <View className={"flex flex-row items-center justify-start"}>
