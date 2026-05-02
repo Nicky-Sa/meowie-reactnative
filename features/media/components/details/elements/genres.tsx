@@ -56,7 +56,7 @@ const GenreItem = ({
   };
   return (
     <Pressable onPress={onPress}>
-      <Chip text={item.name} clickable />
+      <Chip text={item.name} />
     </Pressable>
   );
 };

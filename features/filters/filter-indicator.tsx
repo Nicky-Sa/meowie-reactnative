@@ -3,7 +3,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { useRouter } from "expo-router";
 import { Filter } from "iconoir-react-native";
 import { View } from "react-native";
-import { Chip } from "@/features/common/ui/chip";
+import { Badge } from "@/features/common/ui/badge";
 
 type Props = {
   modifiedFieldsNumber: number;
@@ -22,7 +22,7 @@ export const FilterIndicator = ({ modifiedFieldsNumber }: Props) => {
       />
       {modifiedFieldsNumber > 0 && (
         <View className={"absolute -left-2"}>
-          <Chip text={modifiedFieldsNumber} variant={"primary"} />
+          <Badge text={modifiedFieldsNumber} variant={"primary"} />
         </View>
       )}
     </View>

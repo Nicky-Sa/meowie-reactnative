@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useRef } from "react";
 import { Text, View } from "react-native";
 import { Updater, useImmer } from "use-immer";
-import { Chip } from "@/features/common/ui/chip";
 import { Action } from "@/features/common/ui/action";
 import { Icon } from "@/features/common/ui/icon";
 import { Button } from "@/features/common/ui/button";
@@ -10,6 +9,7 @@ import {
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
 import { NavArrowRight, Xmark } from "iconoir-react-native";
+import { Badge } from "@/features/common/ui/badge";
 
 type Props<TValue> = {
   title: string;
@@ -62,7 +62,7 @@ export const BottomSheetWrapper = <TValue,>({
 
           {isClearable ? (
             <View className="flex flex-row items-center justify-center">
-              <Chip text={chipText} variant={"dirty"} />
+              <Badge text={chipText} variant={"dirty"} />
               <Button
                 variant="link"
                 iconPosition={"only"}
@@ -73,9 +73,9 @@ export const BottomSheetWrapper = <TValue,>({
             </View>
           ) : (
             <View className="flex flex-row">
-              {/* Empty chip for consistent layout height */}
+              {/* Empty badge for consistent layout height */}
               <View className="invisible">
-                <Chip text="0" />
+                <Badge text="" />
               </View>
               <Icon i={NavArrowRight} />
             </View>

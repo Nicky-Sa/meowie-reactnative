@@ -7,9 +7,9 @@ import Animated, {
   ZoomIn,
   ZoomOut,
 } from "react-native-reanimated";
-import { Chip } from "@/features/common/ui/chip";
 import { tailwind } from "@/lib/tailwind";
 import { capitalize } from "@/lib/functions";
+import { Badge } from "@/features/common/ui/badge";
 
 type Props = {
   data: PosterInfo;
@@ -47,7 +47,7 @@ export const PosterPreview = ({ data }: Props) => {
             placeholder={{ blurhash: data.blurhash }}
           />
           <View className="absolute bottom-2 left-2">
-            <Chip text={capitalize(data.mediaType)} variant="dirty" />
+            <Badge text={capitalize(data.mediaType)} variant="dirty" />
           </View>
         </View>
         <View className="gap-2">
@@ -61,12 +61,11 @@ export const PosterPreview = ({ data }: Props) => {
           </View>
           <View className="flex-row flex-wrap gap-x-3 gap-y-1">
             {data.preview.genres.map((genre) => (
-              <Chip
+              <Badge
                 key={genre.id}
                 text={`${genre.emoji} ${genre.name}`}
                 variant={"ghost"}
                 size={"unset"}
-                clickable
               />
             ))}
           </View>
