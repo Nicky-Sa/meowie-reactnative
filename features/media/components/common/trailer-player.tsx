@@ -24,6 +24,7 @@ type Props = {
   autoplay: boolean;
   onPlay: () => void;
   onPause: () => void;
+  fullWidth?: boolean;
 };
 
 /**
@@ -36,6 +37,7 @@ export const TrailerPlayer = ({
   autoplay,
   onPlay,
   onPause,
+  fullWidth = false,
 }: Props) => {
   return (
     <View className={"h-[200px] w-full"}>
@@ -46,6 +48,7 @@ export const TrailerPlayer = ({
           autoplay={autoplay}
           onPlay={onPlay}
           onPause={onPause}
+          fullWidth={fullWidth}
         />
       ) : (
         <Loading />
@@ -64,6 +67,7 @@ export const Player = ({
   autoplay,
   onPlay,
   onPause,
+  fullWidth,
 }: Omit<Props, "inScreen">) => {
   const playerRef = useRef<YoutubeIframeRef>(null);
 
@@ -82,7 +86,7 @@ export const Player = ({
   );
 
   const { width: w } = useScreenDimensions();
-  const width = w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
+  const width = fullWidth ? w : w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
 
   const opacity = useSharedValue(0);
 
@@ -131,7 +135,9 @@ export const Player = ({
             playList={[YTKey]}
             onError={handleError}
             webViewStyle={{
-              borderRadius: Number(tailwind.theme.borderRadius.xl),
+              borderRadius: fullWidth
+                ? 0
+                : Number(tailwind.theme.borderRadius.xl),
             }}
             webViewProps={{
               injectedJavaScript: `

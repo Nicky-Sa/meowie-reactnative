@@ -1,6 +1,6 @@
 import { ID } from "@/features/common/data/media-query";
-import { SeriesInfoB } from "@/features/media/series/series-info-b";
-import { SeriesInfoA } from "@/features/media/series/series-info-a";
+import { SeriesInfoB } from "@/features/media/series/info/series-info-b";
+import { SeriesInfoA } from "@/features/media/series/info/series-info-a";
 import { useFeatureFlag } from "@/features/general/posthog/hook/use-feature-flag";
 import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
 

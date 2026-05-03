@@ -1,4 +1,4 @@
-import { useFetchInterestingMoviesIds } from "@/features/media/movie/data/useFetchInterestingMoviesIds";
+import { useFetchInterestingSeriesIds } from "@/features/media/series/data/useFetchInterestingSeriesIds";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
 import { useAtomValue } from "jotai";
@@ -11,7 +11,7 @@ type Props = {
   isActive: boolean;
 };
 
-export const Content = ({
+export const TabContent = ({
   currentIndex,
   scrollY,
   scrollHandler,
@@ -27,7 +27,7 @@ export const Content = ({
     isLoading,
     error,
     refetch,
-  } = useFetchInterestingMoviesIds({ sort });
+  } = useFetchInterestingSeriesIds({ sort });
 
   return (
     <MediaList

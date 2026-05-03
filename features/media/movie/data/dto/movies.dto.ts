@@ -4,22 +4,11 @@ import { CreditInfo } from "@/features/common/data/models/credit";
 import { Genre } from "@/features/general/data/constants/useGenres";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
-
-export type WatchProvider = {
-  logoPath: string;
-  providerId: number;
-  providerName: string;
-};
-
-export type WatchProviders = {
-  flatrate: WatchProvider[];
-  rent: WatchProvider[];
-  buy: WatchProvider[];
-};
+import { WatchProviders } from "@/features/common/data/models/watch-provider";
 
 export type MovieInfoResDto = {
   title: string;
-  screeningStatus: string | null;
+  screeningStatus: string;
   duration: string;
   certification: string;
   trailerKey: string;

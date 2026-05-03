@@ -1,5 +1,5 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { MovieInfo } from "@/features/media/movie/movie-info";
+import { MovieInfo } from "@/features/media/movie/info/movie-info";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 

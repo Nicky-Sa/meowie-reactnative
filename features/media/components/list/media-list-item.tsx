@@ -6,8 +6,8 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
-import { MovieInfo } from "@/features/media/movie/movie-info";
-import { SeriesInfo } from "@/features/media/series/series-info";
+import { MovieInfo } from "@/features/media/movie/info/movie-info";
+import { SeriesInfo } from "@/features/media/series/info/series-info";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { currentRoleInMediaAtom } from "@/atoms";
 import { useSetAtom } from "jotai";

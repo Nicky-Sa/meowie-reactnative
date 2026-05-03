@@ -1,7 +1,7 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
-import { SeriesInfo } from "@/features/media/series/series-info";
+import { SeriesInfo } from "@/features/media/series/info/series-info";
 
 export const Screen = () => {
   const { seriesId } = useLocalSearchParams<{ seriesId: string }>();

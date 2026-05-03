@@ -1,5 +1,5 @@
-import { MovieInfoB } from "@/features/media/movie/movie-info-b";
-import { MovieInfoA } from "@/features/media/movie/movie-info-a";
+import { MovieInfoB } from "@/features/media/movie/info/movie-info-b";
+import { MovieInfoA } from "@/features/media/movie/info/movie-info-a";
 import { useFeatureFlag } from "@/features/general/posthog/hook/use-feature-flag";
 import { ID } from "@/features/common/data/media-query";
 import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
