@@ -1,20 +1,20 @@
 import { useFetchSeriesInfo } from "@/features/media/series/data/useFetchSeriesInfo";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
-import { TrailerPlayer } from "@/features/media/components/details/elements/trailer-player";
+import { TrailerPlayer } from "@/features/media/components/info/elements/trailer-player";
 import { memo, useCallback } from "react";
 import { useAtom } from "jotai";
 import { autoplayAtom, colorAtom } from "@/atoms";
-import { Ratings } from "@/features/media/components/details/elements/ratings";
+import { Ratings } from "@/features/media/components/info/elements/ratings";
 import { ErrorState } from "@/features/general/error-state";
-import { Genres } from "@/features/media/components/details/elements/genres";
-import { Credits } from "@/features/media/components/details/elements/credits";
+import { Genres } from "@/features/media/components/info/elements/genres";
+import { Credits } from "@/features/media/components/info/elements/credits";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Credit } from "@/features/media/components/details/elements/credit";
-import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
+import { Credit } from "@/features/media/components/info/elements/credit";
+import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ID } from "@/features/common/data/media-query";
-import { Save } from "@/features/media/components/details/elements/save/save";
-import { Seen } from "@/features/media/components/details/elements/seen/seen";
+import { Save } from "@/features/media/components/info/elements/save/save";
+import { Seen } from "@/features/media/components/info/elements/seen/seen";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
 
@@ -131,7 +131,7 @@ export const SeriesDetailsB = memo(({ seriesId, inScreen }: Props) => {
   return error ? (
     <ErrorState tryAgain={refetch} error={error} />
   ) : isLoading || !data ? (
-    <MovieDetailsSkeleton />
+    <MediaInfoSkeleton />
   ) : (
     <View className={"flex w-full flex-col gap-4"}>
       <TrailerPlayer

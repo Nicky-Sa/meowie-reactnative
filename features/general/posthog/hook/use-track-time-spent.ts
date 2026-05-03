@@ -6,7 +6,7 @@ import { MediaType } from "@/features/common/data/models/media-type";
 import { Event } from "@/features/general/posthog/events";
 
 /**
- * Tracks the time a user spends on a media details screen.
+ * Tracks the time a user spends on a media info screen.
  * It accounts for app backgrounding by pausing the timer.
  * Captures "media_details_viewed" event on unmount.
  */

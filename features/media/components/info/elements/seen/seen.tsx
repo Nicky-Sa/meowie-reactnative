@@ -1,14 +1,14 @@
 import { Button } from "@/features/common/ui/button";
-import { useMarkAsSeen } from "@/features/media/components/details/elements/seen/data/useMarkAsSeen";
-import { useRemoveSeen } from "@/features/media/components/details/elements/seen/data/useRemoveSeen";
-import { useUpdateRating } from "@/features/media/components/details/elements/seen/data/useUpdateRating";
+import { useMarkAsSeen } from "@/features/media/components/info/elements/seen/data/useMarkAsSeen";
+import { useRemoveSeen } from "@/features/media/components/info/elements/seen/data/useRemoveSeen";
+import { useUpdateRating } from "@/features/media/components/info/elements/seen/data/useUpdateRating";
 import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
-import { useFetchLibraryStatus } from "@/features/media/components/details/elements/save/data/useFetchLibraryStatus";
+import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/useFetchLibraryStatus";
 import { useRef, useState } from "react";
 import { LoginWarningModal } from "@/features/auth/login-warning-modal";
-import { SeenIcon } from "@/features/media/components/details/elements/seen/elements/icon";
+import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
 import EmptySeen from "@/assets/images/profile/empty-seen.svg";
@@ -16,10 +16,10 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
-import { RATINGS } from "@/features/media/components/details/elements/seen/elements/rating-icons";
+import { RATINGS } from "@/features/media/components/info/elements/seen/elements/rating-icons";
 import { Icon } from "@/features/common/ui/icon";
 import RatingSkip from "@/assets/images/ratings/rating-skip.svg";
-import { RatingButton } from "@/features/media/components/details/elements/seen/elements/rating-button";
+import { RatingButton } from "@/features/media/components/info/elements/seen/elements/rating-button";
 
 type Props = {
   id: ID;

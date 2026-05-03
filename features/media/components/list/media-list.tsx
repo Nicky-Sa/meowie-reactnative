@@ -8,7 +8,7 @@ import Animated, {
   SharedValue,
 } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
-import { MovieDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
+import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { EmptyState } from "@/features/general/empty-state";
@@ -117,7 +117,7 @@ export const MediaList = memo(
             {error ? (
               <ErrorState tryAgain={refetch} error={error} />
             ) : isInitialLoad ? (
-              <MovieDetailsSkeleton />
+              <MediaInfoSkeleton />
             ) : (
               ListEmptyComponent
             )}

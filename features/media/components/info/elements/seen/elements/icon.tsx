@@ -1,6 +1,6 @@
 import { Eye } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
-import { RatingLottie } from "@/features/media/components/details/elements/seen/elements/rating-lottie";
+import { RatingLottie } from "@/features/media/components/info/elements/seen/elements/rating-lottie";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";

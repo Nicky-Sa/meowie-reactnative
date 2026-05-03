@@ -6,7 +6,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
-import { MovieDetails } from "@/features/media/movie/movie-details";
+import { MovieInfo } from "@/features/media/movie/movie-info";
 import { SeriesDetails } from "@/features/media/series/series-details";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { currentRoleInMediaAtom } from "@/atoms";
@@ -57,7 +57,7 @@ export const MediaListItem = memo(
           className={"flex items-center justify-center"}
         >
           {mediaType === "movie" ? (
-            <MovieDetails
+            <MovieInfo
               movieId={id}
               inScreen={inScreen}
               tourEnabled={index === 0} // first item

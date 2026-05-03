@@ -1,5 +1,5 @@
-import { MovieDetailsB } from "@/features/media/movie/movie-details-b";
-import { MovieDetailsA } from "@/features/media/movie/movie-details-a";
+import { MovieInfoB } from "@/features/media/movie/movie-info-b";
+import { MovieInfoA } from "@/features/media/movie/movie-info-a";
 import { useFeatureFlag } from "@/features/general/posthog/hook/use-feature-flag";
 import { ID } from "@/features/common/data/media-query";
 import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
@@ -10,21 +10,21 @@ type Props = {
   tourEnabled?: boolean;
 };
 
-export const MovieDetails = ({ movieId, inScreen, tourEnabled }: Props) => {
+export const MovieInfo = ({ movieId, inScreen, tourEnabled }: Props) => {
   const layoutVariant = useFeatureFlag("details-layout");
 
   // Track time spent on this screen
   useTrackTimeSpent("media_details_viewed", movieId, "movie");
 
   return layoutVariant === "test" ? (
-    <MovieDetailsB
+    <MovieInfoB
       movieId={movieId}
       inScreen={inScreen}
       tourEnabled={tourEnabled}
     />
   ) : (
     // "control" variant or flag not yet loaded — show default layout
-    <MovieDetailsA
+    <MovieInfoA
       movieId={movieId}
       inScreen={inScreen}
       tourEnabled={tourEnabled}
