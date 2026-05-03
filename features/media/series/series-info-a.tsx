@@ -17,6 +17,7 @@ import { Save } from "@/features/media/components/info/elements/save/save";
 import { Seen } from "@/features/media/components/info/elements/seen/seen";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
 import { useFocusEffect } from "expo-router";
+import { DetailsButton } from "@/features/media/components/details/details-button";
 
 type Props = {
   seriesId: ID;
@@ -206,18 +207,19 @@ export const SeriesInfoA = memo(({ seriesId, inScreen }: Props) => {
         <Credits credits={data.credits.casts.slice(0, 5)} />
       </ScrollView>
 
-      <View
-        className={"mt-4 flex w-full flex-row items-center justify-start gap-6"}
-      >
-        <Save id={seriesId} mediaType="series" onPress={onSavePress} />
-        <Seen
-          id={seriesId}
-          mediaType="series"
-          onPress={onSeenPress}
-          onRate={onRate}
-          onSkip={onSkip}
-          onRemove={onRemoveSeen}
-        />
+      <View className={"mt-4 flex flex-row items-center justify-between"}>
+        <View className={"flex flex-row items-center justify-start gap-2"}>
+          <Save id={seriesId} mediaType="series" onPress={onSavePress} />
+          <Seen
+            id={seriesId}
+            mediaType="series"
+            onPress={onSeenPress}
+            onRate={onRate}
+            onSkip={onSkip}
+            onRemove={onRemoveSeen}
+          />
+        </View>
+        <DetailsButton mediaType="series" />
       </View>
     </View>
   );

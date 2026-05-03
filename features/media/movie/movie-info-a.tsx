@@ -19,6 +19,7 @@ import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-eve
 import { useFocusEffect } from "expo-router";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
+import { DetailsButton } from "@/features/media/components/details/details-button";
 
 type Props = {
   movieId: ID;
@@ -233,36 +234,37 @@ export const MovieInfoA = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         <Credits credits={data.credits.casts.slice(0, 5)} />
       </ScrollView>
 
-      <View
-        className={"mt-4 flex w-full flex-row items-center justify-start gap-6"}
-      >
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaSave,
-            shape: "rectangle",
-            borderRadius: 14,
-          }}
-        >
-          <Save id={movieId} mediaType="movie" onPress={onSavePress} />
-        </Tourable>
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaSeen,
-            shape: "rectangle",
-            borderRadius: 14,
-          }}
-        >
-          <Seen
-            id={movieId}
-            mediaType="movie"
-            onPress={onSeenPress}
-            onRate={onRate}
-            onSkip={onSkip}
-            onRemove={onRemoveSeen}
-          />
-        </Tourable>
+      <View className={"mt-4 flex flex-row items-center justify-between"}>
+        <View className={"flex flex-row items-center justify-start gap-2"}>
+          <Tourable
+            tourEnabled={tourEnabled}
+            tour={{
+              step: TourStep.MediaSave,
+              shape: "rectangle",
+              borderRadius: 14,
+            }}
+          >
+            <Save id={movieId} mediaType="movie" onPress={onSavePress} />
+          </Tourable>
+          <Tourable
+            tourEnabled={tourEnabled}
+            tour={{
+              step: TourStep.MediaSeen,
+              shape: "rectangle",
+              borderRadius: 14,
+            }}
+          >
+            <Seen
+              id={movieId}
+              mediaType="movie"
+              onPress={onSeenPress}
+              onRate={onRate}
+              onSkip={onSkip}
+              onRemove={onRemoveSeen}
+            />
+          </Tourable>
+        </View>
+        <DetailsButton mediaType="movie" />
       </View>
     </View>
   );
