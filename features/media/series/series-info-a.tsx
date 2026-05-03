@@ -23,7 +23,7 @@ type Props = {
   inScreen: boolean;
 };
 
-export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
+export const SeriesInfoA = memo(({ seriesId, inScreen }: Props) => {
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
@@ -223,4 +223,4 @@ export const SeriesDetailsA = memo(({ seriesId, inScreen }: Props) => {
   );
 });
 
-SeriesDetailsA.displayName = "SeriesDetailsA";
+SeriesInfoA.displayName = "SeriesInfoA";

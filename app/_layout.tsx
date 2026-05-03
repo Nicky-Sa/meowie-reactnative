@@ -113,7 +113,7 @@ function RootLayout() {
                                   }}
                                 />
                                 <Stack.Screen
-                                  name="discover/series-details"
+                                  name="discover/series-info"
                                   options={{
                                     animation: "slide_from_right",
                                   }}
