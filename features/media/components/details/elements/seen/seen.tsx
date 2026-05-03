@@ -89,7 +89,7 @@ export const Seen = ({
   return (
     <>
       <Button
-        variant={"link"}
+        variant={"black"}
         size={"md"}
         onPress={handlePress}
         style={{ overflow: "visible" }}

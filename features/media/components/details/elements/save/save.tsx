@@ -62,7 +62,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
   return (
     <>
       <Button
-        variant={"link"}
+        variant={"black"}
         size={"md"}
         onPress={handlePress}
         icon={isLibraryStatusLoading ? null : <SaveIcon isSaved={isSaved} />}
