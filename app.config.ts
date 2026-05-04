@@ -1,10 +1,11 @@
 import { ExpoConfig } from "expo/config";
+import pkg from "./package.json";
 
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
 
 // READ THE VERSION FROM ENV
-// If the CI didn't provide one (local dev), fall back to "1.0.0"
-const SYSTEM_VERSION = (process.env.APP_VERSION || "1.0.0")
+// If the CI didn't provide one (local dev), fall back to the version from package.json
+const SYSTEM_VERSION = (process.env.APP_VERSION || pkg.version)
   .replace(/^v/, "")
   .split("-")[0];
 

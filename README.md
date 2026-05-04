@@ -159,10 +159,10 @@ command:
 npm run eas-update:development:ios -- "your message"
 
 # For Preview (TestFlight)
-npm run eas-update:preview:iospreview -- "your message"
+npm run eas-update:preview:ios -- "your message"
 
 # For Production (App Store)
-npm run eas-update:production:iospreview -- "your message"
+npm run eas-update:production:ios -- "your message"
 ```
 
 The app includes an `UpdatesListener` that will automatically detect these updates on launch, download them in the
