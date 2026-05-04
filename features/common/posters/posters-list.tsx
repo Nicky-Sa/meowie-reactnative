@@ -89,7 +89,7 @@ export const PostersList = memo(
         onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
         showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="automatic"
+        contentInsetAdjustmentBehavior="automatic" // adds a bottom padding
         contentContainerClassName={"grow"}
         contentContainerStyle={contentContainerStyle}
         ItemSeparatorComponent={() => <View className={"h-0.5"} />}
