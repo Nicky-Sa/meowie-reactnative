@@ -44,6 +44,7 @@ export const Screen = () => {
     <InnerScreen
       title={personData?.name}
       scrollY={scrollY}
+      titleFadeRange={[20, 100]}
       fullHeight
       fullWidth
     >

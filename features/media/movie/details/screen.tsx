@@ -111,7 +111,14 @@ export const Screen = () => {
   }, [capture, data?.genres, data?.title, movieId]);
 
   return (
-    <InnerScreen title={"Movie Details"} fullWidth fullHeight scrollY={scrollY}>
+    <InnerScreen
+      title={"Movie Details"}
+      scrolledTitle={data?.title}
+      titleFadeRange={[170, 230]}
+      fullWidth
+      fullHeight
+      scrollY={scrollY}
+    >
       {error ? (
         <ErrorState tryAgain={refetch} error={error} />
       ) : isLoading || !data ? (
