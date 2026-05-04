@@ -61,6 +61,8 @@ export const Recommendations = ({
             key={item.id}
             data={item}
             width={140}
+            isRounded
+            showExtraDetails
             onPress={() =>
               router.push({
                 pathname:
