@@ -19,12 +19,14 @@ import Animated, {
 } from "react-native-reanimated";
 import { Ratings } from "@/features/media/components/info/elements/ratings";
 import { View } from "react-native";
+import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 
 export const SeriesDetailsScreen = () => {
   const { seriesId } = useLocalSearchParams<{ seriesId: string }>();
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const { capture } = useCaptureEvent();
   const [autoplay] = useAtom(autoplayAtom);
+  const { paddingBottom } = useMainScreenContentStyle({ hasNavbar: false });
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -126,6 +128,9 @@ export const SeriesDetailsScreen = () => {
           onScroll={scrollHandler}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom,
+          }}
         >
           <Hero
             title={data.title}
@@ -161,7 +166,11 @@ export const SeriesDetailsScreen = () => {
 
             <View className={"-mx-4 flex flex-1 flex-col gap-6"}>
               <Credits cast={data.credits.casts} crew={data.credits.crew} />
-              <Recommendations recommendations={data.recommendations} />
+              <Recommendations
+                recommendations={data.recommendations}
+                mediaId={Number(seriesId)}
+                mediaType="series"
+              />
             </View>
           </View>
         </Animated.ScrollView>

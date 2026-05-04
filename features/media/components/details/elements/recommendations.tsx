@@ -1,30 +1,62 @@
 import { View, Text, ScrollView } from "react-native";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { Poster } from "@/features/common/posters/poster";
-
 import { useRouter } from "expo-router";
+import { Icon } from "@/features/common/ui/icon";
+import { NavArrowRight } from "iconoir-react-native";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { Button } from "@/features/common/ui/button";
 
 type Props = {
   recommendations: PosterResDto;
+  mediaId: number;
+  mediaType: MediaType;
 };
 
-export const Recommendations = ({ recommendations }: Props) => {
+export const Recommendations = ({
+  recommendations,
+  mediaId,
+  mediaType,
+}: Props) => {
   const router = useRouter();
 
   if (!recommendations.results || recommendations.results.length === 0)
     return null;
 
+  const displayResults = recommendations.results.slice(0, 5);
+
+  const onSeeMore = () => {
+    router.push({
+      pathname: "/discover/posters",
+      params: {
+        title: "More like this",
+        endpoint: `/${mediaType}/details/${mediaId}/recommendations/posters`,
+      },
+    });
+  };
+
   return (
     <View className={"flex flex-col gap-4"}>
-      <Text className={"title-t2 px-4 text-neutral-10-default"}>
-        More like this
-      </Text>
+      <View className={"flex flex-row items-center justify-between px-4"}>
+        <Text className={"title-t2 text-neutral-10-default"}>
+          More like this
+        </Text>
+        <Button
+          variant={"link"}
+          size={"md"}
+          onPress={onSeeMore}
+          icon={<Icon i={NavArrowRight} />}
+          iconPosition={"right"}
+        >
+          See more
+        </Button>
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerClassName={"px-4 gap-3"}
       >
-        {recommendations.results.map((item) => (
+        {displayResults.map((item) => (
           <Poster
             key={item.id}
             data={item}

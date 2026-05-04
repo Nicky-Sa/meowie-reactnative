@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { searchParamsToQuery } from "@/lib/functions";
 import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
-import { SearchParams } from "@/features/common/data/media-query";
+import { ID, SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
 
@@ -11,7 +11,8 @@ export type URL =
   | `/${MediaType}/posters`
   | "/library/saved"
   | "/library/seen"
-  | `/collections/${string}/items`;
+  | `/collections/${string}/items`
+  | `/${MediaType}/details/${ID}/recommendations/posters`;
 
 export const useFetchPosters = (
   url: URL,
