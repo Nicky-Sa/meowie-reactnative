@@ -5,6 +5,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { WatchProviders as WatchProvidersType } from "@/features/common/data/models/watch-provider";
 import * as WebBrowser from "expo-web-browser";
 import * as Haptics from "expo-haptics";
+import Toast from "react-native-toast-message";
 
 type Props = {
   providers: WatchProvidersType;
@@ -31,7 +32,10 @@ export const WatchProviders = ({ providers }: Props) => {
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
         });
       } catch {
-        // ignore
+        Toast.show({
+          type: "error",
+          text1: "Oops, we couldn't open the browser 😿",
+        });
       }
     }
   };
