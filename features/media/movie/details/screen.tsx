@@ -11,8 +11,6 @@ import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
-import { autoplayAtom } from "@/atoms";
-import { useAtom } from "jotai";
 import { View } from "react-native";
 import { Ratings } from "@/features/media/components/info/elements/ratings";
 import Animated, {
@@ -24,7 +22,6 @@ export const Screen = () => {
   const { movieId } = useLocalSearchParams<{ movieId: string }>();
   const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
   const { capture } = useCaptureEvent();
-  const [autoplay] = useAtom(autoplayAtom);
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -36,9 +33,9 @@ export const Screen = () => {
       media_type: "movie",
       media_id: movieId,
       media_title: data?.title || "",
-      autoplay,
+      autoplay: false,
     });
-  }, [autoplay, capture, data?.title, movieId]);
+  }, [capture, data?.title, movieId]);
 
   const onTrailerPause = useCallback(() => {
     capture("trailer_paused", {
@@ -140,7 +137,6 @@ export const Screen = () => {
             duration={data.duration}
             genres={data.genres}
             mediaType="movie"
-            autoplay={autoplay}
             onPlay={onTrailerPlay}
             onPause={onTrailerPause}
           />

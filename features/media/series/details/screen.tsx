@@ -11,8 +11,6 @@ import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
-import { autoplayAtom } from "@/atoms";
-import { useAtom } from "jotai";
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -24,7 +22,6 @@ export const Screen = () => {
   const { seriesId } = useLocalSearchParams<{ seriesId: string }>();
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const { capture } = useCaptureEvent();
-  const [autoplay] = useAtom(autoplayAtom);
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -36,9 +33,9 @@ export const Screen = () => {
       media_type: "series",
       media_id: seriesId,
       media_title: data?.title || "",
-      autoplay,
+      autoplay: false,
     });
-  }, [autoplay, capture, data?.title, seriesId]);
+  }, [capture, data?.title, seriesId]);
 
   const onTrailerPause = useCallback(() => {
     capture("trailer_paused", {
@@ -140,7 +137,6 @@ export const Screen = () => {
             duration={data.seasonsText}
             genres={data.genres}
             mediaType="series"
-            autoplay={autoplay}
             onPlay={onTrailerPlay}
             onPause={onTrailerPause}
           />

@@ -19,7 +19,6 @@ type Props = {
   duration: string;
   genres: Genre[];
   mediaType: MediaType;
-  autoplay: boolean;
   onPlay: () => void;
   onPause: () => void;
 };
@@ -34,7 +33,6 @@ export const Hero = ({
   duration,
   genres,
   mediaType,
-  autoplay,
   onPlay,
   onPause,
 }: Props) => {
@@ -45,7 +43,7 @@ export const Hero = ({
         <TrailerPlayer
           YTKey={trailerKey}
           inScreen
-          autoplay={autoplay}
+          autoplay={false}
           onPlay={onPlay}
           onPause={onPause}
           fullWidth
