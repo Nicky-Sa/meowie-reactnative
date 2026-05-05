@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 import { allowYTPlayingAtom } from "@/atoms";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
-import { tailwind } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
 import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import Animated, {
@@ -51,7 +51,7 @@ export const TrailerPlayer = ({
           fullWidth={fullWidth}
         />
       ) : (
-        <Loading />
+        <Loading fullWidth={fullWidth} />
       )}
     </View>
   );
@@ -100,16 +100,17 @@ export const Player = ({
 
   return (
     <>
-      {!isReady && <Loading />}
+      {!isReady && <Loading fullWidth={fullWidth} />}
       <Animated.View
         style={animatedStyle}
         className={"flex h-full w-full items-center justify-center"}
       >
         {canNotPlay ? (
           <View
-            className={
-              "flex h-full w-full flex-col items-center justify-center gap-3 rounded-xl bg-brand-10"
-            }
+            className={cn(
+              "flex h-full w-full flex-col items-center justify-center gap-3 bg-brand-10",
+              !fullWidth && "rounded-xl",
+            )}
           >
             <NoTrailer />
             <Text className={"body-b1 text-neutral-6-default"}>
@@ -158,8 +159,12 @@ export const Player = ({
   );
 };
 
-const Loading = () => {
-  return <SkeletonItem className={"absolute h-full w-full"} />;
+const Loading = ({ fullWidth = false }: Pick<Props, "fullWidth">) => {
+  return (
+    <SkeletonItem
+      className={cn("absolute h-full w-full", fullWidth && "rounded-none")}
+    />
+  );
 };
 
 const useLoad = (playerRef: RefObject<YoutubeIframeRef | null>) => {
