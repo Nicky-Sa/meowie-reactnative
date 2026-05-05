@@ -2,6 +2,9 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import { env } from "@/lib/env";
 import { GENERAL_TIMEOUT } from "@/lib/consts";
+import * as Localization from "expo-localization";
+import { countryCodeAtom } from "@/atoms";
+import { useAtom } from "jotai";
 
 // We use a YouTube-specific 204 endpoint.
 // If this fails but the internet is on, we know YouTube specifically is blocked.
@@ -19,6 +22,7 @@ export const useConnectionCheck = () => {
   const [status, setStatus] = useState<ConnectivityStatus>("CHECKING");
   const wasOffline = useRef(true);
   const netInfo = useNetInfo();
+  const [, setCountryCode] = useAtom(countryCodeAtom);
 
   const checkConnectivity = useCallback(async () => {
     setStatus("CHECKING");
@@ -61,6 +65,32 @@ export const useConnectionCheck = () => {
     if (youtubeAlive && backendAlive) {
       setStatus("ONLINE");
       wasOffline.current = false;
+
+      // 4. IP-based Country Detection (only if online)
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout for location
+
+        const ipResponse = await fetch("https://ipapi.co/json/", {
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        const ipData = (await ipResponse.json()) as { country_code?: string };
+
+        if (ipData?.country_code) {
+          setCountryCode(ipData.country_code);
+        } else {
+          throw new Error("No country code in response");
+        }
+      } catch (err: unknown) {
+        // Fallback to device region
+        const deviceRegion = Localization.getLocales()[0]?.regionCode || "US";
+        setCountryCode(deviceRegion);
+        console.warn(
+          "Location detection failed, falling back to device region",
+          err,
+        );
+      }
     } else if (youtubeAlive && !backendAlive) {
       // YouTube works, Backend dead -> Our fault
       setStatus("SERVER_ERROR");
@@ -71,7 +101,7 @@ export const useConnectionCheck = () => {
       setStatus("RESTRICTED");
       wasOffline.current = true;
     }
-  }, []);
+  }, [setCountryCode]);
 
   // Auto-recovery
   useEffect(() => {

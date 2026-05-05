@@ -2,10 +2,14 @@ import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { NavArrowRight } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
-import { WatchProviders as WatchProvidersType } from "@/features/common/data/models/watch-provider";
+import {
+  WatchProvider,
+  WatchProviders as WatchProvidersType,
+} from "@/features/common/data/models/watch-provider";
 import * as WebBrowser from "expo-web-browser";
 import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
+import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
 
 type Props = {
   providers: WatchProvidersType;
@@ -23,8 +27,6 @@ export const WatchProviders = ({ providers }: Props) => {
     new Map(allProviders.map((p) => [p.providerId, p])).values(),
   ).slice(0, 6);
 
-  if (uniqueProviders.length === 0) return null;
-
   const handlePress = async () => {
     if (providers.tmdbLink) {
       try {
@@ -41,7 +43,7 @@ export const WatchProviders = ({ providers }: Props) => {
   };
 
   return (
-    <View className={"-mt-4 flex flex-col gap-1"}>
+    <View className={"-mt-4 flex h-[85px] flex-col justify-center gap-1"}>
       <Pressable
         onPress={handlePress}
         onPressIn={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
@@ -49,32 +51,14 @@ export const WatchProviders = ({ providers }: Props) => {
           opacity: pressed ? 0.7 : 1,
         })}
         className={
-          "flex flex-row items-center justify-between rounded-xl border border-neutral-3-default px-3 py-4"
+          "flex flex-1 flex-row items-center justify-between rounded-xl border border-neutral-3-default px-3"
         }
       >
-        <View className={"flex flex-row items-center gap-2"}>
-          <View className={"flex flex-row items-center"}>
-            {uniqueProviders.map((provider, index) => (
-              <View
-                key={provider.providerId}
-                className={
-                  "h-8 w-8 overflow-hidden rounded-full border border-neutral-1-default"
-                }
-                style={{ marginLeft: index === 0 ? 0 : -8 }}
-              >
-                <Image
-                  source={provider.logoPath}
-                  style={{ width: "100%", height: "100%" }}
-                  contentFit="cover"
-                />
-              </View>
-            ))}
-          </View>
-        </View>
-        <View className={"flex flex-row items-center gap-1"}>
-          <Text className={"body-b2 text-neutral-5-default"}>Watch</Text>
-          <Icon i={NavArrowRight} color={"#A3A3A3"} />
-        </View>
+        {uniqueProviders.length > 0 ? (
+          <WithContent providers={uniqueProviders} />
+        ) : (
+          <NoContent />
+        )}
       </Pressable>
       <Text className={"caption-c1 ml-1 text-neutral-5-default"}>
         Provided by JUSTWATCH
@@ -82,3 +66,48 @@ export const WatchProviders = ({ providers }: Props) => {
     </View>
   );
 };
+
+const NoContent = () => (
+  <>
+    <View className={"flex flex-row items-center gap-3"}>
+      <Icon i={CryingMeowie} />
+      <Text className={"body-b2 text-neutral-6-default"}>
+        No platforms in your region.
+      </Text>
+    </View>
+    <View className={"flex flex-row items-center gap-1"}>
+      <Text className={"body-b2 font-semibold text-neutral-10-default"}>
+        See others
+      </Text>
+      <Icon i={NavArrowRight} />
+    </View>
+  </>
+);
+
+const WithContent = ({ providers }: { providers: WatchProvider[] }) => (
+  <>
+    <View className={"flex flex-row items-center gap-2"}>
+      <View className={"flex flex-row items-center"}>
+        {providers.map((provider, index) => (
+          <View
+            key={provider.providerId}
+            className={
+              "h-8 w-8 overflow-hidden rounded-full border border-neutral-1-default"
+            }
+            style={{ marginLeft: index === 0 ? 0 : -8 }}
+          >
+            <Image
+              source={provider.logoPath}
+              style={{ width: "100%", height: "100%" }}
+              contentFit="cover"
+            />
+          </View>
+        ))}
+      </View>
+    </View>
+    <View className={"flex flex-row items-center gap-1"}>
+      <Text className={"body-b2 text-neutral-10-default"}>Watch</Text>
+      <Icon i={NavArrowRight} />
+    </View>
+  </>
+);

@@ -4,6 +4,8 @@ import { env } from "@/lib/env";
 import { unregisterUser } from "@/features/common/data/utils/unregister-user";
 import { registerUser } from "@/features/common/data/utils/register-user";
 import { GENERAL_TIMEOUT } from "@/lib/consts";
+import { getDefaultStore } from "jotai";
+import { countryCodeAtom } from "@/atoms";
 
 // Create the axios instance
 const axiosInstance = axios.create({
@@ -27,6 +29,13 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    // 3. Attach country code for localized content
+    const countryCode = getDefaultStore().get(countryCodeAtom);
+    if (countryCode) {
+      config.headers["x-user-country"] = countryCode;
+    }
+
     return config;
   },
   (error) => Promise.reject(error),

@@ -42,3 +42,6 @@ export const sortAtom = atomPersisted<SortOption>(
 // Tour and onboarding
 export const homeTourSeenAtom = atomPersisted("home-tour-seen", false);
 export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);
+
+// Location and Country (persisted)
+export const countryCodeAtom = atomPersisted("country-code", "US");
