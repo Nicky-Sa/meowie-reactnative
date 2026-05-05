@@ -93,6 +93,7 @@ export const Seen = ({
         size={"md"}
         onPress={handlePress}
         style={{ overflow: "visible" }}
+        className={"min-w-20"}
         icon={
           isLibraryStatusLoading ? null : (
             <SeenIcon isSeen={isSeen} rating={currentRating} />

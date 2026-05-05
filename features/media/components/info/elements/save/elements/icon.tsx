@@ -12,6 +12,8 @@ const UNSAVED_END_FRAME = 160;
 export const SaveIcon = ({ isSaved }: Props) => {
   const lottieRef = useRef<LottieView>(null);
 
+  const isFirstMount = useRef(true);
+
   const determineInitialAnimation = useCallback(() => {
     if (isSaved) {
       // Play from end frame to end frame to "snap" instantly
@@ -22,6 +24,11 @@ export const SaveIcon = ({ isSaved }: Props) => {
   }, [isSaved]);
 
   useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
     if (isSaved) {
       lottieRef.current?.play(0, SAVED_END_FRAME);
     } else {
@@ -38,8 +45,7 @@ export const SaveIcon = ({ isSaved }: Props) => {
       resizeMode={"cover"}
       loop={false}
       autoPlay={false}
-      onLayout={determineInitialAnimation} // for the rest of the items
-      onAnimationLoaded={determineInitialAnimation} // for the first item of the list
+      onAnimationLoaded={determineInitialAnimation}
       style={{
         width: 24,
         height: 24,

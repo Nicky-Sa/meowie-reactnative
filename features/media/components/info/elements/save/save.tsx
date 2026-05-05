@@ -66,6 +66,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
         size={"md"}
         onPress={handlePress}
         icon={isLibraryStatusLoading ? null : <SaveIcon isSaved={isSaved} />}
+        className={"min-w-20"}
       >
         {isLibraryStatusLoading ? (
           <SkeletonItem className={"h-6 w-16"} />
