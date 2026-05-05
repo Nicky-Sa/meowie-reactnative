@@ -11,6 +11,7 @@ import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
 import { useCallback } from "react";
 import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
@@ -22,6 +23,7 @@ export const Screen = () => {
   const { seriesId } = useLocalSearchParams<{ seriesId: string }>();
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const { capture } = useCaptureEvent();
+  const isTransitionFinished = useIsTransitionFinished();
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -118,7 +120,7 @@ export const Screen = () => {
     >
       {error ? (
         <ErrorState tryAgain={refetch} error={error} />
-      ) : isLoading || !data ? (
+      ) : isLoading || !data || !isTransitionFinished ? (
         <MediaInfoSkeleton />
       ) : (
         <Animated.ScrollView

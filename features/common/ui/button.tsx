@@ -110,10 +110,10 @@ export const Button = ({
   return (
     <Pressable
       {...props}
-      onPressIn={async (ev) => {
+      onPressIn={(ev) => {
         setFocused(true);
         if (haptic) {
-          await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
         props.onPressIn?.(ev);
       }}

@@ -5,7 +5,7 @@ export const MediaInfoSkeleton = () => {
   return (
     <View
       className={
-        "flex w-full flex-1 flex-col items-center justify-center gap-4"
+        "flex w-full flex-1 flex-col items-center justify-center gap-4 px-4"
       }
     >
       <SkeletonItem className={"h-[90px]"} />
