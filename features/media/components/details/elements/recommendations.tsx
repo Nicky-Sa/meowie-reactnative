@@ -1,5 +1,4 @@
 import { View, Text, ScrollView } from "react-native";
-import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { Poster } from "@/features/common/posters/poster";
 import { useRouter } from "expo-router";
 import { Icon } from "@/features/common/ui/icon";
@@ -7,23 +6,22 @@ import { NavArrowRight } from "iconoir-react-native";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
 
+import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+
 type Props = {
-  recommendations: PosterResDto;
   mediaId: number;
   mediaType: MediaType;
 };
 
-export const Recommendations = ({
-  recommendations,
-  mediaId,
-  mediaType,
-}: Props) => {
+export const Recommendations = ({ mediaId, mediaType }: Props) => {
   const router = useRouter();
+  const { data: results } = useFetchPosters(
+    `/${mediaType}/details/${mediaId}/recommendations/posters`,
+  );
 
-  if (!recommendations.results || recommendations.results.length === 0)
-    return null;
+  if (!results || results.length === 0) return null;
 
-  const displayResults = recommendations.results.slice(0, 5);
+  const displayResults = results.slice(0, 5);
 
   const onSeeMore = () => {
     router.push({

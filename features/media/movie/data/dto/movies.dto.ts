@@ -3,7 +3,6 @@ import { PosterProps } from "@/features/common/data/models/poster";
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { Genre } from "@/features/general/data/constants/useGenres";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
-import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { WatchProviders } from "@/features/common/data/models/watch-provider";
 
 export type MovieInfoResDto = {
@@ -19,7 +18,6 @@ export type MovieInfoResDto = {
   credits: MovieCredits;
   ratings: RatingEntry[];
   watchProviders: WatchProviders;
-  recommendations: PosterResDto;
 };
 
 export type InterestingMovieIdsResDto = PaginatedResponse<number>;
