@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { useFetchSeriesInfo } from "@/features/media/series/data/useFetchSeriesInfo";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ErrorState } from "@/features/general/error-state";
 import { Hero } from "@/features/media/components/details/elements/hero";
 import { Overview } from "@/features/media/components/details/elements/overview";
@@ -18,6 +17,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Ratings } from "@/features/media/components/info/elements/ratings";
 import { View } from "react-native";
+import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 
 export const Screen = () => {
   const { seriesId } = useLocalSearchParams<{ seriesId: string }>();
@@ -121,7 +121,7 @@ export const Screen = () => {
       {error ? (
         <ErrorState tryAgain={refetch} error={error} />
       ) : isLoading || !data || !isTransitionFinished ? (
-        <MediaInfoSkeleton />
+        <MediaDetailsSkeleton />
       ) : (
         <Animated.ScrollView
           onScroll={scrollHandler}
