@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Text, TextLayoutEvent, View, Pressable } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import Animated, {
@@ -6,7 +6,6 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { scheduleOnRN } from "react-native-worklets";
 
 type Props = {
   overview: string;
@@ -18,6 +17,14 @@ export const Overview = ({ overview }: Props) => {
   const [fullHeight, setFullHeight] = useState(0);
 
   const animatedHeight = useSharedValue<number | null>(null);
+  const moreOpacity = useSharedValue(1);
+
+  useEffect(() => {
+    setExpanded(false);
+    setShowMore(false);
+    moreOpacity.value = 1;
+    animatedHeight.value = null;
+  }, [overview, moreOpacity, animatedHeight]);
 
   const onTextLayout = useCallback(
     (e: TextLayoutEvent) => {
@@ -41,9 +48,10 @@ export const Overview = ({ overview }: Props) => {
 
   const handleExpand = () => {
     if (expanded || fullHeight === 0) return;
-    animatedHeight.value = withTiming(fullHeight, { duration: 300 }, () => {
-      scheduleOnRN(setExpanded, true);
-    });
+
+    setExpanded(true);
+    animatedHeight.value = withTiming(fullHeight, { duration: 300 });
+    moreOpacity.value = withTiming(0, { duration: 300 });
   };
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -53,13 +61,16 @@ export const Overview = ({ overview }: Props) => {
     };
   });
 
+  const moreButtonStyle = useAnimatedStyle(() => ({
+    opacity: moreOpacity.value,
+  }));
+
   return (
     <View>
       {/* Hidden text to measure full height */}
       <Text
         onTextLayout={onFullTextLayout}
         className={"body-b2 absolute opacity-0"}
-        style={{ lineHeight: 22 }}
         pointerEvents="none"
       >
         {overview}
@@ -71,16 +82,17 @@ export const Overview = ({ overview }: Props) => {
             numberOfLines={expanded ? undefined : 5}
             onTextLayout={onTextLayout}
             className={"body-b2 text-neutral-6-default"}
-            style={{ lineHeight: 22 }}
           >
             {overview}
           </Text>
         </Pressable>
       </Animated.View>
 
-      {showMore && !expanded && (
-        <View
+      {showMore && (
+        <Animated.View
+          style={moreButtonStyle}
           className={"absolute bottom-0 right-0 bg-neutral-15-default pl-1"}
+          pointerEvents={expanded ? "none" : "auto"}
         >
           <Button
             variant={"link"}
@@ -92,7 +104,7 @@ export const Overview = ({ overview }: Props) => {
               {"... More"}
             </Text>
           </Button>
-        </View>
+        </Animated.View>
       )}
     </View>
   );
