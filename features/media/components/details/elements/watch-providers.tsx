@@ -34,6 +34,7 @@ export const WatchProviders = ({ providers, mediaId, mediaType }: Props) => {
   ).slice(0, 6);
 
   const handlePress = async () => {
+    void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     if (providers.tmdbLink) {
       try {
         media.trackWatchProvidersClicked({ mediaId, mediaType });
@@ -53,7 +54,6 @@ export const WatchProviders = ({ providers, mediaId, mediaType }: Props) => {
     <View className={"-mt-4 flex h-[85px] flex-col justify-center gap-1"}>
       <Pressable
         onPress={handlePress}
-        onPressIn={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
         style={({ pressed }) => ({
           opacity: pressed ? 0.7 : 1,
         })}

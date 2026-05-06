@@ -112,14 +112,17 @@ export const Button = ({
       {...props}
       onPressIn={(ev) => {
         setFocused(true);
-        if (haptic) {
-          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }
         props.onPressIn?.(ev);
       }}
       onPressOut={(ev) => {
         setFocused(false);
         props.onPressOut?.(ev);
+      }}
+      onPress={(ev) => {
+        if (haptic) {
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }
+        props.onPress?.(ev);
       }}
       disabled={props.disabled || isLoading}
     >

@@ -49,14 +49,17 @@ export const Action = ({
     <View>
       <Pressable
         {...props}
-        onPressIn={async (ev) => {
+        onPressIn={(ev) => {
           setFocused(true);
-          await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           props.onPressIn?.(ev);
         }}
         onPressOut={(ev) => {
           setFocused(false);
           props.onPressOut?.(ev);
+        }}
+        onPress={(ev) => {
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          props.onPress?.(ev);
         }}
       >
         <View
