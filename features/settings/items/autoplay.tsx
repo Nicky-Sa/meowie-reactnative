@@ -2,14 +2,14 @@ import { Action } from "@/features/common/ui/action";
 import { Switch } from "@/features/common/ui/switch";
 import { useAtom } from "jotai";
 import { autoplayAtom } from "@/atoms";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const Autoplay = () => {
   const [value, setValue] = useAtom(autoplayAtom);
-  const { capture } = useCaptureEvent();
+  const { interaction } = useAnalytics();
 
   const handleToggle = () => {
-    capture("autoplay_toggled", { autoplay: !value });
+    interaction.trackAutoplayToggled({ autoplay: !value });
     setValue(!value);
   };
 

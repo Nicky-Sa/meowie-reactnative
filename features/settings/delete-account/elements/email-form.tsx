@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
 import { useDeleteAccount } from "@/features/settings/delete-account/data/useDeleteAccount";
 import { usePostHog } from "posthog-react-native";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   email: string;
@@ -35,11 +35,11 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
   const router = useRouter();
   const { trigger, isMutating } = useDeleteAccount();
   const posthog = usePostHog();
-  const { capture } = useCaptureEvent();
+  const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (data: EmailFormData) => {
     try {
-      capture("account_deleted", { churn_reason_id: churnReasonId });
+      auth.trackAccountDeleted({ churnReasonId });
       await trigger({ ...data, churnReasonId });
       posthog.reset();
       router.push("/auth/request-otp");

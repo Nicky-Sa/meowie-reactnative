@@ -10,7 +10,7 @@ import _ from "lodash";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { filtersMediaTypeAtom, movieFiltersAtom, tvFiltersAtom } from "@/atoms";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import {
   MediaType,
@@ -26,7 +26,7 @@ export const Screen = () => {
   const [seriesFilters, setSeriesFilters] = useAtom(tvFiltersAtom);
   const [mediaType, setMediaType] = useAtom(filtersMediaTypeAtom);
   const router = useRouter();
-  const { capture } = useCaptureEvent();
+  const { discovery } = useAnalytics();
 
   const filters = mediaType === "movie" ? movieFilters : seriesFilters;
 
@@ -54,7 +54,7 @@ export const Screen = () => {
   };
 
   const handleApply = () => {
-    capture("filters_applied", { filters, mediaType });
+    discovery.trackFiltersApplied({ filters, mediaType });
     // dismissTo: so the user feels like the filters are applies in-place, instead of feeling being navigated to a new screen
     router.dismissTo({
       pathname: "/discover/posters",

@@ -13,7 +13,7 @@ import {
   initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
 import { useCallback } from "react";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { CollectionsList } from "@/features/explore/collections/collections-list";
 
 export const Screen = () => {
@@ -21,10 +21,10 @@ export const Screen = () => {
   const setMovieFilters = useSetAtom(movieFiltersAtom);
   const setTvFilters = useSetAtom(tvFiltersAtom);
 
-  const { capture } = useCaptureEvent();
+  const { discovery } = useAnalytics();
 
   const onFilterPress = () => {
-    capture("filters_opened");
+    discovery.trackFiltersOpened();
     router.push("/filters");
   };
 

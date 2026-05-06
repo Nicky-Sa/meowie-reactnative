@@ -14,7 +14,7 @@ export const MovieInfo = ({ movieId, inScreen, tourEnabled }: Props) => {
   const layoutVariant = useFeatureFlag("details-layout");
 
   // Track time spent on this screen
-  useTrackTimeSpent("media_details_viewed", movieId, "movie");
+  useTrackTimeSpent(movieId, "movie");
 
   return layoutVariant === "test" ? (
     <MovieInfoB

@@ -9,10 +9,10 @@ import EmptyCacheSvg from "@/assets/images/profile/empty-cache.svg";
 import { Image } from "expo-image";
 import { Action } from "@/features/common/ui/action";
 import { useClearQueryCache } from "@/features/general/data/useClearQueryCache";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const EmptyCache = () => {
-  const { capture } = useCaptureEvent();
+  const { interaction } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
   const { clearCache } = useClearQueryCache();
@@ -23,7 +23,7 @@ export const EmptyCache = () => {
 
   const handleEmptyCache = async () => {
     try {
-      capture("cache_cleared");
+      interaction.trackCacheCleared();
       await clearImageCache();
       await clearCache();
     } catch (error) {

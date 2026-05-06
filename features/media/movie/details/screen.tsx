@@ -9,7 +9,7 @@ import { WatchProviders } from "@/features/media/components/details/elements/wat
 import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
 import { useCallback } from "react";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import { Ratings } from "@/features/media/components/info/elements/ratings";
 import Animated, {
@@ -22,7 +22,7 @@ import { MediaDetailsSkeleton } from "@/features/media/components/details/media-
 export const Screen = () => {
   const { movieId } = useLocalSearchParams<{ movieId: string }>();
   const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
-  const { capture } = useCaptureEvent();
+  const { media } = useAnalytics();
   const isTransitionFinished = useIsTransitionFinished();
 
   const scrollY = useSharedValue(0);
@@ -31,83 +31,83 @@ export const Screen = () => {
   });
 
   const onTrailerPlay = useCallback(() => {
-    capture("trailer_played", {
-      media_type: "movie",
-      media_id: movieId,
-      media_title: data?.title || "",
+    if (!data) return;
+    media.trackTrailerPlayed({
+      media: { id: movieId, type: "movie", title: data.title },
       autoplay: false,
     });
-  }, [capture, data?.title, movieId]);
+  }, [media, data, movieId]);
 
   const onTrailerPause = useCallback(() => {
-    capture("trailer_paused", {
-      media_type: "movie",
-      media_id: movieId,
-      media_title: data?.title || "",
-    });
-  }, [capture, data?.title, movieId]);
+    if (!data) return;
+    media.trackTrailerPaused({ id: movieId, type: "movie", title: data.title });
+  }, [media, data, movieId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
+      if (!data) return;
+      const mediaItem = {
+        id: movieId,
+        type: "movie" as const,
+        title: data.title,
+        genres: data.genres.map((g) => g.name),
+      };
+
       if (saved === true) {
-        capture("media_save_clicked", {
-          media_type: "movie",
-          media_id: movieId,
-          media_title: data?.title || "",
-          genres: data?.genres.map((genre) => genre.name) || [],
-        });
+        media.trackSave(mediaItem);
       } else if (saved === false) {
-        capture("media_unsave_clicked", {
-          media_type: "movie",
-          media_id: movieId,
-          media_title: data?.title || "",
-          genres: data?.genres.map((genre) => genre.name) || [],
-        });
+        media.trackUnsave(mediaItem);
       }
     },
-    [capture, data?.genres, data?.title, movieId],
+    [media, data, movieId],
   );
 
   const onSeenPress = useCallback(() => {
-    capture("media_seen_clicked", {
-      media_type: "movie",
-      media_id: movieId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackSeen({
+      id: movieId,
+      type: "movie",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, movieId]);
+  }, [media, data, movieId]);
 
   const onRate = useCallback(
     (rating: number | null, isFirstTime: boolean) => {
-      capture("media_rated", {
-        media_type: "movie",
-        media_id: movieId,
-        media_title: data?.title || "",
-        genres: data?.genres.map((genre) => genre.name) || [],
+      if (!data) return;
+      media.trackRated({
+        media: {
+          id: movieId,
+          type: "movie",
+          title: data.title,
+          genres: data.genres.map((g) => g.name),
+        },
         rating,
-        is_first_time_rating: isFirstTime,
+        isFirstTime,
       });
     },
-    [capture, data?.genres, data?.title, movieId],
+    [media, data, movieId],
   );
 
   const onSkipRating = useCallback(() => {
-    capture("media_rating_skipped", {
-      media_type: "movie",
-      media_id: movieId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackRatingSkipped({
+      id: movieId,
+      type: "movie",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, movieId]);
+  }, [media, data, movieId]);
 
   const onRemoveSeen = useCallback(() => {
-    capture("media_unseen_clicked", {
-      media_type: "movie",
-      media_id: movieId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackUnseen({
+      id: movieId,
+      type: "movie",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, movieId]);
+  }, [media, data, movieId]);
 
   return (
     <InnerScreen

@@ -3,19 +3,16 @@ import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
-export const Credit = ({ id, name, profilePath, role }: CreditInfo) => {
+export const Credit = (person: CreditInfo) => {
+  const { id, name, profilePath } = person;
   const router = useRouter();
-  const { capture } = useCaptureEvent();
+  const { people } = useAnalytics();
 
   const onCastPressed = useCallback(() => {
-    capture("person_clicked", {
-      person_id: id,
-      person_name: name,
-      role: role === "Director" ? "director" : "cast",
-    });
-  }, [capture, role, id, name]);
+    people.trackClick({ person });
+  }, [people, person]);
 
   const handlePress = () => {
     // id = -1 is a placeholder for unknown cast

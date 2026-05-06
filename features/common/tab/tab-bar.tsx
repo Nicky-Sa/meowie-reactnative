@@ -5,7 +5,7 @@ import { TabItem } from "@/features/common/tab/tab-item";
 import { TabIndicator } from "@/features/common/tab/tab-indicator";
 import { SvgImage } from "@/features/common/ui/icon";
 import { ScrollHandlerProcessed } from "react-native-reanimated";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export type TabChildProps = {
   scrollHandler: ScrollHandlerProcessed;
@@ -24,14 +24,14 @@ export const TabBar = memo(({ tabsConfig, index, onTabPress }: Props) => {
   const { width } = useWindowDimensions();
   const tabWidth = width / tabsConfig.length;
 
-  const { capture } = useCaptureEvent();
+  const { interaction } = useAnalytics();
 
   const onTabItemPress = (tabName: string) => {
-    capture("profile_tab_changed", { tab_name: tabName });
+    interaction.trackProfileTabChange({ tabName });
     if (tabName === "saved") {
-      capture("profile_saved_tab_clicked");
+      interaction.trackProfileSavedTabClick();
     } else if (tabName === "seen") {
-      capture("profile_seen_tab_clicked");
+      interaction.trackProfileSeenTabClick();
     }
     onTabPress(tabName);
   };

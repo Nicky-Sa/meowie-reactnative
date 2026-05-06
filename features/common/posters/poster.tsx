@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { View, Text } from "react-native";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { memo, useCallback, useState, useMemo } from "react";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";
@@ -22,26 +22,20 @@ type Props = {
 
 export const Poster = memo(
   ({ data, width, isRounded, showExtraDetails, onPress }: Props) => {
-    const { capture } = useCaptureEvent();
+    const { media } = useAnalytics();
     const [isPreviewVisible, setIsPreviewVisible] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
 
     const onPosterPressed = useCallback(() => {
-      capture("poster_clicked", {
-        media_type: data.mediaType,
-        media_id: data.id,
-      });
+      media.trackClick({ mediaId: data.id, mediaType: data.mediaType });
       onPress();
-    }, [capture, data.id, data.mediaType, onPress]);
+    }, [media, data.id, data.mediaType, onPress]);
 
     const onLongPressTriggered = useCallback(async () => {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setIsPreviewVisible(true);
-      capture("poster_long_pressed", {
-        media_type: data.mediaType,
-        media_id: data.id,
-      });
-    }, [capture, data.id, data.mediaType]);
+      media.trackLongPress({ mediaId: data.id, mediaType: data.mediaType });
+    }, [media, data.id, data.mediaType]);
 
     const onLongPressEnded = useCallback(() => {
       setIsPreviewVisible(false);

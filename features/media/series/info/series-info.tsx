@@ -13,7 +13,7 @@ export const SeriesInfo = ({ seriesId, inScreen }: Props) => {
   const layoutVariant = useFeatureFlag("details-layout");
 
   // Track time spent on this screen
-  useTrackTimeSpent("media_details_viewed", seriesId, "series");
+  useTrackTimeSpent(seriesId, "series");
 
   return layoutVariant === "test" ? (
     <SeriesInfoB seriesId={seriesId} inScreen={inScreen} />

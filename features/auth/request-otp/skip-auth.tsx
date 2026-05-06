@@ -1,15 +1,15 @@
 import { Button } from "@/features/common/ui/button";
 import { View } from "react-native";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
 
 export const SkipAuth = () => {
   const { dismissScreen } = useDismissScreen();
-  const { capture } = useCaptureEvent();
+  const { auth } = useAnalytics();
 
   const onPress = async () => {
-    capture("auth_skipped");
+    auth.trackAuthSkipped();
     AppStorage.setItem("skipped-auth", "true");
     dismissScreen();
   };

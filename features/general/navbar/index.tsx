@@ -3,7 +3,7 @@ import { tailwind } from "@/lib/tailwind";
 import { useWindowDimensions, View, Pressable } from "react-native";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import Animated, {
   interpolateColor,
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const Navbar = ({ tabs }: Props) => {
-  const { capture } = useCaptureEvent();
+  const { interaction } = useAnalytics();
 
   return (
     <Tabs
@@ -30,7 +30,7 @@ export const Navbar = ({ tabs }: Props) => {
         <CustomTabBar
           {...props}
           onTabPress={(name) =>
-            capture("navigation_clicked", { destination: name })
+            interaction.trackNavigation({ destination: name })
           }
         />
       )}

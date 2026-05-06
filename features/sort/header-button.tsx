@@ -10,7 +10,7 @@ import { useCallback, useRef } from "react";
 import { Segment } from "@/features/common/ui/segment";
 import { useImmer } from "use-immer";
 import { SortOption } from "@/features/common/data/media-query";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useAtom } from "jotai";
 import { sortAtom } from "@/atoms";
 
@@ -38,19 +38,19 @@ export const SortHeaderButton = () => {
   const [sort, setSort] = useAtom(sortAtom);
   const [draftSort, setDraftSort] = useImmer(sort);
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
-  const { capture } = useCaptureEvent();
+  const { discovery } = useAnalytics();
 
   const applySort = useCallback(() => {
-    capture("sort_applied", { sort_type: draftSort });
+    discovery.trackSortApplied({ sortType: draftSort });
     setSort(draftSort);
     bottomSheetRef.current?.dismiss();
-  }, [capture, draftSort, setSort]);
+  }, [discovery, draftSort, setSort]);
 
   const sortBottomsheetOpened = useCallback(() => {
-    capture("sort_opened");
+    discovery.trackSortOpened();
     setDraftSort(sort);
     bottomSheetRef.current?.present();
-  }, [capture, setDraftSort, sort]);
+  }, [discovery, setDraftSort, sort]);
 
   return (
     <>

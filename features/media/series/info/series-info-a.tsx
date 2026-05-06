@@ -12,7 +12,7 @@ import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Credit } from "@/features/media/components/info/elements/credit";
 import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ID } from "@/features/common/data/media-query";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useFocusEffect } from "expo-router";
 import { ScrollableGenres } from "@/features/media/components/common/scrollable-genres";
 import { ScrollableTitle } from "@/features/media/components/common/scrollable-title";
@@ -29,7 +29,7 @@ export const SeriesInfoA = memo(({ seriesId, inScreen }: Props) => {
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
 
-  const { capture } = useCaptureEvent();
+  const { media } = useAnalytics();
 
   useFocusEffect(
     useCallback(() => {
@@ -43,91 +43,96 @@ export const SeriesInfoA = memo(({ seriesId, inScreen }: Props) => {
 
   // Posthog Events:
   const onPlay = useCallback(() => {
-    capture("trailer_played", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
+    if (!data) return;
+    media.trackTrailerPlayed({
+      media: { id: seriesId, type: "series", title: data.title },
       autoplay,
     });
-  }, [autoplay, capture, data?.title, seriesId]);
+  }, [autoplay, media, data, seriesId]);
 
   const onPause = useCallback(() => {
-    capture("trailer_paused", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
+    if (!data) return;
+    media.trackTrailerPaused({
+      id: seriesId,
+      type: "series",
+      title: data.title,
     });
-  }, [capture, data?.title, seriesId]);
+  }, [media, data, seriesId]);
 
   const onSavePress = useCallback(
     (saved: boolean | null) => {
+      if (!data) return;
+      const mediaItem = {
+        id: seriesId,
+        type: "series" as const,
+        title: data.title,
+        genres: data.genres.map((g) => g.name),
+      };
+
       if (saved === true) {
-        capture("media_save_clicked", {
-          media_type: "series",
-          media_id: seriesId,
-          media_title: data?.title || "",
-          genres: data?.genres.map((genre) => genre.name) || [],
-        });
+        media.trackSave(mediaItem);
       } else if (saved === false) {
-        capture("media_unsave_clicked", {
-          media_type: "series",
-          media_id: seriesId,
-          media_title: data?.title || "",
-          genres: data?.genres.map((genre) => genre.name) || [],
-        });
+        media.trackUnsave(mediaItem);
       }
     },
-    [capture, data?.genres, data?.title, seriesId],
+    [media, data, seriesId],
   );
 
   const onSeenPress = useCallback(() => {
-    capture("media_seen_clicked", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackSeen({
+      id: seriesId,
+      type: "series",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, seriesId]);
+  }, [media, data, seriesId]);
 
   const onRate = useCallback(
     (rating: number | null, isFirstTime: boolean) => {
-      capture("media_rated", {
-        media_type: "series",
-        media_id: seriesId,
-        media_title: data?.title || "",
-        genres: data?.genres.map((genre) => genre.name) || [],
+      if (!data) return;
+      media.trackRated({
+        media: {
+          id: seriesId,
+          type: "series",
+          title: data.title,
+          genres: data.genres.map((g) => g.name),
+        },
         rating,
-        is_first_time_rating: isFirstTime,
+        isFirstTime,
       });
     },
-    [capture, data?.genres, data?.title, seriesId],
+    [media, data, seriesId],
   );
 
   const onSkipRating = useCallback(() => {
-    capture("media_rating_skipped", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackRatingSkipped({
+      id: seriesId,
+      type: "series",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, seriesId]);
+  }, [media, data, seriesId]);
 
   const onRemoveSeen = useCallback(() => {
-    capture("media_unseen_clicked", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
-      genres: data?.genres.map((genre) => genre.name) || [],
+    if (!data) return;
+    media.trackUnseen({
+      id: seriesId,
+      type: "series",
+      title: data.title,
+      genres: data.genres.map((g) => g.name),
     });
-  }, [capture, data?.genres, data?.title, seriesId]);
+  }, [media, data, seriesId]);
 
   const onPosterExpanded = useCallback(() => {
-    capture("poster_expanded", {
-      media_type: "series",
-      media_id: seriesId,
-      media_title: data?.title || "",
+    if (!data) return;
+    media.trackExpand({
+      mediaId: seriesId,
+      mediaType: "series",
+      mediaTitle: data.title,
     });
-  }, [capture, data?.title, seriesId]);
+  }, [media, data, seriesId]);
 
   return error ? (
     <ErrorState tryAgain={refetch} error={error} />

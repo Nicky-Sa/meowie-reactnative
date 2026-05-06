@@ -1,21 +1,16 @@
-import { usePostHog } from "posthog-react-native";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useEffect, useRef } from "react";
 import { AppState, AppStateStatus } from "react-native";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { Event } from "@/features/general/posthog/events";
 
 /**
  * Tracks the time a user spends on a media info screen.
  * It accounts for app backgrounding by pausing the timer.
  * Captures "media_details_viewed" event on unmount.
  */
-export const useTrackTimeSpent = (
-  event: Event,
-  mediaId: ID,
-  mediaType: MediaType,
-) => {
-  const posthog = usePostHog();
+export const useTrackTimeSpent = (mediaId: ID, mediaType: MediaType) => {
+  const { media } = useAnalytics();
   const startTime = useRef<number>(Date.now());
   const totalDuration = useRef<number>(0);
   const appState = useRef<AppStateStatus>(AppState.currentState);
@@ -53,12 +48,12 @@ export const useTrackTimeSpent = (
 
       // Only track if the user stayed for more than 500ms (ignoring accidental clicks)
       if (finalDuration > 500) {
-        posthog.capture(event, {
-          media_id: mediaId,
-          media_type: mediaType,
-          duration_ms: finalDuration,
+        media.trackView({
+          mediaId,
+          mediaType,
+          durationMs: finalDuration,
         });
       }
     };
-  }, [event, mediaId, mediaType, posthog]);
+  }, [mediaId, mediaType, media]);
 };

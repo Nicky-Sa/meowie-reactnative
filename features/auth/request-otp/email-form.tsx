@@ -7,7 +7,7 @@ import { Button } from "@/features/common/ui/button";
 import { Mail } from "iconoir-react-native";
 import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
 import { useRouter } from "expo-router";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const LoginSchema = z.object({
   email: z.string().trim().pipe(z.email().toLowerCase()),
@@ -27,11 +27,11 @@ export const EmailForm = () => {
     });
   const { trigger, isMutating } = useRequestOtp();
   const router = useRouter();
-  const { capture } = useCaptureEvent();
+  const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (data: LoginFormData) => {
     try {
-      capture("otp_requested");
+      auth.trackOtpRequested();
       await trigger(data);
       router.push({
         pathname: "/auth/verify-otp",

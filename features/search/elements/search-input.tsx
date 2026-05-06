@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "expo-router";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const SearchSchema = z.object({
   query: z.string(),
@@ -21,7 +21,7 @@ type Props = {
 
 export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   const router = useRouter();
-  const { capture } = useCaptureEvent();
+  const { discovery } = useAnalytics();
 
   const { control, watch, clearErrors } = useForm<SearchFormData>({
     resolver: zodResolver(SearchSchema),
@@ -41,10 +41,10 @@ export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   // Sync debounced value to URL
   useEffect(() => {
     if (debouncedQuery) {
-      capture("search_submitted", { query: debouncedQuery });
+      discovery.trackSearch({ query: debouncedQuery });
     }
     router.setParams({ query: debouncedQuery });
-  }, [capture, debouncedQuery, router]);
+  }, [discovery, debouncedQuery, router]);
 
   return (
     <TextInput

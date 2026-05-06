@@ -3,7 +3,7 @@ import { Chip } from "@/features/common/ui/chip";
 import { useRouter } from "expo-router";
 import { type Genre } from "@/features/general/data/constants/useGenres";
 import { useCallback } from "react";
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import {
   MEDIA_TYPES_PLURALS,
   MediaType,
@@ -33,15 +33,15 @@ const GenreItem = ({
   mediaType: MediaType;
 }) => {
   const router = useRouter();
-  const { capture } = useCaptureEvent();
+  const { discovery } = useAnalytics();
 
   const onGenrePressed = useCallback(() => {
-    capture("genre_clicked", {
-      genre_id: item.id,
-      genre_name: item.name,
-      media_type: mediaType,
+    discovery.trackGenreClick({
+      genreId: item.id,
+      genreName: item.name,
+      mediaType,
     });
-  }, [capture, item.id, item.name, mediaType]);
+  }, [discovery, item.id, item.name, mediaType]);
 
   const onPress = () => {
     onGenrePressed();
