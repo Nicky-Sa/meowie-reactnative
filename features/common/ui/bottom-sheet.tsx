@@ -14,11 +14,8 @@ import {
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { Button } from "@/features/common/ui/button";
 import { tailwind, cn } from "@/lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Xmark } from "iconoir-react-native";
-import { Icon } from "@/features/common/ui/icon";
 
 type Props = {
   title: string;
@@ -146,7 +143,6 @@ export const BottomSheet = forwardRef<
             title={title}
             footerHeight={footerHeight}
             enableDynamicSizing={enableDynamicSizing}
-            onDismiss={() => bottomSheetRef.current?.dismiss()}
           >
             {children}
           </BottomSheetInner>
@@ -163,7 +159,6 @@ type BottomSheetInnerProps = {
   children: ReactNode;
   footerHeight: number;
   enableDynamicSizing: boolean;
-  onDismiss: () => void;
 };
 
 const BottomSheetInner = ({
@@ -171,7 +166,6 @@ const BottomSheetInner = ({
   children,
   footerHeight,
   enableDynamicSizing,
-  onDismiss,
 }: BottomSheetInnerProps) => {
   const Container = enableDynamicSizing ? BottomSheetView : View;
 
@@ -187,13 +181,6 @@ const BottomSheetInner = ({
     >
       <View className="flex w-full flex-row items-center justify-between pb-4">
         <Text className="title-t2 text-neutral-10-default">{title}</Text>
-        <Button
-          onPress={onDismiss}
-          variant="ghost"
-          size="md"
-          iconPosition="only"
-          icon={<Icon i={Xmark} />}
-        />
       </View>
       {children}
     </Container>
