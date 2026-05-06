@@ -5,6 +5,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { NavArrowRight } from "iconoir-react-native";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 
@@ -15,6 +16,7 @@ type Props = {
 
 export const Recommendations = ({ mediaId, mediaType }: Props) => {
   const router = useRouter();
+  const { media } = useAnalytics();
   const { data: results } = useFetchPosters(
     `/${mediaType}/details/${mediaId}/recommendations/posters`,
   );
@@ -24,6 +26,7 @@ export const Recommendations = ({ mediaId, mediaType }: Props) => {
   const displayResults = results.slice(0, 5);
 
   const onSeeMore = () => {
+    media.trackSeeMoreRecommendations({ mediaId, mediaType });
     router.push({
       pathname: "/discover/posters",
       params: {

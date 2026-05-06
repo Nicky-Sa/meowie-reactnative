@@ -7,11 +7,18 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { ID } from "@/features/common/data/media-query";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+
 type Props = {
   overview: string;
+  mediaId: ID;
+  mediaType: MediaType;
 };
 
-export const Overview = ({ overview }: Props) => {
+export const Overview = ({ overview, mediaId, mediaType }: Props) => {
+  const { media } = useAnalytics();
   const [expanded, setExpanded] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [fullHeight, setFullHeight] = useState(0);
@@ -49,6 +56,7 @@ export const Overview = ({ overview }: Props) => {
   const handleExpand = () => {
     if (expanded || fullHeight === 0) return;
 
+    media.trackDescriptionExpanded({ mediaId, mediaType });
     setExpanded(true);
     animatedHeight.value = withTiming(fullHeight, { duration: 300 });
     moreOpacity.value = withTiming(0, { duration: 300 });

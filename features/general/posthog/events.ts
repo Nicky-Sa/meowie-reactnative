@@ -243,6 +243,29 @@ export type MEDIA_DETAILS_VIEWED = {
     duration_ms: number;
   };
 };
+export type DESCRIPTION_EXPANDED = {
+  event: "description_expanded";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
+export type WATCH_PROVIDERS_CLICKED = {
+  event: "watch_providers_clicked";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
+export type RECOMMENDATIONS_SEE_MORE_CLICKED = {
+  event: "recommendations_see_more_clicked";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
 
 export type Events =
   | SORT_OPENED
@@ -275,7 +298,10 @@ export type Events =
   | LOGIN_COMPLETED
   | LOGOUT
   | ACCOUNT_DELETED
-  | MEDIA_DETAILS_VIEWED;
+  | MEDIA_DETAILS_VIEWED
+  | DESCRIPTION_EXPANDED
+  | WATCH_PROVIDERS_CLICKED
+  | RECOMMENDATIONS_SEE_MORE_CLICKED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

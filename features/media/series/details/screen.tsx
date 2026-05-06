@@ -150,7 +150,11 @@ export const Screen = () => {
           <View className={"mt-6 flex flex-1 flex-col gap-6 px-4"}>
             <Ratings ratings={data.ratings} />
 
-            <Overview overview={data.overview} />
+            <Overview
+              overview={data.overview}
+              mediaId={seriesId}
+              mediaType="series"
+            />
 
             <Actions
               id={seriesId}
@@ -162,7 +166,11 @@ export const Screen = () => {
               onRemoveSeen={onRemoveSeen}
             />
 
-            <WatchProviders providers={data.watchProviders} />
+            <WatchProviders
+              providers={data.watchProviders}
+              mediaId={seriesId}
+              mediaType="series"
+            />
 
             <View className={"-mx-4 flex flex-1 flex-col gap-6"}>
               <Credits cast={data.credits.casts} crew={data.credits.crew} />

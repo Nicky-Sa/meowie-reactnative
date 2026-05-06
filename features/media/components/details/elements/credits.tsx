@@ -2,6 +2,7 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { useRouter } from "expo-router";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   cast: CreditInfo[];
@@ -44,9 +45,11 @@ const CreditSection = ({
 
 const DetailedCreditItem = ({ item }: { item: CreditInfo }) => {
   const router = useRouter();
+  const { people } = useAnalytics();
 
   const handlePress = () => {
     if (item.id > 0) {
+      people.trackClick({ person: item });
       router.push({ pathname: "/person", params: { personId: item.id } });
     }
   };

@@ -10,12 +10,18 @@ import * as WebBrowser from "expo-web-browser";
 import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
 import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
+import { ID } from "@/features/common/data/media-query";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   providers: WatchProvidersType;
+  mediaId: ID;
+  mediaType: MediaType;
 };
 
-export const WatchProviders = ({ providers }: Props) => {
+export const WatchProviders = ({ providers, mediaId, mediaType }: Props) => {
+  const { media } = useAnalytics();
   const allProviders = [
     ...providers.flatrate,
     ...providers.rent,
@@ -30,6 +36,7 @@ export const WatchProviders = ({ providers }: Props) => {
   const handlePress = async () => {
     if (providers.tmdbLink) {
       try {
+        media.trackWatchProvidersClicked({ mediaId, mediaType });
         await WebBrowser.openBrowserAsync(providers.tmdbLink, {
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
         });
