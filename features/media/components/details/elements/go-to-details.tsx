@@ -22,11 +22,13 @@ export const GoToDetails = ({ id, mediaType }: Props) => {
 
   return (
     <Button
-      variant={"ghost"}
+      variant={"link"}
       size={"md"}
       iconPosition={"right"}
       icon={<Icon i={NavArrowRight} />}
       onPress={handlePress}
+      hitSlop={30}
+      className={"-mr-1"}
     >
       Details
     </Button>

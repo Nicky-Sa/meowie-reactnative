@@ -35,7 +35,7 @@ export const Recommendations = ({ mediaId, mediaType }: Props) => {
 
   return (
     <View className={"flex flex-col gap-4"}>
-      <View className={"flex flex-row items-center justify-between px-4"}>
+      <View className={"flex flex-row items-center justify-between pl-4 pr-1"}>
         <Text className={"title-t2 text-neutral-10-default"}>
           More like this
         </Text>
