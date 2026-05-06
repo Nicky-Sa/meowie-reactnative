@@ -184,13 +184,13 @@ export const SeriesInfoA = memo(({ seriesId, inScreen }: Props) => {
       <ScrollableGenres
         genres={data.genres}
         mediaType={"series"}
-        className={"-ml-4 grow-0 pl-4"}
+        className={"-mx-4 grow-0 px-4"}
       />
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className={"-ml-4 grow-0 pl-4"}
+        className={"-mx-4 grow-0 px-4"}
         contentContainerClassName={"min-w-full h-6"}
       >
         <Credits credits={data.credits.casts.slice(0, 5)} />

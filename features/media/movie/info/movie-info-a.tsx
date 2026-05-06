@@ -203,14 +203,14 @@ export const MovieInfoA = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         <ScrollableGenres
           genres={data.genres}
           mediaType={"movie"}
-          className={"-ml-4 grow-0 pl-4"}
+          className={"-mx-4 grow-0 px-4"}
         />
       </Tourable>
 
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className={"-ml-4 grow-0 pl-4"}
+        className={"-mx-4 grow-0 px-4"}
         contentContainerClassName={"min-w-full h-8"}
       >
         <Credits credits={data.credits.casts.slice(0, 5)} />

@@ -191,7 +191,7 @@ export const MovieInfoB = memo(({ movieId, inScreen, tourEnabled }: Props) => {
             <ScrollableGenres
               genres={data.genres}
               mediaType={"movie"}
-              className={"grow-0"}
+              className={"-mr-4 grow-0 pr-4"}
             />
           </Tourable>
         </View>
@@ -200,7 +200,7 @@ export const MovieInfoB = memo(({ movieId, inScreen, tourEnabled }: Props) => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        className={"-ml-4 grow-0 pl-4"}
+        className={"-mx-4 grow-0 px-4"}
         contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
       >
         <Tourable
