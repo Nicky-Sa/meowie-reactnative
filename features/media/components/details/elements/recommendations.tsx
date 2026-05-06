@@ -6,15 +6,15 @@ import { NavArrowRight } from "iconoir-react-native";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-
 import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
 
 type Props = {
+  title: string;
   mediaId: number;
   mediaType: MediaType;
 };
 
-export const Recommendations = ({ mediaId, mediaType }: Props) => {
+export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
   const router = useRouter();
   const { media } = useAnalytics();
   const { data: results } = useFetchPosters(
@@ -30,7 +30,7 @@ export const Recommendations = ({ mediaId, mediaType }: Props) => {
     router.push({
       pathname: "/discover/posters",
       params: {
-        title: "More like this",
+        title: `More like ${title}`,
         endpoint: `/${mediaType}/details/${mediaId}/recommendations/posters`,
       },
     });

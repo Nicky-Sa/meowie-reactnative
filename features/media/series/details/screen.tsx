@@ -174,7 +174,11 @@ export const Screen = () => {
 
             <View className={"-mx-4 flex flex-1 flex-col gap-6"}>
               <Credits cast={data.credits.casts} crew={data.credits.crew} />
-              <Recommendations mediaId={Number(seriesId)} mediaType="series" />
+              <Recommendations
+                title={data.title}
+                mediaId={Number(seriesId)}
+                mediaType="series"
+              />
             </View>
           </View>
         </Animated.ScrollView>
