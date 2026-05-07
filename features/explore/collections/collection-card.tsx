@@ -21,8 +21,8 @@ export const CollectionCard = memo(({ collection }: Props) => {
     });
     if (collection.sourceType === "group") {
       router.push({
-        pathname: "/discover/sub-collections",
-        params: { parentId: collection.id, title: collection.title },
+        pathname: "/collection/[id]",
+        params: { id: collection.id.toString(), title: collection.title },
       });
     } else {
       router.push({

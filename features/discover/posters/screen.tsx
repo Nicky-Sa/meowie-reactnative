@@ -1,5 +1,5 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
@@ -18,10 +18,12 @@ type Params = {
   modifiedFieldsNumber: string;
 } & Partial<SearchParams>;
 
-export const Screen = () => {
-  const { title, endpoint, modifiedFieldsNumber, ...searchParams } =
-    useLocalSearchParams<Params>();
-
+export const Screen = ({
+  title,
+  endpoint,
+  modifiedFieldsNumber,
+  ...searchParams
+}: Params) => {
   const posterData = useFetchPosters(endpoint, searchParams);
 
   const router = useRouter();

@@ -68,12 +68,9 @@ export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
               router.push({
                 pathname:
                   item.mediaType === "movie"
-                    ? "/discover/movie-details"
-                    : "/discover/series-details",
-                params:
-                  item.mediaType === "movie"
-                    ? { movieId: item.id }
-                    : { seriesId: item.id },
+                    ? "/movie/[id]/details"
+                    : "/series/[id]/details",
+                params: { id: item.id.toString() },
               })
             }
           />

@@ -15,8 +15,9 @@ export const GoToDetails = ({ id, mediaType }: Props) => {
 
   const handlePress = () => {
     router.push({
-      pathname: `/discover/${mediaType}-details`,
-      params: { [`${mediaType}Id`]: id },
+      pathname:
+        mediaType === "movie" ? "/movie/[id]/details" : "/series/[id]/details",
+      params: { id: id.toString() },
     });
   };
 

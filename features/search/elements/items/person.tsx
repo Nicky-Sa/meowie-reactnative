@@ -10,7 +10,10 @@ type Props = {
 export const PersonCard = ({ item }: Props) => {
   const router = useRouter();
   const onPress = () => {
-    router.push({ pathname: "/person", params: { personId: item.id } });
+    router.push({
+      pathname: "/person/[id]",
+      params: { id: item.id.toString() },
+    });
   };
 
   return (

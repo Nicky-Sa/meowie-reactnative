@@ -107,13 +107,25 @@ function RootLayout() {
                                   }}
                                 />
                                 <Stack.Screen
-                                  name="discover/movie-info"
+                                  name="movie/[id]/index"
                                   options={{
                                     animation: "slide_from_right",
                                   }}
                                 />
                                 <Stack.Screen
-                                  name="discover/series-info"
+                                  name="series/[id]/index"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+                                <Stack.Screen
+                                  name="movie/[id]/details"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+                                <Stack.Screen
+                                  name="series/[id]/details"
                                   options={{
                                     animation: "slide_from_right",
                                   }}
@@ -148,14 +160,14 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="person/index"
+                                  name="person/[id]/index"
                                   options={{
                                     animation: "slide_from_right",
                                   }}
                                 />
 
                                 <Stack.Screen
-                                  name="person/media-list"
+                                  name="person/[id]/media"
                                   options={{
                                     animation: "fade",
                                     animationDuration: 300,
@@ -172,7 +184,7 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="library/media-list"
+                                  name="library/[category]"
                                   options={{
                                     animation: "fade",
                                     animationDuration: 300,
@@ -180,7 +192,7 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="discover/sub-collections"
+                                  name="collection/[id]"
                                   options={{
                                     animation: "slide_from_right",
                                   }}

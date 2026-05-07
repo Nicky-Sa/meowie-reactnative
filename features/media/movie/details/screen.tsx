@@ -1,4 +1,3 @@
-import { useLocalSearchParams } from "expo-router";
 import { useFetchMovieInfo } from "@/features/media/movie/data/useFetchMovieInfo";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ErrorState } from "@/features/general/error-state";
@@ -19,8 +18,7 @@ import Animated, {
 import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 
-export const Screen = () => {
-  const { movieId } = useLocalSearchParams<{ movieId: string }>();
+export const Screen = ({ movieId }: { movieId: string }) => {
   const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
   const { media } = useAnalytics();
   const isTransitionFinished = useIsTransitionFinished();

@@ -50,7 +50,10 @@ const DetailedCreditItem = ({ item }: { item: CreditInfo }) => {
   const handlePress = () => {
     if (item.id > 0) {
       people.trackClick({ person: item });
-      router.push({ pathname: "/person", params: { personId: item.id } });
+      router.push({
+        pathname: "/person/[id]",
+        params: { id: item.id.toString() },
+      });
     }
   };
 

@@ -1,7 +1,7 @@
-import { View } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
+import { useRouter } from "expo-router";
+import { View } from "react-native";
 import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
 import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/common/posters/posters-list";
@@ -11,11 +11,7 @@ import { PersonEmptyState } from "@/features/person/elements/empty-state";
 
 const NUM_COLUMNS = 3;
 
-export const Screen = () => {
-  const { personId } = useLocalSearchParams<{
-    personId: string;
-  }>();
-
+export const Screen = ({ personId }: { personId: string }) => {
   const { scrollHandler, scrollY } = useScrollHandler();
 
   const { data: personData, isLoading: personInfoLoading } =
@@ -29,11 +25,11 @@ export const Screen = () => {
   const onPosterPress = useCallback(
     (index: number) => {
       router.push({
-        pathname: "/person/media-list",
+        pathname: "/person/[id]/media",
         params: {
-          initialIndex: index,
-          title: personData?.name,
-          personId,
+          id: personId,
+          initialIndex: index.toString(),
+          title: personData?.name ?? "",
         },
       });
     },

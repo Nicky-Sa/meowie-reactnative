@@ -18,7 +18,7 @@ export const Credit = (person: CreditInfo) => {
     // id = -1 is a placeholder for unknown cast
     if (id > 0) {
       onCastPressed();
-      router.push({ pathname: "/person", params: { personId: id } });
+      router.push({ pathname: "/person/[id]", params: { id: id.toString() } });
     }
   };
 

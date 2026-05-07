@@ -11,8 +11,8 @@ export const SeriesCard = ({ item }: Props) => {
   const router = useRouter();
   const onPress = () => {
     router.push({
-      pathname: "/discover/series-info",
-      params: { seriesId: item.id },
+      pathname: "/series/[id]",
+      params: { id: item.id.toString() },
     });
   };
   return (

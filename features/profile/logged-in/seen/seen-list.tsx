@@ -29,10 +29,10 @@ export const SeenList = ({ scrollHandler }: Props) => {
   const onPosterPress = useCallback(
     (index: number) => {
       router.push({
-        pathname: "/library/media-list",
+        pathname: "/library/[category]",
         params: {
-          initialIndex: index,
           category: "seen",
+          initialIndex: index.toString(),
           title: "Seen",
         },
       });
