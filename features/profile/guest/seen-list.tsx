@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import EmptySeen from "@/assets/images/profile/empty-seen.svg";
+import EmptySeen from "@/assets/images/meowie/empty-seen.svg";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
 

@@ -9,7 +9,7 @@ import {
 import * as WebBrowser from "expo-web-browser";
 import * as Haptics from "expo-haptics";
 import Toast from "react-native-toast-message";
-import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
+import CryingMeowie from "@/assets/images/meowie/crying-meowie.svg";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
@@ -83,7 +83,7 @@ const NoContent = () => (
       </Text>
     </View>
     <View className={"flex flex-row items-center gap-1"}>
-      <Text className={"body-b2 font-semibold text-neutral-10-default"}>
+      <Text className={"body-b2-strong font-semibold text-neutral-10-default"}>
         See others
       </Text>
       <Icon i={NavArrowRight} />
@@ -113,7 +113,7 @@ const WithContent = ({ providers }: { providers: WatchProvider[] }) => (
       </View>
     </View>
     <View className={"flex flex-row items-center gap-1"}>
-      <Text className={"body-b2 text-neutral-10-default"}>Watch</Text>
+      <Text className={"body-b2-strong text-neutral-10-default"}>Watch</Text>
       <Icon i={NavArrowRight} />
     </View>
   </>

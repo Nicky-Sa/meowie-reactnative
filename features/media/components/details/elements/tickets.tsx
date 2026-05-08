@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import { Movie, NavArrowRight } from "iconoir-react-native";
+import { NavArrowRight } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
 import * as WebBrowser from "expo-web-browser";
 import * as Haptics from "expo-haptics";
@@ -7,6 +7,7 @@ import Toast from "react-native-toast-message";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import Popcorn from "@/assets/images/meowie/popcorn.svg";
 
 type Props = {
   ticketLink?: string;
@@ -45,13 +46,13 @@ export const Tickets = ({ ticketLink, mediaId, mediaType }: Props) => {
         }
       >
         <View className={"flex flex-row items-center gap-2"}>
-          <Icon i={Movie} color="white" />
-          <Text className={"body-b1-strong text-white"}>
+          <Icon i={Popcorn} />
+          <Text className={"body-b2 text-neutral-6-default"}>
             Currently in cinemas
           </Text>
         </View>
         <View className={"flex flex-row items-center gap-1"}>
-          <Text className={"body-b2 text-neutral-10-default"}>
+          <Text className={"body-b2-strong text-neutral-10-default"}>
             Find tickets
           </Text>
           <Icon i={NavArrowRight} />

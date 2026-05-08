@@ -1,4 +1,4 @@
-import EmptySaved from "@/assets/images/profile/empty-saved.svg";
+import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";

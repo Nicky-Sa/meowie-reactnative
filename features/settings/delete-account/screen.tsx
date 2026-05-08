@@ -1,6 +1,6 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ScrollView } from "react-native-gesture-handler";
-import SuperCryingMeowie from "@/assets/images/profile/super-crying-meowie.svg";
+import SuperCryingMeowie from "@/assets/images/meowie/super-crying-meowie.svg";
 import { Divider } from "@/features/common/ui/divider";
 import { WarningText } from "@/features/settings/delete-account/elements/warning-text";
 import { ChurnReason } from "@/features/settings/delete-account/elements/churn-reason";

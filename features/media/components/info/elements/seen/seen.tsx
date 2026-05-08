@@ -11,7 +11,7 @@ import { LoginWarningModal } from "@/features/auth/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
-import EmptySeen from "@/assets/images/profile/empty-seen.svg";
+import EmptySeen from "@/assets/images/meowie/empty-seen.svg";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,

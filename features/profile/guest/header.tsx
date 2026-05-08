@@ -1,4 +1,4 @@
-import SleepingMeowie from "@/assets/images/profile/sleeping-meowie.svg";
+import SleepingMeowie from "@/assets/images/meowie/sleeping-meowie.svg";
 import { Text, View } from "react-native";
 import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
 

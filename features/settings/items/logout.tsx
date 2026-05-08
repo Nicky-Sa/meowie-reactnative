@@ -5,7 +5,7 @@ import {
 } from "@/features/common/ui/bottom-sheet";
 import { useRef } from "react";
 import { Text, View } from "react-native";
-import CryingMeowie from "@/assets/images/profile/crying-meowie.svg";
+import CryingMeowie from "@/assets/images/meowie/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/useLogout";
 import { useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
