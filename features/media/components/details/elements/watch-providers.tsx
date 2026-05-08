@@ -51,7 +51,7 @@ export const WatchProviders = ({ providers, mediaId, mediaType }: Props) => {
   };
 
   return (
-    <View className={"-mt-4 flex h-[85px] flex-col justify-center gap-1"}>
+    <View className={"-mt-4 flex h-20 flex-col justify-center gap-1"}>
       <Pressable
         onPress={handlePress}
         style={({ pressed }) => ({

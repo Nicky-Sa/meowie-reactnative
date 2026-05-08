@@ -243,14 +243,6 @@ export type MEDIA_DETAILS_VIEWED = {
     duration_ms: number;
   };
 };
-export type DESCRIPTION_EXPANDED = {
-  event: "description_expanded";
-  properties: {
-    media_id: ID;
-    media_type: MediaType;
-  };
-};
-
 export type WATCH_PROVIDERS_CLICKED = {
   event: "watch_providers_clicked";
   properties: {
@@ -261,6 +253,14 @@ export type WATCH_PROVIDERS_CLICKED = {
 
 export type RECOMMENDATIONS_SEE_MORE_CLICKED = {
   event: "recommendations_see_more_clicked";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
+export type TICKETS_CLICKED = {
+  event: "tickets_clicked";
   properties: {
     media_id: ID;
     media_type: MediaType;
@@ -299,9 +299,9 @@ export type Events =
   | LOGOUT
   | ACCOUNT_DELETED
   | MEDIA_DETAILS_VIEWED
-  | DESCRIPTION_EXPANDED
   | WATCH_PROVIDERS_CLICKED
-  | RECOMMENDATIONS_SEE_MORE_CLICKED;
+  | RECOMMENDATIONS_SEE_MORE_CLICKED
+  | TICKETS_CLICKED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

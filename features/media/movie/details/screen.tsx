@@ -5,6 +5,7 @@ import { Hero } from "@/features/media/components/details/elements/hero";
 import { Overview } from "@/features/media/components/details/elements/overview";
 import { Actions } from "@/features/media/components/details/elements/actions";
 import { WatchProviders } from "@/features/media/components/details/elements/watch-providers";
+import { Tickets } from "@/features/media/components/details/elements/tickets";
 import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
 import { useCallback } from "react";
@@ -144,11 +145,7 @@ export const Screen = ({ movieId }: { movieId: string }) => {
           <View className={"mt-6 flex flex-1 flex-col gap-6 px-4"}>
             <Ratings ratings={data.ratings} />
 
-            <Overview
-              overview={data.overview}
-              mediaId={movieId}
-              mediaType="movie"
-            />
+            <Overview overview={data.overview} />
 
             <Actions
               id={movieId}
@@ -160,11 +157,19 @@ export const Screen = ({ movieId }: { movieId: string }) => {
               onRemoveSeen={onRemoveSeen}
             />
 
-            <WatchProviders
-              providers={data.watchProviders}
-              mediaId={movieId}
-              mediaType="movie"
-            />
+            {data.ticketLink ? (
+              <Tickets
+                ticketLink={data.ticketLink}
+                mediaId={movieId}
+                mediaType="movie"
+              />
+            ) : (
+              <WatchProviders
+                providers={data.watchProviders}
+                mediaId={movieId}
+                mediaType="movie"
+              />
+            )}
 
             <View className={"-mx-4 flex flex-1 flex-col gap-6"}>
               <Credits cast={data.credits.casts} crew={data.credits.crew} />

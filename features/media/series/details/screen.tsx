@@ -148,11 +148,7 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
           <View className={"mt-6 flex flex-1 flex-col gap-6 px-4"}>
             <Ratings ratings={data.ratings} />
 
-            <Overview
-              overview={data.overview}
-              mediaId={seriesId}
-              mediaType="series"
-            />
+            <Overview overview={data.overview} />
 
             <Actions
               id={seriesId}

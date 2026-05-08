@@ -8,8 +8,8 @@ Home,Identify friction in the rating UI or a user preference to bypass feedback 
 Home,Measure active engagement and interest levels with immersive video content.,trailer_played,"media_id: ID, media_type: MediaType, media_title: string, autoplay: boolean",User clicks on the trailer to play it
 Home,Understand drop-off points or user interruptions during trailer discovery.,trailer_paused,"media_id: ID, media_type: MediaType, media_title: string",User clicks on the trailer to pause it
 Details,Measure total engagement time on details screens to identify high-interest titles.,media_details_viewed,"media_id: ID, media_type: MediaType, duration_ms: number",User stays on the details screen for >500ms and then navigates away
-Details,Measure depth of interest in the story/plot beyond the visual hero section.,description_expanded,"media_id: ID, media_type: MediaType",User clicks "... More" to expand the overview
 Details,Measure commercial intent and identify which streaming platforms are most popular.,watch_providers_clicked,"media_id: ID, media_type: MediaType",User clicks on the watch providers/JustWatch section
+Details,Measure conversion for movies in cinemas and track user interest in theater showtimes.,tickets_clicked,"media_id: ID, media_type: MediaType",User clicks on the cinema tickets button
 Details,Evaluate the effectiveness of the recommendation engine and track user journey depth.,recommendations_see_more_clicked,"media_id: ID, media_type: MediaType",User clicks "See more" in the recommendations section
 Details,Track when users want to deep-dive into details rather than relying solely on the visual swipe card.,poster_expanded,"media_id: ID, media_type: MediaType, media_title: string",User clicks on the poster in movie or tv details screen
 Grid posters list,Track entry points from standard grid layouts into the immersive movie cards.,poster_clicked,"media_id: ID, media_type: MediaType",User clicks on a movie or tv poster in posters list

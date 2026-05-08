@@ -184,18 +184,6 @@ export const useAnalytics = () => {
             media_title: media.title,
           }),
 
-        trackDescriptionExpanded: ({
-          mediaId,
-          mediaType,
-        }: {
-          mediaId: ID;
-          mediaType: MediaType;
-        }): void =>
-          capture("description_expanded", {
-            media_id: mediaId,
-            media_type: mediaType,
-          }),
-
         trackWatchProvidersClicked: ({
           mediaId,
           mediaType,
@@ -204,6 +192,18 @@ export const useAnalytics = () => {
           mediaType: MediaType;
         }): void =>
           capture("watch_providers_clicked", {
+            media_id: mediaId,
+            media_type: mediaType,
+          }),
+
+        trackTicketsClicked: ({
+          mediaId,
+          mediaType,
+        }: {
+          mediaId: ID;
+          mediaType: MediaType;
+        }): void =>
+          capture("tickets_clicked", {
             media_id: mediaId,
             media_type: mediaType,
           }),

@@ -18,6 +18,7 @@ export type MovieInfoResDto = {
   credits: MovieCredits;
   ratings: RatingEntry[];
   watchProviders: WatchProviders;
+  ticketLink?: string;
 };
 
 export type InterestingMovieIdsResDto = PaginatedResponse<number>;
