@@ -219,7 +219,7 @@ export const MovieInfoA = memo(({ movieId, inScreen, tourEnabled }: Props) => {
       <Actions
         mediaId={movieId}
         mediaType={"movie"}
-        tourEnabled
+        tourEnabled={tourEnabled}
         onSavePress={onSavePress}
         onSeenPress={onSeenPress}
         onRate={onRate}
