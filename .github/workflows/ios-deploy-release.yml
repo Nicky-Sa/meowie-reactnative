@@ -91,6 +91,9 @@ jobs:
             ${{ runner.os }}-pods-global-
 
       # --- Build ---
+      - name: Update CocoaPods Repos
+        run: pod repo update
+
       - name: EAS Build
         env:
           BUILD_NUMBER: ${{ github.run_number }}
