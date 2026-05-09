@@ -8,8 +8,13 @@ import { useConnectionCheck } from "@/hooks/useConnectionCheck";
 import { ErrorState } from "@/features/general/error-state";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
-  const { isOffline, isRestricted, isBackendUnreachable, refresh } =
-    useConnectionCheck();
+  const {
+    isOffline,
+    isRestricted,
+    isBackendUnreachable,
+    backendErrorMsg,
+    refresh,
+  } = useConnectionCheck();
 
   const [warningVisible, setWarningVisible] = useState(false);
 
@@ -33,7 +38,8 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
   }
 
   if (isBackendUnreachable) {
-    return <ErrorState tryAgain={refresh} error={"Backend unreachable"} />;
+    const prefixedMsg = `Backend: ${backendErrorMsg}`;
+    return <ErrorState tryAgain={refresh} error={prefixedMsg} />;
   }
 
   // Covers "VPN Needed" AND "Bad WiFi"

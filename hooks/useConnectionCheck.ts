@@ -20,6 +20,7 @@ type ConnectivityStatus =
 
 export const useConnectionCheck = () => {
   const [status, setStatus] = useState<ConnectivityStatus>("CHECKING");
+  const [backendErrorMsg, setBackendErrorMsg] = useState<string | null>(null);
   const wasOffline = useRef(true);
   const netInfo = useNetInfo();
   const [, setCountryCode] = useAtom(countryCodeAtom);
@@ -37,29 +38,61 @@ export const useConnectionCheck = () => {
     }
 
     // 2. Canary Pings
-    const checkUrl = async (url: string, timeout = 3000) => {
+    const checkUrl = async (
+      url: string,
+      method: "HEAD" | "GET" = "HEAD",
+      timeout = 3000,
+    ) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeout); // 3s Timeout
       try {
         // We use 'no-cache' to ensure we aren't reading a stale success from memory and pass a query string to bypass cache.
         const response = await fetch(`${url}?t=${Date.now()}`, {
-          method: "HEAD",
+          method,
           cache: "no-cache",
           signal: controller.signal,
         });
         clearTimeout(timeoutId);
         // YouTube's 204 endpoint returns 204.
         // Standard APIs might return 200.
-        return response.status === 204 || response.ok;
-      } catch {
-        return false;
+        const alive = response.status === 204 || response.ok;
+
+        let errorBody;
+        if (!alive && method === "GET") {
+          try {
+            const json = await response.json();
+            // Show only the "error" property if it exists (for NestJS Terminus health checks)
+            errorBody = JSON.stringify(json.error || json, null, 2);
+          } catch {
+            errorBody = await response.text().catch(() => undefined);
+          }
+        }
+
+        return {
+          alive,
+          error: alive ? undefined : errorBody || `HTTP ${response.status}`,
+        };
+      } catch (err) {
+        clearTimeout(timeoutId);
+        let errorMsg = "Network Error";
+        if (err instanceof Error) {
+          if (err.name === "AbortError") {
+            errorMsg = `Connection timed out after ${timeout}ms`;
+          } else {
+            errorMsg = err.message;
+          }
+        }
+        return { alive: false, error: errorMsg };
       }
     };
 
-    const [youtubeAlive, backendAlive] = await Promise.all([
-      checkUrl(YOUTUBE_CANARY),
-      checkUrl(BACKEND_CANARY, GENERAL_TIMEOUT),
+    const [youtubeResult, backendResult] = await Promise.all([
+      checkUrl(YOUTUBE_CANARY, "HEAD"),
+      checkUrl(BACKEND_CANARY, "GET", GENERAL_TIMEOUT),
     ]);
+
+    const youtubeAlive = youtubeResult.alive;
+    const backendAlive = backendResult.alive;
 
     // 3. Logic Determination
     if (youtubeAlive && backendAlive) {
@@ -94,6 +127,7 @@ export const useConnectionCheck = () => {
     } else if (youtubeAlive && !backendAlive) {
       // YouTube works, Backend dead -> Our fault
       setStatus("SERVER_ERROR");
+      setBackendErrorMsg(backendResult.error ?? "Unknown server error");
       wasOffline.current = true;
     } else {
       // YouTube is dead (regardless of backend status).
@@ -112,6 +146,7 @@ export const useConnectionCheck = () => {
 
   return {
     status,
+    backendErrorMsg,
     refresh: checkConnectivity,
     isChecking: status === "CHECKING",
     isOffline: status === "OFFLINE",

@@ -1,7 +1,6 @@
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import ErrorStateSvg from "@/assets/images/errors/error-state.svg";
-import { env } from "@/lib/env";
 
 type Props = {
   tryAgain: () => void;
@@ -22,11 +21,9 @@ export const ErrorState = ({ tryAgain, error }: Props) => {
       <Button onPress={tryAgain} variant={"white"}>
         Try again
       </Button>
-      {env.EXPO_PUBLIC_APP_VARIANT !== "production" && (
-        <Text className={"body-b1 text-center text-neutral-5-default"}>
-          {error ? String(error) : "Unknown error"}
-        </Text>
-      )}
+      <Text className={"body-b1 text-center text-neutral-5-default"}>
+        {error ? String(error) : "Unknown error"}
+      </Text>
     </View>
   );
 };
