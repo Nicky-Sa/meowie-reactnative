@@ -17,6 +17,7 @@ config.resolver.assetExts = config.resolver.assetExts.filter(
   (ext) => ext !== "svg",
 );
 config.resolver.assetExts.push("png"); // add png if needed
+config.resolver.assetExts.push("woff2");
 config.resolver.sourceExts = [
   ...new Set([...config.resolver.sourceExts, "svg"]),
 ];

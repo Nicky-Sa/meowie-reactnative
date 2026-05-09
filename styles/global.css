@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-  /* Text Styles  */
+  /* Text Styles (Lato)  */
   .headline-h1 {
     @apply font-Lato-400 text-8xl;
   }
@@ -94,5 +94,56 @@
 
   .caption-c1-strong {
     @apply font-Lato-700 text-xs;
+  }
+}
+
+@layer components {
+  /* Text Styles (Mazius)  */
+  .headline-h1-mazius {
+    @apply font-Mazius text-8xl;
+  }
+
+  .headline-h1-strong-mazius {
+    @apply font-Mazius-bold text-8xl;
+  }
+
+  .headline-h2-mazius {
+    @apply font-Mazius text-7xl;
+  }
+
+  .headline-h2-strong-mazius {
+    @apply font-Mazius-bold text-7xl;
+  }
+
+  .headline-h3-mazius {
+    @apply font-Mazius text-6xl;
+  }
+
+  .headline-h3-strong-mazius {
+    @apply font-Mazius-bold text-6xl;
+  }
+
+  .headline-h4-mazius {
+    @apply font-Mazius text-5xl;
+  }
+
+  .headline-h4-strong-mazius {
+    @apply font-Mazius-bold text-5xl;
+  }
+
+  .headline-h5-mazius {
+    @apply font-Mazius text-3xl;
+  }
+
+  .headline-h5-strong-mazius {
+    @apply font-Mazius-bold text-3xl;
+  }
+
+  .italic-mazius {
+    @apply font-Mazius-italic;
+  }
+
+  .italic-strong-mazius {
+    @apply font-Mazius-bold-italic;
   }
 }

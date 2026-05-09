@@ -979,6 +979,10 @@ export default {
         "Lato-700-italic": ["Lato_700Bold_Italic"],
         "Lato-900": ["Lato_900Black"],
         "Lato-900-italic": ["Lato_900Black_Italic"],
+        "Mazius": ["MaziusDisplay"],
+        "Mazius-bold": ["MaziusDisplay-Bold"],
+        "Mazius-italic": ["MaziusDisplay-Italic"],
+        "Mazius-bold-italic": ["MaziusDisplay-BoldItalic"],
       },
       fontSize: {
         "2xs": "10",

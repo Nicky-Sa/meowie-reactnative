@@ -4,10 +4,12 @@ import { useRouter } from "expo-router";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
-import { latoFonts, useLatoFont } from "@/assets/fonts/Lato";
+import { useLatoFont } from "@/assets/fonts/Lato";
+import { useMaziusFonts } from "@/assets/fonts/MaziusDisplay";
 
 export default function Home() {
-  const [loaded] = useLatoFont(latoFonts);
+  const [latoLoaded] = useLatoFont();
+  const [maziusLoaded] = useMaziusFonts();
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
   const { data, isPending } = useCurrentUser();
@@ -40,14 +42,17 @@ export default function Home() {
       }
     };
 
-    checkState();
+    void checkState();
   }, [data?.user, router, splashDone]);
 
   const onFinish = useCallback(() => setSplashDone(true), []);
 
   return (
     <>
-      <SplashScreen onFinish={onFinish} isLoading={!loaded || isPending} />
+      <SplashScreen
+        onFinish={onFinish}
+        isLoading={!latoLoaded || !maziusLoaded || isPending}
+      />
     </>
   );
 }
