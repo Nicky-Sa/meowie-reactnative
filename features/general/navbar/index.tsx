@@ -112,7 +112,7 @@ const CustomTabBar = ({
       <SlidingIndicator index={state.index} tabWidth={tabWidth} />
 
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const options = descriptors[route.key]?.options;
         const isFocused = state.index === index;
 
         const onPress = () => {
@@ -134,7 +134,7 @@ const CustomTabBar = ({
             onPress={onPress}
             className="h-full flex-1 items-center justify-center"
           >
-            {options.tabBarIcon?.({
+            {options?.tabBarIcon?.({
               focused: isFocused,
               color: "", // Handled by AnimatedTabIcon internally
               size: 24,

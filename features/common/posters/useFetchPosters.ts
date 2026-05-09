@@ -46,7 +46,7 @@ export const useFetchPosters = (
   const dataLength = data.length;
 
   const totalPages = useMemo(() => {
-    return Array.isArray(response) ? response[0]?.data.total_pages : 0;
+    return Array.isArray(response) ? response[0]?.data.total_pages || 0 : 0;
   }, [response]);
 
   return {

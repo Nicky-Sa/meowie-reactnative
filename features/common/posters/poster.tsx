@@ -122,11 +122,13 @@ export const Poster = memo(
                   >
                     {data.preview.title}
                   </Text>
-                  <Badge
-                    text={`${firstGenre.emoji} ${firstGenre.name}`}
-                    variant={"ghost"}
-                    size={"unset"}
-                  />
+                  {firstGenre && (
+                    <Badge
+                      text={`${firstGenre.emoji} ${firstGenre.name}`}
+                      variant={"ghost"}
+                      size={"unset"}
+                    />
+                  )}
                 </View>
               </>
             )}
