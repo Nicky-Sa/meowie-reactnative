@@ -31,7 +31,7 @@ const updateEnv = () => {
     content = fs
       .readFileSync(ENV_PATH, "utf8")
       .split("\n")
-      .filter((line) => !line.startsWith(`${key}=`))
+      .filter((line: string) => !line.startsWith(`${key}=`))
       .join("\n")
       .trim();
   }

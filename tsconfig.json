@@ -5,10 +5,11 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     //"noUncheckedIndexedAccess": true,
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./*"]
     },
-    "baseUrl": "."
+    "types": ["node", "jest"]
   },
   "include": [
     "**/*.ts",
@@ -17,5 +18,6 @@
     "expo-env.d.ts",
     "nativewind-env.d.ts",
     "types/*.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "e2e"]
 }
