@@ -153,7 +153,9 @@ export const TextInput = <T extends FieldValues>({
                   borderColor: textInputStates[currentStateKey].borderColor,
                   borderRadius: textInputSizes[size].borderRadius,
                   borderWidth: 1,
-                  paddingVertical: textInputSizes[size].paddingVertical,
+                  // We remove vertical padding from the container and apply it to the TextInput
+                  // to maximize the touchable area of the input itself.
+                  paddingVertical: 0,
                   paddingRight: textInputSizes[size].paddingRight,
                   paddingLeft: textInputSizes[size].paddingLeft,
                 },
@@ -172,6 +174,8 @@ export const TextInput = <T extends FieldValues>({
                 )}
                 style={{
                   color: textInputStates[currentStateKey].textColor,
+                  // Vertical padding is applied directly to the TextInput to increase its hit box
+                  paddingVertical: textInputSizes[size].paddingVertical,
                 }}
                 placeholderTextColor={
                   tailwind.theme.textColor.neutral[3].default

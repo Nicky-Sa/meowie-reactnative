@@ -15,7 +15,7 @@ export const Screen = () => {
 
   return (
     <SafeAreaView
-      className={"flex flex-1 flex-col justify-between px-4 pt-2"}
+      className={"flex flex-1 flex-col justify-between px-4 pt-2.5"}
       edges={["top", "left", "right"]}
     >
       <View
