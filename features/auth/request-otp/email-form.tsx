@@ -55,6 +55,8 @@ export const EmailForm = () => {
         autoCorrect={false}
         icon={Mail}
         maskInReplay
+        textContentType={"emailAddress"}
+        autoComplete={"email"}
       />
       <Button
         variant={"white"}
