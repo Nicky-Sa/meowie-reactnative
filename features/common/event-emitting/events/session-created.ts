@@ -2,7 +2,7 @@ import { Emitter } from "@/features/common/event-emitting/emitter";
 import { usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 
-export const useUserRegistered = () => {
+export const useSessionCreated = () => {
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -11,16 +11,16 @@ export const useUserRegistered = () => {
         await posthog.register({
           is_guest: false,
         });
-        console.log("✅ User registered event processed");
+        console.log("✅ Session created event processed");
       } catch (error) {
-        console.error("❌ Error tracking user registered: ", error);
+        console.error("❌ Error tracking session created: ", error);
       }
     };
 
-    Emitter.on("userRegistered", handleRegistration);
+    Emitter.on("sessionCreated", handleRegistration);
 
     return () => {
-      Emitter.off("userRegistered", handleRegistration);
+      Emitter.off("sessionCreated", handleRegistration);
     };
   }, [posthog]);
 };

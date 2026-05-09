@@ -6,7 +6,7 @@ type Tokens = {
   refreshToken: string;
 };
 
-export const registerUser = async ({ accessToken, refreshToken }: Tokens) => {
+export const createSession = async ({ accessToken, refreshToken }: Tokens) => {
   await setStoredTokens(accessToken, refreshToken);
-  Emitter.emit("userRegistered");
+  Emitter.emit("sessionCreated");
 };

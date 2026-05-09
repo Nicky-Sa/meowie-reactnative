@@ -28,7 +28,7 @@ export default function Home() {
           router.replace("/home");
         } else {
           // not authenticated
-          Emitter.emit("userUnregistered");
+          Emitter.emit("sessionDestroyed");
           // check skipped-auth
           const skippedAuth = AppStorage.getItem("skipped-auth");
           if (skippedAuth === "true") {

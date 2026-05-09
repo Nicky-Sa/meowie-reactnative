@@ -2,7 +2,7 @@ import { Emitter } from "@/features/common/event-emitting/emitter";
 import { usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 
-export const useUserUnregistered = () => {
+export const useSessionDestroyed = () => {
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -11,15 +11,15 @@ export const useUserUnregistered = () => {
         await posthog.register({
           is_guest: true,
         });
-        console.log("✅ User unregistered event processed");
+        console.log("✅ Session destroyed event processed");
       } catch (error) {
-        console.log("❌ Error tracking user unregistered: ", error);
+        console.log("❌ Error tracking session destroyed: ", error);
       }
     };
-    Emitter.on("userUnregistered", handleUnregistration);
+    Emitter.on("sessionDestroyed", handleUnregistration);
 
     return () => {
-      Emitter.off("userUnregistered", handleUnregistration);
+      Emitter.off("sessionDestroyed", handleUnregistration);
     };
   }, [posthog]);
 };

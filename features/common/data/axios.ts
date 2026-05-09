@@ -1,8 +1,8 @@
 import axios, { isAxiosError } from "axios";
 import { getAccessToken, getRefreshToken } from "./utils/token-storage";
 import { env } from "@/lib/env";
-import { unregisterUser } from "@/features/common/data/utils/unregister-user";
-import { registerUser } from "@/features/common/data/utils/register-user";
+import { destroySession } from "@/features/common/data/utils/destroy-session";
+import { createSession } from "@/features/common/data/utils/create-session";
 import { GENERAL_TIMEOUT } from "@/lib/consts";
 import { getDefaultStore } from "jotai";
 import { countryCodeAtom } from "@/atoms";
@@ -133,7 +133,7 @@ axiosInstance.interceptors.response.use(
           refreshResponse.data.data;
 
         // Save new tokens
-        await registerUser({
+        await createSession({
           accessToken,
           refreshToken: newRefreshToken,
         });
@@ -155,7 +155,7 @@ axiosInstance.interceptors.response.use(
           // Scenario C1: Server rejected the token — it's dead server-side.
           // Clean up client state and downgrade to guest.
           console.log("Refresh token rejected (403). Logging out.");
-          await unregisterUser();
+          await destroySession();
 
           processQueue(null, null);
 

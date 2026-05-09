@@ -3,7 +3,7 @@ import {
   VerifyOtpResDto,
 } from "@/features/auth/verify-otp/data/dto/verify-otp.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
-import { registerUser } from "@/features/common/data/utils/register-user";
+import { createSession } from "@/features/common/data/utils/create-session";
 import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
 
 export const useVerifyOtp = () => {
@@ -17,7 +17,7 @@ export const useVerifyOtp = () => {
 
   const trigger = async (body: VerifyOtpReqDto) => {
     const response = await mutateAsync({ method: "POST", body });
-    await registerUser({
+    await createSession({
       accessToken: response.data.accessToken,
       refreshToken: response.data.refreshToken,
     });

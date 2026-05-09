@@ -3,7 +3,7 @@ import {
   DeleteAccountResDto,
 } from "@/features/settings/delete-account/data/dto/delete-account.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
-import { unregisterUser } from "@/features/common/data/utils/unregister-user";
+import { destroySession } from "@/features/common/data/utils/destroy-session";
 
 export const useDeleteAccount = () => {
   const url = "/auth/delete-account";
@@ -15,7 +15,7 @@ export const useDeleteAccount = () => {
 
   const trigger = async (body: DeleteAccountReqDto) => {
     const response = await mutateAsync({ method: "POST", body });
-    await unregisterUser();
+    await destroySession();
     return response;
   };
   return { trigger, ...rest };

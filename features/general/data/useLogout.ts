@@ -2,7 +2,7 @@ import {
   useInvalidateByPattern,
   useMutationConfigured,
 } from "@/features/common/data/query/hooks";
-import { unregisterUser } from "@/features/common/data/utils/unregister-user";
+import { destroySession } from "@/features/common/data/utils/destroy-session";
 
 type LogoutResDto = {
   successful: boolean;
@@ -20,7 +20,7 @@ export const useLogout = () => {
 
   const trigger = async () => {
     const response = await mutateAsync({ method: "POST" });
-    await unregisterUser();
+    await destroySession();
     await invalidateByPattern(); // Invalidate all queries
     return response;
   };
