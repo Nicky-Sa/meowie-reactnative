@@ -59,7 +59,16 @@ export const Actions = ({
           />
         </Tourable>
       </View>
-      <GoToDetails id={mediaId} mediaType={mediaType} />
+      <Tourable
+        tourEnabled={tourEnabled}
+        tour={{
+          step: TourStep.MediaDetails,
+          shape: "rectangle",
+          borderRadius: 14,
+        }}
+      >
+        <GoToDetails id={mediaId} mediaType={mediaType} />
+      </Tourable>
     </View>
   );
 };

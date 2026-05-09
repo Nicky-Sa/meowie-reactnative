@@ -29,7 +29,6 @@ export const GoToDetails = ({ id, mediaType }: Props) => {
       icon={<Icon i={NavArrowRight} />}
       onPress={handlePress}
       hitSlop={30}
-      className={"-mr-1"}
     >
       Details
     </Button>

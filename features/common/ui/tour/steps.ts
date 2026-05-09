@@ -13,6 +13,7 @@ export enum TourStep {
   MediaGenres,
   MediaSave,
   MediaSeen,
+  MediaDetails,
 }
 
 export const tourStepContent: Record<TourStep, string> = {
@@ -30,4 +31,5 @@ export const tourStepContent: Record<TourStep, string> = {
     "Save this item to your library to keep track of what you want to watch.",
   [TourStep.MediaSeen]:
     "Mark this as seen once you've watched it to organize your library.",
+  [TourStep.MediaDetails]: "See more details on this item here.",
 };
