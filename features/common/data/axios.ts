@@ -147,21 +147,31 @@ axiosInstance.interceptors.response.use(
         // Retry original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        // Scenario C: Refresh Failed (or didn't exist)
+        // Check if the server explicitly rejected the token (403)
+        const isAuthRejection =
+          isAxiosError(refreshError) && refreshError.response?.status === 403;
+
+        if (isAuthRejection) {
+          // Scenario C1: Server rejected the token — it's dead server-side.
+          // Clean up client state and downgrade to guest.
+          console.log("Refresh token rejected (403). Logging out.");
+          await unregisterUser();
+
+          processQueue(null, null);
+
+          delete originalRequest.headers.Authorization;
+          return axiosInstance(originalRequest);
+        }
+
+        // Scenario C2: Transient failure (network error, timeout, server down).
+        // Do NOT delete tokens — the refresh token may still be valid.
+        // Just fail the request and let the user retry naturally.
         console.log(
-          "Token refresh failed. Downgrading to Guest.",
+          "Refresh failed (transient). Keeping tokens.",
           refreshError,
         );
-
-        // 1. Clear tokens safely (waits for storage deletion)
-        await unregisterUser();
-
-        // 2. Process the queue with NULL (Trigger Guest Retry for all waiting requests)
-        processQueue(null, null);
-
-        // 3. Retry the ORIGINAL request as Guest (remove header)
-        delete originalRequest.headers.Authorization;
-        return axiosInstance(originalRequest);
+        processQueue(refreshError, null);
+        return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }
