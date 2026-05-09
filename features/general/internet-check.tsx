@@ -5,16 +5,9 @@ import NoInternet from "@/assets/images/errors/no-internet.svg";
 import VpnWarning from "@/assets/images/errors/vpn-warning.svg";
 import { InformationModal } from "@/features/common/information-modal";
 import { useConnectionCheck } from "@/hooks/useConnectionCheck";
-import { ErrorState } from "@/features/general/error-state";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
-  const {
-    isOffline,
-    isRestricted,
-    isBackendUnreachable,
-    backendErrorMsg,
-    refresh,
-  } = useConnectionCheck();
+  const { isOffline, isRestricted, refresh } = useConnectionCheck();
 
   const [warningVisible, setWarningVisible] = useState(false);
 
@@ -37,10 +30,11 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
     );
   }
 
-  if (isBackendUnreachable) {
-    const prefixedMsg = `Backend: ${backendErrorMsg}`;
-    return <ErrorState tryAgain={refresh} error={prefixedMsg} />;
-  }
+  // For now, we let other components deal with backend errors
+  // if (isBackendUnreachable) {
+  //   const prefixedMsg = `Backend: ${backendErrorMsg}`;
+  //   return <ErrorState tryAgain={refresh} error={prefixedMsg} />;
+  // }
 
   // Covers "VPN Needed" AND "Bad WiFi"
   return (
