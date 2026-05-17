@@ -1,5 +1,6 @@
 import {
   useRef,
+  useCallback,
   PropsWithChildren,
   forwardRef,
   useImperativeHandle,
@@ -11,6 +12,7 @@ import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
   BottomSheetFooter,
+  BottomSheetFooterProps,
   BottomSheetModal,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
@@ -46,7 +48,7 @@ export const BottomSheet = forwardRef<
       enableContentPanningGesture = true,
       enableDynamicSizing = false,
       maxDynamicContentSize,
-      index = 1,
+      index,
       onDismiss,
       snapPoints = ["42%", "60%", "90%"],
     },
@@ -73,6 +75,35 @@ export const BottomSheet = forwardRef<
       },
     }));
 
+    // Stable footer callback to avoid re-creating the component on each render
+    const renderFooter = useCallback(
+      (props: BottomSheetFooterProps) => (
+        <BottomSheetFooter {...props}>
+          <View
+            onLayout={(event) => {
+              const { height } = event.nativeEvent.layout;
+              setFooterHeight(height);
+            }}
+          >
+            <View
+              className="w-full bg-neutral-15-default p-4"
+              style={{
+                paddingBottom:
+                  insets.bottom +
+                  Platform.select({
+                    android: Number(tailwind.theme.spacing["2"]),
+                    default: 0,
+                  }),
+              }}
+            >
+              {footer}
+            </View>
+          </View>
+        </BottomSheetFooter>
+      ),
+      [footer, insets.bottom],
+    );
+
     return (
       <>
         <BottomSheetModal
@@ -82,7 +113,7 @@ export const BottomSheet = forwardRef<
           enableDynamicSizing={enableDynamicSizing}
           maxDynamicContentSize={maxDynamicContentSize}
           enableContentPanningGesture={enableContentPanningGesture}
-          snapPoints={snapPoints}
+          snapPoints={enableDynamicSizing ? undefined : snapPoints}
           onDismiss={onDismiss}
           animationConfigs={{
             duration: Platform.select({
@@ -114,35 +145,19 @@ export const BottomSheet = forwardRef<
               }}
             />
           )}
-          footerComponent={(props) => (
-            <BottomSheetFooter {...props}>
-              <View
-                onLayout={(event) => {
-                  const { height } = event.nativeEvent.layout;
-                  setFooterHeight(height);
-                }}
-              >
-                <View
-                  className="w-full bg-neutral-15-default p-4"
-                  style={{
-                    paddingBottom:
-                      insets.bottom +
-                      Platform.select({
-                        android: Number(tailwind.theme.spacing["2"]),
-                        default: 0,
-                      }),
-                  }}
-                >
-                  {footer}
-                </View>
-              </View>
-            </BottomSheetFooter>
-          )}
+          // When dynamic sizing is enabled, we render the footer INSIDE
+          // the content (BottomSheetView) so the library measures
+          // content + footer in a single synchronous pass.
+          // When dynamic sizing is disabled, we use footerComponent
+          // since snap points determine the height, not content measurement.
+          footerComponent={enableDynamicSizing ? undefined : renderFooter}
         >
           <BottomSheetInner
             title={title}
+            footer={enableDynamicSizing ? footer : undefined}
             footerHeight={footerHeight}
             enableDynamicSizing={enableDynamicSizing}
+            insets={insets}
           >
             {children}
           </BottomSheetInner>
@@ -157,15 +172,19 @@ BottomSheet.displayName = "BottomSheet";
 type BottomSheetInnerProps = {
   title: string;
   children: ReactNode;
+  footer?: ReactNode;
   footerHeight: number;
   enableDynamicSizing: boolean;
+  insets: { bottom: number };
 };
 
 const BottomSheetInner = ({
   title,
   children,
+  footer,
   footerHeight,
   enableDynamicSizing,
+  insets,
 }: BottomSheetInnerProps) => {
   const Container = enableDynamicSizing ? BottomSheetView : View;
 
@@ -175,14 +194,33 @@ const BottomSheetInner = ({
         "flex flex-col bg-neutral-15-default px-4",
         !enableDynamicSizing && "flex-1",
       )}
-      style={{
-        paddingBottom: footerHeight + 16,
-      }}
+      style={
+        // When NOT using dynamic sizing, we need paddingBottom to
+        // prevent content from hiding behind the absolutely-positioned footer
+        !enableDynamicSizing ? { paddingBottom: footerHeight + 16 } : undefined
+      }
     >
       <View className="flex w-full flex-row items-center justify-between pb-4">
         <Text className="title-t2 text-neutral-10-default">{title}</Text>
       </View>
       {children}
+      {/* When dynamic sizing is enabled, render footer inline so the
+          library measures everything in one pass — no async onLayout race */}
+      {enableDynamicSizing && footer && (
+        <View
+          className="w-full pt-4"
+          style={{
+            paddingBottom:
+              insets.bottom +
+              Platform.select({
+                android: Number(tailwind.theme.spacing["2"]),
+                default: 0,
+              }),
+          }}
+        >
+          {footer}
+        </View>
+      )}
     </Container>
   );
 };

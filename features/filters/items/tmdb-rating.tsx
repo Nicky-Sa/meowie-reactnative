@@ -15,6 +15,7 @@ export const TMDBRating = ({ value, isClearable, onApply, onClear }: Props) => {
       chipText={`${value[0]} - ${value[1]}`}
       enableContentPanningGesture={false}
       index={0}
+      snapPoints={["35%"]}
       value={value}
       isClearable={isClearable}
       onApply={onApply}

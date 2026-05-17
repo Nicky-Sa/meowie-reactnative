@@ -16,6 +16,7 @@ type Props<TValue> = {
   chipText: string;
   enableContentPanningGesture?: boolean;
   index?: number;
+  snapPoints?: string[];
 
   // Controlled Data
   value: TValue;
@@ -34,6 +35,7 @@ export const BottomSheetWrapper = <TValue,>({
   chipText,
   enableContentPanningGesture,
   index,
+  snapPoints = ["60%", "90%"],
   value,
   isClearable,
   onApply,
@@ -86,6 +88,7 @@ export const BottomSheetWrapper = <TValue,>({
       <BottomSheet
         ref={bottomSheetRef}
         title={title}
+        snapPoints={snapPoints}
         footer={
           <Button
             variant="white"
