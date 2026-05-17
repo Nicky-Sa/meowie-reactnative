@@ -70,10 +70,14 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       >
         {isLibraryStatusLoading ? (
           <SkeletonItem className={"h-6 w-16"} />
-        ) : isSaved ? (
-          "Saved"
         ) : (
-          "Save"
+          <Text
+            className={
+              "body-b2-strong ml-0.5 w-10 text-left text-neutral-10-default"
+            }
+          >
+            {isSaved ? "Saved" : "Save"}
+          </Text>
         )}
       </Button>
 
