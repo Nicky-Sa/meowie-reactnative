@@ -213,7 +213,7 @@ export const TextInput = <T extends FieldValues>({
                   height={16}
                   width={16}
                 />
-                <Text className={"caption-c1 text-error-1-default"}>
+                <Text className={"caption-c1 flex-1 text-error-1-default"}>
                   {error?.message}
                 </Text>
               </View>
