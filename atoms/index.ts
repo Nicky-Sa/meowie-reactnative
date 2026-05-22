@@ -31,6 +31,9 @@ export const allowYTPlayingAtom = atom(true);
 // Autoplay trailer
 export const autoplayAtom = atomPersisted("autoplay", true);
 
+// Trailer volume
+export const ytMutedAtom = atom(true);
+
 export const currentRoleInMediaAtom = atom<string>();
 
 // sort (persisted)

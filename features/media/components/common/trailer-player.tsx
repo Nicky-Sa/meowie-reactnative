@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useState, useRef, RefObject } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, Text } from "react-native";
-import YoutubePlayer, {
-  PLAYER_STATES,
-  YoutubeIframeRef,
-} from "react-native-youtube-iframe";
+import {
+  YoutubeView,
+  useYouTubePlayer,
+  useYouTubeEvent,
+  PlayerState,
+} from "react-native-youtube-bridge";
 import { useAtom } from "jotai";
-import { allowYTPlayingAtom } from "@/atoms";
+import { allowYTPlayingAtom, ytMutedAtom } from "@/atoms";
+import { VolumeManager } from "react-native-volume-manager";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { cn, tailwind } from "@/lib/tailwind";
@@ -16,7 +19,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useFocusEffect } from "expo-router";
+import { useIsFocused } from "@react-navigation/native";
 
 type Props = {
   YTKey: string;
@@ -30,7 +33,6 @@ type Props = {
 /**
  * The player wrapper.
  */
-
 export const TrailerPlayer = ({
   YTKey,
   inScreen,
@@ -57,11 +59,11 @@ export const TrailerPlayer = ({
   );
 };
 
+const RETRY_ATTEMPTS = 1;
+
 /**
  * The player itself.
  */
-
-const RETRY_ATTEMPTS = 1;
 export const Player = ({
   YTKey,
   autoplay,
@@ -69,21 +71,87 @@ export const Player = ({
   onPause,
   fullWidth,
 }: Omit<Props, "inScreen">) => {
-  const playerRef = useRef<YoutubeIframeRef>(null);
+  const [ytMuted, setYtMuted] = useAtom(ytMutedAtom);
+  const appState = useAppState();
+  const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
 
-  const { canNotPlay, handleError } = useLoad(playerRef);
-  const { isReady, shouldPlay, handleReady } = usePlay(playerRef, autoplay);
+  const player = useYouTubePlayer(YTKey, {
+    controls: false,
+    loop: true,
+    playsinline: true,
+    muted: ytMuted,
+    rel: false,
+  });
 
-  const handleStateChange = useCallback(
-    (state: PLAYER_STATES) => {
-      if (state === PLAYER_STATES.PLAYING) {
-        onPlay();
-      } else if (state === PLAYER_STATES.PAUSED) {
-        onPause();
+  const [canNotPlay, setCanNotPlay] = useState(true); // true to prevent flicker
+  const [isReady, setIsReady] = useState(false);
+  const retryAttemptRef = useRef(0);
+  const isFocused = useIsFocused();
+
+  const shouldPlay =
+    isReady && autoplay && allowYTPlaying && isFocused && appState === "active";
+
+  // Handle external volume changes to unmute
+  useEffect(() => {
+    let initialVolume = -1;
+    const volumeListener = VolumeManager.addVolumeListener((result) => {
+      if (initialVolume === -1) {
+        initialVolume = result.volume;
       }
-    },
-    [onPlay, onPause],
-  );
+      if (result.volume >= initialVolume) {
+        setYtMuted(false);
+      }
+      initialVolume = result.volume;
+    });
+
+    return () => {
+      volumeListener.remove();
+    };
+  }, [setYtMuted]);
+
+  // Sync mute state to the player
+  useEffect(() => {
+    if (ytMuted) {
+      player.mute();
+    } else {
+      player.unMute();
+    }
+  }, [ytMuted, player]);
+
+  // Player events
+  useYouTubeEvent(player, "ready", () => {
+    setIsReady(true);
+  });
+
+  useYouTubeEvent(player, "stateChange", (state) => {
+    if (state === PlayerState.PLAYING) {
+      onPlay();
+    } else if (state === PlayerState.PAUSED) {
+      onPause();
+    }
+  });
+
+  useYouTubeEvent(player, "error", () => {
+    setCanNotPlay(true);
+  });
+
+  // Handle retries
+  useEffect(() => {
+    if (canNotPlay && retryAttemptRef.current < RETRY_ATTEMPTS) {
+      setCanNotPlay(false);
+      player.seekTo(0, true);
+      retryAttemptRef.current += 1;
+    }
+  }, [canNotPlay, player]);
+
+  // Play/pause based on shouldPlay state
+  useEffect(() => {
+    if (shouldPlay) {
+      player.play();
+    } else {
+      player.pause();
+    }
+  }, [shouldPlay, player]);
 
   const { width: w } = useScreenDimensions();
   const width = fullWidth ? w : w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
@@ -118,41 +186,51 @@ export const Player = ({
             </Text>
           </View>
         ) : (
-          <YoutubePlayer
-            ref={playerRef}
-            height={200}
-            width={width}
-            play={shouldPlay}
-            onReady={handleReady}
-            onChangeState={handleStateChange}
-            forceAndroidAutoplay
-            initialPlayerParams={{
-              start: 0,
-              controls: false,
-              loop: true,
-              preventFullScreen: true,
-            }}
-            videoId={YTKey}
-            playList={[YTKey]}
-            onError={handleError}
-            webViewStyle={{
+          <View
+            style={{
+              width: width,
+              height: 200,
+              overflow: "hidden",
               borderRadius: fullWidth
                 ? 0
                 : Number(tailwind.theme.borderRadius.xl),
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#000",
             }}
-            webViewProps={{
-              injectedJavaScript: `
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.overflow = 'hidden';
-            var container = document.getElementsByClassName('container')[0];
-            if (container) {
-              container.style.overflow = 'hidden';
-              container.style.position = 'unset';
-            }
-            true;
-          `,
-            }}
-          />
+          >
+            <View
+              style={{
+                width: width,
+                height: 340,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <YoutubeView
+                player={player}
+                height={340}
+                width={width}
+                style={{
+                  width: width,
+                  height: 340,
+                  transform: [{ scale: 1.3 }],
+                }}
+                webViewProps={{
+                  injectedJavaScript: `
+                    document.documentElement.style.overflow = 'hidden';
+                    document.body.style.overflow = 'hidden';
+                    var container = document.getElementsByClassName('container')[0];
+                    if (container) {
+                      container.style.overflow = 'hidden';
+                      container.style.position = 'unset';
+                    }
+                    true;
+                  `,
+                }}
+              />
+            </View>
+          </View>
         )}
       </Animated.View>
     </>
@@ -165,56 +243,4 @@ const Loading = ({ fullWidth = false }: Pick<Props, "fullWidth">) => {
       className={cn("absolute h-full w-full", fullWidth && "rounded-none")}
     />
   );
-};
-
-const useLoad = (playerRef: RefObject<YoutubeIframeRef | null>) => {
-  const retryAttemptRef = useRef(0);
-  const [canNotPlay, setCanNotPlay] = useState(true); // true to prevent flicker
-
-  const handleReload = useCallback(() => {
-    setCanNotPlay(false);
-    if (playerRef.current) {
-      playerRef.current.seekTo(0, true);
-    }
-  }, [playerRef]);
-
-  const handleError = useCallback(() => {
-    setCanNotPlay(true);
-  }, []);
-
-  useEffect(() => {
-    if (canNotPlay && retryAttemptRef.current < RETRY_ATTEMPTS) {
-      handleReload();
-      retryAttemptRef.current += 1;
-    }
-  }, [canNotPlay, handleReload]);
-
-  return { canNotPlay, handleError, playerRef };
-};
-
-const usePlay = (
-  playerRef: RefObject<YoutubeIframeRef | null>,
-  autoplay: boolean,
-) => {
-  const appState = useAppState();
-  const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
-  const [isReady, setIsReady] = useState(false);
-  const shouldPlay =
-    isReady && autoplay && allowYTPlaying && appState === "active";
-
-  const handleReady = useCallback(() => {
-    setIsReady(true);
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      if (shouldPlay) {
-        playerRef.current?.getCurrentTime().then((time) => {
-          playerRef.current?.seekTo(time, true);
-        });
-      }
-    }, [playerRef, shouldPlay]),
-  );
-
-  return { isReady, shouldPlay, handleReady };
 };
