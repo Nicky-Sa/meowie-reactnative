@@ -30,7 +30,7 @@ type Props = {
   onPlay: () => void;
   onPause: () => void;
   fullWidth?: boolean;
-  backdropPath: string;
+  backdropPath: string | undefined;
 };
 
 /**
@@ -87,7 +87,7 @@ export const Player = ({
     rel: false,
   });
 
-  const [canNotPlay, setCanNotPlay] = useState(true); // true to prevent flicker
+  const [canNotPlay, setCanNotPlay] = useState(false); // prevent flicker
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
@@ -221,17 +221,7 @@ export const Player = ({
     <View className="relative h-full w-full">
       <View className="flex h-full w-full items-center justify-center">
         {canNotPlay ? (
-          <View
-            className={cn(
-              "flex h-full w-full flex-col items-center justify-center gap-3 bg-brand-10",
-              !fullWidth && "rounded-xl",
-            )}
-          >
-            <NoTrailer />
-            <Text className={"body-b1 text-neutral-6-default"}>
-              Failed to load the trailer.
-            </Text>
-          </View>
+          <TrailerError fullWidth={fullWidth} />
         ) : (
           <View
             style={{ width }}
@@ -275,7 +265,11 @@ export const Player = ({
           fullWidth={fullWidth}
           backdropPath={backdropPath}
           showLogo={
-            isReady && !hasStartedPlaying && !willAutoplay && !userTriggeredPlay
+            isReady &&
+            Boolean(backdropPath) &&
+            !hasStartedPlaying &&
+            !willAutoplay &&
+            !userTriggeredPlay
           }
           isLoading={!isReady}
           onPress={handlePlaceholderPress}
@@ -292,11 +286,11 @@ const TrailerPlaceholder = ({
   isLoading = false,
   onPress,
 }: {
-  backdropPath: string;
-  fullWidth?: boolean;
-  showLogo?: boolean;
-  isLoading?: boolean;
-  onPress?: () => void;
+  backdropPath: string | undefined;
+  fullWidth: boolean | undefined;
+  showLogo: boolean | undefined;
+  isLoading?: boolean | undefined;
+  onPress: (() => void) | undefined;
 }) => {
   return (
     <Pressable onPress={onPress} className="h-full w-full">
@@ -317,11 +311,27 @@ const TrailerPlaceholder = ({
             {isLoading ? (
               <ActivityIndicator size="large" color="white" />
             ) : (
-              <Icon i={YoutubeLogo} width={64} height={64} />
+              <Icon i={YoutubeLogo} width={88} height={88} />
             )}
           </View>
         )}
       </View>
     </Pressable>
+  );
+};
+
+const TrailerError = ({ fullWidth }: { fullWidth: boolean | undefined }) => {
+  return (
+    <View
+      className={cn(
+        "flex h-full w-full flex-col items-center justify-center gap-3 bg-brand-10",
+        !fullWidth && "rounded-xl",
+      )}
+    >
+      <NoTrailer />
+      <Text className={"body-b1 text-neutral-6-default"}>
+        Failed to load the trailer.
+      </Text>
+    </View>
   );
 };

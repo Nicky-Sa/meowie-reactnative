@@ -14,7 +14,7 @@ type Props = {
   trailerKey: string;
   posterPath: string;
   posterProps: PosterProps;
-  backdropPath: string;
+  backdropPath: string | undefined;
   year: string;
   certification: string;
   duration: string;

@@ -15,7 +15,7 @@ export type SeriesInfoResDto = {
   overview: string;
   genres: Genre[];
   posterProps: PosterProps;
-  backdropPath: string;
+  backdropPath?: string;
   credits: SeriesCredits;
   ratings: RatingEntry[];
   watchProviders: WatchProviders;
