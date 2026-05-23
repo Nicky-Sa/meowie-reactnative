@@ -53,8 +53,8 @@ export const Hero = ({
         />
         {/* Dark gradient overlay */}
         <GradientOverlay
-          height={120}
-          colors={["transparent", "rgba(0,0,0,0.9)", "rgba(0,0,0,1)"]}
+          height={110}
+          colors={["transparent", "rgba(10,10,10,0.9)", "rgba(10,10,10,1)"]}
           positions={[0, 0.55, 1]}
           className={"absolute bottom-0"}
         />

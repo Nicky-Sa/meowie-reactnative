@@ -247,7 +247,7 @@ export const Player = ({
               style={{
                 width,
                 height: 340,
-                transform: [{ scale: 1.3 }],
+                transform: [{ scale: 1.35 }],
               }}
               webViewProps={{
                 injectedJavaScript: `

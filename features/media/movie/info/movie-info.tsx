@@ -13,7 +13,7 @@ import { Credit } from "@/features/media/components/info/elements/credit";
 import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ID } from "@/features/common/data/media-query";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-import { useFocusEffect } from "expo-router";
+import { Href, useFocusEffect } from "expo-router";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 import { ScrollableGenres } from "@/features/media/components/common/scrollable-genres";
@@ -21,6 +21,7 @@ import { ScrollableTitle } from "@/features/media/components/common/scrollable-t
 import { RowInfo } from "@/features/media/components/common/row-info";
 import { Actions } from "@/features/media/components/info/elements/actions";
 import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
+import { Link } from "@/features/common/ui/link";
 
 type Props = {
   movieId: ID;
@@ -35,6 +36,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
   const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
+  const detailsPath: Href = `/movie/${movieId}/details`;
 
   const { media } = useAnalytics();
 
@@ -153,7 +155,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
       />
 
       <View className={"flex flex-col gap-2"}>
-        <ScrollableTitle title={data.title} />
+        <ScrollableTitle title={data.title} href={detailsPath} />
         <Ratings ratings={data.ratings} />
       </View>
 
@@ -178,13 +180,16 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
           />
         </Tourable>
         <View className={"flex flex-1 flex-col gap-3"}>
-          <Text
-            numberOfLines={3}
-            ellipsizeMode="tail"
-            className={"body-b2 text-neutral-6-default"}
-          >
-            {data.overview}
-          </Text>
+          <Link href={detailsPath}>
+            <Text
+              numberOfLines={3}
+              ellipsizeMode="tail"
+              className={"body-b2 text-neutral-6-default"}
+            >
+              {data.overview}
+            </Text>
+          </Link>
+
           <Tourable
             tourEnabled={tourEnabled}
             tour={{
