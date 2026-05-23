@@ -1,23 +1,20 @@
 import { SearchResultSeries } from "@/features/search/data/models/search-result";
-import { Pressable } from "react-native";
-import { useRouter } from "expo-router";
 import { SeriesBrief } from "@/features/media/series/series-brief";
+import { Link } from "@/features/common/ui/link";
 
 type Props = {
   item: SearchResultSeries;
 };
 
 export const SeriesCard = ({ item }: Props) => {
-  const router = useRouter();
-  const onPress = () => {
-    router.push({
-      pathname: "/series/[id]",
-      params: { id: item.id.toString() },
-    });
-  };
   return (
-    <Pressable onPress={onPress}>
+    <Link
+      href={{
+        pathname: "/series/[id]",
+        params: { id: item.id.toString() },
+      }}
+    >
       <SeriesBrief data={item} />
-    </Pressable>
+    </Link>
   );
 };

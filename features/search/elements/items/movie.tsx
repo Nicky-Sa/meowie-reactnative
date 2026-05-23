@@ -1,23 +1,20 @@
 import { SearchResultMovie } from "@/features/search/data/models/search-result";
-import { Pressable } from "react-native";
 import { MovieBrief } from "@/features/media/movie/movie-brief";
-import { useRouter } from "expo-router";
+import { Link } from "@/features/common/ui/link";
 
 type Props = {
   item: SearchResultMovie;
 };
 
 export const MovieCard = ({ item }: Props) => {
-  const router = useRouter();
-  const onPress = () => {
-    router.push({
-      pathname: "/movie/[id]",
-      params: { id: item.id.toString() },
-    });
-  };
   return (
-    <Pressable onPress={onPress}>
+    <Link
+      href={{
+        pathname: "/movie/[id]",
+        params: { id: item.id.toString() },
+      }}
+    >
       <MovieBrief data={item} />
-    </Pressable>
+    </Link>
   );
 };

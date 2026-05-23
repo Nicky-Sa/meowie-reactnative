@@ -3,13 +3,12 @@ import {
   SearchResultSeriesGenre,
 } from "@/features/search/data/models/search-result";
 import { Brief } from "@/features/common/brief";
-import { Pressable } from "react-native";
-import { useRouter } from "expo-router";
 import { capitalize } from "@/lib/functions";
 import {
   MEDIA_TYPES_PLURALS,
   MediaType,
 } from "@/features/common/data/models/media-type";
+import { Link } from "@/features/common/ui/link";
 
 type Props = {
   item: SearchResultMovieGenre | SearchResultSeriesGenre;
@@ -25,21 +24,19 @@ const emojiToImage = (emoji: string) => {
 
 export const GenreCard = ({ item }: Props) => {
   const imageUrl = emojiToImage(item.emoji);
-  const router = useRouter();
   const mediaType = item.mediaType.split("-")[0] as MediaType;
 
-  const onPress = () => {
-    router.push({
-      pathname: "/discover/posters",
-      params: {
-        title: `${item.name} ${capitalize(MEDIA_TYPES_PLURALS[mediaType])}`,
-        endpoint: `${mediaType}/posters`,
-        genres: [item.id],
-      },
-    });
-  };
   return (
-    <Pressable onPress={onPress}>
+    <Link
+      href={{
+        pathname: "/discover/posters",
+        params: {
+          title: `${item.name} ${capitalize(MEDIA_TYPES_PLURALS[mediaType])}`,
+          endpoint: `${mediaType}/posters`,
+          genres: [item.id],
+        },
+      }}
+    >
       <Brief
         imageUrl={imageUrl}
         firstLine={item.name}
@@ -47,6 +44,6 @@ export const GenreCard = ({ item }: Props) => {
         size="md"
         borderRadius={0}
       />
-    </Pressable>
+    </Link>
   );
 };
