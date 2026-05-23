@@ -43,18 +43,15 @@ export const TrailerPlayer = ({
 }: Props) => {
   return (
     <View className={"h-[200px] w-full"}>
-      {inScreen ? (
-        <Player
-          key={YTKey}
-          YTKey={YTKey}
-          autoplay={autoplay}
-          onPlay={onPlay}
-          onPause={onPause}
-          fullWidth={fullWidth}
-        />
-      ) : (
-        <Loading fullWidth={fullWidth} />
-      )}
+      <Player
+        key={YTKey}
+        YTKey={YTKey}
+        autoplay={autoplay}
+        onPlay={onPlay}
+        onPause={onPause}
+        fullWidth={fullWidth}
+        inScreen={inScreen}
+      />
     </View>
   );
 };
@@ -70,7 +67,8 @@ export const Player = ({
   onPlay,
   onPause,
   fullWidth,
-}: Omit<Props, "inScreen">) => {
+  inScreen,
+}: Props) => {
   const [ytMuted, setYtMuted] = useAtom(ytMutedAtom);
   const appState = useAppState();
   const [allowYTPlaying] = useAtom(allowYTPlayingAtom);
@@ -85,11 +83,18 @@ export const Player = ({
 
   const [canNotPlay, setCanNotPlay] = useState(true); // true to prevent flicker
   const [isReady, setIsReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
   const retryAttemptRef = useRef(0);
   const isFocused = useIsFocused();
 
   const shouldPlay =
-    isReady && autoplay && allowYTPlaying && isFocused && appState === "active";
+    isReady &&
+    autoplay &&
+    allowYTPlaying &&
+    isFocused &&
+    appState === "active" &&
+    inScreen;
 
   // Handle external volume changes to unmute
   useEffect(() => {
@@ -124,7 +129,9 @@ export const Player = ({
   });
 
   useYouTubeEvent(player, "stateChange", (state) => {
+    setIsPlaying(state === PlayerState.PLAYING);
     if (state === PlayerState.PLAYING) {
+      setHasStartedPlaying(true);
       onPlay();
     } else if (state === PlayerState.PAUSED) {
       onPause();
@@ -158,9 +165,14 @@ export const Player = ({
 
   const opacity = useSharedValue(0);
 
+  const isVisible =
+    canNotPlay ||
+    (isReady &&
+      (hasStartedPlaying || isPlaying || !autoplay || !allowYTPlaying));
+
   useEffect(() => {
-    opacity.value = withTiming(isReady ? 1 : 0, { duration: 500 });
-  }, [isReady, opacity]);
+    opacity.value = withTiming(isVisible ? 1 : 0, { duration: 500 });
+  }, [isVisible, opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -168,7 +180,7 @@ export const Player = ({
 
   return (
     <>
-      {!isReady && <Loading fullWidth={fullWidth} />}
+      {!isVisible && <Loading fullWidth={fullWidth} />}
       <Animated.View
         style={animatedStyle}
         className={"flex h-full w-full items-center justify-center"}
