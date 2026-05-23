@@ -136,6 +136,7 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
             trailerKey={data.trailerKey}
             posterPath={data.posterPath}
             posterProps={data.posterProps}
+            backdropPath={data.backdropPath}
             year={data.airingYears}
             certification={data.contentRating}
             duration={data.seasonsText}

@@ -150,6 +150,7 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
         autoplay={autoplay}
         onPlay={onPlay}
         onPause={onPause}
+        backdropPath={data.backdropPath}
       />
 
       <View className={"flex flex-col gap-2"}>

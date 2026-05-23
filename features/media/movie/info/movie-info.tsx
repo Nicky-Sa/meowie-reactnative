@@ -149,6 +149,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         autoplay={autoplay}
         onPlay={onPlay}
         onPause={onPause}
+        backdropPath={data.backdropPath}
       />
 
       <View className={"flex flex-col gap-2"}>

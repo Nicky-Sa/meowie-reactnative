@@ -14,6 +14,7 @@ type Props = {
   trailerKey: string;
   posterPath: string;
   posterProps: PosterProps;
+  backdropPath: string;
   year: string;
   certification: string;
   duration: string;
@@ -28,6 +29,7 @@ export const Hero = ({
   trailerKey,
   posterPath,
   posterProps,
+  backdropPath,
   year,
   certification,
   duration,
@@ -47,6 +49,7 @@ export const Hero = ({
           onPlay={onPlay}
           onPause={onPause}
           fullWidth
+          backdropPath={backdropPath}
         />
         {/* Dark gradient overlay */}
         <GradientOverlay

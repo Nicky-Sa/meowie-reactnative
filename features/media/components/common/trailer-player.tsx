@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import {
   YoutubeView,
   useYouTubePlayer,
@@ -12,14 +12,16 @@ import { VolumeManager } from "react-native-volume-manager";
 import { useAppState } from "@/hooks/useAppState";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { cn, tailwind } from "@/lib/tailwind";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
-import { SkeletonItem } from "@/features/common/ui/skeleton-item";
+import { Icon } from "@/features/common/ui/icon";
+import YoutubeLogo from "@/assets/icons/youtube.svg";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
+import { Image } from "expo-image";
+import { useScreenDimensions } from "@/hooks/useScreenDimensions";
 
 type Props = {
   YTKey: string;
@@ -28,6 +30,7 @@ type Props = {
   onPlay: () => void;
   onPause: () => void;
   fullWidth?: boolean;
+  backdropPath: string;
 };
 
 /**
@@ -40,6 +43,7 @@ export const TrailerPlayer = ({
   onPlay,
   onPause,
   fullWidth = false,
+  backdropPath,
 }: Props) => {
   return (
     <View className={"h-[200px] w-full"}>
@@ -51,6 +55,7 @@ export const TrailerPlayer = ({
         onPause={onPause}
         fullWidth={fullWidth}
         inScreen={inScreen}
+        backdropPath={backdropPath}
       />
     </View>
   );
@@ -68,6 +73,7 @@ export const Player = ({
   onPause,
   fullWidth,
   inScreen,
+  backdropPath,
 }: Props) => {
   const [ytMuted, setYtMuted] = useAtom(ytMutedAtom);
   const appState = useAppState();
@@ -85,32 +91,49 @@ export const Player = ({
   const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
+  const [userTriggeredPlay, setUserTriggeredPlay] = useState(false);
   const retryAttemptRef = useRef(0);
   const isFocused = useIsFocused();
 
+  const willAutoplay = autoplay && allowYTPlaying;
+
   const shouldPlay =
     isReady &&
-    autoplay &&
-    allowYTPlaying &&
     isFocused &&
     appState === "active" &&
-    inScreen;
+    inScreen &&
+    (willAutoplay || userTriggeredPlay);
+
+  useEffect(() => {
+    if (!inScreen || !isFocused || appState !== "active") {
+      setUserTriggeredPlay(false);
+    }
+  }, [inScreen, isFocused, appState]);
 
   // Handle external volume changes to unmute
   useEffect(() => {
-    let initialVolume = -1;
-    const volumeListener = VolumeManager.addVolumeListener((result) => {
-      if (initialVolume === -1) {
-        initialVolume = result.volume;
-      }
-      if (result.volume >= initialVolume) {
-        setYtMuted(false);
-      }
-      initialVolume = result.volume;
+    let volumeListener: { remove: () => void } | null = null;
+    let isMounted = true;
+
+    VolumeManager.getVolume().then(({ volume: initialVolume }) => {
+      if (!isMounted) return; // in case the user left the screen with this component before the promise to fetch the volume resolves
+
+      let currentVolume = initialVolume;
+      volumeListener = VolumeManager.addVolumeListener(
+        ({ volume: newVolume }) => {
+          if (newVolume > currentVolume) {
+            setYtMuted(false);
+          }
+          currentVolume = newVolume;
+        },
+      );
     });
 
     return () => {
-      volumeListener.remove();
+      isMounted = false;
+      if (volumeListener) {
+        volumeListener.remove();
+      }
     };
   }, [setYtMuted]);
 
@@ -151,6 +174,15 @@ export const Player = ({
     }
   }, [canNotPlay, player]);
 
+  // Fallback timeout in case isReady never fires
+  useEffect(() => {
+    if (isReady || canNotPlay) return;
+    const timer = setTimeout(() => {
+      setCanNotPlay(true);
+    }, 5_000);
+    return () => clearTimeout(timer);
+  }, [isReady, canNotPlay]);
+
   // Play/pause based on shouldPlay state
   useEffect(() => {
     if (shouldPlay) {
@@ -163,28 +195,31 @@ export const Player = ({
   const { width: w } = useScreenDimensions();
   const width = fullWidth ? w : w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
 
-  const opacity = useSharedValue(0);
+  const placeholderOpacity = useSharedValue(1);
 
-  const isVisible =
-    canNotPlay ||
-    (isReady &&
-      (hasStartedPlaying || isPlaying || !autoplay || !allowYTPlaying));
+  const isVideoVisible =
+    canNotPlay || (isReady && (hasStartedPlaying || isPlaying));
 
   useEffect(() => {
-    opacity.value = withTiming(isVisible ? 1 : 0, { duration: 500 });
-  }, [isVisible, opacity]);
+    placeholderOpacity.value = withTiming(isVideoVisible ? 0 : 1, {
+      duration: 500,
+    });
+  }, [isVideoVisible, placeholderOpacity]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
+  const placeholderStyle = useAnimatedStyle(() => ({
+    opacity: placeholderOpacity.value,
   }));
 
+  const handlePlaceholderPress = () => {
+    setUserTriggeredPlay(true);
+    if (isReady) {
+      player.play();
+    }
+  };
+
   return (
-    <>
-      {!isVisible && <Loading fullWidth={fullWidth} />}
-      <Animated.View
-        style={animatedStyle}
-        className={"flex h-full w-full items-center justify-center"}
-      >
+    <View className="relative h-full w-full">
+      <View className="flex h-full w-full items-center justify-center">
         {canNotPlay ? (
           <View
             className={cn(
@@ -199,60 +234,94 @@ export const Player = ({
           </View>
         ) : (
           <View
-            style={{
-              width: width,
-              height: 200,
-              overflow: "hidden",
-              borderRadius: fullWidth
-                ? 0
-                : Number(tailwind.theme.borderRadius.xl),
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#000",
-            }}
+            style={{ width }}
+            className={cn(
+              "h-[200px] items-center justify-center overflow-hidden",
+              fullWidth ? "rounded-none" : "rounded-xl",
+            )}
           >
-            <View
+            <YoutubeView
+              player={player}
+              height={340}
+              width={width}
               style={{
-                width: width,
+                width,
                 height: 340,
-                alignItems: "center",
-                justifyContent: "center",
+                transform: [{ scale: 1.3 }],
               }}
-            >
-              <YoutubeView
-                player={player}
-                height={340}
-                width={width}
-                style={{
-                  width: width,
-                  height: 340,
-                  transform: [{ scale: 1.3 }],
-                }}
-                webViewProps={{
-                  injectedJavaScript: `
-                    document.documentElement.style.overflow = 'hidden';
-                    document.body.style.overflow = 'hidden';
-                    var container = document.getElementsByClassName('container')[0];
-                    if (container) {
-                      container.style.overflow = 'hidden';
-                      container.style.position = 'unset';
-                    }
-                    true;
-                  `,
-                }}
-              />
-            </View>
+              webViewProps={{
+                injectedJavaScript: `
+                  document.documentElement.style.overflow = 'hidden';
+                  document.body.style.overflow = 'hidden';
+                  var container = document.getElementsByClassName('container')[0];
+                  if (container) {
+                    container.style.overflow = 'hidden';
+                    container.style.position = 'unset';
+                  }
+                  true;
+                `,
+              }}
+            />
           </View>
         )}
+      </View>
+
+      <Animated.View
+        style={placeholderStyle}
+        pointerEvents={isVideoVisible ? "none" : "auto"}
+        className="absolute inset-0 z-10 h-full w-full"
+      >
+        <TrailerPlaceholder
+          fullWidth={fullWidth}
+          backdropPath={backdropPath}
+          showLogo={
+            isReady && !hasStartedPlaying && !willAutoplay && !userTriggeredPlay
+          }
+          isLoading={!isReady}
+          onPress={handlePlaceholderPress}
+        />
       </Animated.View>
-    </>
+    </View>
   );
 };
 
-const Loading = ({ fullWidth = false }: Pick<Props, "fullWidth">) => {
+const TrailerPlaceholder = ({
+  backdropPath,
+  fullWidth = false,
+  showLogo = false,
+  isLoading = false,
+  onPress,
+}: {
+  backdropPath: string;
+  fullWidth?: boolean;
+  showLogo?: boolean;
+  isLoading?: boolean;
+  onPress?: () => void;
+}) => {
   return (
-    <SkeletonItem
-      className={cn("absolute h-full w-full", fullWidth && "rounded-none")}
-    />
+    <Pressable onPress={onPress} className="h-full w-full">
+      <View
+        className={cn(
+          "h-full w-full items-center justify-center overflow-hidden",
+          fullWidth ? "rounded-none" : "rounded-xl",
+        )}
+      >
+        <Image
+          source={backdropPath}
+          contentFit="cover"
+          transition={300}
+          style={{ width: "100%", height: "100%" }}
+        />
+        {(showLogo || isLoading) && (
+          <View className="absolute h-full w-full items-center justify-center bg-neutral-15-default/30">
+            {isLoading ? (
+              <ActivityIndicator size="large" color="white" />
+            ) : (
+              <Icon i={YoutubeLogo} width={64} height={64} />
+            )}
+          </View>
+        )}
+      </View>
+    </Pressable>
   );
 };

@@ -133,6 +133,7 @@ export const Screen = ({ movieId }: { movieId: string }) => {
             trailerKey={data.trailerKey}
             posterPath={data.posterPath}
             posterProps={data.posterProps}
+            backdropPath={data.backdropPath}
             year={data.screeningStatus}
             certification={data.certification}
             duration={data.duration}
