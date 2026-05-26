@@ -4,7 +4,7 @@ import { createSession } from "@/features/common/data/utils/create-session";
 import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
 
 export const useVerifyOtp = () => {
-  const url = "/auth/verify-otp";
+  const url = "/auth/otp/verify";
 
   const { mutateAsync, ...rest } = useMutationConfigured<
     VerifyOtpReqDto,

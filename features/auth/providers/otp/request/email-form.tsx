@@ -34,7 +34,7 @@ export const EmailForm = () => {
       auth.trackOtpRequested();
       await trigger(data);
       router.push({
-        pathname: "/auth/verify-otp",
+        pathname: "/auth/otp/verify",
         params: { ...data },
       });
     } catch (error) {
@@ -43,7 +43,7 @@ export const EmailForm = () => {
   });
 
   return (
-    <View className={"flex w-full flex-col gap-4"}>
+    <View className={"flex flex-1 flex-col justify-between gap-4"}>
       <TextInput
         name={"email"}
         control={control}
@@ -57,6 +57,7 @@ export const EmailForm = () => {
         maskInReplay
         textContentType={"emailAddress"}
         autoComplete={"email"}
+        autoFocus
       />
       <Button
         variant={"white"}
@@ -64,7 +65,7 @@ export const EmailForm = () => {
         onPress={onSubmit}
         isLoading={isMutating}
       >
-        Continue with Email
+        Next
       </Button>
     </View>
   );

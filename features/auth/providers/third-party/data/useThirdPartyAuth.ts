@@ -41,7 +41,7 @@ export const useThirdPartyAuth = () => {
       const idToken = userInfo.data.idToken;
 
       if (!idToken) {
-        throw new Error("No ID token from Google");
+        throw new Error("No ID token from GoogleAuth");
       }
 
       // Send to backend
@@ -49,7 +49,6 @@ export const useThirdPartyAuth = () => {
         method: "POST",
         body: { token: idToken },
       });
-      console.log({ data: response.data });
 
       // Save session
       await createSession({
@@ -71,7 +70,10 @@ export const useThirdPartyAuth = () => {
         Toast.show({ type: "error", text1: "Play services not available" });
       } else {
         // some other error happened
-        Toast.show({ type: "error", text1: "Failed to sign in with Google" });
+        Toast.show({
+          type: "error",
+          text1: "Failed to sign in with GoogleAuth",
+        });
         console.error(error);
       }
       throw error;
@@ -90,7 +92,7 @@ export const useThirdPartyAuth = () => {
       const identityToken = credential.identityToken;
 
       if (!identityToken) {
-        throw new Error("No identity token from Apple");
+        throw new Error("No identity token from AppleAuth");
       }
 
       // Send to backend
@@ -114,7 +116,10 @@ export const useThirdPartyAuth = () => {
         // handle that the user canceled the sign-in flow
       } else {
         // handle other errors
-        Toast.show({ type: "error", text1: "Failed to sign in with Apple" });
+        Toast.show({
+          type: "error",
+          text1: "Failed to sign in with AppleAuth",
+        });
         console.error(e);
       }
       throw e;

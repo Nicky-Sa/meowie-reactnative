@@ -15,7 +15,7 @@ export const SavedList = () => {
         variant={"white"}
         size={"md"}
         onPress={() => {
-          router.push("/auth/request-otp");
+          router.push("/auth");
         }}
       >
         Login or Sign Up

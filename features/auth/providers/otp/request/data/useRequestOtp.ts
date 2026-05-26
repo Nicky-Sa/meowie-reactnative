@@ -2,7 +2,7 @@ import { RequestOtpReqDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 
 export const useRequestOtp = () => {
-  const url = "/auth/request-otp";
+  const url = "/auth/otp/request";
 
   const { mutateAsync, ...rest } = useMutationConfigured<
     RequestOtpReqDto,

@@ -42,7 +42,7 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
       auth.trackAccountDeleted({ churnReasonId });
       await trigger({ ...data, churnReasonId });
       posthog.reset();
-      router.push("/auth/request-otp");
+      router.push("/auth");
     } catch (error) {
       setError("email", { message: (error as Error).message });
     }

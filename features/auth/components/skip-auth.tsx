@@ -1,8 +1,7 @@
 import { Button } from "@/features/common/ui/button";
-import { View } from "react-native";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
+import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 
 export const SkipAuth = () => {
   const { dismissScreen } = useDismissScreen();
@@ -15,10 +14,8 @@ export const SkipAuth = () => {
   };
 
   return (
-    <View className={"items-center"}>
-      <Button onPress={onPress} variant={"ghost"} size={"lg"}>
-        Skip
-      </Button>
-    </View>
+    <Button onPress={onPress} variant={"ghost"} size={"md"}>
+      Skip
+    </Button>
   );
 };

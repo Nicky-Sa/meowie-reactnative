@@ -27,7 +27,7 @@ export const LoginWarningModal = ({
     >
       <Button
         onPress={() => {
-          router.push("/auth/request-otp");
+          router.push("/auth");
           setModalVisible(false);
         }}
         variant={"white"}

@@ -7,7 +7,7 @@ import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/useFetchLibraryStatus";
 import { useRef, useState } from "react";
-import { LoginWarningModal } from "@/features/auth/login-warning-modal";
+import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";

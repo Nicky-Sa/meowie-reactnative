@@ -8,7 +8,7 @@ import { useFetchLibraryStatus } from "@/features/media/components/info/elements
 import { useState, useRef } from "react";
 import { SaveIcon } from "@/features/media/components/info/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
-import { LoginWarningModal } from "@/features/auth/login-warning-modal";
+import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 
 import { MediaType } from "@/features/common/data/models/media-type";

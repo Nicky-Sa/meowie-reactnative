@@ -7,7 +7,7 @@ import { Button } from "@/features/common/ui/button";
 import { useVerifyOtp } from "@/features/auth/providers/otp/verify/data/useVerifyOtp";
 import { useRequestOtp } from "@/features/auth/providers/otp/request/data/useRequestOtp";
 import { ResendCode } from "@/features/auth/providers/otp/verify/resend-code";
-import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
+import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const OtpSchema = z.object({
@@ -64,6 +64,7 @@ export const OtpForm = ({ email }: Props) => {
           maskInReplay
           textContentType={"oneTimeCode"}
           autoComplete={"one-time-code"}
+          autoFocus
         />
         <ResendCode onPress={() => triggerRequestOtp({ email })} />
       </View>
