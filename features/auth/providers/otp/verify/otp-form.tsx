@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/features/common/ui/button";
-import { useVerifyOtp } from "@/features/auth/verify-otp/data/useVerifyOtp";
-import { useRequestOtp } from "@/features/auth/request-otp/data/useRequestOtp";
-import { ResendCode } from "@/features/auth/verify-otp/resend-code";
+import { useVerifyOtp } from "@/features/auth/providers/otp/verify/data/useVerifyOtp";
+import { useRequestOtp } from "@/features/auth/providers/otp/request/data/useRequestOtp";
+import { ResendCode } from "@/features/auth/providers/otp/verify/resend-code";
 import { useDismissScreen } from "@/features/auth/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 

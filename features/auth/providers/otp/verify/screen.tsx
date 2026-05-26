@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
-import { InfoEmail } from "@/features/auth/verify-otp/info-email";
-import { OtpForm } from "@/features/auth/verify-otp/otp-form";
+import { InfoEmail } from "@/features/auth/providers/otp/verify/info-email";
+import { OtpForm } from "@/features/auth/providers/otp/verify/otp-form";
 import { ScrollView } from "react-native-gesture-handler";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 

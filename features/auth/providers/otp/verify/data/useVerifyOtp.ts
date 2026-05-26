@@ -1,7 +1,4 @@
-import {
-  VerifyOtpReqDto,
-  VerifyOtpResDto,
-} from "@/features/auth/verify-otp/data/dto/verify-otp.dto";
+import { VerifyOtpReqDto, AuthResDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/create-session";
 import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
@@ -11,7 +8,7 @@ export const useVerifyOtp = () => {
 
   const { mutateAsync, ...rest } = useMutationConfigured<
     VerifyOtpReqDto,
-    VerifyOtpResDto
+    AuthResDto
   >(url);
   const { revalidateAuth } = useRevalidateAuth();
 

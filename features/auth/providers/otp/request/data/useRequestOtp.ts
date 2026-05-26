@@ -1,4 +1,4 @@
-import { RequestOtpReqDto } from "@/features/auth/request-otp/data/dto/request-otp.dto";
+import { RequestOtpReqDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 
 export const useRequestOtp = () => {

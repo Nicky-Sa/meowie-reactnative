@@ -22,6 +22,15 @@ export const env = createEnv({
       "EXPO_PUBLIC_PROJECT_TOKEN is required",
     ),
     EXPO_PUBLIC_POSTHOG_HOST: z.string("EXPO_PUBLIC_POSTHOG_HOST is required"),
+    EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: z.string(
+      "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID is required",
+    ),
+    EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: z.string(
+      "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID is required",
+    ),
+    EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME: z.string(
+      "EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME is required",
+    ),
   },
 
   /*
@@ -40,6 +49,12 @@ export const env = createEnv({
     EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN:
       process.env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN,
     EXPO_PUBLIC_POSTHOG_HOST: process.env.EXPO_PUBLIC_POSTHOG_HOST,
+    EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID:
+      process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+    EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID:
+      process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
+    EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME:
+      process.env.EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

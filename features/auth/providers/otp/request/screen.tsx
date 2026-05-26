@@ -1,9 +1,10 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { IntroText } from "@/features/auth/request-otp/intro-text";
-import { EmailForm } from "@/features/auth/request-otp/email-form";
+import { IntroText } from "@/features/auth/providers/otp/request/intro-text";
+import { EmailForm } from "@/features/auth/providers/otp/request/email-form";
 import { useVideoPlayer, VideoView } from "expo-video";
-import { SkipAuth } from "@/features/auth/request-otp/skip-auth";
+import { SkipAuth } from "@/features/auth/providers/otp/request/skip-auth";
+import { ThirdPartyAuthButtons } from "@/features/auth/providers/third-party/third-party-auth-buttons";
 import { ScrollView } from "react-native-gesture-handler";
 
 const ONLINE_VIDEO_URI =
@@ -52,6 +53,23 @@ export const Screen = () => {
           <IntroText />
           <View className={"flex flex-col gap-4"}>
             <EmailForm />
+
+            <View className="my-2 flex flex-row items-center">
+              <View className="h-px flex-1 bg-white/20" />
+              <View>
+                <Text
+                  style={{
+                    color: "rgba(255,255,255,0.5)",
+                    marginHorizontal: 10,
+                  }}
+                >
+                  or
+                </Text>
+              </View>
+              <View className="h-px flex-1 bg-white/20" />
+            </View>
+
+            <ThirdPartyAuthButtons />
             <SkipAuth />
           </View>
         </ScrollView>

@@ -2,6 +2,7 @@ import { ExpoConfig } from "expo/config";
 import pkg from "./package.json";
 
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
+const iosUrlScheme = process.env.EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME;
 
 // READ THE VERSION FROM ENV
 // If the CI didn't provide one (local dev), fall back to the version from package.json
@@ -62,44 +63,8 @@ const getScheme = () => {
   return scheme;
 };
 
-const config: ExpoConfig = {
-  name: getAppName(),
-  slug: "meowie",
-  version: SYSTEM_VERSION,
-  orientation: "portrait",
-  icon: "./assets/images/logo/logo-large.png",
-  scheme: getScheme(),
-  userInterfaceStyle: "automatic",
-  ios: {
-    supportsTablet: false,
-    requireFullScreen: true,
-    bundleIdentifier: getUniqueIdentifier(),
-    infoPlist: {
-      ITSAppUsesNonExemptEncryption: false,
-      NSAppTransportSecurity: {
-        NSAllowsArbitraryLoads: true,
-      },
-      "UISupportedInterfaceOrientations~ipad": [
-        "UIInterfaceOrientationPortrait",
-        "UIInterfaceOrientationPortraitUpsideDown",
-      ],
-      UIViewControllerBasedStatusBarAppearance: true,
-    },
-  },
-  android: {
-    adaptiveIcon: {
-      foregroundImage: "./assets/images/logo/logo-foreground.android.png",
-      backgroundImage: "./assets/images/logo/logo-background.android.png",
-    },
-    package: getUniqueIdentifier(),
-    softwareKeyboardLayoutMode: "pan",
-  },
-  web: {
-    bundler: "metro",
-    output: "static",
-    favicon: "./assets/images/logo/logo-large.png",
-  },
-  plugins: [
+const getPlugins = (): ExpoConfig["plugins"] => {
+  const pluginsList: ExpoConfig["plugins"] = [
     [
       "expo-build-properties",
       {
@@ -138,7 +103,60 @@ const config: ExpoConfig = {
     ],
     "posthog-react-native/expo",
     "@config-plugins/detox",
-  ],
+    "expo-apple-authentication",
+  ];
+
+  // conditional plugins
+  if (iosUrlScheme) {
+    pluginsList.push([
+      "@react-native-google-signin/google-signin",
+      {
+        iosUrlScheme,
+      },
+    ]);
+  }
+
+  return pluginsList;
+};
+
+const config: ExpoConfig = {
+  name: getAppName(),
+  slug: "meowie",
+  version: SYSTEM_VERSION,
+  orientation: "portrait",
+  icon: "./assets/images/logo/logo-large.png",
+  scheme: getScheme(),
+  userInterfaceStyle: "automatic",
+  ios: {
+    supportsTablet: false,
+    requireFullScreen: true,
+    bundleIdentifier: getUniqueIdentifier(),
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+      NSAppTransportSecurity: {
+        NSAllowsArbitraryLoads: true,
+      },
+      "UISupportedInterfaceOrientations~ipad": [
+        "UIInterfaceOrientationPortrait",
+        "UIInterfaceOrientationPortraitUpsideDown",
+      ],
+      UIViewControllerBasedStatusBarAppearance: true,
+    },
+  },
+  android: {
+    adaptiveIcon: {
+      foregroundImage: "./assets/images/logo/logo-foreground.android.png",
+      backgroundImage: "./assets/images/logo/logo-background.android.png",
+    },
+    package: getUniqueIdentifier(),
+    softwareKeyboardLayoutMode: "pan",
+  },
+  web: {
+    bundler: "metro",
+    output: "static",
+    favicon: "./assets/images/logo/logo-large.png",
+  },
+  plugins: getPlugins(),
   experiments: {
     typedRoutes: true,
   },
