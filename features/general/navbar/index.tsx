@@ -4,7 +4,7 @@ import { useWindowDimensions, View, Pressable } from "react-native";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { BottomTabBarProps } from "expo-router/js-tabs";
 import Animated, {
   interpolateColor,
   useAnimatedProps,

@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@react-navigation/native";
+import { ThemeProvider } from "expo-router/react-navigation";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";

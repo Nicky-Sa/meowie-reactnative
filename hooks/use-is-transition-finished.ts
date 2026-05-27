@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import { NavigationProp, ParamListBase } from "expo-router/react-navigation";
 
 /**
  * Returns true once the navigation transition is finished.
