@@ -13,7 +13,7 @@ import { homeTourSeenAtom, swipeGuideSeenAtom } from "@/atoms";
 import { GradientOverlay } from "@/features/common/ui/gradient-overlay";
 
 const SWIPE_GUIDE_LOTTIE_URL =
-  "https://meowie-public.s3.eu-central-1.amazonaws.com/swipe-guide-lottie.json";
+  "https://meowie-public.s3.eu-central-1.amazonaws.com/swipe-guide-lottie.json?v=1";
 
 type Props = {
   currentIndex: number;

@@ -59,7 +59,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
     >
       <LottieView
         source={{
-          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/splash-lottie.json",
+          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/splash-lottie.json?v=1",
         }}
         autoPlay
         loop={false}

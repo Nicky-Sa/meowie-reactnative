@@ -13,7 +13,7 @@ export const RatingLottie = ({ rating, play = false }: Props) => {
   const lottieRef = useRef<LottieView>(null);
   const playRef = useRef(play);
 
-  const uri = `https://meowie-public.s3.eu-central-1.amazonaws.com/ratings/rating-${rating}-lottie.json`;
+  const uri = `https://meowie-public.s3.eu-central-1.amazonaws.com/ratings/rating-${rating}-lottie.json?v=1`;
 
   useEffect(() => {
     if (play !== playRef.current) {
