@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from "axios";
+import axios, { isAxiosError, create as createAxiosInstance } from "axios";
 import { getAccessToken, getRefreshToken } from "./utils/token-storage";
 import { env } from "@/lib/env";
 import { destroySession } from "@/features/common/data/utils/destroy-session";
@@ -8,7 +8,7 @@ import { getDefaultStore } from "jotai";
 import { countryCodeAtom } from "@/atoms";
 
 // Create the axios instance
-const axiosInstance = axios.create({
+const axiosInstance = createAxiosInstance({
   baseURL: env.EXPO_PUBLIC_BACKEND_URL,
   timeout: GENERAL_TIMEOUT, // requests hanging beyond this will throw an ECONNABORTED error
 });

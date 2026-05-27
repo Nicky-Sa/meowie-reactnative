@@ -24,7 +24,6 @@ const getUniqueIdentifier = () => {
       bundleIdentifier = "com.meowie.app";
   }
 
-  console.log({ bundleIdentifier });
   return bundleIdentifier;
 };
 
@@ -42,7 +41,6 @@ const getAppName = () => {
       appName = "Meowie";
   }
 
-  console.log({ appName });
   return appName;
 };
 
