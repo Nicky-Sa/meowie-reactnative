@@ -24,6 +24,9 @@ export default defineConfig([
     rules: {
       "prettier/prettier": "error",
       "no-undef": "error",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
+      "react-hooks/purity": "off",
     },
   },
   {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -25,7 +25,7 @@ export const SlidingToggle = ({
 }: Props) => {
   const [containerWidth, setContainerWidth] = useState(0);
 
-  const slideAnim = useRef(new Animated.Value(0)).current;
+  const [slideAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(slideAnim, {

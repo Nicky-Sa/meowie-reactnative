@@ -11,7 +11,7 @@ import { MediaType } from "@/features/common/data/models/media-type";
  */
 export const useTrackTimeSpent = (mediaId: ID, mediaType: MediaType) => {
   const { media } = useAnalytics();
-  const startTime = useRef<number>(Date.now());
+  const startTime = useRef<number>(0);
   const totalDuration = useRef<number>(0);
   const appState = useRef<AppStateStatus>(AppState.currentState);
 

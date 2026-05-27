@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Search } from "iconoir-react-native";
 import { TextInput } from "@/features/common/form/text-input";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -23,7 +23,7 @@ export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   const router = useRouter();
   const { discovery } = useAnalytics();
 
-  const { control, watch, clearErrors } = useForm<SearchFormData>({
+  const { control, clearErrors } = useForm<SearchFormData>({
     resolver: zodResolver(SearchSchema),
     mode: "onChange",
     defaultValues: {
@@ -31,7 +31,7 @@ export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
     },
   });
 
-  const queryValue = watch("query");
+  const queryValue = useWatch({ control, name: "query" });
   const debouncedQuery = useDebounce(queryValue, 2000);
 
   useEffect(() => {
