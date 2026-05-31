@@ -45,9 +45,15 @@ const BaseToastContent = ({
       >
         {text1}
       </Text>
-      <Text className="body-b2 flex-1 text-neutral-8-default" numberOfLines={2}>
-        {text2}
-      </Text>
+
+      {text2 && (
+        <Text
+          className="body-b2 flex-1 text-neutral-8-default"
+          numberOfLines={2}
+        >
+          {text2}
+        </Text>
+      )}
     </View>
   </View>
 );

@@ -1,7 +1,7 @@
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GoogleAuth } from "@/features/auth/providers/third-party/google-auth";
-import { AppleAuth } from "@/features/auth/providers/third-party/apple-auth";
+import { GoogleAuth } from "@/features/auth/providers/third-party/google/google-auth";
+import { AppleAuth } from "@/features/auth/providers/third-party/apple/apple-auth";
 import { EmailAuth } from "@/features/auth/providers/otp/email-auth";
 import { Header } from "@/features/auth/components/header";
 import { Welcome } from "@/features/auth/components/welcom";
@@ -19,7 +19,7 @@ export const Screen = () => {
 
         <GoogleAuth />
 
-        <AppleAuth />
+        {Platform.OS === "ios" && <AppleAuth />}
       </View>
     </SafeAreaView>
   );
