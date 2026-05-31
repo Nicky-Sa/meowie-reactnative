@@ -10,7 +10,7 @@ export const SeriesCard = ({ item }: Props) => {
   return (
     <Link
       href={{
-        pathname: "/series/[id]",
+        pathname: "/series/[id]/details",
         params: { id: item.id.toString() },
       }}
     >
