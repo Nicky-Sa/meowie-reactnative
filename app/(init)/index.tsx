@@ -18,18 +18,26 @@ export default function Home() {
     if (!splashDone) return;
 
     const checkState = async () => {
-      // check if authenticated
-      if (data?.user) {
-        router.replace("/home");
+      const onBoarded = AppStorage.getItem("onboarded");
+
+      if (onBoarded === null) {
+        // not onboarded
+        router.replace("/onboarding");
       } else {
-        // not authenticated
-        Emitter.emit("sessionDestroyed");
-        // check skipped-auth
-        const skippedAuth = AppStorage.getItem("skipped-auth");
-        if (skippedAuth === "true") {
+        // onboarded
+        // check if authenticated
+        if (data?.user) {
           router.replace("/home");
         } else {
-          router.replace("/auth");
+          // not authenticated
+          Emitter.emit("sessionDestroyed");
+          // check skipped-auth
+          const skippedAuth = AppStorage.getItem("skipped-auth");
+          if (skippedAuth === "true") {
+            router.replace("/home");
+          } else {
+            router.replace("/auth");
+          }
         }
       }
     };
