@@ -1,21 +1,29 @@
 import { Icon } from "@/features/common/ui/icon";
 import { Button } from "@/features/common/ui/button";
 import GoogleIcon from "@/assets/icons/google.svg";
-import { useRouter } from "expo-router";
 import { useGoogleAuth } from "@/features/auth/providers/third-party/google/data/useGoogleAuth";
 import { useState } from "react";
+import Toast from "react-native-toast-message";
+import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const GoogleAuth = () => {
   const { loginWithGoogle } = useGoogleAuth();
-  const router = useRouter();
+  const { dismissScreen } = useDismissScreen();
   const [isLoading, setIsLoading] = useState(false);
+  const { auth } = useAnalytics();
 
   const handleGoogle = async () => {
     setIsLoading(true);
-    const response = await loginWithGoogle();
+    const data = await loginWithGoogle();
     setIsLoading(false);
-    if (response && response.user) {
-      router.replace("/home");
+    if (data && data.user) {
+      auth.trackLogin({ isNewUser: data.isNewUser });
+      dismissScreen();
+      Toast.show({
+        type: "success",
+        text1: "Welcome to Meowie!",
+      });
     }
   };
 

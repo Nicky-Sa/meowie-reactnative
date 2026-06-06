@@ -9,6 +9,7 @@ import { useRequestOtp } from "@/features/auth/providers/otp/request/data/useReq
 import { ResendCode } from "@/features/auth/providers/otp/verify/resend-code";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import Toast from "react-native-toast-message";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -39,11 +40,15 @@ export const OtpForm = ({ email }: Props) => {
   const { dismissScreen } = useDismissScreen();
   const { auth } = useAnalytics();
 
-  const onSubmit = handleSubmit(async (data: OtpFormData) => {
+  const onSubmit = handleSubmit(async (formData: OtpFormData) => {
     try {
-      const response = await triggerVerifyOtp({ ...data, email });
-      auth.trackLogin({ isNewUser: response.data.isNewUser });
+      const data = await triggerVerifyOtp({ ...formData, email });
+      auth.trackLogin({ isNewUser: data.isNewUser });
       dismissScreen();
+      Toast.show({
+        type: "success",
+        text1: "Welcome to Meowie!",
+      });
     } catch (error) {
       setError("otp", { message: (error as Error).message });
     }

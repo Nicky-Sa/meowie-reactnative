@@ -19,7 +19,7 @@ export const useVerifyOtp = () => {
       refreshToken: response.data.refreshToken,
     });
     await revalidateAuth();
-    return response;
+    return response.data;
   };
   return { trigger, ...rest };
 };
