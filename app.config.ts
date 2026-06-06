@@ -99,6 +99,7 @@ const getPlugins = (): ExpoConfig["plugins"] => {
         supportsPictureInPicture: true,
       },
     ],
+    "expo-image",
     "posthog-react-native/expo",
     "@config-plugins/detox",
     "expo-apple-authentication",
