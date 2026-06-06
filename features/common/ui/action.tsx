@@ -9,6 +9,11 @@ const actionVariants = {
     borderColor: tailwind.theme.borderColor.neutral[3].default,
     textColor: tailwind.theme.textColor.neutral[10].default,
   },
+  promoted: {
+    backgroundColor: [tailwind.theme.backgroundColor.brand[1].default],
+    borderColor: tailwind.theme.borderColor.neutral[3].default,
+    textColor: tailwind.theme.textColor.neutral[10].default,
+  },
 } as const;
 
 const actionSizes = {

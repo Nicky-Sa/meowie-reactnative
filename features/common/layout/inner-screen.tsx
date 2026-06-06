@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
@@ -22,6 +22,7 @@ import { Edges } from "react-native-safe-area-context/src/SafeArea.types";
 
 type Props = {
   title?: string;
+  subtitle?: string;
   scrolledTitle?: string;
   titleFadeRange?: [number, number];
   onBack?: () => void;
@@ -33,6 +34,7 @@ type Props = {
 
 export const InnerScreen = ({
   title,
+  subtitle,
   scrolledTitle,
   titleFadeRange = [20, 100],
   onBack,
@@ -132,6 +134,14 @@ export const InnerScreen = ({
               >
                 {title}
               </Animated.Text>
+              {subtitle && (
+                <Text
+                  numberOfLines={1}
+                  className={"body-b1 h-6 text-neutral-5-default"}
+                >
+                  {subtitle}
+                </Text>
+              )}
               {scrolledTitle && (
                 <Animated.Text
                   style={[

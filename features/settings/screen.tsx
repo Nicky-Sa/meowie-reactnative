@@ -12,6 +12,7 @@ import { TMDBStatement } from "@/features/settings/items/tmdb-statement";
 import { usePostHog } from "posthog-react-native";
 import { env } from "@/lib/env";
 import { Feedback } from "@/features/settings/items/feedback";
+import { Taste } from "@/features/settings/items/taste";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -25,6 +26,7 @@ export const Screen = () => {
           <View className={"flex flex-col gap-2"}>
             <Title>App</Title>
             <Autoplay />
+            <Taste />
             <Feedback />
             <EmptyCache />
           </View>
