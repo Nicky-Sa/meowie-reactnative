@@ -16,7 +16,7 @@ export const useDeleteUser = () => {
   const trigger = async (body: DeleteUserReqDto) => {
     const response = await mutateAsync({ method: "DELETE", body });
     await destroySession();
-    return response;
+    return response.data;
   };
   return { trigger, ...rest };
 };

@@ -22,7 +22,7 @@ export const useLogout = () => {
     const response = await mutateAsync({ method: "POST" });
     await destroySession();
     await invalidateByPattern(); // Invalidate all queries
-    return response;
+    return response.data;
   };
   return { trigger, ...rest };
 };
