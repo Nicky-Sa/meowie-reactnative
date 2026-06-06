@@ -153,7 +153,9 @@ export const Button = ({
           <View
             className={cn(
               "flex-row items-center",
-              (textOnly || !!icon) && variant !== "link" && "justify-center",
+              (textOnly || !!icon) &&
+                variant !== "link" &&
+                "h-6 justify-center", // for absolute bare text
               props.className,
             )}
             style={textOnly ? { gap: buttonSizes[size].iconOffset } : undefined}
@@ -162,7 +164,9 @@ export const Button = ({
             {!iconOnly &&
               (textOnly ? (
                 <Text
-                  style={{ color: buttonVariants[variant].textColor }}
+                  style={{
+                    color: buttonVariants[variant].textColor,
+                  }}
                   className={cn({
                     "text-center": variant !== "link",
                     "body-b1-strong": size === "lg",

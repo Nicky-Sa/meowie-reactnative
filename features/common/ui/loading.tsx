@@ -9,7 +9,7 @@ export const Loading = () => {
       autoPlay
       loop
       resizeMode={"contain"}
-      style={{ alignSelf: "center", width: 48, height: 20 }}
+      style={{ alignSelf: "center", width: 48, height: 24 }}
     />
   );
 };
