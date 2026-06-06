@@ -2,10 +2,7 @@ import { ID } from "@/features/common/data/media-query";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import {
-  LibraryStatusResDto,
-  RemoveItemReqDto,
-} from "@/features/profile/data/dto/library.dto";
+import { LibraryStatusResDto } from "@/features/profile/data/dto/library.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 
 type Args = {
@@ -14,13 +11,13 @@ type Args = {
 };
 
 export const useRemoveSeen = ({ id, mediaType }: Args) => {
-  const cacheKey = `/library/status/${mediaType}/${id}`;
+  const cacheKey = `/library/${mediaType}/${id}/status`;
   const queryClient = useQueryClient();
 
   const { mutateAsync, ...rest } = useMutationConfigured<
-    RemoveItemReqDto,
+    undefined,
     LibraryStatusResDto
-  >("/library/seen");
+  >(`/library/${mediaType}/${id}/seen`);
 
   const removeSeen = async () => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
@@ -43,7 +40,6 @@ export const useRemoveSeen = ({ id, mediaType }: Args) => {
     try {
       await mutateAsync({
         method: "DELETE",
-        body: { tmdbId: Number(id), mediaType },
       });
     } catch {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);

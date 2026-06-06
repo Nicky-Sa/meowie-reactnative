@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useInvalidateByPattern } from "@/features/common/data/query/hooks";
 
 const authRequiredPaths = [
-  new RegExp("/auth/current-user"),
+  new RegExp("/user/current"),
   new RegExp("/library/.*"),
 ];
 

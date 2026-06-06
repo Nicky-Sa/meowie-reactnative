@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
-import { useDeleteAccount } from "@/features/settings/delete-account/data/useDeleteAccount";
+import { useDeleteUser } from "@/features/settings/delete-user/data/useDeleteUser";
 import { usePostHog } from "posthog-react-native";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
@@ -33,7 +33,7 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
       },
     });
   const router = useRouter();
-  const { trigger, isMutating } = useDeleteAccount();
+  const { trigger, isMutating } = useDeleteUser();
   const posthog = usePostHog();
   const { auth } = useAnalytics();
 

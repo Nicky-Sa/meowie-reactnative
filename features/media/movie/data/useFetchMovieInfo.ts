@@ -3,7 +3,7 @@ import { useQueryConfigured } from "@/features/common/data/query/hooks";
 import { ID } from "@/features/common/data/media-query";
 
 export const useFetchMovieInfo = (id: ID) => {
-  const url = `/movie/info/${id}`;
+  const url = `/movie/${id}`;
   const { data: response, ...rest } = useQueryConfigured<MovieInfoResDto>(url);
   return {
     data: response?.data,

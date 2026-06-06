@@ -6,7 +6,7 @@ type CurrentUserResDto = {
 };
 
 export const useCurrentUser = () => {
-  const url = "/auth/current-user";
+  const url = "/user/current";
 
   const { data: response, ...rest } =
     useQueryConfigured<CurrentUserResDto>(url);

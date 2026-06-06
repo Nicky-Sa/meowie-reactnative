@@ -12,7 +12,7 @@ export type URL =
   | "/library/saved"
   | "/library/seen"
   | `/collections/${string}/items`
-  | `/${MediaType}/details/${ID}/recommendations/posters`;
+  | `/${MediaType}/${ID}/recommendations/posters`;
 
 export const useFetchPosters = (
   url: URL,

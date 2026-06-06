@@ -15,7 +15,7 @@ type Args = {
  */
 export const useFetchLibraryStatus = ({ id, mediaType }: Args) => {
   const { data } = useCurrentUser();
-  const url = `/library/status/${mediaType}/${id}`;
+  const url = `/library/${mediaType}/${id}/status`;
   const { data: response, ...rest } = useQueryConfigured<LibraryStatusResDto>(
     url,
     { enabled: !!data?.user },

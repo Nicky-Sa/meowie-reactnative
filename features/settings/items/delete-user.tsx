@@ -3,14 +3,14 @@ import { NavArrowRight } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
 import { useRouter } from "expo-router";
 
-export const DeleteAccount = () => {
+export const DeleteUser = () => {
   const router = useRouter();
   return (
     <Action
-      onPress={() => router.push("/settings/delete-account")}
+      onPress={() => router.push("/settings/delete-user")}
       icon={<Icon i={NavArrowRight} />}
     >
-      Delete Account
+      Delete My Account
     </Action>
   );
 };

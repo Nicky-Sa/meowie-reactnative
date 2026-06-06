@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import {
   LibraryStatusResDto,
-  MarkSeenReqDto,
+  RatingReqDto,
 } from "@/features/profile/data/dto/library.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 
@@ -17,14 +17,14 @@ type Args = {
 };
 
 export const useMarkAsSeen = ({ id, mediaType }: Args) => {
-  const cacheKey = `/library/status/${mediaType}/${id}`;
+  const cacheKey = `/library/${mediaType}/${id}/status`;
   const queryClient = useQueryClient();
   const { invalidateByPattern } = useInvalidateByPattern();
 
   const { mutateAsync, ...rest } = useMutationConfigured<
-    MarkSeenReqDto,
+    RatingReqDto,
     LibraryStatusResDto
-  >("/library/seen");
+  >(`/library/${mediaType}/${id}/seen`);
 
   const markAsSeen = async (rating?: number) => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
@@ -46,8 +46,8 @@ export const useMarkAsSeen = ({ id, mediaType }: Args) => {
 
     try {
       await mutateAsync({
-        method: "POST",
-        body: { tmdbId: Number(id), mediaType, rating },
+        method: "PUT",
+        body: { rating },
       });
     } catch {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);

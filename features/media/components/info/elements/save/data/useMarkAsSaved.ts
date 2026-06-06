@@ -5,10 +5,7 @@ import {
 } from "@/features/common/data/query/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import {
-  LibraryStatusResDto,
-  MarkSavedReqDto,
-} from "@/features/profile/data/dto/library.dto";
+import { LibraryStatusResDto } from "@/features/profile/data/dto/library.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 
 type Args = {
@@ -17,14 +14,14 @@ type Args = {
 };
 
 export const useMarkAsSaved = ({ id, mediaType }: Args) => {
-  const cacheKey = `/library/status/${mediaType}/${id}`;
+  const cacheKey = `/library/${mediaType}/${id}/status`;
   const queryClient = useQueryClient();
   const { invalidateByPattern } = useInvalidateByPattern();
 
   const { mutateAsync, ...rest } = useMutationConfigured<
-    MarkSavedReqDto,
+    undefined,
     LibraryStatusResDto
-  >("/library/save");
+  >(`/library/${mediaType}/${id}/saved`);
 
   const markAsSaved = async () => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
@@ -43,8 +40,7 @@ export const useMarkAsSaved = ({ id, mediaType }: Args) => {
 
     try {
       await mutateAsync({
-        method: "POST",
-        body: { tmdbId: Number(id), mediaType },
+        method: "PUT",
       });
     } catch {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);

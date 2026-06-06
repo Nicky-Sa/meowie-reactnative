@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import {
   LibraryStatusResDto,
-  UpdateRatingReqDto,
+  RatingReqDto,
 } from "@/features/profile/data/dto/library.dto";
 import { SuccessResponse } from "@/features/common/data/transformers";
 
@@ -17,14 +17,14 @@ type Args = {
 };
 
 export const useUpdateRating = ({ id, mediaType }: Args) => {
-  const cacheKey = `/library/status/${mediaType}/${id}`;
+  const cacheKey = `/library/${mediaType}/${id}/status`;
   const queryClient = useQueryClient();
   const { invalidateByPattern } = useInvalidateByPattern();
 
   const { mutateAsync, ...rest } = useMutationConfigured<
-    UpdateRatingReqDto,
+    RatingReqDto,
     LibraryStatusResDto
-  >("/library/rating");
+  >(`/library/${mediaType}/${id}/seen`);
 
   const updateRating = async (rating?: number) => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
@@ -44,7 +44,7 @@ export const useUpdateRating = ({ id, mediaType }: Args) => {
     try {
       await mutateAsync({
         method: "PATCH",
-        body: { tmdbId: Number(id), mediaType, rating },
+        body: { rating },
       });
     } catch {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);

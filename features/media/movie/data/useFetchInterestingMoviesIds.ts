@@ -16,7 +16,7 @@ export const useFetchInterestingMoviesIds = ({ sort }: Args) => {
     [sort],
   );
 
-  const baseUrl = "/movie/interesting-ids";
+  const baseUrl = "/movie/interesting";
   const {
     data: response,
     fetchNextPage,

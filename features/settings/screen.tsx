@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { TermsConditions } from "@/features/settings/items/terms-conditions";
 import { PrivacyPolicy } from "@/features/settings/items/privacy-policy";
-import { DeleteAccount } from "@/features/settings/items/delete-account";
+import { DeleteUser } from "@/features/settings/items/delete-user";
 import { Logout } from "@/features/settings/items/logout";
 import { useCurrentUser } from "@/features/general/data/useCurrentUser";
 import { EmptyCache } from "@/features/settings/items/empty-cache";
@@ -34,7 +34,7 @@ export const Screen = () => {
             <PrivacyPolicy />
             {isLoggedIn && (
               <>
-                <DeleteAccount />
+                <DeleteUser />
                 <Logout />
               </>
             )}

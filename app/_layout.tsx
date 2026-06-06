@@ -146,7 +146,7 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="settings/delete-account"
+                                  name="settings/delete-user"
                                   options={{
                                     animation: "slide_from_right",
                                   }}

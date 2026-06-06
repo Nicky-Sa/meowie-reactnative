@@ -18,7 +18,7 @@ export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
   const router = useRouter();
   const { media } = useAnalytics();
   const { data: results } = useFetchPosters(
-    `/${mediaType}/details/${mediaId}/recommendations/posters`,
+    `/${mediaType}/${mediaId}/recommendations/posters`,
   );
 
   if (!results || results.length === 0) return null;
@@ -31,7 +31,7 @@ export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
       pathname: "/discover/posters",
       params: {
         title: `More like ${title}`,
-        endpoint: `/${mediaType}/details/${mediaId}/recommendations/posters`,
+        endpoint: `/${mediaType}/${mediaId}/recommendations/posters`,
       },
     });
   };

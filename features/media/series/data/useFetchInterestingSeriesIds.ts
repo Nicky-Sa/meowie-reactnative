@@ -16,7 +16,7 @@ export const useFetchInterestingSeriesIds = ({ sort }: Args) => {
     [sort],
   );
 
-  const baseUrl = "/series/interesting-ids";
+  const baseUrl = "/series/interesting";
   const {
     data: response,
     fetchNextPage,
