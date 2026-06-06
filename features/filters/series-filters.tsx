@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 import { tvFiltersAtom } from "@/atoms";
 import { initialSeriesFiltersValue } from "@/features/common/data/media-query";
 import _ from "lodash";
-import { useGenres } from "@/features/general/data/constants/useGenres";
+import { useGenres } from "@/features/general/data/constants/use-genres";
 
 export const SeriesFiltersContent = () => {
   const [filters, setFilters] = useAtom(tvFiltersAtom);

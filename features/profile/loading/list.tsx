@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { PostersSkeletons } from "@/features/common/posters/poster-skeletons";
-import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
+import { usePosterWidth } from "@/features/common/posters/use-poster-width";
 
 const NUM_COLUMNS = 3;
 

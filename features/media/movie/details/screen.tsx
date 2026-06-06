@@ -1,4 +1,4 @@
-import { useFetchMovieInfo } from "@/features/media/movie/data/useFetchMovieInfo";
+import { useFetchMovieInfo } from "@/features/media/movie/data/use-fetch-movie-info";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ErrorState } from "@/features/general/error-state";
 import { Hero } from "@/features/media/components/details/elements/hero";

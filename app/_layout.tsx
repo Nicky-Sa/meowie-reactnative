@@ -11,7 +11,7 @@ import { InternetCheck } from "@/features/general/internet-check";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { useThemeConfig } from "@/hooks/useThemeConfig";
+import { useThemeConfig } from "@/hooks/use-theme-config";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
 import { posthogStorage } from "@/features/general/posthog/storage";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";

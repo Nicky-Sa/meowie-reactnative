@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { usePostHog } from "posthog-react-native";
-import { useFetchFeedbackSurvey } from "@/features/settings/feedback/data/useFetchFeedbackSurvey";
+import { useFetchFeedbackSurvey } from "@/features/settings/feedback/data/use-fetch-feedback-survey";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { KeyboardAvoidingWrapper } from "@/features/common/layout/keyboard-avoiding-wrapper";

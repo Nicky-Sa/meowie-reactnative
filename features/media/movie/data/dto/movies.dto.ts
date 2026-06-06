@@ -1,7 +1,7 @@
 import { RatingEntry } from "@/features/common/data/models/ratings";
 import { PosterProps } from "@/features/common/data/models/poster";
 import { CreditInfo } from "@/features/common/data/models/credit";
-import { Genre } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/use-genres";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
 import { WatchProviders } from "@/features/common/data/models/watch-provider";
 

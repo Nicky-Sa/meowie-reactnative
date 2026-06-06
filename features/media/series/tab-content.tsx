@@ -1,4 +1,4 @@
-import { useFetchInterestingSeriesIds } from "@/features/media/series/data/useFetchInterestingSeriesIds";
+import { useFetchInterestingSeriesIds } from "@/features/media/series/data/use-fetch-interesting-series-ids";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
 import { useAtomValue } from "jotai";

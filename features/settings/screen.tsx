@@ -4,7 +4,7 @@ import { TermsConditions } from "@/features/settings/items/terms-conditions";
 import { PrivacyPolicy } from "@/features/settings/items/privacy-policy";
 import { DeleteUser } from "@/features/settings/items/delete-user";
 import { Logout } from "@/features/settings/items/logout";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { EmptyCache } from "@/features/settings/items/empty-cache";
 import { Title } from "@/features/settings/elements/tilte";
 import { Autoplay } from "@/features/settings/items/autoplay";

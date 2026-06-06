@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/create-session";
-import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
+import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
 import Toast from "react-native-toast-message";
 import { AuthResDto, ThirdPartyAuthReqDto } from "@/features/auth/dto/auth.dto";
 

@@ -1,11 +1,11 @@
 import { Button } from "@/features/common/ui/button";
-import { useMarkAsSeen } from "@/features/media/components/info/elements/seen/data/useMarkAsSeen";
-import { useRemoveSeen } from "@/features/media/components/info/elements/seen/data/useRemoveSeen";
-import { useUpdateRating } from "@/features/media/components/info/elements/seen/data/useUpdateRating";
+import { useMarkAsSeen } from "@/features/media/components/info/elements/seen/data/use-mark-as-seen";
+import { useRemoveSeen } from "@/features/media/components/info/elements/seen/data/use-remove-seen";
+import { useUpdateRating } from "@/features/media/components/info/elements/seen/data/use-update-rating";
 import { ID } from "@/features/common/data/media-query";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { View, Text } from "react-native";
-import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/useFetchLibraryStatus";
+import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useRef, useState } from "react";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";

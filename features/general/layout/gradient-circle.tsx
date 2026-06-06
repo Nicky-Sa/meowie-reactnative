@@ -13,7 +13,7 @@ import {
   withTiming,
   Easing,
 } from "react-native-reanimated";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 
 type Props = {
   color: string;

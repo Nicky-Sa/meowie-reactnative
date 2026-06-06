@@ -1,6 +1,6 @@
 import CoolMeowie from "@/assets/images/meowie/cool-meowie.svg";
 import { Text, View } from "react-native";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 
 type Props = {
   email: string;

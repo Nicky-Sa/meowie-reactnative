@@ -1,5 +1,5 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { SavedEmptyState } from "@/features/profile/logged-in/saved/saved-empty-state";
 import { LibraryCategory } from "@/features/profile/data/library.constants";
 

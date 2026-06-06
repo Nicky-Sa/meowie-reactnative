@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { EnlargeableImage } from "@/features/general/enlargeable-image";
-import { Genre } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/use-genres";
 import { PosterProps } from "@/features/common/data/models/poster";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { TrailerPlayer } from "@/features/media/components/common/trailer-player";

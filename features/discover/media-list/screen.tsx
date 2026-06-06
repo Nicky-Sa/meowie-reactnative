@@ -2,7 +2,7 @@ import { MediaListScreen } from "@/features/media/components/list/media-list-scr
 import {
   URL,
   useFetchPosters,
-} from "@/features/common/posters/useFetchPosters";
+} from "@/features/common/posters/use-fetch-posters";
 import { SearchParams } from "@/features/common/data/media-query";
 
 export const Screen = ({

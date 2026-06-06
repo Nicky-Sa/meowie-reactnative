@@ -1,4 +1,4 @@
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 
 export const useTailwindBreakpoint = () => {
   const { width } = useScreenDimensions();

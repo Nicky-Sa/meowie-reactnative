@@ -1,4 +1,4 @@
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Args = Partial<{

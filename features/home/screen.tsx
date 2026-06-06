@@ -1,6 +1,6 @@
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { Header } from "@/features/home/header";
-import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
 import { TabContent as MovieTabContent } from "@/features/media/movie/tab-content";
 import { TabContent as SeriesTabContent } from "@/features/media/series/tab-content";
 import { SlidingContent } from "@/features/common/ui/sliding-content";

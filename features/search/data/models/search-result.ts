@@ -1,4 +1,4 @@
-import { Genre } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/use-genres";
 
 export type SearchResultPerson = {
   id: number;

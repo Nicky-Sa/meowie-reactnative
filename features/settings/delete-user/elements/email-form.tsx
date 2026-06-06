@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
-import { useDeleteUser } from "@/features/settings/delete-user/data/useDeleteUser";
+import { useDeleteUser } from "@/features/settings/delete-user/data/use-delete-user";
 import { usePostHog } from "posthog-react-native";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 

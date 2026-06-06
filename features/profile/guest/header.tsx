@@ -1,6 +1,6 @@
 import SleepingMeowie from "@/assets/images/meowie/sleeping-meowie.svg";
 import { Text, View } from "react-native";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 
 export const Header = () => {
   const { paddingTop } = useMainScreenContentStyle();

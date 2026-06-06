@@ -1,4 +1,4 @@
-import { useFetchCollections } from "./useFetchCollections";
+import { useFetchCollections } from "./use-fetch-collections";
 import { CollectionCard } from "./collection-card";
 import { memo, useCallback } from "react";
 import { CollectionListSkeleton } from "@/features/explore/collections/collection-list-skeleton";

@@ -2,9 +2,9 @@ import { View } from "react-native";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import { TabChildProps } from "@/features/common/tab/tab-bar";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { SeenEmptyState } from "@/features/profile/logged-in/seen/seen-empty-state";
 import { useInvalidateByPattern } from "@/features/common/data/query/hooks";
 

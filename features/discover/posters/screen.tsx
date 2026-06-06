@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import {
   URL,
   useFetchPosters,
-} from "@/features/common/posters/useFetchPosters";
+} from "@/features/common/posters/use-fetch-posters";
 import { FilterIndicator } from "@/features/filters/filter-indicator";
 import { FilterEmptyState } from "@/features/filters/empty-state";
 

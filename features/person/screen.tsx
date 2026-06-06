@@ -1,12 +1,12 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
-import { useFetchPersonInfo } from "@/features/person/data/useFetchPersonInfo";
+import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
+import { useFetchPersonInfo } from "@/features/person/data/use-fetch-person-info";
 import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { PersonEmptyState } from "@/features/person/elements/empty-state";
 
 const NUM_COLUMNS = 3;

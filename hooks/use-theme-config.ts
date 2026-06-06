@@ -1,4 +1,4 @@
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 import { DarkTheme, DefaultTheme } from "expo-router/react-navigation";
 import { tailwind } from "@/lib/tailwind";
 

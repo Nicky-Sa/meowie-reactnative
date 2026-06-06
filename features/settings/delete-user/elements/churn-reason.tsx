@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { Updater } from "use-immer";
 import { Segment } from "@/features/common/ui/segment";
-import { useChurnReasons } from "@/features/general/data/constants/useChurnReasons";
+import { useChurnReasons } from "@/features/general/data/constants/use-churn-reasons";
 
 type Props = {
   churnReasonId: string;

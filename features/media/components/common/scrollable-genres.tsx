@@ -1,6 +1,6 @@
 import { ScrollView } from "react-native";
 import { Genres } from "@/features/media/components/info/elements/genres";
-import { Genre } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/use-genres";
 import { MediaType } from "@/features/common/data/models/media-type";
 
 type Props = {

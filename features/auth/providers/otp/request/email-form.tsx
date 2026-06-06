@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/features/common/ui/button";
 import { Mail } from "iconoir-react-native";
-import { useRequestOtp } from "@/features/auth/providers/otp/request/data/useRequestOtp";
+import { useRequestOtp } from "@/features/auth/providers/otp/request/data/use-request-otp";
 import { useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 

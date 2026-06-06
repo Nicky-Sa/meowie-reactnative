@@ -1,7 +1,7 @@
 import { SplashScreen } from "@/features/general/splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
 import { useLatoFont } from "@/assets/fonts/Lato";

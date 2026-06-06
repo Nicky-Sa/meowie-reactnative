@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 
 export const Header = () => {
   const { paddingTop } = useMainScreenContentStyle();

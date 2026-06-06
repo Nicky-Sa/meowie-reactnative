@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 import { Chip } from "@/features/common/ui/chip";
 import { useRouter } from "expo-router";
-import { type Genre } from "@/features/general/data/constants/useGenres";
+import { type Genre } from "@/features/general/data/constants/use-genres";
 import { useCallback } from "react";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import {

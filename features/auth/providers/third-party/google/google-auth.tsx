@@ -1,7 +1,7 @@
 import { Icon } from "@/features/common/ui/icon";
 import { Button } from "@/features/common/ui/button";
 import GoogleIcon from "@/assets/icons/google.svg";
-import { useGoogleAuth } from "@/features/auth/providers/third-party/google/data/useGoogleAuth";
+import { useGoogleAuth } from "@/features/auth/providers/third-party/google/data/use-google-auth";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";

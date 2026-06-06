@@ -1,10 +1,10 @@
 import { Button } from "@/features/common/ui/button";
-import { useMarkAsSaved } from "@/features/media/components/info/elements/save/data/useMarkAsSaved";
-import { useRemoveSaved } from "@/features/media/components/info/elements/save/data/useRemoveSaved";
+import { useMarkAsSaved } from "@/features/media/components/info/elements/save/data/use-mark-as-saved";
+import { useRemoveSaved } from "@/features/media/components/info/elements/save/data/use-remove-saved";
 import { ID } from "@/features/common/data/media-query";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { View, Text } from "react-native";
-import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/useFetchLibraryStatus";
+import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useState, useRef } from "react";
 import { SaveIcon } from "@/features/media/components/info/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";

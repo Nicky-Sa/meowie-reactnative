@@ -1,7 +1,7 @@
 import { VerifyOtpReqDto, AuthResDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/create-session";
-import { useRevalidateAuth } from "@/features/general/data/useRevalidateAuth";
+import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
 
 export const useVerifyOtp = () => {
   const url = "/auth/otp/verify";

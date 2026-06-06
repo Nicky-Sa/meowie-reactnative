@@ -1,5 +1,5 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { useAtom } from "jotai";
 import { currentRoleInMediaAtom } from "@/atoms";
 

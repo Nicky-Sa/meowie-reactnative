@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import { ErrorState } from "@/features/general/error-state";
-import { useListRef } from "@/features/common/hooks/list/useListRef";
-import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
-import { useMainScreenContentStyle } from "@/features/common/hooks/useMainScreenContentStyle";
+import { useListRef } from "@/features/common/hooks/list/use-list-ref";
+import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import Animated, {
   ScrollHandlerProcessed,
   SharedValue,

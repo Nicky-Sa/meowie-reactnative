@@ -6,7 +6,7 @@ import { WarningText } from "@/features/settings/delete-user/elements/warning-te
 import { ChurnReason } from "@/features/settings/delete-user/elements/churn-reason";
 import { EmailForm } from "@/features/settings/delete-user/elements/email-form";
 import { useImmer } from "use-immer";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { KeyboardAvoidingWrapper } from "@/features/common/layout/keyboard-avoiding-wrapper";
 import { useRef } from "react";
 

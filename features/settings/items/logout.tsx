@@ -6,7 +6,7 @@ import {
 import { useRef } from "react";
 import { Text, View } from "react-native";
 import CryingMeowie from "@/assets/images/meowie/crying-meowie.svg";
-import { useLogout } from "@/features/general/data/useLogout";
+import { useLogout } from "@/features/general/data/use-logout";
 import { useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 

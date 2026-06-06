@@ -3,7 +3,7 @@ import { Header } from "@/features/media/components/header";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactElement, ReactNode, useMemo } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
-import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
 import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {

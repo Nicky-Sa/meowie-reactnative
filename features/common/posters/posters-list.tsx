@@ -9,8 +9,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
-import { usePosterWidth } from "@/features/common/posters/usePosterWidth";
-import { useFetchMore } from "@/features/common/hooks/list/useFetchMore";
+import { usePosterWidth } from "@/features/common/posters/use-poster-width";
+import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
 import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, ViewStyle, View } from "react-native";

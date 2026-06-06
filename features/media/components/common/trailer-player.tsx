@@ -9,7 +9,7 @@ import {
 import { useAtom } from "jotai";
 import { allowYTPlayingAtom, ytMutedAtom } from "@/atoms";
 import { VolumeManager } from "react-native-volume-manager";
-import { useAppState } from "@/hooks/useAppState";
+import { useAppState } from "@/hooks/use-app-state";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Icon } from "@/features/common/ui/icon";
@@ -21,7 +21,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useIsFocused } from "expo-router/react-navigation";
 import { Image } from "expo-image";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 
 type Props = {
   YTKey: string;

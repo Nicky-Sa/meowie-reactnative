@@ -2,7 +2,7 @@ import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { SegmentItem, Segment } from "@/features/common/ui/segment";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { Genre } from "@/features/general/data/constants/useGenres";
+import { Genre } from "@/features/general/data/constants/use-genres";
 import { useMemo } from "react";
 
 type Props = {

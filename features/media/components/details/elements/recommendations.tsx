@@ -6,7 +6,7 @@ import { NavArrowRight } from "iconoir-react-native";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-import { useFetchPosters } from "@/features/common/posters/useFetchPosters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 
 type Props = {
   title: string;

@@ -1,4 +1,4 @@
-import { useFetchMovieInfo } from "@/features/media/movie/data/useFetchMovieInfo";
+import { useFetchMovieInfo } from "@/features/media/movie/data/use-fetch-movie-info";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/common/trailer-player";

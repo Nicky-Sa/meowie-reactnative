@@ -4,7 +4,7 @@ import { tailwind } from "@/lib/tailwind";
 import { Updater } from "use-immer";
 import { useMemo } from "react";
 import _ from "lodash";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 
 const CustomMarker = ({ currentValue }: { currentValue: number }) => (
   <View className={"flex flex-col items-center justify-center gap-2"}>

@@ -4,7 +4,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import NoInternet from "@/assets/images/errors/no-internet.svg";
 import VpnWarning from "@/assets/images/errors/vpn-warning.svg";
 import { InformationModal } from "@/features/common/information-modal";
-import { useConnectionCheck } from "@/hooks/useConnectionCheck";
+import { useConnectionCheck } from "@/hooks/use-connection-check";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
   const { isOffline, isRestricted, refresh } = useConnectionCheck();

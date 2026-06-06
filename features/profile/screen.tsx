@@ -1,9 +1,9 @@
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Guest } from "@/features/profile/guest/content";
 import { View } from "react-native";
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { LoggedIn } from "@/features/profile/logged-in/content";
-import { useScrollHandler } from "@/features/common/hooks/list/useScrollHandler";
+import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
 import { Header } from "@/features/profile/header";
 import { Loading } from "@/features/profile/loading/content";
 

@@ -1,4 +1,4 @@
-import { useFetchSeriesInfo } from "@/features/media/series/data/useFetchSeriesInfo";
+import { useFetchSeriesInfo } from "@/features/media/series/data/use-fetch-series-info";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ErrorState } from "@/features/general/error-state";
 import { Hero } from "@/features/media/components/details/elements/hero";

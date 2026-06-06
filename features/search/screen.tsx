@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { SearchInput } from "@/features/search/elements/search-input";
-import { useMultiSearchQuery } from "@/features/search/data/useMultiSearchQuery";
+import { useMultiSearchQuery } from "@/features/search/data/use-multi-search-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
 import { SearchResultList } from "@/features/search/elements/list";

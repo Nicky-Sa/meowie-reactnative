@@ -5,7 +5,7 @@ import Animated, {
   SlideInLeft,
   SlideOutRight,
 } from "react-native-reanimated";
-import { useIsInitialRender } from "@/features/common/hooks/useIsInitialRender";
+import { useIsInitialRender } from "@/features/common/hooks/use-is-initial-render";
 
 type Props = {
   isActive: boolean;

@@ -1,7 +1,7 @@
 import { Icon } from "@/features/common/ui/icon";
 import { Button } from "@/features/common/ui/button";
 import AppleIcon from "@/assets/icons/apple.svg";
-import { useAppleAuth } from "@/features/auth/providers/third-party/apple/data/useAppleAuth";
+import { useAppleAuth } from "@/features/auth/providers/third-party/apple/data/use-apple-auth";
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";

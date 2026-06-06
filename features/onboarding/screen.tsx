@@ -16,9 +16,9 @@ import { Button } from "@/features/common/ui/button";
 import { NavArrowRight } from "iconoir-react-native";
 import { AppStorage } from "@/features/common/data/utils/app-storage";
 import { useRouter } from "expo-router";
-import { useScreenDimensions } from "@/hooks/useScreenDimensions";
+import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { Icon } from "@/features/common/ui/icon";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 
 const items = [
   {

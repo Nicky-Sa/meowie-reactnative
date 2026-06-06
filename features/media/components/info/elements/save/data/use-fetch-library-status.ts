@@ -1,6 +1,6 @@
 import { useQueryConfigured } from "@/features/common/data/query/hooks";
 import { ID } from "@/features/common/data/media-query";
-import { useCurrentUser } from "@/features/general/data/useCurrentUser";
+import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { LibraryStatusResDto } from "@/features/profile/data/dto/library.dto";
 

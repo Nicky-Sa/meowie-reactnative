@@ -1,4 +1,4 @@
-import { useFetchSeriesInfo } from "@/features/media/series/data/useFetchSeriesInfo";
+import { useFetchSeriesInfo } from "@/features/media/series/data/use-fetch-series-info";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/common/trailer-player";
