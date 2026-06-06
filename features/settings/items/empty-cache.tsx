@@ -39,7 +39,7 @@ export const EmptyCache = () => {
         size={"lg"}
         onPress={() => bottomSheetRef.current?.present()}
       >
-        Empty Cache
+        Empty cache
       </Action>
       <BottomSheet
         ref={bottomSheetRef}

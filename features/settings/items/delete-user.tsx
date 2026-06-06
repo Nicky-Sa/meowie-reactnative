@@ -10,7 +10,7 @@ export const DeleteUser = () => {
       onPress={() => router.push("/settings/delete-user")}
       icon={<Icon i={NavArrowRight} />}
     >
-      Delete My Account
+      Delete account
     </Action>
   );
 };

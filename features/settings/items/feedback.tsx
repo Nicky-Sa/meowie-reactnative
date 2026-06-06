@@ -11,7 +11,7 @@ export const Feedback = () => {
       onPress={() => router.push("/settings/feedback")}
       icon={<Icon i={NavArrowRight} />}
     >
-      Send Feedback
+      Send feedback
     </Action>
   );
 };

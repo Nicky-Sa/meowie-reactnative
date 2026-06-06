@@ -10,7 +10,7 @@ export const PrivacyPolicy = () => {
   };
   return (
     <Action onPress={handleOpenBrowser} icon={<Icon i={NavArrowRight} />}>
-      Privacy Policy
+      Privacy policy
     </Action>
   );
 };

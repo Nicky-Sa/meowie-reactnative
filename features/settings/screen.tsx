@@ -25,11 +25,11 @@ export const Screen = () => {
           <View className={"flex flex-col gap-2"}>
             <Title>App</Title>
             <Autoplay />
-            <EmptyCache />
             <Feedback />
+            <EmptyCache />
           </View>
           <View className={"flex flex-col gap-2"}>
-            <Title>Account</Title>
+            <Title>Other</Title>
             <TermsConditions />
             <PrivacyPolicy />
             {isLoggedIn && (
