@@ -30,15 +30,18 @@ const BaseToastContent = ({
   bgColor,
 }: BaseToastContentProps) => (
   <View
-    className={
-      "w-[70%] flex-row items-center gap-2 rounded-full px-4 py-3 shadow-lg"
-    }
+    className={"flex-row items-center gap-2 rounded-full px-4 py-3 shadow-lg"}
     style={{
       backgroundColor: bgColor,
     }}
   >
     {icon}
-    <View className={"flex flex-col items-start"}>
+    <View
+      className={"flex flex-col items-start"}
+      style={{
+        maxWidth: "70%",
+      }}
+    >
       <Text
         className="body-b1 flex-1 text-neutral-10-default"
         numberOfLines={2}
