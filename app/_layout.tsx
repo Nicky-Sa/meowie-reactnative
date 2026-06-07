@@ -209,6 +209,7 @@ function RootLayout() {
                                   name="taste/step-2"
                                   options={{
                                     animation: "slide_from_right",
+                                    gestureEnabled: false,
                                   }}
                                 />
 

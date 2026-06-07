@@ -48,3 +48,7 @@ export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);
 
 // Location and Country (persisted)
 export const countryCodeAtom = atomPersisted("country-code", "US");
+
+// Taste
+export const tasteKeywordsAtom = atomWithImmer<string[]>([]);
+export const tasteFlexibilityAtom = atomWithImmer<string[]>(["0"]);

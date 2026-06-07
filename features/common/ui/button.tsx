@@ -1,5 +1,17 @@
 import * as Haptics from "expo-haptics";
-import { Pressable, PressableProps, Text, View } from "react-native";
+import {
+  Pressable,
+  PressableProps,
+  Text,
+  View,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  useDerivedValue,
+} from "react-native-reanimated";
 import { cn, tailwind } from "@/lib/tailwind";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Loading } from "@/features/common/ui/loading";
@@ -107,6 +119,32 @@ export const Button = ({
   const textOnly = typeof children === "string" && !!children;
   const iconOnly = iconPosition === "only";
 
+  const animatedOpacity = useDerivedValue(() => {
+    return withTiming(props.disabled ? 0.5 : focused ? 0.7 : 1, {
+      duration: 150,
+    });
+  }, [props.disabled, focused]);
+
+  const animatedBg = useDerivedValue(() => {
+    return withTiming(buttonVariants[variant].backgroundColor, {
+      duration: 150,
+    });
+  }, [variant]);
+
+  const animatedBorder = useDerivedValue(() => {
+    return withTiming(buttonVariants[variant].borderColor, {
+      duration: 150,
+    });
+  }, [variant]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: animatedOpacity.value,
+      backgroundColor: animatedBg.value,
+      borderColor: animatedBorder.value,
+    };
+  });
+
   return (
     <Pressable
       {...props}
@@ -126,24 +164,25 @@ export const Button = ({
       }}
       disabled={props.disabled || isLoading}
     >
-      <View
+      <Animated.View
         className={cn("overflow-hidden")}
-        style={{
-          opacity: props.disabled ? 0.5 : focused ? 0.7 : 1,
-          backgroundColor: buttonVariants[variant].backgroundColor,
-          borderRadius: variant !== "link" ? buttonSizes[size].borderRadius : 0,
-          borderWidth: buttonVariants[variant].borderWidth,
-          borderColor: buttonVariants[variant].borderColor,
-          paddingVertical:
-            variant !== "link" ? buttonSizes[size].paddingVertical : 0,
-          paddingHorizontal:
-            variant !== "link"
-              ? iconOnly
-                ? buttonSizes[size].paddingVertical
-                : buttonSizes[size].paddingHorizontal
-              : 0,
-          ...(props.style as object),
-        }}
+        style={[
+          {
+            borderRadius:
+              variant !== "link" ? buttonSizes[size].borderRadius : 0,
+            borderWidth: buttonVariants[variant].borderWidth,
+            paddingVertical:
+              variant !== "link" ? buttonSizes[size].paddingVertical : 0,
+            paddingHorizontal:
+              variant !== "link"
+                ? iconOnly
+                  ? buttonSizes[size].paddingVertical
+                  : buttonSizes[size].paddingHorizontal
+                : 0,
+          },
+          animatedStyle,
+          props.style as StyleProp<ViewStyle>,
+        ]}
       >
         {isLoading ? (
           <View className={cn(props.className)}>
@@ -182,7 +221,7 @@ export const Button = ({
             {iconPosition === "right" && icon}
           </View>
         )}
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };

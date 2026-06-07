@@ -2,36 +2,41 @@ import { Button } from "@/features/common/ui/button";
 import { tailwind } from "@/lib/tailwind";
 import { Text, View } from "react-native";
 import { Updater } from "use-immer";
+import { Draft } from "immer";
 
-export type SegmentItem = {
-  id: string;
+type Primitive = string | number | boolean;
+
+export type SegmentItem<T extends Primitive = string> = {
+  id: T;
   label: string;
   description?: string;
 };
 
-type Props = {
-  item: SegmentItem;
-} & (Multiple | Single);
+type Props<T extends Primitive> = {
+  item: SegmentItem<T>;
+} & (Multiple<T> | Single<T>);
 
-type Multiple = {
+type Multiple<T extends Primitive> = {
   multiple: true;
-  currentValues: string[];
-  setCurrentValues: Updater<string[]>;
+  currentValues: T[];
+  setCurrentValues: Updater<T[]>;
 };
 
-type Single = {
+type Single<T extends Primitive> = {
   multiple?: false;
-  currentValues: string;
-  setCurrentValues: Updater<string>;
+  currentValues: T;
+  setCurrentValues: Updater<T>;
 };
 
-export const Segment = ({
+export const Segment = <T extends Primitive = string>({
   item,
   currentValues,
   setCurrentValues,
   multiple,
-}: Props) => {
-  const isSelected = currentValues.includes(item.id);
+}: Props<T>) => {
+  const isSelected = multiple
+    ? currentValues.includes(item.id)
+    : currentValues === item.id;
   return (
     <Button
       variant={isSelected ? "selected-segment" : "unselected-segment"}
@@ -39,10 +44,11 @@ export const Segment = ({
       onPress={() => {
         if (multiple) {
           setCurrentValues((draft) => {
-            if (draft.includes(item.id)) {
-              draft.splice(draft.indexOf(item.id), 1);
+            const id = item.id as Draft<T>;
+            if (draft.includes(id)) {
+              draft.splice(draft.indexOf(id), 1);
             } else {
-              draft.push(item.id);
+              draft.push(id);
             }
           });
         } else {
