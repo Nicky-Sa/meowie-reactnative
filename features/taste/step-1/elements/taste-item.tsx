@@ -6,7 +6,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { useMemo, useState, memo } from "react";
-import { Keyword } from "@/features/taste/step-1/genre-data";
+import { Keyword, KeywordId } from "@/features/taste/step-1/genre-data";
 import { Segment } from "@/features/common/ui/segment";
 import { Updater } from "use-immer";
 
@@ -14,8 +14,8 @@ type Props = {
   name: string;
   emoji: string;
   keywords: Keyword[];
-  taste: string[];
-  setTaste: Updater<string[]>;
+  taste: KeywordId[];
+  setTaste: Updater<KeywordId[]>;
 };
 
 export const TasteItem = memo(

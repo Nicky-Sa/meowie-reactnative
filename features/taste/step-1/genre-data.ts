@@ -5,8 +5,10 @@ export type TasteGenre = Genre & {
   keywords: Keyword[];
 };
 
+export type KeywordId = `${string}_${number}`; // GenreName_KeywordTMDBId
+
 export type Keyword = {
-  id: string;
+  id: KeywordId;
   label: string;
 };
 
@@ -18,43 +20,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Action-2343",
+        id: "Action_2343",
         label: "Magic",
       },
       {
-        id: "Action-9715",
+        id: "Action_9715",
         label: "Superhero",
       },
       {
-        id: "Action-10292",
+        id: "Action_10292",
         label: "Gore",
       },
       {
-        id: "Action-188955",
+        id: "Action_188955",
         label: "Hand to hand combat",
       },
       {
-        id: "Action-269233",
+        id: "Action_269233",
         label: "Good versus evil",
       },
       {
-        id: "Action-33637",
+        id: "Action_33637",
         label: "Super power",
       },
       {
-        id: "Action-155030",
+        id: "Action_155030",
         label: "Superhero team",
       },
       {
-        id: "Action-1501",
+        id: "Action_1501",
         label: "Allegory",
       },
       {
-        id: "Action-2095",
+        id: "Action_2095",
         label: "Anti hero",
       },
       {
-        id: "Action-10085",
+        id: "Action_10085",
         label: "Betrayal",
       },
     ],
@@ -66,43 +68,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Adventure-2343",
+        id: "Adventure_2343",
         label: "Magic",
       },
       {
-        id: "Adventure-9715",
+        id: "Adventure_9715",
         label: "Superhero",
       },
       {
-        id: "Adventure-3289",
+        id: "Adventure_3289",
         label: "Villain",
       },
       {
-        id: "Adventure-9882",
+        id: "Adventure_9882",
         label: "Space",
       },
       {
-        id: "Adventure-11477",
+        id: "Adventure_11477",
         label: "Anthropomorphism",
       },
       {
-        id: "Adventure-6054",
+        id: "Adventure_6054",
         label: "Friendship",
       },
       {
-        id: "Adventure-3801",
+        id: "Adventure_3801",
         label: "Space travel",
       },
       {
-        id: "Adventure-155030",
+        id: "Adventure_155030",
         label: "Superhero team",
       },
       {
-        id: "Adventure-33637",
+        id: "Adventure_33637",
         label: "Super power",
       },
       {
-        id: "Adventure-180734",
+        id: "Adventure_180734",
         label: "Masked superhero",
       },
     ],
@@ -114,43 +116,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Fantasy-2343",
+        id: "Fantasy_2343",
         label: "Magic",
       },
       {
-        id: "Fantasy-616",
+        id: "Fantasy_616",
         label: "Witch",
       },
       {
-        id: "Fantasy-269233",
+        id: "Fantasy_269233",
         label: "Good versus evil",
       },
       {
-        id: "Fantasy-177912",
+        id: "Fantasy_177912",
         label: "Wizard",
       },
       {
-        id: "Fantasy-3289",
+        id: "Fantasy_3289",
         label: "Villain",
       },
       {
-        id: "Fantasy-162846",
+        id: "Fantasy_162846",
         label: "Ghost",
       },
       {
-        id: "Fantasy-336530",
+        id: "Fantasy_336530",
         label: "Teen fantasy",
       },
       {
-        id: "Fantasy-170362",
+        id: "Fantasy_170362",
         label: "Fantasy world",
       },
       {
-        id: "Fantasy-14643",
+        id: "Fantasy_14643",
         label: "Battle",
       },
       {
-        id: "Fantasy-6054",
+        id: "Fantasy_6054",
         label: "Friendship",
       },
     ],
@@ -162,43 +164,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "History-1956",
+        id: "History_1956",
         label: "World war ii",
       },
       {
-        id: "History-5565",
+        id: "History_5565",
         label: "Biography",
       },
       {
-        id: "History-192772",
+        id: "History_192772",
         label: "Historical drama",
       },
       {
-        id: "History-12995",
+        id: "History_12995",
         label: "Historical fiction",
       },
       {
-        id: "History-15060",
+        id: "History_15060",
         label: "Period drama",
       },
       {
-        id: "History-207883",
+        id: "History_207883",
         label: "1940s",
       },
       {
-        id: "History-697",
+        id: "History_697",
         label: "Loss of loved one",
       },
       {
-        id: "History-11001",
+        id: "History_11001",
         label: "Religion",
       },
       {
-        id: "History-9725",
+        id: "History_9725",
         label: "Sword fight",
       },
       {
-        id: "History-158718",
+        id: "History_158718",
         label: "LGBT",
       },
     ],
@@ -210,43 +212,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Horror-256183",
+        id: "Horror_256183",
         label: "Supernatural horror",
       },
       {
-        id: "Horror-6152",
+        id: "Horror_6152",
         label: "Supernatural",
       },
       {
-        id: "Horror-295907",
+        id: "Horror_295907",
         label: "Psychological horror",
       },
       {
-        id: "Horror-315058",
+        id: "Horror_315058",
         label: "Horror",
       },
       {
-        id: "Horror-9826",
+        id: "Horror_9826",
         label: "Murder",
       },
       {
-        id: "Horror-1299",
+        id: "Horror_1299",
         label: "Monster",
       },
       {
-        id: "Horror-4720",
+        id: "Horror_4720",
         label: "Ritual",
       },
       {
-        id: "Horror-50009",
+        id: "Horror_50009",
         label: "Survival horror",
       },
       {
-        id: "Horror-10714",
+        id: "Horror_10714",
         label: "Serial killer",
       },
       {
-        id: "Horror-12339",
+        id: "Horror_12339",
         label: "Slasher",
       },
     ],
@@ -258,43 +260,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Music-4344",
+        id: "Music_4344",
         label: "Musical",
       },
       {
-        id: "Music-4048",
+        id: "Music_4048",
         label: "Musician",
       },
       {
-        id: "Music-6029",
+        id: "Music_6029",
         label: "Concert",
       },
       {
-        id: "Music-10229",
+        id: "Music_10229",
         label: "Singer",
       },
       {
-        id: "Music-325761",
+        id: "Music_325761",
         label: "Admiring",
       },
       {
-        id: "Music-5565",
+        id: "Music_5565",
         label: "Biography",
       },
       {
-        id: "Music-246",
+        id: "Music_246",
         label: "Dancing",
       },
       {
-        id: "Music-3490",
+        id: "Music_3490",
         label: "Pop star",
       },
       {
-        id: "Music-242",
+        id: "Music_242",
         label: "New york city",
       },
       {
-        id: "Music-578",
+        id: "Music_578",
         label: "Rock 'n' roll",
       },
     ],
@@ -306,43 +308,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Romance-9673",
+        id: "Romance_9673",
         label: "Love",
       },
       {
-        id: "Romance-158713",
+        id: "Romance_158713",
         label: "Bdsm",
       },
       {
-        id: "Romance-324429",
+        id: "Romance_324429",
         label: "Romantic",
       },
       {
-        id: "Romance-304976",
+        id: "Romance_304976",
         label: "Romantic drama",
       },
       {
-        id: "Romance-1664",
+        id: "Romance_1664",
         label: "Eroticism",
       },
       {
-        id: "Romance-3691",
+        id: "Romance_3691",
         label: "Forbidden love",
       },
       {
-        id: "Romance-10614",
+        id: "Romance_10614",
         label: "Tragedy",
       },
       {
-        id: "Romance-267122",
+        id: "Romance_267122",
         label: "Sex",
       },
       {
-        id: "Romance-697",
+        id: "Romance_697",
         label: "Loss of loved one",
       },
       {
-        id: "Romance-34094",
+        id: "Romance_34094",
         label: "Extramarital affair",
       },
     ],
@@ -354,43 +356,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Science Fiction-9715",
+        id: "Science Fiction_9715",
         label: "Superhero",
       },
       {
-        id: "Science Fiction-4565",
+        id: "Science Fiction_4565",
         label: "Dystopia",
       },
       {
-        id: "Science Fiction-33637",
+        id: "Science Fiction_33637",
         label: "Super power",
       },
       {
-        id: "Science Fiction-3801",
+        id: "Science Fiction_3801",
         label: "Space travel",
       },
       {
-        id: "Science Fiction-9882",
+        id: "Science Fiction_9882",
         label: "Space",
       },
       {
-        id: "Science Fiction-155030",
+        id: "Science Fiction_155030",
         label: "Superhero team",
       },
       {
-        id: "Science Fiction-242",
+        id: "Science Fiction_242",
         label: "New york city",
       },
       {
-        id: "Science Fiction-310",
+        id: "Science Fiction_310",
         label: "Artificial intelligence (a.i.)",
       },
       {
-        id: "Science Fiction-348204",
+        id: "Science Fiction_348204",
         label: "Dystopian",
       },
       {
-        id: "Science Fiction-1308",
+        id: "Science Fiction_1308",
         label: "Secret identity",
       },
     ],
@@ -402,43 +404,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "TV Movie-4344",
+        id: "TV Movie_4344",
         label: "Musical",
       },
       {
-        id: "TV Movie-6270",
+        id: "TV Movie_6270",
         label: "High school",
       },
       {
-        id: "TV Movie-65",
+        id: "TV Movie_65",
         label: "Holiday",
       },
       {
-        id: "TV Movie-2343",
+        id: "TV Movie_2343",
         label: "Magic",
       },
       {
-        id: "TV Movie-3289",
+        id: "TV Movie_3289",
         label: "Villain",
       },
       {
-        id: "TV Movie-10683",
+        id: "TV Movie_10683",
         label: "Coming of age",
       },
       {
-        id: "TV Movie-10244",
+        id: "TV Movie_10244",
         label: "Based on cartoon",
       },
       {
-        id: "TV Movie-931",
+        id: "TV Movie_931",
         label: "Jealousy",
       },
       {
-        id: "TV Movie-703",
+        id: "TV Movie_703",
         label: "Detective",
       },
       {
-        id: "TV Movie-264598",
+        id: "TV Movie_264598",
         label: "Tv special",
       },
     ],
@@ -450,43 +452,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "Thriller-5265",
+        id: "Thriller_5265",
         label: "Espionage",
       },
       {
-        id: "Thriller-10292",
+        id: "Thriller_10292",
         label: "Gore",
       },
       {
-        id: "Thriller-10085",
+        id: "Thriller_10085",
         label: "Betrayal",
       },
       {
-        id: "Thriller-9826",
+        id: "Thriller_9826",
         label: "Murder",
       },
       {
-        id: "Thriller-314730",
+        id: "Thriller_314730",
         label: "Suspenseful",
       },
       {
-        id: "Thriller-10349",
+        id: "Thriller_10349",
         label: "Survival",
       },
       {
-        id: "Thriller-50009",
+        id: "Thriller_50009",
         label: "Survival horror",
       },
       {
-        id: "Thriller-12377",
+        id: "Thriller_12377",
         label: "Zombie",
       },
       {
-        id: "Thriller-207268",
-        label: "Neo-noir",
+        id: "Thriller_207268",
+        label: "Neo_noir",
       },
       {
-        id: "Thriller-6149",
+        id: "Thriller_6149",
         label: "Police",
       },
     ],
@@ -498,43 +500,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "movie",
     keywords: [
       {
-        id: "War-1956",
+        id: "War_1956",
         label: "World war ii",
       },
       {
-        id: "War-207883",
+        id: "War_207883",
         label: "1940s",
       },
       {
-        id: "War-13065",
+        id: "War_13065",
         label: "Soldier",
       },
       {
-        id: "War-5565",
+        id: "War_5565",
         label: "Biography",
       },
       {
-        id: "War-273967",
+        id: "War_273967",
         label: "War",
       },
       {
-        id: "War-2652",
+        id: "War_2652",
         label: "Nazi",
       },
       {
-        id: "War-2957",
+        id: "War_2957",
         label: "Vietnam war",
       },
       {
-        id: "War-6092",
+        id: "War_6092",
         label: "Army",
       },
       {
-        id: "War-162365",
+        id: "War_162365",
         label: "Military",
       },
       {
-        id: "War-1701",
+        id: "War_1701",
         label: "Hero",
       },
     ],
@@ -546,43 +548,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Action & Adventure-33637",
+        id: "Action & Adventure_33637",
         label: "Super power",
       },
       {
-        id: "Action & Adventure-207826",
+        id: "Action & Adventure_207826",
         label: "Shounen",
       },
       {
-        id: "Action & Adventure-322942",
+        id: "Action & Adventure_322942",
         label: "Adventure",
       },
       {
-        id: "Action & Adventure-9715",
+        id: "Action & Adventure_9715",
         label: "Superhero",
       },
       {
-        id: "Action & Adventure-779",
+        id: "Action & Adventure_779",
         label: "Martial arts",
       },
       {
-        id: "Action & Adventure-9951",
+        id: "Action & Adventure_9951",
         label: "Alien",
       },
       {
-        id: "Action & Adventure-2343",
+        id: "Action & Adventure_2343",
         label: "Magic",
       },
       {
-        id: "Action & Adventure-293198",
+        id: "Action & Adventure_293198",
         label: "Fantasy",
       },
       {
-        id: "Action & Adventure-10292",
+        id: "Action & Adventure_10292",
         label: "Gore",
       },
       {
-        id: "Action & Adventure-6152",
+        id: "Action & Adventure_6152",
         label: "Supernatural",
       },
     ],
@@ -594,43 +596,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Kids-6513",
+        id: "Kids_6513",
         label: "Cartoon",
       },
       {
-        id: "Kids-9715",
+        id: "Kids_9715",
         label: "Superhero",
       },
       {
-        id: "Kids-6054",
+        id: "Kids_6054",
         label: "Friendship",
       },
       {
-        id: "Kids-259376",
+        id: "Kids_259376",
         label: "Playful",
       },
       {
-        id: "Kids-178898",
+        id: "Kids_178898",
         label: "Cartoon dog",
       },
       {
-        id: "Kids-2343",
+        id: "Kids_2343",
         label: "Magic",
       },
       {
-        id: "Kids-3289",
+        id: "Kids_3289",
         label: "Villain",
       },
       {
-        id: "Kids-18257",
+        id: "Kids_18257",
         label: "Educational",
       },
       {
-        id: "Kids-164246",
+        id: "Kids_164246",
         label: "Nostalgic",
       },
       {
-        id: "Kids-18035",
+        id: "Kids_18035",
         label: "Family",
       },
     ],
@@ -642,43 +644,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "News-6078",
+        id: "News_6078",
         label: "Politics",
       },
       {
-        id: "News-169086",
+        id: "News_169086",
         label: "Political satire",
       },
       {
-        id: "News-193164",
+        id: "News_193164",
         label: "Current affairs",
       },
       {
-        id: "News-242216",
-        label: "Late-night show",
+        id: "News_242216",
+        label: "Late_night show",
       },
       {
-        id: "News-191509",
+        id: "News_191509",
         label: "News",
       },
       {
-        id: "News-13384",
+        id: "News_13384",
         label: "Morning show",
       },
       {
-        id: "News-3741",
+        id: "News_3741",
         label: "Talk show",
       },
       {
-        id: "News-239647",
+        id: "News_239647",
         label: "Magazine show",
       },
       {
-        id: "News-195207",
+        id: "News_195207",
         label: "Panel show",
       },
       {
-        id: "News-33847",
+        id: "News_33847",
         label: "British politics",
       },
     ],
@@ -690,43 +692,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Reality-194610",
+        id: "Reality_194610",
         label: "Variety show",
       },
       {
-        id: "Reality-271",
+        id: "Reality_271",
         label: "Competition",
       },
       {
-        id: "Reality-250845",
+        id: "Reality_250845",
         label: "Reality competition",
       },
       {
-        id: "Reality-291807",
+        id: "Reality_291807",
         label: "Reality show",
       },
       {
-        id: "Reality-4325",
+        id: "Reality_4325",
         label: "Game show",
       },
       {
-        id: "Reality-15479",
+        id: "Reality_15479",
         label: "Fashion",
       },
       {
-        id: "Reality-167198",
+        id: "Reality_167198",
         label: "Fashion show",
       },
       {
-        id: "Reality-6383",
+        id: "Reality_6383",
         label: "Music competition",
       },
       {
-        id: "Reality-186120",
+        id: "Reality_186120",
         label: "Singing competition",
       },
       {
-        id: "Reality-40870",
+        id: "Reality_40870",
         label: "Race",
       },
     ],
@@ -738,43 +740,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Sci-Fi & Fantasy-6152",
+        id: "Sci-Fi & Fantasy_6152",
         label: "Supernatural",
       },
       {
-        id: "Sci-Fi & Fantasy-33637",
+        id: "Sci-Fi & Fantasy_33637",
         label: "Super power",
       },
       {
-        id: "Sci-Fi & Fantasy-207826",
+        id: "Sci-Fi & Fantasy_207826",
         label: "Shounen",
       },
       {
-        id: "Sci-Fi & Fantasy-322942",
+        id: "Sci-Fi & Fantasy_322942",
         label: "Adventure",
       },
       {
-        id: "Sci-Fi & Fantasy-779",
+        id: "Sci-Fi & Fantasy_779",
         label: "Martial arts",
       },
       {
-        id: "Sci-Fi & Fantasy-293198",
+        id: "Sci-Fi & Fantasy_293198",
         label: "Fantasy",
       },
       {
-        id: "Sci-Fi & Fantasy-2343",
+        id: "Sci-Fi & Fantasy_2343",
         label: "Magic",
       },
       {
-        id: "Sci-Fi & Fantasy-9951",
+        id: "Sci-Fi & Fantasy_9951",
         label: "Alien",
       },
       {
-        id: "Sci-Fi & Fantasy-10292",
+        id: "Sci-Fi & Fantasy_10292",
         label: "Gore",
       },
       {
-        id: "Sci-Fi & Fantasy-315058",
+        id: "Sci-Fi & Fantasy_315058",
         label: "Horror",
       },
     ],
@@ -786,43 +788,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Soap-199262",
+        id: "Soap_199262",
         label: "Telenovela",
       },
       {
-        id: "Soap-291959",
+        id: "Soap_291959",
         label: "Soap opera",
       },
       {
-        id: "Soap-11612",
+        id: "Soap_11612",
         label: "Hospital",
       },
       {
-        id: "Soap-316421",
+        id: "Soap_316421",
         label: "Drama",
       },
       {
-        id: "Soap-13005",
+        id: "Soap_13005",
         label: "Doctor",
       },
       {
-        id: "Soap-208788",
+        id: "Soap_208788",
         label: "Medical drama",
       },
       {
-        id: "Soap-193400",
+        id: "Soap_193400",
         label: "Teen drama",
       },
       {
-        id: "Soap-237462",
+        id: "Soap_237462",
         label: "Wealthy family",
       },
       {
-        id: "Soap-9840",
+        id: "Soap_9840",
         label: "Romance",
       },
       {
-        id: "Soap-11157",
+        id: "Soap_11157",
         label: "Sibling rivalry",
       },
     ],
@@ -834,43 +836,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "Talk-3741",
+        id: "Talk_3741",
         label: "Talk show",
       },
       {
-        id: "Talk-242216",
-        label: "Late-night show",
+        id: "Talk_242216",
+        label: "Late_night show",
       },
       {
-        id: "Talk-6562",
+        id: "Talk_6562",
         label: "Celebrity",
       },
       {
-        id: "Talk-234957",
+        id: "Talk_234957",
         label: "Celebrity interview",
       },
       {
-        id: "Talk-320420",
+        id: "Talk_320420",
         label: "Hilarious",
       },
       {
-        id: "Talk-198299",
+        id: "Talk_198299",
         label: "Live music",
       },
       {
-        id: "Talk-276775",
+        id: "Talk_276775",
         label: "Irreverent",
       },
       {
-        id: "Talk-325830",
+        id: "Talk_325830",
         label: "Informative",
       },
       {
-        id: "Talk-225273",
-        label: "K-pop",
+        id: "Talk_225273",
+        label: "K_pop",
       },
       {
-        id: "Talk-197715",
+        id: "Talk_197715",
         label: "Talk",
       },
     ],
@@ -882,43 +884,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "series",
     keywords: [
       {
-        id: "War & Politics-162365",
+        id: "War & Politics_162365",
         label: "Military",
       },
       {
-        id: "War & Politics-6078",
+        id: "War & Politics_6078",
         label: "Politics",
       },
       {
-        id: "War & Politics-1956",
+        id: "War & Politics_1956",
         label: "World war ii",
       },
       {
-        id: "War & Politics-192772",
+        id: "War & Politics_192772",
         label: "Historical drama",
       },
       {
-        id: "War & Politics-273967",
+        id: "War & Politics_273967",
         label: "War",
       },
       {
-        id: "War & Politics-15126",
+        id: "War & Politics_15126",
         label: "Historical",
       },
       {
-        id: "War & Politics-10046",
+        id: "War & Politics_10046",
         label: "Mecha",
       },
       {
-        id: "War & Politics-321464",
+        id: "War & Politics_321464",
         label: "Intense",
       },
       {
-        id: "War & Politics-13015",
+        id: "War & Politics_13015",
         label: "Terrorism",
       },
       {
-        id: "War & Politics-264792",
+        id: "War & Politics_264792",
         label: "Political",
       },
     ],
@@ -930,43 +932,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Animation-3289",
+        id: "Animation_3289",
         label: "Villain",
       },
       {
-        id: "Animation-207826",
+        id: "Animation_207826",
         label: "Shounen",
       },
       {
-        id: "Animation-6054",
+        id: "Animation_6054",
         label: "Friendship",
       },
       {
-        id: "Animation-779",
+        id: "Animation_779",
         label: "Martial arts",
       },
       {
-        id: "Animation-11477",
+        id: "Animation_11477",
         label: "Anthropomorphism",
       },
       {
-        id: "Animation-293198",
+        id: "Animation_293198",
         label: "Fantasy",
       },
       {
-        id: "Animation-6152",
+        id: "Animation_6152",
         label: "Supernatural",
       },
       {
-        id: "Animation-2343",
+        id: "Animation_2343",
         label: "Magic",
       },
       {
-        id: "Animation-161919",
+        id: "Animation_161919",
         label: "Adult animation",
       },
       {
-        id: "Animation-322942",
+        id: "Animation_322942",
         label: "Adventure",
       },
     ],
@@ -978,43 +980,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Comedy-193171",
+        id: "Comedy_193171",
         label: "Sitcom",
       },
       {
-        id: "Comedy-18035",
+        id: "Comedy_18035",
         label: "Family",
       },
       {
-        id: "Comedy-325765",
+        id: "Comedy_325765",
         label: "Amused",
       },
       {
-        id: "Comedy-320420",
+        id: "Comedy_320420",
         label: "Hilarious",
       },
       {
-        id: "Comedy-6054",
+        id: "Comedy_6054",
         label: "Friendship",
       },
       {
-        id: "Comedy-3289",
+        id: "Comedy_3289",
         label: "Villain",
       },
       {
-        id: "Comedy-325782",
+        id: "Comedy_325782",
         label: "Cheerful",
       },
       {
-        id: "Comedy-380",
+        id: "Comedy_380",
         label: "Sibling relationship",
       },
       {
-        id: "Comedy-11477",
+        id: "Comedy_11477",
         label: "Anthropomorphism",
       },
       {
-        id: "Comedy-242",
+        id: "Comedy_242",
         label: "New york city",
       },
     ],
@@ -1026,43 +1028,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Crime-6149",
+        id: "Crime_6149",
         label: "Police",
       },
       {
-        id: "Crime-703",
+        id: "Crime_703",
         label: "Detective",
       },
       {
-        id: "Crime-9826",
+        id: "Crime_9826",
         label: "Murder",
       },
       {
-        id: "Crime-268067",
+        id: "Crime_268067",
         label: "Police procedural",
       },
       {
-        id: "Crime-242",
+        id: "Crime_242",
         label: "New york city",
       },
       {
-        id: "Crime-9748",
+        id: "Crime_9748",
         label: "Revenge",
       },
       {
-        id: "Crime-12670",
+        id: "Crime_12670",
         label: "Los angeles, california",
       },
       {
-        id: "Crime-10291",
+        id: "Crime_10291",
         label: "Organized crime",
       },
       {
-        id: "Crime-207268",
-        label: "Neo-noir",
+        id: "Crime_207268",
+        label: "Neo_noir",
       },
       {
-        id: "Crime-3149",
+        id: "Crime_3149",
         label: "Gangster",
       },
     ],
@@ -1074,43 +1076,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Documentary-4434",
+        id: "Documentary_4434",
         label: "Interview",
       },
       {
-        id: "Documentary-18330",
+        id: "Documentary_18330",
         label: "Nature",
       },
       {
-        id: "Documentary-33722",
+        id: "Documentary_33722",
         label: "True crime",
       },
       {
-        id: "Documentary-159290",
+        id: "Documentary_159290",
         label: "Sports documentary",
       },
       {
-        id: "Documentary-282080",
+        id: "Documentary_282080",
         label: "Documentary",
       },
       {
-        id: "Documentary-221355",
+        id: "Documentary_221355",
         label: "Nature documentary",
       },
       {
-        id: "Documentary-246377",
+        id: "Documentary_246377",
         label: "Music documentary",
       },
       {
-        id: "Documentary-325761",
+        id: "Documentary_325761",
         label: "Admiring",
       },
       {
-        id: "Documentary-13042",
+        id: "Documentary_13042",
         label: "Football (soccer)",
       },
       {
-        id: "Documentary-155477",
+        id: "Documentary_155477",
         label: "Softcore",
       },
     ],
@@ -1122,43 +1124,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Drama-268067",
+        id: "Drama_268067",
         label: "Police procedural",
       },
       {
-        id: "Drama-189402",
+        id: "Drama_189402",
         label: "Crime investigation",
       },
       {
-        id: "Drama-242",
+        id: "Drama_242",
         label: "New york city",
       },
       {
-        id: "Drama-6149",
+        id: "Drama_6149",
         label: "Police",
       },
       {
-        id: "Drama-157241",
+        id: "Drama_157241",
         label: "Criminal investigation",
       },
       {
-        id: "Drama-703",
+        id: "Drama_703",
         label: "Detective",
       },
       {
-        id: "Drama-311315",
+        id: "Drama_311315",
         label: "Dramatic",
       },
       {
-        id: "Drama-9673",
+        id: "Drama_9673",
         label: "Love",
       },
       {
-        id: "Drama-15060",
+        id: "Drama_15060",
         label: "Period drama",
       },
       {
-        id: "Drama-9715",
+        id: "Drama_9715",
         label: "Superhero",
       },
     ],
@@ -1170,43 +1172,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Family-3289",
+        id: "Family_3289",
         label: "Villain",
       },
       {
-        id: "Family-6054",
+        id: "Family_6054",
         label: "Friendship",
       },
       {
-        id: "Family-193171",
+        id: "Family_193171",
         label: "Sitcom",
       },
       {
-        id: "Family-18035",
+        id: "Family_18035",
         label: "Family",
       },
       {
-        id: "Family-11477",
+        id: "Family_11477",
         label: "Anthropomorphism",
       },
       {
-        id: "Family-10683",
+        id: "Family_10683",
         label: "Coming of age",
       },
       {
-        id: "Family-325782",
+        id: "Family_325782",
         label: "Cheerful",
       },
       {
-        id: "Family-6513",
+        id: "Family_6513",
         label: "Cartoon",
       },
       {
-        id: "Family-2343",
+        id: "Family_2343",
         label: "Magic",
       },
       {
-        id: "Family-18165",
+        id: "Family_18165",
         label: "Animals",
       },
     ],
@@ -1218,43 +1220,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Mystery-703",
+        id: "Mystery_703",
         label: "Detective",
       },
       {
-        id: "Mystery-9826",
+        id: "Mystery_9826",
         label: "Murder",
       },
       {
-        id: "Mystery-6152",
+        id: "Mystery_6152",
         label: "Supernatural",
       },
       {
-        id: "Mystery-6149",
+        id: "Mystery_6149",
         label: "Police",
       },
       {
-        id: "Mystery-5340",
+        id: "Mystery_5340",
         label: "Investigation",
       },
       {
-        id: "Mystery-161982",
+        id: "Mystery_161982",
         label: "Murder investigation",
       },
       {
-        id: "Mystery-315058",
+        id: "Mystery_315058",
         label: "Horror",
       },
       {
-        id: "Mystery-10714",
+        id: "Mystery_10714",
         label: "Serial killer",
       },
       {
-        id: "Mystery-256183",
+        id: "Mystery_256183",
         label: "Supernatural horror",
       },
       {
-        id: "Mystery-207046",
+        id: "Mystery_207046",
         label: "Murder mystery",
       },
     ],
@@ -1266,43 +1268,43 @@ export const TASTE_GENRES: TasteGenre[] = [
     mediaType: "shared",
     keywords: [
       {
-        id: "Western-207928",
+        id: "Western_207928",
         label: "19th century",
       },
       {
-        id: "Western-155573",
+        id: "Western_155573",
         label: "Wild west",
       },
       {
-        id: "Western-2752",
+        id: "Western_2752",
         label: "Ranch",
       },
       {
-        id: "Western-10322",
+        id: "Western_10322",
         label: "Native american",
       },
       {
-        id: "Western-798",
+        id: "Western_798",
         label: "Sheriff",
       },
       {
-        id: "Western-1556",
+        id: "Western_1556",
         label: "Texas",
       },
       {
-        id: "Western-801",
+        id: "Western_801",
         label: "Bounty hunter",
       },
       {
-        id: "Western-75",
+        id: "Western_75",
         label: "Gunslinger",
       },
       {
-        id: "Western-155291",
+        id: "Western_155291",
         label: "Cowboy",
       },
       {
-        id: "Western-9503",
+        id: "Western_9503",
         label: "Outlaw",
       },
     ],

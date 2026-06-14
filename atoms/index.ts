@@ -10,6 +10,7 @@ import {
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
+import { KeywordId } from "@/features/taste/step-1/genre-data";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -50,5 +51,5 @@ export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);
 export const countryCodeAtom = atomPersisted("country-code", "US");
 
 // Taste
-export const tasteKeywordsAtom = atomWithImmer<string[]>([]);
+export const tasteKeywordsAtom = atomWithImmer<KeywordId[]>([]);
 export const tasteFlexibilityAtom = atomWithImmer<string[]>(["0"]);
