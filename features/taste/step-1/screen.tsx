@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import { Skeletons } from "@/features/taste/step-1/elements/skeletons";
 import { useRouter } from "expo-router";
+import { Skip } from "@/features/taste/step-1/elements/skip";
 
 export const Screen = () => {
   const isTransitionFinished = useIsTransitionFinished();
@@ -23,6 +24,7 @@ export const Screen = () => {
       title={"Share your taste"}
       subtitle={"You can change these later."}
       fullWidth
+      rightTopComponent={<Skip />}
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
