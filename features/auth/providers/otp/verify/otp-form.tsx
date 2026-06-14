@@ -10,6 +10,7 @@ import { ResendCode } from "@/features/auth/providers/otp/verify/resend-code";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import Toast from "react-native-toast-message";
+import { useLocalSearchParams } from "expo-router";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -37,7 +38,8 @@ export const OtpForm = ({ email }: Props) => {
     useVerifyOtp();
   const { trigger: triggerRequestOtp, isMutating: isMutatingRequestOtp } =
     useRequestOtp();
-  const { dismissScreen } = useDismissScreen();
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
+  const { dismissScreen } = useDismissScreen({ returnTo });
   const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (formData: OtpFormData) => {

@@ -6,10 +6,12 @@ import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useLocalSearchParams } from "expo-router";
 
 export const GoogleAuth = () => {
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
+  const { dismissScreen } = useDismissScreen({ returnTo });
   const { loginWithGoogle } = useGoogleAuth();
-  const { dismissScreen } = useDismissScreen();
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAnalytics();
 

@@ -1,15 +1,24 @@
 import { useRouter, useNavigation } from "expo-router";
+import { Href } from "expo-router/build/types";
 
-export const useDismissScreen = () => {
+type Args = {
+  returnTo?: string;
+};
+
+export const useDismissScreen = ({ returnTo }: Args = {}) => {
   const router = useRouter();
   const navigation = useNavigation();
 
   const dismissScreen = () => {
-    const parentNavigation = navigation.getParent();
-    if (parentNavigation && parentNavigation.canGoBack()) {
-      parentNavigation.goBack();
+    if (returnTo) {
+      router.push(returnTo as Href);
     } else {
-      router.replace("/home");
+      const parentNavigation = navigation.getParent();
+      if (parentNavigation && parentNavigation.canGoBack()) {
+        parentNavigation.goBack();
+      } else {
+        router.replace("/home");
+      }
     }
   };
 
