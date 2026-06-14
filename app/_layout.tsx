@@ -82,7 +82,12 @@ function RootLayout() {
                                   }}
                                 />
 
-                                <Stack.Screen name="auth" />
+                                <Stack.Screen
+                                  name="auth"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
 
                                 <Stack.Screen
                                   name="filters/index"
@@ -198,7 +203,13 @@ function RootLayout() {
                                   }}
                                 />
 
-                                <Stack.Screen name="taste" />
+                                <Stack.Screen
+                                  name="taste"
+                                  options={{
+                                    animation: "slide_from_right",
+                                    gestureEnabled: false,
+                                  }}
+                                />
 
                                 <Stack.Screen name="+not-found" />
                               </Stack>
