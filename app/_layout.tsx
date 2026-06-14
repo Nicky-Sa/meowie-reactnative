@@ -217,6 +217,7 @@ function RootLayout() {
                                   name="taste/finalizing"
                                   options={{
                                     animation: "slide_from_right",
+                                    gestureEnabled: false,
                                   }}
                                 />
 

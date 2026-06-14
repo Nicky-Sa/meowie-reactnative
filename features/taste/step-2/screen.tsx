@@ -44,7 +44,7 @@ export const Screen = () => {
           variant={"white"}
           size={"lg"}
           onPress={() => {
-            router.push("/taste/finalizing");
+            router.replace("/taste/finalizing");
           }}
         >
           Next
