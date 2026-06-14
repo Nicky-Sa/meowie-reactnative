@@ -2,15 +2,17 @@ import { View } from "react-native";
 import LottieView from "lottie-react-native";
 import { useRouter } from "expo-router";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
+import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import Toast from "react-native-toast-message";
 
 export const Animation = () => {
   const router = useRouter();
+  const { dismissScreen } = useDismissScreen();
   const { data } = useCurrentUser();
 
   const onFinish = () => {
     if (data?.user) {
-      router.replace("/settings");
+      dismissScreen();
       Toast.show({
         type: "success",
         text1: "Your taste is updated. 🎉",
