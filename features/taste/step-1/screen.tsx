@@ -5,17 +5,31 @@ import { ScrollView } from "react-native-gesture-handler";
 import { TASTE_GENRES } from "./genre-data";
 import { TasteItem } from "@/features/taste/step-1/elements/taste-item";
 import { Divider } from "@/features/common/ui/divider";
-import { tasteKeywordsAtom } from "@/atoms";
+import { tasteKeywordsAtom, tasteFlexibilityAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import { Skeletons } from "@/features/taste/step-1/elements/skeletons";
 import { useRouter } from "expo-router";
 import { Skip } from "@/features/taste/step-1/elements/skip";
+import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
+import { useEffect, useRef } from "react";
 
 export const Screen = () => {
   const isTransitionFinished = useIsTransitionFinished();
   const router = useRouter();
   const [taste, setTaste] = useAtom(tasteKeywordsAtom);
+  const [, setFlexibility] = useAtom(tasteFlexibilityAtom);
+  const { data: savedTaste } = useFetchTaste();
+  const hasHydrated = useRef(false);
+
+  // Preload saved taste data from the backend (only once)
+  useEffect(() => {
+    if (savedTaste && !hasHydrated.current) {
+      hasHydrated.current = true;
+      setTaste(savedTaste.keywords);
+      setFlexibility([String(savedTaste.flexibility)]);
+    }
+  }, [savedTaste, setTaste, setFlexibility]);
 
   const selectedCount = taste.length;
 

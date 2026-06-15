@@ -2,6 +2,7 @@ import { VerifyOtpReqDto, AuthResDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/create-session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
+import { useSyncTaste } from "@/features/taste/data/use-sync-taste";
 
 export const useVerifyOtp = () => {
   const url = "/auth/otp/verify";
@@ -11,6 +12,7 @@ export const useVerifyOtp = () => {
     AuthResDto
   >(url);
   const { revalidateAuth } = useRevalidateAuth();
+  const { syncTaste } = useSyncTaste();
 
   const trigger = async (body: VerifyOtpReqDto) => {
     const response = await mutateAsync({ method: "POST", body });
@@ -19,6 +21,9 @@ export const useVerifyOtp = () => {
       refreshToken: response.data.refreshToken,
     });
     await revalidateAuth();
+    // Sync any pending taste data from a guest taste flow (handles error internally)
+    await syncTaste();
+
     return response.data;
   };
   return { trigger, ...rest };

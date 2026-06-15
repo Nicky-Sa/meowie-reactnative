@@ -5,5 +5,6 @@ export type User = {
   email: string;
   isActive: boolean;
   createdAt: string;
+  hasFilledInTaste: boolean;
   saved: Saved[];
 };

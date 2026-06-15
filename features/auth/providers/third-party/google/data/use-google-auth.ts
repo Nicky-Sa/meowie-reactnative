@@ -9,6 +9,7 @@ import { createSession } from "@/features/common/data/utils/create-session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
 import Toast from "react-native-toast-message";
 import { env } from "@/lib/env";
+import { useSyncTaste } from "@/features/taste/data/use-sync-taste";
 import { AuthResDto, ThirdPartyAuthReqDto } from "@/features/auth/dto/auth.dto";
 
 GoogleSignin.configure({
@@ -18,6 +19,7 @@ GoogleSignin.configure({
 
 export const useGoogleAuth = () => {
   const { revalidateAuth } = useRevalidateAuth();
+  const { syncTaste } = useSyncTaste();
 
   const { mutateAsync: mutateGoogle } = useMutationConfigured<
     ThirdPartyAuthReqDto,
@@ -54,6 +56,9 @@ export const useGoogleAuth = () => {
 
       await revalidateAuth();
 
+      // Sync any pending taste data from a guest taste flow (handles error internally)
+      await syncTaste();
+
       return response.data;
     } catch (err: unknown) {
       const error = err as { code?: string };
@@ -77,7 +82,7 @@ export const useGoogleAuth = () => {
       }
       throw error;
     }
-  }, [mutateGoogle, revalidateAuth]);
+  }, [mutateGoogle, revalidateAuth, syncTaste]);
 
   return { loginWithGoogle };
 };
