@@ -52,7 +52,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
-    "expo": "~56.0.9",
+    "expo": "~56.0.12",
     "expo-apple-authentication": "~56.0.4",
     "expo-application": "~56.0.3",
     "expo-asset": "~56.0.15",
