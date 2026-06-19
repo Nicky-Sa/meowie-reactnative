@@ -1,4 +1,4 @@
-import { KeywordId } from "@/features/taste/step-1/genre-data";
+import { KeywordId } from "@/features/taste/data/use-taste-items";
 
 export type UpsertTasteReqDto = {
   keywords: KeywordId[];

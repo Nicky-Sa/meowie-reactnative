@@ -6,7 +6,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { useMemo, useState, memo } from "react";
-import { Keyword, KeywordId } from "@/features/taste/step-1/genre-data";
+import { Keyword, KeywordId } from "@/features/taste/data/use-taste-items";
 import { Segment } from "@/features/common/ui/segment";
 import { Updater } from "use-immer";
 

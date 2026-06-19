@@ -2,7 +2,6 @@ import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { Button } from "@/features/common/ui/button";
 import { Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { TASTE_GENRES } from "./genre-data";
 import { TasteItem } from "@/features/taste/step-1/elements/taste-item";
 import { Divider } from "@/features/common/ui/divider";
 import { tasteKeywordsAtom, tasteFlexibilityAtom } from "@/atoms";
@@ -12,7 +11,9 @@ import { Skeletons } from "@/features/taste/step-1/elements/skeletons";
 import { useRouter } from "expo-router";
 import { Skip } from "@/features/taste/step-1/elements/skip";
 import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
+import { useTasteItems } from "@/features/taste/data/use-taste-items";
 import { useEffect, useRef } from "react";
+import { ErrorState } from "@/features/general/error-state";
 
 export const Screen = () => {
   const isTransitionFinished = useIsTransitionFinished();
@@ -20,6 +21,12 @@ export const Screen = () => {
   const [taste, setTaste] = useAtom(tasteKeywordsAtom);
   const [, setFlexibility] = useAtom(tasteFlexibilityAtom);
   const { data: savedTaste } = useFetchTaste();
+  const {
+    data: tasteItems,
+    isLoading: isTasteItemsLoading,
+    isError: isTasteItemsError,
+    refetch: refetchTasteItems,
+  } = useTasteItems();
   const hasHydrated = useRef(false);
 
   // Preload saved taste data from the backend (only once)
@@ -32,6 +39,7 @@ export const Screen = () => {
   }, [savedTaste, setTaste, setFlexibility]);
 
   const selectedCount = taste.length;
+  const isLoading = !isTransitionFinished || isTasteItemsLoading;
 
   return (
     <InnerScreen
@@ -44,8 +52,15 @@ export const Screen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerClassName={"flex flex-col gap-2"}
       >
-        {isTransitionFinished ? (
-          TASTE_GENRES.map((genre, i) => {
+        {isLoading ? (
+          <Skeletons />
+        ) : isTasteItemsError || !tasteItems ? (
+          <ErrorState
+            error={"We couldn't load the taste options. Please try again."}
+            tryAgain={refetchTasteItems}
+          />
+        ) : (
+          tasteItems.map((genre, i) => {
             return (
               <View key={genre.id} className={"flex flex-col"}>
                 <TasteItem
@@ -55,12 +70,10 @@ export const Screen = () => {
                   taste={taste}
                   setTaste={setTaste}
                 />
-                {i < TASTE_GENRES.length - 1 && <Divider />}
+                {i < tasteItems.length - 1 && <Divider />}
               </View>
             );
           })
-        ) : (
-          <Skeletons />
         )}
       </ScrollView>
 

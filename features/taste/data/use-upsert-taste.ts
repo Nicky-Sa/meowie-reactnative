@@ -3,7 +3,7 @@ import {
   TasteResDto,
   UpsertTasteReqDto,
 } from "@/features/taste/data/dto/upsert-taste.dto";
-import { KeywordId } from "@/features/taste/step-1/genre-data";
+import { KeywordId } from "@/features/taste/data/use-taste-items";
 
 export const useUpsertTaste = () => {
   const { mutateAsync, ...rest } = useMutationConfigured<

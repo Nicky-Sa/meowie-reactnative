@@ -10,7 +10,7 @@ import {
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { KeywordId } from "@/features/taste/step-1/genre-data";
+import { KeywordId } from "@/features/taste/data/use-taste-items";
 
 // Color based on the movie poster
 export const colorAtom = atom(
