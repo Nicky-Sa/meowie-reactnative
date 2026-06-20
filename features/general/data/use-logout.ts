@@ -1,8 +1,6 @@
-import {
-  useInvalidateByPattern,
-  useMutationConfigured,
-} from "@/features/common/data/query/hooks";
+import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { destroySession } from "@/features/common/data/utils/session";
+import { queryClient } from "@/features/common/data/query/client";
 
 type LogoutResDto = {
   successful: boolean;
@@ -16,12 +14,10 @@ export const useLogout = () => {
     LogoutResDto
   >(url);
 
-  const { invalidateByPattern } = useInvalidateByPattern();
-
   const trigger = async () => {
     const response = await mutateAsync({ method: "POST" });
     await destroySession();
-    await invalidateByPattern(); // Invalidate all queries
+    queryClient.clear();
     return response.data;
   };
   return { trigger, ...rest };

@@ -4,6 +4,7 @@ import {
 } from "@/features/settings/delete-user/data/dto/delete-user.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { destroySession } from "@/features/common/data/utils/session";
+import { queryClient } from "@/features/common/data/query/client";
 
 export const useDeleteUser = () => {
   const url = "/user/current";
@@ -16,6 +17,7 @@ export const useDeleteUser = () => {
   const trigger = async (body: DeleteUserReqDto) => {
     const response = await mutateAsync({ method: "DELETE", body });
     await destroySession();
+    queryClient.clear();
     return response.data;
   };
   return { trigger, ...rest };
