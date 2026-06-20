@@ -11,13 +11,14 @@ import { cn, tailwind } from "@/lib/tailwind";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   interpolateColor,
 } from "react-native-reanimated";
+import { useFocusEffect } from "expo-router";
 
 const textInputStates = {
   default: {
@@ -103,14 +104,16 @@ export const TextInput = <T extends FieldValues>({
   const focusProgress = useSharedValue(0);
 
   useEffect(() => {
-    if (autoFocus) {
-      ref.current?.focus();
-    }
-  }, [autoFocus]);
-
-  useEffect(() => {
     focusProgress.value = withTiming(isFocused ? 1 : 0, { duration: 500 });
   }, [focusProgress, isFocused]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (autoFocus) {
+        ref.current?.focus();
+      }
+    }, [autoFocus]),
+  );
 
   const animatedStyle = useAnimatedStyle(() => {
     const borderColor = interpolateColor(

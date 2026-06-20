@@ -1,6 +1,6 @@
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
 import { SearchResultCard } from "@/features/search/elements/card";
-import { View, Platform } from "react-native";
+import { View } from "react-native";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
@@ -45,7 +45,7 @@ export const SearchResultList = ({
         contentContainerClassName={"grow pt-4"}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="always"
-        keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+        keyboardDismissMode="on-drag"
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
           error ? (
