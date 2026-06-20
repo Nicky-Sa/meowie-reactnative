@@ -11,7 +11,7 @@ import { Skeletons } from "@/features/taste/step-1/elements/skeletons";
 import { useRouter } from "expo-router";
 import { Skip } from "@/features/taste/step-1/elements/skip";
 import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
-import { useTasteItems } from "@/features/taste/data/use-taste-items";
+import { useTasteItems } from "@/features/taste/step-1/data/use-taste-items";
 import { useEffect, useRef } from "react";
 import { ErrorState } from "@/features/general/error-state";
 
@@ -34,7 +34,7 @@ export const Screen = () => {
     if (savedTaste && !hasHydrated.current) {
       hasHydrated.current = true;
       setTaste(savedTaste.keywords);
-      setFlexibility([String(savedTaste.flexibility)]);
+      setFlexibility(savedTaste.flexibility);
     }
   }, [savedTaste, setTaste, setFlexibility]);
 

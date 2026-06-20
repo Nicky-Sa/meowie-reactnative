@@ -3,7 +3,7 @@ import {
   TasteResDto,
   UpsertTasteReqDto,
 } from "@/features/taste/data/dto/upsert-taste.dto";
-import { KeywordId } from "@/features/taste/data/use-taste-items";
+import { KeywordId } from "@/features/taste/step-1/data/use-taste-items";
 
 export const useUpsertTaste = () => {
   const { mutateAsync, ...rest } = useMutationConfigured<
@@ -11,7 +11,7 @@ export const useUpsertTaste = () => {
     TasteResDto
   >("/taste");
 
-  const upsertTaste = async (keywords: KeywordId[], flexibility: number) => {
+  const upsertTaste = async (keywords: KeywordId[], flexibility: string) => {
     return mutateAsync({
       method: "PUT",
       body: { keywords, flexibility },

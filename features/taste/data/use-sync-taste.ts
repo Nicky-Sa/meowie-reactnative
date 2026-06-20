@@ -20,9 +20,9 @@ export const useSyncTaste = () => {
 
   const syncTaste = async () => {
     // No pending taste data — nothing to sync
-    if (keywords.length === 0) return;
+    if (keywords.length === 0 || !flexibility) return;
     try {
-      await upsertTaste(keywords, parseInt(flexibility[0]));
+      await upsertTaste(keywords, flexibility);
 
       Toast.show({
         type: "success",
@@ -31,7 +31,7 @@ export const useSyncTaste = () => {
 
       // Clear taste data after successful sync
       setKeywords([]);
-      setFlexibility(["0"]);
+      setFlexibility("");
 
       // Invalidate caches so hasFilledInTaste and saved taste are up to date
       await invalidateByPattern(/\/user\/current/);
