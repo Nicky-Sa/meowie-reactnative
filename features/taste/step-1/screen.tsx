@@ -8,8 +8,8 @@ import { tasteKeywordsAtom, tasteFlexibilityAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import { Skeletons } from "@/features/taste/step-1/elements/skeletons";
-import { useRouter } from "expo-router";
-import { Skip } from "@/features/taste/step-1/elements/skip";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { SkipTaste } from "@/features/taste/step-1/elements/skip-taste";
 import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
 import { useTasteItems } from "@/features/taste/step-1/data/use-taste-items";
 import { useEffect, useRef } from "react";
@@ -18,6 +18,8 @@ import { ErrorState } from "@/features/general/error-state";
 export const Screen = () => {
   const isTransitionFinished = useIsTransitionFinished();
   const router = useRouter();
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const fromOnboarding = from === "onboarding";
   const [taste, setTaste] = useAtom(tasteKeywordsAtom);
   const [, setFlexibility] = useAtom(tasteFlexibilityAtom);
   const { data: savedTaste } = useFetchTaste();
@@ -46,7 +48,7 @@ export const Screen = () => {
       title={"Share your taste"}
       subtitle={"You can change these later."}
       fullWidth
-      rightTopComponent={<Skip />}
+      rightTopComponent={fromOnboarding && <SkipTaste />}
     >
       <ScrollView
         showsVerticalScrollIndicator={false}

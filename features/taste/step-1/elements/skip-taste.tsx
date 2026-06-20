@@ -1,11 +1,11 @@
-import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { Button } from "@/features/common/ui/button";
+import { useRouter } from "expo-router";
 
-export const Skip = () => {
-  const { dismissScreen } = useDismissScreen();
+export const SkipTaste = () => {
+  const router = useRouter();
 
   const onPress = async () => {
-    dismissScreen();
+    router.replace("/(tabs)/home");
   };
 
   return (

@@ -17,7 +17,7 @@ export const Animation = () => {
     } else {
       // Guest → redirect to auth. Taste atoms survive in memory.
       // Will sync after login via auth success hooks.
-      router.replace("/auth?returnTo=/(tabs)/home");
+      router.replace("/auth?from=onboarding&returnTo=/(tabs)/home");
     }
   };
 

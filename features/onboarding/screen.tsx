@@ -19,7 +19,6 @@ import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { Icon } from "@/features/common/ui/icon";
-import { useCurrentUser } from "@/features/general/data/use-current-user";
 
 const items = [
   {
@@ -47,7 +46,6 @@ export const Screen = () => {
   const { width } = useScreenDimensions();
   const ref = useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
-  const { data } = useCurrentUser();
 
   const onPressPagination = useCallback(
     (index: number) => {
@@ -83,11 +81,7 @@ export const Screen = () => {
 
   const onLetsGo = () => {
     appStorage.setItem(APP_STORAGE_KEYS.ONBOARDED, "true");
-    if (data?.user) {
-      router.replace("/home");
-    } else {
-      router.replace("/auth");
-    }
+    router.replace("/taste/step-1?from=onboarding");
   };
 
   return (
