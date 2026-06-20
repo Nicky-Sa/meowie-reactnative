@@ -4,11 +4,13 @@ import { Link } from "@/features/common/ui/link";
 
 type Props = {
   item: SearchResultMovie;
+  onPress?: () => void;
 };
 
-export const MovieCard = ({ item }: Props) => {
+export const MovieCard = ({ item, onPress }: Props) => {
   return (
     <Link
+      onPress={onPress}
       href={{
         pathname: "/movie/[id]/details",
         params: { id: item.id.toString() },

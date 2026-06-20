@@ -8,8 +8,10 @@ type Args = SearchReqQueryDto;
 
 export const useMultiSearchQuery = ({ query }: Args) => {
   const url = `/search/multi?query=${encodeURIComponent(query)}`;
-  const { data: response, ...rest } =
-    useQueryConfigured<MultiSearchResDto>(url);
+  const { data: response, ...rest } = useQueryConfigured<MultiSearchResDto>(
+    url,
+    { enabled: query.length > 0 },
+  );
 
   return {
     data: response?.data,

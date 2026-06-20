@@ -12,6 +12,7 @@ import { Link } from "@/features/common/ui/link";
 
 type Props = {
   item: SearchResultMovieGenre | SearchResultSeriesGenre;
+  onPress?: () => void;
 };
 
 const emojiToImage = (emoji: string) => {
@@ -22,12 +23,13 @@ const emojiToImage = (emoji: string) => {
   return `https://cdn.jsdelivr.net/gh/iamcal/emoji-data@v16.0.0/img-apple-160/${hex}.png`;
 };
 
-export const GenreCard = ({ item }: Props) => {
+export const GenreCard = ({ item, onPress }: Props) => {
   const imageUrl = emojiToImage(item.emoji);
   const mediaType = item.mediaType.split("-")[0] as MediaType;
 
   return (
     <Link
+      onPress={onPress}
       href={{
         pathname: "/discover/posters",
         params: {

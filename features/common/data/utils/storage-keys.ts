@@ -36,4 +36,5 @@ export const PERSISTED_ATOM_KEYS = {
   HOME_TOUR_SEEN: "home-tour-seen",
   SWIPE_GUIDE_SEEN: "swipe-guide-seen",
   COUNTRY_CODE: "country-code",
+  RECENT_SEARCHES: "recent-searches",
 } as const;

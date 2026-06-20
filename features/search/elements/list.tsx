@@ -5,6 +5,8 @@ import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
 import { SearchEmptyState } from "@/features/search/elements/empty-state";
+import { RecentSearches } from "@/features/search/elements/recent-searches";
+import { useRecentSearches } from "@/features/search/data/use-recent-searches";
 import { useCallback } from "react";
 
 type Props = {
@@ -22,18 +24,23 @@ export const SearchResultList = ({
   error,
   refetch,
 }: Props) => {
+  const { add } = useRecentSearches();
+
   const renderItem = useCallback(
     ({ item }: { item: MultiSearchResults }) => (
-      <SearchResultCard item={item} />
+      <SearchResultCard item={item} onPress={() => add(item)} />
     ),
-    [],
+    [add],
   );
+
+  // Empty query → show recent searches instead of results.
+  const listData = debouncedQuery ? data : undefined;
 
   return (
     <View className={"flex flex-1"}>
       <FlashList
-        data={data}
-        keyExtractor={(item) => String(item.id)}
+        data={listData}
+        keyExtractor={(item) => `${item.mediaType}-${item.id}`}
         renderItem={renderItem}
         contentContainerClassName={"grow pt-4"}
         contentInsetAdjustmentBehavior="automatic"
@@ -41,17 +48,19 @@ export const SearchResultList = ({
         keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
-          error || (!isLoading && debouncedQuery) ? (
+          error ? (
             <View className="mt-32">
-              {error ? (
-                <ErrorState tryAgain={refetch} error={error} />
-              ) : (
-                <SearchEmptyState />
-              )}
+              <ErrorState tryAgain={refetch} error={error} />
             </View>
           ) : isLoading ? (
             <SearchResultSkeleton />
-          ) : null
+          ) : !debouncedQuery ? (
+            <RecentSearches />
+          ) : (
+            <View className="mt-32">
+              <SearchEmptyState />
+            </View>
+          )
         }
       />
     </View>
