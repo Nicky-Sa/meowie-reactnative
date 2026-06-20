@@ -10,7 +10,7 @@ type FlexibilityOptionsResDto = {
 };
 
 export const useFlexibilityOptions = () => {
-  const url = "/constants/flexibility-options";
+  const url = "/taste/flexibility-options";
 
   const { data: response, ...rest } =
     useQueryConfigured<FlexibilityOptionsResDto>(url);

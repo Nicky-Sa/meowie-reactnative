@@ -18,7 +18,7 @@ type TasteItemsResDto = {
 };
 
 export const useTasteItems = () => {
-  const url = "/constants/taste-items";
+  const url = "/taste/items";
 
   const { data: response, ...rest } = useQueryConfigured<TasteItemsResDto>(url);
 

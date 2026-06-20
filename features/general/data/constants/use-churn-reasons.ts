@@ -8,7 +8,7 @@ type ChurnReason = {
 type ChurnReasonsResDto = { reasons: ChurnReason[] };
 
 export const useChurnReasons = () => {
-  const url = "/constants/churn-reasons";
+  const url = "/user/churn-reasons";
 
   const { data: response, ...rest } =
     useQueryConfigured<ChurnReasonsResDto>(url);
