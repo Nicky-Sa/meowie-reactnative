@@ -2,12 +2,10 @@ import { View } from "react-native";
 import LottieView from "lottie-react-native";
 import { useRouter } from "expo-router";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
-import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useSyncTaste } from "@/features/taste/data/use-sync-taste";
 
 export const Animation = () => {
   const router = useRouter();
-  const { dismissScreen } = useDismissScreen();
   const { data } = useCurrentUser();
   const { syncTaste } = useSyncTaste();
 
@@ -15,8 +13,7 @@ export const Animation = () => {
     if (data?.user) {
       // User is logged in → sync taste now, then dismiss (handles error internally)
       await syncTaste();
-
-      dismissScreen();
+      router.dismissTo("/settings");
     } else {
       // Guest → redirect to auth. Taste atoms survive in memory.
       // Will sync after login via auth success hooks.

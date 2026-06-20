@@ -2,13 +2,14 @@ import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
-// import { Animation } from "@/features/taste/step-2/elements/animation";
+import { Animation } from "@/features/taste/step-2/elements/animation";
 import { useAtom } from "jotai";
 import { tasteFlexibilityAtom } from "@/atoms";
 import { Segment } from "@/features/common/ui/segment";
 import { useFlexibilityOptions } from "@/features/taste/step-2/data/use-flexibility-options";
-import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { ErrorState } from "@/features/general/error-state";
+import { Skeletons } from "@/features/taste/step-2/elements/skeletons";
+import { mapFlexibilityToAnimationProgress } from "@/features/taste/step-2/elements/functions";
 
 export const Screen = () => {
   const router = useRouter();
@@ -19,6 +20,11 @@ export const Screen = () => {
     isError: isFlexibilityOptionsError,
     refetch: refetchFlexibilityOptions,
   } = useFlexibilityOptions();
+
+  const animationProgress = mapFlexibilityToAnimationProgress(
+    flexibilityOptions ?? [],
+    flexibility,
+  );
 
   return (
     <InnerScreen
@@ -37,13 +43,9 @@ export const Screen = () => {
               if you choose a higher flexibility.
             </Text>
           </View>
-          {/*<Animation progress={parseInt(currentValues[0]) / 100} />*/}
+          <Animation progress={animationProgress} />
           {isFlexibilityOptionsLoading ? (
-            <View className="flex w-full flex-row justify-center gap-2">
-              <SkeletonItem className={"h-12 w-24"} />
-              <SkeletonItem className={"h-12 w-24"} />
-              <SkeletonItem className={"h-12 w-24"} />
-            </View>
+            <Skeletons />
           ) : isFlexibilityOptionsError || !flexibilityOptions ? (
             <ErrorState
               error={"We couldn't load the flexibility options."}
