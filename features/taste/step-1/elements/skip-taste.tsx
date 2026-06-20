@@ -5,7 +5,7 @@ export const SkipTaste = () => {
   const router = useRouter();
 
   const onPress = async () => {
-    router.replace("/(tabs)/home");
+    router.replace("/home");
   };
 
   return (

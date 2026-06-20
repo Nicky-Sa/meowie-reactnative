@@ -24,7 +24,6 @@ export const SECURE_STORE_KEYS = {
 /** Keys in the general-purpose appStorage MMKV store. */
 export const APP_STORAGE_KEYS = {
   ONBOARDED: "onboarded",
-  SKIPPED_AUTH: "skipped-auth",
 } as const;
 
 export type AppStorageKey =

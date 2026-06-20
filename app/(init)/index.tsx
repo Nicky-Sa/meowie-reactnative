@@ -18,7 +18,7 @@ export default function Home() {
   useEffect(() => {
     if (!splashDone) return;
 
-    const checkState = async () => {
+    const checkState = () => {
       const onBoarded = appStorage.getItem(APP_STORAGE_KEYS.ONBOARDED);
 
       if (onBoarded === null) {
@@ -27,24 +27,17 @@ export default function Home() {
       } else {
         // onboarded
         // check if authenticated
-        if (data?.user) {
-          router.replace("/home");
-        } else {
+        if (data && !data.user) {
           // not authenticated
           Emitter.emit("sessionDestroyed");
-          // check skipped-auth
-          const skippedAuth = appStorage.getItem(APP_STORAGE_KEYS.SKIPPED_AUTH);
-          if (skippedAuth === "true") {
-            router.replace("/home");
-          } else {
-            router.replace("/auth");
-          }
         }
+        // if onboarded -> home
+        router.replace("/home");
       }
     };
 
-    void checkState();
-  }, [data?.user, router, splashDone]);
+    checkState();
+  }, [data, router, splashDone]);
 
   const onFinish = useCallback(() => setSplashDone(true), []);
 
