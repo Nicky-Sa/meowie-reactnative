@@ -27,43 +27,45 @@ export const Screen = () => {
   );
 
   return (
-    <InnerScreen
-      title={"How flexible are you?"}
-      subtitle={"Are you open to a little mix & match?"}
-    >
+    <InnerScreen title={"Content flexibility"}>
       <View className="flex-1 flex-col gap-4">
-        <View className={"my-14 flex flex-1 flex-col gap-2"}>
-          <View className={"flex flex-col gap-2"}>
-            <Text
-              className={"title-t3-strong text-center text-neutral-10-default"}
-            >
-              We can recommend a wider range of content
-            </Text>
-            <Text className={"body-b2 text-center text-neutral-5-default"}>
-              if you choose a higher flexibility.
-            </Text>
-          </View>
-          <Animation progress={animationProgress} />
-          {isFlexibilityOptionsLoading ? (
-            <Skeletons />
-          ) : isFlexibilityOptionsError || !flexibilityOptions ? (
-            <ErrorState
-              error={"We couldn't load the flexibility options."}
-              tryAgain={refetchFlexibilityOptions}
-            />
-          ) : (
-            <View className="flex w-full flex-row justify-center gap-2">
-              {flexibilityOptions.map((option) => (
-                <Segment
-                  key={option.id}
-                  item={option}
-                  currentValues={flexibility}
-                  setCurrentValues={setFlexibility}
-                />
-              ))}
+        {isFlexibilityOptionsError || !flexibilityOptions ? (
+          <ErrorState
+            error={"We couldn't load the flexibility options."}
+            tryAgain={refetchFlexibilityOptions}
+          />
+        ) : (
+          <View className={"my-14 flex flex-1 flex-col gap-2"}>
+            <View className={"flex flex-col gap-2"}>
+              <Text
+                className={
+                  "title-t3-strong text-center text-neutral-10-default"
+                }
+              >
+                Are you open to a little mix & match?
+              </Text>
+              <Text className={"body-b2 text-center text-neutral-5-default"}>
+                We&#39;d can recommend a wider range of content depending on
+                your choice.
+              </Text>
             </View>
-          )}
-        </View>
+            <Animation progress={animationProgress} />
+            {isFlexibilityOptionsLoading ? (
+              <Skeletons />
+            ) : (
+              <View className="flex w-full flex-row justify-center gap-2">
+                {flexibilityOptions.map((option) => (
+                  <Segment
+                    key={option.id}
+                    item={option}
+                    currentValues={flexibility}
+                    setCurrentValues={setFlexibility}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
         <Button
           variant={"white"}
           size={"lg"}

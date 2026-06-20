@@ -50,34 +50,36 @@ export const Screen = () => {
       fullWidth
       rightTopComponent={fromOnboarding && <SkipTaste />}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName={"flex flex-col gap-2"}
-      >
-        {isLoading ? (
-          <Skeletons />
-        ) : isTasteItemsError || !tasteItems ? (
-          <ErrorState
-            error={"We couldn't load the taste options. Please try again."}
-            tryAgain={refetchTasteItems}
-          />
-        ) : (
-          tasteItems.map((genre, i) => {
-            return (
-              <View key={genre.id} className={"flex flex-col"}>
-                <TasteItem
-                  name={genre.name}
-                  emoji={genre.emoji}
-                  keywords={genre.keywords}
-                  taste={taste}
-                  setTaste={setTaste}
-                />
-                {i < tasteItems.length - 1 && <Divider />}
-              </View>
-            );
-          })
-        )}
-      </ScrollView>
+      {isTasteItemsError || !tasteItems ? (
+        <ErrorState
+          error={"We couldn't load the taste options. Please try again."}
+          tryAgain={refetchTasteItems}
+        />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName={"flex flex-col gap-2"}
+        >
+          {isLoading ? (
+            <Skeletons />
+          ) : (
+            tasteItems.map((genre, i) => {
+              return (
+                <View key={genre.id} className={"flex flex-col"}>
+                  <TasteItem
+                    name={genre.name}
+                    emoji={genre.emoji}
+                    keywords={genre.keywords}
+                    taste={taste}
+                    setTaste={setTaste}
+                  />
+                  {i < tasteItems.length - 1 && <Divider />}
+                </View>
+              );
+            })
+          )}
+        </ScrollView>
+      )}
 
       {/* Fixed footer */}
       <View className={"flex flex-col justify-center gap-4 px-4 pt-3"}>
