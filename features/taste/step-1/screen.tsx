@@ -88,7 +88,7 @@ export const Screen = () => {
         <Button
           variant={"white"}
           size={"lg"}
-          disabled={selectedCount === 0}
+          disabled={selectedCount === 0 || isLoading}
           onPress={() => {
             router.push("/taste/step-2");
           }}

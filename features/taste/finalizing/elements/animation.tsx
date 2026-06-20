@@ -9,14 +9,20 @@ export const Animation = () => {
   const { data } = useCurrentUser();
   const { syncTaste } = useSyncTaste();
 
+  const onload = async () => {
+    if (data?.user) {
+      // User is logged in → sync taste (handles error internally)
+      await syncTaste();
+    }
+  };
+
   const onFinish = async () => {
     if (data?.user) {
-      // User is logged in → sync taste now, then dismiss (handles error internally)
-      await syncTaste();
+      // User is logged in → once animation is done, dismiss
       router.dismissTo("/settings");
     } else {
-      // Guest → redirect to auth. Taste atoms survive in memory.
-      // Will sync after login via auth success hooks.
+      // from onboarding screen -> redirect to auth
+      // user's chosen taste stays in memory for this session
       router.replace("/auth?from=onboarding&returnTo=/home");
     }
   };
@@ -25,11 +31,12 @@ export const Animation = () => {
     <View className="flex-1">
       <LottieView
         source={{
-          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/taste/success.json?v=1",
+          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/taste/success.json?v=2",
         }}
         resizeMode={"contain"}
         loop={false}
         autoPlay={true}
+        onAnimationLoaded={onload}
         onAnimationFinish={onFinish}
         style={{
           width: "100%",

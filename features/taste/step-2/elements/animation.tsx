@@ -32,7 +32,7 @@ export const Animation = ({ progress }: Props) => {
     <View className="flex-1">
       <AnimatedLottieView
         source={{
-          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/taste/taste-flexibility.json?v=2",
+          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/taste/taste-flexibility.json?v=3",
         }}
         resizeMode={"contain"}
         loop={false}
