@@ -1,18 +1,7 @@
-import { createMMKV } from "react-native-mmkv";
+import { MMKVStore } from "@/features/common/data/utils/mmkv-store";
+import {
+  STORAGE_IDS,
+  AppStorageKey,
+} from "@/features/common/data/utils/storage-keys";
 
-export const storage = createMMKV({
-  id: "app-storage",
-});
-
-export const AppStorage = {
-  getItem: (key: string) => storage.getString(key) ?? null,
-  setItem: (key: string, value: string) => {
-    storage.set(key, value);
-  },
-  removeItem: (key: string) => {
-    storage.remove(key);
-  },
-  contains: (key: string) => {
-    return storage.contains(key);
-  },
-};
+export const appStorage = new MMKVStore<AppStorageKey>(STORAGE_IDS.APP_STORAGE);

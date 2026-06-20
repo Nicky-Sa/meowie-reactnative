@@ -11,6 +11,7 @@ import {
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { KeywordId } from "@/features/taste/step-1/data/use-taste-items";
+import { PERSISTED_ATOM_KEYS } from "@/features/common/data/utils/storage-keys";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -30,7 +31,7 @@ export const tvFiltersAtom = atomWithImmer<SeriesFilters>(
 export const allowYTPlayingAtom = atom(true);
 
 // Autoplay trailer
-export const autoplayAtom = atomPersisted("autoplay", true);
+export const autoplayAtom = atomPersisted(PERSISTED_ATOM_KEYS.AUTOPLAY, true);
 
 // Trailer volume
 export const ytMutedAtom = atom(true);
@@ -39,16 +40,25 @@ export const currentRoleInMediaAtom = atom<string>();
 
 // sort (persisted)
 export const sortAtom = atomPersisted<SortOption>(
-  "sort",
+  PERSISTED_ATOM_KEYS.SORT,
   SortOption.POPULARITY,
 );
 
 // Tour and onboarding
-export const homeTourSeenAtom = atomPersisted("home-tour-seen", false);
-export const swipeGuideSeenAtom = atomPersisted("swipe-guide-seen", false);
+export const homeTourSeenAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.HOME_TOUR_SEEN,
+  false,
+);
+export const swipeGuideSeenAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.SWIPE_GUIDE_SEEN,
+  false,
+);
 
 // Location and Country (persisted)
-export const countryCodeAtom = atomPersisted("country-code", "US");
+export const countryCodeAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.COUNTRY_CODE,
+  "US",
+);
 
 // Taste
 export const tasteKeywordsAtom = atomWithImmer<KeywordId[]>([]);

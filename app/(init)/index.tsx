@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Emitter } from "@/features/common/event-emitting/emitter";
-import { AppStorage } from "@/features/common/data/utils/app-storage";
+import { appStorage } from "@/features/common/data/utils/app-storage";
+import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 import { useLatoFont } from "@/assets/fonts/Lato";
 import { useMaziusFonts } from "@/assets/fonts/MaziusDisplay";
 
@@ -18,7 +19,7 @@ export default function Home() {
     if (!splashDone) return;
 
     const checkState = async () => {
-      const onBoarded = AppStorage.getItem("onboarded");
+      const onBoarded = appStorage.getItem(APP_STORAGE_KEYS.ONBOARDED);
 
       if (onBoarded === null) {
         // not onboarded
@@ -32,7 +33,7 @@ export default function Home() {
           // not authenticated
           Emitter.emit("sessionDestroyed");
           // check skipped-auth
-          const skippedAuth = AppStorage.getItem("skipped-auth");
+          const skippedAuth = appStorage.getItem(APP_STORAGE_KEYS.SKIPPED_AUTH);
           if (skippedAuth === "true") {
             router.replace("/home");
           } else {

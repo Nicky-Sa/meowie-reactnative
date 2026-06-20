@@ -14,7 +14,8 @@ import {
 import { tailwind } from "@/lib/tailwind";
 import { Button } from "@/features/common/ui/button";
 import { NavArrowRight } from "iconoir-react-native";
-import { AppStorage } from "@/features/common/data/utils/app-storage";
+import { appStorage } from "@/features/common/data/utils/app-storage";
+import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { Icon } from "@/features/common/ui/icon";
@@ -81,7 +82,7 @@ export const Screen = () => {
   );
 
   const onLetsGo = () => {
-    AppStorage.setItem("onboarded", "true");
+    appStorage.setItem(APP_STORAGE_KEYS.ONBOARDED, "true");
     if (data?.user) {
       router.replace("/home");
     } else {

@@ -1,6 +1,6 @@
 import { VerifyOtpReqDto, AuthResDto } from "@/features/auth/dto/auth.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
-import { createSession } from "@/features/common/data/utils/create-session";
+import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
 import { useSyncTaste } from "@/features/taste/data/use-sync-taste";
 

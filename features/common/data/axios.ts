@@ -1,8 +1,10 @@
 import axios, { isAxiosError, create as createAxiosInstance } from "axios";
-import { getAccessToken, getRefreshToken } from "./utils/token-storage";
+import { getAccessToken, getRefreshToken } from "./utils/token";
 import { env } from "@/lib/env";
-import { destroySession } from "@/features/common/data/utils/destroy-session";
-import { createSession } from "@/features/common/data/utils/create-session";
+import {
+  destroySession,
+  createSession,
+} from "@/features/common/data/utils/session";
 import { GENERAL_TIMEOUT } from "@/lib/consts";
 import { getDefaultStore } from "jotai";
 import { countryCodeAtom } from "@/atoms";

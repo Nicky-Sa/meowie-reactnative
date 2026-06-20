@@ -3,7 +3,7 @@ import {
   DeleteUserResDto,
 } from "@/features/settings/delete-user/data/dto/delete-user.dto";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
-import { destroySession } from "@/features/common/data/utils/destroy-session";
+import { destroySession } from "@/features/common/data/utils/session";
 
 export const useDeleteUser = () => {
   const url = "/user/current";

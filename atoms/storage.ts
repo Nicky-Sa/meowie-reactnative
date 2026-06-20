@@ -1,20 +1,15 @@
-import { createMMKV } from "react-native-mmkv";
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
 import { atom } from "jotai/vanilla";
 import { produce } from "immer";
 import type { Draft } from "immer";
 import type { WritableAtom } from "jotai/vanilla";
+import { STORAGE_IDS } from "@/features/common/data/utils/storage-keys";
+import { MMKVStore } from "@/features/common/data/utils/mmkv-store";
 
-const storage = createMMKV({ id: "persisted-atoms" });
-
-const mmkvJotaiWrapper = {
-  getItem: (name: string) => storage.getString(name) ?? null,
-  setItem: (name: string, value: string) => storage.set(name, value),
-  removeItem: (name: string) => storage.remove(name),
-};
+const storage = new MMKVStore(STORAGE_IDS.PERSISTED_ATOMS);
 
 const getStorage = <T>() => {
-  return createJSONStorage<T>(() => mmkvJotaiWrapper);
+  return createJSONStorage<T>(() => storage);
 };
 
 export const atomPersisted = <T>(key: string, initialValue: T) => {

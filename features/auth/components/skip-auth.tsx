@@ -1,5 +1,6 @@
 import { Button } from "@/features/common/ui/button";
-import { AppStorage } from "@/features/common/data/utils/app-storage";
+import { appStorage } from "@/features/common/data/utils/app-storage";
+import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 
@@ -9,7 +10,7 @@ export const SkipAuth = () => {
 
   const onPress = async () => {
     auth.trackAuthSkipped();
-    AppStorage.setItem("skipped-auth", "true");
+    appStorage.setItem(APP_STORAGE_KEYS.SKIPPED_AUTH, "true");
     dismissScreen();
   };
 

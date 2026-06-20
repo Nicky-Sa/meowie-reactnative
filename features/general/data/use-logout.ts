@@ -2,7 +2,7 @@ import {
   useInvalidateByPattern,
   useMutationConfigured,
 } from "@/features/common/data/query/hooks";
-import { destroySession } from "@/features/common/data/utils/destroy-session";
+import { destroySession } from "@/features/common/data/utils/session";
 
 type LogoutResDto = {
   successful: boolean;
