@@ -5,6 +5,7 @@ import {
   useQueryClient,
   UseMutationOptions,
   InfiniteData,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
@@ -42,7 +43,7 @@ export const useQueryPaginatedConfigured = <
 >(
   queryKey: unknown[],
   urlResolver: (pageParam: number) => string,
-  config?: { enabled?: boolean },
+  config?: { enabled?: boolean; placeholderData?: typeof keepPreviousData },
 ) => {
   const result = useInfiniteQuery<
     SuccessResponse<Data>,

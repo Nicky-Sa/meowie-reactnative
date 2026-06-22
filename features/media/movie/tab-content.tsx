@@ -1,4 +1,4 @@
-import { useFetchInterestingMoviesIds } from "@/features/media/movie/data/use-fetch-interesting-movies-ids";
+import { useFetchFeed } from "@/features/media/data/use-fetch-feed";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
 import { useAtomValue } from "jotai";
@@ -27,7 +27,9 @@ export const TabContent = ({
     isLoading,
     error,
     refetch,
-  } = useFetchInterestingMoviesIds({ sort });
+    onRefresh,
+    isRefreshing,
+  } = useFetchFeed({ mediaType: "movie" });
 
   return (
     <MediaList
@@ -39,6 +41,8 @@ export const TabContent = ({
       isFetchingNextPage={isFetchingNextPage}
       error={error}
       refetch={refetch}
+      onRefresh={onRefresh}
+      isRefreshing={isRefreshing}
       scrollToTopIfChanges={sort}
       currentIndex={currentIndex}
       scrollY={scrollY}

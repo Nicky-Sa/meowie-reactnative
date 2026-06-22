@@ -1,4 +1,5 @@
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useListRef } from "@/features/common/hooks/list/use-list-ref";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
@@ -23,6 +24,8 @@ type Props = {
   isFetchingNextPage: boolean;
   error: Error | null;
   refetch: () => void;
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
   initialScrollIndex?: number;
   scrollToTopIfChanges?: unknown;
   currentIndex: number;
@@ -45,6 +48,8 @@ export const MediaList = memo(
     isFetchingNextPage,
     error,
     refetch,
+    onRefresh,
+    isRefreshing = false,
     initialScrollIndex,
     scrollToTopIfChanges,
     currentIndex,
@@ -55,6 +60,7 @@ export const MediaList = memo(
   }: Props) => {
     const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
 
+    const insets = useSafeAreaInsets();
     const contentStyle = useMainScreenContentStyle();
     const { onEndReached } = useFetchMore({
       fetchNextPage,
@@ -86,44 +92,63 @@ export const MediaList = memo(
     );
 
     return (
-      <AnimatedFlashList
-        key={
-          initialScrollIndex !== undefined
-            ? isWaitingForInitialData
-              ? "loading"
-              : "ready"
-            : "static"
-        }
-        data={data}
-        ref={listRef}
-        keyExtractor={({ mediaType, id }) => `${mediaType}-${id}`}
-        initialScrollIndex={
-          isWaitingForInitialData ? undefined : initialScrollIndex
-        }
-        renderItem={renderItem}
-        pagingEnabled
-        // Animation Handler
-        onScroll={scrollHandler}
-        // Pagination Handlers
-        onEndReached={onEndReached}
-        onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName={"grow px-4"}
-        ListEmptyComponent={
+      <>
+        <AnimatedFlashList
+          key={
+            initialScrollIndex !== undefined
+              ? isWaitingForInitialData
+                ? "loading"
+                : "ready"
+              : "static"
+          }
+          data={data}
+          ref={listRef}
+          keyExtractor={({ mediaType, id }) => `${mediaType}-${id}`}
+          initialScrollIndex={
+            isWaitingForInitialData ? undefined : initialScrollIndex
+          }
+          renderItem={renderItem}
+          pagingEnabled
+          // Pull-to-refresh gesture, omitted when no handler given.
+          // The native spinner sits behind the absolute header, so the visible
+          // indicator is the overlay below.
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          // Animation Handler
+          onScroll={scrollHandler}
+          // Pagination Handlers
+          onEndReached={onEndReached}
+          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName={"grow px-4"}
+          ListEmptyComponent={
+            <View
+              style={contentStyle}
+              className={"flex items-center justify-center"}
+            >
+              {error ? (
+                <ErrorState tryAgain={refetch} error={error} />
+              ) : isInitialLoad ? (
+                <MediaInfoSkeleton />
+              ) : (
+                ListEmptyComponent
+              )}
+            </View>
+          }
+        />
+
+        {isRefreshing && (
           <View
-            style={contentStyle}
-            className={"flex items-center justify-center"}
+            pointerEvents={"none"}
+            style={{ top: insets.top + 56 }}
+            className={"absolute inset-x-0 z-20 items-center"}
           >
-            {error ? (
-              <ErrorState tryAgain={refetch} error={error} />
-            ) : isInitialLoad ? (
-              <MediaInfoSkeleton />
-            ) : (
-              ListEmptyComponent
-            )}
+            <View className={"rounded-full bg-neutral-15-default/40 p-2"}>
+              <ActivityIndicator size={"small"} />
+            </View>
           </View>
-        }
-      />
+        )}
+      </>
     );
   },
 );
