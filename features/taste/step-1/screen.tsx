@@ -50,34 +50,32 @@ export const Screen = () => {
       fullWidth
       rightTopComponent={fromOnboarding && <SkipTaste />}
     >
-      {isTasteItemsError || !tasteItems ? (
+      {isTasteItemsError || (!isLoading && !tasteItems) ? (
         <ErrorState
           error={"We couldn't load the taste options. Please try again."}
           tryAgain={refetchTasteItems}
         />
+      ) : isLoading || !tasteItems ? (
+        <Skeletons />
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerClassName={"flex flex-col gap-2"}
         >
-          {isLoading ? (
-            <Skeletons />
-          ) : (
-            tasteItems.map((genre, i) => {
-              return (
-                <View key={genre.id} className={"flex flex-col"}>
-                  <TasteItem
-                    name={genre.name}
-                    emoji={genre.emoji}
-                    keywords={genre.keywords}
-                    taste={taste}
-                    setTaste={setTaste}
-                  />
-                  {i < tasteItems.length - 1 && <Divider />}
-                </View>
-              );
-            })
-          )}
+          {tasteItems.map((genre, i) => {
+            return (
+              <View key={genre.id} className={"flex flex-col"}>
+                <TasteItem
+                  name={genre.name}
+                  emoji={genre.emoji}
+                  keywords={genre.keywords}
+                  taste={taste}
+                  setTaste={setTaste}
+                />
+                {i < tasteItems.length - 1 && <Divider />}
+              </View>
+            );
+          })}
         </ScrollView>
       )}
 

@@ -36,6 +36,7 @@ export const useSyncTaste = () => {
       // Invalidate caches so hasFilledInTaste and saved taste are up to date
       await invalidateByPattern(/\/user\/current/);
       await invalidateByPattern(/\/taste/);
+      await invalidateByPattern(/\/feed/);
     } catch (err) {
       console.error(err);
       Toast.show({

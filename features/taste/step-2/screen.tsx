@@ -29,7 +29,8 @@ export const Screen = () => {
   return (
     <InnerScreen title={"Content flexibility"}>
       <View className="flex-1 flex-col gap-4">
-        {isFlexibilityOptionsError || !flexibilityOptions ? (
+        {isFlexibilityOptionsError ||
+        (!isFlexibilityOptionsLoading && !flexibilityOptions) ? (
           <ErrorState
             error={"We couldn't load the flexibility options."}
             tryAgain={refetchFlexibilityOptions}
@@ -50,7 +51,7 @@ export const Screen = () => {
               </Text>
             </View>
             <Animation progress={animationProgress} />
-            {isFlexibilityOptionsLoading ? (
+            {isFlexibilityOptionsLoading || !flexibilityOptions ? (
               <Skeletons />
             ) : (
               <View className="flex w-full flex-row justify-center gap-2">
