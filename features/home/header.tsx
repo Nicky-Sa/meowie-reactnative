@@ -1,5 +1,7 @@
 import { View, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Link } from "@/features/common/ui/link";
+import { useHasUnseenReleaseNote } from "@/features/release-notes/data/use-release-notes-seen";
 import Logo from "@/assets/images/logo/logo.svg";
 import LogoType from "@/assets/images/logo/logo-type.svg";
 import Animated, {
@@ -15,6 +17,7 @@ import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { SortHeaderButton } from "@/features/sort/header-button";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
+import { NotificationBadge } from "@/features/common/ui/notification-badge";
 
 type Props = {
   scrollY: SharedValue<number>;
@@ -30,6 +33,7 @@ export const Header = ({
   setActiveMediaType,
 }: Props) => {
   const insets = useSafeAreaInsets();
+  const hasUnseenReleaseNote = useHasUnseenReleaseNote();
 
   // 0 = Show Toggle, 1 = Show LogoType
   const animationValue = useSharedValue(0);
@@ -74,8 +78,7 @@ export const Header = ({
   // Controls touch events without forcing a layout recalculation 💡
   const switchAnimatedProps = useAnimatedProps(() => ({
     pointerEvents: (animationValue.value > 0.5 ? "none" : "auto") as
-      | "none"
-      | "auto",
+      "none" | "auto",
   }));
 
   const logoTypeStyle = useAnimatedStyle(() => ({
@@ -93,7 +96,14 @@ export const Header = ({
           insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
       }}
     >
-      <Logo />
+      <Link href="/release-notes">
+        <View className="relative">
+          <Logo />
+          {hasUnseenReleaseNote && (
+            <NotificationBadge className={"right-0.5 top-0.5"} />
+          )}
+        </View>
+      </Link>
 
       <View className="relative items-center justify-center">
         {/* Toggle */}

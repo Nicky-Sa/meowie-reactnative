@@ -144,6 +144,13 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
+                                  name="release-notes/index"
+                                  options={{
+                                    animation: "slide_from_right",
+                                  }}
+                                />
+
+                                <Stack.Screen
                                   name="settings/index"
                                   options={{
                                     animation: "slide_from_right",

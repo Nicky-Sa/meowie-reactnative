@@ -60,6 +60,13 @@ export const countryCodeAtom = atomPersisted(
   "US",
 );
 
+// Release notes — ISO createdAt of the newest note the user has opened.
+// Empty means none seen yet, so any note shows the "new" badge.
+export const lastSeenReleaseNoteAtAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.LAST_SEEN_RELEASE_NOTE_AT,
+  "",
+);
+
 // Taste
 export const tasteKeywordsAtom = atomWithImmer<KeywordId[]>([]);
 export const tasteFlexibilityAtom = atomWithImmer<string>("");
