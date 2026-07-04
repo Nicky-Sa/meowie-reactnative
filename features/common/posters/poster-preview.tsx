@@ -8,7 +8,7 @@ import Animated, {
   ZoomOut,
 } from "react-native-reanimated";
 import { tailwind } from "@/lib/tailwind";
-import { capitalize } from "@/lib/functions";
+import { capitalize } from "@/lib/utils/strings";
 import { Badge } from "@/features/common/ui/badge";
 
 type Props = {

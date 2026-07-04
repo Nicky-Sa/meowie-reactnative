@@ -8,7 +8,7 @@ import {
   MEDIA_TYPES_PLURALS,
   MediaType,
 } from "@/features/common/data/models/media-type";
-import { capitalize } from "@/lib/functions";
+import { capitalize } from "@/lib/utils/strings";
 
 type Props = {
   genres: Genre[];

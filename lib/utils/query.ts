@@ -1,19 +1,3 @@
-export const isDarkColor = (hexColor: string): boolean => {
-  // Remove the '#' if it exists
-  const hex = hexColor.replace("#", "");
-
-  // Convert the hex color to RGB features
-  const r = parseInt(hex.substring(0, 2), 16) / 255;
-  const g = parseInt(hex.substring(2, 4), 16) / 255;
-  const b = parseInt(hex.substring(4, 6), 16) / 255;
-
-  // Calculate the relative luminance using the W3C formula
-  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-
-  // Return true if the luminance is less than 0.5 (dark color)
-  return luminance < 0.5;
-};
-
 export const isUrl = (text: string): boolean => {
   try {
     const url = new URL(text);
@@ -39,8 +23,4 @@ export const searchParamsToQuery = (
       return `${key}=${encodeURIComponent(value)}`;
     })
     .join("&");
-};
-
-export const capitalize = (text: string) => {
-  return text.charAt(0).toUpperCase() + text.slice(1);
 };

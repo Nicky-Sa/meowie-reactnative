@@ -3,7 +3,7 @@ import {
   SearchResultSeriesGenre,
 } from "@/features/search/data/models/search-result";
 import { Brief } from "@/features/common/brief";
-import { capitalize } from "@/lib/functions";
+import { capitalize } from "@/lib/utils/strings";
 import {
   MEDIA_TYPES_PLURALS,
   MediaType,
