@@ -13,7 +13,7 @@ import { useAppState } from "@/hooks/use-app-state";
 import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Icon } from "@/features/common/ui/icon";
-import YoutubeLogo from "@/assets/icons/youtube.svg";
+import PlayIcon from "@/assets/icons/play.svg";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -311,7 +311,7 @@ const TrailerPlaceholder = ({
             {isLoading ? (
               <ActivityIndicator size="large" color="white" />
             ) : (
-              <Icon i={YoutubeLogo} width={88} height={88} />
+              <Icon i={PlayIcon} width={64} height={64} />
             )}
           </View>
         )}
