@@ -44,6 +44,8 @@ Path alias: `@/*` → repo root (`tsconfig.json`).
 
 **Feature modules.** `features/<domain>/` holds that domain's screen(s), sub-components, and a `data/` folder (fetch hooks + a `dto/` subdir of hand-written response types). Shared primitives live in `features/common/` (`ui/`, `layout/`, `posters/`, `tab/`, `form/`, `data/`, `event-emitting/`, `hooks/`).
 
+**Screen files are always named `screen.tsx`.** Every routed screen is a `screen.tsx` under its own directory — `features/<domain>/screen.tsx` for the domain's main screen, `features/<domain>/<sub>/screen.tsx` for each additional screen (e.g. `features/settings/delete-user/screen.tsx`, `features/taste/steps/movies/screen.tsx`). It exports `export const Screen`, and the matching `app/` route file is a thin wrapper: `import { Screen } from "@/features/<domain>/.../screen"` re-exported as the route's default component. Never name a screen file after the screen (`pick-movies.tsx`); the directory carries the name, the file is `screen.tsx`.
+
 **Data fetching — hand-written, not Orval.** Despite `orval/orval.config.ts`, the generated client is **unused**: `orval/generated/` is gitignored/empty, `orval/axios-instance.ts` does not exist, and nothing imports `customInstance` or the generated hooks. Don't assume generated hooks exist. The real layer:
 - `features/common/data/axios.ts` — one Axios instance. Request interceptor auto-prefixes `/v1` to versionless URLs, attaches the `Bearer` access token, and adds an `x-user-country` header read from `countryCodeAtom` via `getDefaultStore()`. Response interceptor runs a single-flight 401 → refresh-token flow with a queued-request backlog; a 403 on refresh destroys the session and downgrades to guest, while transient failures keep the tokens.
 - `features/common/data/fetcher.ts` — wraps the instance and unwraps the backend envelope (returns `data`, throws the `errors` string).
@@ -74,3 +76,10 @@ Ignore it for now, it's not complete yet.
 ## Skills
 
 `.agents/skills/` holds Expo task playbooks (building native UI, deployment, EAS update insights, upgrading Expo, native data fetching, dev client). Consult the relevant `SKILL.md` when doing one of those tasks.
+
+
+## Conventions
+
+- **Never use single-letter variable names.** Give every binding a full, readable name
+  that says what it holds — `component` not `c`, `series` not `s`, `movie` not `m`.
+  The only exception is a conventional loop index `i`/`j` in a plain counting `for` loop.

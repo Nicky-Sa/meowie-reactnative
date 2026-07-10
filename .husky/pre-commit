@@ -1,2 +1,2 @@
-tsc
+npm run typecheck
 npm run lint

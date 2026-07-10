@@ -30,7 +30,8 @@
     "prepare": "husky",
     "generate:api": "orval --config orval/orval.config.ts",
     "firebase-emulators": "npx firebase emulators:start",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@expo-google-fonts/lato": "^0.4.1",
@@ -38,7 +39,6 @@
     "@expo/vector-icons": "^15.1.1",
     "@gorhom/bottom-sheet": "^5.2.13",
     "@hookform/resolvers": "^5.2.2",
-    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/netinfo": "12.0.1",
     "@react-native-google-signin/google-signin": "^16.1.2",
@@ -69,6 +69,7 @@
     "expo-navigation-bar": "~57.0.1",
     "expo-router": "~57.0.3",
     "expo-secure-store": "~57.0.0",
+    "expo-sharing": "~57.0.3",
     "expo-splash-screen": "~57.0.2",
     "expo-status-bar": "~57.0.0",
     "expo-symbols": "~57.0.0",
@@ -102,6 +103,7 @@
     "react-native-screens": "4.25.2",
     "react-native-svg": "15.15.4",
     "react-native-toast-message": "^2.3.3",
+    "react-native-view-shot": "5.1.0",
     "react-native-volume-manager": "^2.0.8",
     "react-native-web": "^0.21.2",
     "react-native-webview": "13.16.1",
@@ -176,5 +178,8 @@
         "listUnknownPackages": false
       }
     }
+  },
+  "allowScripts": {
+    "@shopify/react-native-skia@2.6.2": true
   }
 }

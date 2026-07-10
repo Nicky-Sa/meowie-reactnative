@@ -1,5 +1,6 @@
 import { useFetchFeed } from "@/features/media/data/use-fetch-feed";
 import { MediaList } from "@/features/media/components/list/media-list";
+import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
 import { useAtomValue } from "jotai";
 import { sortAtom } from "@/atoms";
@@ -20,7 +21,6 @@ export const TabContent = ({
   const sort = useAtomValue(sortAtom);
   const {
     data,
-    dataLength,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -30,11 +30,13 @@ export const TabContent = ({
     onRefresh,
     isRefreshing,
   } = useFetchFeed({ mediaType: "series" });
+  const { withVibeCard } = useVibeCard();
+  const feedData = withVibeCard(data, "series");
 
   return (
     <MediaList
-      data={data}
-      dataLength={dataLength}
+      data={feedData}
+      dataLength={feedData.length}
       isLoading={isLoading}
       fetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage}

@@ -4,12 +4,10 @@ import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
 import Toast from "react-native-toast-message";
-import { useSyncTaste } from "@/features/taste/data/use-sync-taste";
 import { AuthResDto, ThirdPartyAuthReqDto } from "@/features/auth/dto/auth.dto";
 
 export const useAppleAuth = () => {
   const { revalidateAuth } = useRevalidateAuth();
-  const { syncTaste } = useSyncTaste();
 
   const { mutateAsync: mutateApple } = useMutationConfigured<
     ThirdPartyAuthReqDto,
@@ -45,9 +43,6 @@ export const useAppleAuth = () => {
 
       await revalidateAuth();
 
-      // Sync any pending taste data from a guest taste flow (handles error internally)
-      await syncTaste();
-
       return response.data;
     } catch (err: unknown) {
       const e = err as { code?: string; message?: string };
@@ -68,7 +63,7 @@ export const useAppleAuth = () => {
       }
       throw e;
     }
-  }, [mutateApple, revalidateAuth, syncTaste]);
+  }, [mutateApple, revalidateAuth]);
 
   return { loginWithApple };
 };

@@ -19,7 +19,7 @@ export const Taste = () => {
       setShowLoginModal(true);
       return;
     }
-    router.push("/taste/step-1");
+    router.push("/taste");
   };
 
   return (

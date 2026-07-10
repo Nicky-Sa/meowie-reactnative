@@ -211,22 +211,9 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="taste/step-1"
+                                  name="taste"
                                   options={{
                                     animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="taste/step-2"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="taste/finalizing"
-                                  options={{
-                                    animation: "fade",
-                                    gestureEnabled: false,
                                   }}
                                 />
 

@@ -10,8 +10,11 @@ import {
 } from "@/features/common/data/media-query";
 import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { KeywordId } from "@/features/taste/step-1/data/use-taste-items";
 import { PERSISTED_ATOM_KEYS } from "@/features/common/data/utils/storage-keys";
+import {
+  initialTasteOnboardingState,
+  TasteOnboardingState,
+} from "@/features/taste/state";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -67,6 +70,6 @@ export const lastSeenReleaseNoteAtAtom = atomPersisted(
   "",
 );
 
-// Taste
-export const tasteKeywordsAtom = atomWithImmer<KeywordId[]>([]);
-export const tasteFlexibilityAtom = atomWithImmer<string>("");
+export const tasteOnboardingAtom = atomWithImmer<TasteOnboardingState>(
+  initialTasteOnboardingState(),
+);

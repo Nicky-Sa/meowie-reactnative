@@ -14,7 +14,7 @@ type Args = {
 /**
  * Home feed. Always hits `/feed/<media>`; the backend decides guest vs
  * personalized. `isLoggedIn` is in the query key so the feed refetches when
- * auth changes. Pull-to-refresh bumps `refreshNonce`, restarting at page 1 with
+ * auth changes. Pull-to-refresh bumps `refreshCount`, restarting at page 1 with
  * `refresh=true` so the backend rebuilds a fresh pool.
  *
  * Guests append `audience=guest`. CloudFront's cache key includes query strings
@@ -25,7 +25,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const { data: currentUser } = useCurrentUser();
   const isLoggedIn = !!currentUser?.user;
 
-  const [refreshNonce, setRefreshNonce] = useState(0);
+  const [refreshCount, setRefreshCount] = useState(0);
   const baseUrl = `/feed/${mediaType}`;
 
   const {
@@ -37,9 +37,9 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     isPlaceholderData,
     ...rest
   } = useQueryPaginatedConfigured<PaginatedResponse<number>>(
-    [baseUrl, isLoggedIn, refreshNonce],
+    [baseUrl, isLoggedIn, refreshCount],
     (pageParam: number) => {
-      const refresh = refreshNonce > 0 && pageParam === 0;
+      const refresh = refreshCount > 0 && pageParam === 0;
       const params = [`page=${pageParam + 1}`];
       if (refresh) params.push("refresh=true");
       if (!isLoggedIn) params.push("audience=guest");
@@ -55,7 +55,10 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     (item) => `${item.mediaType}-${item.id}`,
   );
 
-  const onRefresh = useCallback(() => setRefreshNonce((n) => n + 1), []);
+  const onRefresh = useCallback(
+    () => setRefreshCount((count) => count + 1),
+    [],
+  );
   const isRefreshing = isFetching && isPlaceholderData;
 
   return {

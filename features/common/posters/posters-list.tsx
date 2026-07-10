@@ -9,7 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
-import { usePosterWidth } from "@/features/common/posters/use-poster-width";
+import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-width";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
 import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
@@ -40,7 +40,7 @@ export const PostersList = memo(
     ListEmptyComponent,
     contentContainerStyle,
   }: Props) => {
-    const { posterWidth } = usePosterWidth({ numColumns });
+    const { itemWidth } = useGridItemWidth({ numColumns });
 
     const {
       data,
@@ -71,12 +71,12 @@ export const PostersList = memo(
         >
           <Poster
             data={item}
-            width={posterWidth}
+            width={itemWidth}
             onPress={() => onPosterPress(index)}
           />
         </Animated.View>
       ),
-      [onPosterPress, posterWidth],
+      [onPosterPress, itemWidth],
     );
 
     return (
@@ -97,7 +97,7 @@ export const PostersList = memo(
           error ? (
             <ErrorState tryAgain={refetch} error={error} />
           ) : isInitialLoad ? (
-            <PostersSkeletons width={posterWidth} number={numColumns * 4} />
+            <PostersSkeletons width={itemWidth} number={numColumns * 4} />
           ) : (
             ListEmptyComponent
           )

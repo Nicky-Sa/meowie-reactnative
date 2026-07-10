@@ -103,6 +103,8 @@ type Props = PressableProps & {
   iconPosition?: "left" | "right" | "only";
   isLoading?: boolean;
   icon?: ReactNode;
+  // Grow to fill the space the parent gives the button (e.g. Segment fill).
+  fill?: boolean;
 };
 
 export const Button = ({
@@ -112,6 +114,7 @@ export const Button = ({
   isLoading,
   icon,
   iconPosition = "left",
+  fill,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -165,7 +168,7 @@ export const Button = ({
       disabled={props.disabled || isLoading}
     >
       <Animated.View
-        className={cn("overflow-hidden")}
+        className={cn("overflow-hidden", fill && "grow")}
         style={[
           {
             borderRadius:

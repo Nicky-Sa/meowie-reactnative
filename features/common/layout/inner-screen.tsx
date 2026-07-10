@@ -17,8 +17,21 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { cn } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
 import { Edges } from "react-native-safe-area-context/src/SafeArea.types";
+
+/**
+ * The horizontal padding InnerScreen puts around its content.
+ *
+ * Exported for the one case that can't just let InnerScreen handle it: a layout
+ * that nests a navigator inside InnerScreen. iOS's back swipe is a screen-EDGE
+ * gesture, so it only reaches a navigator whose view actually touches x=0 —
+ * which means that navigator must run `fullWidth` and re-apply this padding to
+ * its own screens via `contentStyle`.
+ */
+export const INNER_SCREEN_HORIZONTAL_PADDING = Number(
+  tailwind.theme.padding["4"],
+);
 
 type Props = {
   title?: string;
