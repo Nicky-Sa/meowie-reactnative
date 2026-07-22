@@ -7,6 +7,7 @@ import { Loading } from "@/features/common/ui/loading";
 import { Slider } from "@/features/common/ui/slider";
 import { Segment } from "@/features/common/ui/segment";
 import { StepBody } from "@/features/taste/elements/step-body";
+import { ExploreLevelLottie } from "@/features/taste/elements/explore-level-lottie";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { tasteOnboardingAtom } from "@/atoms";
 
@@ -63,8 +64,9 @@ export const Screen = () => {
 
           <View className={"mt-4 flex flex-col items-center gap-4"}>
             <Text className={"title-t3 text-center text-neutral-10-default"}>
-              How Adventurous?
+              How adventurous?
             </Text>
+            <ExploreLevelLottie level={state.exploreLevel} />
             <Text className={"title-t1 text-neutral-10-default"}>
               {exploreLevels[state.exploreLevel]}
             </Text>
