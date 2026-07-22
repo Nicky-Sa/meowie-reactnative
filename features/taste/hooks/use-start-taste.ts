@@ -49,6 +49,12 @@ const stateFromStored = (
  * Fills the wizard state on the entry step: blank for a first run, the stored
  * profile when the user comes back to edit. The entry screen should hold
  * rendering until `isReady` so a prefill can't overwrite fresh edits.
+ *
+ * A failed taste fetch does NOT fall back to the blank flow — silently
+ * treating "couldn't load" the same as "nothing stored" would let the user
+ * finish the wizard from scratch and overwrite a perfectly good saved
+ * profile. Instead `hasFailedToLoadStoredTaste` tells the entry screen to
+ * show an error with a way to retry.
  */
 export const useStartTaste = () => {
   const setState = useSetAtom(tasteOnboardingAtom);
@@ -59,12 +65,11 @@ export const useStartTaste = () => {
   const storedTaste = tasteQuery.data ?? null;
   const [started, setStarted] = useState(false);
 
-  // A failed taste fetch falls back to the blank flow instead of blocking.
-  const storedSettled = tasteQuery.isFetched || tasteQuery.isError;
+  const hasFailedToLoadStoredTaste = hasStoredTaste && tasteQuery.isError;
   const isReady =
     started ||
     (currentUser !== undefined &&
-      (!hasStoredTaste || storedSettled) &&
+      (!hasStoredTaste || tasteQuery.isSuccess) &&
       (!storedTaste || !!journey));
 
   useEffect(() => {
@@ -77,5 +82,9 @@ export const useStartTaste = () => {
     );
   }, [started, isReady, setState, storedTaste, journey]);
 
-  return { isReady };
+  return {
+    isReady,
+    hasFailedToLoadStoredTaste,
+    retryLoadingStoredTaste: tasteQuery.refetch,
+  };
 };
