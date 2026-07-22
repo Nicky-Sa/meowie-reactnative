@@ -18,6 +18,7 @@ const TRACK_HEIGHT = 8;
 const THUMB_HIT_WIDTH = 40;
 const THUMB_OVERHANG = (THUMB_HIT_WIDTH - THUMB_SIZE) / 2;
 const THUMB_HIT_SLOP = { left: 4, right: 4, top: 12, bottom: 12 };
+const DOT_SIZE = 4;
 
 type Props = {
   currentValues: string[];
@@ -27,6 +28,7 @@ type Props = {
   step?: number;
   labels?: string[];
   debounceDelay?: number;
+  showStepDots?: boolean;
 };
 
 export const Slider = ({
@@ -37,8 +39,9 @@ export const Slider = ({
   step = 1,
   labels,
   debounceDelay = 200,
+  showStepDots = false,
 }: Props) => {
-  const hasLabels = labels !== undefined && labels.length > 0;
+  const hasLabels = labels !== undefined; // empty array is OK and renders no label
   const isRange = currentValues.length > 1;
 
   const [trackWidth, setTrackWidth] = useState(0);
@@ -236,6 +239,22 @@ export const Slider = ({
             trackFillStyle,
           ]}
         />
+        {showStepDots && trackWidth > 0 && (
+          <View className={"absolute h-full w-full"} pointerEvents={"none"}>
+            {Array.from({ length: stepCount + 1 }, (_unused, index) => (
+              <View
+                key={index}
+                className={
+                  "absolute h-1 w-1 rounded-full bg-neutral-15-default"
+                }
+                style={{
+                  top: trackTop + (TRACK_HEIGHT - DOT_SIZE) / 2,
+                  left: THUMB_SIZE / 2 + index * stepLength - DOT_SIZE / 2,
+                }}
+              />
+            ))}
+          </View>
+        )}
         {trackWidth > 0 && (
           <>
             {renderThumb(lowThumbGesture, lowThumbStyle, displayValues[0])}

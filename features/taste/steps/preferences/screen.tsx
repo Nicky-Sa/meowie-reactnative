@@ -10,6 +10,7 @@ import { StepBody } from "@/features/taste/elements/step-body";
 import { ExploreLevelLottie } from "@/features/taste/elements/explore-level-lottie";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { tasteOnboardingAtom } from "@/atoms";
+import { Divider } from "@/features/common/ui/divider";
 
 export const Screen = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ export const Screen = () => {
       </Text>
 
       {journey ? (
-        <>
+        <View className={"flex flex-col gap-8"}>
           <View className={"flex flex-row flex-wrap justify-center gap-2"}>
             {journey.avoidChips.map((label) => (
               <Segment
@@ -62,12 +63,14 @@ export const Screen = () => {
             ))}
           </View>
 
-          <View className={"mt-4 flex flex-col items-center gap-4"}>
+          <Divider />
+
+          <View className={"flex flex-col items-center gap-4"}>
             <Text className={"title-t3 text-center text-neutral-10-default"}>
               How adventurous?
             </Text>
             <ExploreLevelLottie level={state.exploreLevel} />
-            <Text className={"title-t1 text-neutral-10-default"}>
+            <Text className={"title-t2 text-neutral-10-default"}>
               {exploreLevels[state.exploreLevel]}
             </Text>
             <Slider
@@ -76,14 +79,12 @@ export const Screen = () => {
               min={0}
               max={exploreLevels.length - 1}
               step={1}
-              labels={[
-                exploreLevels[0],
-                exploreLevels[exploreLevels.length - 1],
-              ]}
+              labels={[]}
               debounceDelay={0}
+              showStepDots
             />
           </View>
-        </>
+        </View>
       ) : (
         <Loading />
       )}

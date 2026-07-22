@@ -19,7 +19,7 @@ export const TasteProgress = ({ step }: { step: number }) => {
           style={{
             backgroundColor:
               index < step
-                ? tailwind.theme.backgroundColor.brand[1].default
+                ? tailwind.theme.backgroundColor.neutral[8].default
                 : tailwind.theme.backgroundColor.neutral[10].default,
             height: index < step ? 4 : 2,
           }}
