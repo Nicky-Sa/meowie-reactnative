@@ -11,6 +11,19 @@ export type MutationArg<REQ> = {
   body?: REQ;
 };
 
+// Carries the backend HTTP status through, so callers (e.g. the query
+// client's retry logic) can tell a permanent failure from a retryable one —
+// the envelope only exposes a message, not the status, otherwise.
+export class FetcherError extends Error {
+  constructor(
+    message: string,
+    readonly status?: number,
+  ) {
+    super(message);
+    this.name = "FetcherError";
+  }
+}
+
 export async function fetcher<REQ, RES>(
   url: string,
   mutationArgs?: { arg: MutationArg<REQ> },
@@ -43,10 +56,10 @@ export async function fetcher<REQ, RES>(
         const res = error.response.data as ErrorResponse;
 
         // Throw the error in a format the query layer expects
-        throw new Error(res.errors);
+        throw new FetcherError(res.errors, error.response.status);
       }
 
       // Fallback for network errors or other issues
-      throw new Error(error.message || "An unknown error occurred");
+      throw new FetcherError(error.message || "An unknown error occurred");
     });
 }
