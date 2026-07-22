@@ -27,7 +27,7 @@ export const stepHeaderForPath = (pathname: string): StepHeader => {
     case "genres":
       return { title: "Confirm your genres", step: 3 };
     case "preferences":
-      return { title: "Anything to avoid?", step: 5 };
+      return { title: "Other preferences", step: 5 };
     default:
       return { title: "", step: 1 };
   }

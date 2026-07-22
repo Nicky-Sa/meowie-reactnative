@@ -46,7 +46,7 @@ export const Screen = () => {
       }
     >
       <Text className={"body-b1 text-center text-neutral-8-default"}>
-        Optional. Tap what you&apos;d rather not see.
+        Tap what you&apos;d rather not see. (optional)
       </Text>
 
       {journey ? (

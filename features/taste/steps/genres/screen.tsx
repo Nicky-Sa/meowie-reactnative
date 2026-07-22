@@ -93,7 +93,7 @@ export const Screen = () => {
       }
     >
       <Text className={"body-b1 text-center text-neutral-8-default"}>
-        We picked these from your titles, and you can tweak them.
+        Picked these from your titles, you can tweak them.
       </Text>
       {journey ? (
         <View className={"flex flex-row flex-wrap"} style={{ gap: GAP }}>

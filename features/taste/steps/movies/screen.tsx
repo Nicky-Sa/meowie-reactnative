@@ -68,9 +68,6 @@ export const Screen = () => {
         </>
       }
     >
-      <Text className={"body-b1 text-center text-neutral-8-default"}>
-        4 is enough, but the more you pick, the sharper we get.
-      </Text>
       {journey && isReady ? (
         <PosterGrid
           items={journey.movies}

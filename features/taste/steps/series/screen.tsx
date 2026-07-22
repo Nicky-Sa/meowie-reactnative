@@ -56,9 +56,6 @@ export const Screen = () => {
         </>
       }
     >
-      <Text className={"body-b1 text-center text-neutral-8-default"}>
-        Optional. Series taste is tracked separately from movies.
-      </Text>
       {journey ? (
         <PosterGrid
           items={journey.series}
