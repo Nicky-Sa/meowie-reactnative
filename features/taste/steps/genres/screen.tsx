@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { useAtom } from "jotai";
@@ -11,7 +11,7 @@ import { StepBody } from "@/features/taste/elements/step-body";
 import { useGenres } from "@/features/general/data/constants/use-genres";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { tasteOnboardingAtom } from "@/atoms";
-import { genreAutoselect } from "@/features/taste/logic/genres";
+import { genresFromPicks } from "@/features/taste/logic/genres";
 import { tailwind } from "@/lib/tailwind";
 
 const COLUMNS = 2;
@@ -28,45 +28,38 @@ export const Screen = () => {
     gap: GAP,
     horizontalPadding: HORIZONTAL_PADDING,
   });
-  const seeded = useRef(false);
 
-  const autoSelected = useMemo(
+  const lockedGenres = useMemo(
     () =>
       journey
-        ? genreAutoselect(
-            journey,
-            state.moviesSelected,
-            state.seriesSelected,
-          ).map((info) => info.label)
+        ? genresFromPicks(journey, state.moviesSelected, state.seriesSelected)
         : [],
     [journey, state.moviesSelected, state.seriesSelected],
   );
 
-  // Seed genres from auto-select once the journey data is here, unless the
-  // user has already edited them.
+  // The picked titles decide these, so they go back in even if the user
+  // changes their titles after passing through this step.
   useEffect(() => {
-    if (!journey || seeded.current) return;
-    seeded.current = true;
-    if (!state.genresTouched) {
-      setState((draft) => {
-        draft.genresConfirmed = autoSelected;
-      });
-    }
-  }, [journey, autoSelected, setState, state.genresTouched]);
+    setState((draft) => {
+      for (const genre of lockedGenres) {
+        if (!draft.genresConfirmed.includes(genre)) {
+          draft.genresConfirmed.push(genre);
+        }
+      }
+    });
+  }, [lockedGenres, setState]);
 
   const setGenres: Updater<number[]> = (updater) => {
     setState((draft) => {
       if (typeof updater === "function") updater(draft.genresConfirmed);
       else draft.genresConfirmed = updater;
-      draft.genresTouched = true;
     });
   };
 
-  const items: SegmentItem<number>[] = (journey?.genreChips ?? []).map(
-    (chip) => ({
-      id: chip.id,
-      label: `${genreEmoji(chip.id)} ${genreName(chip.id)}`,
-      description: chip.example,
+  const items: SegmentItem<number>[] = (journey?.genreIds ?? []).map(
+    (genreId) => ({
+      id: genreId,
+      label: `${genreEmoji(genreId)} ${genreName(genreId)}`,
     }),
   );
 
@@ -93,7 +86,7 @@ export const Screen = () => {
       }
     >
       <Text className={"body-b1 text-center text-neutral-8-default"}>
-        Picked these from your titles, you can tweak them.
+        These come from the titles you picked. Add any others you like.
       </Text>
       {journey ? (
         <View className={"flex flex-row flex-wrap"} style={{ gap: GAP }}>
@@ -103,6 +96,7 @@ export const Screen = () => {
                 item={item}
                 currentValues={state.genresConfirmed}
                 setCurrentValues={setGenres}
+                locked={lockedGenres.includes(item.id)}
                 multiple
               />
             </View>

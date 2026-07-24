@@ -17,9 +17,6 @@ export type TasteOnboardingState = {
   seriesSelected: number[];
   seriesSkipped: boolean;
   genresConfirmed: GenreId[];
-  // True once the user manually toggles a genre chip, so returning to step 3
-  // preserves their edits instead of re-running auto-select.
-  genresTouched: boolean;
   taste: TasteAnswers;
   avoid: string[];
   exploreLevel: number;
@@ -37,7 +34,6 @@ export const initialTasteOnboardingState = (): TasteOnboardingState => ({
   seriesSelected: [],
   seriesSkipped: false,
   genresConfirmed: [],
-  genresTouched: false,
   taste: {},
   avoid: [],
   exploreLevel: DEFAULT_EXPLORE_LEVEL,

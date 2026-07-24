@@ -7,14 +7,8 @@ export type Title = {
   title: string;
   year: number;
   genreIds: GenreId[];
-  hiddenGem: boolean;
   tmdbId: number;
   poster: string | null;
-};
-
-export type GenreChip = {
-  id: GenreId;
-  example: string;
 };
 
 // Answer values for the four taste questions, mirroring the backend's
@@ -76,10 +70,8 @@ export type TasteQuestion = {
 export type JourneyResDto = {
   movies: Title[];
   series: Title[];
-  genreChips: GenreChip[];
+  genreIds: GenreId[];
   questions: TasteQuestion[];
   avoidChips: string[];
   exploreLevels: string[];
-  rarityWeights: Record<GenreId, number>;
-  autoSelectThreshold: number;
 };

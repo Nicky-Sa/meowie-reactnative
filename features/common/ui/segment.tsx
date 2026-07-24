@@ -1,9 +1,13 @@
+import { Lock } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
-import { cn } from "@/lib/tailwind";
+import { Icon } from "@/features/common/ui/icon";
+import { cn, tailwind } from "@/lib/tailwind";
 import { Text, View } from "react-native";
 import { Updater } from "use-immer";
 import { Draft } from "immer";
 import { ReactNode, useCallback } from "react";
+
+const LOCK_ICON_SIZE = 20;
 
 type Primitive = string | number | boolean;
 
@@ -19,6 +23,8 @@ type Props<T extends Primitive> = {
   centered?: boolean;
   // Grow to take a share of the parent column's free space (tall cards).
   fill?: boolean;
+  // Always shown as selected and ignores taps.
+  locked?: boolean;
   className?: string;
 } & (Multiple<T> | Single<T>);
 
@@ -41,13 +47,15 @@ export const Segment = <T extends Primitive = string>({
   multiple,
   centered,
   fill,
+  locked,
   className,
 }: Props<T>) => {
-  const isSelected = multiple
-    ? currentValues.includes(item.id)
-    : currentValues === item.id;
+  const isSelected =
+    locked ||
+    (multiple ? currentValues.includes(item.id) : currentValues === item.id);
 
   const onPress = useCallback(() => {
+    if (locked) return;
     if (multiple) {
       setCurrentValues((draft) => {
         const id = item.id as Draft<T>;
@@ -60,7 +68,7 @@ export const Segment = <T extends Primitive = string>({
     } else {
       setCurrentValues(item.id);
     }
-  }, [multiple, setCurrentValues, item.id]);
+  }, [locked, multiple, setCurrentValues, item.id]);
 
   return (
     <Button
@@ -77,9 +85,21 @@ export const Segment = <T extends Primitive = string>({
         )}
       >
         {item.icon}
-        <Text className={cn("body-b1-strong text-neutral-10-default")}>
-          {item.label}
-        </Text>
+        <View className={"flex w-full flex-row items-center justify-between"}>
+          <View className={"flex flex-row items-center gap-1"}>
+            <Text className={cn("body-b1-strong text-neutral-10-default")}>
+              {item.label}
+            </Text>
+          </View>
+          {locked && (
+            <Icon
+              i={Lock}
+              width={LOCK_ICON_SIZE}
+              height={LOCK_ICON_SIZE}
+              color={tailwind.theme.textColor.neutral[6].default}
+            />
+          )}
+        </View>
         {item.description && (
           <Text className={"body-b2 text-neutral-6-default"}>
             {item.description}

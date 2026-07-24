@@ -30,8 +30,6 @@ const stateFromStored = (
   state.seriesSelected = [...stored.seriesIds];
   state.seriesSkipped = stored.seriesSkipped;
   state.genresConfirmed = [...stored.genreIds];
-  // Stored genres are the user's confirmed picks — don't re-run auto-select.
-  state.genresTouched = true;
   state.taste = {
     era: stored.era,
     reality: stored.reality,

@@ -4,7 +4,6 @@ import * as Haptics from "expo-haptics";
 import { tailwind } from "@/lib/tailwind";
 import { PosterCard } from "@/features/common/posters/poster-card";
 import { Title } from "@/features/taste/data/dto/journey.dto";
-import { useGenres } from "@/features/general/data/constants/use-genres";
 
 type Props = {
   item: Title;
@@ -14,9 +13,6 @@ type Props = {
 };
 
 export const PosterTile = memo(({ item, width, selected, onToggle }: Props) => {
-  const { genreEmoji, genreName } = useGenres();
-  const genre = item.genreIds[0];
-
   return (
     <Pressable
       onPress={() => {
@@ -39,7 +35,6 @@ export const PosterTile = memo(({ item, width, selected, onToggle }: Props) => {
         }
         showDetails
         title={item.title}
-        genreBadge={`${genreEmoji(genre)} ${genreName(genre)}`}
       />
     </Pressable>
   );
