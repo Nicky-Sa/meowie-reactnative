@@ -52,10 +52,10 @@ export const Screen = () => {
       {journey ? (
         <View className={"flex flex-col gap-8"}>
           <View className={"flex flex-row flex-wrap justify-center gap-2"}>
-            {journey.avoidChips.map((label) => (
+            {journey.avoidChips.map((chip) => (
               <Segment
-                key={label}
-                item={{ id: label, label }}
+                key={chip.id}
+                item={chip}
                 currentValues={state.avoid}
                 setCurrentValues={setAvoid}
                 multiple

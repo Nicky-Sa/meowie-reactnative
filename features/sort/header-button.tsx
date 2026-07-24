@@ -8,13 +8,14 @@ import {
 } from "@/features/common/ui/bottom-sheet";
 import { useCallback, useRef } from "react";
 import { Segment } from "@/features/common/ui/segment";
+import { Option } from "@/features/common/option";
 import { useImmer } from "use-immer";
 import { SortOption } from "@/features/common/data/media-query";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useAtom } from "jotai";
 import { sortAtom } from "@/atoms";
 
-const sortOptions: { id: SortOption; label: string; description: string }[] = [
+const sortOptions: Option<SortOption>[] = [
   {
     id: SortOption.POPULARITY,
     label: "Popularity",

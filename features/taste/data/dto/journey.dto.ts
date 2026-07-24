@@ -1,3 +1,5 @@
+import { Option } from "@/features/common/option";
+
 // Wire types for GET /taste/journey — the one-shot bootstrap payload the
 // wizard steps render from. Mirrors the backend's taste constants.
 
@@ -50,11 +52,9 @@ export type CommitmentAnswer = (typeof COMMITMENT)[keyof typeof COMMITMENT];
 export type AnswerValue =
   EraAnswer | RealityAnswer | AuthorityAnswer | CommitmentAnswer;
 
-export type TasteOption = {
-  label: string;
-  description?: string;
-  value: AnswerValue;
-};
+export type TasteOption = Option<AnswerValue>;
+
+export type AvoidChip = Option;
 
 export type TasteAxis = "era" | "reality" | "tasteAuthority" | "commitment";
 
@@ -72,6 +72,6 @@ export type JourneyResDto = {
   series: Title[];
   genreIds: GenreId[];
   questions: TasteQuestion[];
-  avoidChips: string[];
+  avoidChips: AvoidChip[];
   exploreLevels: string[];
 };

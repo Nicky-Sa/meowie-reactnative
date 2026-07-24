@@ -1,6 +1,7 @@
 import { Lock } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
+import { Option } from "@/features/common/option";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Text, View } from "react-native";
 import { Updater } from "use-immer";
@@ -11,10 +12,7 @@ const LOCK_ICON_SIZE = 20;
 
 type Primitive = string | number | boolean;
 
-export type SegmentItem<T extends Primitive = string> = {
-  id: T;
-  label: string;
-  description?: string;
+export type SegmentItem<T extends Primitive = string> = Option<T> & {
   icon?: ReactNode;
 };
 

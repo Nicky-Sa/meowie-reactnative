@@ -1,9 +1,7 @@
 import { useQueryConfigured } from "@/features/common/data/query/hooks";
+import { Option } from "@/features/common/option";
 
-type ChurnReason = {
-  id: string;
-  label: string;
-};
+type ChurnReason = Option;
 
 type ChurnReasonsResDto = { reasons: ChurnReason[] };
 

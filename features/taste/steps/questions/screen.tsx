@@ -39,11 +39,9 @@ export const Screen = () => {
   };
 
   const sideItem = (option: TasteOption): SegmentItem => {
-    const SideIllustration = QUESTION_ILLUSTRATIONS[option.value];
+    const SideIllustration = QUESTION_ILLUSTRATIONS[option.id];
     return {
-      id: option.value,
-      label: option.label,
-      description: option.description,
+      ...option,
       icon: SideIllustration ? <SideIllustration /> : undefined,
     };
   };
