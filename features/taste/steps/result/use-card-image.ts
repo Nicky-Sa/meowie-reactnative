@@ -1,9 +1,7 @@
 import { useRef, useState } from "react";
 import { Platform, Share } from "react-native";
 import * as Sharing from "expo-sharing";
-import { Asset, requestPermissionsAsync } from "expo-media-library";
 import { File, Paths } from "expo-file-system";
-import Toast from "react-native-toast-message";
 import { Personality } from "@/features/taste/data/dto/taste.dto";
 
 const CARD_FILE_NAME = "meowie-taste-card.png";
@@ -16,7 +14,6 @@ const CARD_FILE_NAME = "meowie-taste-card.png";
 export const useCardImage = (personality: Personality) => {
   const downloaded = useRef<File>(null);
   const [isSharing, setIsSharing] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
 
   const cardFile = async (): Promise<File> => {
     if (downloaded.current?.exists) {
@@ -64,29 +61,5 @@ export const useCardImage = (personality: Personality) => {
     }
   };
 
-  const saveToPhotos = async () => {
-    setIsSaving(true);
-
-    try {
-      const permission = await requestPermissionsAsync(true);
-      if (!permission.granted) {
-        Toast.show({
-          type: "info",
-          text1: "Meowie needs access to your photos to save the card.",
-        });
-        return;
-      }
-
-      const file = await cardFile();
-      await Asset.create(file.uri);
-
-      Toast.show({ type: "success", text1: "Saved to your photos." });
-    } catch {
-      Toast.show({ type: "error", text1: "We couldn't save the card." });
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  return { share, saveToPhotos, isSharing, isSaving };
+  return { share, isSharing };
 };

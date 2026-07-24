@@ -83,27 +83,25 @@ export const Segment = <T extends Primitive = string>({
         )}
       >
         {item.icon}
-        <View className={"flex w-full flex-row items-center justify-between"}>
-          <View className={"flex flex-row items-center gap-1"}>
-            <Text className={cn("body-b1-strong text-neutral-10-default")}>
-              {item.label}
-            </Text>
-          </View>
-          {locked && (
-            <Icon
-              i={Lock}
-              width={LOCK_ICON_SIZE}
-              height={LOCK_ICON_SIZE}
-              color={tailwind.theme.textColor.neutral[6].default}
-            />
-          )}
-        </View>
+        <Text className={"body-b1-strong text-neutral-10-default"}>
+          {item.label}
+        </Text>
         {item.description && (
           <Text className={"body-b2 text-neutral-6-default"}>
             {item.description}
           </Text>
         )}
       </View>
+      {locked && (
+        <View className={"absolute right-0 top-0"}>
+          <Icon
+            i={Lock}
+            width={LOCK_ICON_SIZE}
+            height={LOCK_ICON_SIZE}
+            color={tailwind.theme.textColor.neutral[6].default}
+          />
+        </View>
+      )}
     </Button>
   );
 };
