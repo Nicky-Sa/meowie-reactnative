@@ -164,14 +164,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
       />
 
       <View className={"flex w-full flex-row gap-2"}>
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaPoster,
-            shape: "rectangle",
-            borderRadius: 12,
-          }}
-        >
+        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaPoster}>
           <EnlargeableImage
             source={data.posterPath}
             blurhash={data.posterProps.blurhash}
@@ -190,14 +183,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
             </Text>
           </Link>
 
-          <Tourable
-            tourEnabled={tourEnabled}
-            tour={{
-              step: TourStep.MediaGenres,
-              shape: "rectangle",
-              borderRadius: 14,
-            }}
-          >
+          <Tourable tourEnabled={tourEnabled} step={TourStep.MediaGenres} fill>
             <ScrollableGenres
               genres={data.genres}
               mediaType={"movie"}
@@ -213,14 +199,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         className={"-mx-4 grow-0 px-4"}
         contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
       >
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaDirector,
-            shape: "rectangle",
-            borderRadius: 14,
-          }}
-        >
+        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaDirector}>
           <Credit {...data.credits.director} />
         </Tourable>
 

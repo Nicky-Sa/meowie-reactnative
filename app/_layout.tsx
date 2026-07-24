@@ -15,16 +15,20 @@ import { useThemeConfig } from "@/hooks/use-theme-config";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
 import { posthogStorage } from "@/features/general/posthog/storage";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";
-import { TourGuideProvider } from "rn-tourguide";
-import { TourTooltip } from "@/features/common/ui/tour/tooltip";
+import { SpotlightTourProvider } from "react-native-spotlight-tour";
+import { homeTourSteps } from "@/features/common/ui/tour/steps";
+import { useSetAtom } from "jotai";
+import { homeTourSeenAtom } from "@/atoms";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
 import { env } from "@/lib/env";
 import { UpdatesListener } from "@/features/general/updates-listener";
+import { tailwind } from "@/lib/tailwind";
 
 function RootLayout() {
   const themeConfig = useThemeConfig();
+  const setHomeTourSeen = useSetAtom(homeTourSeenAtom);
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
@@ -63,11 +67,26 @@ function RootLayout() {
                       <GestureHandlerRootView>
                         <BottomSheetModalProvider>
                           <InternetCheck>
-                            <TourGuideProvider
-                              animationDuration={250}
-                              tooltipComponent={TourTooltip}
-                              backdropColor={"#595BEFAA"}
-                              preventOutsideInteraction
+                            <SpotlightTourProvider
+                              steps={homeTourSteps}
+                              overlayColor={
+                                tailwind.theme.backgroundColor.brand["1"]
+                                  .default
+                              }
+                              overlayOpacity={0.7}
+                              motion={"slide"}
+                              shape={{ type: "rectangle", padding: 8 }}
+                              onBackdropPress={"continue"}
+                              onStop={() => setHomeTourSeen(true)}
+                              // Match the tooltip background (bg-neutral-15-default)
+                              // so the arrow reads as part of the tooltip.
+                              arrow={{
+                                color:
+                                  tailwind.theme.backgroundColor.neutral[15]
+                                    .default,
+                                size: 12,
+                                corner: 3,
+                              }}
                             >
                               <Stack
                                 screenOptions={{
@@ -226,7 +245,7 @@ function RootLayout() {
                                 visibilityTime={4000}
                               />
                               <PortalHost name="global-overlay" />
-                            </TourGuideProvider>
+                            </SpotlightTourProvider>
                           </InternetCheck>
                         </BottomSheetModalProvider>
                       </GestureHandlerRootView>

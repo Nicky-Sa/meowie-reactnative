@@ -1,47 +1,44 @@
 import { View, Text } from "react-native";
-import { TooltipProps } from "rn-tourguide";
+import { RenderProps } from "react-native-spotlight-tour";
 import { Button } from "@/features/common/ui/button";
 import { NavArrowLeft } from "iconoir-react-native";
 import { Icon } from "@/features/common/ui/icon";
-import { TourStep } from "./steps";
 
-const TOTAL_STEPS = Object.values(TourStep).filter(
-  (v) => typeof v === "number",
-).length;
+type Props = RenderProps & { text: string; total: number };
 
 export const TourTooltip = ({
-  isFirstStep,
-  isLastStep,
-  handleNext,
-  handlePrev,
-  handleStop,
-  currentStep,
-}: TooltipProps) => {
+  current,
+  isFirst,
+  isLast,
+  next,
+  previous,
+  stop,
+  text,
+  total,
+}: Props) => {
   return (
-    <View className="w-[250px] -translate-y-4 translate-x-4 gap-4 rounded-2xl bg-neutral-15-default p-4">
+    <View className="w-[250px] gap-4 rounded-2xl bg-neutral-15-default p-4">
       {/* Header */}
       <View className="flex-row items-center justify-between">
         <Text className="body-b1 text-neutral-5-default">
-          {currentStep?.order} / {TOTAL_STEPS}
+          {current + 1} / {total}
         </Text>
-        <Button onPress={handleStop} variant={"link"} size={"md"}>
+        <Button onPress={stop} variant={"link"} size={"md"}>
           Skip
         </Button>
       </View>
 
       {/* Content */}
       <View>
-        <Text className="body-b1 text-neutral-10-default">
-          {currentStep?.text}
-        </Text>
+        <Text className="body-b1 text-neutral-10-default">{text}</Text>
       </View>
 
       {/* Footer */}
       <View className="flex-row items-center justify-between">
         <View className="flex-row gap-2">
-          {!isFirstStep ? (
+          {!isFirst ? (
             <Button
-              onPress={handlePrev}
+              onPress={previous}
               variant={"black"}
               iconPosition={"only"}
               size={"md"}
@@ -52,12 +49,8 @@ export const TourTooltip = ({
           )}
         </View>
 
-        <Button
-          onPress={isLastStep ? handleStop : handleNext}
-          variant={"primary"}
-          size={"md"}
-        >
-          {isLastStep ? "Let's Go!" : "Next Step"}
+        <Button onPress={isLast ? stop : next} variant={"primary"} size={"md"}>
+          {isLast ? "Let's Go!" : "Next Step"}
         </Button>
       </View>
     </View>

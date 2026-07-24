@@ -1,30 +1,20 @@
-import { useTourGuideController } from "rn-tourguide";
-import { useCallback, useEffect } from "react";
-import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { useAtomValue } from "jotai";
+import { useSpotlightTour } from "react-native-spotlight-tour";
 import { homeTourSeenAtom } from "@/atoms";
 
+// To make sure the tour is the last item to be rendered
+const TOUR_START_DELAY_MS = 0;
+
 export const useSetupTour = () => {
-  const [homeTourSeen, setHomeTourSeen] = useAtom(homeTourSeenAtom);
-
-  const { canStart, start, eventEmitter } = useTourGuideController();
+  const homeTourSeen = useAtomValue(homeTourSeenAtom);
+  const { start } = useSpotlightTour();
 
   useEffect(() => {
-    if (canStart && !homeTourSeen) {
-      start();
-    }
+    if (homeTourSeen) return;
+
+    const timer = setTimeout(start, TOUR_START_DELAY_MS);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canStart]); // adding start will cause an infinite loop
-
-  const handleOnStop = useCallback(() => {
-    setHomeTourSeen(true);
-  }, [setHomeTourSeen]);
-
-  useEffect(() => {
-    if (!eventEmitter) return;
-
-    eventEmitter.on("stop", handleOnStop);
-    return () => {
-      eventEmitter.off("stop", handleOnStop);
-    };
-  }, [eventEmitter, handleOnStop]);
+  }, [homeTourSeen]);
 };

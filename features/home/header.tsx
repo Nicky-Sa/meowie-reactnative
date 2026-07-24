@@ -109,13 +109,7 @@ export const Header = ({
       <View className="relative items-center justify-center">
         {/* Toggle */}
         <Animated.View style={switchStyle} animatedProps={switchAnimatedProps}>
-          <Tourable
-            tour={{
-              step: TourStep.HeaderToggle,
-              shape: "rectangle",
-              borderRadius: 28,
-            }}
-          >
+          <Tourable step={TourStep.HeaderToggle}>
             <SlidingToggle
               containerClassName={"h-14 w-44"}
               items={mediaTypes}

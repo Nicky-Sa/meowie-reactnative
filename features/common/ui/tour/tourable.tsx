@@ -1,36 +1,30 @@
-import { PropsWithChildren } from "react";
-import { TourGuideZone, TourGuideZoneProps } from "rn-tourguide";
-import { TourStep, tourStepContent } from "./steps";
-
-type TourConfig = Omit<
-  TourGuideZoneProps,
-  "children" | "isTourGuide" | "zone" | "text"
-> & {
-  step: TourStep;
-  text?: string;
-};
+import { PropsWithChildren, ReactElement } from "react";
+import { AttachStep, ChildProps } from "react-native-spotlight-tour";
+import { TourStep } from "./steps";
 
 export type TourableProps = PropsWithChildren<{
-  tour: TourConfig;
+  step: TourStep;
   tourEnabled?: boolean;
+  // Stretch the measured wrapper to fill its parent instead of hugging the
+  // child. Needed for elements that scroll or don't report their own width.
+  fill?: boolean;
 }>;
 
 export const Tourable = ({
-  tour,
+  step,
   tourEnabled = true,
+  fill,
   children,
 }: TourableProps) => {
-  const text = tour.text ?? tourStepContent[tour.step];
+  if (!tourEnabled) {
+    return children;
+  }
 
+  // AttachStep injects ref/onLayout into the child at runtime via cloneElement,
+  // so the wrapped element doesn't need to declare ChildProps itself.
   return (
-    <TourGuideZone
-      isTourGuide={tourEnabled}
-      zone={tour.step}
-      tooltipBottomOffset={tour.tooltipBottomOffset ?? 60}
-      text={text}
-      {...tour}
-    >
-      {children}
-    </TourGuideZone>
+    <AttachStep index={step} fill={fill}>
+      {children as ReactElement<ChildProps>}
+    </AttachStep>
   );
 };

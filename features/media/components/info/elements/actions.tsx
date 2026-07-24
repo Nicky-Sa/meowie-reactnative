@@ -31,24 +31,10 @@ export const Actions = ({
   return (
     <View className={"mt-4 flex flex-row items-center justify-between"}>
       <View className={"flex flex-row items-center justify-start gap-2"}>
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaSave,
-            shape: "rectangle",
-            borderRadius: 14,
-          }}
-        >
+        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaSave}>
           <Save id={mediaId} mediaType={mediaType} onPress={onSavePress} />
         </Tourable>
-        <Tourable
-          tourEnabled={tourEnabled}
-          tour={{
-            step: TourStep.MediaSeen,
-            shape: "rectangle",
-            borderRadius: 14,
-          }}
-        >
+        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaSeen}>
           <Seen
             id={mediaId}
             mediaType={mediaType}
@@ -59,14 +45,7 @@ export const Actions = ({
           />
         </Tourable>
       </View>
-      <Tourable
-        tourEnabled={tourEnabled}
-        tour={{
-          step: TourStep.MediaDetails,
-          shape: "rectangle",
-          borderRadius: 14,
-        }}
-      >
+      <Tourable tourEnabled={tourEnabled} step={TourStep.MediaDetails}>
         <GoToDetails id={mediaId} mediaType={mediaType} />
       </Tourable>
     </View>
