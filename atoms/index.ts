@@ -4,7 +4,6 @@ import { tailwind } from "@/lib/tailwind";
 import {
   MovieFilters,
   initialMovieFiltersValue,
-  SortOption,
   SeriesFilters,
   initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
@@ -40,12 +39,6 @@ export const autoplayAtom = atomPersisted(PERSISTED_ATOM_KEYS.AUTOPLAY, true);
 export const ytMutedAtom = atom(true);
 
 export const currentRoleInMediaAtom = atom<string>();
-
-// sort (persisted)
-export const sortAtom = atomPersisted<SortOption>(
-  PERSISTED_ATOM_KEYS.SORT,
-  SortOption.POPULARITY,
-);
 
 // Tour and onboarding
 export const homeTourSeenAtom = atomPersisted(

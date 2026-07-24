@@ -2,8 +2,6 @@ import { useFetchFeed } from "@/features/media/data/use-fetch-feed";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
-import { useAtomValue } from "jotai";
-import { sortAtom } from "@/atoms";
 
 type Props = {
   currentIndex: number;
@@ -18,7 +16,6 @@ export const TabContent = ({
   scrollHandler,
   isActive,
 }: Props) => {
-  const sort = useAtomValue(sortAtom);
   const {
     data,
     fetchNextPage,
@@ -45,7 +42,6 @@ export const TabContent = ({
       refetch={refetch}
       onRefresh={onRefresh}
       isRefreshing={isRefreshing}
-      scrollToTopIfChanges={sort}
       currentIndex={currentIndex}
       scrollY={scrollY}
       scrollHandler={scrollHandler}

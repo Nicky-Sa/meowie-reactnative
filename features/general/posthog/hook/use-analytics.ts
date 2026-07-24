@@ -238,11 +238,6 @@ export const useAnalytics = () => {
           mediaType: string;
         }): void => capture("filters_applied", { filters, mediaType }),
 
-        trackSortOpened: (): void => capture("sort_opened", undefined),
-
-        trackSortApplied: ({ sortType }: { sortType: string }): void =>
-          capture("sort_applied", { sort_type: sortType }),
-
         trackCollectionClick: ({
           id,
           title,

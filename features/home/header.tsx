@@ -14,7 +14,6 @@ import Animated, {
   useAnimatedProps, // Added import
 } from "react-native-reanimated";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
-import { SortHeaderButton } from "@/features/sort/header-button";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 import { NotificationBadge } from "@/features/common/ui/notification-badge";
@@ -90,20 +89,22 @@ export const Header = ({
 
   return (
     <Animated.View
-      className="absolute z-10 flex w-full flex-row items-center justify-between px-2"
+      className="absolute z-10 flex w-full flex-row items-center px-2"
       style={{
         paddingTop:
           insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
       }}
     >
-      <Link href="/release-notes">
-        <View className="relative">
-          <Logo />
-          {hasUnseenReleaseNote && (
-            <NotificationBadge className={"right-0.5 top-0.5"} />
-          )}
-        </View>
-      </Link>
+      <View className="flex-1 items-start">
+        <Link href="/release-notes">
+          <View className="relative">
+            <Logo />
+            {hasUnseenReleaseNote && (
+              <NotificationBadge className={"right-0.5 top-0.5"} />
+            )}
+          </View>
+        </Link>
+      </View>
 
       <View className="relative items-center justify-center">
         {/* Toggle */}
@@ -134,16 +135,8 @@ export const Header = ({
         </Animated.View>
       </View>
 
-      <View className="relative">
-        <Tourable
-          tour={{
-            step: TourStep.HeaderSort,
-            shape: "circle",
-          }}
-        >
-          <SortHeaderButton />
-        </Tourable>
-      </View>
+      {/* Balances the logo so the toggle stays centered on screen */}
+      <View className="flex-1" />
     </Animated.View>
   );
 };

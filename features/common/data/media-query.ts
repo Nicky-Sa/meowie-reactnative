@@ -1,9 +1,3 @@
-export enum SortOption {
-  POPULARITY = "popularity",
-  NEWEST = "newest",
-  RANDOM = "random",
-}
-
 export type Browse = {
   personId: string;
 };

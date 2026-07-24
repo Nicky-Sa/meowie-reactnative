@@ -6,17 +6,6 @@ import {
 import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 
-export type SORT_OPENED = {
-  event: "sort_opened";
-  properties?: undefined;
-};
-export type SORT_APPLIED = {
-  event: "sort_applied";
-  properties: {
-    sort_type: string;
-  };
-};
-
 export type TRAILER_PLAYED = {
   event: "trailer_played";
   properties: {
@@ -268,8 +257,6 @@ export type TICKETS_CLICKED = {
 };
 
 export type Events =
-  | SORT_OPENED
-  | SORT_APPLIED
   | TRAILER_PAUSED
   | TRAILER_PLAYED
   | MEDIA_SAVE_CLICKED

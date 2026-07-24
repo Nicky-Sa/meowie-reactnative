@@ -3,7 +3,6 @@ export enum TourStep {
   // 1. Home / Header Tour
   // -------------------------
   HeaderToggle = 1,
-  HeaderSort,
 
   // -------------------------
   // 2. Media Details Tour
@@ -19,8 +18,6 @@ export enum TourStep {
 export const tourStepContent: Record<TourStep, string> = {
   [TourStep.HeaderToggle]:
     "Switch between Movies and Series to explore different content types.",
-  [TourStep.HeaderSort]:
-    "Use this to sort the content by popularity, newest, or other criteria.",
   [TourStep.MediaPoster]:
     "Tap on the poster to view a high-quality version and more info.",
   [TourStep.MediaDirector]:
