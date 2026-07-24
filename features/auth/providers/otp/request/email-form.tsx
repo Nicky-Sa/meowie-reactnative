@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Button } from "@/features/common/ui/button";
 import { Mail } from "iconoir-react-native";
 import { useRequestOtp } from "@/features/auth/providers/otp/request/data/use-request-otp";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const LoginSchema = z.object({
@@ -27,6 +27,7 @@ export const EmailForm = () => {
     });
   const { trigger, isMutating } = useRequestOtp();
   const router = useRouter();
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (data: LoginFormData) => {
@@ -35,7 +36,7 @@ export const EmailForm = () => {
       await trigger(data);
       router.push({
         pathname: "/auth/otp/verify",
-        params: { ...data },
+        params: { ...data, returnTo },
       });
     } catch (error) {
       setError("email", { message: (error as Error).message });

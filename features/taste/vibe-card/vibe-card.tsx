@@ -70,6 +70,7 @@ export const VibeCard = () => {
         }
         modalVisible={showLoginModal}
         setModalVisible={setShowLoginModal}
+        returnTo={"/taste"}
       />
     </>
   );

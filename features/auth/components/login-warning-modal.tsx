@@ -8,6 +8,8 @@ type Props = {
   text: string;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
+  /** Where to send the user once they finish logging in. */
+  returnTo?: string;
 };
 
 export const LoginWarningModal = ({
@@ -15,6 +17,7 @@ export const LoginWarningModal = ({
   text,
   modalVisible,
   setModalVisible,
+  returnTo,
 }: Props) => {
   const router = useRouter();
 
@@ -27,7 +30,9 @@ export const LoginWarningModal = ({
     >
       <Button
         onPress={() => {
-          router.push("/auth");
+          router.push(
+            returnTo ? { pathname: "/auth", params: { returnTo } } : "/auth",
+          );
           setModalVisible(false);
         }}
         variant={"white"}
