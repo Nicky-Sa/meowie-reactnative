@@ -67,7 +67,8 @@ candidate matches. If the genres are wrong, the whole feed is wrong. The four
 answers and the slider only re-order what the genres already brought in.
 
 The personality card ("you're a ...") is decoration. It's worked out fresh on
-every save and never stored, and the feed never reads it.
+every save and never stored, and the feed never reads it. See
+[The cat card](#the-cat-card) below.
 
 ### What the picked titles do
 
@@ -115,6 +116,62 @@ imply, and the feed's own scoring decides how much each one counts. Rarity
 weights still exist on the backend, but only the personality card uses them now
 (`topGenre` in `personality.ts`).
 
+## The cat card
+
+Screen 6 shows one picture and three buttons. The picture is a finished card
+that already has everything drawn into it — the tagline, the cat's name, the
+description, "Only 16% of watchers", and the Meowie mark. The app draws no text
+over it.
+
+The pictures live in S3, one PNG per cat, 2160 x 3856:
+
+```
+https://meowie-public.s3.eu-central-1.amazonaws.com/taste/personalities/<name>.png
+```
+
+There are 25 cats. The backend picks one from the saved answers in two steps:
+
+```mermaid
+flowchart TD
+    A[era + reality + tasteAuthority] --> B{two or more<br/>answered 'both'?}
+    B -->|yes| C[The Cativore]
+    B -->|no| D[one of 8 groups]
+    D --> E{top genre of<br/>the picked titles}
+    E -->|group has a cat for it| F[that cat]
+    E -->|it doesn't| G[the group's own cat]
+```
+
+**Step 1 — the group.** Three of the four questions decide it: era, reality and
+taste. Commitment plays no part here; it only steers the feed. Three questions
+with two sides each makes 8 groups. A single "no preference" is settled by the
+lean of the user's own poster picks (older picks → classic, and so on). Two or
+more "no preference" answers skip the groups entirely and give The Cativore.
+
+**Step 2 — the cat.** Each group holds three cats: one for each of two genres,
+plus one for everyone else. The genre that appears most across the picked
+titles decides which. Ties go to the rarer genre. A genre the group has no cat
+for falls back to the group's own cat.
+
+| Group | Its own cat | Two genre cats |
+|---|---|---|
+| classic · realistic · popular | Rocky Pawboa | Drama → Furrest Gump, Crime → Tony Meowtana |
+| classic · realistic · critics | The Catfather | Thriller → Hannibal Licker, History → Maximeow |
+| classic · fantasy · popular | Luke Skywhisker | Adventure → Indiana Bones, Animation → Simeow |
+| classic · fantasy · critics | Ripurr | Horror → Jack Scratchrance, Fantasy → Edward Scissorpaws |
+| new · realistic · popular | Wolf of Wool Street | Action → John Whisk, Music → Freddie Purrcury |
+| new · realistic · critics | Heisenpurr | Drama → Tony Sopurrano, Mystery → Rust Clawle |
+| new · fantasy · popular | The Dark Kitten | Sci-fi → Iron Cat, Fantasy → Hairy Pawter |
+| new · fantasy · critics | Paw Atreides | Fantasy → Furrodo Bagpaws, Thriller → Dream Whisker |
+
+The backend sends back only two things: the picture's address and the cat's
+name. The name is used in the share message and nowhere else — everything else
+a user reads is inside the picture.
+
+The three buttons: **Save image** downloads the PNG and puts it in the phone's
+photos, **Share** opens the normal share sheet with the PNG attached, and
+**Start exploring** goes to the feed. Saving needs the "add to photos"
+permission, which the app asks for on the first tap.
+
 ## Where things live
 
 | What | File |
@@ -127,5 +184,7 @@ weights still exist on the backend, but only the personality card uses them now
 | Chips, questions, thresholds | `src/taste/constants/journey.constant.ts` (backend) |
 | Rarity weights from TMDB | `src/taste/genre-rarity.service.ts` (backend) |
 | Save / load / feed copy | `src/taste/taste.service.ts` (backend) |
-| Personality card | `src/taste/personality.ts` (backend) |
+| Which cat you get | `src/taste/personality.ts` (backend) |
+| The 25 cats and their pictures | `src/taste/constants/personality.constant.ts` (backend) |
+| Card screen, save and share | `features/taste/steps/result/` (app) |
 | How the feed uses all this | `src/feed/how-the-feed-works.md` (backend) |

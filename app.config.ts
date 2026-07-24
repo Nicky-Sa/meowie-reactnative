@@ -100,6 +100,15 @@ const getPlugins = (): ExpoConfig["plugins"] => {
       },
     ],
     "expo-image",
+    [
+      "expo-media-library",
+      {
+        // Saving the taste card is the only use, so ask to write, never to read.
+        savePhotosPermission: "Meowie saves your taste card to your photos.",
+        photosPermission: false,
+        granularPermissions: ["photo"],
+      },
+    ],
     "posthog-react-native/expo",
     "@config-plugins/detox",
     "expo-apple-authentication",

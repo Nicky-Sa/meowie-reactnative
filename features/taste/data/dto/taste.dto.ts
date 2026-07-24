@@ -1,17 +1,12 @@
 import { GenreId } from "@/features/taste/data/dto/journey.dto";
 
-// Resolved server-side from the stored profile. PRESENTATION ONLY — never
-// feeds the recommendation taste vector.
-export type ResolvedPersonality = {
+// The cat the backend picked from the saved profile. PRESENTATION ONLY — never
+// feeds the recommendation taste vector. `image` is the finished share card:
+// the name, tagline, description and rarity are drawn into the picture, so the
+// app only shows the picture. `name` is for the share message.
+export type Personality = {
   name: string;
-  source: string;
-  description: string;
-  rarityPercent: number;
-  isOmnivore: boolean;
-  // Movie poster of the character's source title, used as the reveal card
-  // backdrop. Empty for the omnivore (no single source).
-  poster: string;
-  flair: string;
+  image: string;
 };
 
 export type SaveTasteReqDto = {
@@ -28,5 +23,5 @@ export type SaveTasteReqDto = {
 };
 
 export type TasteResDto = SaveTasteReqDto & {
-  personality: ResolvedPersonality;
+  personality: Personality;
 };

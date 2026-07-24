@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
+import { Image } from "expo-image";
 import { useAtomValue } from "jotai";
 import { ErrorState } from "@/features/general/error-state";
 import { TasteOnboardingState } from "@/features/taste/state";
 import {
-  ResolvedPersonality,
+  Personality,
   SaveTasteReqDto,
 } from "@/features/taste/data/dto/taste.dto";
 import { useSaveTaste } from "@/features/taste/data/use-save-taste";
@@ -37,14 +38,19 @@ export const Screen = () => {
   const state = useAtomValue(tasteOnboardingAtom);
   const { trigger, error } = useSaveTaste();
   const [minLoadingDone, setMinLoadingDone] = useState(false);
-  const [personality, setPersonality] = useState<ResolvedPersonality>();
+  const [personality, setPersonality] = useState<Personality>();
 
   const saveTaste = useCallback(async () => {
     return trigger(buildSaveBody(state));
   }, [trigger, state]);
 
   useEffect(() => {
-    saveTaste().then((data) => setPersonality(data.personality));
+    saveTaste().then((data) => {
+      // The card is a big picture and it is the whole screen, so start pulling
+      // it while the loading bar is still up.
+      void Image.prefetch(data.personality.image);
+      setPersonality(data.personality);
+    });
 
     const timer = setTimeout(() => setMinLoadingDone(true), MIN_LOADING_MS);
     return () => clearTimeout(timer);
