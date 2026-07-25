@@ -28,18 +28,19 @@ export const Screen = () => {
     horizontalPadding: HORIZONTAL_PADDING,
   });
 
-  // Every genre carried by the titles the user picked. All count the same
-  // here — the feed's scoring is what weighs common against rare.
+  // One genre per picked title, not every genre it carries — four picks used
+  // to lock half the list. Movie and series ids are separate namespaces and
+  // can collide, so each pool is matched against its own picks.
   const lockedGenres = useMemo(() => {
     const picked = [
-      ...(journey?.movies ?? []),
-      ...(journey?.series ?? []),
-    ].filter(
-      (title) =>
-        state.movieIds.includes(title.tmdbId) ||
-        state.seriesIds.includes(title.tmdbId),
-    );
-    return [...new Set(picked.flatMap((title) => title.genreIds))];
+      ...(journey?.movies ?? []).filter((movie) =>
+        state.movieIds.includes(movie.tmdbId),
+      ),
+      ...(journey?.series ?? []).filter((series) =>
+        state.seriesIds.includes(series.tmdbId),
+      ),
+    ];
+    return [...new Set(picked.map((title) => title.mainGenreId))];
   }, [journey, state.movieIds, state.seriesIds]);
 
   // The picked titles decide these, so they go back in even if the user

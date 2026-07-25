@@ -3,10 +3,11 @@ import { Option } from "@/features/common/option";
 // Wire types for GET /taste/journey — the one-shot bootstrap payload the
 // journey steps render from. Mirrors the backend's taste constants.
 
+// mainGenreId is the one genre picking this title locks on the genres step.
 export type Title = {
   title: string;
   year: number;
-  genreIds: number[];
+  mainGenreId: number;
   tmdbId: number;
   poster: string | null;
 };
