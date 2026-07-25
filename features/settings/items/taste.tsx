@@ -39,6 +39,7 @@ export const Taste = () => {
         }
         modalVisible={showLoginModal}
         setModalVisible={setShowLoginModal}
+        returnTo={"/taste"}
       />
     </>
   );

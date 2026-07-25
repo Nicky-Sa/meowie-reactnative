@@ -25,7 +25,6 @@ export const MediaListScreen = ({
 }: Props) => {
   const {
     data: rawPosterData,
-    dataLength,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -55,7 +54,6 @@ export const MediaListScreen = ({
       />
       <MediaList
         data={data}
-        dataLength={dataLength}
         isLoading={isLoading}
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}

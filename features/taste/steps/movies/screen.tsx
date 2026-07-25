@@ -7,8 +7,8 @@ import { ErrorState } from "@/features/general/error-state";
 import { StepBody } from "@/features/taste/elements/step-body";
 import { PosterGrid } from "@/features/taste/elements/poster-grid";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { PAGE_SIZE } from "@/features/taste/state";
-import { tasteOnboardingAtom } from "@/atoms";
+import { SHOW_MORE_COUNT } from "@/features/taste/state";
+import { tasteJourneyAtom } from "@/atoms";
 import { useStartTaste } from "@/features/taste/hooks/use-start-taste";
 
 const MIN_SELECTIONS = 4;
@@ -16,8 +16,8 @@ const MIN_SELECTIONS = 4;
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteOnboardingAtom);
-  const count = state.moviesSelected.length;
+  const [state, setState] = useAtom(tasteJourneyAtom);
+  const count = state.movieIds.length;
   const canContinue = count >= MIN_SELECTIONS;
 
   // Movies is the flow's entry step, so it sets up state on mount: blank for
@@ -27,14 +27,14 @@ export const Screen = () => {
 
   const toggle = (tmdbId: number) =>
     setState((draft) => {
-      const existingIndex = draft.moviesSelected.indexOf(tmdbId);
-      if (existingIndex >= 0) draft.moviesSelected.splice(existingIndex, 1);
-      else draft.moviesSelected.push(tmdbId);
+      const existingIndex = draft.movieIds.indexOf(tmdbId);
+      if (existingIndex >= 0) draft.movieIds.splice(existingIndex, 1);
+      else draft.movieIds.push(tmdbId);
     });
 
   const showMore = () =>
     setState((draft) => {
-      draft.moviesShown += PAGE_SIZE;
+      draft.moviesShown += SHOW_MORE_COUNT;
     });
 
   if (hasFailedToLoadStoredTaste) {
@@ -72,7 +72,7 @@ export const Screen = () => {
         <PosterGrid
           items={journey.movies}
           shown={state.moviesShown}
-          selected={state.moviesSelected}
+          selected={state.movieIds}
           onToggle={toggle}
           onShowMore={showMore}
         />

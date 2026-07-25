@@ -10,8 +10,7 @@ import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-wid
 import { StepBody } from "@/features/taste/elements/step-body";
 import { useGenres } from "@/features/general/data/constants/use-genres";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { tasteOnboardingAtom } from "@/atoms";
-import { genresFromPicks } from "@/features/taste/logic/genres";
+import { tasteJourneyAtom } from "@/atoms";
 import { tailwind } from "@/lib/tailwind";
 
 const COLUMNS = 2;
@@ -22,28 +21,34 @@ export const Screen = () => {
   const router = useRouter();
   const { genreEmoji, genreName } = useGenres();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteOnboardingAtom);
+  const [state, setState] = useAtom(tasteJourneyAtom);
   const { itemWidth } = useGridItemWidth({
     numColumns: COLUMNS,
     gap: GAP,
     horizontalPadding: HORIZONTAL_PADDING,
   });
 
-  const lockedGenres = useMemo(
-    () =>
-      journey
-        ? genresFromPicks(journey, state.moviesSelected, state.seriesSelected)
-        : [],
-    [journey, state.moviesSelected, state.seriesSelected],
-  );
+  // Every genre carried by the titles the user picked. All count the same
+  // here — the feed's scoring is what weighs common against rare.
+  const lockedGenres = useMemo(() => {
+    const picked = [
+      ...(journey?.movies ?? []),
+      ...(journey?.series ?? []),
+    ].filter(
+      (title) =>
+        state.movieIds.includes(title.tmdbId) ||
+        state.seriesIds.includes(title.tmdbId),
+    );
+    return [...new Set(picked.flatMap((title) => title.genreIds))];
+  }, [journey, state.movieIds, state.seriesIds]);
 
   // The picked titles decide these, so they go back in even if the user
   // changes their titles after passing through this step.
   useEffect(() => {
     setState((draft) => {
       for (const genre of lockedGenres) {
-        if (!draft.genresConfirmed.includes(genre)) {
-          draft.genresConfirmed.push(genre);
+        if (!draft.genreIds.includes(genre)) {
+          draft.genreIds.push(genre);
         }
       }
     });
@@ -51,8 +56,8 @@ export const Screen = () => {
 
   const setGenres: Updater<number[]> = (updater) => {
     setState((draft) => {
-      if (typeof updater === "function") updater(draft.genresConfirmed);
-      else draft.genresConfirmed = updater;
+      if (typeof updater === "function") updater(draft.genreIds);
+      else draft.genreIds = updater;
     });
   };
 
@@ -68,7 +73,7 @@ export const Screen = () => {
       footer={
         <>
           <Text className={"body-b1 text-center text-neutral-6-default"}>
-            {`${state.genresConfirmed.length} genres selected`}
+            {`${state.genreIds.length} genres selected`}
           </Text>
           <Button
             variant={"white"}
@@ -94,7 +99,7 @@ export const Screen = () => {
             <View key={item.id} style={{ width: itemWidth }}>
               <Segment
                 item={item}
-                currentValues={state.genresConfirmed}
+                currentValues={state.genreIds}
                 setCurrentValues={setGenres}
                 locked={lockedGenres.includes(item.id)}
                 multiple

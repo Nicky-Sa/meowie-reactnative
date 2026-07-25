@@ -25,35 +25,23 @@ export const useFetchPosters = (
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    size,
     ...rest
   } = useQueryPaginatedConfigured<PosterResDto>(
     [url, query],
     (pageParam: number) => `${url}?page=${pageParam + 1}&${query}`,
   );
 
-  const data = useMemo(() => {
-    const rawData = Array.isArray(response)
-      ? response.map((page) => page.data.results)
-      : [];
-
-    return deduplicate(
-      rawData.flat(),
-      (item) => `${item.mediaType}-${item.id}`,
-    );
-  }, [response]);
-
-  const dataLength = data.length;
-
-  const totalPages = useMemo(() => {
-    return Array.isArray(response) ? response[0]?.data.total_pages || 0 : 0;
-  }, [response]);
+  const data = useMemo(
+    () =>
+      deduplicate(
+        (response ?? []).flatMap((page) => page.data.results),
+        (item) => `${item.mediaType}-${item.id}`,
+      ),
+    [response],
+  );
 
   return {
     data,
-    dataLength,
-    totalPages,
-    size,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

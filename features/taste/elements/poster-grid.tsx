@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-width";
 import { PosterTile } from "@/features/taste/elements/poster-tile";
 import { Title } from "@/features/taste/data/dto/journey.dto";
-import { PAGE_SIZE } from "@/features/taste/state";
+import { SHOW_MORE_COUNT } from "@/features/taste/state";
 import { tailwind } from "@/lib/tailwind";
 import { Button } from "@/features/common/ui/button";
 
@@ -31,13 +31,21 @@ export const PosterGrid = ({
     horizontalPadding: HORIZONTAL_PADDING,
   });
 
-  const visible = items.slice(0, shown);
-  const remaining = items.length - shown;
-  const showMoreCount = Math.min(PAGE_SIZE, remaining);
+  // Stored picks can sit deeper in the pool than the current page, so the grid
+  // opens far enough to show the last one.
+  const lastSelectedIndex = items.reduce(
+    (last, item, index) => (selected.includes(item.tmdbId) ? index : last),
+    -1,
+  );
+  const visibleCount = Math.max(shown, lastSelectedIndex + 1);
+
+  const visible = items.slice(0, visibleCount);
+  const remaining = items.length - visibleCount;
+  const showMoreCount = Math.min(SHOW_MORE_COUNT, remaining);
 
   return (
     <View className={"flex flex-col gap-4"}>
-      <View className={"flex flex-row flex-wrap"} style={{ gap: GAP }}>
+      <View className={"flex flex-row flex-wrap gap-2"}>
         {visible.map((item) => (
           <PosterTile
             key={item.tmdbId}

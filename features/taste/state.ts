@@ -1,40 +1,32 @@
-import { GenreId } from "@/features/taste/data/dto/journey.dto";
+import { SaveTasteReqDto } from "@/features/taste/data/dto/taste.dto";
 
 /**
- * In-memory state for the taste journey. Held for the duration of the flow,
- * reset by "Start over", and written to the backend (PUT /taste) on the reveal
- * step. Selections are keyed by TMDB id.
+ * In-memory state for the taste journey, written to the backend on the reveal
+ * step. It is the save body plus how much of each poster pool is on screen.
  */
-export type TasteAnswers = {
-  era?: string;
-  reality?: string;
-  tasteAuthority?: string;
-  commitment?: string;
-};
-
-export type TasteOnboardingState = {
-  moviesSelected: number[];
-  seriesSelected: number[];
-  seriesSkipped: boolean;
-  genresConfirmed: GenreId[];
-  taste: TasteAnswers;
-  avoid: string[];
-  exploreLevel: number;
+export type TasteJourneyState = SaveTasteReqDto & {
   moviesShown: number;
   seriesShown: number;
 };
 
-export const PAGE_SIZE = 12;
+export const SHOW_MORE_COUNT = 12;
 export const INITIAL_SHOWN = 12;
 
 export const DEFAULT_EXPLORE_LEVEL = 2;
 
-export const initialTasteOnboardingState = (): TasteOnboardingState => ({
-  moviesSelected: [],
-  seriesSelected: [],
+// Every question is answered before the journey can reach the reveal, so these
+// only stand in while the user is still working through them.
+const NO_PREFERENCE = "both";
+
+export const initialTasteJourneyState = (): TasteJourneyState => ({
+  movieIds: [],
+  seriesIds: [],
   seriesSkipped: false,
-  genresConfirmed: [],
-  taste: {},
+  genreIds: [],
+  era: NO_PREFERENCE,
+  reality: NO_PREFERENCE,
+  authority: NO_PREFERENCE,
+  commitment: NO_PREFERENCE,
   avoid: [],
   exploreLevel: DEFAULT_EXPLORE_LEVEL,
   moviesShown: INITIAL_SHOWN,

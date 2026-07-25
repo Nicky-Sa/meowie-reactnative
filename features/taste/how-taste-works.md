@@ -1,7 +1,7 @@
 # How the taste journey works
 
 A guide to the taste flow: what each screen does, what gets saved, and how the
-feed uses it. Covers both repos — the wizard lives in the app, the data and the
+feed uses it. Covers both repos — the journey lives in the app, the data and the
 scoring live in the backend.
 
 ## The short version
@@ -13,7 +13,7 @@ decide what to show them.
 
 ```mermaid
 flowchart LR
-    A[User picks posters<br/>and answers questions] --> B[Wizard state<br/>held in memory]
+    A[User picks posters<br/>and answers questions] --> B[Journey state<br/>held in memory]
     B -->|PUT /v1/taste| C[(taste table<br/>one row per user)]
     C --> D[Feed engine<br/>picks and ranks titles]
     C --> E[Personality card<br/>just for fun]
@@ -50,7 +50,7 @@ knows about a user's taste:
 |---|---|---|
 | `movieIds` | `[157336, 129, 155, 313369]` | Feeds the "more like this" source, and names the personality |
 | `seriesIds` | `[1396]` | Same |
-| `seriesSkipped` | `false` | Remembers the skip so the wizard can be re-opened |
+| `seriesSkipped` | `false` | Remembers the skip so the journey can be re-opened |
 | `genreIds` | `[18, 878, 16]` | **The main feed signal** |
 | `era` | `classic` / `new-release` / `both` | Boosts older or newer titles |
 | `reality` | `realistic` / `fantasy` / `both` | Boosts grounded or escapist genres |
@@ -78,7 +78,7 @@ Interstellar and Dune was treated exactly like anyone else who likes sci-fi.
 
 They now also go to the feed as title ids, where `CandidateGenerator` asks TMDB
 "what's similar to this?" for the user's 5 most-liked titles. Saves and ratings
-outrank wizard picks, so the picks mainly help new users, whose library is
+outrank journey picks, so the picks mainly help new users, whose library is
 empty. Full details in `src/feed/how-the-feed-works.md` in the backend.
 
 One thing to expect: those picked films no longer show up in the user's own
@@ -167,24 +167,5 @@ The backend sends back only two things: the picture's address and the cat's
 name. The name is used in the share message and nowhere else — everything else
 a user reads is inside the picture.
 
-The three buttons: **Save image** downloads the PNG and puts it in the phone's
-photos, **Share** opens the normal share sheet with the PNG attached, and
-**Start exploring** goes to the feed. Saving needs the "add to photos"
-permission, which the app asks for on the first tap.
-
-## Where things live
-
-| What | File |
-|---|---|
-| Wizard screens | `features/taste/steps/*/screen.tsx` (app) |
-| Shared wizard state | `features/taste/state.ts` + `tasteOnboardingAtom` (app) |
-| **Genre auto-tick rule** | `features/taste/logic/genres.ts` (app) |
-| Loads saved taste on entry | `features/taste/hooks/use-start-taste.ts` (app) |
-| Poster pools | `src/taste/constants/pools.constant.ts` (backend) |
-| Chips, questions, thresholds | `src/taste/constants/journey.constant.ts` (backend) |
-| Rarity weights from TMDB | `src/taste/genre-rarity.service.ts` (backend) |
-| Save / load / feed copy | `src/taste/taste.service.ts` (backend) |
-| Which cat you get | `src/taste/personality.ts` (backend) |
-| The 25 cats and their pictures | `src/taste/constants/personality.constant.ts` (backend) |
-| Card screen, save and share | `features/taste/steps/result/` (app) |
-| How the feed uses all this | `src/feed/how-the-feed-works.md` (backend) |
+The two buttons: **Share my type** opens the normal share sheet with the
+picture attached, and **Start exploring** goes to the feed.

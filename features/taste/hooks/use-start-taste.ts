@@ -1,88 +1,58 @@
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
-import { tasteOnboardingAtom } from "@/atoms";
+import { tasteJourneyAtom } from "@/atoms";
 import {
   INITIAL_SHOWN,
-  initialTasteOnboardingState,
-  TasteOnboardingState,
+  initialTasteJourneyState,
 } from "@/features/taste/state";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
-import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
-import { JourneyResDto, Title } from "@/features/taste/data/dto/journey.dto";
-import { TasteResDto } from "@/features/taste/data/dto/taste.dto";
-
-// Enough of the pool to show every stored pick without pressing "Show more".
-const shownFor = (pool: Title[], selectedIds: number[]): number => {
-  const lastSelectedIndex = pool.reduce(
-    (last, title, index) => (selectedIds.includes(title.tmdbId) ? index : last),
-    -1,
-  );
-  return Math.max(INITIAL_SHOWN, lastSelectedIndex + 1);
-};
-
-const stateFromStored = (
-  stored: TasteResDto,
-  journey: JourneyResDto,
-): TasteOnboardingState => {
-  const state = initialTasteOnboardingState();
-  state.moviesSelected = [...stored.movieIds];
-  state.seriesSelected = [...stored.seriesIds];
-  state.seriesSkipped = stored.seriesSkipped;
-  state.genresConfirmed = [...stored.genreIds];
-  state.taste = {
-    era: stored.era,
-    reality: stored.reality,
-    tasteAuthority: stored.tasteAuthority,
-    commitment: stored.commitment,
-  };
-  state.avoid = [...stored.avoid];
-  state.exploreLevel = stored.exploreLevel;
-  state.moviesShown = shownFor(journey.movies, stored.movieIds);
-  state.seriesShown = shownFor(journey.series, stored.seriesIds);
-  return state;
-};
 
 /**
- * Fills the wizard state on the entry step: blank for a first run, the stored
+ * Fills the journey state on the entry step: blank for a first run, the stored
  * profile when the user comes back to edit. The entry screen should hold
  * rendering until `isReady` so a prefill can't overwrite fresh edits.
  *
- * A failed taste fetch does NOT fall back to the blank flow — silently
- * treating "couldn't load" the same as "nothing stored" would let the user
- * finish the wizard from scratch and overwrite a perfectly good saved
- * profile. Instead `hasFailedToLoadStoredTaste` tells the entry screen to
- * show an error with a way to retry.
+ * A failed taste load must never fall through to the blank flow — that would
+ * let the user finish the journey and overwrite a good saved profile.
  */
 export const useStartTaste = () => {
-  const setState = useSetAtom(tasteOnboardingAtom);
+  const setState = useSetAtom(tasteJourneyAtom);
   const { data: currentUser } = useCurrentUser();
-  const { data: journey } = useFetchJourney();
   const hasStoredTaste = Boolean(currentUser?.user?.hasFilledInTaste);
   const tasteQuery = useFetchTaste({ enabled: hasStoredTaste });
-  const storedTaste = tasteQuery.data ?? null;
+  const storedTaste = tasteQuery.data;
   const [started, setStarted] = useState(false);
 
-  const hasFailedToLoadStoredTaste = hasStoredTaste && tasteQuery.isError;
+  // A profile that should exist but came back empty counts as a failure for the
+  // same reason: starting blank would overwrite it.
+  const couldNotLoadStored =
+    hasStoredTaste &&
+    (tasteQuery.isError || (tasteQuery.isSuccess && !storedTaste));
+
   const isReady =
     started ||
-    (currentUser !== undefined &&
-      (!hasStoredTaste || tasteQuery.isSuccess) &&
-      (!storedTaste || !!journey));
+    (currentUser !== undefined && (!hasStoredTaste || Boolean(storedTaste)));
 
   useEffect(() => {
     if (started || !isReady) return;
     setStarted(true);
     setState(
-      storedTaste && journey
-        ? stateFromStored(storedTaste, journey)
-        : initialTasteOnboardingState(),
+      storedTaste
+        ? {
+            ...storedTaste,
+            moviesShown: INITIAL_SHOWN,
+            seriesShown: INITIAL_SHOWN,
+          }
+        : initialTasteJourneyState(),
     );
-  }, [started, isReady, setState, storedTaste, journey]);
+  }, [started, isReady, setState, storedTaste]);
 
   return {
     isReady,
-    hasFailedToLoadStoredTaste,
+    // Only matters before the prefill lands: a later background refetch failing
+    // must not throw away a journey the user is halfway through.
+    hasFailedToLoadStoredTaste: !started && couldNotLoadStored,
     retryLoadingStoredTaste: tasteQuery.refetch,
   };
 };

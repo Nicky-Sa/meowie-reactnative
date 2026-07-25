@@ -4,46 +4,47 @@ import {
   useMutation,
   useQueryClient,
   UseMutationOptions,
+  UseQueryOptions,
+  UseInfiniteQueryOptions,
   InfiniteData,
-  keepPreviousData,
 } from "@tanstack/react-query";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { useCallback } from "react";
 
-/**
- * Configured useQuery hook with the app's fetcher and response shape.
- */
+type QueryConfig<Data, Err> = Omit<
+  UseQueryOptions<SuccessResponse<Data>, Err>,
+  "queryKey" | "queryFn"
+>;
+
 export const useQueryConfigured = <Data, Err = Error>(
   url: string,
-  config?: {
-    enabled?: boolean;
-    staleTime?: number;
-    gcTime?: number;
-    refetchOnWindowFocus?: boolean;
-    refetchInterval?: number | false;
-  },
-) => {
-  const result = useQuery<SuccessResponse<Data>, Err>({
+  config?: QueryConfig<Data, Err>,
+) =>
+  useQuery<SuccessResponse<Data>, Err>({
     queryKey: [url],
     queryFn: () => fetcher<unknown, Data>(url),
     ...config,
   });
 
-  return result;
-};
+type PaginatedConfig<Data, Err> = Omit<
+  UseInfiniteQueryOptions<
+    SuccessResponse<Data>,
+    Err,
+    InfiniteData<SuccessResponse<Data>>,
+    readonly unknown[],
+    number
+  >,
+  "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
+>;
 
-/**
- * Configured useInfiniteQuery hook for paginated fetching.
- * Wraps React Query's useInfiniteQuery with the app's fetcher.
- */
 export const useQueryPaginatedConfigured = <
   Data extends { page: number; total_pages: number },
   Err = Error,
 >(
   queryKey: unknown[],
-  urlResolver: (pageParam: number) => string,
-  config?: { enabled?: boolean; placeholderData?: typeof keepPreviousData },
+  urlForPage: (pageParam: number) => string,
+  config?: PaginatedConfig<Data, Err>,
 ) => {
   const result = useInfiniteQuery<
     SuccessResponse<Data>,
@@ -53,7 +54,7 @@ export const useQueryPaginatedConfigured = <
     number
   >({
     queryKey,
-    queryFn: ({ pageParam }) => fetcher<unknown, Data>(urlResolver(pageParam)),
+    queryFn: ({ pageParam }) => fetcher<unknown, Data>(urlForPage(pageParam)),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.data.page >= lastPage.data.total_pages) return undefined;
@@ -62,17 +63,9 @@ export const useQueryPaginatedConfigured = <
     ...config,
   });
 
-  return {
-    ...result,
-    data: result.data?.pages,
-    size: result.data?.pages.length ?? 0,
-  };
+  return { ...result, data: result.data?.pages };
 };
 
-/**
- * Configured useMutation hook for POST/PUT/DELETE operations.
- * Wraps React Query's useMutation with the app's fetcher.
- */
 export const useMutationConfigured = <REQ, RES, Err = Error>(
   url: string,
   config?: UseMutationOptions<SuccessResponse<RES>, Err, MutationArg<REQ>>,
@@ -89,22 +82,16 @@ export const useMutationConfigured = <REQ, RES, Err = Error>(
   };
 };
 
-/**
- * Replacement for useRevalidateByPattern.
- * Uses React Query's invalidateQueries with predicate matching.
- */
+/** Clears every cached query whose URL matches the pattern. */
 export const useInvalidateByPattern = () => {
   const queryClient = useQueryClient();
 
   const invalidateByPattern = useCallback(
-    async (pattern?: RegExp): Promise<void> => {
+    async (pattern: RegExp): Promise<void> => {
       await queryClient.invalidateQueries({
         predicate: (query) => {
-          if (!pattern) return true; // No pattern provided, invalidate all
-
-          // Match pattern against the first element of the query key (the URL string)
-          const queryKey = query.queryKey[0];
-          return typeof queryKey === "string" && pattern.test(queryKey);
+          const url = query.queryKey[0];
+          return typeof url === "string" && pattern.test(url);
         },
       });
     },

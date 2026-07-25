@@ -17,7 +17,6 @@ import { ReactElement, useCallback, memo } from "react";
 
 type Props = {
   data: MediaListItemData[];
-  dataLength: number;
   isLoading: boolean;
   fetchNextPage: () => void;
   hasNextPage: boolean;
@@ -27,7 +26,6 @@ type Props = {
   onRefresh?: () => void;
   isRefreshing?: boolean;
   initialScrollIndex?: number;
-  scrollToTopIfChanges?: unknown;
   currentIndex: number;
   scrollY: SharedValue<number>;
   scrollHandler: ScrollHandlerProcessed;
@@ -51,14 +49,13 @@ export const MediaList = memo(
     onRefresh,
     isRefreshing = false,
     initialScrollIndex,
-    scrollToTopIfChanges,
     currentIndex,
     scrollY,
     scrollHandler,
     ListEmptyComponent = <EmptyState />,
     isActive = true,
   }: Props) => {
-    const listRef = useListRef<MediaListItemData>(scrollToTopIfChanges);
+    const listRef = useListRef<MediaListItemData>();
 
     const insets = useSafeAreaInsets();
     const contentStyle = useMainScreenContentStyle();
@@ -73,11 +70,10 @@ export const MediaList = memo(
 
     const isWaitingForInitialData =
       initialScrollIndex !== undefined &&
-      (!data || data.length <= initialScrollIndex) &&
+      data.length <= initialScrollIndex &&
       !isDataEmpty;
 
-    const isInitialLoad =
-      isWaitingForInitialData || (isLoading && (!data || data.length === 0));
+    const isInitialLoad = isWaitingForInitialData || (isLoading && isDataEmpty);
 
     const renderItem = useCallback(
       ({ item, index }: { item: MediaListItemData; index: number }) => (
@@ -94,13 +90,7 @@ export const MediaList = memo(
     return (
       <>
         <AnimatedFlashList
-          key={
-            initialScrollIndex !== undefined
-              ? isWaitingForInitialData
-                ? "loading"
-                : "ready"
-              : "static"
-          }
+          key={isWaitingForInitialData ? "loading" : "ready"}
           data={data}
           ref={listRef}
           keyExtractor={({ mediaType, id }) => `${mediaType}-${id}`}

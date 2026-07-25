@@ -1,5 +1,3 @@
-import { GenreId } from "@/features/taste/data/dto/journey.dto";
-
 // The cat the backend picked from the saved profile. PRESENTATION ONLY — never
 // feeds the recommendation taste vector. `image` is the finished share card:
 // the name, tagline, description and rarity are drawn into the picture, so the
@@ -13,10 +11,10 @@ export type SaveTasteReqDto = {
   movieIds: number[];
   seriesIds: number[];
   seriesSkipped: boolean;
-  genreIds: GenreId[];
+  genreIds: number[];
   era: string;
   reality: string;
-  tasteAuthority: string;
+  authority: string;
   commitment: string;
   avoid: string[];
   exploreLevel: number;

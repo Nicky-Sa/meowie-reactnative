@@ -11,8 +11,8 @@ import { atomPersisted } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { PERSISTED_ATOM_KEYS } from "@/features/common/data/utils/storage-keys";
 import {
-  initialTasteOnboardingState,
-  TasteOnboardingState,
+  initialTasteJourneyState,
+  TasteJourneyState,
 } from "@/features/taste/state";
 
 // Color based on the movie poster
@@ -63,6 +63,6 @@ export const lastSeenReleaseNoteAtAtom = atomPersisted(
   "",
 );
 
-export const tasteOnboardingAtom = atomWithImmer<TasteOnboardingState>(
-  initialTasteOnboardingState(),
+export const tasteJourneyAtom = atomWithImmer<TasteJourneyState>(
+  initialTasteJourneyState(),
 );

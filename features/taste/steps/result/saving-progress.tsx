@@ -17,7 +17,7 @@ const BAR_WIDTH = 84;
 // bar is indeterminate on purpose — the real wait is a backend round trip of
 // unknown length (see the save call in screen.tsx), not a measurable amount
 // of progress.
-export const Loading = () => {
+export const SavingProgress = () => {
   const offset = useSharedValue(-BAR_WIDTH);
 
   useEffect(() => {

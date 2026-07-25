@@ -9,13 +9,13 @@ import { Segment } from "@/features/common/ui/segment";
 import { StepBody } from "@/features/taste/elements/step-body";
 import { ExploreLevelLottie } from "@/features/taste/elements/explore-level-lottie";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { tasteOnboardingAtom } from "@/atoms";
+import { tasteJourneyAtom } from "@/atoms";
 import { Divider } from "@/features/common/ui/divider";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteOnboardingAtom);
+  const [state, setState] = useAtom(tasteJourneyAtom);
 
   const setAvoid: Updater<string[]> = (updater) => {
     setState((draft) => {
@@ -25,9 +25,10 @@ export const Screen = () => {
   };
 
   const setExplore: Updater<string[]> = (updater) => {
-    if (typeof updater === "function") return; // Slider only ever passes values
     setState((draft) => {
-      draft.exploreLevel = Number(updater[0]);
+      const current = [String(draft.exploreLevel)];
+      const next = typeof updater === "function" ? updater(current) : updater;
+      draft.exploreLevel = Number((next ?? current)[0]);
     });
   };
 

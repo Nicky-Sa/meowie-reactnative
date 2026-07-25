@@ -6,31 +6,31 @@ import { Loading } from "@/features/common/ui/loading";
 import { StepBody } from "@/features/taste/elements/step-body";
 import { PosterGrid } from "@/features/taste/elements/poster-grid";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { PAGE_SIZE } from "@/features/taste/state";
-import { tasteOnboardingAtom } from "@/atoms";
+import { SHOW_MORE_COUNT } from "@/features/taste/state";
+import { tasteJourneyAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteOnboardingAtom);
-  const count = state.seriesSelected.length;
+  const [state, setState] = useAtom(tasteJourneyAtom);
+  const count = state.seriesIds.length;
 
   const toggle = (tmdbId: number) =>
     setState((draft) => {
-      const existingIndex = draft.seriesSelected.indexOf(tmdbId);
-      if (existingIndex >= 0) draft.seriesSelected.splice(existingIndex, 1);
-      else draft.seriesSelected.push(tmdbId);
+      const existingIndex = draft.seriesIds.indexOf(tmdbId);
+      if (existingIndex >= 0) draft.seriesIds.splice(existingIndex, 1);
+      else draft.seriesIds.push(tmdbId);
       draft.seriesSkipped = false;
     });
 
   const showMore = () =>
     setState((draft) => {
-      draft.seriesShown += PAGE_SIZE;
+      draft.seriesShown += SHOW_MORE_COUNT;
     });
 
   const skip = () => {
     setState((draft) => {
-      draft.seriesSelected = [];
+      draft.seriesIds = [];
       draft.seriesSkipped = true;
     });
     router.push("/taste/genres");
@@ -60,7 +60,7 @@ export const Screen = () => {
         <PosterGrid
           items={journey.series}
           shown={state.seriesShown}
-          selected={state.seriesSelected}
+          selected={state.seriesIds}
           onToggle={toggle}
           onShowMore={showMore}
         />

@@ -1,8 +1,7 @@
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { Header } from "@/features/home/header";
 import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
-import { TabContent as MovieTabContent } from "@/features/media/movie/tab-content";
-import { TabContent as SeriesTabContent } from "@/features/media/series/tab-content";
+import { TabContent } from "@/features/media/feed/tab-content";
 import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 import { useState } from "react";
@@ -34,7 +33,8 @@ export const Screen = () => {
         slideDirection="left"
         className={"flex-1"}
       >
-        <MovieTabContent
+        <TabContent
+          mediaType={"movie"}
           isActive={activeMediaType === mediaTypes[0]}
           currentIndex={currentIndex}
           scrollY={scrollY}
@@ -47,7 +47,8 @@ export const Screen = () => {
         slideDirection="right"
         className={"flex-1"}
       >
-        <SeriesTabContent
+        <TabContent
+          mediaType={"series"}
           isActive={activeMediaType === mediaTypes[1]}
           currentIndex={currentIndex}
           scrollY={scrollY}

@@ -5,15 +5,15 @@ import { Loading } from "@/features/common/ui/loading";
 import { Segment, SegmentItem } from "@/features/common/ui/segment";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { QUESTION_ILLUSTRATIONS } from "@/features/taste/steps/questions/illustrations";
-import { TasteOption } from "@/features/taste/data/dto/journey.dto";
-import { tasteOnboardingAtom } from "@/atoms";
+import { Option } from "@/features/common/option";
+import { tasteJourneyAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { order } = useLocalSearchParams<{ order: string }>();
   const index = Number(order) - 1;
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteOnboardingAtom);
+  const [state, setState] = useAtom(tasteJourneyAtom);
 
   const questions = journey?.questions;
   const question = questions?.[index];
@@ -22,11 +22,11 @@ export const Screen = () => {
     return <Loading />;
   }
 
-  const current = state.taste[question.id];
+  const current = state[question.id];
 
   const choose = (value: string) => {
     setState((draft) => {
-      draft.taste[question.id] = value;
+      draft[question.id] = value;
     });
     if (index < questions.length - 1) {
       router.push({
@@ -38,7 +38,7 @@ export const Screen = () => {
     }
   };
 
-  const sideItem = (option: TasteOption): SegmentItem => {
+  const sideItem = (option: Option): SegmentItem => {
     const SideIllustration = QUESTION_ILLUSTRATIONS[option.id];
     return {
       ...option,
@@ -52,26 +52,17 @@ export const Screen = () => {
         {question.prompt}
       </Text>
       <View className={"flex flex-1 flex-col gap-3"}>
-        <Segment
-          item={sideItem(question.sideA)}
-          centered
-          fill
-          currentValues={current ?? ""}
-          setCurrentValues={(value) => choose(value as string)}
-        />
-        <Segment
-          item={sideItem(question.sideB)}
-          centered
-          fill
-          currentValues={current ?? ""}
-          setCurrentValues={(value) => choose(value as string)}
-        />
-        <Segment
-          item={sideItem(question.both)}
-          centered
-          currentValues={current ?? ""}
-          setCurrentValues={(value) => choose(value as string)}
-        />
+        {[question.sideA, question.sideB, question.both].map((option) => (
+          <Segment
+            key={option.id}
+            item={sideItem(option)}
+            centered
+            // The two real sides fill the space; "no preference" sits smaller.
+            fill={option !== question.both}
+            currentValues={current ?? ""}
+            setCurrentValues={(value) => choose(value as string)}
+          />
+        ))}
       </View>
     </View>
   );

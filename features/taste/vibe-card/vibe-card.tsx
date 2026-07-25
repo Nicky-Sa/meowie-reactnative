@@ -10,7 +10,7 @@ import Vibe from "@/assets/images/taste/vibe.svg";
 import { tailwind } from "@/lib/tailwind";
 
 /**
- * Inline feed card inviting users without a taste profile into the wizard.
+ * Inline feed card inviting users without a taste profile into the journey.
  * Rendered as a full page of the home feed (see use-vibe-card for placement).
  */
 export const VibeCard = () => {

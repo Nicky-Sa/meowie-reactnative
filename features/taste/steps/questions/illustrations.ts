@@ -1,5 +1,4 @@
 import { SvgImage } from "@/features/common/ui/icon";
-import { AnswerValue } from "@/features/taste/data/dto/journey.dto";
 import Classic from "@/assets/images/taste/questions/1-era/classic.svg";
 import NewRelease from "@/assets/images/taste/questions/1-era/new-release.svg";
 import Realistic from "@/assets/images/taste/questions/2-reality/realistic.svg";
@@ -11,7 +10,7 @@ import Long from "@/assets/images/taste/questions/4-commitment/long.svg";
 
 // Keyed by the option's wire value from the journey payload, so the illustrations
 // stay attached even if labels or question order change.
-export const QUESTION_ILLUSTRATIONS: Partial<Record<AnswerValue, SvgImage>> = {
+export const QUESTION_ILLUSTRATIONS: Record<string, SvgImage> = {
   classic: Classic,
   "new-release": NewRelease,
   realistic: Realistic,

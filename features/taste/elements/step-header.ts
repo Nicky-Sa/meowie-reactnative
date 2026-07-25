@@ -1,22 +1,16 @@
-const TOTAL_QUESTIONS = 4;
-
 export type StepHeader = { title: string; step: number };
 
-/**
- * Derives the shared header title and progress step from the current taste
- * route, so the wizard layout can render one persistent header + progress bar
- * for every step. The 4 taste questions live under /taste/questions/<order>
- * and all sit on progress step 4.
- *
- * Only the wizard steps appear here. /taste/result is not one of them — it has
- * no header or progress bar, which is why it sits outside the (wizard) group.
- */
-export const stepHeaderForPath = (pathname: string): StepHeader => {
+// Every question shares progress step 4, so the bar doesn't jump while the
+// user works through them.
+export const stepHeaderForPath = (
+  pathname: string,
+  questionCount: number,
+): StepHeader => {
   const rest = pathname.replace(/^\/taste\/?/, "");
 
   if (rest.startsWith("questions")) {
     const order = Number(rest.split("/")[1]) || 1;
-    return { title: `Question ${order}/${TOTAL_QUESTIONS}`, step: 4 };
+    return { title: `Question ${order}/${questionCount}`, step: 4 };
   }
 
   switch (rest) {

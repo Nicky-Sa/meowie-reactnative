@@ -6,14 +6,34 @@ import {
 } from "@/features/common/layout/inner-screen";
 import { TasteProgress } from "@/features/taste/elements/taste-progress";
 import { stepHeaderForPath } from "@/features/taste/elements/step-header";
+import { ErrorState } from "@/features/general/error-state";
+import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 
-// The parts that stay on screen across every wizard step: back button + step
-// title from InnerScreen, progress bar below it. Both come from the active
-// route and render once here, so they stay put while only the step body slides.
-// The reveal needs neither, so it sits outside this group — see ../_layout.tsx.
-export default function TasteWizardLayout() {
+// The parts that stay on screen across every journey step: back button + step
+// title from InnerScreen, progress bar below it. The reveal needs neither, so
+// it sits outside this group — see ../_layout.tsx.
+export default function TasteJourneyLayout() {
   const pathname = usePathname();
-  const { title, step } = stepHeaderForPath(pathname);
+  // Every step needs the journey, so its failure is handled once here instead
+  // of leaving each step on a spinner that never ends.
+  const { data: journey, isError, refetch } = useFetchJourney();
+  const { title, step } = stepHeaderForPath(
+    pathname,
+    journey?.questions.length ?? 0,
+  );
+
+  if (isError) {
+    return (
+      <InnerScreen title={title}>
+        <ErrorState
+          tryAgain={() => void refetch()}
+          error={
+            "We couldn't load the taste quiz. Check your connection and try again."
+          }
+        />
+      </InnerScreen>
+    );
+  }
 
   return (
     // fullWidth so the Stack reaches x=0 — otherwise the iOS edge swipe misses
