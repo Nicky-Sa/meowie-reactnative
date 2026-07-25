@@ -1,8 +1,9 @@
-import { View, ActivityIndicator } from "react-native";
+import { Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useListRef } from "@/features/common/hooks/list/use-list-ref";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
+import { usePullToRefresh } from "@/features/common/hooks/list/use-pull-to-refresh";
 import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import Animated, {
   ScrollHandlerProcessed,
@@ -13,6 +14,7 @@ import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-s
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { EmptyState } from "@/features/general/empty-state";
+import { Loading } from "@/features/common/ui/loading";
 import { ReactElement, useCallback, memo } from "react";
 
 type Props = {
@@ -28,6 +30,7 @@ type Props = {
   initialScrollIndex?: number;
   currentIndex: number;
   scrollY: SharedValue<number>;
+  isDragging: SharedValue<boolean>;
   scrollHandler: ScrollHandlerProcessed;
   ListEmptyComponent?: ReactElement;
   isActive?: boolean;
@@ -51,6 +54,7 @@ export const MediaList = memo(
     initialScrollIndex,
     currentIndex,
     scrollY,
+    isDragging,
     scrollHandler,
     ListEmptyComponent = <EmptyState />,
     isActive = true,
@@ -64,6 +68,14 @@ export const MediaList = memo(
       hasNextPage,
       isFetchingNextPage,
       isLoading,
+    });
+
+    const { isReadyToRefresh } = usePullToRefresh({
+      scrollY,
+      isDragging,
+      onRefresh,
+      isRefreshing,
+      isActive,
     });
 
     const isDataEmpty = data.length === 0;
@@ -99,10 +111,12 @@ export const MediaList = memo(
           }
           renderItem={renderItem}
           pagingEnabled
-          // Pull-to-refresh gesture, omitted when no handler given.
-          // The native spinner sits behind the absolute header, so the visible
-          // indicator is the overlay below.
-          onRefresh={onRefresh}
+          // Android keeps the native control: it has no negative scroll offset
+          // to measure, and it already waits for the finger to lift. iOS is
+          // driven by usePullToRefresh instead, which fires on release.
+          // Either way the spinner sits behind the absolute header, so the
+          // visible indicator is the overlay below.
+          onRefresh={Platform.OS === "android" ? onRefresh : undefined}
           refreshing={isRefreshing}
           // Animation Handler
           onScroll={scrollHandler}
@@ -127,14 +141,14 @@ export const MediaList = memo(
           }
         />
 
-        {isRefreshing && (
+        {(isReadyToRefresh || isRefreshing) && (
           <View
             pointerEvents={"none"}
             style={{ top: insets.top + 56 }}
             className={"absolute inset-x-0 z-20 items-center"}
           >
-            <View className={"rounded-full bg-neutral-15-default/40 p-2"}>
-              <ActivityIndicator size={"small"} />
+            <View className={"rounded-full bg-neutral-15-default/40 px-3 py-2"}>
+              <Loading />
             </View>
           </View>
         )}

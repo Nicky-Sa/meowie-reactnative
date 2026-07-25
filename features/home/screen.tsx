@@ -10,7 +10,7 @@ import { SwipeGuide } from "@/features/home/swipe-guide";
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
 export const Screen = () => {
-  const { scrollHandler, scrollY, currentIndex, resetScroll } =
+  const { scrollHandler, scrollY, isDragging, currentIndex, resetScroll } =
     useScrollHandler();
   const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
 
@@ -38,6 +38,7 @@ export const Screen = () => {
           isActive={activeMediaType === mediaTypes[0]}
           currentIndex={currentIndex}
           scrollY={scrollY}
+          isDragging={isDragging}
           scrollHandler={scrollHandler}
         />
       </SlidingContent>
@@ -52,6 +53,7 @@ export const Screen = () => {
           isActive={activeMediaType === mediaTypes[1]}
           currentIndex={currentIndex}
           scrollY={scrollY}
+          isDragging={isDragging}
           scrollHandler={scrollHandler}
         />
       </SlidingContent>

@@ -43,7 +43,8 @@ export const MediaListScreen = ({
     );
   }, [rawPosterData]);
 
-  const { scrollHandler, scrollY, currentIndex } = useScrollHandler();
+  const { scrollHandler, scrollY, isDragging, currentIndex } =
+    useScrollHandler();
 
   return (
     <MainScreen>
@@ -63,6 +64,7 @@ export const MediaListScreen = ({
         initialScrollIndex={initialIndex}
         scrollHandler={scrollHandler}
         scrollY={scrollY}
+        isDragging={isDragging}
         currentIndex={currentIndex}
         ListEmptyComponent={ListEmptyComponent}
       />

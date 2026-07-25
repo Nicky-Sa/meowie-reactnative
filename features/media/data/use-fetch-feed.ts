@@ -23,8 +23,8 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const isLoggedIn = !!currentUser?.user;
   const { withVibeCard } = useVibeCard();
 
-  // Only page 1 of a pull-to-refresh carries the flag, and only once: a later
-  // refetch on app focus must not rebuild the pool under the user.
+  // Stays on for the whole pull-to-refresh, so a request that gets cancelled or
+  // fails doesn't leave the flag stuck on for some later, unrelated fetch.
   const wantsRefresh = useRef(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -41,11 +41,9 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   } = useQueryPaginatedConfigured<PaginatedResponse<number>>(
     [baseUrl, isLoggedIn],
     (pageParam: number) => {
-      const refresh = wantsRefresh.current && pageParam === 0;
-      if (refresh) wantsRefresh.current = false;
-
       const params = [`page=${pageParam + 1}`];
-      if (refresh) params.push("refresh=true");
+      // Only page 1 asks the backend to rebuild the pool.
+      if (wantsRefresh.current && pageParam === 0) params.push("refresh=true");
       if (!isLoggedIn) params.push("audience=guest");
       return `${baseUrl}?${params.join("&")}`;
     },
@@ -73,14 +71,13 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     return withVibeCard(titles, mediaType);
   }, [response, mediaType, withVibeCard]);
 
-  // The flag has to stay on until the refetch settles, otherwise the native
-  // pull-to-refresh control is left mid-refresh and the next pull misbehaves.
   const onRefresh = useCallback(async () => {
     wantsRefresh.current = true;
     setIsRefreshing(true);
     try {
       await refetch();
     } finally {
+      wantsRefresh.current = false;
       setIsRefreshing(false);
     }
   }, [refetch]);

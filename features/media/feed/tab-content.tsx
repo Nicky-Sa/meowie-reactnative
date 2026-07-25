@@ -7,6 +7,7 @@ type Props = {
   mediaType: MediaType;
   currentIndex: number;
   scrollY: SharedValue<number>;
+  isDragging: SharedValue<boolean>;
   scrollHandler: ScrollHandlerProcessed;
   isActive: boolean;
 };
@@ -15,6 +16,7 @@ export const TabContent = ({
   mediaType,
   currentIndex,
   scrollY,
+  isDragging,
   scrollHandler,
   isActive,
 }: Props) => {
@@ -43,6 +45,7 @@ export const TabContent = ({
       isRefreshing={isRefreshing}
       currentIndex={currentIndex}
       scrollY={scrollY}
+      isDragging={isDragging}
       scrollHandler={scrollHandler}
       isActive={isActive}
     />

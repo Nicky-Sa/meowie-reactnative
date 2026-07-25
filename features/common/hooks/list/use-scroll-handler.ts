@@ -8,11 +8,18 @@ import {
 export const useScrollHandler = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollY = useSharedValue(0);
+  const isDragging = useSharedValue(false);
   const indexTracker = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
+    },
+    onBeginDrag: () => {
+      isDragging.value = true;
+    },
+    onEndDrag: () => {
+      isDragging.value = false;
     },
     onMomentumEnd: (event) => {
       const heightFromTop = event.contentOffset.y;
@@ -34,5 +41,5 @@ export const useScrollHandler = () => {
     setCurrentIndex(0);
   }, [scrollY, indexTracker]);
 
-  return { scrollHandler, scrollY, currentIndex, resetScroll };
+  return { scrollHandler, scrollY, isDragging, currentIndex, resetScroll };
 };
