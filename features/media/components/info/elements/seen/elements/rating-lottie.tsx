@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { View } from "react-native";
 
 type Props = {
-  rating: number | "skip";
+  rating: number | null;
   play?: boolean;
 };
 
@@ -13,7 +13,8 @@ export const RatingLottie = ({ rating, play = false }: Props) => {
   const lottieRef = useRef<LottieView>(null);
   const playRef = useRef(play);
 
-  const uri = `https://meowie-public.s3.eu-central-1.amazonaws.com/ratings/rating-${rating}-lottie.json?v=1`;
+  // No rating means the user skipped it, which has its own file.
+  const uri = `https://meowie-public.s3.eu-central-1.amazonaws.com/ratings/${rating ?? "skip"}-lottie.json`;
 
   useEffect(() => {
     if (play !== playRef.current) {

@@ -26,7 +26,7 @@ export const useMarkAsSeen = ({ id, mediaType }: Args) => {
     LibraryStatusResDto
   >(`/library/${mediaType}/${id}/seen`);
 
-  const markAsSeen = async (rating?: number) => {
+  const markAsSeen = async (rating: number | null) => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
     const previousData = queryClient.getQueryData<
       SuccessResponse<LibraryStatusResDto>
@@ -39,7 +39,7 @@ export const useMarkAsSeen = ({ id, mediaType }: Args) => {
         if (!old) return old;
         return {
           ...old,
-          data: { ...old.data, seen: true, rating: rating ?? null },
+          data: { ...old.data, seen: true, rating },
         };
       },
     );

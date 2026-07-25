@@ -16,10 +16,11 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
-import { RATINGS } from "@/features/media/components/info/elements/seen/elements/rating-icons";
-import { Icon } from "@/features/common/ui/icon";
-import RatingSkip from "@/assets/images/ratings/rating-skip.svg";
-import { RatingButton } from "@/features/media/components/info/elements/seen/elements/rating-button";
+import {
+  DEFAULT_RATING,
+  RatingSlider,
+} from "@/features/media/components/info/elements/seen/elements/rating-slider";
+import { RatingSliderLottie } from "@/features/media/components/info/elements/seen/elements/rating-slider-lottie";
 
 type Props = {
   id: ID;
@@ -50,6 +51,9 @@ export const Seen = ({
   const showSaveWarning = !isSeen && isSaved;
 
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [pickedRating, setPickedRating] = useState<number | null>(
+    DEFAULT_RATING,
+  );
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
   const handlePress = async () => {
@@ -58,6 +62,10 @@ export const Seen = ({
       setShowLoginModal(true);
       return;
     }
+
+    // An item that was seen but never rated keeps Skip; a new one starts in the
+    // middle of the scale.
+    setPickedRating(isSeen ? (currentRating ?? null) : DEFAULT_RATING);
 
     // Always open the bottom sheet — for both initial and update flows
     bottomSheetRef.current?.present();
@@ -68,9 +76,9 @@ export const Seen = ({
     bottomSheetRef.current?.dismiss();
     const isFirstTime = !isSeen;
     if (isSeen) {
-      await updateRating(rating ?? undefined);
+      await updateRating(rating);
     } else {
-      await markAsSeen(rating ?? undefined);
+      await markAsSeen(rating);
     }
 
     if (rating === null) {
@@ -113,44 +121,40 @@ export const Seen = ({
         title={isSeen ? "Update Rating" : `Rate this ${mediaType}`}
         enableDynamicSizing
         footer={
-          isSeen ? (
-            // Already seen: let the user remove it
-            <Button variant={"ghost"} size={"lg"} onPress={handleUnseen}>
-              {`Remove this ${mediaType} from seen list`}
-            </Button>
-          ) : (
-            // First time: let the user skip rating
+          <View className="flex flex-col gap-2">
             <Button
-              variant={"ghost"}
+              variant={"white"}
               size={"lg"}
-              onPress={() => handleRate(null)}
-              icon={<Icon i={RatingSkip} />}
+              onPress={() => handleRate(pickedRating)}
             >
-              Skip rating
+              Save
             </Button>
-          )
+            {isSeen && (
+              <Button variant={"ghost"} size={"lg"} onPress={handleUnseen}>
+                {`Unseen this ${mediaType}`}
+              </Button>
+            )}
+          </View>
         }
       >
-        <View className="flex flex-col gap-6">
+        <View className="flex flex-col">
           {showSaveWarning && (
             <Text className="body-b2 text-neutral-10-default opacity-60">
               This action will remove the item from your saved list and add it
               to your watched history.
             </Text>
           )}
-          <View className="flex flex-row items-center justify-center gap-2">
-            {RATINGS.map(({ value, icon }) => {
-              const isSelected = currentRating === value;
-              return (
-                <RatingButton
-                  key={value}
-                  value={value}
-                  handleRate={handleRate}
-                  isSelected={isSelected}
-                  icon={icon}
-                />
-              );
-            })}
+          <View className="items-center">
+            <RatingSliderLottie value={pickedRating} />
+          </View>
+
+          <Text className="body-b2 text-center text-neutral-10-default opacity-60">
+            {pickedRating === null ? "Skip rating" : ""}
+          </Text>
+
+          {/* Bleed past the sheet padding so the far choices fade at the edges */}
+          <View className="-mx-4 my-4">
+            <RatingSlider value={pickedRating} onChange={setPickedRating} />
           </View>
         </View>
       </BottomSheet>

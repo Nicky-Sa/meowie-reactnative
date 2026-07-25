@@ -38,12 +38,12 @@ export const SeenIcon = ({ isSeen, rating }: Props) => {
         </Animated.View>
       ) : (
         <Animated.View
-          key={rating ? `rating-${rating}` : "skip"}
+          key={`rating-${rating ?? "skip"}`}
           entering={FadeIn.duration(400)}
           exiting={FadeOut.duration(400)}
           className="absolute"
         >
-          <RatingLottie rating={rating ?? "skip"} play={play} />
+          <RatingLottie rating={rating ?? null} play={play} />
         </Animated.View>
       )}
     </View>

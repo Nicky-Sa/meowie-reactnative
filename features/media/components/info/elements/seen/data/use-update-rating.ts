@@ -26,7 +26,7 @@ export const useUpdateRating = ({ id, mediaType }: Args) => {
     LibraryStatusResDto
   >(`/library/${mediaType}/${id}/seen`);
 
-  const updateRating = async (rating?: number) => {
+  const updateRating = async (rating: number | null) => {
     await queryClient.cancelQueries({ queryKey: [cacheKey] });
     const previousData = queryClient.getQueryData<
       SuccessResponse<LibraryStatusResDto>
@@ -37,7 +37,7 @@ export const useUpdateRating = ({ id, mediaType }: Args) => {
       [cacheKey],
       (old) => {
         if (!old) return old;
-        return { ...old, data: { ...old.data, rating: rating ?? null } };
+        return { ...old, data: { ...old.data, rating } };
       },
     );
 
