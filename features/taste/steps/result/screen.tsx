@@ -20,7 +20,7 @@ export const Screen = () => {
   const [personality, setPersonality] = useState<Personality>();
 
   const saveTaste = useCallback(async () => {
-    const { moviesShown, seriesShown, ...body } = state;
+    const { moviesShown, seriesShown, addedGenreIds, ...body } = state;
     return trigger(body);
   }, [trigger, state]);
 

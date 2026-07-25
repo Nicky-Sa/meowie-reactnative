@@ -10,6 +10,7 @@ import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-wid
 import { StepBody } from "@/features/taste/elements/step-body";
 import { useGenres } from "@/features/general/data/constants/use-genres";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
+import { lockedGenreIds } from "@/features/taste/locked-genres";
 import { tasteJourneyAtom } from "@/atoms";
 import { tailwind } from "@/lib/tailwind";
 
@@ -28,37 +29,25 @@ export const Screen = () => {
     horizontalPadding: HORIZONTAL_PADDING,
   });
 
-  // One genre per picked title, not every genre it carries — four picks used
-  // to lock half the list. Movie and series ids are separate namespaces and
-  // can collide, so each pool is matched against its own picks.
-  const lockedGenres = useMemo(() => {
-    const picked = [
-      ...(journey?.movies ?? []).filter((movie) =>
-        state.movieIds.includes(movie.tmdbId),
-      ),
-      ...(journey?.series ?? []).filter((series) =>
-        state.seriesIds.includes(series.tmdbId),
-      ),
-    ];
-    return [...new Set(picked.map((title) => title.mainGenreId))];
-  }, [journey, state.movieIds, state.seriesIds]);
+  const lockedGenres = useMemo(
+    () => lockedGenreIds(journey, state.movieIds, state.seriesIds),
+    [journey, state.movieIds, state.seriesIds],
+  );
 
-  // The picked titles decide these, so they go back in even if the user
-  // changes their titles after passing through this step.
+  // The one place the saved genres are built, so they follow the picks in both
+  // directions: going back and unpicking a title drops its genre again, while
+  // anything the user tapped themselves stays.
+  const addedGenres = state.addedGenreIds;
   useEffect(() => {
     setState((draft) => {
-      for (const genre of lockedGenres) {
-        if (!draft.genreIds.includes(genre)) {
-          draft.genreIds.push(genre);
-        }
-      }
+      draft.genreIds = [...new Set([...lockedGenres, ...addedGenres])];
     });
-  }, [lockedGenres, setState]);
+  }, [lockedGenres, addedGenres, setState]);
 
-  const setGenres: Updater<number[]> = (updater) => {
+  const setAddedGenres: Updater<number[]> = (updater) => {
     setState((draft) => {
-      if (typeof updater === "function") updater(draft.genreIds);
-      else draft.genreIds = updater;
+      if (typeof updater === "function") updater(draft.addedGenreIds);
+      else draft.addedGenreIds = updater;
     });
   };
 
@@ -100,8 +89,8 @@ export const Screen = () => {
             <View key={item.id} style={{ width: itemWidth }}>
               <Segment
                 item={item}
-                currentValues={state.genreIds}
-                setCurrentValues={setGenres}
+                currentValues={state.addedGenreIds}
+                setCurrentValues={setAddedGenres}
                 locked={lockedGenres.includes(item.id)}
                 multiple
               />

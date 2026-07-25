@@ -2,11 +2,15 @@ import { SaveTasteReqDto } from "@/features/taste/data/dto/taste.dto";
 
 /**
  * In-memory state for the taste journey, written to the backend on the reveal
- * step. It is the save body plus how much of each poster pool is on screen.
+ * step. It is the save body plus how much of each poster pool is on screen and
+ * which genres the user added themselves.
  */
 export type TasteJourneyState = SaveTasteReqDto & {
   moviesShown: number;
   seriesShown: number;
+  // Kept apart from genreIds so the genres a title locked can be dropped again
+  // when that title is unpicked, without losing the ones the user tapped.
+  addedGenreIds: number[];
 };
 
 export const SHOW_MORE_COUNT = 12;
@@ -32,4 +36,5 @@ export const initialTasteJourneyState = (): TasteJourneyState => ({
   exploreLevel: DEFAULT_EXPLORE_LEVEL,
   moviesShown: INITIAL_SHOWN,
   seriesShown: INITIAL_SHOWN,
+  addedGenreIds: [],
 });

@@ -106,8 +106,12 @@ The chips show only the emoji and the genre name. They used to carry example
 titles ("La La Land" under Music), which collided with the user's own picks — a
 chip could name a film they had just picked while sitting unticked.
 
-Locked genres follow the picks. Going back to change titles and returning to this
-step adds the new genres; anything extra the user ticked stays.
+Locked genres follow the picks both ways. Going back to change titles and
+returning to this step adds the genres of the new picks and **drops the genres
+of the ones let go** — a genre nothing points at any more shouldn't stay ticked.
+Anything the user tapped themselves is kept apart (`addedGenreIds` in the
+journey state, never saved) and survives either way, so a title and a tap on the
+same genre don't cancel each other out.
 
 ### Why one genre per pick
 
