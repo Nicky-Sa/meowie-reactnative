@@ -14,19 +14,20 @@ export const INITIAL_SHOWN = 12;
 
 export const DEFAULT_EXPLORE_LEVEL = 2;
 
-// Every question is answered before the journey can reach the reveal, so these
-// only stand in while the user is still working through them.
-const NO_PREFERENCE = "both";
+// "Not answered yet" must not equal any option id — "both" is the real id of
+// "no preference" and would show it preselected. The flow only reaches the
+// reveal through the questions, so the blanks never get saved.
+const UNANSWERED = "";
 
 export const initialTasteJourneyState = (): TasteJourneyState => ({
   movieIds: [],
   seriesIds: [],
   seriesSkipped: false,
   genreIds: [],
-  era: NO_PREFERENCE,
-  reality: NO_PREFERENCE,
-  authority: NO_PREFERENCE,
-  commitment: NO_PREFERENCE,
+  era: UNANSWERED,
+  reality: UNANSWERED,
+  authority: UNANSWERED,
+  commitment: UNANSWERED,
   avoid: [],
   exploreLevel: DEFAULT_EXPLORE_LEVEL,
   moviesShown: INITIAL_SHOWN,

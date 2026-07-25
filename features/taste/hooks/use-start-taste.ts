@@ -37,15 +37,18 @@ export const useStartTaste = () => {
   useEffect(() => {
     if (started || !isReady) return;
     setStarted(true);
-    setState(
-      storedTaste
-        ? {
-            ...storedTaste,
-            moviesShown: INITIAL_SHOWN,
-            seriesShown: INITIAL_SHOWN,
-          }
-        : initialTasteJourneyState(),
-    );
+    if (!storedTaste) {
+      setState(initialTasteJourneyState());
+      return;
+    }
+    // personality is response-only decoration — spreading it into the journey
+    // state would send it back in the save body.
+    const { personality, ...profile } = storedTaste;
+    setState({
+      ...profile,
+      moviesShown: INITIAL_SHOWN,
+      seriesShown: INITIAL_SHOWN,
+    });
   }, [started, isReady, setState, storedTaste]);
 
   return {

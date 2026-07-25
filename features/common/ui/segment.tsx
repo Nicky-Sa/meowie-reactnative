@@ -93,7 +93,7 @@ export const Segment = <T extends Primitive = string>({
         )}
       </View>
       {locked && (
-        <View className={"absolute right-0 top-0"}>
+        <View className={"absolute -right-2 top-0"}>
           <Icon
             i={Lock}
             width={LOCK_ICON_SIZE}

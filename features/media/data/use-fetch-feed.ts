@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import { PaginatedResponse } from "@/features/common/data/paginated-response";
 import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
@@ -26,6 +26,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   // Only page 1 of a pull-to-refresh carries the flag, and only once: a later
   // refetch on app focus must not rebuild the pool under the user.
   const wantsRefresh = useRef(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const baseUrl = `/feed/${mediaType}`;
 
@@ -34,8 +35,6 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isFetching,
-    isPlaceholderData,
     isLoading,
     refetch,
     ...rest
@@ -74,12 +73,17 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     return withVibeCard(titles, mediaType);
   }, [response, mediaType, withVibeCard]);
 
-  const onRefresh = useCallback(() => {
+  // The flag has to stay on until the refetch settles, otherwise the native
+  // pull-to-refresh control is left mid-refresh and the next pull misbehaves.
+  const onRefresh = useCallback(async () => {
     wantsRefresh.current = true;
-    void refetch();
+    setIsRefreshing(true);
+    try {
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
   }, [refetch]);
-
-  const isRefreshing = isFetching && isPlaceholderData;
 
   return {
     data: feedItems,

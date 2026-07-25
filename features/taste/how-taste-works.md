@@ -54,7 +54,7 @@ knows about a user's taste:
 | `genreIds` | `[18, 878, 16]` | **The main feed signal** |
 | `era` | `classic` / `new-release` / `both` | Boosts older or newer titles |
 | `reality` | `realistic` / `fantasy` / `both` | Boosts grounded or escapist genres |
-| `tasteAuthority` | `popular` / `critics-choice` / `both` | Boosts crowd-pleasers or high-rated |
+| `authority` | `popular` / `critics-choice` / `both` | Boosts crowd-pleasers or high-rated |
 | `commitment` | `short` / `long` / `both` | Sets a film length window |
 | `avoid` | `["horror", "long-watches"]` | Hard block — those titles never show. Stores stable ids, not the labels shown on screen |
 | `exploreLevel` | `0`–`4` | How far the feed may stray from the taste |
@@ -123,8 +123,8 @@ The app still doesn't judge, it just asks for less: one genre per poster, chosen
 when the pool is written rather than worked out at runtime. The feed's own
 scoring decides how much each genre counts. Rarity weights still exist on the
 backend, but only the personality card uses them (`topGenre` in
-`personality.ts`), and that one still reads every genre of a picked title, not
-just the main one.
+`personality.ts`), and that one counts the same main genres plus the saved
+genre list.
 
 ## The cat card
 
@@ -143,7 +143,7 @@ There are 25 cats. The genre leads and the answers follow:
 
 ```mermaid
 flowchart TD
-    A[era + reality + tasteAuthority] --> B{all three<br/>answered 'both'?}
+    A[era + reality + authority] --> B{all three<br/>answered 'both'?}
     B -->|yes| C[The Cativore]
     B -->|no| D[top genre of the picks<br/>and the tapped chips]
     D -->|a cat covers it| E[the genre's cat closest<br/>to the answers]

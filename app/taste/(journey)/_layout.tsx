@@ -28,7 +28,7 @@ export default function TasteJourneyLayout() {
         <ErrorState
           tryAgain={() => void refetch()}
           error={
-            "We couldn't load the taste quiz. Check your connection and try again."
+            "We couldn't load the taste journey. Check your connection and try again."
           }
         />
       </InnerScreen>
