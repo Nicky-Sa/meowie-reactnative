@@ -20,7 +20,7 @@ const HORIZONTAL_PADDING = Number(tailwind.theme.padding["4"]) * 2;
 
 export const Screen = () => {
   const router = useRouter();
-  const { genreEmoji, genreName } = useGenres();
+  const { data: genres, genreEmoji, genreName } = useGenres();
   const { data: journey } = useFetchJourney();
   const [state, setState] = useAtom(tasteJourneyAtom);
   const { itemWidth } = useGridItemWidth({
@@ -83,7 +83,7 @@ export const Screen = () => {
       <Text className={"body-b1 text-center text-neutral-8-default"}>
         These come from the titles you picked. Add any others you like.
       </Text>
-      {journey ? (
+      {journey && genres ? (
         <View className={"flex flex-row flex-wrap"} style={{ gap: GAP }}>
           {items.map((item) => (
             <View key={item.id} style={{ width: itemWidth }}>
