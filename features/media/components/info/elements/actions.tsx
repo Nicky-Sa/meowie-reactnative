@@ -45,9 +45,12 @@ export const Actions = ({
           />
         </Tourable>
       </View>
-      <Tourable tourEnabled={tourEnabled} step={TourStep.MediaDetails}>
-        <GoToDetails id={mediaId} mediaType={mediaType} />
-      </Tourable>
+      {/* The extra View is needed as Tourable applies its own styling to flex centering.*/}
+      <View className={"flex flex-row items-center"}>
+        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaDetails}>
+          <GoToDetails id={mediaId} mediaType={mediaType} />
+        </Tourable>
+      </View>
     </View>
   );
 };
