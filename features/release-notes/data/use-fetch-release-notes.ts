@@ -5,9 +5,9 @@ export const useFetchReleaseNotes = () => {
   const url = "/release-notes";
   const { data: response, ...rest } =
     useQueryConfigured<ReleaseNoteResDto[]>(url);
-  const x = response?.data ?? [];
+  const data = response?.data ?? [];
   return {
-    data: [...x, ...x, ...x],
+    data,
     ...rest,
   };
 };

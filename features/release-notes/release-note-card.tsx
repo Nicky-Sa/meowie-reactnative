@@ -38,9 +38,7 @@ export const ReleaseNoteCard = ({ note, highlighted = false }: Props) => {
       </Text>
 
       <View className={"flex flex-row items-center justify-between"}>
-        <Text className={"body-b2 text-neutral-5-default"}>
-          v{note.version}
-        </Text>
+        <Text className={"body-b2 text-neutral-5-default"}>{note.version}</Text>
         <Text className={"body-b2 text-neutral-5-default"}>
           {relativeTime(note.createdAt)}
         </Text>

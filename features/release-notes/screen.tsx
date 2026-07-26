@@ -6,7 +6,7 @@ import { Loading } from "@/features/common/ui/loading";
 import { Divider } from "@/features/common/ui/divider";
 import { ReleaseNoteCard } from "@/features/release-notes/release-note-card";
 import { useFetchReleaseNotes } from "@/features/release-notes/data/use-fetch-release-notes";
-import { useMarkReleaseNotesSeen } from "@/features/release-notes/data/use-release-notes-seen";
+import { useMarkReleaseNotesSeen } from "@/features/release-notes/data/use-mark-release-notes-seen";
 import { ReleaseNoteResDto } from "@/features/release-notes/data/dto/release-notes.dto";
 import { EmptyState } from "@/features/general/empty-state";
 

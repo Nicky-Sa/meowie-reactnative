@@ -1,7 +1,7 @@
 import { View, Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Link } from "@/features/common/ui/link";
-import { useHasUnseenReleaseNote } from "@/features/release-notes/data/use-release-notes-seen";
+import { useReleaseNotesSeen } from "@/features/release-notes/data/use-release-notes-seen";
 import Logo from "@/assets/images/logo/logo.svg";
 import LogoType from "@/assets/images/logo/logo-type.svg";
 import Animated, {
@@ -32,7 +32,7 @@ export const Header = ({
   setActiveMediaType,
 }: Props) => {
   const insets = useSafeAreaInsets();
-  const hasUnseenReleaseNote = useHasUnseenReleaseNote();
+  const hasUnseenReleaseNote = useReleaseNotesSeen();
 
   // 0 = Show Toggle, 1 = Show LogoType
   const animationValue = useSharedValue(0);
