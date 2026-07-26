@@ -194,7 +194,7 @@ export const Button = ({
         ) : (
           <View
             className={cn(
-              "flex-row items-center",
+              "flex-row items-center gap-2",
               (textOnly || !!icon) &&
                 variant !== "link" &&
                 "h-6 justify-center", // for absolute bare text

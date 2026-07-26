@@ -6,7 +6,7 @@ import { MediaType } from "@/features/common/data/models/media-type";
 // The card takes the feed page after this many swipes: third page for guests,
 // tenth for logged-in users who still have no taste.
 const GUEST_CARD_INDEX = 2;
-const LOGGED_IN_CARD_INDEX = 9;
+const LOGGED_IN_CARD_INDEX = 2;
 const VIBE_CARD_ID = -1;
 
 /**
