@@ -1,6 +1,6 @@
 export type StepHeader = { title: string; step: number };
 
-// Every question shares progress step 4, so the bar doesn't jump while the
+// Every question shares progress step 3, so the bar doesn't jump while the
 // user works through them.
 export const stepHeaderForPath = (
   pathname: string,
@@ -10,18 +10,16 @@ export const stepHeaderForPath = (
 
   if (rest.startsWith("questions")) {
     const order = Number(rest.split("/")[1]) || 1;
-    return { title: `Question ${order}/${questionCount}`, step: 4 };
+    return { title: `Question ${order}/${questionCount}`, step: 3 };
   }
 
   switch (rest) {
     case "":
-      return { title: "Pick movies you love", step: 1 };
+      return { title: "Rate at least 5 movies", step: 1 };
     case "series":
-      return { title: "Pick series you love", step: 2 };
-    case "genres":
-      return { title: "Confirm your genres", step: 3 };
+      return { title: "Rate a few series (optional)", step: 2 };
     case "preferences":
-      return { title: "Other preferences", step: 5 };
+      return { title: "Other preferences", step: 4 };
     default:
       return { title: "", step: 1 };
   }

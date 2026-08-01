@@ -56,7 +56,6 @@ export default function TasteJourneyLayout() {
           >
             <Stack.Screen name="index" />
             <Stack.Screen name="series" />
-            <Stack.Screen name="genres" />
             <Stack.Screen name="questions/[order]" />
             <Stack.Screen name="preferences" />
           </Stack>

@@ -1,29 +1,27 @@
-import { Lock } from "iconoir-react-native";
 import { Button } from "@/features/common/ui/button";
-import { Icon } from "@/features/common/ui/icon";
 import { Option } from "@/features/common/option";
-import { cn, tailwind } from "@/lib/tailwind";
+import { cn } from "@/lib/tailwind";
 import { Text, View } from "react-native";
 import { Updater } from "use-immer";
 import { Draft } from "immer";
 import { ReactNode, useCallback } from "react";
 
-const LOCK_ICON_SIZE = 20;
-
 type Primitive = string | number | boolean;
 
-export type SegmentItem<T extends Primitive = string> = Option<T> & {
+// Every visible part is optional: an icon on its own is a whole segment, and so
+// is a label on its own.
+export type SegmentItem<T extends Primitive = string> = Omit<
+  Option<T>,
+  "label"
+> & {
+  label?: string;
   icon?: ReactNode;
 };
 
 type Props<T extends Primitive> = {
   item: SegmentItem<T>;
-  centered?: boolean;
-  // Grow to take a share of the parent column's free space (tall cards).
-  fill?: boolean;
-  // Always shown as selected and ignores taps.
-  locked?: boolean;
   className?: string;
+  centered?: boolean;
 } & (Multiple<T> | Single<T>);
 
 type Multiple<T extends Primitive> = {
@@ -43,17 +41,14 @@ export const Segment = <T extends Primitive = string>({
   currentValues,
   setCurrentValues,
   multiple,
-  centered,
-  fill,
-  locked,
   className,
+  centered,
 }: Props<T>) => {
-  const isSelected =
-    locked ||
-    (multiple ? currentValues.includes(item.id) : currentValues === item.id);
+  const isSelected = multiple
+    ? currentValues.includes(item.id)
+    : currentValues === item.id;
 
   const onPress = useCallback(() => {
-    if (locked) return;
     if (multiple) {
       setCurrentValues((draft) => {
         const id = item.id as Draft<T>;
@@ -66,42 +61,38 @@ export const Segment = <T extends Primitive = string>({
     } else {
       setCurrentValues(item.id);
     }
-  }, [locked, multiple, setCurrentValues, item.id]);
+  }, [multiple, setCurrentValues, item.id]);
 
   return (
     <Button
       variant={isSelected ? "selected-segment" : "unselected-segment"}
       size={"segment"}
       onPress={onPress}
-      fill={fill}
-      className={cn(centered && "justify-center", fill && "flex-1", className)}
+      className={cn(className)}
     >
       <View
         className={cn(
-          "flex flex-col gap-2",
-          centered ? "items-center" : "items-start",
+          "flex flex-1 flex-row items-center gap-3",
+          // Nothing to line up against, so what is left sits in the middle.
+          centered ? "justify-center" : "justify-start",
         )}
       >
         {item.icon}
-        <Text className={"body-b1-strong text-neutral-10-default"}>
-          {item.label}
-        </Text>
-        {item.description && (
-          <Text className={"body-b2 text-neutral-6-default"}>
-            {item.description}
-          </Text>
+        {(item.label || item.description) && (
+          <View className={"flex flex-col gap-1"}>
+            {item.label && (
+              <Text className={"body-b1-strong text-neutral-10-default"}>
+                {item.label}
+              </Text>
+            )}
+            {item.description && (
+              <Text className={"body-b2 text-neutral-6-default"}>
+                {item.description}
+              </Text>
+            )}
+          </View>
         )}
       </View>
-      {locked && (
-        <View className={"absolute -right-2 top-0"}>
-          <Icon
-            i={Lock}
-            width={LOCK_ICON_SIZE}
-            height={LOCK_ICON_SIZE}
-            color={tailwind.theme.textColor.neutral[6].default}
-          />
-        </View>
-      )}
     </Button>
   );
 };

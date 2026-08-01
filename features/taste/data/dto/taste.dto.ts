@@ -7,11 +7,14 @@ export type Personality = {
   image: string;
 };
 
+export type TitleAnswer = "like" | "dislike" | "not-seen";
+
+// TMDB id → what the user said about it in the poster deck.
+export type TitleRatings = Record<number, TitleAnswer>;
+
 export type SaveTasteReqDto = {
-  movieIds: number[];
-  seriesIds: number[];
-  seriesSkipped: boolean;
-  genreIds: number[];
+  movieRatings: TitleRatings;
+  seriesRatings: TitleRatings;
   era: string;
   reality: string;
   authority: string;

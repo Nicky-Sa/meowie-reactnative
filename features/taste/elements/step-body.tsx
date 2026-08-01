@@ -4,23 +4,31 @@ import { ScrollView } from "react-native-gesture-handler";
 
 type Props = {
   footer?: ReactNode;
+  // The poster deck flicks up and down itself, so those steps must not sit
+  // inside a ScrollView — it would swallow the gesture.
+  scrollable?: boolean;
 };
 
-/**
- * Per-step body shell: a scrollable content area and an optional pinned footer.
- * The header, progress bar, safe area, and the steps' horizontal padding all
- * live in the journey layout, so a step only supplies its own content and footer.
- */
-export const StepBody = ({ footer, children }: PropsWithChildren<Props>) => (
+// The header, progress bar, safe area and horizontal padding live in the
+// journey layout, so a step only supplies its own content and footer.
+export const StepBody = ({
+  footer,
+  scrollable = true,
+  children,
+}: PropsWithChildren<Props>) => (
   <View className={"flex flex-1 flex-col"}>
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerClassName={"flex flex-col gap-4"}
-    >
-      {children}
-    </ScrollView>
+    {scrollable ? (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName={"flex flex-col gap-4"}
+      >
+        {children}
+      </ScrollView>
+    ) : (
+      <View className={"flex flex-1 flex-col gap-4"}>{children}</View>
+    )}
     {footer ? (
-      <View className={"flex flex-col gap-3 pt-3"}>{footer}</View>
+      <View className={"flex flex-col gap-3 pt-4"}>{footer}</View>
     ) : null}
   </View>
 );

@@ -1,71 +1,58 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useAtom } from "jotai";
 import { Button } from "@/features/common/ui/button";
 import { Loading } from "@/features/common/ui/loading";
 import { StepBody } from "@/features/taste/elements/step-body";
-import { PosterGrid } from "@/features/taste/elements/poster-grid";
+import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { SHOW_MORE_COUNT } from "@/features/taste/state";
+import { TitleAnswer } from "@/features/taste/data/dto/taste.dto";
+import { countOpinions } from "@/features/taste/state";
 import { tasteJourneyAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
   const [state, setState] = useAtom(tasteJourneyAtom);
-  const count = state.seriesIds.length;
+  const rated = countOpinions(state.seriesRatings);
 
-  const toggle = (tmdbId: number) =>
+  const rate = (tmdbId: number, answer: TitleAnswer) =>
     setState((draft) => {
-      const existingIndex = draft.seriesIds.indexOf(tmdbId);
-      if (existingIndex >= 0) draft.seriesIds.splice(existingIndex, 1);
-      else draft.seriesIds.push(tmdbId);
-      draft.seriesSkipped = false;
+      draft.seriesRatings[tmdbId] = answer;
     });
-
-  const showMore = () =>
-    setState((draft) => {
-      draft.seriesShown += SHOW_MORE_COUNT;
-    });
-
-  const skip = () => {
-    setState((draft) => {
-      draft.seriesIds = [];
-      draft.seriesSkipped = true;
-    });
-    router.push("/taste/genres");
-  };
 
   return (
     <StepBody
+      scrollable={false}
       footer={
-        <>
-          <Text className={"body-b1 text-center text-neutral-6-default"}>
-            {`${count} selected`}
-          </Text>
-          <Button
-            variant={"white"}
-            size={"lg"}
-            onPress={() => router.push("/taste/genres")}
-          >
-            Continue
-          </Button>
-          <Button variant={"ghost"} size={"md"} onPress={skip}>
-            Skip, I mostly watch movies
-          </Button>
-        </>
+        <Button
+          variant={"white"}
+          size={"lg"}
+          onPress={() =>
+            router.push({
+              pathname: "/taste/questions/[order]",
+              params: { order: "1" },
+            })
+          }
+        >
+          Next
+        </Button>
       }
     >
+      <Text className={"body-b1 text-center text-neutral-6-default"}>
+        {`${rated} rated`}
+      </Text>
+
       {journey ? (
-        <PosterGrid
+        <RatingStep
           items={journey.series}
-          shown={state.seriesShown}
-          selected={state.seriesIds}
-          onToggle={toggle}
-          onShowMore={showMore}
+          ratings={state.seriesRatings}
+          onRate={rate}
         />
       ) : (
-        <Loading />
+        <View className={"flex-1 justify-center"}>
+          <Loading />
+        </View>
       )}
     </StepBody>
   );

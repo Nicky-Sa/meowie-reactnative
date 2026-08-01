@@ -56,9 +56,6 @@ export const Screen = () => {
           <Segment
             key={option.id}
             item={sideItem(option)}
-            centered
-            // The two real sides fill the space; "no preference" sits smaller.
-            fill={option !== question.both}
             currentValues={current ?? ""}
             setCurrentValues={(value) => choose(value as string)}
           />

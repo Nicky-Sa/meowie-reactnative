@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { cn } from "@/lib/tailwind";
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 5;
 
 // Always the movies (purple) accent, matching the designs — the per-step
 // series accent only colours that step's own selections, not the progress.

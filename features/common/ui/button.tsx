@@ -10,11 +10,23 @@ import {
 import Animated, {
   useAnimatedStyle,
   withTiming,
+  withSequence,
+  withSpring,
   useDerivedValue,
+  useSharedValue,
 } from "react-native-reanimated";
 import { cn, tailwind } from "@/lib/tailwind";
-import { PropsWithChildren, ReactNode, useState } from "react";
+import {
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Loading } from "@/features/common/ui/loading";
+
+const WAKE_UP_PEAK = 1.03;
+const WAKE_UP_SPRING = { damping: 10, stiffness: 260, mass: 0.6 };
 
 const buttonVariants = {
   primary: {
@@ -103,8 +115,25 @@ type Props = PressableProps & {
   iconPosition?: "left" | "right" | "only";
   isLoading?: boolean;
   icon?: ReactNode;
-  // Grow to fill the space the parent gives the button (e.g. Segment fill).
-  fill?: boolean;
+};
+
+// A small pop the moment the button turns on, so a button that starts enabled
+// stays still.
+const useWakeUpScale = (disabled: boolean | null | undefined) => {
+  const scale = useSharedValue(1);
+  const wasDisabled = useRef(!!disabled);
+
+  useEffect(() => {
+    if (wasDisabled.current && !disabled) {
+      scale.value = withSequence(
+        withTiming(WAKE_UP_PEAK, { duration: 120 }),
+        withSpring(1, WAKE_UP_SPRING),
+      );
+    }
+    wasDisabled.current = !!disabled;
+  }, [disabled, scale]);
+
+  return scale;
 };
 
 export const Button = ({
@@ -114,7 +143,6 @@ export const Button = ({
   isLoading,
   icon,
   iconPosition = "left",
-  fill,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -127,6 +155,8 @@ export const Button = ({
       duration: 150,
     });
   }, [props.disabled, focused]);
+
+  const wakeUpScale = useWakeUpScale(props.disabled);
 
   const animatedBg = useDerivedValue(() => {
     return withTiming(buttonVariants[variant].backgroundColor, {
@@ -145,6 +175,7 @@ export const Button = ({
       opacity: animatedOpacity.value,
       backgroundColor: animatedBg.value,
       borderColor: animatedBorder.value,
+      transform: [{ scale: wakeUpScale.value }],
     };
   });
 
@@ -168,7 +199,7 @@ export const Button = ({
       disabled={props.disabled || isLoading}
     >
       <Animated.View
-        className={cn("overflow-hidden", fill && "grow")}
+        className={cn("overflow-hidden")}
         style={[
           {
             borderRadius:

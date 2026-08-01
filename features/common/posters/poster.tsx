@@ -92,7 +92,7 @@ export const Poster = memo(
             transition={400}
             showDetails={showExtraDetails}
             title={data.preview.title}
-            genreBadge={
+            badge={
               firstGenre ? `${firstGenre.emoji} ${firstGenre.name}` : undefined
             }
             pressed={isPressed}

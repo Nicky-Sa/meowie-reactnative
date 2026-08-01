@@ -19,10 +19,7 @@ export const Screen = () => {
   const [minLoadingDone, setMinLoadingDone] = useState(false);
   const [personality, setPersonality] = useState<Personality>();
 
-  const saveTaste = useCallback(async () => {
-    const { moviesShown, seriesShown, addedGenreIds, ...body } = state;
-    return trigger(body);
-  }, [trigger, state]);
+  const saveTaste = useCallback(async () => trigger(state), [trigger, state]);
 
   // The hook already exposes the failure through `error`; catching here only
   // stops it becoming an unhandled rejection that PostHog reports as a crash.

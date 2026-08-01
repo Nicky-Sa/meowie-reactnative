@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSetAtom } from "jotai";
 import { tasteJourneyAtom } from "@/atoms";
-import {
-  INITIAL_SHOWN,
-  initialTasteJourneyState,
-} from "@/features/taste/state";
+import { initialTasteJourneyState } from "@/features/taste/state";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { useFetchTaste } from "@/features/taste/data/use-fetch-taste";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { lockedGenreIds } from "@/features/taste/locked-genres";
 
 /**
  * Fills the journey state on the entry step: blank for a first run, the stored
@@ -20,8 +16,8 @@ import { lockedGenreIds } from "@/features/taste/locked-genres";
  */
 export const useStartTaste = () => {
   const setState = useSetAtom(tasteJourneyAtom);
-  // The pools say which genres a stored pick locked. Its own failure is shown
-  // by the journey layout, so only the wait matters here.
+  // The entry step can't render its deck without the pools, so the wait for
+  // them belongs here too. Their failure is shown by the journey layout.
   const { data: journey } = useFetchJourney();
   const { data: currentUser } = useCurrentUser();
   const hasStoredTaste = Boolean(currentUser?.user?.hasFilledInTaste);
@@ -51,16 +47,8 @@ export const useStartTaste = () => {
     // personality is response-only decoration — spreading it into the journey
     // state would send it back in the save body.
     const { personality, ...profile } = storedTaste;
-    // The saved row holds one flat list, so the genres their picks locked are
-    // taken back out to leave the ones they added themselves.
-    const locked = lockedGenreIds(journey, profile.movieIds, profile.seriesIds);
-    setState({
-      ...profile,
-      moviesShown: INITIAL_SHOWN,
-      seriesShown: INITIAL_SHOWN,
-      addedGenreIds: profile.genreIds.filter((id) => !locked.includes(id)),
-    });
-  }, [started, isReady, setState, storedTaste, journey]);
+    setState(profile);
+  }, [started, isReady, setState, storedTaste]);
 
   return {
     isReady,
