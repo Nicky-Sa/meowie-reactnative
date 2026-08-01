@@ -16,9 +16,7 @@ export type SaveTasteReqDto = {
   movieRatings: TitleRatings;
   seriesRatings: TitleRatings;
   era: string;
-  reality: string;
   authority: string;
-  commitment: string;
   avoid: string[];
   exploreLevel: number;
 };

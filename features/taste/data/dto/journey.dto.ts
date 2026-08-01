@@ -10,7 +10,7 @@ export type Title = {
   poster: string;
 };
 
-export type TasteAxis = "era" | "reality" | "authority" | "commitment";
+export type TasteAxis = "era" | "authority";
 
 export type TasteQuestion = {
   id: TasteAxis;

@@ -18,9 +18,7 @@ export const initialTasteJourneyState = (): TasteJourneyState => ({
   movieRatings: {},
   seriesRatings: {},
   era: UNANSWERED,
-  reality: UNANSWERED,
   authority: UNANSWERED,
-  commitment: UNANSWERED,
   avoid: [],
   exploreLevel: DEFAULT_EXPLORE_LEVEL,
 });

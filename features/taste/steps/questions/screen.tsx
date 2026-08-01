@@ -42,13 +42,13 @@ export const Screen = () => {
     const SideIllustration = QUESTION_ILLUSTRATIONS[option.id];
     return {
       ...option,
-      icon: SideIllustration ? <SideIllustration /> : undefined,
+      icon: <SideIllustration />,
     };
   };
 
   return (
-    <View className={"flex flex-1 flex-col gap-4"}>
-      <Text className={"title-t3 text-center text-neutral-10-default"}>
+    <View className={"mt-8 flex flex-1 flex-col gap-8"}>
+      <Text className={"title-t1 text-center text-neutral-8-default"}>
         {question.prompt}
       </Text>
       <View className={"flex flex-1 flex-col gap-3"}>
