@@ -17,9 +17,10 @@ export default function TasteJourneyLayout() {
   // Every step needs the journey, so its failure is handled once here instead
   // of leaving each step on a spinner that never ends.
   const { data: journey, isError, refetch } = useFetchJourney();
-  const { title, step } = stepHeaderForPath(
+  const { title, step, totalSteps } = stepHeaderForPath(
     pathname,
     journey?.questions.length ?? 0,
+    journey?.minMoviesToRate,
   );
 
   if (isError) {
@@ -42,7 +43,7 @@ export default function TasteJourneyLayout() {
     <InnerScreen title={title} fullWidth>
       <View className={"flex-1 gap-4"}>
         <View className={"px-4"}>
-          <TasteProgress step={step} />
+          <TasteProgress step={step} total={totalSteps} />
         </View>
         <View className={"flex-1"}>
           <Stack

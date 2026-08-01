@@ -44,7 +44,7 @@ export const Revealed = ({ personality }: Props) => {
           size={"lg"}
           onPress={() => router.replace("/home")}
         >
-          Start exploring
+          Go home
         </Button>
       </View>
     </View>

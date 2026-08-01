@@ -6,9 +6,7 @@ import {
 // Held in memory across the steps and sent whole on the reveal step.
 export type TasteJourneyState = SaveTasteReqDto;
 
-export const MIN_RATED_MOVIES = 5;
-
-export const DEFAULT_EXPLORE_LEVEL = 2;
+const DEFAULT_EXPLORE_LEVEL = 2;
 
 // "Not answered yet" must not equal any option id — "both" is the real id of
 // "no preference" and would show it preselected.

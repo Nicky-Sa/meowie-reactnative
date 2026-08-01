@@ -27,4 +27,5 @@ export type JourneyResDto = {
   questions: TasteQuestion[];
   avoidChips: Option[];
   exploreLevels: string[];
+  minMoviesToRate: number;
 };

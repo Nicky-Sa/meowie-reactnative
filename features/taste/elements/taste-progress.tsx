@@ -1,14 +1,18 @@
 import { View } from "react-native";
 import { cn } from "@/lib/tailwind";
 
-const TOTAL_STEPS = 5;
-
 // Always the movies (purple) accent, matching the designs — the per-step
 // series accent only colours that step's own selections, not the progress.
-export const TasteProgress = ({ step }: { step: number }) => {
+export const TasteProgress = ({
+  step,
+  total,
+}: {
+  step: number;
+  total: number;
+}) => {
   return (
     <View className={"flex flex-row items-center gap-2"}>
-      {Array.from({ length: TOTAL_STEPS }).map((_, index) => (
+      {Array.from({ length: total }).map((_, index) => (
         <View
           key={index}
           className={cn(

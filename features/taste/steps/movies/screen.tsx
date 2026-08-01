@@ -8,7 +8,7 @@ import { StepBody } from "@/features/taste/elements/step-body";
 import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { TitleAnswer } from "@/features/taste/data/dto/taste.dto";
-import { countOpinions, MIN_RATED_MOVIES } from "@/features/taste/state";
+import { countOpinions } from "@/features/taste/state";
 import { tasteJourneyAtom } from "@/atoms";
 import { useStartTaste } from "@/features/taste/hooks/use-start-taste";
 
@@ -17,7 +17,14 @@ export const Screen = () => {
   const { data: journey } = useFetchJourney();
   const [state, setState] = useAtom(tasteJourneyAtom);
   const rated = countOpinions(state.movieRatings);
-  const canContinue = rated >= MIN_RATED_MOVIES;
+  // The minimum comes with the journey, so nothing can continue before it lands.
+  const canContinue = journey !== undefined && rated >= journey.minMoviesToRate;
+
+  const ratedLabel = () => {
+    if (!journey) return "";
+    if (canContinue) return `${rated} rated`;
+    return `${rated}/${journey.minMoviesToRate} rated`;
+  };
 
   // Movies is the flow's entry step, so it sets up state on mount: blank for
   // a first run, the stored profile when the user comes back to edit.
@@ -55,7 +62,7 @@ export const Screen = () => {
       }
     >
       <Text className={"body-b1 text-center text-neutral-6-default"}>
-        {canContinue ? `${rated} rated` : `${rated}/${MIN_RATED_MOVIES} rated`}
+        {ratedLabel()}
       </Text>
 
       {journey && isReady ? (

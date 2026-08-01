@@ -7,7 +7,7 @@ scoring live in the backend.
 ## The short version
 
 The user goes through a deck of posters and says, for each one, whether they
-like it, don't like it, or haven't seen it. Then they answer four either/or
+like it, don't like it, or haven't seen it. Then they answer two either/or
 questions and say what to avoid. All of that is saved as one row in the `taste`
 table. The feed then uses that row to decide what to show them.
 
