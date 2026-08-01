@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import { useAtom } from "jotai";
 import { Button } from "@/features/common/ui/button";
 import { Loading } from "@/features/common/ui/loading";
-import { ErrorState } from "@/features/general/error-state";
 import { StepBody } from "@/features/taste/elements/step-body";
 import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
@@ -26,26 +25,13 @@ export const Screen = () => {
     return `${rated}/${journey.minMoviesToRate} rated`;
   };
 
-  // Movies is the flow's entry step, so it sets up state on mount: blank for
-  // a first run, the stored profile when the user comes back to edit.
-  const { isReady, hasFailedToLoadStoredTaste, retryLoadingStoredTaste } =
-    useStartTaste();
+  // Movies is the flow's entry step, so it clears the state on mount.
+  const { isReady } = useStartTaste();
 
   const rate = (tmdbId: number, answer: TitleAnswer) =>
     setState((draft) => {
       draft.movieRatings[tmdbId] = answer;
     });
-
-  if (hasFailedToLoadStoredTaste) {
-    return (
-      <ErrorState
-        tryAgain={retryLoadingStoredTaste}
-        error={
-          "We couldn't load your saved taste. Check your connection and try again."
-        }
-      />
-    );
-  }
 
   return (
     <StepBody

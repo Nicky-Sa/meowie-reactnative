@@ -32,8 +32,9 @@ Nothing is sent to the backend until the last screen.
 | 4 | `/taste/preferences` | Taps things to avoid, sets an "how adventurous" slider | Both optional |
 | 5 | `/taste/result` | Nothing — waits | Saves to the backend, shows the personality card |
 
-Screen 1 also loads any previously saved taste, so a returning user sees their
-old answers instead of a blank deck.
+Every run starts blank. Screen 1 wipes the shared object on mount, because a
+saved taste is never edited — a returning user can only start over. See
+[Coming back later](#coming-back-later).
 
 The poster decks are not hardcoded in the app. They come from one call to
 `GET /v1/taste/journey` made on screen 1, which returns the two pools, the two
@@ -172,3 +173,37 @@ a user reads is inside the picture.
 
 The two buttons: **Share my type** opens the normal share sheet with the
 picture attached, and **Go home** leaves the journey for the feed.
+
+## Coming back later
+
+Settings has one taste row. Which one shows depends on `hasFilledInTaste` on the
+current user:
+
+| State | Row | Goes to |
+|---|---|---|
+| No taste yet | Share your taste (highlighted) | `/taste` — the journey, blank |
+| Taste saved | My taste | `/settings/taste` — the saved card |
+| Not signed in | Either | The sign-in modal first |
+
+`/settings/taste` is the card on its own: it reads the saved row with
+`GET /v1/taste` and shows the same picture the journey ended on, plus **Share my
+type** and **Start over**.
+
+**Start over** asks first, in a sheet, then opens the journey. There is no way
+to edit a saved taste one answer at a time — the whole run is done again.
+
+```mermaid
+flowchart LR
+    A[Settings → My taste] --> B[Saved card]
+    B --> C[Share my type]
+    B --> D[Start over] --> E{Sure?}
+    E -->|Yes, let's go| F[Journey, empty deck]
+    E -->|closes the sheet| B
+```
+
+Nothing is deleted when the user starts over. The old row stays until the new
+run reaches screen 5 and saves over it, so a user who walks away halfway keeps
+the taste and the feed they had. There is no delete endpoint.
+
+The saved row is read on two screens only: the card above, and the feed. The
+journey never reads it.

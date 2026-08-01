@@ -21,6 +21,8 @@ export type SaveTasteReqDto = {
   exploreLevel: number;
 };
 
-export type TasteResDto = SaveTasteReqDto & {
+// The cat is all that comes back. The answers stay on the server: the journey
+// always starts blank and the feed reads them there.
+export type TasteResDto = {
   personality: Personality;
 };

@@ -19,7 +19,7 @@ export const Taste = () => {
       setShowLoginModal(true);
       return;
     }
-    router.push("/taste");
+    router.push(hasFilledInTaste ? "/settings/taste" : "/taste");
   };
 
   return (
@@ -29,7 +29,7 @@ export const Taste = () => {
         onPress={handlePress}
         icon={<Icon i={NavArrowRight} />}
       >
-        {hasFilledInTaste ? "Edit your taste" : "Share your taste"}
+        {hasFilledInTaste ? "My taste" : "Share your taste"}
       </Action>
 
       <LoginWarningModal

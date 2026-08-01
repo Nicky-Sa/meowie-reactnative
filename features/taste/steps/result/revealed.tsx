@@ -1,12 +1,9 @@
 import { Text, View } from "react-native";
 import { useRouter } from "expo-router";
-import { ShareIos } from "iconoir-react-native";
-import { PersonalityCard } from "@/features/taste/steps/result/personality-card";
-import { useCardImage } from "@/features/taste/steps/result/use-card-image";
+import { PersonalityCard } from "@/features/taste/elements/personality-card";
+import { ShareTypeButton } from "@/features/taste/elements/share-type-button";
 import { Personality } from "@/features/taste/data/dto/taste.dto";
 import { Button } from "@/features/common/ui/button";
-import { Icon } from "@/features/common/ui/icon";
-import { tailwind } from "@/lib/tailwind";
 
 type Props = {
   personality: Personality;
@@ -14,7 +11,6 @@ type Props = {
 
 export const Revealed = ({ personality }: Props) => {
   const router = useRouter();
-  const { share, isSharing } = useCardImage(personality);
 
   return (
     <View className={"mt-4 flex flex-1 flex-col gap-3"}>
@@ -25,20 +21,7 @@ export const Revealed = ({ personality }: Props) => {
         <PersonalityCard image={personality.image} />
       </View>
       <View className={"flex flex-col gap-3"}>
-        <Button
-          variant={"white"}
-          size={"lg"}
-          isLoading={isSharing}
-          icon={
-            <Icon
-              i={ShareIos}
-              color={tailwind.theme.textColor.neutral[1].default}
-            />
-          }
-          onPress={share}
-        >
-          Share my type
-        </Button>
+        <ShareTypeButton personality={personality} />
         <Button
           variant={"black"}
           size={"lg"}
