@@ -1,10 +1,9 @@
 import { Text, View } from "react-native";
-import { PropsWithChildren } from "react";
+import { ComponentType, PropsWithChildren } from "react";
 import { CenteredModal } from "@/features/common/centered-modal";
-import { SvgImage } from "@/features/common/ui/icon";
 
 type Props = {
-  img: SvgImage;
+  img: ComponentType;
   informationText: string;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;

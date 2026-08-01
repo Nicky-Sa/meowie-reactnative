@@ -1,10 +1,10 @@
 import { InformationModal } from "@/features/common/information-modal";
 import { Button } from "@/features/common/ui/button";
 import { useRouter } from "expo-router";
-import { SvgImage } from "@/features/common/ui/icon";
+import { ComponentType } from "react";
 
 type Props = {
-  img: SvgImage;
+  img: ComponentType;
   text: string;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
