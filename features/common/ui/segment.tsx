@@ -72,7 +72,9 @@ export const Segment = <T extends Primitive = string>({
     >
       <View
         className={cn(
-          "flex flex-1 flex-row items-center gap-3",
+          // Grows to fill a full-width row, but keeps its own width in a
+          // wrapping row of chips — flex-1 would collapse those to nothing.
+          "flex flex-grow flex-row items-center gap-3",
           // Nothing to line up against, so what is left sits in the middle.
           centered ? "justify-center" : "justify-start",
         )}

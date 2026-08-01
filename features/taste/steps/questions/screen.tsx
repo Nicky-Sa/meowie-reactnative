@@ -47,7 +47,7 @@ export const Screen = () => {
   };
 
   return (
-    <View className={"mt-8 flex flex-1 flex-col gap-8"}>
+    <View className={"mt-10 flex flex-1 flex-col gap-8"}>
       <Text className={"title-t1 text-center text-neutral-8-default"}>
         {question.prompt}
       </Text>

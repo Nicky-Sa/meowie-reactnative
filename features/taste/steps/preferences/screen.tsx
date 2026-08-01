@@ -46,30 +46,37 @@ export const Screen = () => {
         </Button>
       }
     >
-      <Text className={"body-b1 text-center text-neutral-8-default"}>
-        Tap what you&apos;d rather not see. (optional)
-      </Text>
-
       {journey ? (
-        <View className={"flex flex-col gap-8"}>
-          <View className={"flex flex-row flex-wrap justify-center gap-2"}>
-            {journey.avoidChips.map((chip) => (
-              <Segment
-                key={chip.id}
-                item={chip}
-                currentValues={state.avoid}
-                setCurrentValues={setAvoid}
-                multiple
-              />
-            ))}
+        <View className={"mt-10 flex flex-col gap-8"}>
+          <View className={"flex flex-col gap-4"}>
+            <Text className={"title-t3 text-center text-neutral-10-default"}>
+              Anything to avoid?
+            </Text>
+
+            <View className={"flex flex-row flex-wrap justify-center gap-2"}>
+              {journey.avoidChips.map((chip) => (
+                <Segment
+                  key={chip.id}
+                  item={chip}
+                  currentValues={state.avoid}
+                  setCurrentValues={setAvoid}
+                  multiple
+                />
+              ))}
+            </View>
           </View>
 
           <Divider />
 
           <View className={"flex flex-col items-center gap-4"}>
-            <Text className={"title-t3 text-center text-neutral-10-default"}>
-              How adventurous?
-            </Text>
+            <View className={"flex flex-col items-center gap-1"}>
+              <Text className={"title-t3 text-center text-neutral-10-default"}>
+                How adventurous?
+              </Text>
+              <Text className={"body-b2 text-center text-neutral-5-default"}>
+                Choose how broad you want your feed to be.
+              </Text>
+            </View>
             <ExploreLevelLottie level={state.exploreLevel} />
             <Text className={"title-t2 text-neutral-10-default"}>
               {exploreLevels[state.exploreLevel]}

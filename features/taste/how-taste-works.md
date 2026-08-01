@@ -68,7 +68,7 @@ knows about a user's taste:
 | `seriesRatings` | `{ "1396": "not-seen" }` | Same, for series |
 | `era` | `classic` / `new-release` / `both` | Boosts older or newer titles |
 | `authority` | `popular` / `critics-choice` / `both` | Boosts crowd-pleasers or high-rated |
-| `avoid` | `["horror", "long-watches"]` | Hard block — those titles never show. Stores stable ids, not the labels shown on screen |
+| `avoid` | `["horror", "documentaries"]` | Hard block — those titles never show. Stores stable ids, not the labels shown on screen |
 | `exploreLevel` | `0`–`4` | How far the feed may stray from the taste |
 
 Saving also wipes the user's cached feed, so the change shows up right away.
