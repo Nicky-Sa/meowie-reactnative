@@ -50,8 +50,13 @@ it.
 The flat grey card peeking out below the poster is decoration. It says "there
 are more below" and is never the next title — that is why it carries no artwork.
 
-The deck holds the whole pool: 36 films and 26 series. They are ordered one
-genre at a time, so the first posters cover as many kinds of title as possible.
+The deck holds the whole pool: 117 films and 69 series across 18 genres. They
+are dealt one genre at a time, so the first posters cover every genre before any
+genre comes round again.
+
+The titles are chosen to divide people, not because they are the best films ever
+made. A title everyone likes says nothing about the person rating it, so the
+deck leans on the ones that start arguments.
 
 Files: `elements/poster-deck.tsx` (the deck), `elements/rating-buttons.tsx` (the
 three buttons), `elements/rating-step.tsx` (the two together), and the two
@@ -98,9 +103,9 @@ What replaced it is the deck itself. A rated title is a much more exact thing to
 say than "I like drama", and TMDB's own "people who liked this also liked…" does
 the widening that the genre sweep used to do.
 
-The one place a genre still appears is inside the cat card, below, which counts
-the main genre of the titles the user liked. That never leaves the server and
-never reaches the feed.
+The one place a genre still appears is inside the cat card, below, which reads
+the main genre of the titles the user liked. Each deck title carries exactly one
+hand-set `mainGenreId`; it never leaves the server and never reaches the feed.
 
 ## The cat card
 
@@ -115,49 +120,55 @@ The pictures live in S3, one PNG per cat, 2160 x 3856:
 https://meowie-public.s3.eu-central-1.amazonaws.com/taste/personalities/<name>.png
 ```
 
-There are 21 cats in use. The liked titles lead and the answers follow:
+There are 24 cats plus The Cativore. Every cat is a row with four leanings, and
+the one that fits the user best wins — there are no groups and no fallback
+chain:
+
+| Field | What it means |
+|---|---|
+| `genres` | The genres this cat stands for. Counts for the most. |
+| `era` | `classic` or `new-release`, matched against the era answer |
+| `authority` | `popular` or `critics-choice`, matched against the taste answer |
+| `trait` | How the person rated, not what they rated. Optional. |
+| `rarity` | Breaks ties only. The rarer cat wins, because it's more fun to get. |
 
 ```mermaid
 flowchart TD
-    A[era + authority] --> B{both<br/>answered 'both'?}
-    B -->|yes| C[The Cativore]
-    B -->|no| D[top genre of the<br/>liked titles]
-    D -->|a cat covers it| E[the genre's cat closest<br/>to the answers]
-    D -->|none does| F[the own cat of the group<br/>closest to the answers]
+    A[liked titles] --> B[share of likes<br/>in the cat's genres]
+    C[era + taste answers] --> D[one point each<br/>when the side matches]
+    E[how they rated] --> F[trait: for it or against it]
+    B --> G[score every cat]
+    D --> G
+    F --> G
+    G --> H{any score<br/>above zero?}
+    H -->|yes| I[highest score wins,<br/>ties go to the rarer cat]
+    H -->|no| J[The Cativore]
 ```
 
-**Step 1 — the top genre.** Every liked title votes once, for its main genre.
-The genre with the most votes wins; ties go to the rarer genre, so a common one
-can't win by being everywhere. Dislikes and "haven't seen it" don't vote, so a
-user who liked nothing skips straight to their group's own cat.
+**The genres carry the most weight (×3).** Not a single winning vote — the
+*share* of the user's likes sitting in that cat's genres, weighted so a rare
+genre counts for more than a common one. Two westerns beat two dramas.
 
-**Step 2 — the cat.** Sixteen cats each stand for a genre inside one of 4 groups
-(a group is one side of each question: era and taste). If any cat covers the top
-genre, the one whose group agrees most with the user's answers wins. So the
-liked titles decide *which character* and the answers decide *which version* of
-it — Fantasy alone can land on Edward Scissorpaws, Hairy Pawter or Furrodo
-Bagpaws depending on the answers.
+**The two answers add a point each.** They can only choose between cats the
+genres already brought close, which is why crime plus "classics, critics" lands
+on The Catfather while crime plus "new, popular" lands on Wolf of Wool Street.
 
-If no cat covers the top genre (Comedy and Romance have none, for example), the
-own cat of the group that agrees most with the answers steps in.
+**The trait uses what nothing else does.** Likes, dislikes and skips describe a
+person on their own: mostly dislikes is `hard-to-please`, mostly likes is
+`easy-going`, a deck of skips is `lots-left-to-watch`. A matching cat gains 1.5,
+a cat that stands for the opposite way of rating loses 1.5 — otherwise the trait
+would only ever settle ties.
 
-A "no preference" answer simply matches neither side and lets the other answers
-decide; the last tie always breaks toward the popular-modern side.
+A "no preference" answer matches no side and simply adds nothing. Someone who
+liked nothing and took no side scores zero everywhere and gets The Cativore.
 
-| Group | Its own cat | Its four genre cats |
-|---|---|---|
-| classic · popular | Luke Skywhisker | Drama → Furrest Gump, Crime → Tony Meowtana, Adventure → Indiana Bones, Animation → Simeow |
-| classic · critics | The Catfather | Thriller → Hannibal Licker, History → Maximeow, Horror → Jack Scratchrance, Fantasy → Edward Scissorpaws |
-| new · popular | The Dark Kitten | Action → John Whisk, Music → Freddie Purrcury, Sci-fi → Iron Cat, Fantasy → Hairy Pawter |
-| new · critics | Heisenpurr | Drama → Tony Sopurrano, Mystery → Rust Clawle, Fantasy → Furrodo Bagpaws, Thriller → Dream Whisker |
-
-Four cats lost their group when the reality question went and are no longer
-picked: Rocky Pawboa, Ripurr, Wolf of Wool Street and Paw Atreides. Their
-pictures are still in S3, so any of them can take over a group's own cat.
+Four genres in the deck have no cat yet: Romance, Documentary, War and Western.
+Nothing breaks — those users land on the cat that fits their answers and their
+trait instead — but they're the obvious next cats to draw.
 
 The backend sends back only two things: the picture's address and the cat's
 name. The name is used in the share message and nowhere else — everything else
 a user reads is inside the picture.
 
 The two buttons: **Share my type** opens the normal share sheet with the
-picture attached, and **Start exploring** goes to the feed.
+picture attached, and **Go home** leaves the journey for the feed.
