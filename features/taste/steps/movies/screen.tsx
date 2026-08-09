@@ -7,7 +7,7 @@ import { StepBody } from "@/features/taste/elements/step-body";
 import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { TitleAnswer } from "@/features/taste/data/dto/taste.dto";
-import { countOpinions } from "@/features/taste/state";
+import { countLikes } from "@/features/taste/state";
 import { tasteJourneyAtom } from "@/atoms";
 import { useStartTaste } from "@/features/taste/hooks/use-start-taste";
 
@@ -15,14 +15,14 @@ export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
   const [state, setState] = useAtom(tasteJourneyAtom);
-  const rated = countOpinions(state.movieRatings);
+  const liked = countLikes(state.movieRatings);
   // The minimum comes with the journey, so nothing can continue before it lands.
-  const canContinue = journey !== undefined && rated >= journey.minMoviesToRate;
+  const canContinue = journey !== undefined && liked >= journey.minMoviesToLike;
 
-  const ratedLabel = () => {
+  const likedLabel = () => {
     if (!journey) return "";
-    if (canContinue) return `${rated} rated`;
-    return `${rated}/${journey.minMoviesToRate} rated`;
+    if (canContinue) return `${liked} liked`;
+    return `${liked}/${journey.minMoviesToLike} liked`;
   };
 
   // Movies is the flow's entry step, so it clears the state on mount.
@@ -48,7 +48,7 @@ export const Screen = () => {
       }
     >
       <Text className={"body-b1 text-center text-neutral-6-default"}>
-        {ratedLabel()}
+        {likedLabel()}
       </Text>
 
       {journey && isReady ? (

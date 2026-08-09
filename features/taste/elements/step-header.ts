@@ -15,7 +15,7 @@ const header = (title: string, step: number): StepHeader => ({
 export const stepHeaderForPath = (
   pathname: string,
   questionCount: number,
-  minMoviesToRate: number | undefined,
+  minMoviesToLike: number | undefined,
 ): StepHeader => {
   const rest = pathname.replace(/^\/taste\/?/, "");
 
@@ -29,8 +29,8 @@ export const stepHeaderForPath = (
       // The journey payload carries the minimum, so until it lands the title
       // names no number.
       return header(
-        minMoviesToRate
-          ? `Rate at least ${minMoviesToRate} movies`
+        minMoviesToLike
+          ? `Like at least ${minMoviesToLike} movies`
           : "Rate movies",
         1,
       );

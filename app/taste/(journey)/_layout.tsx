@@ -20,7 +20,7 @@ export default function TasteJourneyLayout() {
   const { title, step, totalSteps } = stepHeaderForPath(
     pathname,
     journey?.questions.length ?? 0,
-    journey?.minMoviesToRate,
+    journey?.minMoviesToLike,
   );
 
   if (isError) {
