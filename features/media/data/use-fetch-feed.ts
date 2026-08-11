@@ -6,7 +6,8 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
-import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
+// Taste is hidden until the backend is refreshed.
+// import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
 
 type Args = {
   mediaType: MediaType;
@@ -21,7 +22,7 @@ type Args = {
 export const useFetchFeed = ({ mediaType }: Args) => {
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
   const isLoggedIn = !!currentUser?.user;
-  const { withVibeCard } = useVibeCard();
+  // const { withVibeCard } = useVibeCard();
 
   // Stays on for the whole pull-to-refresh, so a request that gets cancelled or
   // fails doesn't leave the flag stuck on for some later, unrelated fetch.
@@ -68,8 +69,9 @@ export const useFetchFeed = ({ mediaType }: Args) => {
         })),
       (item) => `${item.mediaType}-${item.id}`,
     );
-    return withVibeCard(titles, mediaType);
-  }, [response, mediaType, withVibeCard]);
+    return titles;
+    // return withVibeCard(titles, mediaType);
+  }, [response, mediaType]);
 
   const onRefresh = useCallback(async () => {
     wantsRefresh.current = true;
