@@ -35,9 +35,13 @@ export const WatchProviders = ({ providers, mediaId, mediaType }: Props) => {
 
   const handlePress = async () => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    media.trackWatchProvidersClicked({
+      mediaId,
+      mediaType,
+      hasProviders: uniqueProviders.length > 0,
+    });
     if (providers.tmdbLink) {
       try {
-        media.trackWatchProvidersClicked({ mediaId, mediaType });
         await WebBrowser.openBrowserAsync(providers.tmdbLink, {
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
         });

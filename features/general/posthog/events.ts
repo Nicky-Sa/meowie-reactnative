@@ -237,6 +237,7 @@ export type WATCH_PROVIDERS_CLICKED = {
   properties: {
     media_id: ID;
     media_type: MediaType;
+    has_providers: boolean;
   };
 };
 

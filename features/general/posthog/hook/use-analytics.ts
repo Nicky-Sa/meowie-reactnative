@@ -199,13 +199,16 @@ export const useAnalytics = () => {
         trackWatchProvidersClicked: ({
           mediaId,
           mediaType,
+          hasProviders,
         }: {
           mediaId: ID;
           mediaType: MediaType;
+          hasProviders: boolean;
         }): void =>
           capture("watch_providers_clicked", {
             media_id: mediaId,
             media_type: mediaType,
+            has_providers: hasProviders,
           }),
 
         trackTicketsClicked: ({
