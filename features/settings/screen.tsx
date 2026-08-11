@@ -1,6 +1,5 @@
 import { View, Text } from "react-native";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
-import { TermsConditions } from "@/features/settings/items/terms-conditions";
 import { PrivacyPolicy } from "@/features/settings/items/privacy-policy";
 import { DeleteUser } from "@/features/settings/items/delete-user";
 import { Logout } from "@/features/settings/items/logout";
@@ -33,7 +32,6 @@ export const Screen = () => {
           </View>
           <View className={"flex flex-col gap-2"}>
             <Title>Other</Title>
-            <TermsConditions />
             <PrivacyPolicy />
             {isLoggedIn && (
               <>
