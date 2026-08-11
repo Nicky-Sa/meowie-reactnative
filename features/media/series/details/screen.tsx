@@ -45,6 +45,15 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
     });
   }, [media, data, seriesId]);
 
+  const onPosterExpanded = useCallback(() => {
+    if (!data) return;
+    media.trackExpand({
+      mediaId: seriesId,
+      mediaType: "series",
+      mediaTitle: data.title,
+    });
+  }, [media, data, seriesId]);
+
   const onSavePress = useCallback(
     (saved: boolean | null) => {
       if (!data) return;
@@ -144,6 +153,7 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
             mediaType="series"
             onPlay={onTrailerPlay}
             onPause={onTrailerPause}
+            onPosterExpanded={onPosterExpanded}
           />
 
           <View className={"mt-6 flex flex-1 flex-col gap-6 px-4"}>

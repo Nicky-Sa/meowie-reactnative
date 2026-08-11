@@ -22,6 +22,7 @@ type Props = {
   mediaType: MediaType;
   onPlay: () => void;
   onPause: () => void;
+  onPosterExpanded: () => void;
 };
 
 export const Hero = ({
@@ -37,6 +38,7 @@ export const Hero = ({
   mediaType,
   onPlay,
   onPause,
+  onPosterExpanded,
 }: Props) => {
   return (
     <View className={"flex flex-col"}>
@@ -65,6 +67,7 @@ export const Hero = ({
           source={posterPath}
           blurhash={posterProps.blurhash}
           width={90}
+          onPress={onPosterExpanded}
         />
         <View className={"flex flex-1 flex-col justify-center gap-3"}>
           <View className={"gap-3"}>

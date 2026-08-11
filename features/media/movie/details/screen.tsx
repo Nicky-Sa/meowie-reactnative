@@ -42,6 +42,15 @@ export const Screen = ({ movieId }: { movieId: string }) => {
     media.trackTrailerPaused({ id: movieId, type: "movie", title: data.title });
   }, [media, data, movieId]);
 
+  const onPosterExpanded = useCallback(() => {
+    if (!data) return;
+    media.trackExpand({
+      mediaId: movieId,
+      mediaType: "movie",
+      mediaTitle: data.title,
+    });
+  }, [media, data, movieId]);
+
   const onSavePress = useCallback(
     (saved: boolean | null) => {
       if (!data) return;
@@ -141,6 +150,7 @@ export const Screen = ({ movieId }: { movieId: string }) => {
             mediaType="movie"
             onPlay={onTrailerPlay}
             onPause={onTrailerPause}
+            onPosterExpanded={onPosterExpanded}
           />
 
           <View className={"mt-6 flex flex-1 flex-col gap-6 px-4"}>
