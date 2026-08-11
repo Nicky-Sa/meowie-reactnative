@@ -49,6 +49,18 @@ export const useAnalytics = () => {
             media_type: mediaType,
           }),
 
+        trackMediaDetailsClick: ({
+          mediaId,
+          mediaType,
+        }: {
+          mediaId: ID;
+          mediaType: MediaType;
+        }): void =>
+          capture("media_details_clicked", {
+            media_id: mediaId,
+            media_type: mediaType,
+          }),
+
         trackLongPress: ({
           mediaId,
           mediaType,

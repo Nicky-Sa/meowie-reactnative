@@ -4,6 +4,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useRouter } from "expo-router";
 import { ID } from "@/features/common/data/media-query";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   id: ID;
@@ -12,8 +13,10 @@ type Props = {
 
 export const GoToDetails = ({ id, mediaType }: Props) => {
   const router = useRouter();
+  const { media } = useAnalytics();
 
   const handlePress = () => {
+    media.trackMediaDetailsClick({ mediaId: id, mediaType });
     router.push({
       pathname:
         mediaType === "movie" ? "/movie/[id]/details" : "/series/[id]/details",

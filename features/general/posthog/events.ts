@@ -256,6 +256,14 @@ export type TICKETS_CLICKED = {
   };
 };
 
+export type MEDIA_DETAILS_CLICKED = {
+  event: "media_details_clicked";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
 export type RELEASE_NOTES_OPENED = {
   event: "release_notes_opened";
   properties: {
@@ -296,6 +304,7 @@ export type Events =
   | WATCH_PROVIDERS_CLICKED
   | RECOMMENDATIONS_SEE_MORE_CLICKED
   | TICKETS_CLICKED
+  | MEDIA_DETAILS_CLICKED
   | RELEASE_NOTES_OPENED;
 
 export type Event = Events["event"];
