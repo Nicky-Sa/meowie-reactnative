@@ -127,7 +127,7 @@ export const Seen = ({
               size={"lg"}
               onPress={() => handleRate(pickedRating)}
             >
-              Save
+              Submit
             </Button>
             {isSeen && (
               <Button variant={"ghost"} size={"lg"} onPress={handleUnseen}>
