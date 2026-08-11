@@ -12,7 +12,7 @@ import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Credit } from "@/features/media/components/info/elements/credit";
 import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ID } from "@/features/common/data/media-query";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useMediaTracking } from "@/features/media/hooks/use-media-tracking";
 import { Href, useFocusEffect } from "expo-router";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
@@ -38,7 +38,22 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
   const [autoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/movie/${movieId}/details`;
 
-  const { media } = useAnalytics();
+  const {
+    onTrailerPlay,
+    onTrailerPause,
+    onPosterExpanded,
+    onSavePress,
+    onSeenPress,
+    onRate,
+    onSkipRating,
+    onRemoveSeen,
+  } = useMediaTracking({
+    id: movieId,
+    mediaType: "movie",
+    title: data?.title,
+    genres: data?.genres,
+    autoplay,
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -50,95 +65,6 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
     }, [data?.posterProps.primaryColorHex, inScreen, setColor]),
   );
 
-  // Posthog Events:
-  const onPlay = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPlayed({
-      media: { id: movieId, type: "movie", title: data.title },
-      autoplay,
-    });
-  }, [autoplay, media, data, movieId]);
-
-  const onPause = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPaused({ id: movieId, type: "movie", title: data.title });
-  }, [media, data, movieId]);
-
-  const onSavePress = useCallback(
-    (saved: boolean | null) => {
-      if (!data) return;
-      const mediaItem = {
-        id: movieId,
-        type: "movie" as const,
-        title: data.title,
-        genres: data.genres.map((g) => g.name),
-      };
-
-      if (saved === true) {
-        media.trackSave(mediaItem);
-      } else if (saved === false) {
-        media.trackUnsave(mediaItem);
-      }
-    },
-    [media, data, movieId],
-  );
-
-  const onSeenPress = useCallback(() => {
-    if (!data) return;
-    media.trackSeen({
-      id: movieId,
-      type: "movie",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, movieId]);
-
-  const onRate = useCallback(
-    (rating: number | null, isFirstTime: boolean) => {
-      if (!data) return;
-      media.trackRated({
-        media: {
-          id: movieId,
-          type: "movie",
-          title: data.title,
-          genres: data.genres.map((g) => g.name),
-        },
-        rating,
-        isFirstTime,
-      });
-    },
-    [media, data, movieId],
-  );
-
-  const onSkipRating = useCallback(() => {
-    if (!data) return;
-    media.trackRatingSkipped({
-      id: movieId,
-      type: "movie",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, movieId]);
-
-  const onRemoveSeen = useCallback(() => {
-    if (!data) return;
-    media.trackUnseen({
-      id: movieId,
-      type: "movie",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, movieId]);
-
-  const onPosterExpanded = useCallback(() => {
-    if (!data) return;
-    media.trackExpand({
-      mediaId: movieId,
-      mediaType: "movie",
-      mediaTitle: data.title,
-    });
-  }, [media, data, movieId]);
-
   return error ? (
     <ErrorState tryAgain={refetch} error={error} />
   ) : isLoading || !data ? (
@@ -149,8 +75,8 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         YTKey={data.trailerKey}
         inScreen={inScreen}
         autoplay={autoplay}
-        onPlay={onPlay}
-        onPause={onPause}
+        onPlay={onTrailerPlay}
+        onPause={onTrailerPause}
         backdropPath={data.backdropPath}
       />
 

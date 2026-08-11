@@ -7,8 +7,7 @@ import { Actions } from "@/features/media/components/details/elements/actions";
 import { WatchProviders } from "@/features/media/components/details/elements/watch-providers";
 import { Credits } from "@/features/media/components/details/elements/credits";
 import { Recommendations } from "@/features/media/components/details/elements/recommendations";
-import { useCallback } from "react";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useMediaTracking } from "@/features/media/hooks/use-media-tracking";
 import { useIsTransitionFinished } from "@/hooks/use-is-transition-finished";
 import Animated, {
   useAnimatedScrollHandler,
@@ -20,105 +19,27 @@ import { MediaDetailsSkeleton } from "@/features/media/components/details/media-
 
 export const Screen = ({ seriesId }: { seriesId: string }) => {
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
-  const { media } = useAnalytics();
   const isTransitionFinished = useIsTransitionFinished();
+  const {
+    onTrailerPlay,
+    onTrailerPause,
+    onPosterExpanded,
+    onSavePress,
+    onSeenPress,
+    onRate,
+    onSkipRating,
+    onRemoveSeen,
+  } = useMediaTracking({
+    id: seriesId,
+    mediaType: "series",
+    title: data?.title,
+    genres: data?.genres,
+  });
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
   });
-
-  const onTrailerPlay = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPlayed({
-      media: { id: seriesId, type: "series", title: data.title },
-      autoplay: false,
-    });
-  }, [media, data, seriesId]);
-
-  const onTrailerPause = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPaused({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-    });
-  }, [media, data, seriesId]);
-
-  const onPosterExpanded = useCallback(() => {
-    if (!data) return;
-    media.trackExpand({
-      mediaId: seriesId,
-      mediaType: "series",
-      mediaTitle: data.title,
-    });
-  }, [media, data, seriesId]);
-
-  const onSavePress = useCallback(
-    (saved: boolean | null) => {
-      if (!data) return;
-      const mediaItem = {
-        id: seriesId,
-        type: "series" as const,
-        title: data.title,
-        genres: data.genres.map((g) => g.name),
-      };
-
-      if (saved === true) {
-        media.trackSave(mediaItem);
-      } else if (saved === false) {
-        media.trackUnsave(mediaItem);
-      }
-    },
-    [media, data, seriesId],
-  );
-
-  const onSeenPress = useCallback(() => {
-    if (!data) return;
-    media.trackSeen({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
-
-  const onRate = useCallback(
-    (rating: number | null, isFirstTime: boolean) => {
-      if (!data) return;
-      media.trackRated({
-        media: {
-          id: seriesId,
-          type: "series",
-          title: data.title,
-          genres: data.genres.map((g) => g.name),
-        },
-        rating,
-        isFirstTime,
-      });
-    },
-    [media, data, seriesId],
-  );
-
-  const onSkipRating = useCallback(() => {
-    if (!data) return;
-    media.trackRatingSkipped({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
-
-  const onRemoveSeen = useCallback(() => {
-    if (!data) return;
-    media.trackUnseen({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
 
   return (
     <InnerScreen

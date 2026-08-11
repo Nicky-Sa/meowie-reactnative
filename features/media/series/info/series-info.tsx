@@ -12,7 +12,7 @@ import { EnlargeableImage } from "@/features/general/enlargeable-image";
 import { Credit } from "@/features/media/components/info/elements/credit";
 import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { ID } from "@/features/common/data/media-query";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useMediaTracking } from "@/features/media/hooks/use-media-tracking";
 import { Href, useFocusEffect } from "expo-router";
 import { ScrollableGenres } from "@/features/media/components/common/scrollable-genres";
 import { ScrollableTitle } from "@/features/media/components/common/scrollable-title";
@@ -35,7 +35,22 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
   const [autoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/series/${seriesId}/details`;
 
-  const { media } = useAnalytics();
+  const {
+    onTrailerPlay,
+    onTrailerPause,
+    onPosterExpanded,
+    onSavePress,
+    onSeenPress,
+    onRate,
+    onSkipRating,
+    onRemoveSeen,
+  } = useMediaTracking({
+    id: seriesId,
+    mediaType: "series",
+    title: data?.title,
+    genres: data?.genres,
+    autoplay,
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -47,99 +62,6 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
     }, [data?.posterProps.primaryColorHex, inScreen, setColor]),
   );
 
-  // Posthog Events:
-  const onPlay = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPlayed({
-      media: { id: seriesId, type: "series", title: data.title },
-      autoplay,
-    });
-  }, [autoplay, media, data, seriesId]);
-
-  const onPause = useCallback(() => {
-    if (!data) return;
-    media.trackTrailerPaused({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-    });
-  }, [media, data, seriesId]);
-
-  const onSavePress = useCallback(
-    (saved: boolean | null) => {
-      if (!data) return;
-      const mediaItem = {
-        id: seriesId,
-        type: "series" as const,
-        title: data.title,
-        genres: data.genres.map((g) => g.name),
-      };
-
-      if (saved === true) {
-        media.trackSave(mediaItem);
-      } else if (saved === false) {
-        media.trackUnsave(mediaItem);
-      }
-    },
-    [media, data, seriesId],
-  );
-
-  const onSeenPress = useCallback(() => {
-    if (!data) return;
-    media.trackSeen({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
-
-  const onRate = useCallback(
-    (rating: number | null, isFirstTime: boolean) => {
-      if (!data) return;
-      media.trackRated({
-        media: {
-          id: seriesId,
-          type: "series",
-          title: data.title,
-          genres: data.genres.map((g) => g.name),
-        },
-        rating,
-        isFirstTime,
-      });
-    },
-    [media, data, seriesId],
-  );
-
-  const onSkipRating = useCallback(() => {
-    if (!data) return;
-    media.trackRatingSkipped({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
-
-  const onRemoveSeen = useCallback(() => {
-    if (!data) return;
-    media.trackUnseen({
-      id: seriesId,
-      type: "series",
-      title: data.title,
-      genres: data.genres.map((g) => g.name),
-    });
-  }, [media, data, seriesId]);
-
-  const onPosterExpanded = useCallback(() => {
-    if (!data) return;
-    media.trackExpand({
-      mediaId: seriesId,
-      mediaType: "series",
-      mediaTitle: data.title,
-    });
-  }, [media, data, seriesId]);
-
   return error ? (
     <ErrorState tryAgain={refetch} error={error} />
   ) : isLoading || !data ? (
@@ -150,8 +72,8 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
         YTKey={data.trailerKey}
         inScreen={inScreen}
         autoplay={autoplay}
-        onPlay={onPlay}
-        onPause={onPause}
+        onPlay={onTrailerPlay}
+        onPause={onTrailerPause}
         backdropPath={data.backdropPath}
       />
 
