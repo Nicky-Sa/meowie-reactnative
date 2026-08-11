@@ -22,19 +22,19 @@ export const useAnalytics = () => {
        * Media-related tracking (movies, series, trailers, ratings)
        */
       media: {
-        trackView: ({
+        trackTimeOnCard: ({
           mediaId,
           mediaType,
-          durationMs,
+          timeOnCardSeconds,
         }: {
           mediaId: ID;
           mediaType: MediaType;
-          durationMs: number;
+          timeOnCardSeconds: number;
         }): void =>
-          capture("media_details_viewed", {
+          capture("media_card_time_spent", {
             media_id: mediaId,
             media_type: mediaType,
-            duration_ms: durationMs,
+            time_on_card_seconds: timeOnCardSeconds,
           }),
 
         trackClick: ({

@@ -18,7 +18,7 @@ import { ScrollableGenres } from "@/features/media/components/common/scrollable-
 import { ScrollableTitle } from "@/features/media/components/common/scrollable-title";
 import { RowInfo } from "@/features/media/components/common/row-info";
 import { Actions } from "@/features/media/components/info/elements/actions";
-import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
+import { useTrackMediaTime } from "@/features/media/hooks/use-track-media-time";
 import { Link } from "@/features/common/ui/link";
 
 type Props = {
@@ -27,8 +27,11 @@ type Props = {
 };
 
 export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
-  // Track time spent on this screen
-  useTrackTimeSpent(seriesId, "series");
+  useTrackMediaTime({
+    mediaId: seriesId,
+    mediaType: "series",
+    isVisible: inScreen,
+  });
 
   const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
   const [, setColor] = useAtom(colorAtom);

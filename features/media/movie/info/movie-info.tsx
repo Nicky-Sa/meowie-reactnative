@@ -20,7 +20,7 @@ import { ScrollableGenres } from "@/features/media/components/common/scrollable-
 import { ScrollableTitle } from "@/features/media/components/common/scrollable-title";
 import { RowInfo } from "@/features/media/components/common/row-info";
 import { Actions } from "@/features/media/components/info/elements/actions";
-import { useTrackTimeSpent } from "@/features/general/posthog/hook/use-track-time-spent";
+import { useTrackMediaTime } from "@/features/media/hooks/use-track-media-time";
 import { Link } from "@/features/common/ui/link";
 
 type Props = {
@@ -30,8 +30,11 @@ type Props = {
 };
 
 export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
-  // Track time spent on this screen
-  useTrackTimeSpent(movieId, "movie");
+  useTrackMediaTime({
+    mediaId: movieId,
+    mediaType: "movie",
+    isVisible: inScreen,
+  });
 
   const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
   const [, setColor] = useAtom(colorAtom);

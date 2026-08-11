@@ -224,12 +224,12 @@ export type ACCOUNT_DELETED = {
   };
 };
 
-export type MEDIA_DETAILS_VIEWED = {
-  event: "media_details_viewed";
+export type MEDIA_CARD_TIME_SPENT = {
+  event: "media_card_time_spent";
   properties: {
     media_id: ID;
     media_type: MediaType;
-    duration_ms: number;
+    time_on_card_seconds: number;
   };
 };
 export type WATCH_PROVIDERS_CLICKED = {
@@ -308,7 +308,7 @@ export type Events =
   | LOGIN_COMPLETED
   | LOGOUT
   | ACCOUNT_DELETED
-  | MEDIA_DETAILS_VIEWED
+  | MEDIA_CARD_TIME_SPENT
   | WATCH_PROVIDERS_CLICKED
   | RECOMMENDATIONS_SEE_MORE_CLICKED
   | TICKETS_CLICKED
