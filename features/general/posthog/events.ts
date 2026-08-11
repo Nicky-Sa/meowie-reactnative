@@ -265,6 +265,13 @@ export type MEDIA_DETAILS_CLICKED = {
   };
 };
 
+export type FEED_REFRESHED = {
+  event: "feed_refreshed";
+  properties: {
+    media_type: MediaType;
+  };
+};
+
 export type RELEASE_NOTES_OPENED = {
   event: "release_notes_opened";
   properties: {
@@ -306,6 +313,7 @@ export type Events =
   | RECOMMENDATIONS_SEE_MORE_CLICKED
   | TICKETS_CLICKED
   | MEDIA_DETAILS_CLICKED
+  | FEED_REFRESHED
   | RELEASE_NOTES_OPENED;
 
 export type Event = Events["event"];

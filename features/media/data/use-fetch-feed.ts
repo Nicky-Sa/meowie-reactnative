@@ -6,6 +6,7 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 // Taste is hidden until the backend is refreshed.
 // import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
 
@@ -22,6 +23,7 @@ type Args = {
 export const useFetchFeed = ({ mediaType }: Args) => {
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
   const isLoggedIn = !!currentUser?.user;
+  const { discovery } = useAnalytics();
   // const { withVibeCard } = useVibeCard();
 
   // Stays on for the whole pull-to-refresh, so a request that gets cancelled or
@@ -74,6 +76,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   }, [response, mediaType]);
 
   const onRefresh = useCallback(async () => {
+    discovery.trackFeedRefreshed({ mediaType });
     wantsRefresh.current = true;
     setIsRefreshing(true);
     try {
@@ -82,7 +85,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
       wantsRefresh.current = false;
       setIsRefreshing(false);
     }
-  }, [refetch]);
+  }, [refetch, discovery, mediaType]);
 
   return {
     data: feedItems,

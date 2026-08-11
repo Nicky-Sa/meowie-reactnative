@@ -245,6 +245,9 @@ export const useAnalytics = () => {
 
         trackFiltersOpened: (): void => capture("filters_opened", undefined),
 
+        trackFeedRefreshed: ({ mediaType }: { mediaType: MediaType }): void =>
+          capture("feed_refreshed", { media_type: mediaType }),
+
         trackFiltersApplied: ({
           filters,
           mediaType,
