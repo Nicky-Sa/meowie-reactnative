@@ -17,8 +17,7 @@ Grid posters list,"Assess the discoverability and usage of advanced, gesture-dri
 Explore,Analyze engagement with curated themes to see which movie groupings users pounce on the most.,collection_clicked,"id: number, title: string, sourceType: CollectionSourceType",User clicks on a collection card
 Explore,Measure the usage and discoverability of the filtering feature.,filters_opened,undefined,User clicks filter icon
 Filter,Analyze detailed user preferences to understand exactly what vibe they want to zero in on.,filters_applied,"filters: Filters, mediaType: string",User clicks Apply button
-Home,Evaluate the user need for custom content ordering versus relying on the algorithm's default flow.,sort_opened,undefined,User clicks on the sort icon
-Home,"Determine preferred sorting methods (e.g., release date, rating) to influence default catalog views.",sort_applied,sort_type: string,User applies the sort
+Home,See how many users read what's new and whether the badge is what brings them in.,release_notes_opened,has_new_note: boolean,User clicks the Meowie logo in the home header
 Home,Identify the most popular genres to inform what content is prioritized in the default swipe feed.,genre_clicked,"genre_id: ID, genre_name: string, media_type: MediaType",User clicks on genre tag
 Home,Evaluate interest in actor/director-driven discovery to help build future filmography features.,person_clicked,"person_id: ID, person_name: string, role: 'director' | 'cast'",User clicks on a cast or crew member
 Search,See what users are specifically looking for to identify gaps in the AI recommendation feed.,search_submitted,query: string,User hits enter or clicks search icon

@@ -317,6 +317,13 @@ export const useAnalytics = () => {
           capture("autoplay_toggled", { autoplay }),
 
         trackCacheCleared: (): void => capture("cache_cleared", undefined),
+
+        trackReleaseNotesOpened: ({
+          hasNewNote,
+        }: {
+          hasNewNote: boolean;
+        }): void =>
+          capture("release_notes_opened", { has_new_note: hasNewNote }),
       },
     }),
     [capture],

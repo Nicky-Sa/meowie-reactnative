@@ -17,6 +17,7 @@ import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 import { NotificationBadge } from "@/features/common/ui/notification-badge";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   scrollY: SharedValue<number>;
@@ -33,6 +34,7 @@ export const Header = ({
 }: Props) => {
   const insets = useSafeAreaInsets();
   const hasUnseenReleaseNote = useReleaseNotesSeen();
+  const { interaction } = useAnalytics();
 
   // 0 = Show Toggle, 1 = Show LogoType
   const animationValue = useSharedValue(0);
@@ -96,7 +98,14 @@ export const Header = ({
       }}
     >
       <View className="flex-1 items-start">
-        <Link href="/release-notes">
+        <Link
+          href="/release-notes"
+          onPress={() =>
+            interaction.trackReleaseNotesOpened({
+              hasNewNote: hasUnseenReleaseNote,
+            })
+          }
+        >
           <View className="relative">
             <Logo />
             {hasUnseenReleaseNote && (

@@ -256,6 +256,13 @@ export type TICKETS_CLICKED = {
   };
 };
 
+export type RELEASE_NOTES_OPENED = {
+  event: "release_notes_opened";
+  properties: {
+    has_new_note: boolean;
+  };
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -288,7 +295,8 @@ export type Events =
   | MEDIA_DETAILS_VIEWED
   | WATCH_PROVIDERS_CLICKED
   | RECOMMENDATIONS_SEE_MORE_CLICKED
-  | TICKETS_CLICKED;
+  | TICKETS_CLICKED
+  | RELEASE_NOTES_OPENED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
