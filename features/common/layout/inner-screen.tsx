@@ -83,29 +83,39 @@ export const InnerScreen = ({
     router.back();
   }, [router]);
 
+  // The two titles swap one after the other, never overlapping: the first one is
+  // fully gone at the halfway point, which is where the second one starts.
+  const titleSwapPoint = (titleFadeRange[0] + titleFadeRange[1]) / 2;
+
   const titleAnimatedStyle = useAnimatedStyle(() => {
     if (!scrollY) return { opacity: 1 };
 
-    // If we have a scrolledTitle, the primary title (e.g. "Movie Details")
-    // should be visible at start and fade out as we scroll.
     if (scrolledTitle) {
       return {
-        opacity: interpolate(scrollY.value, titleFadeRange, [1, 0], "clamp"),
+        opacity: interpolate(
+          scrollY.value,
+          [titleFadeRange[0], titleSwapPoint],
+          [1, 0],
+          "clamp",
+        ),
       };
     }
 
-    // Default behavior: title fades in
-    const opacity = interpolate(scrollY.value, titleFadeRange, [0, 1], "clamp");
-
-    return { opacity };
+    return {
+      opacity: interpolate(scrollY.value, titleFadeRange, [0, 1], "clamp"),
+    };
   });
 
   const scrolledTitleAnimatedStyle = useAnimatedStyle(() => {
     if (!scrollY || !scrolledTitle) return { opacity: 0 };
 
-    // Scrolled title fades in as we scroll
     return {
-      opacity: interpolate(scrollY.value, titleFadeRange, [0, 1], "clamp"),
+      opacity: interpolate(
+        scrollY.value,
+        [titleSwapPoint, titleFadeRange[1]],
+        [0, 1],
+        "clamp",
+      ),
     };
   });
 

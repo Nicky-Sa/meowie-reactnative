@@ -45,7 +45,7 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
     <InnerScreen
       title={"Series Details"}
       scrolledTitle={data?.title}
-      titleFadeRange={[170, 230]}
+      titleFadeRange={[170, 270]}
       fullWidth
       fullHeight
       scrollY={scrollY}
