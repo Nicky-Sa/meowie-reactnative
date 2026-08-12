@@ -21,7 +21,7 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
   return (
     <View
       className={
-        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between px-2"
+        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between"
       }
       style={{
         paddingTop:
