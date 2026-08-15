@@ -2,6 +2,7 @@ import { ExpoConfig } from "expo/config";
 import pkg from "./package.json";
 
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
+const isDevelopment = APP_VARIANT === "development";
 const iosUrlScheme = process.env.EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME;
 
 // READ THE VERSION FROM ENV
@@ -70,7 +71,8 @@ const getPlugins = (): ExpoConfig["plugins"] => {
           useFrameworks: "static",
         },
         android: {
-          usesCleartextTraffic: true,
+          // The dev backend is served over plain http on the LAN.
+          usesCleartextTraffic: isDevelopment,
         },
       },
     ],
@@ -90,13 +92,6 @@ const getPlugins = (): ExpoConfig["plugins"] => {
         imageWidth: 150,
         resizeMode: "contain",
         backgroundColor: "#0A0A0A",
-      },
-    ],
-    [
-      "expo-video",
-      {
-        supportsBackgroundPlayback: true,
-        supportsPictureInPicture: true,
       },
     ],
     "expo-image",
@@ -141,9 +136,10 @@ const config: ExpoConfig = {
     bundleIdentifier: getUniqueIdentifier(),
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
-      NSAppTransportSecurity: {
-        NSAllowsArbitraryLoads: true,
-      },
+      // Only the dev backend is plain http; release builds stay HTTPS-only.
+      ...(isDevelopment && {
+        NSAppTransportSecurity: { NSAllowsArbitraryLoads: true },
+      }),
       "UISupportedInterfaceOrientations~ipad": [
         "UIInterfaceOrientationPortrait",
         "UIInterfaceOrientationPortraitUpsideDown",
