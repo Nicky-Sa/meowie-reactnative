@@ -3,7 +3,6 @@ import { Icon } from "@/features/common/ui/icon";
 import { RatingLottie } from "@/features/media/components/info/elements/seen/elements/rating-lottie";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 type Props = {
   isSeen: boolean;
@@ -28,23 +27,13 @@ export const SeenIcon = ({ isSeen, rating }: Props) => {
   return (
     <View className="h-6 w-6 items-center justify-center">
       {!isSeen ? (
-        <Animated.View
-          key="eye"
-          entering={FadeIn.duration(300)}
-          exiting={FadeOut.duration(300)}
-          className="absolute"
-        >
+        <View className="absolute">
           <Icon i={Eye} />
-        </Animated.View>
+        </View>
       ) : (
-        <Animated.View
-          key={`rating-${rating ?? "skip"}`}
-          entering={FadeIn.duration(400)}
-          exiting={FadeOut.duration(400)}
-          className="absolute"
-        >
+        <View key={`rating-${rating ?? "skip"}`} className="absolute">
           <RatingLottie rating={rating ?? null} play={play} />
-        </Animated.View>
+        </View>
       )}
     </View>
   );

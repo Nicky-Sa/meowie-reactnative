@@ -60,8 +60,13 @@ export const SaveIcon = ({ isSaved }: Props) => {
 
   return (
     <View className="h-6 w-6 items-center justify-center">
-      {/* Static fallback while the Lottie loads from S3 */}
-      {!isLottieReady && <Icon i={isSaved ? BookmarkSolid : Bookmark} />}
+      {/* Static fallback while the Lottie loads from S3. Absolute so it sits on
+          top of the Lottie instead of below it, which pushed the icon upwards. */}
+      {!isLottieReady && (
+        <View className="absolute">
+          <Icon i={isSaved ? BookmarkSolid : Bookmark} />
+        </View>
+      )}
 
       {/* Lottie — hidden until loaded to prevent frame-0 flash */}
       <LottieView
