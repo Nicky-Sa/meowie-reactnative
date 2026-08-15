@@ -1,12 +1,22 @@
 import * as Updates from "expo-updates";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Toast from "react-native-toast-message";
 
-export const UpdatesListener = () => {
-  const { isUpdateAvailable, isUpdatePending, isDownloading, downloadError } =
-    Updates.useUpdates();
+const isMarkedUrgent = (update: Updates.UpdateInfo | undefined) => {
+  const manifest = update?.manifest;
+  if (!manifest || !("extra" in manifest)) return false;
 
-  const isDownloadingToastShown = useRef(false);
+  return manifest.extra?.expoClient?.extra?.updateIsUrgent === true;
+};
+
+export const UpdatesListener = () => {
+  const {
+    isUpdateAvailable,
+    isUpdatePending,
+    isDownloading,
+    downloadedUpdate,
+    downloadError,
+  } = Updates.useUpdates();
 
   useEffect(() => {
     if (__DEV__) return;
@@ -16,31 +26,24 @@ export const UpdatesListener = () => {
     }
   }, [isUpdateAvailable, isDownloading, isUpdatePending]);
 
+  // Only urgent updates restart the app. Everything else waits for the next
+  // cold start, which picks up the new bundle without any restart at all.
   useEffect(() => {
-    if (isDownloading && !isDownloadingToastShown.current) {
-      isDownloadingToastShown.current = true;
-      Toast.show({
-        type: "info",
-        text1: "Update available! 😺",
-        text2: "Downloading the latest version",
-      });
-    }
-  }, [isDownloading]);
+    if (!isUpdatePending || !isMarkedUrgent(downloadedUpdate)) return;
 
-  useEffect(() => {
-    if (isUpdatePending) {
-      Toast.show({
-        type: "success",
-        text1: "Update downloaded! 😻",
-        text2: "Restarting to apply the changes",
-      });
+    Toast.show({
+      type: "success",
+      text1: "Update downloaded! 😻",
+      text2: "Restarting to apply the changes",
+    });
 
-      // Wait a bit for the user to see the toast
-      setTimeout(async () => {
-        await Updates.reloadAsync();
-      }, 3000);
-    }
-  }, [isUpdatePending]);
+    // Wait a bit for the user to see the toast
+    const timer = setTimeout(() => {
+      void Updates.reloadAsync();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isUpdatePending, downloadedUpdate]);
 
   useEffect(() => {
     if (downloadError) {

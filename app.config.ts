@@ -175,6 +175,8 @@ const config: ExpoConfig = {
     eas: {
       projectId: "c041071d-3986-482a-b8ad-ae46ac74dd4a",
     },
+    // Read back from the update manifest so an urgent update restarts the app right away
+    updateIsUrgent: process.env.UPDATE_IS_URGENT === "true",
   },
   owner: "nicky_sa",
   updates: {
