@@ -43,6 +43,10 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+// Thrown when there is no refresh token to try. The session cannot recover,
+// so it is handled like a rejected token rather than a transient failure.
+class NoRefreshTokenError extends Error {}
+
 // Flag to prevent multiple refresh attempts
 let isRefreshing = false;
 
@@ -122,7 +126,7 @@ axiosInstance.interceptors.response.use(
 
         // Scenario A: No refresh token exists -> Downgrade to Guest immediately
         if (!refreshToken) {
-          throw new Error("No refresh token available");
+          throw new NoRefreshTokenError("No refresh token available");
         }
 
         // Scenario B: Attempt to refresh
@@ -149,14 +153,23 @@ axiosInstance.interceptors.response.use(
         // Retry original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        // Check if the server explicitly rejected the token (403)
+        // The session is dead (not a network blip) when there is no refresh
+        // token, or the server rejected it. The backend answers 403 when the
+        // refresh token is known but revoked/mismatched, and 401 when the
+        // refresh token itself is expired, malformed, or signed with another
+        // secret (e.g. a token from a different environment).
+        const rejectedStatus = isAxiosError(refreshError)
+          ? refreshError.response?.status
+          : undefined;
         const isAuthRejection =
-          isAxiosError(refreshError) && refreshError.response?.status === 403;
+          refreshError instanceof NoRefreshTokenError ||
+          rejectedStatus === 401 ||
+          rejectedStatus === 403;
 
         if (isAuthRejection) {
-          // Scenario C1: Server rejected the token — it's dead server-side.
+          // Scenario C1: The session is dead.
           // Clean up client state and downgrade to guest.
-          console.log("Refresh token rejected (403). Logging out.");
+          console.log("Refresh token rejected. Logging out.");
           await destroySession();
 
           processQueue(null, null);
