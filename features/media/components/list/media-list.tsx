@@ -1,4 +1,4 @@
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useListRef } from "@/features/common/hooks/list/use-list-ref";
@@ -34,6 +34,7 @@ type Props = {
   scrollHandler: ScrollHandlerProcessed;
   ListEmptyComponent?: ReactElement;
   isActive?: boolean;
+  resetScroll?: () => void;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
@@ -58,6 +59,7 @@ export const MediaList = memo(
     scrollHandler,
     ListEmptyComponent = <EmptyState />,
     isActive = true,
+    resetScroll,
   }: Props) => {
     const listRef = useListRef<MediaListItemData>();
 
@@ -70,10 +72,20 @@ export const MediaList = memo(
       isLoading,
     });
 
+    const handleRefresh = useCallback(() => {
+      if (isRefreshing) return;
+
+      if (resetScroll) {
+        listRef.current?.scrollToOffset({ offset: 0, animated: false });
+        resetScroll();
+      }
+      onRefresh?.();
+    }, [isRefreshing, listRef, resetScroll, onRefresh]);
+
     const { isReadyToRefresh } = usePullToRefresh({
       scrollY,
       isDragging,
-      onRefresh,
+      onRefresh: onRefresh ? handleRefresh : undefined,
       isRefreshing,
       isActive,
     });
@@ -111,12 +123,6 @@ export const MediaList = memo(
           }
           renderItem={renderItem}
           pagingEnabled
-          // Android keeps the native control: it has no negative scroll offset
-          // to measure, and it already waits for the finger to lift. iOS is
-          // driven by usePullToRefresh instead, which fires on release.
-          // Either way the spinner sits behind the absolute header, so the
-          // visible indicator is the overlay below.
-          onRefresh={Platform.OS === "android" ? onRefresh : undefined}
           refreshing={isRefreshing}
           // Animation Handler
           onScroll={scrollHandler}

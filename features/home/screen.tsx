@@ -40,6 +40,7 @@ export const Screen = () => {
           scrollY={scrollY}
           isDragging={isDragging}
           scrollHandler={scrollHandler}
+          resetScroll={resetScroll}
         />
       </SlidingContent>
 
@@ -55,6 +56,7 @@ export const Screen = () => {
           scrollY={scrollY}
           isDragging={isDragging}
           scrollHandler={scrollHandler}
+          resetScroll={resetScroll}
         />
       </SlidingContent>
 

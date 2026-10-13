@@ -24,10 +24,11 @@ export class FetcherError extends Error {
   }
 }
 
-export async function fetcher<REQ, RES>(
+export const fetcher = async <REQ, RES>(
   url: string,
   mutationArgs?: { arg: MutationArg<REQ> },
-): Promise<SuccessResponse<RES>> {
+  options?: AxiosRequestConfig,
+): Promise<SuccessResponse<RES>> => {
   const arg = mutationArgs?.arg;
 
   const config: AxiosRequestConfig = {
@@ -38,6 +39,7 @@ export async function fetcher<REQ, RES>(
       ...arg?.headers,
     },
     data: arg?.body,
+    ...options,
   };
 
   return axiosInstance
@@ -62,4 +64,4 @@ export async function fetcher<REQ, RES>(
       // Fallback for network errors or other issues
       throw new FetcherError(error.message || "An unknown error occurred");
     });
-}
+};

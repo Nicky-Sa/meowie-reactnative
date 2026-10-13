@@ -10,6 +10,7 @@ type Props = {
   isDragging: SharedValue<boolean>;
   scrollHandler: ScrollHandlerProcessed;
   isActive: boolean;
+  resetScroll: () => void;
 };
 
 export const TabContent = ({
@@ -19,6 +20,7 @@ export const TabContent = ({
   isDragging,
   scrollHandler,
   isActive,
+  resetScroll,
 }: Props) => {
   const {
     data,
@@ -48,6 +50,7 @@ export const TabContent = ({
       isDragging={isDragging}
       scrollHandler={scrollHandler}
       isActive={isActive}
+      resetScroll={resetScroll}
     />
   );
 };

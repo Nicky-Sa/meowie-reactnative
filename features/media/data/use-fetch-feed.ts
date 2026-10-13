@@ -1,103 +1,114 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { keepPreviousData } from "@tanstack/react-query";
-import { PaginatedResponse } from "@/features/common/data/paginated-response";
-import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchWithRepeat } from "@/features/common/data/fetch-with-repeat";
+import { useQueryInfiniteConfigured } from "@/features/common/data/query/hooks";
+import { SuccessResponse } from "@/features/common/data/transformers";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
+import { FeedResponse } from "@/features/media/data/dto/feed.dto";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-// Taste is hidden until the backend is refreshed.
-// import { useVibeCard } from "@/features/taste/vibe-card/use-vibe-card";
 
 type Args = {
   mediaType: MediaType;
 };
 
-/**
- * Home feed. Always hits `/feed/<media>`; the backend decides guest vs
- * personalized. Guests append `audience=guest` so CloudFront keeps the
- * cacheable guest feed on its own key — its cache key includes query strings
- * but not Authorization.
- */
+type FeedBatch = SuccessResponse<FeedResponse>;
+
+const PREPARING_POLL_INTERVAL_MS = 2000;
+const PREPARING_MAX_POLLS = 10;
+
+const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
+  const titleIds = lastBatch.data.results;
+  if (titleIds.length === 0) return undefined;
+
+  const earlierTitleIds = batches
+    .slice(0, -1)
+    .flatMap((batch) => batch.data.results);
+  if (titleIds.every((id) => earlierTitleIds.includes(id))) return undefined;
+
+  return batches.length;
+};
+
 export const useFetchFeed = ({ mediaType }: Args) => {
+  const queryClient = useQueryClient();
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
-  const isLoggedIn = !!currentUser?.user;
   const { discovery } = useAnalytics();
-  // const { withVibeCard } = useVibeCard();
-
-  // Stays on for the whole pull-to-refresh, so a request that gets cancelled or
-  // fails doesn't leave the flag stuck on for some later, unrelated fetch.
-  const wantsRefresh = useRef(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const refreshInProgress = useRef(false);
 
-  const baseUrl = `/feed/${mediaType}`;
+  const url = `/feed/${mediaType}`;
+  const userId = currentUser?.user?.id ?? null;
+  const queryKey = useMemo(() => [url, userId], [url, userId]);
 
   const {
     data: response,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
     isLoading,
-    refetch,
-    ...rest
-  } = useQueryPaginatedConfigured<PaginatedResponse<number>>(
-    [baseUrl, isLoggedIn],
-    (pageParam: number) => {
-      const params = [`page=${pageParam + 1}`];
-      // Only page 1 asks the backend to rebuild the pool.
-      if (wantsRefresh.current && pageParam === 0) params.push("refresh=true");
-      if (!isLoggedIn) params.push("audience=guest");
-      return `${baseUrl}?${params.join("&")}`;
-    },
-    {
-      // Starting before `/user/current` settles would fetch the guest feed for
-      // everyone, and the cached guest response usually wins that race.
-      enabled: !isCheckingUser,
-      placeholderData: keepPreviousData,
-      // The feed is deliberately shuffled per user. Refetching every page on
-      // app focus would reshuffle the list someone is halfway through.
-      refetchOnWindowFocus: false,
-    },
+    hasNextPage,
+    ...query
+  } = useQueryInfiniteConfigured<FeedResponse>(queryKey, url, {
+    queryFn: ({ signal }) =>
+      fetchWithRepeat<FeedResponse>(
+        url,
+        {
+          isReady: ({ status }) => status === "ready",
+          intervalMs: PREPARING_POLL_INTERVAL_MS,
+          maxRepeats: PREPARING_MAX_POLLS,
+          timeoutErrorMessage:
+            "Your feed is taking a while to prepare. Please try again.",
+        },
+        { signal },
+      ),
+    getNextPageParam: getNextBatch,
+    enabled: !isCheckingUser,
+    // Each GET consumes new titles. Automatic refetching would replace every loaded batch.
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchOnMount: false,
+    retry: false,
+  });
+
+  const feedItems = useMemo<MediaListItemData[]>(
+    () =>
+      deduplicate(
+        // deduplicate -> in case the backend starts serving "already-served" titles because we ran out of them
+        (response ?? [])
+          .flatMap((batch) => batch.data.results)
+          .map((id) => ({ id, mediaType })),
+        (item) => `${item.mediaType}-${item.id}`,
+      ),
+    [response, mediaType],
   );
 
-  const feedItems = useMemo(() => {
-    const titles: MediaListItemData[] = deduplicate(
-      (response ?? [])
-        .flatMap((page) => page.data.results)
-        .map((id) => ({
-          id,
-          mediaType,
-        })),
-      (item) => `${item.mediaType}-${item.id}`,
-    );
-    return titles;
-    // return withVibeCard(titles, mediaType);
-  }, [response, mediaType]);
+  const requestNewBatch = useCallback(async () => {
+    if (refreshInProgress.current) return;
 
-  const onRefresh = useCallback(async () => {
-    discovery.trackFeedRefreshed({ mediaType });
-    wantsRefresh.current = true;
+    refreshInProgress.current = true;
     setIsRefreshing(true);
     try {
-      await refetch();
+      await queryClient.resetQueries({ queryKey, exact: true });
     } finally {
-      wantsRefresh.current = false;
+      refreshInProgress.current = false;
       setIsRefreshing(false);
     }
-  }, [refetch, discovery, mediaType]);
+  }, [queryClient, queryKey]);
+
+  const onRefresh = useCallback(() => {
+    if (refreshInProgress.current) return;
+
+    discovery.trackFeedRefreshed({ mediaType });
+    return requestNewBatch();
+  }, [discovery, mediaType, requestNewBatch]);
 
   return {
+    ...query,
     data: feedItems,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    // The query sits disabled while the user check runs, which reads as "idle"
-    // rather than "loading" — the screen should still show the spinner.
+    hasNextPage: !isRefreshing && hasNextPage,
     isLoading: isCheckingUser || isLoading,
-    refetch,
+    refetch: requestNewBatch,
     onRefresh,
     isRefreshing,
-    ...rest,
   };
 };

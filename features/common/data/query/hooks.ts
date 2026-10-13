@@ -66,6 +66,38 @@ export const useQueryPaginatedConfigured = <
   return { ...result, data: result.data?.pages };
 };
 
+type InfiniteConfig<Data, Err> = Omit<
+  UseInfiniteQueryOptions<
+    SuccessResponse<Data>,
+    Err,
+    InfiniteData<SuccessResponse<Data>>,
+    readonly unknown[],
+    number
+  >,
+  "queryKey" | "initialPageParam"
+>;
+
+export const useQueryInfiniteConfigured = <Data, Err = Error>(
+  queryKey: unknown[],
+  url: string,
+  config: InfiniteConfig<Data, Err>,
+) => {
+  const result = useInfiniteQuery<
+    SuccessResponse<Data>,
+    Err,
+    InfiniteData<SuccessResponse<Data>>,
+    readonly unknown[],
+    number
+  >({
+    queryKey,
+    queryFn: ({ signal }) => fetcher<unknown, Data>(url, undefined, { signal }),
+    initialPageParam: 0,
+    ...config,
+  });
+
+  return { ...result, data: result.data?.pages };
+};
+
 export const useMutationConfigured = <REQ, RES, Err = Error>(
   url: string,
   config?: UseMutationOptions<SuccessResponse<RES>, Err, MutationArg<REQ>>,
