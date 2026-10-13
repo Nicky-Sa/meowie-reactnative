@@ -1,4 +1,4 @@
-import { useFetchSeriesInfo } from "@/features/media/series/data/use-fetch-series-info";
+import { useFetchSeriesDetails } from "@/features/media/series/data/use-fetch-series-details";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ErrorState } from "@/features/general/error-state";
 import { Hero } from "@/features/media/components/details/elements/hero";
@@ -18,7 +18,7 @@ import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 
 export const Screen = ({ seriesId }: { seriesId: string }) => {
-  const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
+  const { data, isLoading, error, refetch } = useFetchSeriesDetails(seriesId);
   const isTransitionFinished = useIsTransitionFinished();
   const {
     onTrailerPlay,

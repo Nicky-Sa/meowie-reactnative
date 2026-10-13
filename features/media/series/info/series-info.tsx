@@ -1,4 +1,4 @@
-import { useFetchSeriesInfo } from "@/features/media/series/data/use-fetch-series-info";
+import { useFetchSeriesDetails } from "@/features/media/series/data/use-fetch-series-details";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/common/trailer-player";
@@ -33,7 +33,7 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
     isVisible: inScreen,
   });
 
-  const { data, isLoading, error, refetch } = useFetchSeriesInfo(seriesId);
+  const { data, isLoading, error, refetch } = useFetchSeriesDetails(seriesId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/series/${seriesId}/details`;

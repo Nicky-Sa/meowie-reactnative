@@ -1,4 +1,4 @@
-import { useFetchMovieInfo } from "@/features/media/movie/data/use-fetch-movie-info";
+import { useFetchMovieDetails } from "@/features/media/movie/data/use-fetch-movie-details";
 // ScrollView imported from react-native to avoid interference with gesture handler (back)
 import { View, Text, ScrollView } from "react-native";
 import { TrailerPlayer } from "@/features/media/components/common/trailer-player";
@@ -36,7 +36,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
     isVisible: inScreen,
   });
 
-  const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
+  const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/movie/${movieId}/details`;

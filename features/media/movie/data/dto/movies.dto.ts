@@ -4,7 +4,7 @@ import { CreditInfo } from "@/features/common/data/models/credit";
 import { Genre } from "@/features/general/data/constants/use-genres";
 import { WatchProviders } from "@/features/common/data/models/watch-provider";
 
-export type MovieInfoResDto = {
+export type MovieDetailsResDto = {
   title: string;
   screeningStatus: string;
   duration: string;

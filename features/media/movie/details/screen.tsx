@@ -1,4 +1,4 @@
-import { useFetchMovieInfo } from "@/features/media/movie/data/use-fetch-movie-info";
+import { useFetchMovieDetails } from "@/features/media/movie/data/use-fetch-movie-details";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ErrorState } from "@/features/general/error-state";
 import { Hero } from "@/features/media/components/details/elements/hero";
@@ -19,7 +19,7 @@ import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 
 export const Screen = ({ movieId }: { movieId: string }) => {
-  const { data, isLoading, error, refetch } = useFetchMovieInfo(movieId);
+  const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
   const isTransitionFinished = useIsTransitionFinished();
   const {
     onTrailerPlay,
