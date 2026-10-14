@@ -191,13 +191,6 @@ function RootLayout() {
                                 />
 
                                 <Stack.Screen
-                                  name="settings/taste"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-
-                                <Stack.Screen
                                   name="person/[id]/index"
                                   options={{
                                     animation: "slide_from_right",

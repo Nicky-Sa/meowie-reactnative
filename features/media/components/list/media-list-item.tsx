@@ -9,7 +9,7 @@ import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-scre
 import { MovieInfo } from "@/features/media/movie/info/movie-info";
 import { SeriesInfo } from "@/features/media/series/info/series-info";
 import { MediaListItemData } from "@/features/media/components/list/types";
-import { VibeCard } from "@/features/taste/vibe-card/vibe-card";
+import { ShareTasteCard } from "@/features/taste/share-taste-card/share-taste-card";
 import { currentRoleInMediaAtom } from "@/atoms";
 import { useSetAtom } from "jotai";
 
@@ -57,8 +57,8 @@ export const MediaListItem = memo(
           style={contentStyle}
           className={"flex items-center justify-center"}
         >
-          {item.card === "taste-vibe" ? (
-            <VibeCard />
+          {item.card === "share-taste" ? (
+            <ShareTasteCard />
           ) : mediaType === "movie" ? (
             <MovieInfo
               movieId={id}

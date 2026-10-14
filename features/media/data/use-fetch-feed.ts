@@ -9,6 +9,7 @@ import { FeedResponse } from "@/features/media/data/dto/feed.dto";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useShareTasteCard } from "@/features/taste/share-taste-card/use-share-taste-card";
 
 type Args = {
   mediaType: MediaType;
@@ -35,6 +36,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const queryClient = useQueryClient();
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
   const { discovery } = useAnalytics();
+  const { withShareTasteCard } = useShareTasteCard();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const refreshInProgress = useRef(false);
 
@@ -72,14 +74,17 @@ export const useFetchFeed = ({ mediaType }: Args) => {
 
   const feedItems = useMemo<MediaListItemData[]>(
     () =>
-      deduplicate(
-        // deduplicate -> in case the backend starts serving "already-served" titles because we ran out of them
-        (response ?? [])
-          .flatMap((batch) => batch.data.results)
-          .map((id) => ({ id, mediaType })),
-        (item) => `${item.mediaType}-${item.id}`,
+      withShareTasteCard(
+        deduplicate(
+          // deduplicate -> in case the backend starts serving "already-served" titles because we ran out of them
+          (response ?? [])
+            .flatMap((batch) => batch.data.results)
+            .map((id) => ({ id, mediaType })),
+          (item) => `${item.mediaType}-${item.id}`,
+        ),
+        mediaType,
       ),
-    [response, mediaType],
+    [response, mediaType, withShareTasteCard],
   );
 
   const requestNewBatch = useCallback(async () => {

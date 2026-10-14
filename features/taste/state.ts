@@ -3,13 +3,18 @@ import {
   TitleRatings,
 } from "@/features/taste/data/dto/taste.dto";
 
-// Held in memory across the steps and sent whole when saving.
-export type TasteJourneyState = SaveTasteReqDto;
+export type TasteState = {
+  answers: SaveTasteReqDto;
+  completed: boolean;
+};
 
-export const initialTasteJourneyState = (): TasteJourneyState => ({
-  movieRatings: {},
-  seriesRatings: {},
-  avoid: [],
+export const initialTasteState = (): TasteState => ({
+  answers: {
+    movieRatings: {},
+    seriesRatings: {},
+    avoid: [],
+  },
+  completed: false,
 });
 
 // "Haven't seen it" says nothing about their taste, so it doesn't count.

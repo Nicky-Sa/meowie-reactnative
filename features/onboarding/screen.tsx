@@ -81,7 +81,7 @@ export const Screen = () => {
 
   const onLetsGo = () => {
     appStorage.setItem(APP_STORAGE_KEYS.ONBOARDED, "true");
-    router.replace("/home");
+    router.replace("/taste");
   };
 
   return (

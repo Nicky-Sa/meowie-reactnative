@@ -8,17 +8,17 @@ import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { TitleAnswer } from "@/features/taste/data/dto/taste.dto";
 import { countOpinions } from "@/features/taste/state";
-import { tasteJourneyAtom } from "@/atoms";
+import { tasteAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteJourneyAtom);
-  const rated = countOpinions(state.seriesRatings);
+  const [state, setState] = useAtom(tasteAtom);
+  const rated = countOpinions(state.answers.seriesRatings);
 
   const rate = (tmdbId: number, answer: TitleAnswer) =>
     setState((draft) => {
-      draft.seriesRatings[tmdbId] = answer;
+      draft.answers.seriesRatings[tmdbId] = answer;
     });
 
   return (
@@ -41,7 +41,7 @@ export const Screen = () => {
       {journey ? (
         <RatingStep
           items={journey.series}
-          ratings={state.seriesRatings}
+          ratings={state.answers.seriesRatings}
           onRate={rate}
         />
       ) : (

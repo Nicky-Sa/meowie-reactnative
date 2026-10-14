@@ -7,13 +7,10 @@ import {
   SeriesFilters,
   initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
-import { atomPersisted } from "@/atoms/storage";
+import { atomPersisted, atomPersistedWithImmer } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { PERSISTED_ATOM_KEYS } from "@/features/common/data/utils/storage-keys";
-import {
-  initialTasteJourneyState,
-  TasteJourneyState,
-} from "@/features/taste/state";
+import { initialTasteState, TasteState } from "@/features/taste/state";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -63,6 +60,8 @@ export const lastSeenReleaseNoteAtAtom = atomPersisted(
   "",
 );
 
-export const tasteJourneyAtom = atomWithImmer<TasteJourneyState>(
-  initialTasteJourneyState(),
+export const tasteAtom = atomPersistedWithImmer<TasteState>(
+  PERSISTED_ATOM_KEYS.TASTE,
+  initialTasteState(),
+  true,
 );

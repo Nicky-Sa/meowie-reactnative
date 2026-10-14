@@ -10,10 +10,13 @@ import {
 } from "@/features/common/ui/bottom-sheet";
 
 export const SkipAuth = () => {
-  const { from } = useLocalSearchParams<{ from?: string }>();
+  const { from, returnTo } = useLocalSearchParams<{
+    from?: string;
+    returnTo?: string;
+  }>();
   const fromOnboarding = from === "onboarding";
 
-  const { dismissScreen } = useDismissScreen();
+  const { dismissScreen } = useDismissScreen({ returnTo });
   const { auth } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
@@ -67,8 +70,8 @@ export const SkipAuth = () => {
       >
         <View className="my-2">
           <Text className="body-b2 text-neutral-5-default">
-            By continuing as a guest, we won&#39;t be able to learn your taste
-            and build your ultimate movie and series watchlist.
+            You can keep exploring as a guest. You can sign in later to save
+            your taste and watchlist to your account.
           </Text>
         </View>
       </BottomSheet>

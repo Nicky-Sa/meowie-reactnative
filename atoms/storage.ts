@@ -23,8 +23,11 @@ export const atomPersisted = <T>(key: string, initialValue: T) => {
 export const atomPersistedWithImmer = <T>(
   key: string,
   initialValue: T,
+  getOnInit = false,
 ): WritableAtom<T, [T | ((draft: Draft<T>) => void)], void> => {
-  const baseAtom = atomWithStorage<T>(key, initialValue, getStorage<T>());
+  const baseAtom = atomWithStorage<T>(key, initialValue, getStorage<T>(), {
+    getOnInit,
+  });
 
   const derivedAtom: WritableAtom<T, [T | ((draft: Draft<T>) => void)], void> =
     atom(

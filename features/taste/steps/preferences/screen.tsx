@@ -7,17 +7,17 @@ import { Loading } from "@/features/common/ui/loading";
 import { Segment } from "@/features/common/ui/segment";
 import { StepBody } from "@/features/taste/elements/step-body";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
-import { tasteJourneyAtom } from "@/atoms";
+import { tasteAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
-  const [state, setState] = useAtom(tasteJourneyAtom);
+  const [state, setState] = useAtom(tasteAtom);
 
   const setAvoid: Updater<string[]> = (updater) => {
     setState((draft) => {
-      if (typeof updater === "function") updater(draft.avoid);
-      else draft.avoid = updater;
+      if (typeof updater === "function") updater(draft.answers.avoid);
+      else draft.answers.avoid = updater;
     });
   };
 
@@ -45,7 +45,7 @@ export const Screen = () => {
                 <Segment
                   key={chip.id}
                   item={chip}
-                  currentValues={state.avoid}
+                  currentValues={state.answers.avoid}
                   setCurrentValues={setAvoid}
                   multiple
                 />
