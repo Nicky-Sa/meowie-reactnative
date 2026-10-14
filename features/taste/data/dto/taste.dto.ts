@@ -8,3 +8,7 @@ export type SaveTasteReqDto = {
   seriesRatings: TitleRatings;
   avoid: string[];
 };
+
+export type SaveTasteResDto = {
+  successful: boolean;
+};
