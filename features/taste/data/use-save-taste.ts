@@ -16,8 +16,10 @@ export const useSaveTaste = () => {
     SaveTasteReqDto,
     SaveTasteResDto
   >(url, {
-    onSuccess: async () => {
-      await invalidateByPattern(/^\/(user\/current|feed)/);
+    onSuccess: async (response) => {
+      if (response?.data?.successful) {
+        await invalidateByPattern(/^\/(user\/current|feed)/);
+      }
     },
   });
 

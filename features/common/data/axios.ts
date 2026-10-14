@@ -8,6 +8,7 @@ import {
 import { GENERAL_TIMEOUT } from "@/lib/consts";
 import { getDefaultStore } from "jotai";
 import { countryCodeAtom } from "@/atoms";
+import { posthog } from "@/features/general/posthog/client";
 
 // Create the axios instance
 const axiosInstance = createAxiosInstance({
@@ -31,6 +32,7 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    config.headers["x-device-code"] = posthog.getDeviceId();
 
     // 3. Attach country code for localized content
     const countryCode = getDefaultStore().get(countryCodeAtom);

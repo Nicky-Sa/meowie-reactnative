@@ -13,7 +13,7 @@ import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { useThemeConfig } from "@/hooks/use-theme-config";
 import { ScreenTracker } from "@/features/general/posthog/screen-tracker";
-import { posthogStorage } from "@/features/general/posthog/storage";
+import { posthog } from "@/features/general/posthog/client";
 import { EventListenerWrapper } from "@/features/common/event-emitting/event-listener";
 import { SpotlightTourProvider } from "react-native-spotlight-tour";
 import { homeTourSteps } from "@/features/common/ui/tour/steps";
@@ -22,7 +22,6 @@ import { homeTourSeenAtom } from "@/atoms";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
-import { env } from "@/lib/env";
 import { UpdatesListener } from "@/features/general/updates-listener";
 import { tailwind } from "@/lib/tailwind";
 
@@ -33,24 +32,7 @@ function RootLayout() {
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
       <PostHogProvider
-        apiKey={env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN}
-        options={{
-          host: env.EXPO_PUBLIC_POSTHOG_HOST,
-          customStorage: posthogStorage,
-          captureAppLifecycleEvents: true,
-          enableSessionReplay: true,
-          errorTracking: {
-            autocapture: {
-              uncaughtExceptions: true,
-              unhandledRejections: true,
-            },
-          },
-          sessionReplayConfig: {
-            sampleRate: 0.1,
-            maskAllTextInputs: true,
-            maskAllImages: true, // Reduced CPU by not processing bitmaps
-          },
-        }}
+        client={posthog}
         autocapture={{
           captureTouches: true,
           captureScreens: true,

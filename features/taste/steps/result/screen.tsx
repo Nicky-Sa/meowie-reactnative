@@ -24,6 +24,12 @@ export const Screen = () => {
   const { trigger, error: saveTasteError } = useSaveTaste();
 
   const saveTaste = useCallback(async () => {
+    try {
+      await trigger(tasteToSave);
+    } catch {
+      return;
+    }
+
     if (userId === null) {
       setTaste((draft) => {
         draft.completed = true;
@@ -33,11 +39,6 @@ export const Screen = () => {
         params: { returnTo: "/home" },
       });
     } else {
-      try {
-        await trigger(tasteToSave);
-      } catch {
-        return;
-      }
       setTaste(initialTasteState());
       router.replace("/home");
     }
