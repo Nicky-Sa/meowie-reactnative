@@ -6,8 +6,5 @@ export type TitleRatings = Record<number, TitleAnswer>;
 export type SaveTasteReqDto = {
   movieRatings: TitleRatings;
   seriesRatings: TitleRatings;
-  era: string;
-  authority: string;
   avoid: string[];
-  exploreLevel: number;
 };

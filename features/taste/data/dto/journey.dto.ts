@@ -10,22 +10,9 @@ export type Title = {
   poster: string;
 };
 
-export type TasteAxis = "era" | "authority";
-
-export type TasteQuestion = {
-  id: TasteAxis;
-  axis: string;
-  prompt: string;
-  sideA: Option;
-  sideB: Option;
-  both: Option;
-};
-
 export type JourneyResDto = {
   movies: Title[];
   series: Title[];
-  questions: TasteQuestion[];
   avoidChips: Option[];
-  exploreLevels: string[];
   minMoviesToLike: number;
 };

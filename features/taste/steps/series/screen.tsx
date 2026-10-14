@@ -28,12 +28,7 @@ export const Screen = () => {
         <Button
           variant={"white"}
           size={"lg"}
-          onPress={() =>
-            router.push({
-              pathname: "/taste/questions/[order]",
-              params: { order: "1" },
-            })
-          }
+          onPress={() => router.push("/taste/preferences")}
         >
           Next
         </Button>

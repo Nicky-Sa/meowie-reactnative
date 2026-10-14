@@ -17,7 +17,6 @@ export default function TasteJourneyLayout() {
   const { data: journey, isError, refetch } = useFetchJourney();
   const { title, step, totalSteps } = stepHeaderForPath(
     pathname,
-    journey?.questions.length ?? 0,
     journey?.minMoviesToLike,
   );
 
@@ -55,7 +54,6 @@ export default function TasteJourneyLayout() {
           >
             <Stack.Screen name="index" />
             <Stack.Screen name="series" />
-            <Stack.Screen name="questions/[order]" />
             <Stack.Screen name="preferences" />
           </Stack>
         </View>
