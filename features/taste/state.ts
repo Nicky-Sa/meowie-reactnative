@@ -3,7 +3,7 @@ import {
   TitleRatings,
 } from "@/features/taste/data/dto/taste.dto";
 
-// Held in memory across the steps and sent whole on the reveal step.
+// Held in memory across the steps and sent whole when saving.
 export type TasteJourneyState = SaveTasteReqDto;
 
 const DEFAULT_EXPLORE_LEVEL = 2;

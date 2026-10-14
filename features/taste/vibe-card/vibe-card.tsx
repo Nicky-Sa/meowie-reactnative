@@ -51,8 +51,7 @@ export const VibeCard = () => {
               Not finding your vibe?
             </Text>
             <Text className={"body-b1 text-center text-neutral-8-default"}>
-              Tell us what you like and we’ll personalize your feed, with a
-              little cat matching your vibe!
+              Tell us what you like and we’ll personalize your feed!
             </Text>
           </View>
           <Button

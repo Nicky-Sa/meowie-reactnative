@@ -42,7 +42,7 @@ export const Screen = () => {
           size={"lg"}
           onPress={() => router.push("/taste/result")}
         >
-          See my type
+          Save my taste
         </Button>
       }
     >

@@ -9,9 +9,7 @@ import { stepHeaderForPath } from "@/features/taste/elements/step-header";
 import { ErrorState } from "@/features/general/error-state";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 
-// The parts that stay on screen across every journey step: back button + step
-// title from InnerScreen, progress bar below it. The reveal needs neither, so
-// it sits outside this group — see ../_layout.tsx.
+// The saving screen has no step title or progress bar, so it sits outside this group.
 export default function TasteJourneyLayout() {
   const pathname = usePathname();
   // Every step needs the journey, so its failure is handled once here instead

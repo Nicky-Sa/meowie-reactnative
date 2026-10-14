@@ -10,13 +10,9 @@ import Animated, {
 import SleepingMeowie from "@/assets/images/meowie/sleeping-meowie.svg";
 
 const TRACK_WIDTH = 208;
-const TRACK_HEIGHT = 12;
 const BAR_WIDTH = 84;
 
-// Shown while the taste profile is being stored and the type is computed. The
-// bar is indeterminate on purpose — the real wait is a backend round trip of
-// unknown length (see the save call in screen.tsx), not a measurable amount
-// of progress.
+// The request has no measured progress, so the bar keeps moving until it ends.
 export const SavingProgress = () => {
   const offset = useSharedValue(-BAR_WIDTH);
 
@@ -42,12 +38,13 @@ export const SavingProgress = () => {
         Creating your{"\n"}personalized home feed…
       </Text>
       <View
-        className={"overflow-hidden rounded-full bg-neutral-13-default"}
-        style={{ width: TRACK_WIDTH, height: TRACK_HEIGHT }}
+        className={
+          "h-3 w-52 overflow-hidden rounded-full bg-neutral-13-default"
+        }
       >
         <Animated.View
-          className={"h-full rounded-full bg-brand-1-default"}
-          style={[{ width: BAR_WIDTH }, barStyle]}
+          className={"h-full w-[84px] rounded-full bg-brand-1-default"}
+          style={barStyle}
         />
       </View>
     </View>
