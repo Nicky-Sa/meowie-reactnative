@@ -4,7 +4,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useSaveTaste } from "@/features/taste/data/use-save-taste";
-import { SavingProgress } from "@/features/taste/steps/result/saving-progress";
+import { LoadingTasteSubmission } from "@/features/taste/steps/result/loading";
 import { tasteAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { initialTasteState } from "@/features/taste/state";
@@ -25,7 +25,10 @@ export const Screen = () => {
 
   const saveTaste = useCallback(async () => {
     try {
-      await trigger(tasteToSave);
+      await Promise.all([
+        trigger(tasteToSave),
+        new Promise<void>((finish) => setTimeout(finish, 3000)),
+      ]);
     } catch {
       return;
     }
@@ -61,7 +64,7 @@ export const Screen = () => {
           }
         />
       ) : (
-        <SavingProgress />
+        <LoadingTasteSubmission />
       )}
     </SafeAreaView>
   );

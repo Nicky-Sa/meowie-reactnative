@@ -13,7 +13,7 @@ const TRACK_WIDTH = 208;
 const BAR_WIDTH = 84;
 
 // The request has no measured progress, so the bar keeps moving until it ends.
-export const SavingProgress = () => {
+export const LoadingTasteSubmission = () => {
   const offset = useSharedValue(-BAR_WIDTH);
 
   useEffect(() => {
