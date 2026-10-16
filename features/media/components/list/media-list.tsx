@@ -145,6 +145,20 @@ export const MediaList = memo(
               )}
             </View>
           }
+          ListFooterComponent={
+            !isDataEmpty && error ? (
+              <View
+                style={contentStyle}
+                className={"flex items-center justify-center"}
+              >
+                {isFetchingNextPage ? (
+                  <Loading />
+                ) : (
+                  <ErrorState tryAgain={refetch} error={error} />
+                )}
+              </View>
+            ) : null
+          }
         />
 
         {(isReadyToRefresh || isRefreshing) && (

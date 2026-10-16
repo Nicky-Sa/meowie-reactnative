@@ -87,7 +87,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     [response, mediaType, withShareTasteCard],
   );
 
-  const requestNewBatch = useCallback(async () => {
+  const resetAndRequestNewBatch = useCallback(async () => {
     if (refreshInProgress.current) return;
 
     refreshInProgress.current = true;
@@ -104,15 +104,17 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     if (refreshInProgress.current) return;
 
     discovery.trackFeedRefreshed({ mediaType });
-    return requestNewBatch();
-  }, [discovery, mediaType, requestNewBatch]);
+    return resetAndRequestNewBatch();
+  }, [discovery, mediaType, resetAndRequestNewBatch]);
 
   return {
     ...query,
     data: feedItems,
-    hasNextPage: !isRefreshing && hasNextPage,
+    hasNextPage: !isRefreshing && !query.isError && hasNextPage,
     isLoading: isCheckingUser || isLoading,
-    refetch: requestNewBatch,
+    refetch: query.isFetchNextPageError
+      ? query.fetchNextPage
+      : resetAndRequestNewBatch,
     onRefresh,
     isRefreshing,
   };

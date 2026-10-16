@@ -3,12 +3,14 @@ import {
   useMutationConfigured,
 } from "@/features/common/data/query/hooks";
 import { useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   SaveTasteReqDto,
   SaveTasteResDto,
 } from "@/features/taste/data/dto/taste.dto";
 
 export const useSaveTaste = () => {
+  const queryClient = useQueryClient();
   const { invalidateByPattern } = useInvalidateByPattern();
   const url = "/taste";
 
@@ -18,7 +20,9 @@ export const useSaveTaste = () => {
   >(url, {
     onSuccess: async (response) => {
       if (response?.data?.successful) {
-        await invalidateByPattern(/^\/(user\/current|feed)/);
+        void queryClient.resetQueries({ queryKey: ["/feed/movie"] });
+        void queryClient.resetQueries({ queryKey: ["/feed/series"] });
+        await invalidateByPattern(/^\/user\/current$/);
       }
     },
   });
