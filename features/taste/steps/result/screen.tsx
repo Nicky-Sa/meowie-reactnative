@@ -27,7 +27,7 @@ export const Screen = () => {
     try {
       await Promise.all([
         trigger(tasteToSave),
-        new Promise<void>((finish) => setTimeout(finish, 3000)),
+        new Promise<void>((finish) => setTimeout(finish, 5000)),
       ]);
     } catch {
       return;

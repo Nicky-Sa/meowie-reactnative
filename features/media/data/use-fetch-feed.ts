@@ -17,7 +17,7 @@ type Args = {
 type FeedBatch = SuccessResponse<FeedResponse>;
 
 const PREPARING_POLL_INTERVAL_MS = 2000;
-const PREPARING_MAX_POLLS = 10;
+const PREPARING_MAX_POLLS = 90;
 
 const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
   const titleIds = lastBatch.data.results;
