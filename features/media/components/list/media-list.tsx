@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Platform, RefreshControl, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useListRef } from "@/features/common/hooks/list/use-list-ref";
@@ -117,13 +117,25 @@ export const MediaList = memo(
           key={isWaitingForInitialData ? "loading" : "ready"}
           data={data}
           ref={listRef}
-          keyExtractor={({ mediaType, id }) => `${mediaType}-${id}`}
+          keyExtractor={({ mediaType, id, batchIndex }) =>
+            `${mediaType}-${id}-${batchIndex ?? ""}`
+          }
           initialScrollIndex={
             isWaitingForInitialData ? undefined : initialScrollIndex
           }
           renderItem={renderItem}
           pagingEnabled
-          refreshing={isRefreshing}
+          refreshControl={
+            // hiding Android's default loading indicator
+            Platform.OS === "android" && isActive && onRefresh ? (
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                colors={["transparent"]}
+                progressBackgroundColor="transparent"
+              />
+            ) : undefined
+          }
           // Animation Handler
           onScroll={scrollHandler}
           // Pagination Handlers

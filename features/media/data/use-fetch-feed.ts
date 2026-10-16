@@ -7,7 +7,6 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { FeedResponse } from "@/features/media/data/dto/feed.dto";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { deduplicate } from "@/features/common/data/utils/deduplicate";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useShareTasteCard } from "@/features/taste/share-taste-card/use-share-taste-card";
 
@@ -23,11 +22,6 @@ const PREPARING_MAX_POLLS = 10;
 const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
   const titleIds = lastBatch.data.results;
   if (titleIds.length === 0) return undefined;
-
-  const earlierTitleIds = batches
-    .slice(0, -1)
-    .flatMap((batch) => batch.data.results);
-  if (titleIds.every((id) => earlierTitleIds.includes(id))) return undefined;
 
   return batches.length;
 };
@@ -75,12 +69,12 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const feedItems = useMemo<MediaListItemData[]>(
     () =>
       withShareTasteCard(
-        deduplicate(
-          // deduplicate -> in case the backend starts serving "already-served" titles because we ran out of them
-          (response ?? [])
-            .flatMap((batch) => batch.data.results)
-            .map((id) => ({ id, mediaType })),
-          (item) => `${item.mediaType}-${item.id}`,
+        (response ?? []).flatMap((batch, batchIndex) =>
+          batch.data.results.map((id) => ({
+            id,
+            mediaType,
+            batchIndex,
+          })),
         ),
         mediaType,
       ),
