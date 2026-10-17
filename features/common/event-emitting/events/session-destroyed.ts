@@ -1,4 +1,5 @@
 import { Emitter } from "@/features/common/event-emitting/emitter";
+import { queryClient } from "@/features/common/data/query/client";
 import { usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
 
@@ -7,6 +8,8 @@ export const useSessionDestroyed = () => {
 
   useEffect(() => {
     const handleUnregistration = async () => {
+      void queryClient.resetQueries();
+
       try {
         await posthog.register({
           is_guest: true,
