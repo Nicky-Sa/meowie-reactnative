@@ -1,21 +1,18 @@
-import { Platform, RefreshControl, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollViewProps, View } from "react-native";
 import { ErrorState } from "@/features/general/error-state";
-import { useListRef } from "@/features/common/hooks/list/use-list-ref";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
-import { usePullToRefresh } from "@/features/common/hooks/list/use-pull-to-refresh";
 import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import Animated, {
   ScrollHandlerProcessed,
   SharedValue,
 } from "react-native-reanimated";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, FlashListRef } from "@shopify/flash-list";
 import { MediaInfoSkeleton } from "@/features/media/components/info/media-info-skeleton";
 import { MediaListItem } from "@/features/media/components/list/media-list-item";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { EmptyState } from "@/features/general/empty-state";
 import { Loading } from "@/features/common/ui/loading";
-import { ReactElement, useCallback, memo } from "react";
+import { ReactElement, RefObject, useCallback, memo } from "react";
 
 type Props = {
   data: MediaListItemData[];
@@ -25,8 +22,8 @@ type Props = {
   isFetchingNextPage: boolean;
   error: Error | null;
   refetch: () => void;
-  onRefresh?: () => void;
-  isRefreshing?: boolean;
+  listRef: RefObject<FlashListRef<MediaListItemData> | null>;
+  refreshControl?: ScrollViewProps["refreshControl"];
   initialScrollIndex?: number;
   currentIndex: number;
   scrollY: SharedValue<number>;
@@ -34,7 +31,6 @@ type Props = {
   scrollHandler: ScrollHandlerProcessed;
   ListEmptyComponent?: ReactElement;
   isActive?: boolean;
-  resetScroll?: () => void;
 };
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
@@ -50,8 +46,8 @@ export const MediaList = memo(
     isFetchingNextPage,
     error,
     refetch,
-    onRefresh,
-    isRefreshing = false,
+    listRef,
+    refreshControl,
     initialScrollIndex,
     currentIndex,
     scrollY,
@@ -59,35 +55,13 @@ export const MediaList = memo(
     scrollHandler,
     ListEmptyComponent = <EmptyState />,
     isActive = true,
-    resetScroll,
   }: Props) => {
-    const listRef = useListRef<MediaListItemData>();
-
-    const insets = useSafeAreaInsets();
     const contentStyle = useMainScreenContentStyle();
     const { onEndReached } = useFetchMore({
       fetchNextPage,
       hasNextPage,
       isFetchingNextPage,
       isLoading,
-    });
-
-    const handleRefresh = useCallback(() => {
-      if (isRefreshing) return;
-
-      if (resetScroll) {
-        listRef.current?.scrollToOffset({ offset: 0, animated: false });
-        resetScroll();
-      }
-      onRefresh?.();
-    }, [isRefreshing, listRef, resetScroll, onRefresh]);
-
-    const { isReadyToRefresh } = usePullToRefresh({
-      scrollY,
-      isDragging,
-      onRefresh: onRefresh ? handleRefresh : undefined,
-      isRefreshing,
-      isActive,
     });
 
     const isDataEmpty = data.length === 0;
@@ -112,79 +86,55 @@ export const MediaList = memo(
     );
 
     return (
-      <>
-        <AnimatedFlashList
-          key={isWaitingForInitialData ? "loading" : "ready"}
-          data={data}
-          ref={listRef}
-          keyExtractor={({ mediaType, id, batchIndex }) =>
-            `${mediaType}-${id}-${batchIndex ?? ""}`
-          }
-          initialScrollIndex={
-            isWaitingForInitialData ? undefined : initialScrollIndex
-          }
-          renderItem={renderItem}
-          pagingEnabled
-          refreshControl={
-            // hiding Android's default loading indicator
-            Platform.OS === "android" && isActive && onRefresh ? (
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={handleRefresh}
-                colors={["transparent"]}
-                progressBackgroundColor="transparent"
-              />
-            ) : undefined
-          }
-          // Animation Handler
-          onScroll={scrollHandler}
-          // Pagination Handlers
-          onEndReached={onEndReached}
-          onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
-          showsVerticalScrollIndicator={false}
-          contentContainerClassName={"grow px-4"}
-          ListEmptyComponent={
+      <AnimatedFlashList
+        key={isWaitingForInitialData ? "loading" : "ready"}
+        data={data}
+        ref={listRef}
+        keyExtractor={({ mediaType, id, batchIndex }) =>
+          `${mediaType}-${id}-${batchIndex ?? ""}`
+        }
+        initialScrollIndex={
+          isWaitingForInitialData ? undefined : initialScrollIndex
+        }
+        renderItem={renderItem}
+        pagingEnabled
+        refreshControl={refreshControl}
+        // Animation Handler
+        onScroll={scrollHandler}
+        // Pagination Handlers
+        onEndReached={onEndReached}
+        onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName={"grow px-4"}
+        ListEmptyComponent={
+          <View
+            style={contentStyle}
+            className={"flex items-center justify-center"}
+          >
+            {error ? (
+              <ErrorState tryAgain={refetch} error={error} />
+            ) : isInitialLoad ? (
+              <MediaInfoSkeleton />
+            ) : (
+              ListEmptyComponent
+            )}
+          </View>
+        }
+        ListFooterComponent={
+          !isDataEmpty && error ? (
             <View
               style={contentStyle}
               className={"flex items-center justify-center"}
             >
-              {error ? (
-                <ErrorState tryAgain={refetch} error={error} />
-              ) : isInitialLoad ? (
-                <MediaInfoSkeleton />
+              {isFetchingNextPage ? (
+                <Loading />
               ) : (
-                ListEmptyComponent
+                <ErrorState tryAgain={refetch} error={error} />
               )}
             </View>
-          }
-          ListFooterComponent={
-            !isDataEmpty && error ? (
-              <View
-                style={contentStyle}
-                className={"flex items-center justify-center"}
-              >
-                {isFetchingNextPage ? (
-                  <Loading />
-                ) : (
-                  <ErrorState tryAgain={refetch} error={error} />
-                )}
-              </View>
-            ) : null
-          }
-        />
-
-        {(isReadyToRefresh || isRefreshing) && (
-          <View
-            pointerEvents={"none"}
-            style={{ top: insets.top + 56 }}
-            className={"absolute inset-x-0 z-20 items-center"}
-          >
-            <View className={"rounded-full bg-neutral-15-default/40 px-3 py-2"}>
-              <Loading />
-            </View>
-          </View>
-        )}
-      </>
+          ) : null
+        }
+      />
     );
   },
 );

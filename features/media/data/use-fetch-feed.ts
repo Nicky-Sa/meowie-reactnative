@@ -1,7 +1,9 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useMemo } from "react";
 import { fetchWithRepeat } from "@/features/common/data/fetch-with-repeat";
-import { useQueryInfiniteConfigured } from "@/features/common/data/query/hooks";
+import {
+  useQueryInfiniteConfigured,
+  useRefreshQuery,
+} from "@/features/common/data/query/hooks";
 import { SuccessResponse } from "@/features/common/data/transformers";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
@@ -27,16 +29,15 @@ const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
 };
 
 export const useFetchFeed = ({ mediaType }: Args) => {
-  const queryClient = useQueryClient();
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
   const { discovery } = useAnalytics();
   const { withShareTasteCard } = useShareTasteCard();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const refreshInProgress = useRef(false);
 
   const url = `/feed/${mediaType}`;
   const userId = currentUser?.user?.id ?? null;
   const queryKey = useMemo(() => [url, userId], [url, userId]);
+  const { refresh: resetAndRequestNewBatch, isRefreshing } =
+    useRefreshQuery(queryKey);
 
   const {
     data: response,
@@ -81,25 +82,12 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     [response, mediaType, withShareTasteCard],
   );
 
-  const resetAndRequestNewBatch = useCallback(async () => {
-    if (refreshInProgress.current) return;
-
-    refreshInProgress.current = true;
-    setIsRefreshing(true);
-    try {
-      await queryClient.resetQueries({ queryKey, exact: true });
-    } finally {
-      refreshInProgress.current = false;
-      setIsRefreshing(false);
-    }
-  }, [queryClient, queryKey]);
-
   const onRefresh = useCallback(() => {
-    if (refreshInProgress.current) return;
+    if (isRefreshing) return;
 
     discovery.trackFeedRefreshed({ mediaType });
     return resetAndRequestNewBatch();
-  }, [discovery, mediaType, resetAndRequestNewBatch]);
+  }, [discovery, isRefreshing, mediaType, resetAndRequestNewBatch]);
 
   return {
     ...query,

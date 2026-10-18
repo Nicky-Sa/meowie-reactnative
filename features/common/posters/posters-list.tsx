@@ -7,7 +7,7 @@ import Animated, {
   LinearTransition,
   ScrollHandlerProcessed,
 } from "react-native-reanimated";
-import { FlashList } from "@shopify/flash-list";
+import { FlashList, FlashListProps } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-width";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
@@ -30,6 +30,8 @@ type Props = {
   ListEmptyComponent?: ReactElement;
   contentContainerStyle?: StyleProp<ViewStyle>;
   contentInsetAdjustmentBehavior?: ScrollViewProps["contentInsetAdjustmentBehavior"];
+  refreshControl?: ScrollViewProps["refreshControl"];
+  maintainVisibleContentPosition?: FlashListProps<PosterInfo>["maintainVisibleContentPosition"];
 };
 
 export const PostersList = memo(
@@ -42,6 +44,8 @@ export const PostersList = memo(
     ListEmptyComponent,
     contentContainerStyle,
     contentInsetAdjustmentBehavior = "automatic",
+    refreshControl,
+    maintainVisibleContentPosition,
   }: Props) => {
     const gap = Number(tailwind.theme.spacing["2"]);
     const { itemWidth } = useGridItemWidth({
@@ -99,6 +103,8 @@ export const PostersList = memo(
         onEndReached={onEndReached}
         showsVerticalScrollIndicator={false}
         contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
+        refreshControl={refreshControl}
+        maintainVisibleContentPosition={maintainVisibleContentPosition}
         contentContainerClassName={"grow px-1"}
         contentContainerStyle={contentContainerStyle}
         ItemSeparatorComponent={() => <View className={"h-2"} />}

@@ -22,7 +22,7 @@ export const TabContent = ({
   headerHeight,
   scrollPositions,
 }: Props) => {
-  const { scrollHandler, scrollY } = useScrollHandler();
+  const { scrollHandler, scrollY, isDragging } = useScrollHandler();
   const { paddingBottom } = useMainScreenContentStyle();
   const tabName = `${mediaType}-${tab?.slug ?? COLLECTIONS_TAB}`;
 
@@ -41,6 +41,8 @@ export const TabContent = ({
       mediaType={mediaType}
       tab={tab}
       scrollHandler={scrollHandler}
+      scrollY={scrollY}
+      isDragging={isDragging}
       headerHeight={headerHeight}
     />
   ) : (

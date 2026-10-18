@@ -4,6 +4,7 @@ import { MainScreen } from "@/features/common/layout/main-screen";
 import { ReactElement, ReactNode, useMemo } from "react";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
+import { useListRef } from "@/features/common/hooks/list/use-list-ref";
 import { MediaListItemData } from "@/features/media/components/list/types";
 
 type Props = {
@@ -45,6 +46,7 @@ export const MediaListScreen = ({
 
   const { scrollHandler, scrollY, isDragging, currentIndex } =
     useScrollHandler();
+  const listRef = useListRef<MediaListItemData>();
 
   return (
     <MainScreen>
@@ -61,6 +63,7 @@ export const MediaListScreen = ({
         isFetchingNextPage={isFetchingNextPage}
         error={error}
         refetch={refetch}
+        listRef={listRef}
         initialScrollIndex={initialIndex}
         scrollHandler={scrollHandler}
         scrollY={scrollY}

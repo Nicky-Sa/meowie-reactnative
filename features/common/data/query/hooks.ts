@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-query";
 import { fetcher, MutationArg } from "@/features/common/data/fetcher";
 import { SuccessResponse } from "@/features/common/data/transformers";
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 
 type QueryConfig<Data, Err> = Omit<
   UseQueryOptions<SuccessResponse<Data>, Err>,
@@ -36,7 +36,10 @@ export type PaginatedConfig<Data, Err> = Omit<
     number
   >,
   "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
->;
+> & {
+  // After the last page, go on from page 1
+  rotatePages?: boolean;
+};
 
 export const useQueryPaginatedConfigured = <
   Data extends { page: number; total_pages: number },
@@ -46,6 +49,8 @@ export const useQueryPaginatedConfigured = <
   urlForPage: (pageParam: number) => string,
   config?: PaginatedConfig<Data, Err>,
 ) => {
+  const { rotatePages = false, ...queryConfig } = config ?? {};
+
   const result = useInfiniteQuery<
     SuccessResponse<Data>,
     Err,
@@ -57,11 +62,15 @@ export const useQueryPaginatedConfigured = <
     queryFn: ({ pageParam, signal }) =>
       fetcher<unknown, Data>(urlForPage(pageParam), undefined, { signal }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.data.page >= lastPage.data.total_pages) return undefined;
-      return lastPage.data.page + 1; // next page = current page + 1
+    getNextPageParam: (lastPage, allPages) => {
+      const isLastPage = lastPage.data.page >= lastPage.data.total_pages;
+      if (!rotatePages) return isLastPage ? undefined : lastPage.data.page + 1;
+
+      const startPage = allPages[0].data.page;
+      const nextPage = isLastPage ? 1 : lastPage.data.page + 1;
+      return nextPage === startPage ? undefined : nextPage;
     },
-    ...config,
+    ...queryConfig,
   });
 
   return { ...result, data: result.data?.pages };
@@ -132,4 +141,26 @@ export const useInvalidateByPattern = () => {
   );
 
   return { invalidateByPattern };
+};
+
+/** Clears the cached pages and fetches the query again from its first page. */
+export const useRefreshQuery = (queryKey: unknown[]) => {
+  const queryClient = useQueryClient();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const refreshInProgress = useRef(false);
+
+  const refresh = useCallback(async () => {
+    if (refreshInProgress.current) return;
+
+    refreshInProgress.current = true;
+    setIsRefreshing(true);
+    try {
+      await queryClient.resetQueries({ queryKey, exact: true });
+    } finally {
+      refreshInProgress.current = false;
+      setIsRefreshing(false);
+    }
+  }, [queryClient, queryKey]);
+
+  return { refresh, isRefreshing };
 };
