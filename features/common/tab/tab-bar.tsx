@@ -24,10 +24,11 @@ export type TabConfig = {
 type Props = Pick<TabBarProps, "index" | "onTabPress"> & {
   tabsConfig: TabConfig[];
   scrollable?: boolean;
+  className?: string;
 };
 
 export const TabBar = memo(
-  ({ tabsConfig, index, onTabPress, scrollable = false }: Props) => {
+  ({ tabsConfig, index, onTabPress, scrollable = false, className }: Props) => {
     const { width } = useWindowDimensions();
     const tabWidth = width / tabsConfig.length;
     const [measuredTabs, setMeasuredTabs] = useState<Record<string, TabLayout>>(
@@ -54,7 +55,12 @@ export const TabBar = memo(
       };
 
     return (
-      <View className="border-b-2 border-neutral-5-default bg-neutral-15-default">
+      <View
+        className={cn(
+          "border-b-2 border-neutral-5-default bg-neutral-15-default",
+          className,
+        )}
+      >
         <ScrollView
           className="h-12 grow-0"
           horizontal
