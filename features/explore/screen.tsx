@@ -8,7 +8,7 @@ import {
   initialMovieFiltersValue,
   initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { COLLECTIONS_TAB, ExploreTabBar } from "@/features/explore/tab-bar";
@@ -52,7 +52,10 @@ export const Screen = () => {
   const setTvFilters = useSetAtom(tvFiltersAtom);
   const [headerHeight, setHeaderHeight] = useState(0);
   const scrollPositions = useSharedValue<Record<string, number>>({});
-  const activeTabName = useDerivedValue(() => `${mediaType}-${activeSlug}`);
+  // A tab change skips React state, so a swipe doesn't re-render every tab.
+  // selectedSlugs only catches up when the media type changes.
+  const shownSlug = useRef(activeSlug);
+  const activeTabName = useSharedValue(`${mediaType}-${activeSlug}`);
   const activeScrollY = useDerivedValue(
     () => scrollPositions.value[activeTabName.value] ?? 0,
   );
@@ -69,6 +72,11 @@ export const Screen = () => {
     transform: [{ translateY: -headerHeight * headerAnimation.value }],
   }));
 
+  useEffect(() => {
+    shownSlug.current = activeSlug;
+    activeTabName.value = `${mediaType}-${activeSlug}`;
+  }, [mediaType, activeSlug, activeTabName]);
+
   const onHeaderLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
     setHeaderHeight(layout.height);
   };
@@ -77,12 +85,17 @@ export const Screen = () => {
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
     resetHeader();
-    setSelectedSlugs((current) => ({ ...current, [mediaType]: tabName }));
+    shownSlug.current = tabName;
+    activeTabName.value = `${mediaType}-${tabName}`;
   };
 
   const onMediaTypeChange = (nextMediaType: MediaType) => {
     if (nextMediaType === mediaType) return;
     resetHeader();
+    setSelectedSlugs((current) => ({
+      ...current,
+      [mediaType]: shownSlug.current,
+    }));
     setMediaType(nextMediaType);
   };
 
