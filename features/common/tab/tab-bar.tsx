@@ -14,7 +14,7 @@ import {
   useAnimatedReaction,
 } from "react-native-reanimated";
 import { scheduleOnRN } from "react-native-worklets";
-import { cn } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
 
 export type TabChildProps = {
   scrollHandler: ScrollHandlerProcessed;
@@ -24,6 +24,9 @@ export type TabConfig = {
   title: string;
   icon?: SvgImage;
 };
+
+// Matches the px-4 on scrollable tabs, so the indicator covers only the title
+const SCROLLABLE_TAB_PADDING = Number(tailwind.theme.spacing["4"]);
 
 type CenteredScrollArgs = {
   tabLayout: TabLayout;
@@ -54,18 +57,24 @@ export const TabBar = memo(
     const [measuredTabs, setMeasuredTabs] = useState<Record<string, TabLayout>>(
       {},
     );
-    const tabLayouts = tabsConfig.map((tab, tabIndex) =>
-      scrollable
-        ? (measuredTabs[tab.name] ?? { x: 0, width: 0 })
-        : { x: tabIndex * tabWidth, width: tabWidth },
-    );
+    const indicatorLayouts = tabsConfig.map((tab, tabIndex) => {
+      if (!scrollable) {
+        return { x: tabIndex * tabWidth + tabWidth / 4, width: tabWidth / 2 };
+      }
+      const measuredTab = measuredTabs[tab.name];
+      if (!measuredTab) return { x: 0, width: 0 };
+      return {
+        x: measuredTab.x + SCROLLABLE_TAB_PADDING,
+        width: measuredTab.width - SCROLLABLE_TAB_PADDING * 2,
+      };
+    });
 
     const scrollRef = useRef<ScrollView>(null);
     const [visibleWidth, setVisibleWidth] = useState(0);
     const [contentWidth, setContentWidth] = useState(0);
 
     const scrollToTab = (tabIndex: number) => {
-      const tabLayout = tabLayouts[tabIndex];
+      const tabLayout = indicatorLayouts[tabIndex];
       if (!tabLayout) return;
 
       scrollRef.current?.scrollTo({
@@ -119,7 +128,7 @@ export const TabBar = memo(
           <View
             className={cn("relative flex-row py-3", !scrollable && "flex-1")}
           >
-            <TabIndicator index={index} tabLayouts={tabLayouts} />
+            <TabIndicator index={index} tabLayouts={indicatorLayouts} />
             {tabsConfig.map((tab, tabIndex) => (
               <TabItem
                 key={tab.name}

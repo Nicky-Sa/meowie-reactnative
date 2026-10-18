@@ -18,6 +18,7 @@ type Props = {
 };
 
 const spring = { damping: 20, stiffness: 150, mass: 0.5 };
+const EXTRA_WIDTH = 8;
 
 export const TabIndicator = ({ index, tabLayouts }: Props) => {
   const indexes = tabLayouts.map((_, tabIndex) => tabIndex);
@@ -28,9 +29,10 @@ export const TabIndicator = ({ index, tabLayouts }: Props) => {
     if (tabLayouts.length === 0) return { width: 0 };
 
     const width =
-      tabLayouts.length === 1
+      EXTRA_WIDTH +
+      (tabLayouts.length === 1
         ? widths[0]
-        : interpolate(index.value, indexes, widths, Extrapolation.CLAMP);
+        : interpolate(index.value, indexes, widths, Extrapolation.CLAMP));
     const position =
       tabLayouts.length === 1
         ? positions[0]
@@ -47,7 +49,7 @@ export const TabIndicator = ({ index, tabLayouts }: Props) => {
       style={animatedStyle}
       className="absolute bottom-0 left-0 z-10 items-center justify-center"
     >
-      <View className="h-[3px] w-1/2 rounded-t-sm bg-neutral-1-default" />
+      <View className="h-[3px] w-full rounded-t-sm bg-neutral-1-default" />
     </Animated.View>
   );
 };
