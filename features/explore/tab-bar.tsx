@@ -2,6 +2,8 @@ import { useDerivedValue } from "react-native-reanimated";
 import { TabBar } from "@/features/common/tab/tab-bar";
 import { ExploreTabResDto } from "@/features/explore/data/dto/explore-tab.dto";
 
+export const COLLECTIONS_TAB = "other-collections";
+
 type Props = {
   tabs: ExploreTabResDto[];
   selectedSlug?: string;
@@ -9,15 +11,19 @@ type Props = {
 };
 
 export const ExploreTabBar = ({ tabs, selectedSlug, onTabPress }: Props) => {
+  const tabsConfig = [
+    ...tabs.map((tab) => ({ name: tab.slug, title: tab.title })),
+    { name: COLLECTIONS_TAB, title: "Other collections" },
+  ];
   const selectedIndex = Math.max(
     0,
-    tabs.findIndex((tab) => tab.slug === selectedSlug),
+    tabsConfig.findIndex((tab) => tab.name === selectedSlug),
   );
   const tabIndex = useDerivedValue(() => selectedIndex);
 
   return (
     <TabBar
-      tabsConfig={tabs.map((tab) => ({ name: tab.slug, title: tab.title }))}
+      tabsConfig={tabsConfig}
       index={tabIndex}
       onTabPress={onTabPress}
       scrollable

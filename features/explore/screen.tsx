@@ -16,29 +16,39 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { CollectionsList } from "@/features/explore/collections/collections-list";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { ExploreTabBar } from "@/features/explore/tab-bar";
+import { COLLECTIONS_TAB, ExploreTabBar } from "@/features/explore/tab-bar";
 import { useFetchExploreTabs } from "@/features/explore/data/use-fetch-explore-tabs";
 import { Loading } from "@/features/common/ui/loading";
 import { ErrorState } from "@/features/general/error-state";
-import { EmptyState } from "@/features/general/empty-state";
+import { ExplorePosters } from "@/features/explore/posters";
 
 const mediaTypes = ["Movies", "Series"];
 
 export const Screen = () => {
   const router = useRouter();
   const [mediaType, setMediaType] = useState<MediaType>("movie");
-  const [selectedSlug, setSelectedSlug] = useState<string>();
+  const [selectedSlugs, setSelectedSlugs] = useState<
+    Partial<Record<MediaType, string>>
+  >({});
   const {
     data: tabs,
     isPending,
     error,
     refetch,
   } = useFetchExploreTabs(mediaType);
+  const selectedSlug = selectedSlugs[mediaType];
+  const selectedTab =
+    tabs?.find((tab) => tab.slug === selectedSlug) ?? tabs?.[0];
+  const isCollectionsTab = selectedSlug === COLLECTIONS_TAB || !selectedTab;
   const setFiltersMediaType = useSetAtom(filtersMediaTypeAtom);
   const setMovieFilters = useSetAtom(movieFiltersAtom);
   const setTvFilters = useSetAtom(tvFiltersAtom);
 
   const { discovery } = useAnalytics();
+
+  const onTabPress = (slug: string) => {
+    setSelectedSlugs((current) => ({ ...current, [mediaType]: slug }));
+  };
 
   const onFilterPress = () => {
     discovery.trackFiltersOpened();
@@ -97,21 +107,31 @@ export const Screen = () => {
             </View>
           ) : error && !tabs ? (
             <ErrorState error={error} tryAgain={refetch} />
-          ) : tabs?.length ? (
+          ) : tabs ? (
             <>
               <View className={"-mx-4"}>
                 <ExploreTabBar
                   key={mediaType}
                   tabs={tabs}
-                  selectedSlug={selectedSlug}
-                  onTabPress={setSelectedSlug}
+                  selectedSlug={
+                    isCollectionsTab ? COLLECTIONS_TAB : selectedTab.slug
+                  }
+                  onTabPress={onTabPress}
                 />
               </View>
-              <CollectionsList />
+              {isCollectionsTab ? (
+                <CollectionsList key={mediaType} mediaType={mediaType} />
+              ) : (
+                <View className={"-mx-4 flex-1"}>
+                  <ExplorePosters
+                    key={`${mediaType}-${selectedTab.slug}`}
+                    mediaType={mediaType}
+                    tab={selectedTab}
+                  />
+                </View>
+              )}
             </>
-          ) : (
-            <EmptyState />
-          )}
+          ) : null}
         </View>
       </SafeAreaView>
     </MainScreen>
