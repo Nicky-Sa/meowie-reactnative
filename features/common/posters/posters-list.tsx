@@ -7,11 +7,11 @@ import Animated, {
   LinearTransition,
   ScrollHandlerProcessed,
 } from "react-native-reanimated";
-import { FlashList, FlashListProps } from "@shopify/flash-list";
+import { FlashList, FlashListProps, FlashListRef } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-width";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
-import { ReactElement, useCallback, memo } from "react";
+import { ReactElement, RefObject, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { ScrollViewProps, StyleProp, ViewStyle, View } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
@@ -31,6 +31,7 @@ type Props = {
   contentContainerStyle?: StyleProp<ViewStyle>;
   contentInsetAdjustmentBehavior?: ScrollViewProps["contentInsetAdjustmentBehavior"];
   refreshControl?: ScrollViewProps["refreshControl"];
+  listRef?: RefObject<FlashListRef<PosterInfo> | null>;
   maintainVisibleContentPosition?: FlashListProps<PosterInfo>["maintainVisibleContentPosition"];
 };
 
@@ -45,6 +46,7 @@ export const PostersList = memo(
     contentContainerStyle,
     contentInsetAdjustmentBehavior = "automatic",
     refreshControl,
+    listRef,
     maintainVisibleContentPosition,
   }: Props) => {
     const gap = Number(tailwind.theme.spacing["2"]);
@@ -94,6 +96,7 @@ export const PostersList = memo(
 
     return (
       <AnimatedFlashList
+        ref={listRef}
         data={data}
         keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
         renderItem={renderItem}

@@ -5,6 +5,8 @@ import { SharedValue } from "react-native-reanimated";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import { usePullToRefresh } from "@/features/common/hooks/list/use-pull-to-refresh";
+import { useListRef } from "@/features/common/hooks/list/use-list-ref";
+import { PosterInfo } from "@/features/common/data/models/poster";
 import { RefreshIndicator } from "@/features/common/ui/refresh-indicator";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
@@ -40,6 +42,7 @@ export const ExplorePosters = ({
     isRefreshing,
     isActive: true,
   });
+  const listRef = useListRef<PosterInfo>();
   const { paddingBottom } = useMainScreenContentStyle();
   const router = useRouter();
 
@@ -58,6 +61,7 @@ export const ExplorePosters = ({
       <PostersList
         numColumns={3}
         posterData={posterData}
+        listRef={listRef}
         onPosterPress={onPosterPress}
         ListEmptyComponent={posterData.hasNextPage ? undefined : <EmptyState />}
         scrollHandler={scrollHandler}
