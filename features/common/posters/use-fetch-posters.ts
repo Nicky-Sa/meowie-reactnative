@@ -12,6 +12,7 @@ export type URL =
   | "/library/saved"
   | "/library/seen"
   | `/collections/${string}/items`
+  | `/explore/${MediaType}/tabs/${string}`
   | `/${MediaType}/${ID}/recommendations/posters`;
 
 export const useFetchPosters = (
@@ -28,7 +29,13 @@ export const useFetchPosters = (
     ...rest
   } = useQueryPaginatedConfigured<PosterResDto>(
     [url, query],
-    (pageParam: number) => `${url}?page=${pageParam + 1}&${query}`,
+    (pageParam: number) => {
+      // let the backend decide the content of the first page
+      if (pageParam === 0) {
+        return query ? `${url}?${query}` : url;
+      }
+      return `${url}?page=${pageParam}&${query}`;
+    },
   );
 
   const data = useMemo(

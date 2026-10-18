@@ -54,11 +54,12 @@ export const useQueryPaginatedConfigured = <
     number
   >({
     queryKey,
-    queryFn: ({ pageParam }) => fetcher<unknown, Data>(urlForPage(pageParam)),
+    queryFn: ({ pageParam, signal }) =>
+      fetcher<unknown, Data>(urlForPage(pageParam), undefined, { signal }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage) => {
       if (lastPage.data.page >= lastPage.data.total_pages) return undefined;
-      return allPages.length;
+      return lastPage.data.page + 1; // next page = current page + 1
     },
     ...config,
   });
