@@ -5,13 +5,22 @@ import { PostersList } from "@/features/common/posters/posters-list";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { ExploreTabResDto } from "@/features/explore/data/dto/explore-tab.dto";
 import { EmptyState } from "@/features/general/empty-state";
+import { ScrollHandlerProcessed } from "react-native-reanimated";
+import { tailwind } from "@/lib/tailwind";
 
 type Props = {
   mediaType: MediaType;
   tab: ExploreTabResDto;
+  scrollHandler: ScrollHandlerProcessed;
+  headerHeight: number;
 };
 
-export const ExplorePosters = ({ mediaType, tab }: Props) => {
+export const ExplorePosters = ({
+  mediaType,
+  tab,
+  scrollHandler,
+  headerHeight,
+}: Props) => {
   const endpoint =
     `/explore/${mediaType}/tabs/${encodeURIComponent(tab.slug)}` as const;
   const posterData = useFetchPosters(endpoint);
@@ -31,7 +40,12 @@ export const ExplorePosters = ({ mediaType, tab }: Props) => {
       posterData={posterData}
       onPosterPress={onPosterPress}
       ListEmptyComponent={posterData.hasNextPage ? undefined : <EmptyState />}
-      contentContainerStyle={{ paddingBottom }}
+      scrollHandler={scrollHandler}
+      contentInsetAdjustmentBehavior="never"
+      contentContainerStyle={{
+        paddingTop: headerHeight + Number(tailwind.theme.spacing["2"]),
+        paddingBottom,
+      }}
     />
   );
 };

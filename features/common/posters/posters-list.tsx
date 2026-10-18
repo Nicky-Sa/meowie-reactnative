@@ -13,7 +13,7 @@ import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-wid
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
 import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
-import { StyleProp, ViewStyle, View } from "react-native";
+import { ScrollViewProps, StyleProp, ViewStyle, View } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
 import { tailwind } from "@/lib/tailwind";
 
@@ -29,6 +29,7 @@ type Props = {
   ListHeaderComponent?: ReactElement;
   ListEmptyComponent?: ReactElement;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  contentInsetAdjustmentBehavior?: ScrollViewProps["contentInsetAdjustmentBehavior"];
 };
 
 export const PostersList = memo(
@@ -40,6 +41,7 @@ export const PostersList = memo(
     ListHeaderComponent,
     ListEmptyComponent,
     contentContainerStyle,
+    contentInsetAdjustmentBehavior = "automatic",
   }: Props) => {
     const gap = Number(tailwind.theme.spacing["2"]);
     const { itemWidth } = useGridItemWidth({
@@ -96,7 +98,7 @@ export const PostersList = memo(
         onEndReachedThreshold={0.5}
         onEndReached={onEndReached}
         showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="automatic" // adds a bottom padding
+        contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
         contentContainerClassName={"grow px-1"}
         contentContainerStyle={contentContainerStyle}
         ItemSeparatorComponent={() => <View className={"h-2"} />}
