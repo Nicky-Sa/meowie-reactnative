@@ -1,11 +1,16 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { TabBarProps } from "react-native-collapsible-tab-view";
-import { useWindowDimensions, View } from "react-native";
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { TabItem } from "@/features/common/tab/tab-item";
-import { TabIndicator } from "@/features/common/tab/tab-indicator";
+import { TabIndicator, TabLayout } from "@/features/common/tab/tab-indicator";
 import { SvgImage } from "@/features/common/ui/icon";
 import { ScrollHandlerProcessed } from "react-native-reanimated";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { cn } from "@/lib/tailwind";
 
 export type TabChildProps = {
   scrollHandler: ScrollHandlerProcessed;
@@ -13,44 +18,71 @@ export type TabChildProps = {
 export type TabConfig = {
   name: string;
   title: string;
-  icon: SvgImage;
+  icon?: SvgImage;
 };
 
-type Props = TabBarProps & {
+type Props = Pick<TabBarProps, "index" | "onTabPress"> & {
   tabsConfig: TabConfig[];
+  scrollable?: boolean;
 };
 
-export const TabBar = memo(({ tabsConfig, index, onTabPress }: Props) => {
-  const { width } = useWindowDimensions();
-  const tabWidth = width / tabsConfig.length;
+export const TabBar = memo(
+  ({ tabsConfig, index, onTabPress, scrollable = false }: Props) => {
+    const { width } = useWindowDimensions();
+    const tabWidth = width / tabsConfig.length;
+    const [measuredTabs, setMeasuredTabs] = useState<Record<string, TabLayout>>(
+      {},
+    );
+    const tabLayouts = tabsConfig.map((tab, tabIndex) =>
+      scrollable
+        ? (measuredTabs[tab.name] ?? { x: 0, width: 0 })
+        : { x: tabIndex * tabWidth, width: tabWidth },
+    );
 
-  const { interaction } = useAnalytics();
+    const onTabLayout =
+      (tabName: string) =>
+      ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+        setMeasuredTabs((current) =>
+          current[tabName]?.x === layout.x &&
+          current[tabName]?.width === layout.width
+            ? current
+            : {
+                ...current,
+                [tabName]: { x: layout.x, width: layout.width },
+              },
+        );
+      };
 
-  const onTabItemPress = (tabName: string) => {
-    interaction.trackProfileTabChange({ tabName });
-    if (tabName === "saved") {
-      interaction.trackProfileSavedTabClick();
-    } else if (tabName === "seen") {
-      interaction.trackProfileSeenTabClick();
-    }
-    onTabPress(tabName);
-  };
-
-  return (
-    <View className="relative flex-row border-b-2 border-neutral-5-default bg-neutral-15-default py-3">
-      <TabIndicator index={index} tabWidth={tabWidth} />
-      {tabsConfig.map((tab, i) => (
-        <TabItem
-          key={tab.name}
-          name={tab.title}
-          icon={tab.icon}
-          index={i}
-          currentIndex={index}
-          onPress={() => onTabItemPress(tab.name)}
-        />
-      ))}
-    </View>
-  );
-});
+    return (
+      <View className="border-b-2 border-neutral-5-default bg-neutral-15-default">
+        <ScrollView
+          className="h-12 grow-0"
+          horizontal
+          scrollEnabled={scrollable}
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName={scrollable ? undefined : "grow"}
+        >
+          <View
+            className={cn("relative flex-row py-3", !scrollable && "flex-1")}
+          >
+            <TabIndicator index={index} tabLayouts={tabLayouts} />
+            {tabsConfig.map((tab, tabIndex) => (
+              <TabItem
+                key={tab.name}
+                name={tab.title}
+                icon={tab.icon}
+                index={tabIndex}
+                currentIndex={index}
+                onPress={() => onTabPress(tab.name)}
+                className={scrollable ? "flex-none px-4" : undefined}
+                onLayout={scrollable ? onTabLayout(tab.name) : undefined}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  },
+);
 
 TabBar.displayName = "TabBar";

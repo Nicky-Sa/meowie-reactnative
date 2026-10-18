@@ -4,7 +4,8 @@ import { Bookmark, Eye } from "iconoir-react-native";
 import { SavedList } from "@/features/profile/guest/saved-list";
 import { SeenList } from "@/features/profile/guest/seen-list";
 import { Header } from "@/features/profile/guest/header";
-import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
+import { TabConfig } from "@/features/common/tab/tab-bar";
+import { ProfileTabBar } from "@/features/profile/tab-bar";
 import { TabHeader } from "@/features/common/tab/tab-header";
 import { SharedValue } from "react-native-reanimated";
 
@@ -32,7 +33,9 @@ export const Guest = ({ scrollY }: Props) => {
         <Header />
       </TabHeader>
       <Tabs.Container
-        renderTabBar={(props) => <TabBar tabsConfig={tabsConfig} {...props} />}
+        renderTabBar={(props) => (
+          <ProfileTabBar tabsConfig={tabsConfig} {...props} />
+        )}
       >
         <Tabs.Tab name={tabsConfig[0].name}>
           {/*Not using TabContent here to preserve the item in the centre of the tab visually*/}

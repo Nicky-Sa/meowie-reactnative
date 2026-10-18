@@ -1,12 +1,12 @@
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { TabBarProps } from "react-native-collapsible-tab-view";
-import { tailwind } from "@/lib/tailwind";
+import { cn, tailwind } from "@/lib/tailwind";
 import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
   interpolateColor,
 } from "react-native-reanimated";
-import { Pressable, Text } from "react-native";
+import { Pressable, PressableProps, Text } from "react-native";
 
 // Wrap the custom Icon and Text so they can accept animated props
 const AnimatedIcon = Animated.createAnimatedComponent(Icon);
@@ -14,10 +14,12 @@ const AnimatedText = Animated.createAnimatedComponent(Text);
 
 type Props = {
   name: string;
-  icon: SvgImage;
+  icon?: SvgImage;
   index: number;
   currentIndex: TabBarProps["index"];
   onPress: () => void;
+  onLayout?: PressableProps["onLayout"];
+  className?: string;
 };
 
 export const TabItem = ({
@@ -26,6 +28,8 @@ export const TabItem = ({
   index,
   currentIndex,
   onPress,
+  onLayout,
+  className,
 }: Props) => {
   const activeColor = tailwind.theme.textColor.neutral[10].default;
   const inactiveColor = tailwind.theme.textColor.neutral[6].default;
@@ -55,9 +59,13 @@ export const TabItem = ({
   });
 
   return (
-    <Pressable onPress={onPress} className="flex-1 items-center justify-center">
+    <Pressable
+      onPress={onPress}
+      onLayout={onLayout}
+      className={cn("flex-1 items-center justify-center", className)}
+    >
       <Animated.View className="flex flex-row items-center justify-center gap-2">
-        <AnimatedIcon i={icon} animatedProps={animatedIconProps} />
+        {icon && <AnimatedIcon i={icon} animatedProps={animatedIconProps} />}
         <AnimatedText className="body-b1-strong" style={animatedTextStyle}>
           {name}
         </AnimatedText>

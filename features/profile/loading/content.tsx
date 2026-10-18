@@ -3,7 +3,8 @@ import { Tabs } from "react-native-collapsible-tab-view";
 import { Bookmark, Eye } from "iconoir-react-native";
 import { List } from "@/features/profile/loading/list";
 import { Header } from "@/features/profile/loading/header";
-import { TabBar, TabConfig } from "@/features/common/tab/tab-bar";
+import { TabConfig } from "@/features/common/tab/tab-bar";
+import { ProfileTabBar } from "@/features/profile/tab-bar";
 import { TabHeader } from "@/features/common/tab/tab-header";
 import { TabContent } from "@/features/common/tab/tab-content";
 import { SharedValue } from "react-native-reanimated";
@@ -32,7 +33,9 @@ export const Loading = ({ scrollY }: Props) => {
         <Header />
       </TabHeader>
       <Tabs.Container
-        renderTabBar={(props) => <TabBar tabsConfig={tabsConfig} {...props} />}
+        renderTabBar={(props) => (
+          <ProfileTabBar tabsConfig={tabsConfig} {...props} />
+        )}
       >
         <Tabs.Tab name={tabsConfig[0].name}>
           <TabContent>
