@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { TabBarProps } from "react-native-collapsible-tab-view";
 import {
   LayoutChangeEvent,
@@ -9,7 +9,11 @@ import {
 import { TabItem } from "@/features/common/tab/tab-item";
 import { TabIndicator, TabLayout } from "@/features/common/tab/tab-indicator";
 import { SvgImage } from "@/features/common/ui/icon";
-import { ScrollHandlerProcessed } from "react-native-reanimated";
+import {
+  ScrollHandlerProcessed,
+  useAnimatedReaction,
+} from "react-native-reanimated";
+import { scheduleOnRN } from "react-native-worklets";
 import { cn } from "@/lib/tailwind";
 
 export type TabChildProps = {
@@ -19,6 +23,22 @@ export type TabConfig = {
   name: string;
   title: string;
   icon?: SvgImage;
+};
+
+type CenteredScrollArgs = {
+  tabLayout: TabLayout;
+  visibleWidth: number;
+  contentWidth: number;
+};
+
+const getCenteredScrollX = ({
+  tabLayout,
+  visibleWidth,
+  contentWidth,
+}: CenteredScrollArgs) => {
+  const centeredX = tabLayout.x + tabLayout.width / 2 - visibleWidth / 2;
+  const largestX = Math.max(contentWidth - visibleWidth, 0);
+  return Math.min(Math.max(centeredX, 0), largestX);
 };
 
 type Props = Pick<TabBarProps, "index" | "onTabPress"> & {
@@ -38,6 +58,29 @@ export const TabBar = memo(
       scrollable
         ? (measuredTabs[tab.name] ?? { x: 0, width: 0 })
         : { x: tabIndex * tabWidth, width: tabWidth },
+    );
+
+    const scrollRef = useRef<ScrollView>(null);
+    const [visibleWidth, setVisibleWidth] = useState(0);
+    const [contentWidth, setContentWidth] = useState(0);
+
+    const scrollToTab = (tabIndex: number) => {
+      const tabLayout = tabLayouts[tabIndex];
+      if (!tabLayout) return;
+
+      scrollRef.current?.scrollTo({
+        x: getCenteredScrollX({ tabLayout, visibleWidth, contentWidth }),
+        animated: true,
+      });
+    };
+
+    useAnimatedReaction(
+      () => Math.round(index.value),
+      (current, previous) => {
+        if (!scrollable || previous === null || current === previous) return;
+        scheduleOnRN(scrollToTab, current);
+      },
+      [scrollable, scrollToTab],
     );
 
     const onTabLayout =
@@ -62,6 +105,11 @@ export const TabBar = memo(
         )}
       >
         <ScrollView
+          ref={scrollRef}
+          onLayout={({ nativeEvent: { layout } }) =>
+            setVisibleWidth(layout.width)
+          }
+          onContentSizeChange={setContentWidth}
           className="h-12 grow-0"
           horizontal
           scrollEnabled={scrollable}
