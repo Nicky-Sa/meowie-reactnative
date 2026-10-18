@@ -40,7 +40,9 @@ export const CollectionsList = memo(
       () =>
         mediaType
           ? collections?.filter(
-              (collection) => collection.mediaType === mediaType,
+              (collection) =>
+                collection.mediaType === mediaType ||
+                collection.mediaType === "mixed",
             )
           : collections,
       [collections, mediaType],

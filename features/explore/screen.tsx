@@ -17,24 +17,18 @@ import { Loading } from "@/features/common/ui/loading";
 import { ErrorState } from "@/features/general/error-state";
 import {
   interpolateColor,
-  useAnimatedReaction,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import { OnTabChangeCallback, Tabs } from "react-native-collapsible-tab-view";
 import { Header } from "@/features/explore/header";
 import { TabContent } from "@/features/explore/tab-content";
 import { tailwind } from "@/lib/tailwind";
+import { useScrollDownProgress } from "@/features/common/hooks/list/use-scroll-down-progress";
 
 const headerBackgroundColor =
   tailwind.theme.backgroundColor.neutral[15].default;
-
-// Same color, but fully transparent. Fading from "transparent" (black at 0%)
-// makes a muddy dark flash, so we fade from the SAME color with alpha 0.
-// Works when headerBackgroundColor is a 6-digit hex like "#1a1a1a".
-const headerTransparentColor = `${headerBackgroundColor}00`;
 
 export const Screen = () => {
   const router = useRouter();
@@ -59,42 +53,18 @@ export const Screen = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const scrollPositions = useSharedValue<Record<string, number>>({});
   const activeTabName = useDerivedValue(() => `${mediaType}-${activeSlug}`);
-  const headerAnimation = useSharedValue(0);
-  const isHeaderHidden = useSharedValue(false);
-
-  useAnimatedReaction(
-    () => ({
-      tabName: activeTabName.value,
-      scrollY: scrollPositions.value[activeTabName.value] ?? 0,
-    }),
-    (current, previous) => {
-      if (previous === null || current.tabName !== previous.tabName) return;
-      const scrollChange = current.scrollY - previous.scrollY;
-
-      if (current.scrollY < 10 && isHeaderHidden.value) {
-        isHeaderHidden.value = false;
-        headerAnimation.value = withTiming(0, { duration: 200 });
-        return;
-      }
-
-      if (scrollChange > 2 && current.scrollY > 50 && !isHeaderHidden.value) {
-        isHeaderHidden.value = true;
-        headerAnimation.value = withTiming(1, { duration: 300 });
-      }
-
-      if (scrollChange < -2 && isHeaderHidden.value) {
-        isHeaderHidden.value = false;
-        headerAnimation.value = withTiming(0, { duration: 300 });
-      }
-    },
+  const activeScrollY = useDerivedValue(
+    () => scrollPositions.value[activeTabName.value] ?? 0,
   );
+  const { progress: headerAnimation, reset: resetHeader } =
+    useScrollDownProgress({ scrollY: activeScrollY, tabName: activeTabName });
 
   const headerStyle = useAnimatedStyle(() => ({
     backgroundColor: interpolateColor(
-      scrollPositions.value[activeTabName.value] ?? 0,
+      activeScrollY.value,
       // Wider range = gentler fade. Tweak if you want it faster or slower.
       [0, 150],
-      [headerTransparentColor, headerBackgroundColor],
+      ["transparent", headerBackgroundColor],
     ),
     transform: [{ translateY: -headerHeight * headerAnimation.value }],
   }));
@@ -106,16 +76,13 @@ export const Screen = () => {
   const { discovery } = useAnalytics();
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
-    isHeaderHidden.value = false;
-    headerAnimation.value = 0;
+    resetHeader();
     setSelectedSlugs((current) => ({ ...current, [mediaType]: tabName }));
   };
 
-  const onMediaTypeChange = (label: string) => {
-    const nextMediaType = label === "Movies" ? "movie" : "series";
+  const onMediaTypeChange = (nextMediaType: MediaType) => {
     if (nextMediaType === mediaType) return;
-    isHeaderHidden.value = false;
-    headerAnimation.value = 0;
+    resetHeader();
     setMediaType(nextMediaType);
   };
 
