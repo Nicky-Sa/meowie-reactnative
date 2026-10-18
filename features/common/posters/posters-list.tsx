@@ -15,6 +15,7 @@ import { ReactElement, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
 import { StyleProp, ViewStyle, View } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
+import { tailwind } from "@/lib/tailwind";
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList<PosterInfo>,
@@ -40,7 +41,12 @@ export const PostersList = memo(
     ListEmptyComponent,
     contentContainerStyle,
   }: Props) => {
-    const { itemWidth } = useGridItemWidth({ numColumns });
+    const gap = Number(tailwind.theme.spacing["2"]);
+    const { itemWidth } = useGridItemWidth({
+      numColumns,
+      gap,
+      horizontalPadding: gap * 2,
+    });
 
     const {
       data,
@@ -64,6 +70,7 @@ export const PostersList = memo(
     const renderItem = useCallback(
       ({ item, index }: { item: PosterInfo; index: number }) => (
         <Animated.View
+          className={"px-1"}
           entering={FadeIn.duration(400)}
           exiting={FadeOut.duration(300)}
           layout={LinearTransition.duration(400)}
@@ -90,9 +97,9 @@ export const PostersList = memo(
         onEndReached={onEndReached}
         showsVerticalScrollIndicator={false}
         contentInsetAdjustmentBehavior="automatic" // adds a bottom padding
-        contentContainerClassName={"grow"}
+        contentContainerClassName={"grow px-1"}
         contentContainerStyle={contentContainerStyle}
-        ItemSeparatorComponent={() => <View className={"h-0.5"} />}
+        ItemSeparatorComponent={() => <View className={"h-2"} />}
         ListEmptyComponent={
           error ? (
             <ErrorState tryAgain={refetch} error={error} />

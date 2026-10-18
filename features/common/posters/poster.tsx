@@ -7,18 +7,16 @@ import { PosterPreview } from "./poster-preview";
 import { PosterCard } from "./poster-card";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { scheduleOnRN } from "react-native-worklets";
-import { tailwind } from "@/lib/tailwind";
 
 type Props = {
   data: PosterInfo;
   width: number;
-  isRounded?: boolean;
   showExtraDetails?: boolean;
   onPress: () => void;
 };
 
 export const Poster = memo(
-  ({ data, width, isRounded, showExtraDetails, onPress }: Props) => {
+  ({ data, width, showExtraDetails, onPress }: Props) => {
     const { media } = useAnalytics();
     const [isPreviewVisible, setIsPreviewVisible] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
@@ -77,7 +75,6 @@ export const Poster = memo(
       [longPressGesture, tapGesture],
     );
 
-    const borderRadius = isRounded ? Number(tailwind.theme.borderRadius.lg) : 0;
     const firstGenre = data.preview.genres[0];
 
     return (
@@ -86,7 +83,6 @@ export const Poster = memo(
           <PosterCard
             posterUri={data.posterPath}
             width={width}
-            borderRadius={borderRadius}
             blurhash={data.blurhash}
             recyclingKey={data.posterPath}
             transition={400}

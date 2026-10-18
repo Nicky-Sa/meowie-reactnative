@@ -62,7 +62,6 @@ export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
             key={item.id}
             data={item}
             width={140}
-            isRounded
             showExtraDetails
             onPress={() =>
               router.push({
