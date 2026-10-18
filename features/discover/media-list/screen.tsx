@@ -15,7 +15,9 @@ export const Screen = ({
   endpoint: URL;
   initialIndex: string;
 } & Partial<SearchParams>) => {
-  const posterData = useFetchPosters(endpoint, searchParams);
+  const posterData = useFetchPosters(endpoint, searchParams, {
+    refetchOnMount: false, // keeping the cache before closing the app as the explore content comes back shuffled
+  });
 
   return (
     <MediaListScreen

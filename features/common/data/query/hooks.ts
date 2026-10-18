@@ -27,7 +27,7 @@ export const useQueryConfigured = <Data, Err = Error>(
     ...config,
   });
 
-type PaginatedConfig<Data, Err> = Omit<
+export type PaginatedConfig<Data, Err> = Omit<
   UseInfiniteQueryOptions<
     SuccessResponse<Data>,
     Err,

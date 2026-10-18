@@ -1,7 +1,10 @@
 import { useMemo } from "react";
 import { PosterResDto } from "@/features/common/posters/poster.dto";
 import { searchParamsToQuery } from "@/lib/utils/query";
-import { useQueryPaginatedConfigured } from "@/features/common/data/query/hooks";
+import {
+  PaginatedConfig,
+  useQueryPaginatedConfigured,
+} from "@/features/common/data/query/hooks";
 import { ID, SearchParams } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { deduplicate } from "@/features/common/data/utils/deduplicate";
@@ -18,6 +21,7 @@ export type URL =
 export const useFetchPosters = (
   url: URL,
   searchParams?: Partial<SearchParams>,
+  config?: PaginatedConfig<PosterResDto, Error>,
 ) => {
   const query = searchParamsToQuery(searchParams);
 
@@ -36,6 +40,7 @@ export const useFetchPosters = (
       }
       return `${url}?page=${pageParam}&${query}`;
     },
+    config,
   );
 
   const data = useMemo(
