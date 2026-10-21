@@ -29,6 +29,7 @@
     "@expo-google-fonts/lato": "^0.4.1",
     "@gorhom/bottom-sheet": "^5.2.13",
     "@hookform/resolvers": "^5.2.2",
+    "@posthog/react-native-plugin": "^2.12.6",
     "@react-native-community/netinfo": "12.0.1",
     "@react-native-google-signin/google-signin": "^16.1.2",
     "@shopify/flash-list": "2.3.2",
@@ -66,8 +67,7 @@
     "mitt": "^3.0.1",
     "nativewind": "^4.2.3",
     "patch-package": "^8.0.1",
-    "posthog-react-native": "^4.45.0",
-    "posthog-react-native-session-replay": "^1.6.0",
+    "posthog-react-native": "^4.81.7",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-hook-form": "^7.75.0",
@@ -96,7 +96,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "@posthog/cli": "^0.7.11",
+    "@posthog/cli": "^0.18.12",
     "@types/lodash": "^4.17.24",
     "@types/node": "^25.6.2",
     "@types/react": "~19.3.0",
@@ -130,9 +130,7 @@
     "doctor": {
       "reactNativeDirectoryCheck": {
         "listUnknownPackages": false,
-        "exclude": [
-          "posthog-react-native-session-replay"
-        ]
+        "exclude": []
       }
     }
   },
