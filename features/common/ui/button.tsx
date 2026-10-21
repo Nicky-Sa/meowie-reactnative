@@ -108,7 +108,8 @@ const buttonSizes = {
   },
 };
 
-type Props = PressableProps & {
+type Props = Omit<PressableProps, "onPress"> & {
+  onPress?: () => void;
   variant?: keyof typeof buttonVariants;
   size?: keyof typeof buttonSizes;
   haptic?: boolean;
@@ -190,11 +191,11 @@ export const Button = ({
         setFocused(false);
         props.onPressOut?.(ev);
       }}
-      onPress={(ev) => {
+      onPress={() => {
         if (haptic) {
           void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
-        props.onPress?.(ev);
+        props.onPress?.();
       }}
       disabled={props.disabled || isLoading}
     >

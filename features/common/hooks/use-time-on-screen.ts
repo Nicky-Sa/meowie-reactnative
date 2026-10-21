@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState } from "react-native";
 
 type Args = {
   /** Change this to end the current stretch and start a new one, e.g. a media id. */
@@ -27,7 +27,7 @@ export const useTimeOnScreen = ({
   const startedAt = useRef(0);
   const total = useRef(0);
   const isCounting = useRef(false);
-  const appState = useRef<AppStateStatus>(AppState.currentState);
+  const appState = useRef(AppState.currentState);
 
   useEffect(() => {
     onLeaveRef.current = onLeave;
@@ -70,7 +70,7 @@ export const useTimeOnScreen = ({
       ) {
         stopCounting();
       } else if (
-        appState.current.match(/inactive|background/) &&
+        appState.current?.match(/inactive|background/) &&
         nextState === "active" &&
         isVisibleRef.current
       ) {

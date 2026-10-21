@@ -19,7 +19,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useIsFocused } from "expo-router/react-navigation";
+import { useIsFocused } from "expo-router";
 import { Image } from "expo-image";
 import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 

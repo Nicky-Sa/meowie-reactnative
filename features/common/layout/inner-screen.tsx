@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Edges, SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
@@ -18,7 +18,6 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { cn, tailwind } from "@/lib/tailwind";
-import { Edges } from "react-native-safe-area-context/src/SafeArea.types";
 
 /**
  * The horizontal padding InnerScreen puts around its content.

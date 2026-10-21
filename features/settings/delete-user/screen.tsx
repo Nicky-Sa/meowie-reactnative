@@ -1,5 +1,6 @@
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { ScrollView } from "react-native-gesture-handler";
+import { ScrollViewInstance } from "react-native";
 import SuperCryingMeowie from "@/assets/images/meowie/super-crying-meowie.svg";
 import { Divider } from "@/features/common/ui/divider";
 import { WarningText } from "@/features/settings/delete-user/elements/warning-text";
@@ -15,7 +16,7 @@ export const Screen = () => {
   const { data } = useCurrentUser();
   const email = data?.user?.email as string;
 
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<ScrollViewInstance>(null);
   const handleScrollToBottom = () => {
     // Small timeout ensures the keyboard view has resized before we scroll
     setTimeout(() => {

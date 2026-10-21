@@ -1,5 +1,5 @@
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { DarkTheme, DefaultTheme } from "expo-router/react-navigation";
+import { DarkTheme, DefaultTheme } from "expo-router";
 import { tailwind } from "@/lib/tailwind";
 
 export const useThemeConfig = () => {

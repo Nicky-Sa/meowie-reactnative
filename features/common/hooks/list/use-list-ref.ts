@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 import { FlashListRef } from "@shopify/flash-list";
-import { useNavigation } from "expo-router";
+import { useNavigation, useScrollToTop } from "expo-router";
 import type { BottomTabNavigationProp } from "expo-router/js-tabs";
 import { RootTabParamList } from "@/features/general/navbar/types";
-import { useScrollToTop } from "expo-router/react-navigation";
 
 export const useListRef = <T>() => {
   const listRef = useRef<FlashListRef<T>>(null);

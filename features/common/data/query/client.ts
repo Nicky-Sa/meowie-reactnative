@@ -3,7 +3,7 @@ import {
   focusManager,
   onlineManager,
 } from "@tanstack/react-query";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { FetcherError } from "@/features/common/data/fetcher";
 
@@ -12,11 +12,11 @@ import { FetcherError } from "@/features/common/data/fetcher";
  * Triggers refetch when the app returns from background.
  */
 function setupFocusManager() {
-  let appState: AppStateStatus = AppState.currentState;
+  let appState = AppState.currentState;
 
   const subscription = AppState.addEventListener("change", (nextAppState) => {
     /* If it's resuming from background or inactive mode to active one */
-    if (appState.match(/inactive|background/) && nextAppState === "active") {
+    if (appState?.match(/inactive|background/) && nextAppState === "active") {
       focusManager.setFocused(true);
     } else {
       focusManager.setFocused(false);

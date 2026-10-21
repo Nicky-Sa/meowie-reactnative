@@ -1,5 +1,5 @@
 import { forwardRef, memo } from "react";
-import { View, Text, DimensionValue } from "react-native";
+import { View, Text, DimensionValue, ViewInstance } from "react-native";
 import { Image } from "expo-image";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Badge } from "@/features/common/ui/badge";
@@ -65,7 +65,7 @@ const DEFAULT_RADIUS = Number(tailwind.theme.borderRadius.lg);
  * child of a GestureDetector, which injects a ref.
  */
 export const PosterCard = memo(
-  forwardRef<View, Props>(
+  forwardRef<ViewInstance, Props>(
     (
       {
         posterUri,

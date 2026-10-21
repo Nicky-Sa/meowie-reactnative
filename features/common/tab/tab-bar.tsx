@@ -3,6 +3,7 @@ import { TabBarProps } from "react-native-collapsible-tab-view";
 import {
   LayoutChangeEvent,
   ScrollView,
+  ScrollViewInstance,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -69,7 +70,7 @@ export const TabBar = memo(
       };
     });
 
-    const scrollRef = useRef<ScrollView>(null);
+    const scrollRef = useRef<ScrollViewInstance>(null);
     const [visibleWidth, setVisibleWidth] = useState(0);
     const [contentWidth, setContentWidth] = useState(0);
 

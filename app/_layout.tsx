@@ -1,5 +1,4 @@
-import { ThemeProvider } from "expo-router/react-navigation";
-import { Stack } from "expo-router";
+import { Stack, ThemeProvider } from "expo-router";
 import "react-native-reanimated";
 import "@/styles/global.css";
 import { QueryClientProvider } from "@tanstack/react-query";

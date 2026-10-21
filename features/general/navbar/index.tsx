@@ -99,7 +99,8 @@ const AnimatedTabIcon = ({
 const CustomTabBar = ({
   state,
   descriptors,
-  navigation,
+  emitter,
+  navigateToTab,
   onTabPress,
 }: BottomTabBarProps & {
   onTabPress: (name: string) => void;
@@ -131,7 +132,7 @@ const CustomTabBar = ({
           const isFocused = state.index === index;
 
           const onPress = () => {
-            const event = navigation.emit({
+            const event = emitter.emit({
               type: "tabPress",
               target: route.key,
               canPreventDefault: true,
@@ -139,7 +140,7 @@ const CustomTabBar = ({
 
             if (!isFocused && !event.defaultPrevented) {
               onTabPress(route.name);
-              navigation.navigate(route.name);
+              navigateToTab(route.key);
             }
           };
 

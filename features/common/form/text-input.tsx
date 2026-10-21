@@ -1,4 +1,10 @@
-import { View, TextInput as RNTextInput, Text } from "react-native";
+import {
+  View,
+  TextInput as RNTextInput,
+  Text,
+  TextInputInstance,
+  TextInputProps,
+} from "react-native";
 import {
   Controller,
   FieldError,
@@ -6,7 +12,6 @@ import {
   UseControllerProps,
   UseFormClearErrors,
 } from "react-hook-form";
-import { TextInputProps } from "react-native/Libraries/Components/TextInput/TextInput";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { InfoCircle, Xmark } from "iconoir-react-native";
@@ -99,7 +104,7 @@ export const TextInput = <T extends FieldValues>({
   ...textInputProps
 }: Props<T>) => {
   const [isFocused, setIsFocused] = useState(false);
-  const ref = useRef<RNTextInput>(null);
+  const ref = useRef<TextInputInstance>(null);
 
   const focusProgress = useSharedValue(0);
 

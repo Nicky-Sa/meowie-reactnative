@@ -85,3 +85,5 @@ Ignore it for now, it's not complete yet.
 - **Never use single-letter variable names.** Give every binding a full, readable name
   that says what it holds — `component` not `c`, `series` not `s`, `movie` not `m`.
   The only exception is a conventional loop index `i`/`j` in a plain counting `for` loop.
+- **Never pass a `Button` an `onPress` that can throw or reject.** `Button` (`features/common/ui/button.tsx`)
+  runs `onPress` without catching errors, so the handler must catch its own and show feedback (a toast) or log them with `console.error`.
