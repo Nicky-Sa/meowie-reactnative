@@ -125,6 +125,7 @@ const config: ExpoConfig = {
     supportsTablet: false,
     requireFullScreen: true,
     bundleIdentifier: getUniqueIdentifier(),
+    associatedDomains: ["applinks:meowie.app"],
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
       // Only the dev backend is plain http; release builds stay HTTPS-only.

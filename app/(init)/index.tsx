@@ -1,6 +1,8 @@
 import { SplashScreen } from "@/features/general/splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useStore } from "jotai";
+import { linkToOpenAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import { appStorage } from "@/features/common/data/utils/app-storage";
@@ -14,6 +16,8 @@ export default function Home() {
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
   const { data, isPending } = useCurrentUser();
+  // Not useAtom: clearing the link would re-run the effect below and replace the screen it just opened.
+  const store = useStore();
 
   useEffect(() => {
     if (!splashDone) return;
@@ -33,11 +37,17 @@ export default function Home() {
         }
         // if onboarded -> home
         router.replace("/home");
+
+        const linkToOpen = store.get(linkToOpenAtom);
+        if (linkToOpen) {
+          store.set(linkToOpenAtom, null);
+          router.push(linkToOpen);
+        }
       }
     };
 
     checkState();
-  }, [data, router, splashDone]);
+  }, [data, router, splashDone, store]);
 
   const onFinish = useCallback(() => setSplashDone(true), []);
 
