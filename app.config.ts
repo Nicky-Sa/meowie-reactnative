@@ -96,7 +96,6 @@ const getPlugins = (): ExpoConfig["plugins"] => {
     ],
     "expo-image",
     "posthog-react-native/expo",
-    "@config-plugins/detox",
     "expo-apple-authentication",
   ];
 

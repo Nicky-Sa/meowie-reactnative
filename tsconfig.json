@@ -9,7 +9,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": [
     "**/*.ts",
@@ -19,5 +19,5 @@
     "nativewind-env.d.ts",
     "types/*.d.ts"
   ],
-  "exclude": ["node_modules", "e2e"]
+  "exclude": ["node_modules"]
 }

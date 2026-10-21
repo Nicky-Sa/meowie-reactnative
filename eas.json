@@ -16,31 +16,10 @@
         "simulator": true
       }
     },
-    "e2e-detox-ios-development": {
-      "extends": "local-development-ios-simulator"
-    },
-    "e2e-detox-android-development": {
-      "extends": "local-development",
-      "android": {
-        "gradleCommand": ":app:assembleDebug :app:assembleDebugAndroidTest -x lint -x test"
-      }
-    },
     "local-preview": {
       "channel": "preview",
       "environment": "preview",
       "distribution": "internal"
-    },
-    "e2e-detox-ios-preview": {
-      "extends": "local-preview",
-      "ios": {
-        "simulator": true
-      }
-    },
-    "e2e-detox-android-preview": {
-      "extends": "local-preview",
-      "android": {
-        "gradleCommand": ":app:assembleDebug :app:assembleDebugAndroidTest -x lint -x test"
-      }
     },
     "testflight-preview": {
       "channel": "preview",

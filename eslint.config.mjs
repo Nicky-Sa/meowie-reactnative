@@ -6,7 +6,6 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import reactPlugin from "eslint-plugin-react";
 import eslint from "@eslint/js";
 import { configs as tseslintConfig } from "typescript-eslint";
-import globals from "globals";
 
 export default defineConfig([
   expoConfig,
@@ -16,11 +15,6 @@ export default defineConfig([
   eslint.configs.recommended,
   tseslintConfig.recommended,
   {
-    languageOptions: {
-      globals: {
-        ...globals.jest,
-      },
-    },
     rules: {
       "prettier/prettier": "error",
       "no-undef": "error",

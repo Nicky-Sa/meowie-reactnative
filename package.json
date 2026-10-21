@@ -15,14 +15,6 @@
     "eas-build:testflight-production": "eas env:pull --environment production && eas build --platform ios --profile testflight-production --local --clear-cache --non-interactive --output=./local-builds/testflight/production/meowie.ipa",
     "eas-update:preview:ios": "UPDATE_IS_URGENT=false eas update --channel preview --platform ios --environment preview --message",
     "eas-update:production:ios": "UPDATE_IS_URGENT=false eas update --channel production --platform ios --environment production --message",
-    "eas-build:detox-development:ios": "eas env:pull --environment development && eas build --platform ios --profile e2e-detox-ios-development --clear-cache --local --output=./local-builds/detox/ios/meowie-dev.tar.gz && tar -xzf ./local-builds/detox/ios/meowie-dev.tar.gz -C ./local-builds/detox/ios/",
-    "eas-build:detox-development:android": "eas env:pull --environment development && eas build --platform android --profile e2e-detox-android-development --clear-cache --local --output=./local-builds/detox/android/meowie-dev.tar.gz && tar -xzf ./local-builds/detox/android/meowie-dev.tar.gz -C ./local-builds/detox/android/",
-    "eas-build:detox-preview:ios": "eas env:pull --environment preview && eas build --platform ios --profile e2e-detox-ios-preview --clear-cache --local --output=./local-builds/detox/ios/meowie-preview.tar.gz && tar -xzf ./local-builds/detox/ios/meowie-preview.tar.gz -C ./local-builds/detox/ios/",
-    "eas-build:detox-preview:android": "eas env:pull --environment preview && eas build --platform android --profile e2e-detox-android-preview --clear-cache --local --output=./local-builds/detox/android/meowie-preview.tar.gz && tar -xzf ./local-builds/detox/android/meowie-preview.tar.gz -C ./local-builds/detox/android/",
-    "test:unit": "jest --watchAll",
-    "test:e2e-development:ios": "CUSTOM_BINARY_APP_NAME=Meowiedev detox test -c ios.sim.local",
-    "test:e2e-preview:ios": "detox test -c ios.sim.local",
-    "test:e2e-preview:android": "detox test -c android.emu.local",
     "lint": "eslint",
     "generate-figma-variables": "npx ts-node -O '{\"module\":\"CommonJS\"}' figma/processor.ts",
     "android": "expo run:android",
@@ -35,22 +27,16 @@
   },
   "dependencies": {
     "@expo-google-fonts/lato": "^0.4.1",
-    "@expo/vector-icons": "^15.1.1",
     "@gorhom/bottom-sheet": "^5.2.13",
     "@hookform/resolvers": "^5.2.2",
-    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/netinfo": "12.0.1",
     "@react-native-google-signin/google-signin": "^16.1.2",
-    "@react-native/virtualized-lists": "^0.84.1",
-    "@rn-primitives/portal": "^1.4.0",
     "@shopify/flash-list": "2.3.2",
     "@shopify/react-native-skia": "2.14.0",
     "@t3-oss/env-core": "^0.13.11",
     "@tanstack/react-query": "^5.100.9",
     "axios": "^1.16.0",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dotenv": "^17.4.2",
     "expo": "~58.0.16",
     "expo-apple-authentication": "~58.0.2",
     "expo-application": "~58.1.2",
@@ -64,11 +50,9 @@
     "expo-image": "~58.0.16",
     "expo-linking": "~58.0.13",
     "expo-localization": "~58.0.5",
-    "expo-navigation-bar": "~58.0.4",
     "expo-router": "~58.0.24",
     "expo-secure-store": "~58.0.2",
     "expo-splash-screen": "~58.0.10",
-    "expo-status-bar": "~58.0.3",
     "expo-symbols": "~58.0.4",
     "expo-system-ui": "~58.0.6",
     "expo-updates": "~58.0.17",
@@ -106,54 +90,32 @@
     "react-native-webview": "14.0.1",
     "react-native-worklets": "0.13.0",
     "react-native-youtube-bridge": "^2.2.1",
-    "semver": "^7.8.0",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss-animate": "^1.0.7",
     "use-immer": "^0.11.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@config-plugins/detox": "^11.0.0",
     "@eslint/js": "^9.21.0",
     "@posthog/cli": "^0.7.11",
-    "@testing-library/react-native": "^14.1.0",
-    "@types/detox": "^18.1.3",
-    "@types/jest": "30.0.0",
     "@types/lodash": "^4.17.24",
     "@types/node": "^25.6.2",
     "@types/react": "~19.3.0",
-    "@types/react-test-renderer": "^19.1.0",
     "babel-preset-expo": "~58.0.0",
-    "detox": "^20.51.1",
     "eslint": "^9.21.0",
     "eslint-config-expo": "~58.0.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^9.1.7",
-    "jest": "~30.5.2",
-    "jest-expo": "~58.0.11",
     "orval": "^8.9.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "react-native-svg-transformer": "^1.5.3",
-    "react-test-renderer": "19.2.0",
     "tailwindcss": "^3.4.19",
-    "ts-jest": "^29.4.9",
     "ts-node": "^10.9.2",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.59.2"
-  },
-  "jest": {
-    "preset": "jest-expo",
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.ts"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/e2e/"
-    ]
   },
   "overrides": {
     "iconoir-react-native": {
@@ -162,10 +124,6 @@
     "diff": "^8.0.3",
     "xcode": {
       "uuid": "^14.0.1"
-    },
-    "@config-plugins/detox": {
-      "expo": "$expo",
-      "expo-build-properties": "$expo-build-properties"
     }
   },
   "expo": {

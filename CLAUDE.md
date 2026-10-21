@@ -9,22 +9,14 @@ Expo (React Native) mobile app for Meowie. This file is auto-loaded when working
 ```bash
 npm run start            # Write LAN IP into .env.local, then `expo start --clear --dev-client --lan`
 npm run lint             # eslint (whole project, no auto-fix). Use `npx eslint --fix` to fix.
-npm run test:unit        # Jest in WATCH mode (jest --watchAll)
 npm run generate:api     # Orval codegen from backend Swagger at localhost:5005/docs-json (see Data fetching caveat)
 npm run prebuild         # expo prebuild --clean
 npm run android | ios    # expo run:android | run:ios
-
-# A single test (the watch script won't exit on its own):
-npx jest features/common/ui/button.test.tsx
 
 # EAS builds (local) — each pulls EAS env first via `eas env:pull --environment <env>`
 npm run eas-build:local-development:{android,ios-simulator,ios-device}
 npm run eas-build:local-preview:{android,ios-device}
 npm run eas-build:testflight-{preview,production}
-
-# Detox: build the native binary, THEN run (Detox does not use Metro)
-npm run eas-build:detox-development:{ios,android}   # or detox-preview:*
-npm run test:e2e-development:ios                     # or test:e2e-preview:{ios,android}
 
 # OTA updates (iOS only); message is required after `--`
 npm run eas-update:preview:ios -- "what changed"     # or eas-update:production:ios
@@ -68,12 +60,6 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 **Adding a PostHog event.** Add its type to `features/general/posthog/events.ts` and a tracker to `features/general/posthog/hook/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 
 **OTA updates.** EAS Update; `UpdatesListener` (in the provider tree) downloads and reloads updates on launch. `runtimeVersion.policy` is `appVersion`. Update scripts are iOS-only.
-
-## Testing
-Ignore it for now, it's not complete yet.
-
-- **Unit / component:** Jest (`jest-expo` preset, `jest.setup.ts`) + React Native Testing Library. Tests are co-located in `features/` as `*.test.tsx`; `e2e/` is excluded via `testPathIgnorePatterns`. `npm run test:unit` is watch-mode — run one file with `npx jest <path>`.
-- **E2E:** Detox (`.detoxrc.js`, tests in `e2e/`). Runs against a prebuilt native binary, **not** Metro — build with an `eas-build:detox-*` script before running `test:e2e-*`.
 
 ## Skills
 
