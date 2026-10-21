@@ -5,9 +5,6 @@ const { getPostHogExpoConfig } = require("posthog-react-native/metro");
 // 📦 Get base config
 const config = getPostHogExpoConfig(__dirname);
 
-// 🪽 Support cjs files
-config.resolver.sourceExts.push("cjs");
-
 // 🖼️ SVG support (use transformer, remove from assetExts, add to sourceExts)
 config.transformer = {
   ...config.transformer,
@@ -16,8 +13,6 @@ config.transformer = {
 config.resolver.assetExts = config.resolver.assetExts.filter(
   (ext) => ext !== "svg",
 );
-config.resolver.assetExts.push("png"); // add png if needed
-config.resolver.assetExts.push("woff2");
 config.resolver.sourceExts = [
   ...new Set([...config.resolver.sourceExts, "svg"]),
 ];
