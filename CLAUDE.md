@@ -63,7 +63,7 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Auth / session.** OTP (email) plus Google / Apple sign-in. Tokens live in `expo-secure-store` with an in-memory cache (`features/common/data/utils/token.ts`). `session` / `destroySession` (in `data/utils/`) manage tokens and emit `sessionCreated` / `sessionDestroyed` over a `mitt` bus (`features/common/event-emitting/emitter.ts`), consumed by `EventListenerWrapper`. No tokens = guest mode; the Axios layer downgrades to guest silently when a refresh fails.
 
-**Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and autocaptured error tracking — all configured in `app/_layout.tsx`. There is **no Sentry**. `ScreenTracker` reports navigation.
+**Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. There is **no Sentry**. `ScreenTracker` reports navigation.
 
 **Adding a PostHog event.** Add its type to `features/general/posthog/events.ts` and a tracker to `features/general/posthog/hook/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 

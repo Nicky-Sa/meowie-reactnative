@@ -11,6 +11,7 @@ export const posthog = new PostHog(env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN, {
     autocapture: {
       uncaughtExceptions: true,
       unhandledRejections: true,
+      console: ["error"],
     },
   },
   sessionReplayConfig: {
