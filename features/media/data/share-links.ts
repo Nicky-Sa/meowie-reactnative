@@ -1,3 +1,9 @@
+import { WEBSITE_URL } from "@/lib/consts";
+import { MediaType } from "@/features/common/data/models/media-type";
+
+export const getShareLink = (mediaType: MediaType, id: string) =>
+  `${WEBSITE_URL}/${mediaType}/${id}`;
+
 const SHARED_MEDIA_LINK =
   /^(?:https:\/\/meowie\.app)?\/(movie|series)\/(\d+)\/?(?:[?#].*)?$/;
 

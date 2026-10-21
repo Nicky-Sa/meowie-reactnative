@@ -265,6 +265,14 @@ export type MEDIA_DETAILS_CLICKED = {
   };
 };
 
+export type MEDIA_SHARED = {
+  event: "media_shared";
+  properties: {
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
 export type FEED_REFRESHED = {
   event: "feed_refreshed";
   properties: {
@@ -313,6 +321,7 @@ export type Events =
   | RECOMMENDATIONS_SEE_MORE_CLICKED
   | TICKETS_CLICKED
   | MEDIA_DETAILS_CLICKED
+  | MEDIA_SHARED
   | FEED_REFRESHED
   | RELEASE_NOTES_OPENED;
 

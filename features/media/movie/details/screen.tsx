@@ -17,6 +17,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
+import { ShareButton } from "@/features/media/components/details/elements/share-button";
 
 export const Screen = ({ movieId }: { movieId: string }) => {
   const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
@@ -50,6 +51,7 @@ export const Screen = ({ movieId }: { movieId: string }) => {
       fullWidth
       fullHeight
       scrollY={scrollY}
+      rightTopComponent={<ShareButton mediaType="movie" id={movieId} />}
     >
       {error ? (
         <ErrorState tryAgain={refetch} error={error} />

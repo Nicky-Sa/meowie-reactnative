@@ -61,6 +61,18 @@ export const useAnalytics = () => {
             media_type: mediaType,
           }),
 
+        trackShare: ({
+          mediaId,
+          mediaType,
+        }: {
+          mediaId: ID;
+          mediaType: MediaType;
+        }): void =>
+          capture("media_shared", {
+            media_id: mediaId,
+            media_type: mediaType,
+          }),
+
         trackLongPress: ({
           mediaId,
           mediaType,

@@ -65,6 +65,8 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and autocaptured error tracking — all configured in `app/_layout.tsx`. There is **no Sentry**. `ScreenTracker` reports navigation.
 
+**Adding a PostHog event.** Add its type to `features/general/posthog/events.ts` and a tracker to `features/general/posthog/hook/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
+
 **OTA updates.** EAS Update; `UpdatesListener` (in the provider tree) downloads and reloads updates on launch. `runtimeVersion.policy` is `appVersion`. Update scripts are iOS-only.
 
 ## Testing

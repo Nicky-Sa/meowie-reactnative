@@ -16,6 +16,7 @@ import Animated, {
 import { Ratings } from "@/features/media/components/info/elements/ratings";
 import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
+import { ShareButton } from "@/features/media/components/details/elements/share-button";
 
 export const Screen = ({ seriesId }: { seriesId: string }) => {
   const { data, isLoading, error, refetch } = useFetchSeriesDetails(seriesId);
@@ -49,6 +50,7 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
       fullWidth
       fullHeight
       scrollY={scrollY}
+      rightTopComponent={<ShareButton mediaType="series" id={seriesId} />}
     >
       {error ? (
         <ErrorState tryAgain={refetch} error={error} />
