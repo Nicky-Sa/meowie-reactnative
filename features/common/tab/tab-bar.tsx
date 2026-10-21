@@ -90,7 +90,6 @@ export const TabBar = memo(
         if (!scrollable || previous === null || current === previous) return;
         scheduleOnRN(scrollToTab, current);
       },
-      [scrollable, scrollToTab],
     );
 
     const onTabLayout =

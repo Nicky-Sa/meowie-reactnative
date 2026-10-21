@@ -51,19 +51,16 @@ export const RatingSlider = ({ value, onChange }: Props) => {
     [onChange],
   );
 
-  const scrollHandler = useAnimatedScrollHandler(
-    {
-      onScroll: (event) => {
-        scrollOffset.value = event.contentOffset.x;
-        const index = Math.round(event.contentOffset.x / ITEM_WIDTH);
-        if (index === centeredIndex.value) return;
-        if (index < 0 || index >= CHOICES.length) return;
-        centeredIndex.value = index;
-        scheduleOnRN(reportChoice, index);
-      },
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollOffset.value = event.contentOffset.x;
+      const index = Math.round(event.contentOffset.x / ITEM_WIDTH);
+      if (index === centeredIndex.value) return;
+      if (index < 0 || index >= CHOICES.length) return;
+      centeredIndex.value = index;
+      scheduleOnRN(reportChoice, index);
     },
-    [reportChoice],
-  );
+  });
 
   useEffect(() => {
     if (width === 0) return;

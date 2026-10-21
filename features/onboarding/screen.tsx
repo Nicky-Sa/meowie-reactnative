@@ -58,7 +58,7 @@ export const Screen = () => {
         animated: true,
       });
     },
-    [progress.value],
+    [progress],
   );
 
   const customReanimatedStyle = useCallback(

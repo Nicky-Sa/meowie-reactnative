@@ -75,7 +75,6 @@ export const usePullToRefresh = ({
         scheduleOnRN(setIsReadyToRefresh, false);
       }
     },
-    [isOn, onRefresh],
   );
 
   return { isReadyToRefresh };

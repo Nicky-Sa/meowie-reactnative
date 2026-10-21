@@ -155,7 +155,7 @@ export const Button = ({
     return withTiming(props.disabled ? 0.5 : focused ? 0.7 : 1, {
       duration: 150,
     });
-  }, [props.disabled, focused]);
+  });
 
   const wakeUpScale = useWakeUpScale(props.disabled);
 
@@ -163,13 +163,13 @@ export const Button = ({
     return withTiming(buttonVariants[variant].backgroundColor, {
       duration: 150,
     });
-  }, [variant]);
+  });
 
   const animatedBorder = useDerivedValue(() => {
     return withTiming(buttonVariants[variant].borderColor, {
       duration: 150,
     });
-  }, [variant]);
+  });
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
