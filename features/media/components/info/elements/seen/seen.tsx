@@ -63,8 +63,8 @@ export const Seen = ({
       return;
     }
 
-    // An item that was seen but never rated keeps Skip; a new one starts in the
-    // middle of the scale.
+    // An item that was seen but never rated keeps Skip; a new one starts at the
+    // top of the scale.
     setPickedRating(isSeen ? (currentRating ?? null) : DEFAULT_RATING);
 
     // Always open the bottom sheet — for both initial and update flows
