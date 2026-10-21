@@ -1,8 +1,8 @@
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
-import { atom } from "jotai/vanilla";
+import { atom } from "jotai";
 import { produce } from "immer";
 import type { Draft } from "immer";
-import type { WritableAtom } from "jotai/vanilla";
+import type { WritableAtom } from "jotai";
 import { STORAGE_IDS } from "@/features/common/data/utils/storage-keys";
 import { MMKVStore } from "@/features/common/data/utils/mmkv-store";
 

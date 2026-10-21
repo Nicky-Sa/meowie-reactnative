@@ -15,6 +15,9 @@ export default defineConfig([
   eslint.configs.recommended,
   tseslintConfig.recommended,
   {
+    settings: {
+      "import/resolver": { typescript: true, node: true },
+    },
     rules: {
       "prettier/prettier": "error",
       "no-undef": "error",
