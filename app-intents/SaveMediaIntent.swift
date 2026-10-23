@@ -6,19 +6,19 @@ struct SaveMediaIntent: AppIntent {
   static let openAppWhenRun: Bool = true
 
   @Parameter(title: "Title", requestValueDialog: "Which title?")
-  var title: String
+  var media: MediaEntity
 
   static var parameterSummary: some ParameterSummary {
-    Summary("Save \(\.$title)")
+    Summary("Save \(\.$media)")
   }
 
   @MainActor
   func perform() async throws -> some IntentResult & ProvidesDialog {
     await AppIntentDispatcher.shared.dispatch(
       name: "saveMedia",
-      params: ["title": .string(title)]
+      params: ["id": .int(media.tmdbId), "mediaType": .string(media.mediaType)]
     )
 
-    return .result(dialog: "Opening the app to save \(title).")
+    return .result(dialog: "Opening the app to save \(media.title).")
   }
 }

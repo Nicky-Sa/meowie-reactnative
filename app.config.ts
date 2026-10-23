@@ -128,6 +128,7 @@ const config: ExpoConfig = {
     associatedDomains: ["applinks:meowie.app"],
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
+      MeowieBackendUrl: process.env.EXPO_PUBLIC_BACKEND_URL,
       // Only the dev backend is plain http; release builds stay HTTPS-only.
       ...(isDevelopment && {
         NSAppTransportSecurity: { NSAllowsArbitraryLoads: true },

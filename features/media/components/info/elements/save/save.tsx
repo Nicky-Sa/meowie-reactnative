@@ -5,13 +5,16 @@ import { ID } from "@/features/common/data/media-query";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useEffectEvent } from "react";
+import Toast from "react-native-toast-message";
+import { useLocalSearchParams } from "expo-router";
 import { SaveIcon } from "@/features/media/components/info/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 
 import { MediaType } from "@/features/common/data/models/media-type";
+import { MediaAction } from "@/features/media/data/media-actions";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
@@ -24,7 +27,9 @@ type Props = {
 };
 
 export const Save = ({ id, mediaType, onPress }: Props) => {
-  const { data: currentUser } = useCurrentUser();
+  const { action } = useLocalSearchParams<{ action?: MediaAction }>();
+  const { data: currentUser, isPending: isCurrentUserPending } =
+    useCurrentUser();
   const { data: libraryStatus, isLoading: isLibraryStatusLoading } =
     useFetchLibraryStatus({ id, mediaType });
   const { markAsSaved } = useMarkAsSaved({ id, mediaType });
@@ -52,6 +57,28 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       onPress(true);
     }
   };
+
+  const runSaveAction = useEffectEvent(() => {
+    // Unlike a tap, the action never removes a saved title.
+    if (isSaved) {
+      Toast.show({
+        type: "info",
+        text1: `This ${mediaType} is already in your saved list`,
+      });
+      return;
+    }
+
+    handlePress().catch((error) => {
+      console.error("Could not run the save action:", error);
+    });
+  });
+
+  // Runs again after a guest logs in from the prompt, so the save still happens.
+  useEffect(() => {
+    if (action !== "save" || isCurrentUserPending || isLibraryStatusLoading)
+      return;
+    runSaveAction();
+  }, [action, isCurrentUserPending, isLibraryStatusLoading]);
 
   const handleConfirmMove = async () => {
     bottomSheetRef.current?.dismiss();

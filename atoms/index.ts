@@ -11,7 +11,7 @@ import { atomPersisted, atomPersistedWithImmer } from "@/atoms/storage";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { PERSISTED_ATOM_KEYS } from "@/features/common/data/utils/storage-keys";
 import { initialTasteState, TasteState } from "@/features/taste/state";
-import { getDetailsPathFromLink } from "@/features/media/data/share-links";
+import { Href } from "expo-router";
 
 // Color based on the movie poster
 export const colorAtom = atom(
@@ -67,6 +67,5 @@ export const tasteAtom = atomPersistedWithImmer<TasteState>(
   true,
 );
 
-// A shared link that started the app. It opens once the app has loaded Home.
-export const linkToOpenAtom =
-  atom<ReturnType<typeof getDetailsPathFromLink>>(null);
+// A shared link or Siri request that started the app. It opens once the app has loaded Home.
+export const linkToOpenAtom = atom<Href | null>(null);
