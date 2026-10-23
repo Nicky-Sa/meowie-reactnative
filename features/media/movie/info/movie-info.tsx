@@ -21,6 +21,7 @@ import { ScrollableTitle } from "@/features/media/components/common/scrollable-t
 import { RowInfo } from "@/features/media/components/common/row-info";
 import { Actions } from "@/features/media/components/info/elements/actions";
 import { useTrackMediaTime } from "@/features/media/hooks/use-track-media-time";
+import { useShareOnScreenshot } from "@/features/media/hooks/use-share-on-screenshot";
 import { Link } from "@/features/common/ui/link";
 
 type Props = {
@@ -56,6 +57,12 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
     title: data?.title,
     genres: data?.genres,
     autoplay,
+  });
+
+  useShareOnScreenshot({
+    mediaType: "movie",
+    id: movieId,
+    isVisible: inScreen,
   });
 
   useFocusEffect(

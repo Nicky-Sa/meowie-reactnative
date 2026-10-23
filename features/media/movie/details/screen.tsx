@@ -18,6 +18,7 @@ import Animated, {
 import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ShareButton } from "@/features/media/components/details/elements/share-button";
+import { useShareOnScreenshot } from "@/features/media/hooks/use-share-on-screenshot";
 
 export const Screen = ({ movieId }: { movieId: string }) => {
   const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
@@ -37,6 +38,8 @@ export const Screen = ({ movieId }: { movieId: string }) => {
     title: data?.title,
     genres: data?.genres,
   });
+
+  useShareOnScreenshot({ mediaType: "movie", id: movieId, isVisible: true });
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {

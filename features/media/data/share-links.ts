@@ -1,7 +1,8 @@
 import { WEBSITE_URL } from "@/lib/consts";
+import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 
-export const getShareLink = (mediaType: MediaType, id: string) =>
+export const getShareLink = (mediaType: MediaType, id: ID) =>
   `${WEBSITE_URL}/${mediaType}/${id}`;
 
 const SHARED_MEDIA_LINK =

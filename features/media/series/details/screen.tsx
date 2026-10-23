@@ -17,6 +17,7 @@ import { Ratings } from "@/features/media/components/info/elements/ratings";
 import { View } from "react-native";
 import { MediaDetailsSkeleton } from "@/features/media/components/details/media-details-skeleton";
 import { ShareButton } from "@/features/media/components/details/elements/share-button";
+import { useShareOnScreenshot } from "@/features/media/hooks/use-share-on-screenshot";
 
 export const Screen = ({ seriesId }: { seriesId: string }) => {
   const { data, isLoading, error, refetch } = useFetchSeriesDetails(seriesId);
@@ -36,6 +37,8 @@ export const Screen = ({ seriesId }: { seriesId: string }) => {
     title: data?.title,
     genres: data?.genres,
   });
+
+  useShareOnScreenshot({ mediaType: "series", id: seriesId, isVisible: true });
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler((event) => {
