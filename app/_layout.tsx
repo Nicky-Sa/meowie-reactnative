@@ -22,6 +22,7 @@ import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
 import { UpdatesListener } from "@/features/general/updates-listener";
+import { SiriListener } from "@/features/general/siri-listener";
 import { tailwind } from "@/lib/tailwind";
 
 function RootLayout() {
@@ -38,6 +39,7 @@ function RootLayout() {
         }}
       >
         <UpdatesListener />
+        <SiriListener />
         <PostHogSurveyProvider>
           <ScreenTracker>
             <EventListenerWrapper>

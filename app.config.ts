@@ -97,6 +97,7 @@ const getPlugins = (): ExpoConfig["plugins"] => {
     "expo-image",
     "posthog-react-native/expo",
     "expo-apple-authentication",
+    "expo-app-intents",
   ];
 
   // conditional plugins
@@ -154,6 +155,7 @@ const config: ExpoConfig = {
   plugins: getPlugins(),
   experiments: {
     typedRoutes: true,
+    inlineModules: { watchedDirectories: ["app-intents"] },
   },
   extra: {
     router: {
