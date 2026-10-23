@@ -1,0 +1,26 @@
+diff --git a/node_modules/@shopify/flash-list/dist/recyclerview/RecyclerViewManager.js b/node_modules/@shopify/flash-list/dist/recyclerview/RecyclerViewManager.js
+index 1aa651d..390ff3a 100644
+--- a/node_modules/@shopify/flash-list/dist/recyclerview/RecyclerViewManager.js
++++ b/node_modules/@shopify/flash-list/dist/recyclerview/RecyclerViewManager.js
+@@ -293,7 +293,7 @@ export class RecyclerViewManager {
+             // re-estimate unmeasured items with an updated average height, changing
+             // the target item's position. Reading before recompute would capture a
+             // stale offset, causing the wrong items to be rendered.
+-            this.layoutManager.recomputeLayouts(0, initialScrollIndex);
++            this.layoutManager.recomputeLayouts(0, this.getDataLength() - 1);
+             const initialItemLayout = this.layoutManager.getLayout(initialScrollIndex);
+             const initialItemOffset = this.propsRef.horizontal
+                 ? initialItemLayout.x
+diff --git a/node_modules/@shopify/flash-list/src/recyclerview/RecyclerViewManager.ts b/node_modules/@shopify/flash-list/src/recyclerview/RecyclerViewManager.ts
+index 41704d0..58f9a3e 100644
+--- a/node_modules/@shopify/flash-list/src/recyclerview/RecyclerViewManager.ts
++++ b/node_modules/@shopify/flash-list/src/recyclerview/RecyclerViewManager.ts
+@@ -385,7 +385,7 @@ export class RecyclerViewManager<T> {
+       // re-estimate unmeasured items with an updated average height, changing
+       // the target item's position. Reading before recompute would capture a
+       // stale offset, causing the wrong items to be rendered.
+-      this.layoutManager.recomputeLayouts(0, initialScrollIndex);
++      this.layoutManager.recomputeLayouts(0, this.getDataLength() - 1);
+       const initialItemLayout =
+         this.layoutManager.getLayout(initialScrollIndex);
+       const initialItemOffset = this.propsRef.horizontal
