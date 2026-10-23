@@ -7,6 +7,7 @@ import { TabChildProps } from "@/features/common/tab/tab-bar";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { SavedEmptyState } from "@/features/profile/logged-in/saved/saved-empty-state";
 import { useInvalidateByPattern } from "@/features/common/data/query/hooks";
+import { tailwind } from "@/lib/tailwind";
 
 const NUM_COLUMNS = 3;
 
@@ -48,7 +49,10 @@ export const SavedList = ({ scrollHandler }: Props) => {
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
         ListEmptyComponent={<SavedEmptyState />}
-        contentContainerStyle={{ paddingBottom }}
+        contentContainerStyle={{
+          paddingTop: Number(tailwind.theme.spacing["2"]),
+          paddingBottom,
+        }}
       />
     </View>
   );

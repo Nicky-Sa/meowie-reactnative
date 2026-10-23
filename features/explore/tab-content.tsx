@@ -52,7 +52,7 @@ export const TabContent = ({
         scrollHandler={scrollHandler}
         contentInsetAdjustmentBehavior="never"
         contentContainerStyle={{
-          paddingTop: headerHeight + Number(tailwind.theme.spacing["4"]),
+          paddingTop: headerHeight + Number(tailwind.theme.spacing["2"]),
           paddingBottom,
         }}
       />
