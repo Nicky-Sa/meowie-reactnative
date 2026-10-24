@@ -1,3 +1,4 @@
+import { useLayoutEffect } from "react";
 import { View } from "react-native";
 import { SharedValue, useAnimatedReaction } from "react-native-reanimated";
 import { MediaType } from "@/features/common/data/models/media-type";
@@ -14,6 +15,7 @@ type Props = {
   tab: ExploreTabResDto | null;
   headerHeight: number;
   scrollPositions: SharedValue<Record<string, number>>;
+  onReady: () => void;
 };
 
 export const TabContent = ({
@@ -21,6 +23,7 @@ export const TabContent = ({
   tab,
   headerHeight,
   scrollPositions,
+  onReady,
 }: Props) => {
   const { scrollHandler, scrollY, isDragging } = useScrollHandler();
   const { paddingBottom } = useMainScreenContentStyle();
@@ -35,6 +38,14 @@ export const TabContent = ({
       };
     },
   );
+
+  // A layout effect runs before this frame is drawn, so the loading skeleton
+  // leaves in the same frame the tab content shows up.
+  useLayoutEffect(() => {
+    if (headerHeight > 0) onReady();
+  }, [headerHeight, onReady]);
+
+  if (headerHeight === 0) return null;
 
   return tab ? (
     <ExplorePosters

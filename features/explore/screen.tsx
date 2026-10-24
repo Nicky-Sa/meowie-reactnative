@@ -13,9 +13,9 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { COLLECTIONS_TAB, ExploreTabBar } from "@/features/explore/tab-bar";
 import { useFetchExploreTabs } from "@/features/explore/data/use-fetch-explore-tabs";
-import { Loading } from "@/features/common/ui/loading";
+import { Loading } from "@/features/explore/loading/content";
 import { ErrorState } from "@/features/general/error-state";
-import {
+import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
@@ -50,7 +50,15 @@ export const Screen = () => {
   const setFiltersMediaType = useSetAtom(filtersMediaTypeAtom);
   const setMovieFilters = useSetAtom(movieFiltersAtom);
   const setTvFilters = useSetAtom(tvFiltersAtom);
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [topBarHeight, setTopBarHeight] = useState(0);
+  const [tabBarHeight, setTabBarHeight] = useState(0);
+  // Stays 0 until both parts are measured, so nothing is placed with a wrong height.
+  const headerHeight =
+    topBarHeight > 0 && tabBarHeight > 0 ? topBarHeight + tabBarHeight : 0;
+  // The tab library mounts the open tab a moment late, so the loading
+  // skeleton stays on top until that tab has drawn.
+  const [isTabReady, setIsTabReady] = useState(false);
+  const showLoading = isPending || (!!tabs && !isTabReady);
   const scrollPositions = useSharedValue<Record<string, number>>({});
   // A tab change skips React state, so a swipe doesn't re-render every tab.
   // selectedSlugs only catches up when the media type changes.
@@ -77,9 +85,15 @@ export const Screen = () => {
     activeTabName.value = `${mediaType}-${activeSlug}`;
   }, [mediaType, activeSlug, activeTabName]);
 
-  const onHeaderLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
-    setHeaderHeight(layout.height);
+  const onTopBarLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+    setTopBarHeight(layout.height);
   };
+
+  const onTabBarLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
+    setTabBarHeight(layout.height);
+  };
+
+  const onTabReady = useCallback(() => setIsTabReady(true), []);
 
   const { discovery } = useAnalytics();
 
@@ -97,6 +111,7 @@ export const Screen = () => {
       [mediaType]: shownSlug.current,
     }));
     setMediaType(nextMediaType);
+    setIsTabReady(false);
   };
 
   const onFilterPress = () => {
@@ -116,15 +131,17 @@ export const Screen = () => {
   return (
     <MainScreen>
       <SafeAreaView className={"flex-1"} edges={["left", "right"]}>
-        {isPending ? (
-          <View
-            className={"flex-1 items-center justify-center"}
-            style={{ paddingTop: headerHeight }}
-          >
-            <Loading />
-          </View>
-        ) : error && !tabs ? (
-          <View className={"flex-1 px-4"} style={{ paddingTop: headerHeight }}>
+        <View className="absolute left-0 right-0 top-0 z-10">
+          <Header
+            mediaType={mediaType}
+            onMediaTypeChange={onMediaTypeChange}
+            onFilterPress={onFilterPress}
+            onLayout={onTopBarLayout}
+            style={headerStyle}
+          />
+        </View>
+        {topBarHeight === 0 ? null : error && !tabs ? (
+          <View className={"flex-1 px-4"} style={{ paddingTop: topBarHeight }}>
             <ErrorState error={error} tryAgain={refetch} />
           </View>
         ) : tabs ? (
@@ -135,27 +152,23 @@ export const Screen = () => {
             lazy
             cancelLazyFadeIn
             cancelTranslation
+            containerStyle={{ opacity: isTabReady ? 1 : 0 }}
             headerContainerStyle={{
               backgroundColor: "transparent",
               shadowOpacity: 0,
               elevation: 0,
             }}
             renderTabBar={({ indexDecimal, onTabPress }) => (
-              <Header
-                mediaType={mediaType}
-                onMediaTypeChange={onMediaTypeChange}
-                onFilterPress={onFilterPress}
-                onLayout={onHeaderLayout}
-                style={headerStyle}
+              <Animated.View
+                style={[headerStyle, { marginTop: topBarHeight }]}
+                onLayout={onTabBarLayout}
               >
-                <View className="-mx-4">
-                  <ExploreTabBar
-                    tabs={tabs}
-                    indexDecimal={indexDecimal}
-                    onTabPress={onTabPress}
-                  />
-                </View>
-              </Header>
+                <ExploreTabBar
+                  tabs={tabs}
+                  indexDecimal={indexDecimal}
+                  onTabPress={onTabPress}
+                />
+              </Animated.View>
             )}
           >
             {[
@@ -166,6 +179,7 @@ export const Screen = () => {
                     tab={tab}
                     headerHeight={headerHeight}
                     scrollPositions={scrollPositions}
+                    onReady={onTabReady}
                   />
                 </Tabs.Tab>
               )),
@@ -175,19 +189,17 @@ export const Screen = () => {
                   tab={null}
                   headerHeight={headerHeight}
                   scrollPositions={scrollPositions}
+                  onReady={onTabReady}
                 />
               </Tabs.Tab>,
             ]}
           </Tabs.Container>
         ) : null}
-        {isPending || !tabs ? (
-          <View className="absolute left-0 right-0 top-0 z-10">
-            <Header
-              mediaType={mediaType}
-              onMediaTypeChange={onMediaTypeChange}
-              onFilterPress={onFilterPress}
-              onLayout={onHeaderLayout}
-              style={headerStyle}
+        {topBarHeight > 0 && showLoading ? (
+          <View className="absolute inset-0">
+            <Loading
+              topBarHeight={topBarHeight}
+              onTabBarLayout={onTabBarLayout}
             />
           </View>
         ) : null}
