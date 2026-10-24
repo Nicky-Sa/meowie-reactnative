@@ -27,6 +27,8 @@ import { Loading } from "@/features/common/ui/loading";
 
 const WAKE_UP_PEAK = 1.03;
 const WAKE_UP_SPRING = { damping: 10, stiffness: 260, mass: 0.6 };
+// Link buttons have no padding, so their tap area would only be the text itself.
+const LINK_HIT_SLOP = 20;
 
 const buttonVariants = {
   primary: {
@@ -183,6 +185,9 @@ export const Button = ({
   return (
     <Pressable
       {...props}
+      hitSlop={
+        props.hitSlop ?? (variant === "link" ? LINK_HIT_SLOP : undefined)
+      }
       onPressIn={(ev) => {
         setFocused(true);
         props.onPressIn?.(ev);
