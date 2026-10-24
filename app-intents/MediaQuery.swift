@@ -54,12 +54,14 @@ private struct SearchResult: Decodable {
   let title: String?
   let releaseYear: String?
   let firstAirDate: String?
+  let posterPath: String?
 }
 
 private struct MediaDetails: Decodable {
   let title: String
   let screeningStatus: String?
   let airingYears: String?
+  let posterPath: String?
 }
 
 private enum BackendError: Error {
@@ -105,7 +107,13 @@ private func searchMedia(query: String) async throws -> [MediaEntity] {
       return nil
     }
     let year = result.mediaType == "movie" ? result.releaseYear : result.firstAirDate
-    return MediaEntity(tmdbId: tmdbId, mediaType: result.mediaType, title: title, year: year)
+    return MediaEntity(
+      tmdbId: tmdbId,
+      mediaType: result.mediaType,
+      title: title,
+      year: year,
+      posterPath: result.posterPath
+    )
   }
 }
 
@@ -122,5 +130,11 @@ private func loadMedia(identifier: String) async throws -> MediaEntity? {
 
   let details: MediaDetails = try await getFromBackend(path: "/\(mediaType)/\(tmdbId)")
   let year = mediaType == "movie" ? details.screeningStatus : details.airingYears
-  return MediaEntity(tmdbId: tmdbId, mediaType: mediaType, title: details.title, year: year)
+  return MediaEntity(
+    tmdbId: tmdbId,
+    mediaType: mediaType,
+    title: details.title,
+    year: year,
+    posterPath: details.posterPath
+  )
 }

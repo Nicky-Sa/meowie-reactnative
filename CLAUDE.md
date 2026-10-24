@@ -7,7 +7,7 @@ Expo (React Native) mobile app for Meowie. This file is auto-loaded when working
 ## Commands
 
 ```bash
-npm run start            # Write LAN IP into .env.local, then `expo start --clear --dev-client --lan`
+npm run start            # expo start --clear --dev-client --lan
 npm run lint             # eslint (whole project, no auto-fix). Use `npx eslint --fix` to fix.
 npm run generate:api     # Orval codegen from backend Swagger at localhost:5005/docs-json (see Data fetching caveat)
 npm run prebuild         # expo prebuild --clean
@@ -51,7 +51,7 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Styling.** NativeWind v4 (Tailwind for RN). `tailwind.config.ts` is large and generated from Figma tokens. `lib/tailwind.ts` exports `cn()` (clsx + tailwind-merge) and a resolved `tailwind` config object used to read theme values in JS (e.g. seeding a color atom). `styles/global.css` is imported in the root layout.
 
-**Env & build variants.** `lib/env.ts` validates `EXPO_PUBLIC_*` vars with `@t3-oss/env-core` + zod (each var must be manually listed in `runtimeEnv` or Metro won't inline it). `EXPO_PUBLIC_APP_VARIANT` (`development` | `preview` | `production`) drives bundle id, app name, and URL scheme in `app.config.ts`. Build/release env comes from EAS (`eas env:pull --environment <env>`, baked into the build scripts); local dev gets its `EXPO_PUBLIC_BACKEND_URL` from `scripts/set-backend-url-env.ts` (auto-detects your LAN IP into `.env.local`).
+**Env & build variants.** `lib/env.ts` validates `EXPO_PUBLIC_*` vars with `@t3-oss/env-core` + zod (each var must be manually listed in `runtimeEnv` or Metro won't inline it). `EXPO_PUBLIC_APP_VARIANT` (`development` | `preview` | `production`) drives bundle id, app name, and URL scheme in `app.config.ts`. Build/release env comes from EAS (`eas env:pull --environment <env>`, baked into the build scripts); the EAS development `EXPO_PUBLIC_BACKEND_URL` points at the dev Mac's `.local` name (`http://<mac-name>.local:5005`), so it keeps working when the Mac's IP changes. JS and the Swift Siri code (`app-intents/`, via the `MeowieBackendUrl` Info.plist key) both use it.
 
 **Auth / session.** OTP (email) plus Google / Apple sign-in. Tokens live in `expo-secure-store` with an in-memory cache (`features/common/data/utils/token.ts`). `session` / `destroySession` (in `data/utils/`) manage tokens and emit `sessionCreated` / `sessionDestroyed` over a `mitt` bus (`features/common/event-emitting/emitter.ts`), consumed by `EventListenerWrapper`. No tokens = guest mode; the Axios layer downgrades to guest silently when a refresh fails.
 

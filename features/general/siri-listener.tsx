@@ -5,18 +5,29 @@ import { linkToOpenAtom } from "@/atoms";
 import { isMediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
 
-const ACTION_FOR_SIRI_COMMAND: Record<string, MediaAction | undefined> = {
-  saveMedia: "save",
-};
+type SiriParams = AppIntents.AppIntentInvocation["params"];
 
-const getActionLink = (
+const getMediaActionLink = (
   action: MediaAction,
-  params: AppIntents.AppIntentInvocation["params"],
+  { id, mediaType }: SiriParams,
 ): Href | null => {
-  const { id, mediaType } = params;
   if (typeof id !== "number" || !isMediaType(mediaType)) return null;
 
   return `/${mediaType}/${id}/details?action=${action}`;
+};
+
+const getSearchLink = ({ query }: SiriParams): Href | null => {
+  if (typeof query !== "string" || !query.trim()) return null;
+
+  return { pathname: "/search", params: { query } };
+};
+
+const LINK_FOR_SIRI_COMMAND: Record<
+  string,
+  ((params: SiriParams) => Href | null) | undefined
+> = {
+  saveMedia: (params) => getMediaActionLink("save", params),
+  searchMedia: getSearchLink,
 };
 
 export const SiriListener = () => {
@@ -26,10 +37,10 @@ export const SiriListener = () => {
 
   AppIntents.useAppIntents(async (pendingIntents) => {
     for (const invocation of pendingIntents) {
-      const action = ACTION_FOR_SIRI_COMMAND[invocation.name];
-      if (!action) continue;
+      const getLink = LINK_FOR_SIRI_COMMAND[invocation.name];
+      if (!getLink) continue;
 
-      const link = getActionLink(action, invocation.params);
+      const link = getLink(invocation.params);
       if (!link) {
         console.error("Siri sent a request the app can't open:", invocation);
       } else if (pathname === "/") {
