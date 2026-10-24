@@ -24,5 +24,8 @@ export const useFetchLibraryStatus = ({ id, mediaType }: Args) => {
   return {
     data: response?.data,
     ...rest,
+    // React Query's isLoading is false while a request waits offline or after it
+    // fails, which showed "Save" on a saved title. A logged-in user waits for real data.
+    isLoading: !!data?.user && !response,
   };
 };

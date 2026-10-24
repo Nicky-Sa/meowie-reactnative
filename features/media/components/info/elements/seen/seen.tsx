@@ -100,6 +100,7 @@ export const Seen = ({
         variant={"black"}
         size={"md"}
         onPress={handlePress}
+        disabled={isLibraryStatusLoading}
         style={{ overflow: "visible" }}
         className={"min-w-20"}
         icon={

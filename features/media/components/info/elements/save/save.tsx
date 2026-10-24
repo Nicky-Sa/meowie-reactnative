@@ -92,6 +92,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
         variant={"black"}
         size={"md"}
         onPress={handlePress}
+        disabled={isLibraryStatusLoading}
         icon={isLibraryStatusLoading ? null : <SaveIcon isSaved={isSaved} />}
         className={"min-w-20"}
       >
