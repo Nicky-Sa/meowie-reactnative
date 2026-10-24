@@ -1,18 +1,18 @@
 import { Text, View } from "react-native";
-import LottieView from "lottie-react-native";
+import LottieView, { AnimationObject } from "lottie-react-native";
 
 type Props = {
-  lottiePath: string;
+  animation: AnimationObject;
   title: string;
   body: string;
 };
 
-export const OnboardingItem = ({ lottiePath, title, body }: Props) => {
+export const OnboardingItem = ({ animation, title, body }: Props) => {
   return (
     <View className="flex flex-1 flex-col justify-between px-6">
       <View className="w-full flex-1 items-center justify-center">
         <LottieView
-          source={{ uri: lottiePath }}
+          source={animation}
           autoPlay
           loop
           resizeMode={"contain"}

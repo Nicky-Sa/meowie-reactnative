@@ -1,5 +1,5 @@
 import LottieView from "lottie-react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Args = {
   frame: number;
@@ -22,19 +22,9 @@ export const useLottieFrame = ({ frame, totalFrames }: Args) => {
     shownFrame.current = frame;
   }, [frame]);
 
-  // The frame can change while the file is still downloading, and those plays
-  // go nowhere — so catch up to the current frame once it lands.
-  const onAnimationLoaded = useCallback(() => {
-    lottieRef.current?.play(shownFrame.current, shownFrame.current);
-  }, []);
-
   return {
     lottieRef,
-    // Seeds the starting frame so it is right on the first painted frame. Do
-    // not gate rendering on onAnimationLoaded instead: iOS reuses the native
-    // view after a screen is popped and never re-loads the same source URL, so
-    // that callback fires on the first mount only.
+    // Seeds the starting frame so it is right on the first painted frame.
     progress: startingFrame / totalFrames,
-    onAnimationLoaded,
   };
 };

@@ -7,6 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 import { scheduleOnRN } from "react-native-worklets";
+import splashAnimation from "@/assets/lottie/splash-lottie.json";
 
 type Props = {
   isLoading: boolean;
@@ -58,9 +59,7 @@ export const SplashScreen = ({ isLoading, onFinish }: Props) => {
       className={"flex h-full w-full flex-col items-center justify-center"}
     >
       <LottieView
-        source={{
-          uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/splash-lottie.json?v=1",
-        }}
+        source={splashAnimation}
         autoPlay
         loop={false}
         resizeMode={"contain"}

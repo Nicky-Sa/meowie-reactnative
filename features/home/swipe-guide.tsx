@@ -11,9 +11,7 @@ import Animated, {
 import { useAtom, useAtomValue } from "jotai";
 import { homeTourSeenAtom, swipeGuideSeenAtom } from "@/atoms";
 import { GradientOverlay } from "@/features/common/ui/gradient-overlay";
-
-const SWIPE_GUIDE_LOTTIE_URL =
-  "https://meowie-public.s3.eu-central-1.amazonaws.com/swipe-guide-lottie.json?v=1";
+import swipeGuideAnimation from "@/assets/lottie/swipe-guide-lottie.json";
 
 type Props = {
   currentIndex: number;
@@ -60,7 +58,7 @@ export const SwipeGuide = ({ currentIndex }: Props) => {
       <View className="mb-40 flex flex-col items-center">
         <View className="h-24 w-24">
           <LottieView
-            source={{ uri: SWIPE_GUIDE_LOTTIE_URL }}
+            source={swipeGuideAnimation}
             autoPlay
             loop
             style={{ width: "100%", height: "100%" }}

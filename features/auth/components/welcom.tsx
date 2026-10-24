@@ -1,14 +1,13 @@
 import { Text, View } from "react-native";
 import LottieView from "lottie-react-native";
+import welcomeAnimation from "@/assets/lottie/welcome-login.json";
 
 export const Welcome = () => {
   return (
     <View className="flex flex-1 flex-col items-center justify-center gap-4">
       <View className="w-full items-center justify-center">
         <LottieView
-          source={{
-            uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/welcome-login.json?v=1",
-          }}
+          source={welcomeAnimation}
           autoPlay
           loop
           resizeMode={"contain"}

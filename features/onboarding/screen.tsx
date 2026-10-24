@@ -19,23 +19,23 @@ import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 import { useRouter } from "expo-router";
 import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { Icon } from "@/features/common/ui/icon";
+import onboarding1Animation from "@/assets/lottie/onboarding/1.json";
+import onboarding2Animation from "@/assets/lottie/onboarding/2.json";
+import onboarding3Animation from "@/assets/lottie/onboarding/3.json";
 
 const items = [
   {
-    lottiePath:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/onboarding/1.json",
+    animation: onboarding1Animation,
     title: "Swipe to Discover",
     body: "Find movies you’ll love with a simple swipe.",
   },
   {
-    lottiePath:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/onboarding/2.json",
+    animation: onboarding2Animation,
     title: "Filters",
     body: "Quickly zero in on what you want to watch.",
   },
   {
-    lottiePath:
-      "https://meowie-public.s3.eu-central-1.amazonaws.com/onboarding/3.json",
+    animation: onboarding3Animation,
     title: "Saved Favorites",
     body: "Keep track of movies you don’t want to miss.",
   },

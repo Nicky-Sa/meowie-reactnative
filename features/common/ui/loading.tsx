@@ -1,11 +1,10 @@
 import LottieView from "lottie-react-native";
+import loadingAnimation from "@/assets/lottie/loading.json";
 
 export const Loading = () => {
   return (
     <LottieView
-      source={{
-        uri: "https://meowie-public.s3.eu-central-1.amazonaws.com/loading.json",
-      }}
+      source={loadingAnimation}
       autoPlay
       loop
       resizeMode={"contain"}
