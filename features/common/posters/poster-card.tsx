@@ -91,7 +91,7 @@ export const PosterCard = memo(
       return (
         <View
           ref={ref}
-          className={"relative overflow-hidden"}
+          className={"relative overflow-hidden bg-neutral-11-default"}
           style={{ width, borderRadius, borderWidth, borderColor }}
         >
           <Image
