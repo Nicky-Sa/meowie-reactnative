@@ -1,10 +1,10 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ReactNode, memo } from "react";
+import { useSafeHeaderTopPadding } from "@/features/common/hooks/use-safe-header-top-padding";
 
 type Props = {
   title: string;
@@ -16,7 +16,7 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
   const handleBack = () => {
     router.back();
   };
-  const insets = useSafeAreaInsets();
+  const safeHeaderTopPadding = useSafeHeaderTopPadding();
 
   return (
     <View
@@ -24,8 +24,7 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
         "absolute z-10 flex w-full flex-1 flex-row items-center justify-between"
       }
       style={{
-        paddingTop:
-          insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
+        paddingTop: safeHeaderTopPadding,
       }}
     >
       <View className={"flex flex-row items-center"}>

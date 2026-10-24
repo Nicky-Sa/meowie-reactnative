@@ -1,6 +1,5 @@
 import { ComponentProps } from "react";
-import { LayoutChangeEvent, Platform, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LayoutChangeEvent, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { useRouter } from "expo-router";
 import { Filter, Search } from "iconoir-react-native";
@@ -11,6 +10,7 @@ import {
   MEDIA_TYPES,
   MediaType,
 } from "@/features/common/data/models/media-type";
+import { useSafeHeaderTopPadding } from "@/features/common/hooks/use-safe-header-top-padding";
 
 const mediaTypeLabels = MEDIA_TYPES.map((type) => type.label);
 
@@ -30,7 +30,7 @@ export const Header = ({
   style,
 }: Props) => {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const safeHeaderTopPadding = useSafeHeaderTopPadding();
   const activeLabel = MEDIA_TYPES.find(
     (type) => type.value === mediaType,
   )?.label;
@@ -45,8 +45,7 @@ export const Header = ({
       <View
         className="px-4 pb-4"
         style={{
-          paddingTop:
-            insets.top + Platform.select({ android: 10, ios: 0, default: 0 }),
+          paddingTop: safeHeaderTopPadding,
         }}
       >
         <View className="flex w-full flex-row items-center justify-between gap-2">
