@@ -1,6 +1,6 @@
 import { MainScreen } from "@/features/common/layout/main-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LayoutChangeEvent, View } from "react-native";
+import { View } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useSetAtom } from "jotai";
 import { filtersMediaTypeAtom, movieFiltersAtom, tvFiltersAtom } from "@/atoms";
@@ -13,22 +13,19 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { COLLECTIONS_TAB, ExploreTabBar } from "@/features/explore/tab-bar";
 import { useFetchExploreTabs } from "@/features/explore/data/use-fetch-explore-tabs";
-import { Loading } from "@/features/explore/loading/content";
 import { ErrorState } from "@/features/general/error-state";
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { OnTabChangeCallback, Tabs } from "react-native-collapsible-tab-view";
 import { Header } from "@/features/explore/header";
-import { TabContent } from "@/features/explore/tab-content";
+import { ExplorePosters } from "@/features/explore/posters";
+import { CollectionsList } from "@/features/explore/collections/collections-list";
+import { TabContent } from "@/features/common/tab/tab-content";
+import { TabsLoading } from "@/features/common/tab/tabs-loading";
+import { useTabsHeader } from "@/features/common/tab/use-tabs-header";
+import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
 import { tailwind } from "@/lib/tailwind";
-import { useScrollDownProgress } from "@/features/common/hooks/list/use-scroll-down-progress";
 
-const headerBackgroundColor =
-  tailwind.theme.backgroundColor.neutral[15].default;
+const LOADING_TAB_COUNT = 3;
 
 export const Screen = () => {
   const router = useRouter();
@@ -50,50 +47,31 @@ export const Screen = () => {
   const setFiltersMediaType = useSetAtom(filtersMediaTypeAtom);
   const setMovieFilters = useSetAtom(movieFiltersAtom);
   const setTvFilters = useSetAtom(tvFiltersAtom);
-  const [topBarHeight, setTopBarHeight] = useState(0);
-  const [tabBarHeight, setTabBarHeight] = useState(0);
-  // Stays 0 until both parts are measured, so nothing is placed with a wrong height.
-  const headerHeight =
-    topBarHeight > 0 && tabBarHeight > 0 ? topBarHeight + tabBarHeight : 0;
-  // The tab library mounts the open tab a moment late, so the loading
-  // skeleton stays on top until that tab has drawn.
-  const [isTabReady, setIsTabReady] = useState(false);
+  const { paddingBottom } = useMainScreenContentStyle();
+  const {
+    topBarHeight,
+    headerHeight,
+    headerStyle,
+    onTopBarLayout,
+    onTabBarLayout,
+    isTabReady,
+    onTabReady,
+    scrollPositions,
+    activeTabName,
+    resetHeader,
+  } = useTabsHeader({
+    initialTabName: `${mediaType}-${activeSlug}`,
+    tabsKey: mediaType,
+  });
   const showLoading = isPending || (!!tabs && !isTabReady);
-  const scrollPositions = useSharedValue<Record<string, number>>({});
   // A tab change skips React state, so a swipe doesn't re-render every tab.
   // selectedSlugs only catches up when the media type changes.
   const shownSlug = useRef(activeSlug);
-  const activeTabName = useSharedValue(`${mediaType}-${activeSlug}`);
-  const activeScrollY = useDerivedValue(
-    () => scrollPositions.value[activeTabName.value] ?? 0,
-  );
-  const { progress: headerAnimation, reset: resetHeader } =
-    useScrollDownProgress({ scrollY: activeScrollY, tabName: activeTabName });
-
-  const headerStyle = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(
-      activeScrollY.value,
-      // Wider range = gentler fade. Tweak if you want it faster or slower.
-      [0, 150],
-      ["transparent", headerBackgroundColor],
-    ),
-    transform: [{ translateY: -headerHeight * headerAnimation.value }],
-  }));
 
   useEffect(() => {
     shownSlug.current = activeSlug;
     activeTabName.value = `${mediaType}-${activeSlug}`;
   }, [mediaType, activeSlug, activeTabName]);
-
-  const onTopBarLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
-    setTopBarHeight(layout.height);
-  };
-
-  const onTabBarLayout = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
-    setTabBarHeight(layout.height);
-  };
-
-  const onTabReady = useCallback(() => setIsTabReady(true), []);
 
   const { discovery } = useAnalytics();
 
@@ -111,7 +89,6 @@ export const Screen = () => {
       [mediaType]: shownSlug.current,
     }));
     setMediaType(nextMediaType);
-    setIsTabReady(false);
   };
 
   const onFilterPress = () => {
@@ -175,33 +152,57 @@ export const Screen = () => {
               ...tabs.map((tab) => (
                 <Tabs.Tab key={tab.slug} name={tab.slug}>
                   <TabContent
-                    mediaType={mediaType}
-                    tab={tab}
+                    tabName={`${mediaType}-${tab.slug}`}
                     headerHeight={headerHeight}
                     scrollPositions={scrollPositions}
                     onReady={onTabReady}
-                  />
+                  >
+                    {({ scrollHandler, scrollY, isDragging }) => (
+                      <ExplorePosters
+                        mediaType={mediaType}
+                        tab={tab}
+                        scrollHandler={scrollHandler}
+                        scrollY={scrollY}
+                        isDragging={isDragging}
+                        headerHeight={headerHeight}
+                      />
+                    )}
+                  </TabContent>
                 </Tabs.Tab>
               )),
               <Tabs.Tab key={COLLECTIONS_TAB} name={COLLECTIONS_TAB}>
                 <TabContent
-                  mediaType={mediaType}
-                  tab={null}
+                  tabName={`${mediaType}-${COLLECTIONS_TAB}`}
                   headerHeight={headerHeight}
                   scrollPositions={scrollPositions}
                   onReady={onTabReady}
-                />
+                >
+                  {({ scrollHandler }) => (
+                    <View className="flex-1 px-4">
+                      <CollectionsList
+                        mediaType={mediaType}
+                        scrollHandler={scrollHandler}
+                        contentInsetAdjustmentBehavior="never"
+                        contentContainerStyle={{
+                          paddingTop:
+                            headerHeight + Number(tailwind.theme.spacing["2"]),
+                          paddingBottom,
+                        }}
+                      />
+                    </View>
+                  )}
+                </TabContent>
               </Tabs.Tab>,
             ]}
           </Tabs.Container>
         ) : null}
         {topBarHeight > 0 && showLoading ? (
-          <View className="absolute inset-0">
-            <Loading
-              topBarHeight={topBarHeight}
-              onTabBarLayout={onTabBarLayout}
-            />
-          </View>
+          <TabsLoading
+            topBarHeight={topBarHeight}
+            tabCount={LOADING_TAB_COUNT}
+            scrollable
+            onTabBarLayout={onTabBarLayout}
+          />
         ) : null}
       </SafeAreaView>
     </MainScreen>

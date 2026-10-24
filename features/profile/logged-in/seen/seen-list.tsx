@@ -11,9 +11,11 @@ import { tailwind } from "@/lib/tailwind";
 
 const NUM_COLUMNS = 3;
 
-type Props = TabChildProps;
+type Props = TabChildProps & {
+  headerHeight: number;
+};
 
-export const SeenList = ({ scrollHandler }: Props) => {
+export const SeenList = ({ scrollHandler, headerHeight }: Props) => {
   const { paddingBottom } = useMainScreenContentStyle();
   const { invalidateByPattern } = useInvalidateByPattern();
 
@@ -48,9 +50,10 @@ export const SeenList = ({ scrollHandler }: Props) => {
         posterData={posterData}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}
+        contentInsetAdjustmentBehavior="never"
         ListEmptyComponent={<SeenEmptyState />}
         contentContainerStyle={{
-          paddingTop: Number(tailwind.theme.spacing["2"]),
+          paddingTop: headerHeight + Number(tailwind.theme.spacing["2"]),
           paddingBottom,
         }}
       />
