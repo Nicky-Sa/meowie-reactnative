@@ -1,0 +1,24 @@
+diff --git a/node_modules/lottie-react-native/ios/Fabric/LottieAnimationViewComponentView.mm b/node_modules/lottie-react-native/ios/Fabric/LottieAnimationViewComponentView.mm
+--- a/node_modules/lottie-react-native/ios/Fabric/LottieAnimationViewComponentView.mm
++++ b/node_modules/lottie-react-native/ios/Fabric/LottieAnimationViewComponentView.mm
+@@ -100,6 +100,20 @@
+     [super updateProps:props oldProps:oldProps];
+ }
+ 
++// A reused view keeps the last Lottie's props and animation, so a splash with autoPlay
++// would play the next file once. Start from defaults like a new view.
++- (void)prepareForRecycle
++{
++    [super prepareForRecycle];
++
++    static const auto defaultProps = std::make_shared<const LottieAnimationViewProps>();
++    _props = defaultProps;
++
++    _view = [LottieContainerView new];
++    _view.delegate = self;
++    self.contentView = _view;
++}
++
+ #pragma mark - Native Commands
+ 
+ - (void)handleCommand:(const NSString *)commandName args:(const NSArray *)args
