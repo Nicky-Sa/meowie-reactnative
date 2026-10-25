@@ -35,7 +35,7 @@ console.log(
 module.exports = withNativeWind(config, {
   input: "./styles/global.css",
   projectRoot: __dirname,
-  inlineRem: false,
+  inlineRem: 16,
   features: {
     transformPercentagePolyfill: true,
   },

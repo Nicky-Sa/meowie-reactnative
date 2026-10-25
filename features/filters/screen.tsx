@@ -77,7 +77,7 @@ export const Screen = () => {
       <View className={"flex w-full flex-col gap-8"}>
         <View className={"flex w-full flex-col gap-2"}>
           <SlidingToggle
-            containerClassName="w-full rounded-xl h-[56px]"
+            containerClassName="w-full rounded-xl h-14"
             tabClassName="rounded-lg"
             items={MEDIA_TYPES.map((t) => t.label)}
             activeItem={

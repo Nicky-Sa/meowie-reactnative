@@ -16,7 +16,6 @@ export const Autoplay = () => {
   return (
     <Action
       variant={"black"}
-      size={"lg"}
       onPress={handleToggle}
       icon={<Switch value={value} onValueChange={setValue} />}
     >

@@ -36,7 +36,6 @@ export const EmptyCache = () => {
     <>
       <Action
         variant={"black"}
-        size={"lg"}
         onPress={() => bottomSheetRef.current?.present()}
       >
         Empty cache

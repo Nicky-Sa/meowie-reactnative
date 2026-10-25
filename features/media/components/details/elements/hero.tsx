@@ -43,7 +43,7 @@ export const Hero = ({
   return (
     <View className={"flex flex-col"}>
       {/* Trailer */}
-      <View className={"h-64 flex-1 overflow-hidden"}>
+      <View className={"h-56 flex-1 overflow-hidden"}>
         <TrailerPlayer
           YTKey={trailerKey}
           inScreen

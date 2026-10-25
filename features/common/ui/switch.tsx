@@ -50,12 +50,12 @@ export const Switch = ({ value, onValueChange }: Props) => {
     >
       <Animated.View
         // Track styles
-        className="h-6 w-14 justify-center rounded-full p-1"
+        className="h-6 w-12 justify-center rounded-full p-1"
         style={animatedTrackStyle}
       >
         <Animated.View
           // Thumb styles
-          className="h-5 w-5 rounded-full bg-neutral-1-default shadow-sm"
+          className="h-4 w-4 rounded-full bg-neutral-1-default shadow-sm"
           style={animatedThumbStyle}
         />
       </Animated.View>

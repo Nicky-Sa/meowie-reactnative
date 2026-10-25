@@ -20,17 +20,7 @@ const actionSizes = {
   lg: {
     borderRadius: Number(tailwind.theme.borderRadius.xl),
     paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["6"]),
-  },
-  md: {
-    borderRadius: Number(tailwind.theme.borderRadius.xl),
-    paddingVertical: Number(tailwind.theme.spacing["4"]),
     paddingHorizontal: Number(tailwind.theme.spacing["4"]),
-  },
-  sm: {
-    borderRadius: Number(tailwind.theme.borderRadius.lg),
-    paddingVertical: Number(tailwind.theme.spacing["4"]),
-    paddingHorizontal: Number(tailwind.theme.spacing["6"]),
   },
 } as const;
 
@@ -76,7 +66,10 @@ export const Action = ({
             borderWidth: 1,
             borderColor: actionVariants[variant].borderColor,
             paddingVertical: actionSizes[size].paddingVertical,
-            paddingHorizontal: actionSizes[size].paddingHorizontal,
+            paddingEnd: actionSizes[size].paddingHorizontal,
+            paddingStart:
+              actionSizes[size].paddingHorizontal +
+              Number(tailwind.theme.spacing["2"]),
             ...(props.style as object),
           }}
         >
