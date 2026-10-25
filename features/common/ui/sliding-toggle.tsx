@@ -44,7 +44,7 @@ export const SlidingToggle = ({
   return (
     <View
       className={cn(
-        "relative flex-row items-center rounded-full bg-neutral-14-default p-1",
+        "relative h-12 flex-row items-center rounded-full bg-neutral-14-default p-1",
         containerClassName,
       )}
       onLayout={(e: LayoutChangeEvent) =>

@@ -4,7 +4,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { NavArrowLeft } from "iconoir-react-native";
 import { useRouter } from "expo-router";
 import { ReactNode, memo } from "react";
-import { useSafeHeaderTopPadding } from "@/features/common/hooks/use-safe-header-top-padding";
+import { HeaderContainer } from "@/features/common/layout/header-container";
 
 type Props = {
   title: string;
@@ -16,17 +16,9 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
   const handleBack = () => {
     router.back();
   };
-  const safeHeaderTopPadding = useSafeHeaderTopPadding();
 
   return (
-    <View
-      className={
-        "absolute z-10 flex w-full flex-1 flex-row items-center justify-between"
-      }
-      style={{
-        paddingTop: safeHeaderTopPadding,
-      }}
-    >
+    <HeaderContainer className={"absolute z-10 flex-1"}>
       <View className={"flex flex-row items-center"}>
         <Button
           onPress={handleBack}
@@ -53,7 +45,7 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
         </View>
       </View>
       {rightTopComponent}
-    </View>
+    </HeaderContainer>
   );
 });
 

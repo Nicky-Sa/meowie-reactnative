@@ -7,7 +7,7 @@ import Animated, {
   interpolate,
   SharedValue,
   useAnimatedStyle,
-  useAnimatedProps, // Added import
+  useAnimatedProps,
 } from "react-native-reanimated";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { Tourable } from "@/features/common/ui/tour/tourable";
@@ -15,7 +15,7 @@ import { TourStep } from "@/features/common/ui/tour/steps";
 import { NotificationBadge } from "@/features/common/ui/notification-badge";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { useScrollDownProgress } from "@/features/common/hooks/list/use-scroll-down-progress";
-import { useSafeHeaderTopPadding } from "@/features/common/hooks/use-safe-header-top-padding";
+import { HeaderContainer } from "@/features/common/layout/header-container";
 
 type Props = {
   scrollY: SharedValue<number>;
@@ -30,7 +30,6 @@ export const Header = ({
   activeMediaType,
   setActiveMediaType,
 }: Props) => {
-  const safeHeaderTopPadding = useSafeHeaderTopPadding();
   const hasUnseenReleaseNote = useReleaseNotesSeen();
   const { interaction } = useAnalytics();
 
@@ -58,12 +57,7 @@ export const Header = ({
   }));
 
   return (
-    <Animated.View
-      className="absolute z-10 flex w-full flex-row items-center px-2"
-      style={{
-        paddingTop: safeHeaderTopPadding,
-      }}
-    >
+    <HeaderContainer className="absolute z-10">
       <View className="flex-1 items-start">
         <Link
           href="/release-notes"
@@ -87,7 +81,7 @@ export const Header = ({
         <Animated.View style={switchStyle} animatedProps={switchAnimatedProps}>
           <Tourable step={TourStep.HeaderToggle}>
             <SlidingToggle
-              containerClassName={"h-14 w-44"}
+              containerClassName={"w-44"}
               items={mediaTypes}
               activeItem={activeMediaType}
               setActiveItem={setActiveMediaType}
@@ -107,6 +101,6 @@ export const Header = ({
 
       {/* Balances the logo so the toggle stays centered on screen */}
       <View className="flex-1" />
-    </Animated.View>
+    </HeaderContainer>
   );
 };
