@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { Platform, RefreshControl } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFetchFeed } from "@/features/media/data/use-fetch-feed";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { MediaListItemData } from "@/features/media/components/list/types";
@@ -18,6 +17,7 @@ type Props = {
   scrollHandler: ScrollHandlerProcessed;
   isActive: boolean;
   resetScroll: () => void;
+  headerHeight: number;
 };
 
 export const TabContent = ({
@@ -28,6 +28,7 @@ export const TabContent = ({
   scrollHandler,
   isActive,
   resetScroll,
+  headerHeight,
 }: Props) => {
   const {
     data,
@@ -41,7 +42,6 @@ export const TabContent = ({
     isRefreshing,
   } = useFetchFeed({ mediaType });
   const listRef = useListRef<MediaListItemData>();
-  const insets = useSafeAreaInsets();
 
   const handleRefresh = useCallback(() => {
     if (isRefreshing) return;
@@ -88,7 +88,7 @@ export const TabContent = ({
         isActive={isActive}
       />
       {(isReadyToRefresh || isRefreshing) && (
-        <RefreshIndicator top={insets.top + 56} />
+        <RefreshIndicator top={headerHeight} />
       )}
     </>
   );

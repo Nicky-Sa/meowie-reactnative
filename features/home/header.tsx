@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { LayoutChangeEvent, View } from "react-native";
 import { Link } from "@/features/common/ui/link";
 import { useReleaseNotesSeen } from "@/features/release-notes/data/use-release-notes-seen";
 import Logo from "@/assets/images/logo/logo.svg";
@@ -22,6 +22,7 @@ type Props = {
   mediaTypes: string[];
   activeMediaType: string;
   setActiveMediaType: (item: string) => void;
+  onLayout: (event: LayoutChangeEvent) => void;
 };
 
 export const Header = ({
@@ -29,6 +30,7 @@ export const Header = ({
   mediaTypes,
   activeMediaType,
   setActiveMediaType,
+  onLayout,
 }: Props) => {
   const hasUnseenReleaseNote = useReleaseNotesSeen();
   const { interaction } = useAnalytics();
@@ -57,50 +59,55 @@ export const Header = ({
   }));
 
   return (
-    <HeaderContainer className="absolute z-10">
-      <View className="flex-1 items-start">
-        <Link
-          href="/release-notes"
-          onPress={() =>
-            interaction.trackReleaseNotesOpened({
-              hasNewNote: hasUnseenReleaseNote,
-            })
-          }
-        >
-          <View className="relative">
-            <Logo />
-            {hasUnseenReleaseNote && (
-              <NotificationBadge className={"right-0.5 top-0.5"} />
-            )}
-          </View>
-        </Link>
-      </View>
+    <View className="absolute z-10 w-full" onLayout={onLayout}>
+      <HeaderContainer>
+        <View className="flex-1 items-start">
+          <Link
+            href="/release-notes"
+            onPress={() =>
+              interaction.trackReleaseNotesOpened({
+                hasNewNote: hasUnseenReleaseNote,
+              })
+            }
+          >
+            <View className="relative">
+              <Logo />
+              {hasUnseenReleaseNote && (
+                <NotificationBadge className={"right-0.5 top-0.5"} />
+              )}
+            </View>
+          </Link>
+        </View>
 
-      <View className="relative items-center justify-center">
-        {/* Toggle */}
-        <Animated.View style={switchStyle} animatedProps={switchAnimatedProps}>
-          <Tourable step={TourStep.HeaderToggle}>
-            <SlidingToggle
-              containerClassName={"w-44"}
-              items={mediaTypes}
-              activeItem={activeMediaType}
-              setActiveItem={setActiveMediaType}
-            />
-          </Tourable>
-        </Animated.View>
+        <View className="relative items-center justify-center">
+          {/* Toggle */}
+          <Animated.View
+            style={switchStyle}
+            animatedProps={switchAnimatedProps}
+          >
+            <Tourable step={TourStep.HeaderToggle}>
+              <SlidingToggle
+                containerClassName={"w-44"}
+                items={mediaTypes}
+                activeItem={activeMediaType}
+                setActiveItem={setActiveMediaType}
+              />
+            </Tourable>
+          </Animated.View>
 
-        {/* LogoType */}
-        <Animated.View
-          className="absolute inset-0 items-center justify-center"
-          style={logoTypeStyle}
-          pointerEvents="none" // Hardcoded to none to prevent it from stealing clicks when invisible
-        >
-          <LogoType />
-        </Animated.View>
-      </View>
+          {/* LogoType */}
+          <Animated.View
+            className="absolute inset-0 items-center justify-center"
+            style={logoTypeStyle}
+            pointerEvents="none" // Hardcoded to none to prevent it from stealing clicks when invisible
+          >
+            <LogoType />
+          </Animated.View>
+        </View>
 
-      {/* Balances the logo so the toggle stays centered on screen */}
-      <View className="flex-1" />
-    </HeaderContainer>
+        {/* Balances the logo so the toggle stays centered on screen */}
+        <View className="flex-1" />
+      </HeaderContainer>
+    </View>
   );
 };

@@ -13,6 +13,7 @@ export const Screen = () => {
   const { scrollHandler, scrollY, isDragging, currentIndex, resetScroll } =
     useScrollHandler();
   const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   const handleMediaTypeChange = (type: string) => {
     resetScroll();
@@ -26,6 +27,7 @@ export const Screen = () => {
         mediaTypes={mediaTypes}
         activeMediaType={activeMediaType}
         setActiveMediaType={handleMediaTypeChange}
+        onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
       />
 
       <SlidingContent
@@ -41,6 +43,7 @@ export const Screen = () => {
           isDragging={isDragging}
           scrollHandler={scrollHandler}
           resetScroll={resetScroll}
+          headerHeight={headerHeight}
         />
       </SlidingContent>
 
@@ -57,6 +60,7 @@ export const Screen = () => {
           isDragging={isDragging}
           scrollHandler={scrollHandler}
           resetScroll={resetScroll}
+          headerHeight={headerHeight}
         />
       </SlidingContent>
 
