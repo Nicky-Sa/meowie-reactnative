@@ -8,11 +8,11 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 export const Credit = (person: CreditInfo) => {
   const { id, name, profilePath } = person;
   const router = useRouter();
-  const { people } = useAnalytics();
+  const { media } = useAnalytics();
 
   const onCastPressed = useCallback(() => {
-    people.trackClick({ person });
-  }, [people, person]);
+    media.trackPersonClick({ person });
+  }, [media, person]);
 
   const handlePress = () => {
     // id = -1 is a placeholder for unknown cast

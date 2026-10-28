@@ -45,11 +45,11 @@ const CreditSection = ({
 
 const DetailedCreditItem = ({ item }: { item: CreditInfo }) => {
   const router = useRouter();
-  const { people } = useAnalytics();
+  const { media } = useAnalytics();
 
   const handlePress = () => {
     if (item.id > 0) {
-      people.trackClick({ person: item });
+      media.trackPersonClick({ person: item });
       router.push({
         pathname: "/person/[id]",
         params: { id: item.id.toString() },

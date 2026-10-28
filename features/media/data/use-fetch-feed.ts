@@ -30,7 +30,7 @@ const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
 
 export const useFetchFeed = ({ mediaType }: Args) => {
   const { data: currentUser, isPending: isCheckingUser } = useCurrentUser();
-  const { discovery } = useAnalytics();
+  const { media } = useAnalytics();
   const { withShareTasteCard } = useShareTasteCard();
 
   const url = `/feed/${mediaType}`;
@@ -85,9 +85,9 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const onRefresh = useCallback(() => {
     if (isRefreshing) return;
 
-    discovery.trackFeedRefreshed({ mediaType });
+    media.trackFeedRefreshed({ mediaType });
     return resetAndRequestNewBatch();
-  }, [discovery, isRefreshing, mediaType, resetAndRequestNewBatch]);
+  }, [media, isRefreshing, mediaType, resetAndRequestNewBatch]);
 
   return {
     ...query,

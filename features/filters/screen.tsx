@@ -26,9 +26,9 @@ export const Screen = () => {
   const [seriesFilters, setSeriesFilters] = useAtom(tvFiltersAtom);
   const [mediaType, setMediaType] = useAtom(filtersMediaTypeAtom);
   const router = useRouter();
-  const { discovery } = useAnalytics();
+  const { filters } = useAnalytics();
 
-  const filters = mediaType === "movie" ? movieFilters : seriesFilters;
+  const selectedFilters = mediaType === "movie" ? movieFilters : seriesFilters;
 
   const initialValue =
     mediaType === "movie"
@@ -37,10 +37,10 @@ export const Screen = () => {
 
   const modifiedFieldsNumber = useMemo(
     () =>
-      (Object.keys(filters) as (keyof typeof initialValue)[]).filter(
-        (key) => !_.isEqual(filters[key], initialValue[key]),
+      (Object.keys(selectedFilters) as (keyof typeof initialValue)[]).filter(
+        (key) => !_.isEqual(selectedFilters[key], initialValue[key]),
       ).length,
-    [filters, initialValue],
+    [selectedFilters, initialValue],
   );
 
   const hasSelectedFilter = modifiedFieldsNumber > 0;
@@ -54,14 +54,14 @@ export const Screen = () => {
   };
 
   const handleApply = () => {
-    discovery.trackFiltersApplied({ filters, mediaType });
+    filters.trackFiltersApplied({ filters: selectedFilters, mediaType });
     // dismissTo: so the user feels like the filters are applies in-place, instead of feeling being navigated to a new screen
     router.dismissTo({
       pathname: "/discover/posters",
       params: {
         title: `Filtered ${mediaType === "movie" ? "Movies" : "Series"}`,
         endpoint: `${mediaType}/posters`,
-        ...filters,
+        ...selectedFilters,
         modifiedFieldsNumber,
       },
     });

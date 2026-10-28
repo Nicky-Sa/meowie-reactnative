@@ -12,7 +12,7 @@ import { useMemo } from "react";
 
 /**
  * Unified analytics hook for tracking PostHog events.
- * Organizes events into logical domains (media, discovery, explore, people, auth, interaction, profile, settings, taste).
+ * Organizes events into logical domains (media, explore, filters, search, auth, interaction, profile, settings, taste).
  */
 export const useAnalytics = () => {
   const { capture } = useCaptureEvent();
@@ -250,43 +250,9 @@ export const useAnalytics = () => {
             media_id: mediaId,
             media_type: mediaType,
           }),
-      },
-
-      /**
-       * Discovery and Search tracking
-       */
-      discovery: {
-        trackSearch: ({ query }: { query: string }): void =>
-          capture("search_submitted", { query }),
-
-        trackFiltersOpened: (): void => capture("filters_opened"),
 
         trackFeedRefreshed: ({ mediaType }: { mediaType: MediaType }): void =>
           capture("feed_refreshed", { media_type: mediaType }),
-
-        trackFiltersApplied: ({
-          filters,
-          mediaType,
-        }: {
-          filters: MovieFilters | SeriesFilters;
-          mediaType: MediaType;
-        }): void =>
-          capture("filters_applied", { filters, media_type: mediaType }),
-
-        trackCollectionClick: ({
-          id,
-          title,
-          sourceType,
-        }: {
-          id: number;
-          title: string;
-          sourceType: CollectionSourceType;
-        }): void =>
-          capture("collection_clicked", {
-            id,
-            title,
-            source_type: sourceType,
-          }),
 
         trackGenreClick: ({
           genreId,
@@ -302,12 +268,35 @@ export const useAnalytics = () => {
             genre_name: genreName,
             media_type: mediaType,
           }),
+
+        trackPersonClick: ({ person }: { person: CreditInfo }): void =>
+          capture("person_clicked", {
+            person_id: person.id,
+            person_name: person.name,
+            role: person.role,
+            job: person.job,
+          }),
       },
 
       /**
-       * Explore screen tabs
+       * Explore screen tabs and collections
        */
       explore: {
+        trackCollectionClick: ({
+          id,
+          title,
+          sourceType,
+        }: {
+          id: number;
+          title: string;
+          sourceType: CollectionSourceType;
+        }): void =>
+          capture("collection_clicked", {
+            id,
+            title,
+            source_type: sourceType,
+          }),
+
         trackTabChanged: ({
           tabSlug,
           mediaType,
@@ -334,16 +323,27 @@ export const useAnalytics = () => {
       },
 
       /**
-       * People/Person related tracking
+       * Filters screen
        */
-      people: {
-        trackClick: ({ person }: { person: CreditInfo }): void =>
-          capture("person_clicked", {
-            person_id: person.id,
-            person_name: person.name,
-            role: person.role,
-            job: person.job,
-          }),
+      filters: {
+        trackFiltersOpened: (): void => capture("filters_opened"),
+
+        trackFiltersApplied: ({
+          filters,
+          mediaType,
+        }: {
+          filters: MovieFilters | SeriesFilters;
+          mediaType: MediaType;
+        }): void =>
+          capture("filters_applied", { filters, media_type: mediaType }),
+      },
+
+      /**
+       * Search screen
+       */
+      search: {
+        trackSearch: ({ query }: { query: string }): void =>
+          capture("search_submitted", { query }),
       },
 
       /**

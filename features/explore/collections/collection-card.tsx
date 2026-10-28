@@ -11,10 +11,10 @@ type Props = {
 
 export const CollectionCard = memo(({ collection }: Props) => {
   const router = useRouter();
-  const { discovery } = useAnalytics();
+  const { explore } = useAnalytics();
 
   const onPress = () => {
-    discovery.trackCollectionClick({
+    explore.trackCollectionClick({
       id: collection.id,
       title: collection.title,
       sourceType: collection.sourceType,

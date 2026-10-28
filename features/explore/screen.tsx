@@ -73,7 +73,7 @@ export const Screen = () => {
     activeTabName.value = `${mediaType}-${activeSlug}`;
   }, [mediaType, activeSlug, activeTabName]);
 
-  const { discovery, explore } = useAnalytics();
+  const { explore, filters } = useAnalytics();
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
     explore.trackTabChanged({ tabSlug: tabName, mediaType });
@@ -93,7 +93,7 @@ export const Screen = () => {
   };
 
   const onFilterPress = () => {
-    discovery.trackFiltersOpened();
+    filters.trackFiltersOpened();
     setFiltersMediaType(mediaType);
     router.push("/filters");
   };

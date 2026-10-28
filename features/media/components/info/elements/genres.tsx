@@ -33,15 +33,15 @@ const GenreItem = ({
   mediaType: MediaType;
 }) => {
   const router = useRouter();
-  const { discovery } = useAnalytics();
+  const { media } = useAnalytics();
 
   const onGenrePressed = useCallback(() => {
-    discovery.trackGenreClick({
+    media.trackGenreClick({
       genreId: item.id,
       genreName: item.name,
       mediaType,
     });
-  }, [discovery, item.id, item.name, mediaType]);
+  }, [media, item.id, item.name, mediaType]);
 
   const onPress = () => {
     onGenrePressed();

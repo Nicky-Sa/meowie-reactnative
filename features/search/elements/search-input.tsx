@@ -21,7 +21,7 @@ type Props = {
 
 export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   const router = useRouter();
-  const { discovery } = useAnalytics();
+  const { search } = useAnalytics();
 
   const { control, clearErrors } = useForm<SearchFormData>({
     resolver: zodResolver(SearchSchema),
@@ -41,10 +41,10 @@ export const SearchInput = ({ currentQuery, setIsDebouncing }: Props) => {
   // Sync debounced value to URL
   useEffect(() => {
     if (debouncedQuery) {
-      discovery.trackSearch({ query: debouncedQuery });
+      search.trackSearch({ query: debouncedQuery });
     }
     router.setParams({ query: debouncedQuery });
-  }, [discovery, debouncedQuery, router]);
+  }, [search, debouncedQuery, router]);
 
   return (
     <TextInput
