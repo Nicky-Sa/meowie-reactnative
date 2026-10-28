@@ -265,8 +265,9 @@ export const useAnalytics = () => {
           mediaType,
         }: {
           filters: MovieFilters | SeriesFilters;
-          mediaType: string;
-        }): void => capture("filters_applied", { filters, mediaType }),
+          mediaType: MediaType;
+        }): void =>
+          capture("filters_applied", { filters, media_type: mediaType }),
 
         trackCollectionClick: ({
           id,
@@ -276,7 +277,12 @@ export const useAnalytics = () => {
           id: number;
           title: string;
           sourceType: CollectionSourceType;
-        }): void => capture("collection_clicked", { id, title, sourceType }),
+        }): void =>
+          capture("collection_clicked", {
+            id,
+            title,
+            source_type: sourceType,
+          }),
 
         trackGenreClick: ({
           genreId,

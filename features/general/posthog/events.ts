@@ -155,7 +155,7 @@ export type FILTERS_APPLIED = {
   event: "filters_applied";
   properties: {
     filters: MovieFilters | SeriesFilters;
-    mediaType: string;
+    media_type: MediaType;
   };
 };
 
@@ -198,7 +198,7 @@ export type COLLECTION_CLICKED = {
   properties: {
     id: number;
     title: string;
-    sourceType: CollectionSourceType;
+    source_type: CollectionSourceType;
   };
 };
 
