@@ -2,6 +2,7 @@ import { SplashScreen } from "@/features/general/splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useStore } from "jotai";
+import { usePostHog } from "posthog-react-native";
 import { linkToOpenAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Emitter } from "@/features/common/event-emitting/emitter";
@@ -18,6 +19,7 @@ export default function Home() {
   const { data, isPending } = useCurrentUser();
   // Not useAtom: clearing the link would re-run the effect below and replace the screen it just opened.
   const store = useStore();
+  const posthog = usePostHog();
 
   useEffect(() => {
     if (!splashDone) return;
@@ -27,6 +29,12 @@ export default function Home() {
 
       if (onBoarded === null) {
         // not onboarded
+        if (data && !data.user) {
+          // Marking a fresh installation as guest in posthog
+          posthog.register({ is_guest: true }).catch((error) => {
+            console.error("Could not register the guest in PostHog:", error);
+          });
+        }
         router.replace("/onboarding");
       } else {
         // onboarded
@@ -47,7 +55,7 @@ export default function Home() {
     };
 
     checkState();
-  }, [data, router, splashDone, store]);
+  }, [data, router, splashDone, store, posthog]);
 
   const onFinish = useCallback(() => setSplashDone(true), []);
 
