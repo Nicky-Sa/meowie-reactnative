@@ -302,7 +302,8 @@ export const useAnalytics = () => {
           capture("person_clicked", {
             person_id: person.id,
             person_name: person.name,
-            role: person.role === "Director" ? "director" : "cast",
+            role: person.role,
+            job: person.job,
           }),
       },
 

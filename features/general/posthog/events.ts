@@ -5,6 +5,7 @@ import {
 } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
+import { CreditJob } from "@/features/common/data/models/credit";
 
 export type TRAILER_PLAYED = {
   event: "trailer_played";
@@ -101,7 +102,8 @@ export type PERSON_CLICKED = {
   properties: {
     person_id: ID;
     person_name: string;
-    role: "director" | "cast" | "creator";
+    role: string;
+    job: CreditJob;
   };
 };
 
