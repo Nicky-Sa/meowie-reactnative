@@ -166,16 +166,6 @@ export type PROFILE_TAB_CHANGED = {
   };
 };
 
-export type PROFILE_SAVED_TAB_CLICKED = {
-  event: "profile_saved_tab_clicked";
-  properties?: undefined;
-};
-
-export type PROFILE_SEEN_TAB_CLICKED = {
-  event: "profile_seen_tab_clicked";
-  properties?: undefined;
-};
-
 export type AUTOPLAY_TOGGLED = {
   event: "autoplay_toggled";
   properties: {
@@ -308,8 +298,6 @@ export type Events =
   | FILTERS_OPENED
   | FILTERS_APPLIED
   | PROFILE_TAB_CHANGED
-  | PROFILE_SAVED_TAB_CLICKED
-  | PROFILE_SEEN_TAB_CLICKED
   | AUTOPLAY_TOGGLED
   | CACHE_CLEARED
   | AUTH_SKIPPED

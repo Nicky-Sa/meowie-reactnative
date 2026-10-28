@@ -14,6 +14,7 @@ import { SavedList } from "@/features/profile/logged-in/saved/saved-list";
 import { SeenList } from "@/features/profile/logged-in/seen/seen-list";
 import { SavedList as GuestSavedList } from "@/features/profile/guest/saved-list";
 import { SeenList as GuestSeenList } from "@/features/profile/guest/seen-list";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const tabsConfig: TabConfig[] = [
   {
@@ -46,7 +47,10 @@ export const Screen = () => {
   } = useTabsHeader({ initialTabName: tabsConfig[0].name, tabsKey });
   const showLoading = isLoading || !isTabReady;
 
+  const { interaction } = useAnalytics();
+
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
+    interaction.trackProfileTabChange({ tabName });
     resetHeader();
     activeTabName.value = tabName;
   };

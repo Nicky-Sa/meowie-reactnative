@@ -344,12 +344,6 @@ export const useAnalytics = () => {
         trackProfileTabChange: ({ tabName }: { tabName: string }): void =>
           capture("profile_tab_changed", { tab_name: tabName }),
 
-        trackProfileSavedTabClick: (): void =>
-          capture("profile_saved_tab_clicked", undefined),
-
-        trackProfileSeenTabClick: (): void =>
-          capture("profile_seen_tab_clicked", undefined),
-
         trackAutoplayToggled: ({ autoplay }: { autoplay: boolean }): void =>
           capture("autoplay_toggled", { autoplay }),
 
