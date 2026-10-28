@@ -86,7 +86,7 @@ export const OtpForm = ({ email }: Props) => {
         onPress={onSubmit}
         isLoading={isMutatingVerifyOtp || isMutatingRequestOtp}
       >
-        Submit code
+        Verify code
       </Button>
     </View>
   );

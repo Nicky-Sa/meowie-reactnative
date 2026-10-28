@@ -35,7 +35,7 @@ export const useAppleAuth = () => {
         body: { token: identityToken },
       });
 
-      // Save session
+      // Store session
       await createSession({
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,

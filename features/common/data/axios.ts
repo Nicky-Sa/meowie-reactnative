@@ -140,7 +140,7 @@ axiosInstance.interceptors.response.use(
         const { accessToken, refreshToken: newRefreshToken } =
           refreshResponse.data.data;
 
-        // Save new tokens
+        // Store new tokens
         await createSession({
           accessToken,
           refreshToken: newRefreshToken,

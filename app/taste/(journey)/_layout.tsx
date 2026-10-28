@@ -13,7 +13,7 @@ import { useAtomValue } from "jotai";
 import { tasteAtom } from "@/atoms";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
-// The saving screen has no step title or progress bar, so it sits outside this group.
+// The submitting screen has no step title or progress bar, so it sits outside this group.
 export default function TasteJourneyLayout() {
   const pathname = usePathname();
   const router = useRouter();

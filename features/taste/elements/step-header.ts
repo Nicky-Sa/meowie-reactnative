@@ -1,6 +1,6 @@
 type StepHeader = { title: string; step: number; totalSteps: number };
 
-// The saving screen sits outside the journey and shows no progress bar.
+// The submitting screen sits outside the journey and shows no progress bar.
 const TOTAL_STEPS = 3;
 
 const header = (title: string, step: number): StepHeader => ({

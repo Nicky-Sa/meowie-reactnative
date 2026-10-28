@@ -29,7 +29,7 @@ export const Screen = () => {
           size={"lg"}
           onPress={() => router.push("/taste/result")}
         >
-          Save my taste
+          Submit my taste
         </Button>
       }
     >

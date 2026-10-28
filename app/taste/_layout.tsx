@@ -7,11 +7,11 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { Loading } from "@/features/common/ui/loading";
 import { ErrorState } from "@/features/general/error-state";
 
-// Back stays blocked during saving to avoid sending the same answers twice.
+// Back stays blocked while submitting to avoid sending the same answers twice.
 export default function TasteLayout() {
   const pathname = usePathname();
   const rootNavigation = useNavigation("/");
-  const isSavingTaste = pathname === "/taste/result";
+  const isSubmittingTaste = pathname === "/taste/result";
   const {
     data,
     isPending: isCurrentUserPending,
@@ -21,17 +21,17 @@ export default function TasteLayout() {
   const taste = useAtomValue(tasteAtom);
 
   useEffect(() => {
-    rootNavigation.setOptions({ gestureEnabled: !isSavingTaste });
-  }, [rootNavigation, isSavingTaste]);
+    rootNavigation.setOptions({ gestureEnabled: !isSubmittingTaste });
+  }, [rootNavigation, isSubmittingTaste]);
 
   useEffect(() => {
-    if (!isSavingTaste) return;
+    if (!isSubmittingTaste) return;
     const listener = BackHandler.addEventListener(
       "hardwareBackPress",
       () => true,
     );
     return () => listener.remove();
-  }, [isSavingTaste]);
+  }, [isSubmittingTaste]);
 
   if (isCurrentUserPending) {
     return (
@@ -47,7 +47,7 @@ export default function TasteLayout() {
     );
   }
 
-  if (!isSavingTaste && taste.completed) {
+  if (!isSubmittingTaste && taste.completed) {
     if (data?.user) return <Redirect href="/taste/result" />;
     return (
       <Redirect href={{ pathname: "/auth", params: { returnTo: "/home" } }} />

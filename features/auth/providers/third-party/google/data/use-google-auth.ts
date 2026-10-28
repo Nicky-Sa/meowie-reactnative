@@ -46,7 +46,7 @@ export const useGoogleAuth = () => {
         body: { token: idToken },
       });
 
-      // Save session
+      // Store session
       await createSession({
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,

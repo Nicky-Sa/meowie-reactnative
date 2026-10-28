@@ -47,7 +47,7 @@ export const Screen = () => {
       return;
     }
 
-    // Submit the survey response to PostHog using the exact property format PostHog uses to aggregate responses in the Survey dashboard
+    // Send the survey response to PostHog using the exact property format PostHog uses to aggregate responses in the Survey dashboard
     // "survey sent" is a special event
     posthog.capture("survey sent", {
       $survey_id: survey.id,

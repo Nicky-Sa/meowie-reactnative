@@ -1,11 +1,11 @@
 import {
-  SaveTasteReqDto,
+  SubmitTasteReqDto,
   TitleAnswer,
   TitleRatings,
 } from "@/features/taste/data/dto/taste.dto";
 
 export type TasteState = {
-  answers: SaveTasteReqDto;
+  answers: SubmitTasteReqDto;
   completed: boolean;
 };
 

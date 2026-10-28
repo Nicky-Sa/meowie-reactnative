@@ -498,7 +498,7 @@ export const useAnalytics = () => {
         }): void =>
           capture("taste_skipped", { movie_answer_count: movieAnswerCount }),
 
-        trackSaved: (): void => capture("taste_saved"),
+        trackSubmitted: (): void => capture("taste_submitted"),
       },
     }),
     [capture],

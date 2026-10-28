@@ -381,8 +381,8 @@ export type TASTE_SKIPPED = {
   };
 };
 
-export type TASTE_SAVED = {
-  event: "taste_saved";
+export type TASTE_SUBMITTED = {
+  event: "taste_submitted";
   properties: undefined;
 };
 
@@ -433,7 +433,7 @@ export type Events =
   | TASTE_CARD_SHOWN
   | TASTE_CARD_CLICKED
   | TASTE_SKIPPED
-  | TASTE_SAVED;
+  | TASTE_SUBMITTED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

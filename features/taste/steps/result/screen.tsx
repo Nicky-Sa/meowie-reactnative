@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { useAtomValue, useSetAtom } from "jotai";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
-import { useSaveTaste } from "@/features/taste/data/use-save-taste";
+import { useSubmitTaste } from "@/features/taste/data/use-submit-taste";
 import { LoadingTasteSubmission } from "@/features/taste/steps/result/loading";
 import { tasteAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
@@ -14,7 +14,7 @@ export const Screen = () => {
   const router = useRouter();
   const state = useAtomValue(tasteAtom);
   const setTaste = useSetAtom(tasteAtom);
-  const [tasteToSave] = useState(state.answers);
+  const [tasteToSubmit] = useState(state.answers);
   const {
     data,
     isPending: isCurrentUserPending,
@@ -22,20 +22,20 @@ export const Screen = () => {
     refetch: refetchCurrentUSer,
   } = useCurrentUser();
   const userId = data?.user?.id ?? null;
-  const { trigger, error: saveTasteError } = useSaveTaste();
+  const { trigger, error: submitTasteError } = useSubmitTaste();
   const { taste } = useAnalytics();
 
-  const saveTaste = useCallback(async () => {
+  const submitTaste = useCallback(async () => {
     try {
       await Promise.all([
-        trigger(tasteToSave),
+        trigger(tasteToSubmit),
         new Promise<void>((finish) => setTimeout(finish, 5000)), // for the loading animation
       ]);
     } catch {
       return;
     }
 
-    taste.trackSaved();
+    taste.trackSubmitted();
 
     if (userId === null) {
       setTaste((draft) => {
@@ -49,20 +49,20 @@ export const Screen = () => {
       setTaste(initialTasteState());
       router.replace("/home");
     }
-  }, [userId, setTaste, tasteToSave, trigger, router, taste]);
+  }, [userId, setTaste, tasteToSubmit, trigger, router, taste]);
 
   useEffect(() => {
-    if (!isCurrentUserPending && !currentUserError) void saveTaste();
-  }, [isCurrentUserPending, currentUserError, saveTaste]);
+    if (!isCurrentUserPending && !currentUserError) void submitTaste();
+  }, [isCurrentUserPending, currentUserError, submitTaste]);
 
   return (
     <SafeAreaView
       className={"flex flex-1 flex-col px-4"}
       edges={["top", "bottom"]}
     >
-      {saveTasteError || currentUserError ? (
+      {submitTasteError || currentUserError ? (
         <ErrorState
-          tryAgain={currentUserError ? refetchCurrentUSer : saveTaste}
+          tryAgain={currentUserError ? refetchCurrentUSer : submitTaste}
           error={
             "We couldn't save your taste. Check your connection and try again."
           }

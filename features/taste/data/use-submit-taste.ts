@@ -5,18 +5,18 @@ import {
 import { useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  SaveTasteReqDto,
-  SaveTasteResDto,
+  SubmitTasteReqDto,
+  SubmitTasteResDto,
 } from "@/features/taste/data/dto/taste.dto";
 
-export const useSaveTaste = () => {
+export const useSubmitTaste = () => {
   const queryClient = useQueryClient();
   const { invalidateByPattern } = useInvalidateByPattern();
   const url = "/taste";
 
   const { mutateAsync, ...rest } = useMutationConfigured<
-    SaveTasteReqDto,
-    SaveTasteResDto
+    SubmitTasteReqDto,
+    SubmitTasteResDto
   >(url, {
     onSuccess: async (response) => {
       if (response?.data?.successful) {
@@ -28,7 +28,7 @@ export const useSaveTaste = () => {
   });
 
   const trigger = useCallback(
-    async (body: SaveTasteReqDto) => {
+    async (body: SubmitTasteReqDto) => {
       await mutateAsync({ method: "POST", body });
     },
     [mutateAsync],
