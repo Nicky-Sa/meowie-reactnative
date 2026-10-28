@@ -72,21 +72,26 @@ export const useMediaTracking = ({
 
   const onSeenPress = useCallback(() => {
     if (!item) return;
-    media.trackSeen(item);
+    media.trackSeenClick(item);
   }, [media, item]);
 
   const onRate = useCallback(
     (rating: number | null, isFirstTime: boolean) => {
       if (!item) return;
+      if (isFirstTime) media.trackSeen({ media: item, rating });
       media.trackRated({ media: item, rating, isFirstTime });
     },
     [media, item],
   );
 
-  const onSkipRating = useCallback(() => {
-    if (!item) return;
-    media.trackRatingSkipped(item);
-  }, [media, item]);
+  const onSkipRating = useCallback(
+    (isFirstTime: boolean) => {
+      if (!item) return;
+      if (isFirstTime) media.trackSeen({ media: item, rating: null });
+      media.trackRatingSkipped(item);
+    },
+    [media, item],
+  );
 
   const onRemoveSeen = useCallback(() => {
     if (!item) return;

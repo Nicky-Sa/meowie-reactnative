@@ -28,7 +28,7 @@ type Props = {
   mediaType: MediaType;
   onPress: () => void;
   onRate: (rating: number | null, isFirstTime: boolean) => void;
-  onSkip: () => void;
+  onSkip: (isFirstTime: boolean) => void;
   onRemove: () => void;
 };
 
@@ -85,7 +85,7 @@ export const Seen = ({
     }
 
     if (rating === null) {
-      onSkip();
+      onSkip(isFirstTime);
     } else {
       onRate(rating, isFirstTime);
     }

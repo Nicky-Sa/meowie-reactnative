@@ -29,8 +29,8 @@ export type TRAILER_PAUSED = {
   };
 };
 
-export type MEDIA_SAVE_CLICKED = {
-  event: "media_save_clicked";
+export type MEDIA_SAVED = {
+  event: "media_saved";
   properties: {
     media_id: ID;
     media_type: MediaType;
@@ -39,8 +39,8 @@ export type MEDIA_SAVE_CLICKED = {
   };
 };
 
-export type MEDIA_UNSAVE_CLICKED = {
-  event: "media_unsave_clicked";
+export type MEDIA_UNSAVED = {
+  event: "media_unsaved";
   properties: {
     media_id: ID;
     media_type: MediaType;
@@ -59,8 +59,19 @@ export type MEDIA_SEEN_CLICKED = {
   };
 };
 
-export type MEDIA_UNSEEN_CLICKED = {
-  event: "media_unseen_clicked";
+export type MEDIA_SEEN = {
+  event: "media_seen";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    media_title: string;
+    genres: string[];
+    rating: number | null;
+  };
+};
+
+export type MEDIA_UNSEEN = {
+  event: "media_unseen";
   properties: {
     media_type: MediaType;
     media_id: ID;
@@ -376,11 +387,12 @@ export type TASTE_SAVED = {
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
-  | MEDIA_SAVE_CLICKED
-  | MEDIA_UNSAVE_CLICKED
+  | MEDIA_SAVED
+  | MEDIA_UNSAVED
   | MEDIA_SEEN_CLICKED
+  | MEDIA_SEEN
   | MEDIA_RATED
-  | MEDIA_UNSEEN_CLICKED
+  | MEDIA_UNSEEN
   | MEDIA_RATING_SKIPPED
   | POSTER_EXPANDED
   | PERSON_CLICKED

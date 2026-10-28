@@ -113,7 +113,7 @@ export const useAnalytics = () => {
           title: string;
           genres: string[];
         }): void =>
-          capture("media_save_clicked", {
+          capture("media_saved", {
             media_id: media.id,
             media_type: media.type,
             media_title: media.title,
@@ -126,14 +126,14 @@ export const useAnalytics = () => {
           title: string;
           genres: string[];
         }): void =>
-          capture("media_unsave_clicked", {
+          capture("media_unsaved", {
             media_id: media.id,
             media_type: media.type,
             media_title: media.title,
             genres: media.genres,
           }),
 
-        trackSeen: (media: {
+        trackSeenClick: (media: {
           id: ID;
           type: MediaType;
           title: string;
@@ -146,13 +146,28 @@ export const useAnalytics = () => {
             genres: media.genres,
           }),
 
+        trackSeen: ({
+          media,
+          rating,
+        }: {
+          media: { id: ID; type: MediaType; title: string; genres: string[] };
+          rating: number | null;
+        }): void =>
+          capture("media_seen", {
+            media_id: media.id,
+            media_type: media.type,
+            media_title: media.title,
+            genres: media.genres,
+            rating,
+          }),
+
         trackUnseen: (media: {
           id: ID;
           type: MediaType;
           title: string;
           genres: string[];
         }): void =>
-          capture("media_unseen_clicked", {
+          capture("media_unseen", {
             media_id: media.id,
             media_type: media.type,
             media_title: media.title,

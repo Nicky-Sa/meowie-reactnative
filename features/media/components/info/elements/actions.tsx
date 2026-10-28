@@ -14,7 +14,7 @@ type Props = {
   onSavePress: (saved: boolean | null) => void;
   onSeenPress: () => void;
   onRate: (rating: number | null, isFirstTime: boolean) => void;
-  onSkipRating: () => void;
+  onSkipRating: (isFirstTime: boolean) => void;
   onRemoveSeen: () => void;
 };
 
