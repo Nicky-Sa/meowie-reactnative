@@ -4,6 +4,7 @@ import {
   statusCodes,
   isSuccessResponse,
 } from "@react-native-google-signin/google-signin";
+import { FetcherError } from "@/features/common/data/fetcher";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
@@ -59,8 +60,10 @@ export const useGoogleAuth = () => {
       const error = err as { code?: string };
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
+        return;
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
+        return;
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         Toast.show({
@@ -72,8 +75,8 @@ export const useGoogleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Google",
+          text2: err instanceof FetcherError ? err.message : undefined,
         });
-        console.error(error);
       }
       throw error;
     }

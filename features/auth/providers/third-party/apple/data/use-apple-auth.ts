@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { FetcherError } from "@/features/common/data/fetcher";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
@@ -58,8 +59,8 @@ export const useAppleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Apple",
+          text2: err instanceof FetcherError ? err.message : undefined,
         });
-        console.error(e);
       }
       throw e;
     }

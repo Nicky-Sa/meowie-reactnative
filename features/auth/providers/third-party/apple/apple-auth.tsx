@@ -17,15 +17,20 @@ export const AppleAuth = () => {
 
   const handleApple = async () => {
     setIsLoading(true);
-    const data = await loginWithApple();
-    setIsLoading(false);
-    if (data && data.user) {
-      auth.trackLogin({ isNewUser: data.isNewUser, method: "apple" });
-      dismissScreen();
-      Toast.show({
-        type: "success",
-        text1: "Welcome to Meowie!",
-      });
+    try {
+      const data = await loginWithApple();
+      if (data && data.user) {
+        auth.trackLogin({ isNewUser: data.isNewUser, method: "apple" });
+        dismissScreen();
+        Toast.show({
+          type: "success",
+          text1: "Welcome to Meowie!",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

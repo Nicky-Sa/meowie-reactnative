@@ -17,15 +17,20 @@ export const GoogleAuth = () => {
 
   const handleGoogle = async () => {
     setIsLoading(true);
-    const data = await loginWithGoogle();
-    setIsLoading(false);
-    if (data && data.user) {
-      auth.trackLogin({ isNewUser: data.isNewUser, method: "google" });
-      dismissScreen();
-      Toast.show({
-        type: "success",
-        text1: "Welcome to Meowie!",
-      });
+    try {
+      const data = await loginWithGoogle();
+      if (data && data.user) {
+        auth.trackLogin({ isNewUser: data.isNewUser, method: "google" });
+        dismissScreen();
+        Toast.show({
+          type: "success",
+          text1: "Welcome to Meowie!",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
