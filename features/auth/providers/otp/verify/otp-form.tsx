@@ -45,7 +45,7 @@ export const OtpForm = ({ email }: Props) => {
   const onSubmit = handleSubmit(async (formData: OtpFormData) => {
     try {
       const data = await triggerVerifyOtp({ ...formData, email });
-      auth.trackLogin({ isNewUser: data.isNewUser });
+      auth.trackLogin({ isNewUser: data.isNewUser, method: "email" });
       dismissScreen();
       Toast.show({
         type: "success",

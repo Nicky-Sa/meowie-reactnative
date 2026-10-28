@@ -367,15 +367,18 @@ export const useAnalytics = () => {
           resultType,
           position,
           fromRecent,
+          query,
         }: {
           resultType: MultiSearchResults["mediaType"];
           position: number;
           fromRecent: boolean;
+          query: string | null;
         }): void =>
           capture("search_result_clicked", {
             result_type: resultType,
             position,
             from_recent: fromRecent,
+            query,
           }),
       },
 
@@ -383,8 +386,14 @@ export const useAnalytics = () => {
        * Authentication and User related tracking
        */
       auth: {
-        trackLogin: ({ isNewUser }: { isNewUser: boolean }): void =>
-          capture("login_completed", { is_new_user: isNewUser }),
+        trackLogin: ({
+          isNewUser,
+          method,
+        }: {
+          isNewUser: boolean;
+          method: Properties<"login_completed">["method"];
+        }): void =>
+          capture("login_completed", { is_new_user: isNewUser, method }),
 
         trackLogout: (): void => capture("logout"),
 

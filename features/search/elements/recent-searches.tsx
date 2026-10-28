@@ -28,6 +28,7 @@ export const RecentSearches = () => {
                   resultType: item.mediaType,
                   position: index + 1,
                   fromRecent: true,
+                  query: null,
                 });
                 add(item);
               }}

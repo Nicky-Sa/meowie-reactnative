@@ -20,7 +20,7 @@ export const AppleAuth = () => {
     const data = await loginWithApple();
     setIsLoading(false);
     if (data && data.user) {
-      auth.trackLogin({ isNewUser: data.isNewUser });
+      auth.trackLogin({ isNewUser: data.isNewUser, method: "apple" });
       dismissScreen();
       Toast.show({
         type: "success",

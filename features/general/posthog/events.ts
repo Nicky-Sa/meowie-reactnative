@@ -215,6 +215,7 @@ export type LOGIN_COMPLETED = {
   event: "login_completed";
   properties: {
     is_new_user: boolean;
+    method: "email" | "google" | "apple";
   };
 };
 
@@ -325,6 +326,7 @@ export type SEARCH_RESULT_CLICKED = {
     result_type: MultiSearchResults["mediaType"];
     position: number;
     from_recent: boolean;
+    query: string | null;
   };
 };
 

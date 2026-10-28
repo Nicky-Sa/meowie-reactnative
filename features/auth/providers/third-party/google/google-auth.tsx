@@ -20,7 +20,7 @@ export const GoogleAuth = () => {
     const data = await loginWithGoogle();
     setIsLoading(false);
     if (data && data.user) {
-      auth.trackLogin({ isNewUser: data.isNewUser });
+      auth.trackLogin({ isNewUser: data.isNewUser, method: "google" });
       dismissScreen();
       Toast.show({
         type: "success",

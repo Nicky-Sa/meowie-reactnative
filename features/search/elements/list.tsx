@@ -37,12 +37,13 @@ export const SearchResultList = ({
             resultType: item.mediaType,
             position: index + 1,
             fromRecent: false,
+            query: debouncedQuery,
           });
           add(item);
         }}
       />
     ),
-    [add, search],
+    [add, search, debouncedQuery],
   );
 
   // Empty query → show recent searches instead of results.
