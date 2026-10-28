@@ -10,6 +10,7 @@ import { CreditInfo } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
+import { Properties } from "@/features/general/posthog/events";
 import { useMemo } from "react";
 
 /**
@@ -382,6 +383,23 @@ export const useAnalytics = () => {
         trackOtpRequested: (): void => capture("otp_requested"),
 
         trackAuthSkipped: (): void => capture("auth_skipped"),
+
+        trackOtpResent: (): void => capture("otp_resent"),
+
+        trackLoginPromptShown: ({
+          reason,
+          mediaId,
+          mediaType,
+        }: {
+          reason: Properties<"login_prompt_shown">["reason"];
+          mediaId: ID;
+          mediaType: MediaType;
+        }): void =>
+          capture("login_prompt_shown", {
+            reason,
+            media_id: mediaId,
+            media_type: mediaType,
+          }),
       },
 
       /**
@@ -397,6 +415,15 @@ export const useAnalytics = () => {
           hasNewNote: boolean;
         }): void =>
           capture("release_notes_opened", { has_new_note: hasNewNote }),
+
+        trackMediaTypeToggled: ({
+          screen,
+          mediaType,
+        }: {
+          screen: Properties<"media_type_toggled">["screen"];
+          mediaType: MediaType;
+        }): void =>
+          capture("media_type_toggled", { screen, media_type: mediaType }),
       },
 
       /**

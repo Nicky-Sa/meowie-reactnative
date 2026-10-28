@@ -9,6 +9,7 @@ import { useFetchLibraryStatus } from "@/features/media/components/info/elements
 import { useRef, useState } from "react";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
 import EmptySeen from "@/assets/images/meowie/empty-seen.svg";
@@ -51,6 +52,7 @@ export const Seen = ({
   const showSaveWarning = !isSeen && isSaved;
 
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const { auth } = useAnalytics();
   const [pickedRating, setPickedRating] = useState<number | null>(
     DEFAULT_RATING,
   );
@@ -59,6 +61,7 @@ export const Seen = ({
   const handlePress = async () => {
     if (!currentUser?.user) {
       onPress();
+      auth.trackLoginPromptShown({ reason: "seen", mediaId: id, mediaType });
       setShowLoginModal(true);
       return;
     }

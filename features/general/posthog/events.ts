@@ -325,6 +325,28 @@ export type SIRI_COMMAND_RECEIVED = {
   };
 };
 
+export type LOGIN_PROMPT_SHOWN = {
+  event: "login_prompt_shown";
+  properties: {
+    reason: "save" | "seen";
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
+export type MEDIA_TYPE_TOGGLED = {
+  event: "media_type_toggled";
+  properties: {
+    screen: "home" | "explore";
+    media_type: MediaType;
+  };
+};
+
+export type OTP_RESENT = {
+  event: "otp_resent";
+  properties: undefined;
+};
+
 export type TASTE_CARD_SHOWN = {
   event: "taste_card_shown";
   properties: {
@@ -391,6 +413,9 @@ export type Events =
   | SHARED_LINK_OPENED
   | SEARCH_RESULT_CLICKED
   | SIRI_COMMAND_RECEIVED
+  | LOGIN_PROMPT_SHOWN
+  | MEDIA_TYPE_TOGGLED
+  | OTP_RESENT
   | TASTE_CARD_SHOWN
   | TASTE_CARD_CLICKED
   | TASTE_SKIPPED

@@ -73,7 +73,7 @@ export const Screen = () => {
     activeTabName.value = `${mediaType}-${activeSlug}`;
   }, [mediaType, activeSlug, activeTabName]);
 
-  const { explore, filters } = useAnalytics();
+  const { explore, filters, interaction } = useAnalytics();
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
     explore.trackTabChanged({ tabSlug: tabName, mediaType });
@@ -84,6 +84,10 @@ export const Screen = () => {
 
   const onMediaTypeChange = (nextMediaType: MediaType) => {
     if (nextMediaType === mediaType) return;
+    interaction.trackMediaTypeToggled({
+      screen: "explore",
+      mediaType: nextMediaType,
+    });
     resetHeader();
     setSelectedSlugs((current) => ({
       ...current,

@@ -15,6 +15,7 @@ import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 
 import { MediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
@@ -38,11 +39,13 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
   const isSeen = Boolean(libraryStatus?.seen);
 
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const { auth } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
   const handlePress = async () => {
     if (!currentUser?.user) {
       onPress(null);
+      auth.trackLoginPromptShown({ reason: "save", mediaId: id, mediaType });
       setShowLoginModal(true);
       return;
     }

@@ -6,6 +6,7 @@ import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 import { useState } from "react";
 import { SwipeGuide } from "@/features/home/swipe-guide";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
@@ -15,7 +16,13 @@ export const Screen = () => {
   const [activeMediaType, setActiveMediaType] = useState(mediaTypes[0]);
   const [headerHeight, setHeaderHeight] = useState(0);
 
+  const { interaction } = useAnalytics();
+
   const handleMediaTypeChange = (type: string) => {
+    const mediaType = MEDIA_TYPES.find((item) => item.label === type)?.value;
+    if (type !== activeMediaType && mediaType) {
+      interaction.trackMediaTypeToggled({ screen: "home", mediaType });
+    }
     resetScroll();
     setActiveMediaType(type);
   };

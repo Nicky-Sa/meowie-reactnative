@@ -73,7 +73,12 @@ export const OtpForm = ({ email }: Props) => {
           autoComplete={"one-time-code"}
           autoFocus
         />
-        <ResendCode onPress={() => triggerRequestOtp({ email })} />
+        <ResendCode
+          onPress={() => {
+            auth.trackOtpResent();
+            return triggerRequestOtp({ email });
+          }}
+        />
       </View>
       <Button
         variant={"white"}
