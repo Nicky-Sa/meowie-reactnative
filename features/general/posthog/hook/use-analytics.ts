@@ -8,11 +8,12 @@ import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
+import { SiriCommand } from "@/features/general/siri/types";
 import { useMemo } from "react";
 
 /**
  * Unified analytics hook for tracking PostHog events.
- * Organizes events into logical domains (media, explore, filters, search, auth, interaction, profile, settings, taste).
+ * Organizes events into logical domains (media, explore, filters, search, auth, interaction, profile, settings, siri, taste).
  */
 export const useAnalytics = () => {
   const { capture } = useCaptureEvent();
@@ -398,6 +399,19 @@ export const useAnalytics = () => {
           capture("autoplay_toggled", { autoplay }),
 
         trackCacheCleared: (): void => capture("cache_cleared"),
+      },
+
+      /**
+       * Siri commands
+       */
+      siri: {
+        trackCommandReceived: ({
+          command,
+          opened,
+        }: {
+          command: SiriCommand;
+          opened: boolean;
+        }): void => capture("siri_command_received", { command, opened }),
       },
 
       /**

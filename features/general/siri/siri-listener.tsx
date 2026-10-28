@@ -4,8 +4,12 @@ import { useSetAtom } from "jotai";
 import { linkToOpenAtom } from "@/atoms";
 import { isMediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
-
-type SiriParams = AppIntents.AppIntentInvocation["params"];
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import {
+  isSiriCommand,
+  SiriCommand,
+  SiriParams,
+} from "@/features/general/siri/types";
 
 const getMediaActionLink = (
   action: MediaAction,
@@ -23,8 +27,8 @@ const getSearchLink = ({ query }: SiriParams): Href | null => {
 };
 
 const LINK_FOR_SIRI_COMMAND: Record<
-  string,
-  ((params: SiriParams) => Href | null) | undefined
+  SiriCommand,
+  (params: SiriParams) => Href | null
 > = {
   saveMedia: (params) => getMediaActionLink("save", params),
   searchMedia: getSearchLink,
@@ -34,13 +38,17 @@ export const SiriListener = () => {
   const router = useRouter();
   const pathname = usePathname();
   const setLinkToOpen = useSetAtom(linkToOpenAtom);
+  const { siri } = useAnalytics();
 
   AppIntents.useAppIntents(async (pendingIntents) => {
     for (const invocation of pendingIntents) {
-      const getLink = LINK_FOR_SIRI_COMMAND[invocation.name];
-      if (!getLink) continue;
+      if (!isSiriCommand(invocation.name)) continue;
 
-      const link = getLink(invocation.params);
+      const link = LINK_FOR_SIRI_COMMAND[invocation.name](invocation.params);
+      siri.trackCommandReceived({
+        command: invocation.name,
+        opened: link !== null,
+      });
       if (!link) {
         console.error("Siri sent a request the app can't open:", invocation);
       } else if (pathname === "/") {
