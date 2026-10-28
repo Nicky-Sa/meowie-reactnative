@@ -8,6 +8,7 @@ import { SearchEmptyState } from "@/features/search/elements/empty-state";
 import { RecentSearches } from "@/features/search/elements/recent-searches";
 import { useRecentSearches } from "@/features/search/data/use-recent-searches";
 import { useCallback } from "react";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = {
   debouncedQuery: string;
@@ -25,12 +26,23 @@ export const SearchResultList = ({
   refetch,
 }: Props) => {
   const { add } = useRecentSearches();
+  const { search } = useAnalytics();
 
   const renderItem = useCallback(
-    ({ item }: { item: MultiSearchResults }) => (
-      <SearchResultCard item={item} onPress={() => add(item)} />
+    ({ item, index }: { item: MultiSearchResults; index: number }) => (
+      <SearchResultCard
+        item={item}
+        onPress={() => {
+          search.trackResultClick({
+            resultType: item.mediaType,
+            position: index + 1,
+            fromRecent: false,
+          });
+          add(item);
+        }}
+      />
     ),
-    [add],
+    [add, search],
   );
 
   // Empty query → show recent searches instead of results.

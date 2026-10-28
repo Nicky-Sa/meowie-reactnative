@@ -8,6 +8,7 @@ import { CollectionSourceType } from "@/features/explore/collections/collection.
 import { CreditJob } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
+import { MultiSearchResults } from "@/features/search/data/models/search-result";
 
 export type TRAILER_PLAYED = {
   event: "trailer_played";
@@ -298,6 +299,15 @@ export type EXPLORE_REFRESHED = {
   };
 };
 
+export type SEARCH_RESULT_CLICKED = {
+  event: "search_result_clicked";
+  properties: {
+    result_type: MultiSearchResults["mediaType"];
+    position: number;
+    from_recent: boolean;
+  };
+};
+
 export type SIRI_COMMAND_RECEIVED = {
   event: "siri_command_received";
   properties: {
@@ -369,6 +379,7 @@ export type Events =
   | RELEASE_NOTES_OPENED
   | EXPLORE_TAB_CHANGED
   | EXPLORE_REFRESHED
+  | SEARCH_RESULT_CLICKED
   | SIRI_COMMAND_RECEIVED
   | TASTE_CARD_SHOWN
   | TASTE_CARD_CLICKED

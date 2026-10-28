@@ -9,6 +9,7 @@ import { CollectionSourceType } from "@/features/explore/collections/collection.
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
+import { MultiSearchResults } from "@/features/search/data/models/search-result";
 import { useMemo } from "react";
 
 /**
@@ -345,6 +346,21 @@ export const useAnalytics = () => {
       search: {
         trackSearch: ({ query }: { query: string }): void =>
           capture("search_submitted", { query }),
+
+        trackResultClick: ({
+          resultType,
+          position,
+          fromRecent,
+        }: {
+          resultType: MultiSearchResults["mediaType"];
+          position: number;
+          fromRecent: boolean;
+        }): void =>
+          capture("search_result_clicked", {
+            result_type: resultType,
+            position,
+            from_recent: fromRecent,
+          }),
       },
 
       /**
