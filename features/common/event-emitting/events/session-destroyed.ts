@@ -16,7 +16,7 @@ export const useSessionDestroyed = () => {
         });
         console.log("✅ Session destroyed event processed");
       } catch (error) {
-        console.log("❌ Error tracking session destroyed: ", error);
+        console.error("❌ Error tracking session destroyed: ", error);
       }
     };
     Emitter.on("sessionDestroyed", handleUnregistration);

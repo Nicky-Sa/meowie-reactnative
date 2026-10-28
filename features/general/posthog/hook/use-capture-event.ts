@@ -18,7 +18,7 @@ export const useCaptureEvent = () => {
       try {
         posthog.capture(event, properties);
       } catch (error) {
-        console.log("Error capturing event: ", error);
+        console.error("Error capturing event: ", error);
       }
     },
     [posthog],
