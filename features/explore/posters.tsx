@@ -14,6 +14,7 @@ import { ExploreTabResDto } from "@/features/explore/data/dto/explore-tab.dto";
 import { EmptyState } from "@/features/general/empty-state";
 import { TabChildProps } from "@/features/common/tab/tab-bar";
 import { tailwind } from "@/lib/tailwind";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 type Props = TabChildProps & {
   mediaType: MediaType;
@@ -35,10 +36,19 @@ export const ExplorePosters = ({
     `/explore/${mediaType}/tabs/${encodeURIComponent(tab.slug)}` as const;
   const posterData = useFetchPosters(endpoint);
   const { onRefresh, isRefreshing } = posterData;
+  const { explore } = useAnalytics();
+
+  const onExploreRefresh = useCallback(() => {
+    if (isRefreshing) return;
+
+    explore.trackRefreshed({ tabSlug: tab.slug, mediaType });
+    return onRefresh();
+  }, [explore, isRefreshing, onRefresh, tab.slug, mediaType]);
+
   const { isReadyToRefresh } = usePullToRefresh({
     scrollY,
     isDragging,
-    onRefresh,
+    onRefresh: onExploreRefresh,
     isRefreshing,
     isActive: true,
   });
@@ -77,7 +87,7 @@ export const ExplorePosters = ({
           Platform.OS === "android" ? (
             <RefreshControl
               refreshing={isRefreshing}
-              onRefresh={onRefresh}
+              onRefresh={onExploreRefresh}
               colors={["transparent"]}
               progressBackgroundColor="transparent"
             />

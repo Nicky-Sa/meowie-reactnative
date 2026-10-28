@@ -281,6 +281,22 @@ export type RELEASE_NOTES_OPENED = {
   };
 };
 
+export type EXPLORE_TAB_CHANGED = {
+  event: "explore_tab_changed";
+  properties: {
+    tab_slug: string;
+    media_type: MediaType;
+  };
+};
+
+export type EXPLORE_REFRESHED = {
+  event: "explore_refreshed";
+  properties: {
+    tab_slug: string;
+    media_type: MediaType;
+  };
+};
+
 export type TASTE_CARD_SHOWN = {
   event: "taste_card_shown";
   properties: {
@@ -342,6 +358,8 @@ export type Events =
   | MEDIA_SHARED
   | FEED_REFRESHED
   | RELEASE_NOTES_OPENED
+  | EXPLORE_TAB_CHANGED
+  | EXPLORE_REFRESHED
   | TASTE_CARD_SHOWN
   | TASTE_CARD_CLICKED
   | TASTE_SKIPPED

@@ -305,6 +305,35 @@ export const useAnalytics = () => {
       },
 
       /**
+       * Explore screen tabs
+       */
+      explore: {
+        trackTabChanged: ({
+          tabSlug,
+          mediaType,
+        }: {
+          tabSlug: string;
+          mediaType: MediaType;
+        }): void =>
+          capture("explore_tab_changed", {
+            tab_slug: tabSlug,
+            media_type: mediaType,
+          }),
+
+        trackRefreshed: ({
+          tabSlug,
+          mediaType,
+        }: {
+          tabSlug: string;
+          mediaType: MediaType;
+        }): void =>
+          capture("explore_refreshed", {
+            tab_slug: tabSlug,
+            media_type: mediaType,
+          }),
+      },
+
+      /**
        * People/Person related tracking
        */
       people: {

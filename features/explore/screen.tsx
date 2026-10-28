@@ -73,9 +73,10 @@ export const Screen = () => {
     activeTabName.value = `${mediaType}-${activeSlug}`;
   }, [mediaType, activeSlug, activeTabName]);
 
-  const { discovery } = useAnalytics();
+  const { discovery, explore } = useAnalytics();
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
+    explore.trackTabChanged({ tabSlug: tabName, mediaType });
     resetHeader();
     shownSlug.current = tabName;
     activeTabName.value = `${mediaType}-${tabName}`;
