@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const ShareButton = ({ mediaType, id }: Props) => {
-  const shareMedia = useShareMedia({ mediaType, id });
+  const shareMedia = useShareMedia({ mediaType, id, trigger: "button" });
 
   return (
     <Button

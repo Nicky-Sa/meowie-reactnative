@@ -6,6 +6,7 @@ import {
 import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 import { CreditJob } from "@/features/common/data/models/credit";
+import { ShareTrigger } from "@/features/media/data/share-links";
 
 export type TRAILER_PLAYED = {
   event: "trailer_played";
@@ -262,6 +263,7 @@ export type MEDIA_SHARED = {
   properties: {
     media_id: ID;
     media_type: MediaType;
+    trigger: ShareTrigger;
   };
 };
 

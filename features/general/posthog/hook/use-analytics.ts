@@ -7,6 +7,7 @@ import {
 import { MediaType } from "@/features/common/data/models/media-type";
 import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 import { CreditInfo } from "@/features/common/data/models/credit";
+import { ShareTrigger } from "@/features/media/data/share-links";
 import { useMemo } from "react";
 
 /**
@@ -64,13 +65,16 @@ export const useAnalytics = () => {
         trackShare: ({
           mediaId,
           mediaType,
+          trigger,
         }: {
           mediaId: ID;
           mediaType: MediaType;
+          trigger: ShareTrigger;
         }): void =>
           capture("media_shared", {
             media_id: mediaId,
             media_type: mediaType,
+            trigger,
           }),
 
         trackLongPress: ({

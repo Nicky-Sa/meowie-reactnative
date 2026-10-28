@@ -19,7 +19,7 @@ type Args = {
 
 /** Opens the share sheet for this media when the user takes a screenshot. */
 export const useShareOnScreenshot = ({ mediaType, id, isVisible }: Args) => {
-  const shareMedia = useShareMedia({ mediaType, id });
+  const shareMedia = useShareMedia({ mediaType, id, trigger: "screenshot" });
 
   useFocusEffect(
     useCallback(() => {
