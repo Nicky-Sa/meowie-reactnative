@@ -299,6 +299,15 @@ export type EXPLORE_REFRESHED = {
   };
 };
 
+export type SHARED_LINK_OPENED = {
+  event: "shared_link_opened";
+  properties: {
+    media_type: MediaType;
+    media_id: ID;
+    is_cold_start: boolean;
+  };
+};
+
 export type SEARCH_RESULT_CLICKED = {
   event: "search_result_clicked";
   properties: {
@@ -379,6 +388,7 @@ export type Events =
   | RELEASE_NOTES_OPENED
   | EXPLORE_TAB_CHANGED
   | EXPLORE_REFRESHED
+  | SHARED_LINK_OPENED
   | SEARCH_RESULT_CLICKED
   | SIRI_COMMAND_RECEIVED
   | TASTE_CARD_SHOWN

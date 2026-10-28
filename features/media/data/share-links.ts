@@ -10,14 +10,27 @@ export const getShareLink = (mediaType: MediaType, id: ID) =>
 const SHARED_MEDIA_LINK =
   /^(?:https:\/\/meowie\.app)?\/(movie|series)\/(\d+)\/?(?:[?#].*)?$/;
 
-/** Turns a shared link like `https://meowie.app/movie/155` into the matching details screen. */
-export const getDetailsPathFromLink = (link: string) => {
+/** Reads a shared link like `https://meowie.app/movie/155` and gives back its media and matching details screen. */
+export const getSharedMediaFromLink = (link: string) => {
   const match = link.match(SHARED_MEDIA_LINK);
   if (!match) {
     return null;
   }
   const [, mediaType, id] = match;
-  return mediaType === "movie"
-    ? (`/movie/${id}/details` as const)
-    : (`/series/${id}/details` as const);
+  switch (mediaType) {
+    case "movie":
+      return {
+        mediaType: "movie" as const,
+        id,
+        detailsPath: `/movie/${id}/details` as const,
+      };
+    case "series":
+      return {
+        mediaType: "series" as const,
+        id,
+        detailsPath: `/series/${id}/details` as const,
+      };
+    default:
+      return null;
+  }
 };
