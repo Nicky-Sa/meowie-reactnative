@@ -58,7 +58,7 @@ export const MediaListItem = memo(
           className={"flex items-center justify-center"}
         >
           {item.card === "share-taste" ? (
-            <ShareTasteCard />
+            <ShareTasteCard mediaType={mediaType} inScreen={inScreen} />
           ) : mediaType === "movie" ? (
             <MovieInfo
               movieId={id}

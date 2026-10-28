@@ -8,6 +8,7 @@ import { LoadingTasteSubmission } from "@/features/taste/steps/result/loading";
 import { tasteAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { initialTasteState } from "@/features/taste/state";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const Screen = () => {
   const router = useRouter();
@@ -22,16 +23,19 @@ export const Screen = () => {
   } = useCurrentUser();
   const userId = data?.user?.id ?? null;
   const { trigger, error: saveTasteError } = useSaveTaste();
+  const { taste } = useAnalytics();
 
   const saveTaste = useCallback(async () => {
     try {
       await Promise.all([
         trigger(tasteToSave),
-        new Promise<void>((finish) => setTimeout(finish, 5000)),
+        new Promise<void>((finish) => setTimeout(finish, 5000)), // for the loading animation
       ]);
     } catch {
       return;
     }
+
+    taste.trackSaved();
 
     if (userId === null) {
       setTaste((draft) => {
@@ -45,7 +49,7 @@ export const Screen = () => {
       setTaste(initialTasteState());
       router.replace("/home");
     }
-  }, [userId, setTaste, tasteToSave, trigger, router]);
+  }, [userId, setTaste, tasteToSave, trigger, router, taste]);
 
   useEffect(() => {
     if (!isCurrentUserPending && !currentUserError) void saveTaste();

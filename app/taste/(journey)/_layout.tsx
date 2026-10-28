@@ -9,11 +9,16 @@ import { stepHeaderForPath } from "@/features/taste/elements/step-header";
 import { ErrorState } from "@/features/general/error-state";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { Button } from "@/features/common/ui/button";
+import { useAtomValue } from "jotai";
+import { tasteAtom } from "@/atoms";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 // The saving screen has no step title or progress bar, so it sits outside this group.
 export default function TasteJourneyLayout() {
   const pathname = usePathname();
   const router = useRouter();
+  const tasteState = useAtomValue(tasteAtom);
+  const { taste } = useAnalytics();
   // Every step needs the journey, so its failure is handled once here instead
   // of leaving each step on a spinner that never ends.
   const { data: journey, isError, refetch } = useFetchJourney();
@@ -24,7 +29,12 @@ export default function TasteJourneyLayout() {
 
   const isMoviesStep = pathname === "/taste";
 
-  const skipTaste = () => router.replace("/home");
+  const skipTaste = () => {
+    taste.trackSkipped({
+      movieAnswerCount: Object.keys(tasteState.answers.movieRatings).length,
+    });
+    router.replace("/home");
+  };
 
   // skip button only shows up at the first step of the taste, which is the movies selection step
   const skipTasteButton = isMoviesStep ? (

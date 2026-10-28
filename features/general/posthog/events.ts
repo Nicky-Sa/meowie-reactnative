@@ -195,7 +195,7 @@ export type COLLECTION_CLICKED = {
 
 export type OTP_REQUESTED = {
   event: "otp_requested";
-  properties?: undefined;
+  properties: undefined;
 };
 
 export type LOGIN_COMPLETED = {
@@ -207,7 +207,7 @@ export type LOGIN_COMPLETED = {
 
 export type LOGOUT = {
   event: "logout";
-  properties?: undefined;
+  properties: undefined;
 };
 
 export type ACCOUNT_DELETED = {
@@ -281,6 +281,32 @@ export type RELEASE_NOTES_OPENED = {
   };
 };
 
+export type TASTE_CARD_SHOWN = {
+  event: "taste_card_shown";
+  properties: {
+    media_type: MediaType;
+  };
+};
+
+export type TASTE_CARD_CLICKED = {
+  event: "taste_card_clicked";
+  properties: {
+    media_type: MediaType;
+  };
+};
+
+export type TASTE_SKIPPED = {
+  event: "taste_skipped";
+  properties: {
+    movie_answer_count: number;
+  };
+};
+
+export type TASTE_SAVED = {
+  event: "taste_saved";
+  properties: undefined;
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -315,7 +341,11 @@ export type Events =
   | MEDIA_DETAILS_CLICKED
   | MEDIA_SHARED
   | FEED_REFRESHED
-  | RELEASE_NOTES_OPENED;
+  | RELEASE_NOTES_OPENED
+  | TASTE_CARD_SHOWN
+  | TASTE_CARD_CLICKED
+  | TASTE_SKIPPED
+  | TASTE_SAVED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

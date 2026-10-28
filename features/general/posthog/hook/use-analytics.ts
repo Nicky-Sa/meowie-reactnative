@@ -259,7 +259,7 @@ export const useAnalytics = () => {
         trackSearch: ({ query }: { query: string }): void =>
           capture("search_submitted", { query }),
 
-        trackFiltersOpened: (): void => capture("filters_opened", undefined),
+        trackFiltersOpened: (): void => capture("filters_opened"),
 
         trackFeedRefreshed: ({ mediaType }: { mediaType: MediaType }): void =>
           capture("feed_refreshed", { media_type: mediaType }),
@@ -324,7 +324,7 @@ export const useAnalytics = () => {
         trackLogin: ({ isNewUser }: { isNewUser: boolean }): void =>
           capture("login_completed", { is_new_user: isNewUser }),
 
-        trackLogout: (): void => capture("logout", undefined),
+        trackLogout: (): void => capture("logout"),
 
         trackAccountDeleted: ({
           churnReasonId,
@@ -333,9 +333,9 @@ export const useAnalytics = () => {
         }): void =>
           capture("account_deleted", { churn_reason_id: churnReasonId }),
 
-        trackOtpRequested: (): void => capture("otp_requested", undefined),
+        trackOtpRequested: (): void => capture("otp_requested"),
 
-        trackAuthSkipped: (): void => capture("auth_skipped", undefined),
+        trackAuthSkipped: (): void => capture("auth_skipped"),
       },
 
       /**
@@ -351,7 +351,7 @@ export const useAnalytics = () => {
         trackAutoplayToggled: ({ autoplay }: { autoplay: boolean }): void =>
           capture("autoplay_toggled", { autoplay }),
 
-        trackCacheCleared: (): void => capture("cache_cleared", undefined),
+        trackCacheCleared: (): void => capture("cache_cleared"),
 
         trackReleaseNotesOpened: ({
           hasNewNote,
@@ -359,6 +359,26 @@ export const useAnalytics = () => {
           hasNewNote: boolean;
         }): void =>
           capture("release_notes_opened", { has_new_note: hasNewNote }),
+      },
+
+      /**
+       * Taste journey and the feed card that leads to it
+       */
+      taste: {
+        trackCardShown: ({ mediaType }: { mediaType: MediaType }): void =>
+          capture("taste_card_shown", { media_type: mediaType }),
+
+        trackCardClicked: ({ mediaType }: { mediaType: MediaType }): void =>
+          capture("taste_card_clicked", { media_type: mediaType }),
+
+        trackSkipped: ({
+          movieAnswerCount,
+        }: {
+          movieAnswerCount: number;
+        }): void =>
+          capture("taste_skipped", { movie_answer_count: movieAnswerCount }),
+
+        trackSaved: (): void => capture("taste_saved"),
       },
     }),
     [capture],

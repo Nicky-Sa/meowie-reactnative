@@ -1,5 +1,6 @@
 import {
   SaveTasteReqDto,
+  TitleAnswer,
   TitleRatings,
 } from "@/features/taste/data/dto/taste.dto";
 
@@ -21,7 +22,7 @@ export const initialTasteState = (): TasteState => ({
 export const countOpinions = (ratings: TitleRatings) =>
   Object.values(ratings).filter((answer) => answer !== "not-seen").length;
 
-// The movies step needs likes, not just answers: the feed builds out from liked
-// titles, so dislikes give it nowhere to start. The backend rejects the rest.
-export const countLikes = (ratings: TitleRatings) =>
-  Object.values(ratings).filter((answer) => answer === "like").length;
+export const countAnswer = (
+  ratings: TitleRatings,
+  answerToCount: TitleAnswer,
+) => Object.values(ratings).filter((answer) => answer === answerToCount).length;

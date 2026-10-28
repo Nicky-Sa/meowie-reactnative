@@ -6,6 +6,9 @@ import { Button } from "@/features/common/ui/button";
 import { Icon } from "@/features/common/ui/icon";
 import shareTastePicture from "@/assets/images/taste/vibe.png";
 import { tailwind } from "@/lib/tailwind";
+import { useEffect } from "react";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 // The box needs a set size: both parents here size themselves to their
 // children, so a percentage on the picture itself would come out as zero.
@@ -19,14 +22,25 @@ const ShareTasteImage = () => (
   </View>
 );
 
+type Props = {
+  mediaType: MediaType;
+  inScreen: boolean;
+};
+
 /**
  * Inline feed card inviting users without a taste profile into the journey.
  * Rendered as a full page of the home feed (see use-share-taste-card for placement).
  */
-export const ShareTasteCard = () => {
+export const ShareTasteCard = ({ mediaType, inScreen }: Props) => {
   const router = useRouter();
+  const { taste } = useAnalytics();
+
+  useEffect(() => {
+    if (inScreen) taste.trackCardShown({ mediaType });
+  }, [inScreen, mediaType, taste]);
 
   const onShareTaste = () => {
+    taste.trackCardClicked({ mediaType });
     router.push("/taste");
   };
 

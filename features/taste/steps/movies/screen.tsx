@@ -7,14 +7,16 @@ import { StepBody } from "@/features/taste/elements/step-body";
 import { RatingStep } from "@/features/taste/elements/rating-step";
 import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { TitleAnswer } from "@/features/taste/data/dto/taste.dto";
-import { countLikes } from "@/features/taste/state";
+import { countAnswer } from "@/features/taste/state";
 import { tasteAtom } from "@/atoms";
 
 export const Screen = () => {
   const router = useRouter();
   const { data: journey } = useFetchJourney();
   const [state, setState] = useAtom(tasteAtom);
-  const liked = countLikes(state.answers.movieRatings);
+  // The movies step needs likes, not just answers: the feed builds out from liked
+  // titles, so dislikes give it nowhere to start. The backend rejects the rest.
+  const liked = countAnswer(state.answers.movieRatings, "like");
   // The minimum comes with the journey, so nothing can continue before it lands.
   const canContinue = journey !== undefined && liked >= journey.minMoviesToLike;
 
