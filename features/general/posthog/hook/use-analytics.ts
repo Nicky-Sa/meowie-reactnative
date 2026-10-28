@@ -12,7 +12,7 @@ import { useMemo } from "react";
 
 /**
  * Unified analytics hook for tracking PostHog events.
- * Organizes events into logical domains (media, discovery, auth, interaction, people).
+ * Organizes events into logical domains (media, discovery, explore, people, auth, interaction, profile, settings, taste).
  */
 export const useAnalytics = () => {
   const { capture } = useCaptureEvent();
@@ -368,19 +368,11 @@ export const useAnalytics = () => {
       },
 
       /**
-       * UI, Navigation, and Settings tracking
+       * UI and Navigation tracking
        */
       interaction: {
         trackNavigation: ({ destination }: { destination: string }): void =>
           capture("navigation_clicked", { destination }),
-
-        trackProfileTabChange: ({ tabName }: { tabName: string }): void =>
-          capture("profile_tab_changed", { tab_name: tabName }),
-
-        trackAutoplayToggled: ({ autoplay }: { autoplay: boolean }): void =>
-          capture("autoplay_toggled", { autoplay }),
-
-        trackCacheCleared: (): void => capture("cache_cleared"),
 
         trackReleaseNotesOpened: ({
           hasNewNote,
@@ -388,6 +380,24 @@ export const useAnalytics = () => {
           hasNewNote: boolean;
         }): void =>
           capture("release_notes_opened", { has_new_note: hasNewNote }),
+      },
+
+      /**
+       * Profile screen tabs
+       */
+      profile: {
+        trackTabChanged: ({ tabName }: { tabName: string }): void =>
+          capture("profile_tab_changed", { tab_name: tabName }),
+      },
+
+      /**
+       * Settings screen
+       */
+      settings: {
+        trackAutoplayToggled: ({ autoplay }: { autoplay: boolean }): void =>
+          capture("autoplay_toggled", { autoplay }),
+
+        trackCacheCleared: (): void => capture("cache_cleared"),
       },
 
       /**

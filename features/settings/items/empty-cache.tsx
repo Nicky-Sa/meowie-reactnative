@@ -12,7 +12,7 @@ import { useClearQueryCache } from "@/features/general/data/use-clear-query-cach
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const EmptyCache = () => {
-  const { interaction } = useAnalytics();
+  const { settings } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
 
   const { clearCache } = useClearQueryCache();
@@ -23,7 +23,7 @@ export const EmptyCache = () => {
 
   const handleEmptyCache = async () => {
     try {
-      interaction.trackCacheCleared();
+      settings.trackCacheCleared();
       await clearImageCache();
       await clearCache();
     } catch (error) {

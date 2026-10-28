@@ -47,10 +47,10 @@ export const Screen = () => {
   } = useTabsHeader({ initialTabName: tabsConfig[0].name, tabsKey });
   const showLoading = isLoading || !isTabReady;
 
-  const { interaction } = useAnalytics();
+  const { profile } = useAnalytics();
 
   const onTabChange: OnTabChangeCallback = ({ tabName }) => {
-    interaction.trackProfileTabChange({ tabName });
+    profile.trackTabChanged({ tabName });
     resetHeader();
     activeTabName.value = tabName;
   };

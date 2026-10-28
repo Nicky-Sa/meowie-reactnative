@@ -6,10 +6,10 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 
 export const Autoplay = () => {
   const [value, setValue] = useAtom(autoplayAtom);
-  const { interaction } = useAnalytics();
+  const { settings } = useAnalytics();
 
   const handleToggle = () => {
-    interaction.trackAutoplayToggled({ autoplay: !value });
+    settings.trackAutoplayToggled({ autoplay: !value });
     setValue(!value);
   };
 
