@@ -14,7 +14,7 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
-      new_tag: ${{ steps.calc_version.outputs.new_tag }}
+      new_tag: ${{ steps.pick_version.outputs.tag }}
       changelog: ${{ steps.calc_version.outputs.changelog }}
     steps:
       - name: Checkout code
@@ -31,6 +31,22 @@ jobs:
           tag_prefix: "v"
           dry_run: true
           release_branches: "ios-preview,ios-production"
+
+      - name: Pick Version
+        id: pick_version
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          NEW_TAG: ${{ steps.calc_version.outputs.new_tag }}
+          PREVIOUS_TAG: ${{ steps.calc_version.outputs.previous_tag }}
+        run: |
+          case "$COMMIT_MESSAGE" in
+            *"[keep version]"*)
+              echo "tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
 
   # --- JOB 1: Build and upload to TestFlight ---
   build-and-upload:
@@ -148,6 +164,11 @@ jobs:
           if [[ "${{ github.ref_name }}" == "ios-production" ]]; then
             # 1. Create solid full release
             FINAL_TAG="$NEW_VER"
+            if gh release view "$FINAL_TAG" --repo ${{ github.repository }} > /dev/null 2>&1; then
+               echo "Found existing release: $FINAL_TAG. Deleting it so we can push the updated tag..."
+               gh release delete "$FINAL_TAG" --yes --cleanup-tag --repo ${{ github.repository }}
+               sleep 2
+            fi
             gh release create "$FINAL_TAG" --title "Release $FINAL_TAG" --notes "$CHANGELOG" --repo ${{ github.repository }} --target ${{ github.sha }}
           
             # 2. Clean up beta release upon production deployment
