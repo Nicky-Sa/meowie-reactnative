@@ -96,13 +96,10 @@ export const Player = ({
   const isFocused = useIsFocused();
 
   const willAutoplay = autoplay && allowYTPlaying;
+  const wantsToPlay = willAutoplay || userTriggeredPlay;
 
   const shouldPlay =
-    isReady &&
-    isFocused &&
-    appState === "active" &&
-    inScreen &&
-    (willAutoplay || userTriggeredPlay);
+    isReady && isFocused && appState === "active" && inScreen && wantsToPlay;
 
   useEffect(() => {
     if (!inScreen || !isFocused || appState !== "active") {
@@ -155,8 +152,14 @@ export const Player = ({
     setIsPlaying(state === PlayerState.PLAYING);
     if (state === PlayerState.PLAYING) {
       setHasStartedPlaying(true);
+    }
+    // We also play and pause the player when shouldPlay changes (swipe, screen change).
+    // Only a change that goes against shouldPlay came from a tap on the video.
+    if (state === PlayerState.PLAYING && !shouldPlay) {
+      setUserTriggeredPlay(true);
       onPlay();
-    } else if (state === PlayerState.PAUSED) {
+    } else if (state === PlayerState.PAUSED && shouldPlay) {
+      setUserTriggeredPlay(false);
       onPause();
     }
   });
@@ -211,7 +214,9 @@ export const Player = ({
   }));
 
   const handlePlaceholderPress = () => {
+    if (wantsToPlay) return;
     setUserTriggeredPlay(true);
+    onPlay();
     if (isReady) {
       player.play();
     }
@@ -268,8 +273,7 @@ export const Player = ({
             isReady &&
             Boolean(backdropPath) &&
             !hasStartedPlaying &&
-            !willAutoplay &&
-            !userTriggeredPlay
+            !wantsToPlay
           }
           isLoading={!isReady}
           onPress={handlePlaceholderPress}
@@ -279,19 +283,21 @@ export const Player = ({
   );
 };
 
+type TrailerPlaceholderProps = {
+  backdropPath: string | undefined;
+  fullWidth: boolean | undefined;
+  showLogo: boolean | undefined;
+  isLoading?: boolean | undefined;
+  onPress: (() => void) | undefined;
+};
+
 const TrailerPlaceholder = ({
   backdropPath,
   fullWidth = false,
   showLogo = false,
   isLoading = false,
   onPress,
-}: {
-  backdropPath: string | undefined;
-  fullWidth: boolean | undefined;
-  showLogo: boolean | undefined;
-  isLoading?: boolean | undefined;
-  onPress: (() => void) | undefined;
-}) => {
+}: TrailerPlaceholderProps) => {
   return (
     <Pressable onPress={onPress} className="h-full w-full">
       <View
@@ -320,7 +326,11 @@ const TrailerPlaceholder = ({
   );
 };
 
-const TrailerError = ({ fullWidth }: { fullWidth: boolean | undefined }) => {
+type TrailerErrorProps = {
+  fullWidth: boolean | undefined;
+};
+
+const TrailerError = ({ fullWidth }: TrailerErrorProps) => {
   return (
     <View
       className={cn(

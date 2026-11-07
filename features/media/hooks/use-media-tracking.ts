@@ -10,20 +10,13 @@ type Args = {
   /** Undefined while the media is still loading; every handler then does nothing. */
   title: string | undefined;
   genres: Genre[] | undefined;
-  autoplay?: boolean;
 };
 
 /**
  * The tracking handlers the movie and series screens all need, in one place.
  * Both the feed card and the details screen use the same set.
  */
-export const useMediaTracking = ({
-  id,
-  mediaType,
-  title,
-  genres,
-  autoplay = false,
-}: Args) => {
+export const useMediaTracking = ({ id, mediaType, title, genres }: Args) => {
   const { media } = useAnalytics();
 
   const item = useMemo(
@@ -41,8 +34,8 @@ export const useMediaTracking = ({
 
   const onTrailerPlay = useCallback(() => {
     if (!item) return;
-    media.trackTrailerPlayed({ media: item, autoplay });
-  }, [media, item, autoplay]);
+    media.trackTrailerPlayed(item);
+  }, [media, item]);
 
   const onTrailerPause = useCallback(() => {
     if (!item) return;

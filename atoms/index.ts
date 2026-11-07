@@ -30,8 +30,8 @@ export const tvFiltersAtom = atomWithImmer<SeriesFilters>(
 // It's allowed to play YT videos -> e.g. if a modal wants to pause the trailer
 export const allowYTPlayingAtom = atom(true);
 
-// Autoplay trailer
-export const autoplayAtom = atomPersisted(PERSISTED_ATOM_KEYS.AUTOPLAY, true);
+// Autoplay trailer: on at every app start. Not saved, so a pause lasts only until the app closes.
+export const autoplayAtom = atom(true);
 
 // Trailer volume
 export const ytMutedAtom = atom(true);

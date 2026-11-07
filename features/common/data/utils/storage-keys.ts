@@ -31,7 +31,6 @@ export type AppStorageKey =
 
 /** Keys for persisted Jotai atoms (the "persisted-atoms" MMKV store). */
 export const PERSISTED_ATOM_KEYS = {
-  AUTOPLAY: "autoplay",
   HOME_TOUR_SEEN: "home-tour-seen",
   SWIPE_GUIDE_SEEN: "swipe-guide-seen",
   COUNTRY_CODE: "country-code",

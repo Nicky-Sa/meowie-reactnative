@@ -205,18 +205,15 @@ export const useAnalytics = () => {
             genres: media.genres,
           }),
 
-        trackTrailerPlayed: ({
-          media,
-          autoplay,
-        }: {
-          media: { id: ID; type: MediaType; title: string };
-          autoplay: boolean;
+        trackTrailerPlayed: (media: {
+          id: ID;
+          type: MediaType;
+          title: string;
         }): void =>
           capture("trailer_played", {
             media_id: media.id,
             media_type: media.type,
             media_title: media.title,
-            autoplay,
           }),
 
         trackTrailerPaused: (media: {
@@ -462,9 +459,6 @@ export const useAnalytics = () => {
        * Settings screen
        */
       settings: {
-        trackAutoplayToggled: ({ autoplay }: { autoplay: boolean }): void =>
-          capture("autoplay_toggled", { autoplay }),
-
         trackCacheCleared: (): void => capture("cache_cleared"),
       },
 

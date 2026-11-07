@@ -16,7 +16,6 @@ export type TRAILER_PLAYED = {
     media_type: MediaType;
     media_id: ID;
     media_title: string;
-    autoplay: boolean;
   };
 };
 
@@ -177,13 +176,6 @@ export type PROFILE_TAB_CHANGED = {
   event: "profile_tab_changed";
   properties: {
     tab_name: string;
-  };
-};
-
-export type AUTOPLAY_TOGGLED = {
-  event: "autoplay_toggled";
-  properties: {
-    autoplay: boolean;
   };
 };
 
@@ -406,7 +398,6 @@ export type Events =
   | FILTERS_OPENED
   | FILTERS_APPLIED
   | PROFILE_TAB_CHANGED
-  | AUTOPLAY_TOGGLED
   | CACHE_CLEARED
   | AUTH_SKIPPED
   | COLLECTION_CLICKED

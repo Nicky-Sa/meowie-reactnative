@@ -39,7 +39,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
 
   const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
   const [, setColor] = useAtom(colorAtom);
-  const [autoplay] = useAtom(autoplayAtom);
+  const [autoplay, setAutoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/movie/${movieId}/details`;
 
   const {
@@ -56,8 +56,17 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
     mediaType: "movie",
     title: data?.title,
     genres: data?.genres,
-    autoplay,
   });
+
+  const handleTrailerPlay = useCallback(() => {
+    onTrailerPlay();
+    setAutoplay(true);
+  }, [onTrailerPlay, setAutoplay]);
+
+  const handleTrailerPause = useCallback(() => {
+    onTrailerPause();
+    setAutoplay(false);
+  }, [onTrailerPause, setAutoplay]);
 
   useShareOnScreenshot({
     mediaType: "movie",
@@ -85,8 +94,8 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         YTKey={data.trailerKey}
         inScreen={inScreen}
         autoplay={autoplay}
-        onPlay={onTrailerPlay}
-        onPause={onTrailerPause}
+        onPlay={handleTrailerPlay}
+        onPause={handleTrailerPause}
         backdropPath={data.backdropPath}
       />
 

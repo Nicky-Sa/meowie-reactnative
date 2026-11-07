@@ -6,7 +6,6 @@ import { Logout } from "@/features/settings/items/logout";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { EmptyCache } from "@/features/settings/items/empty-cache";
 import { Title } from "@/features/settings/elements/tilte";
-import { Autoplay } from "@/features/settings/items/autoplay";
 import { TMDBStatement } from "@/features/settings/items/tmdb-statement";
 import { usePostHog } from "posthog-react-native";
 import { env } from "@/lib/env";
@@ -23,7 +22,6 @@ export const Screen = () => {
         <View className={"flex w-full flex-col gap-8"}>
           <View className={"flex flex-col gap-2"}>
             <Title>App</Title>
-            <Autoplay />
             <Feedback />
             <EmptyCache />
           </View>
