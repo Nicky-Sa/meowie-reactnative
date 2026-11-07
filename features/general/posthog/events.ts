@@ -273,6 +273,14 @@ export type MEDIA_SHARED = {
   };
 };
 
+export type MEDIA_SWIPED = {
+  event: "media_swiped";
+  properties: {
+    direction: "up" | "down";
+    position: number;
+  };
+};
+
 export type FEED_REFRESHED = {
   event: "feed_refreshed";
   properties: {
@@ -412,6 +420,7 @@ export type Events =
   | MEDIA_DETAILS_CLICKED
   | MEDIA_SHARED
   | FEED_REFRESHED
+  | MEDIA_SWIPED
   | RELEASE_NOTES_OPENED
   | EXPLORE_TAB_CHANGED
   | EXPLORE_REFRESHED

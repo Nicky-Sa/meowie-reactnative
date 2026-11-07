@@ -1,13 +1,13 @@
 import { ReactNode, useLayoutEffect } from "react";
 import { SharedValue, useAnimatedReaction } from "react-native-reanimated";
-import { useScrollHandler } from "@/features/common/hooks/list/use-scroll-handler";
+import { useScrollPosition } from "@/features/common/hooks/list/use-scroll-position";
 
 type Props = {
   tabName: string;
   headerHeight: number;
   scrollPositions: SharedValue<Record<string, number>>;
   onReady: () => void;
-  children: (scroll: ReturnType<typeof useScrollHandler>) => ReactNode;
+  children: (scroll: ReturnType<typeof useScrollPosition>) => ReactNode;
 };
 
 /** Gives one tab its own scroll position, and draws it only once the header is measured. */
@@ -18,7 +18,7 @@ export const TabContent = ({
   onReady,
   children,
 }: Props) => {
-  const scroll = useScrollHandler();
+  const scroll = useScrollPosition();
 
   useAnimatedReaction(
     () => scroll.scrollY.value,

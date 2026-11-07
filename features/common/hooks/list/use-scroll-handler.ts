@@ -1,37 +1,48 @@
 import { scheduleOnRN } from "react-native-worklets";
 import { useState, useCallback } from "react";
-import {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from "react-native-reanimated";
+import { ScrollEvent, useSharedValue } from "react-native-reanimated";
+import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useScrollPosition } from "@/features/common/hooks/list/use-scroll-position";
 
-export const useScrollHandler = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollY = useSharedValue(0);
-  const isDragging = useSharedValue(false);
-  const indexTracker = useSharedValue(0);
+type Args = {
+  initialIndex?: number;
+};
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollY.value = event.contentOffset.y;
+export const useScrollHandler = ({ initialIndex = 0 }: Args = {}) => {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const indexTracker = useSharedValue(initialIndex);
+  const { media } = useAnalytics();
+
+  const changeCard = useCallback(
+    (newIndex: number, previousIndex: number) => {
+      setCurrentIndex(newIndex);
+      media.trackMediaSwiped({
+        direction: newIndex > previousIndex ? "up" : "down",
+        position: newIndex + 1,
+      });
     },
-    onBeginDrag: () => {
-      isDragging.value = true;
-    },
-    onEndDrag: () => {
-      isDragging.value = false;
-    },
-    onMomentumEnd: (event) => {
+    [media],
+  );
+
+  const updateCurrentCard = useCallback(
+    (event: ScrollEvent) => {
+      "worklet";
       const heightFromTop = event.contentOffset.y;
       const progress = heightFromTop / event.layoutMeasurement.height;
       const newCurrentIndex = Math.round(progress);
 
       // Only update if the index has changed, not on every scroll event
       if (indexTracker.value !== newCurrentIndex) {
+        const previousIndex = indexTracker.value;
         indexTracker.value = newCurrentIndex;
-        scheduleOnRN(setCurrentIndex, newCurrentIndex);
+        scheduleOnRN(changeCard, newCurrentIndex, previousIndex);
       }
     },
+    [indexTracker, changeCard],
+  );
+
+  const { scrollHandler, scrollY, isDragging } = useScrollPosition({
+    onMomentumEnd: updateCurrentCard,
   });
 
   // Reset scroll position when data resets

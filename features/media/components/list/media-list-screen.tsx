@@ -44,8 +44,9 @@ export const MediaListScreen = ({
     );
   }, [rawPosterData]);
 
-  const { scrollHandler, scrollY, isDragging, currentIndex } =
-    useScrollHandler();
+  const { scrollHandler, scrollY, isDragging, currentIndex } = useScrollHandler(
+    { initialIndex },
+  );
   const listRef = useListRef<MediaListItemData>();
 
   return (
