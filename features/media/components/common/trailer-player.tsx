@@ -340,7 +340,7 @@ const TrailerError = ({ fullWidth }: TrailerErrorProps) => {
     >
       <NoTrailer />
       <Text className={"body-b1 text-neutral-6-default"}>
-        Failed to load the trailer.
+        There is no trailer :(
       </Text>
     </View>
   );
