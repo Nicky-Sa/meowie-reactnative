@@ -1,11 +1,16 @@
 import { PosterInfo } from "@/features/common/data/models/poster";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
-import { memo, useCallback, useState, useMemo } from "react";
+import { memo, useCallback, useState } from "react";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";
 import { PosterPreview } from "./poster-preview";
 import { PosterCard } from "./poster-card";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import {
+  GestureDetector,
+  useExclusiveGestures,
+  useLongPressGesture,
+  useTapGesture,
+} from "react-native-gesture-handler";
 import { scheduleOnRN } from "react-native-worklets";
 
 type Props = {
@@ -36,44 +41,35 @@ export const Poster = memo(
       setIsPreviewVisible(false);
     }, []);
 
-    const longPressGesture = useMemo(
-      () =>
-        Gesture.LongPress()
-          .minDuration(200)
-          .maxDistance(1000) // Allow moving finger anywhere
-          .shouldCancelWhenOutside(false)
-          .onBegin(() => {
-            scheduleOnRN(setIsPressed, true);
-          })
-          .onStart(() => {
-            scheduleOnRN(onLongPressTriggered);
-          })
-          .onFinalize(() => {
-            scheduleOnRN(setIsPressed, false);
-            scheduleOnRN(onLongPressEnded);
-          }),
-      [onLongPressTriggered, onLongPressEnded],
-    );
+    const longPressGesture = useLongPressGesture({
+      minDuration: 200,
+      maxDistance: 1000, // Allow moving finger anywhere
+      shouldCancelWhenOutside: false,
+      onBegin: () => {
+        scheduleOnRN(setIsPressed, true);
+      },
+      onActivate: () => {
+        scheduleOnRN(onLongPressTriggered);
+      },
+      onFinalize: () => {
+        scheduleOnRN(setIsPressed, false);
+        scheduleOnRN(onLongPressEnded);
+      },
+    });
 
-    const tapGesture = useMemo(
-      () =>
-        Gesture.Tap()
-          .onBegin(() => {
-            scheduleOnRN(setIsPressed, true);
-          })
-          .onEnd(() => {
-            scheduleOnRN(onPosterPressed);
-          })
-          .onFinalize(() => {
-            scheduleOnRN(setIsPressed, false);
-          }),
-      [onPosterPressed],
-    );
+    const tapGesture = useTapGesture({
+      onBegin: () => {
+        scheduleOnRN(setIsPressed, true);
+      },
+      onDeactivate: () => {
+        scheduleOnRN(onPosterPressed);
+      },
+      onFinalize: () => {
+        scheduleOnRN(setIsPressed, false);
+      },
+    });
 
-    const gesture = useMemo(
-      () => Gesture.Exclusive(longPressGesture, tapGesture),
-      [longPressGesture, tapGesture],
-    );
+    const gesture = useExclusiveGestures(longPressGesture, tapGesture);
 
     const firstGenre = data.preview.genres[0];
 

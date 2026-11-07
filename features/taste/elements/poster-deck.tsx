@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { LayoutChangeEvent, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { GestureDetector, usePanGesture } from "react-native-gesture-handler";
 import Animated, {
   cancelAnimation,
   Extrapolation,
@@ -78,19 +78,19 @@ export const PosterDeck = forwardRef<PosterDeckHandle, Props>(
       setArea({ width, height });
     };
 
-    const flick = Gesture.Pan()
-      .activeOffsetY([-8, 8])
+    const flick = usePanGesture({
+      activeOffsetY: [-8, 8],
       // Let a sideways drag through, so the iOS back swipe still works.
-      .failOffsetX([-20, 20])
-      .onBegin(() => {
+      failOffsetX: [-20, 20],
+      onBegin: () => {
         cancelAnimation(position);
         dragStart.value = Math.round(position.value);
-      })
-      .onUpdate((event) => {
+      },
+      onUpdate: (event) => {
         const moved = dragStart.value - event.translationY / cardHeight;
         position.value = Math.min(Math.max(moved, 0), lastIndex);
-      })
-      .onEnd((event) => {
+      },
+      onDeactivate: (event) => {
         const moved = position.value - dragStart.value;
         const movedOn =
           moved > COMMIT_FRACTION || event.velocityY < -FLICK_SPEED;
@@ -103,7 +103,8 @@ export const PosterDeck = forwardRef<PosterDeckHandle, Props>(
         // Sprung here, not in `goTo`, so it starts without a hop to the JS thread.
         position.value = withSpring(wanted, SPRING);
         scheduleOnRN(settleOn, wanted);
-      });
+      },
+    });
 
     if (cardWidth <= 0 || items.length === 0) {
       return <View className={"flex-1"} onLayout={onLayout} />;

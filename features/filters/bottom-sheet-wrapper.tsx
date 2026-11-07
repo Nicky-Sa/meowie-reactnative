@@ -15,6 +15,7 @@ type Props<TValue> = {
   title: string;
   chipText: string;
   enableContentPanningGesture?: boolean;
+  enableDynamicSizing?: boolean;
   index?: number;
   snapPoints?: string[];
 
@@ -34,6 +35,7 @@ export const BottomSheetWrapper = <TValue,>({
   title,
   chipText,
   enableContentPanningGesture,
+  enableDynamicSizing,
   index,
   snapPoints = ["60%", "90%"],
   value,
@@ -103,6 +105,7 @@ export const BottomSheetWrapper = <TValue,>({
           </Button>
         }
         enableContentPanningGesture={enableContentPanningGesture}
+        enableDynamicSizing={enableDynamicSizing}
         index={index}
         onDismiss={() => {
           if (isApplyingRef.current) {

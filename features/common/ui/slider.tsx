@@ -20,6 +20,31 @@ const THUMB_OVERHANG = (THUMB_HIT_WIDTH - THUMB_SIZE) / 2;
 const THUMB_HIT_SLOP = { left: 4, right: 4, top: 12, bottom: 12 };
 const DOT_SIZE = 4;
 
+type ThumbProps = {
+  gesture: ReturnType<typeof Gesture.Pan>;
+  thumbStyle: ReturnType<typeof useAnimatedStyle>;
+  value: number;
+  showValue: boolean;
+};
+
+const SliderThumb = ({ gesture, thumbStyle, value, showValue }: ThumbProps) => (
+  <GestureDetector gesture={gesture}>
+    <Animated.View
+      className={"absolute flex flex-col items-center gap-2"}
+      style={[{ left: -THUMB_OVERHANG, width: THUMB_HIT_WIDTH }, thumbStyle]}
+    >
+      <View
+        className={
+          "h-6 w-6 rounded-full border-2 border-neutral-10-default bg-neutral-15-default"
+        }
+      />
+      {showValue && (
+        <Text className={"body-b1 text-neutral-5-default"}>{value}</Text>
+      )}
+    </Animated.View>
+  </GestureDetector>
+);
+
 type Props = {
   currentValues: string[];
   setCurrentValues: Updater<string[]>;
@@ -108,6 +133,8 @@ export const Slider = ({
     highPosition,
   ]);
 
+  // Stays on the old Gesture API: with usePanGesture on gesture-handler 3.3.0
+  // the thumbs stop responding after the first drag.
   const makeThumbGesture = useCallback(
     (thumbIndex: 0 | 1) => {
       const position = thumbIndex === 0 ? lowPosition : highPosition;
@@ -187,30 +214,6 @@ export const Slider = ({
   const trackTop = (THUMB_SIZE - TRACK_HEIGHT) / 2;
   const trackBorderRadius = Number(tailwind.theme.borderRadius.sm);
 
-  const renderThumb = (
-    gesture: ReturnType<typeof makeThumbGesture>,
-    thumbStyle: typeof lowThumbStyle,
-    displayValue: number,
-  ) => (
-    <GestureDetector gesture={gesture}>
-      <Animated.View
-        className={"absolute flex flex-col items-center gap-2"}
-        style={[{ left: -THUMB_OVERHANG, width: THUMB_HIT_WIDTH }, thumbStyle]}
-      >
-        <View
-          className={
-            "h-6 w-6 rounded-full border-2 border-neutral-10-default bg-neutral-15-default"
-          }
-        />
-        {!hasLabels && (
-          <Text className={"body-b1 text-neutral-5-default"}>
-            {displayValue}
-          </Text>
-        )}
-      </Animated.View>
-    </GestureDetector>
-  );
-
   return (
     <View className={"flex w-full flex-col items-center"}>
       <View
@@ -257,9 +260,20 @@ export const Slider = ({
         )}
         {trackWidth > 0 && (
           <>
-            {renderThumb(lowThumbGesture, lowThumbStyle, displayValues[0])}
-            {isRange &&
-              renderThumb(highThumbGesture, highThumbStyle, displayValues[1])}
+            <SliderThumb
+              gesture={lowThumbGesture}
+              thumbStyle={lowThumbStyle}
+              value={displayValues[0]}
+              showValue={!hasLabels}
+            />
+            {isRange && (
+              <SliderThumb
+                gesture={highThumbGesture}
+                thumbStyle={highThumbStyle}
+                value={displayValues[1]}
+                showValue={!hasLabels}
+              />
+            )}
           </>
         )}
       </View>
