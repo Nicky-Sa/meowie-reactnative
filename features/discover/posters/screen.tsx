@@ -3,10 +3,8 @@ import { useRouter } from "expo-router";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { SearchParams } from "@/features/common/data/media-query";
 import { useCallback } from "react";
-import {
-  URL,
-  useFetchPosters,
-} from "@/features/common/posters/use-fetch-posters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
+import { PostersUrl } from "@/features/common/posters/types";
 import { FilterIndicator } from "@/features/filters/filter-indicator";
 import { FilterEmptyState } from "@/features/filters/empty-state";
 
@@ -14,7 +12,7 @@ const NUM_COLUMNS = 3;
 
 type Params = {
   title: string;
-  endpoint: URL;
+  endpoint: PostersUrl;
   modifiedFieldsNumber: string;
 } & Partial<SearchParams>;
 

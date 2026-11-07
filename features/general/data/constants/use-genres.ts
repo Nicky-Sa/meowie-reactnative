@@ -1,11 +1,6 @@
 import { useMemo } from "react";
 import { useQueryConfigured } from "@/features/common/data/query/hooks";
-
-export type Genre = {
-  id: number;
-  name: string;
-  emoji: string;
-};
+import { Genre } from "@/features/common/data/models/genre";
 
 type GenresResDto = {
   movieGenres: Genre[];

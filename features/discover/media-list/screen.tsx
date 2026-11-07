@@ -1,8 +1,6 @@
 import { MediaListScreen } from "@/features/media/components/list/media-list-screen";
-import {
-  URL,
-  useFetchPosters,
-} from "@/features/common/posters/use-fetch-posters";
+import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
+import { PostersUrl } from "@/features/common/posters/types";
 import { SearchParams } from "@/features/common/data/media-query";
 
 export const Screen = ({
@@ -12,7 +10,7 @@ export const Screen = ({
   ...searchParams
 }: {
   title: string;
-  endpoint: URL;
+  endpoint: PostersUrl;
   initialIndex: string;
 } & Partial<SearchParams>) => {
   const posterData = useFetchPosters(endpoint, searchParams, {
