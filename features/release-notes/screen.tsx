@@ -3,8 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import { useCallback, useEffect } from "react";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { Loading } from "@/features/common/ui/loading";
-import { Divider } from "@/features/common/ui/divider";
-import { ReleaseNoteCard } from "@/features/release-notes/release-note-card";
+import { ReleaseNotesCard } from "@/features/release-notes/card";
 import { useFetchReleaseNotes } from "@/features/release-notes/data/use-fetch-release-notes";
 import { useMarkReleaseNotesSeen } from "@/features/release-notes/data/use-mark-release-notes-seen";
 import { ReleaseNoteResDto } from "@/features/release-notes/data/dto/release-notes.dto";
@@ -20,21 +19,18 @@ export const Screen = () => {
   }, [data, markSeen]);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: ReleaseNoteResDto; index: number }) => (
-      <View>
-        {index >= 2 && <Divider />}
-        <ReleaseNoteCard note={item} highlighted={index === 0} />
-      </View>
-    ),
+    ({ item }: { item: ReleaseNoteResDto }) => <ReleaseNotesCard note={item} />,
     [],
   );
 
   return (
-    <InnerScreen title={"Release notes"} fullWidth>
+    <InnerScreen title={"Release notes"} fullHeight>
       <FlashList
         data={data}
+        contentInsetAdjustmentBehavior={"automatic"}
         keyExtractor={(note, index) => String(note.id) + index}
         renderItem={renderItem}
+        ItemSeparatorComponent={() => <View className={"h-6"} />}
         contentContainerClassName={"grow"}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
