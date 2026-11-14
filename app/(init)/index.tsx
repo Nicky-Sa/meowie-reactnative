@@ -16,7 +16,9 @@ export default function Home() {
   const [maziusLoaded] = useMaziusFonts();
   const router = useRouter();
   const [splashDone, setSplashDone] = useState(false);
-  const { data, isPending } = useCurrentUser();
+  const { data, isPending, failureCount } = useCurrentUser();
+  // The splash waits for the first try only, so a slow backend can't hold it for all the retries.
+  const isUserLoading = isPending && failureCount === 0;
   // Not useAtom: clearing the link would re-run the effect below and replace the screen it just opened.
   const store = useStore();
   const posthog = usePostHog();
@@ -63,7 +65,7 @@ export default function Home() {
     <>
       <SplashScreen
         onFinish={onFinish}
-        isLoading={!latoLoaded || !maziusLoaded || isPending}
+        isLoading={!latoLoaded || !maziusLoaded || isUserLoading}
       />
     </>
   );
