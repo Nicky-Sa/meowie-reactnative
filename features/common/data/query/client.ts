@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { AppState } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { APICallError } from "@/features/common/data/error";
 
 /**
  * Configure React Query's focus manager for React Native.
@@ -52,7 +52,7 @@ export const queryClient = new QueryClient({
       retry: (failureCount, error) => {
         // 1. NEVER retry on 401 (Unauthorized)
         //    Axios already tried to refresh. If we are here, it's over.
-        if (error instanceof FetcherError && error.status === 401) return false;
+        if (error instanceof APICallError && error.status === 401) return false;
 
         // 2. Stop if we hit the limit (3 retries)
         return failureCount < 3;

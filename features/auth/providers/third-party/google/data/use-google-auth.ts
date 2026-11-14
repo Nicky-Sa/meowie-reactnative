@@ -3,8 +3,9 @@ import {
   GoogleSignin,
   statusCodes,
   isSuccessResponse,
+  isErrorWithCode,
 } from "@react-native-google-signin/google-signin";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { getErrorText } from "@/features/common/data/error";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
@@ -56,15 +57,15 @@ export const useGoogleAuth = () => {
       await revalidateAuth();
 
       return response.data;
-    } catch (err: unknown) {
-      const error = err as { code?: string };
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    } catch (error: unknown) {
+      const code = isErrorWithCode(error) ? error.code : undefined;
+      if (code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         return;
-      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
         return;
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else if (code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         Toast.show({
           type: "error",
@@ -75,10 +76,7 @@ export const useGoogleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Google",
-          text2:
-            err instanceof FetcherError
-              ? err.message
-              : 'Try "Continue with Email" instead',
+          text2: getErrorText(error, 'Try "Continue with Email" instead'),
         });
       }
       throw error;

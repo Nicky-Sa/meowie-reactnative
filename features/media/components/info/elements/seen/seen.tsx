@@ -8,7 +8,7 @@ import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useRef, useState } from "react";
 import Toast from "react-native-toast-message";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { getErrorText } from "@/features/common/data/error";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
@@ -91,10 +91,7 @@ export const Seen = ({
       Toast.show({
         type: "error",
         text1: "Couldn't save your change",
-        text2:
-          error instanceof FetcherError && error.status
-            ? error.message
-            : "Check your connection and try again",
+        text2: getErrorText(error),
       });
       return;
     }
@@ -115,10 +112,7 @@ export const Seen = ({
       Toast.show({
         type: "error",
         text1: "Couldn't save your change",
-        text2:
-          error instanceof FetcherError && error.status
-            ? error.message
-            : "Check your connection and try again",
+        text2: getErrorText(error),
       });
       return;
     }

@@ -76,14 +76,14 @@ export const useConnectionCheck = () => {
           alive,
           error: alive ? undefined : errorBody || `HTTP ${response.status}`,
         };
-      } catch (err) {
+      } catch (error) {
         clearTimeout(timeoutId);
         let errorMsg = "Network Error";
-        if (err instanceof Error) {
-          if (err.name === "AbortError") {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") {
             errorMsg = `Connection timed out after ${timeout}ms`;
           } else {
-            errorMsg = err.message;
+            errorMsg = error.message;
           }
         }
         return { alive: false, error: errorMsg };
@@ -119,13 +119,13 @@ export const useConnectionCheck = () => {
         } else {
           throw new Error("No country code in response");
         }
-      } catch (err: unknown) {
+      } catch (error: unknown) {
         // Fallback to device region
         const deviceRegion = Localization.getLocales()[0]?.regionCode || "US";
         setCountryCode(deviceRegion);
         console.warn(
           "Location detection failed, falling back to device region",
-          err,
+          error,
         );
       }
     } else if (youtubeAlive && !backendAlive) {

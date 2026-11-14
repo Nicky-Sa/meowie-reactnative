@@ -7,7 +7,7 @@ import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useState, useRef, useEffect, useEffectEvent } from "react";
 import Toast from "react-native-toast-message";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { getErrorText } from "@/features/common/data/error";
 import { useLocalSearchParams } from "expo-router";
 import { SaveIcon } from "@/features/media/components/info/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
@@ -67,10 +67,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       Toast.show({
         type: "error",
         text1: "Couldn't save your change",
-        text2:
-          error instanceof FetcherError && error.status
-            ? error.message
-            : "Check your connection and try again",
+        text2: getErrorText(error),
       });
       return;
     }
@@ -108,10 +105,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       Toast.show({
         type: "error",
         text1: "Couldn't save your change",
-        text2:
-          error instanceof FetcherError && error.status
-            ? error.message
-            : "Check your connection and try again",
+        text2: getErrorText(error),
       });
       return;
     }

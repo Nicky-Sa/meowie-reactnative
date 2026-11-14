@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import ErrorStateSvg from "@/assets/images/errors/error-state.svg";
+import { getErrorText } from "@/features/common/data/error";
 
 type Props = {
   tryAgain: () => void;
@@ -8,6 +9,8 @@ type Props = {
 };
 
 export const ErrorState = ({ tryAgain, error }: Props) => {
+  const errorText = typeof error === "string" ? error : getErrorText(error);
+
   return (
     <View
       className={
@@ -16,7 +19,7 @@ export const ErrorState = ({ tryAgain, error }: Props) => {
     >
       <ErrorStateSvg />
       <Text className={"body-b1 max-w-xs text-center text-neutral-5-default"}>
-        {error ? String(error) : "We have a problem, please try again."}
+        {errorText}
       </Text>
       <Button onPress={tryAgain} variant={"white"}>
         Try again

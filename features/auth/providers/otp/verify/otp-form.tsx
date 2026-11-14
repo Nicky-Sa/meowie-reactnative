@@ -11,6 +11,7 @@ import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import Toast from "react-native-toast-message";
 import { useLocalSearchParams } from "expo-router";
+import { getErrorText } from "@/features/common/data/error";
 
 const OtpSchema = z.object({
   otp: z.string().trim().length(6, { message: "Code must be 6 characters" }),
@@ -52,7 +53,7 @@ export const OtpForm = ({ email }: Props) => {
         text1: "Welcome to Meowie!",
       });
     } catch (error) {
-      setError("otp", { message: (error as Error).message });
+      setError("otp", { message: getErrorText(error) });
     }
   });
 
@@ -60,7 +61,7 @@ export const OtpForm = ({ email }: Props) => {
     try {
       await triggerRequestOtp({ email });
     } catch (error) {
-      setError("otp", { message: (error as Error).message });
+      setError("otp", { message: getErrorText(error) });
       return false;
     }
     auth.trackOtpResent();

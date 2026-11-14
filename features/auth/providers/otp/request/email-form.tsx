@@ -8,6 +8,7 @@ import { Mail } from "iconoir-react-native";
 import { useRequestOtp } from "@/features/auth/providers/otp/request/data/use-request-otp";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { getErrorText } from "@/features/common/data/error";
 
 const LoginSchema = z.object({
   email: z.string().trim().pipe(z.email().toLowerCase()),
@@ -39,7 +40,7 @@ export const EmailForm = () => {
         params: { ...data, returnTo },
       });
     } catch (error) {
-      setError("email", { message: (error as Error).message });
+      setError("email", { message: getErrorText(error) });
     }
   });
 

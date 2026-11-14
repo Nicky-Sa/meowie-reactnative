@@ -10,7 +10,7 @@ import { useLogout } from "@/features/general/data/use-logout";
 import { useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import Toast from "react-native-toast-message";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { getErrorText } from "@/features/common/data/error";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
@@ -26,10 +26,7 @@ export const Logout = () => {
       Toast.show({
         type: "error",
         text1: "Couldn't log out",
-        text2:
-          error instanceof FetcherError && error.status
-            ? error.message
-            : "Check your connection and try again",
+        text2: getErrorText(error),
       });
       return;
     }

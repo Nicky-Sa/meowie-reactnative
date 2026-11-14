@@ -9,6 +9,7 @@ import { Button } from "@/features/common/ui/button";
 import { useDeleteUser } from "@/features/settings/delete-user/data/use-delete-user";
 import { usePostHog } from "posthog-react-native";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { getErrorText } from "@/features/common/data/error";
 
 type Props = {
   email: string;
@@ -44,7 +45,7 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
       posthog.reset();
       router.replace("/onboarding");
     } catch (error) {
-      setError("email", { message: (error as Error).message });
+      setError("email", { message: getErrorText(error) });
     }
   });
 

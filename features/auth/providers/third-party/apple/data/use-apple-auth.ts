@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { FetcherError } from "@/features/common/data/fetcher";
+import { getErrorText } from "@/features/common/data/error";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { createSession } from "@/features/common/data/utils/session";
 import { useRevalidateAuth } from "@/features/general/data/use-revalidate-auth";
@@ -45,13 +45,13 @@ export const useAppleAuth = () => {
       await revalidateAuth();
 
       return response.data;
-    } catch (err: unknown) {
-      const e = err as { code?: string; message?: string };
-      if (
-        e.code === "ERR_REQUEST_CANCELED" ||
-        e.message === "The user canceled the authorization attempt" ||
-        e.message?.includes("canceled")
-      ) {
+    } catch (error: unknown) {
+      const code =
+        typeof error === "object" && error !== null && "code" in error
+          ? error.code
+          : undefined;
+      const message = error instanceof Error ? error.message : "";
+      if (code === "ERR_REQUEST_CANCELED" || message.includes("canceled")) {
         // handle that the user canceled the sign-in flow
         return;
       } else {
@@ -59,13 +59,10 @@ export const useAppleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Apple",
-          text2:
-            err instanceof FetcherError
-              ? err.message
-              : 'Try "Continue with Email" instead',
+          text2: getErrorText(error, 'Try "Continue with Email" instead'),
         });
       }
-      throw e;
+      throw error;
     }
   }, [mutateApple, revalidateAuth]);
 

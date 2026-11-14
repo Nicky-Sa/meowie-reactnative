@@ -4,25 +4,13 @@ import {
   SuccessResponse,
 } from "@/features/common/data/transformers";
 import axiosInstance from "@/features/common/data/axios";
+import { isErrorResponse, APICallError } from "@/features/common/data/error";
 
 export type MutationArg<REQ> = {
   method: "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: { [key: string]: string };
   body?: REQ;
 };
-
-// Carries the backend HTTP status through, so callers (e.g. the query
-// client's retry logic) can tell a permanent failure from a retryable one —
-// the envelope only exposes a message, not the status, otherwise.
-export class FetcherError extends Error {
-  constructor(
-    message: string,
-    readonly status?: number,
-  ) {
-    super(message);
-    this.name = "FetcherError";
-  }
-}
 
 export const fetcher = async <REQ, RES>(
   url: string,
@@ -49,19 +37,15 @@ export const fetcher = async <REQ, RES>(
     // --- This block only runs on a 2xx HTTP status ---
     return response.data as SuccessResponse<RES>;
   } catch (error) {
-    // --- This block runs on any 4xx/5xx HTTP status ---
+    // Anything that isn't a failed request, like a bug in our own code, passes through as it is.
+    if (!isAxiosError(error)) throw error;
 
-    // Check if it's an Axios error and has the response data
-    if (isAxiosError(error) && error.response?.data) {
-      // Extract the error data
-      const res = error.response.data as ErrorResponse;
-
-      // Throw the error in a format the query layer expects
-      throw new FetcherError(res.errors, error.response.status);
+    const body: unknown = error.response?.data;
+    if (isErrorResponse(body)) {
+      throw new APICallError(body.errors, error.response?.status);
     }
 
-    // Fallback for network errors or other issues
-    const message = error instanceof Error ? error.message : "";
-    throw new FetcherError(message || "An unknown error occurred");
+    // No answer, or an answer that didn't come from our backend's error handling.
+    throw new APICallError(error.message);
   }
 };
