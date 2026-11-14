@@ -133,8 +133,8 @@ A crash comes from an error while a screen draws, or from an error thrown direct
 7. **Release notes and the person header have no error state.** A failed release notes load shows "No data to show."
    with no retry. A failed person load leaves the header skeleton up for good.
 8. **Three smaller ones.** "Privacy policy" has no handler for a browser that fails to open. "Empty cache" logs a
-   failure with `console.log`, so PostHog never sees it. "Send" on feedback shows "Survey not initialized" and drops the
-   text when the survey has not loaded.
+   failure with `console.log`, so PostHog never sees it. "Send" on feedback shows "Survey not initialized" when the
+   survey has not loaded. The text stays in the field.
 
 ### Launch and connection
 

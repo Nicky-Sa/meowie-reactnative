@@ -39,11 +39,18 @@ export const Screen = () => {
     mode: "onChange",
   });
 
-  const { data: survey } = useFetchFeedbackSurvey();
+  const { data: survey, refetch: refetchSurvey } = useFetchFeedbackSurvey();
 
   const onSubmit = handleSubmit(async (data: FeedbackFormValues) => {
     if (!survey) {
-      Toast.show({ type: "error", text1: "Survey not initialized" });
+      console.error("Could not send feedback: the survey isn't loaded");
+      Toast.show({
+        type: "error",
+        text1: "Couldn't send your feedback",
+        text2: "Try again.",
+      });
+      // React Query keeps a failed refetch in the query's error state, so this promise never fails.
+      void refetchSurvey();
       return;
     }
 

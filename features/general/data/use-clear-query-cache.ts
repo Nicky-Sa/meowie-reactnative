@@ -5,13 +5,9 @@ export const useClearQueryCache = () => {
   const queryClient = useQueryClient();
 
   const clearCache = useCallback(async () => {
-    try {
-      // Invalidate all queries and then clear the cache
-      await queryClient.invalidateQueries();
-      queryClient.clear();
-    } catch (error) {
-      console.log({ error });
-    }
+    // Invalidate all queries and then clear the cache
+    await queryClient.invalidateQueries();
+    queryClient.clear();
   }, [queryClient]);
 
   return { clearCache };

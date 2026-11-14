@@ -22,13 +22,10 @@ export const EmptyCache = () => {
   };
 
   const handleEmptyCache = async () => {
-    try {
-      settings.trackCacheCleared();
-      await clearImageCache();
-      await clearCache();
-    } catch (error) {
-      console.log({ error });
-    }
+    settings.trackCacheCleared();
+    // Neither call can fail: clearing the image cache only resolves, and React Query catches failed refetches.
+    await clearImageCache();
+    await clearCache();
     bottomSheetRef.current?.dismiss();
   };
 
