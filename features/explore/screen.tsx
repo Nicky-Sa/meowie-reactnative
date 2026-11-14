@@ -11,19 +11,17 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { COLLECTIONS_TAB, ExploreTabBar } from "@/features/explore/tab-bar";
+import { ExploreTabBar } from "@/features/explore/tab-bar";
 import { useFetchExploreTabs } from "@/features/explore/data/use-fetch-explore-tabs";
 import { ErrorState } from "@/features/general/error-state";
+import { EmptyState } from "@/features/general/empty-state";
 import Animated from "react-native-reanimated";
 import { OnTabChangeCallback, Tabs } from "react-native-collapsible-tab-view";
 import { Header } from "@/features/explore/header";
 import { ExplorePosters } from "@/features/explore/posters";
-import { CollectionsList } from "@/features/explore/collections/collections-list";
 import { TabContent } from "@/features/common/tab/tab-content";
 import { TabsLoading } from "@/features/common/tab/tabs-loading";
 import { useTabsHeader } from "@/features/common/tab/use-tabs-header";
-import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
-import { tailwind } from "@/lib/tailwind";
 
 const LOADING_TAB_COUNT = 3;
 
@@ -42,12 +40,10 @@ export const Screen = () => {
   const selectedSlug = selectedSlugs[mediaType];
   const selectedTab =
     tabs?.find((tab) => tab.slug === selectedSlug) ?? tabs?.[0];
-  const isCollectionsTab = selectedSlug === COLLECTIONS_TAB || !selectedTab;
-  const activeSlug = isCollectionsTab ? COLLECTIONS_TAB : selectedTab.slug;
+  const activeSlug = selectedTab?.slug ?? "";
   const setFiltersMediaType = useSetAtom(filtersMediaTypeAtom);
   const setMovieFilters = useSetAtom(movieFiltersAtom);
   const setTvFilters = useSetAtom(tvFiltersAtom);
-  const { paddingBottom } = useMainScreenContentStyle();
   const {
     topBarHeight,
     headerHeight,
@@ -63,7 +59,7 @@ export const Screen = () => {
     initialTabName: `${mediaType}-${activeSlug}`,
     tabsKey: mediaType,
   });
-  const showLoading = isPending || (!!tabs && !isTabReady);
+  const showLoading = isPending || (!!tabs?.length && !isTabReady);
   // A tab change skips React state, so a swipe doesn't re-render every tab.
   // selectedSlugs only catches up when the media type changes.
   const shownSlug = useRef(activeSlug);
@@ -126,6 +122,10 @@ export const Screen = () => {
           <View className={"flex-1 px-4"} style={{ paddingTop: topBarHeight }}>
             <ErrorState error={error} tryAgain={refetch} />
           </View>
+        ) : tabs?.length === 0 ? (
+          <View className={"flex-1 px-4"} style={{ paddingTop: topBarHeight }}>
+            <EmptyState />
+          </View>
         ) : tabs ? (
           <Tabs.Container
             key={mediaType}
@@ -153,52 +153,27 @@ export const Screen = () => {
               </Animated.View>
             )}
           >
-            {[
-              ...tabs.map((tab) => (
-                <Tabs.Tab key={tab.slug} name={tab.slug}>
-                  <TabContent
-                    tabName={`${mediaType}-${tab.slug}`}
-                    headerHeight={headerHeight}
-                    scrollPositions={scrollPositions}
-                    onReady={onTabReady}
-                  >
-                    {({ scrollHandler, scrollY, isDragging }) => (
-                      <ExplorePosters
-                        mediaType={mediaType}
-                        tab={tab}
-                        scrollHandler={scrollHandler}
-                        scrollY={scrollY}
-                        isDragging={isDragging}
-                        headerHeight={headerHeight}
-                      />
-                    )}
-                  </TabContent>
-                </Tabs.Tab>
-              )),
-              <Tabs.Tab key={COLLECTIONS_TAB} name={COLLECTIONS_TAB}>
+            {tabs.map((tab) => (
+              <Tabs.Tab key={tab.slug} name={tab.slug}>
                 <TabContent
-                  tabName={`${mediaType}-${COLLECTIONS_TAB}`}
+                  tabName={`${mediaType}-${tab.slug}`}
                   headerHeight={headerHeight}
                   scrollPositions={scrollPositions}
                   onReady={onTabReady}
                 >
-                  {({ scrollHandler }) => (
-                    <View className="flex-1 px-4">
-                      <CollectionsList
-                        mediaType={mediaType}
-                        scrollHandler={scrollHandler}
-                        contentInsetAdjustmentBehavior="never"
-                        contentContainerStyle={{
-                          paddingTop:
-                            headerHeight + Number(tailwind.theme.spacing["2"]),
-                          paddingBottom,
-                        }}
-                      />
-                    </View>
+                  {({ scrollHandler, scrollY, isDragging }) => (
+                    <ExplorePosters
+                      mediaType={mediaType}
+                      tab={tab}
+                      scrollHandler={scrollHandler}
+                      scrollY={scrollY}
+                      isDragging={isDragging}
+                      headerHeight={headerHeight}
+                    />
                   )}
                 </TabContent>
-              </Tabs.Tab>,
-            ]}
+              </Tabs.Tab>
+            ))}
           </Tabs.Container>
         ) : null}
         {topBarHeight > 0 && showLoading ? (

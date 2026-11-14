@@ -4,7 +4,6 @@ import {
   SeriesFilters,
 } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 import { CreditJob } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
@@ -187,15 +186,6 @@ export type CACHE_CLEARED = {
 export type AUTH_SKIPPED = {
   event: "auth_skipped";
   properties: undefined;
-};
-
-export type COLLECTION_CLICKED = {
-  event: "collection_clicked";
-  properties: {
-    id: number;
-    title: string;
-    source_type: CollectionSourceType;
-  };
 };
 
 export type OTP_REQUESTED = {
@@ -408,7 +398,6 @@ export type Events =
   | PROFILE_TAB_CHANGED
   | CACHE_CLEARED
   | AUTH_SKIPPED
-  | COLLECTION_CLICKED
   | OTP_REQUESTED
   | LOGIN_COMPLETED
   | LOGOUT

@@ -7,7 +7,6 @@ export type PostersUrl =
   | `/${MediaType}/posters`
   | "/library/saved"
   | "/library/seen"
-  | `/collections/${string}/items`
   | `/explore/${MediaType}/tabs/${string}`
   | `/${MediaType}/${ID}/recommendations/posters`;
 

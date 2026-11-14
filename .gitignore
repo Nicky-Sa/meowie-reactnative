@@ -45,4 +45,4 @@ local-builds/
 
 /orval/generated
 
-.claude
+.claude/launch.json

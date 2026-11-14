@@ -5,7 +5,6 @@ import {
   SeriesFilters,
 } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { CollectionSourceType } from "@/features/explore/collections/collection.dto";
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
@@ -302,24 +301,9 @@ export const useAnalytics = () => {
       },
 
       /**
-       * Explore screen tabs and collections
+       * Explore screen tabs
        */
       explore: {
-        trackCollectionClick: ({
-          id,
-          title,
-          sourceType,
-        }: {
-          id: number;
-          title: string;
-          sourceType: CollectionSourceType;
-        }): void =>
-          capture("collection_clicked", {
-            id,
-            title,
-            source_type: sourceType,
-          }),
-
         trackTabChanged: ({
           tabSlug,
           mediaType,
