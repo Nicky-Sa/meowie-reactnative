@@ -3,7 +3,7 @@ import {
   BottomSheet,
   ExposedBottomSheetModalRef,
 } from "@/features/common/ui/bottom-sheet";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Text, View } from "react-native";
 import EmptyCacheSvg from "@/assets/images/meowie/empty-cache.svg";
 import { Image } from "expo-image";
@@ -14,6 +14,7 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 export const EmptyCache = () => {
   const { settings } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const [isClearing, setIsClearing] = useState(false);
 
   const { clearCache } = useClearQueryCache();
 
@@ -22,10 +23,13 @@ export const EmptyCache = () => {
   };
 
   const handleEmptyCache = async () => {
+    // The clear waits for every cached query to reload, so the button shows it's working.
+    setIsClearing(true);
     settings.trackCacheCleared();
     // Neither call can fail: clearing the image cache only resolves, and React Query catches failed refetches.
     await clearImageCache();
     await clearCache();
+    setIsClearing(false);
     bottomSheetRef.current?.dismiss();
   };
 
@@ -59,6 +63,7 @@ export const EmptyCache = () => {
               size="lg"
               className="flex-1"
               onPress={handleEmptyCache}
+              isLoading={isClearing}
             >
               Empty Cache
             </Button>
