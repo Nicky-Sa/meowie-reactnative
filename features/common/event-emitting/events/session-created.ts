@@ -17,10 +17,13 @@ export const useSessionCreated = () => {
       }
     };
 
-    Emitter.on("sessionCreated", handleRegistration);
+    // handleRegistration catches its own errors, so its promise is safe to drop.
+    const onSessionCreated = () => void handleRegistration();
+
+    Emitter.on("sessionCreated", onSessionCreated);
 
     return () => {
-      Emitter.off("sessionCreated", handleRegistration);
+      Emitter.off("sessionCreated", onSessionCreated);
     };
   }, [posthog]);
 };

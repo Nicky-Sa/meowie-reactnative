@@ -15,7 +15,7 @@ export const ErrorState = ({ tryAgain, error }: Props) => {
       }
     >
       <ErrorStateSvg />
-      <Text className={"body-b1 text-center text-neutral-5-default"}>
+      <Text className={"body-b1 max-w-xs text-center text-neutral-5-default"}>
         {error ? String(error) : "We have a problem, please try again."}
       </Text>
       <Button onPress={tryAgain} variant={"white"}>

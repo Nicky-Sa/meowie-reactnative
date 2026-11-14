@@ -42,26 +42,26 @@ export const fetcher = async <REQ, RES>(
     ...options,
   };
 
-  return axiosInstance
-    .request<SuccessResponse<RES> | ErrorResponse>(config)
-    .then((response) => {
-      // --- This block only runs on a 2xx HTTP status ---
-      const res = response.data;
-      return res as SuccessResponse<RES>;
-    })
-    .catch((error) => {
-      // --- This block runs on any 4xx/5xx HTTP status ---
+  try {
+    const response = await axiosInstance.request<
+      SuccessResponse<RES> | ErrorResponse
+    >(config);
+    // --- This block only runs on a 2xx HTTP status ---
+    return response.data as SuccessResponse<RES>;
+  } catch (error) {
+    // --- This block runs on any 4xx/5xx HTTP status ---
 
-      // Check if it's an Axios error and has the response data
-      if (isAxiosError(error) && error.response?.data) {
-        // Extract the error data
-        const res = error.response.data as ErrorResponse;
+    // Check if it's an Axios error and has the response data
+    if (isAxiosError(error) && error.response?.data) {
+      // Extract the error data
+      const res = error.response.data as ErrorResponse;
 
-        // Throw the error in a format the query layer expects
-        throw new FetcherError(res.errors, error.response.status);
-      }
+      // Throw the error in a format the query layer expects
+      throw new FetcherError(res.errors, error.response.status);
+    }
 
-      // Fallback for network errors or other issues
-      throw new FetcherError(error.message || "An unknown error occurred");
-    });
+    // Fallback for network errors or other issues
+    const message = error instanceof Error ? error.message : "";
+    throw new FetcherError(message || "An unknown error occurred");
+  }
 };

@@ -64,7 +64,11 @@ export const useConnectionCheck = () => {
             // Show only the "error" property if it exists (for NestJS Terminus health checks)
             errorBody = JSON.stringify(json.error || json, null, 2);
           } catch {
-            errorBody = await response.text().catch(() => undefined);
+            try {
+              errorBody = await response.text();
+            } catch {
+              // An unreadable body leaves errorBody empty, so the HTTP status is shown instead.
+            }
           }
         }
 

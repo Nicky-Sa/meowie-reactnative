@@ -77,3 +77,9 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
   The only exception is a conventional loop index `i`/`j` in a plain counting `for` loop.
 - **Never pass a `Button` an `onPress` that can throw or reject.** `Button` (`features/common/ui/button.tsx`)
   runs `onPress` without catching errors, so the handler must catch its own and show feedback (a toast) or log them with `console.error`.
+- **Lint fails on a promise nobody waits for or catches** (`no-floating-promises`, `no-misused-promises`).
+  First read the called code down to the library and check whether it can fail at all. If it can't, use `void`
+  with a short comment that says why, like the trailer player or `useRefreshQuery`'s refresh.
+  If it can fail, prefer `await` with `try`/`catch`. Where the code can't await, like in a `useEffect` or a callback
+  that must return nothing, add a `.catch` that logs with `console.error`.
+  Handlers passed to props like `onPress` are not checked, so the `Button` rule above still applies.

@@ -48,7 +48,8 @@ export const TabContent = ({
 
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
     resetScroll();
-    onRefresh();
+    // React Query keeps a failed refresh in the query's error state, so this promise never fails.
+    void onRefresh();
   }, [isRefreshing, listRef, resetScroll, onRefresh]);
 
   const { isReadyToRefresh } = usePullToRefresh({

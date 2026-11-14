@@ -42,7 +42,8 @@ export const ExplorePosters = ({
     if (isRefreshing) return;
 
     explore.trackRefreshed({ tabSlug: tab.slug, mediaType });
-    return onRefresh();
+    // React Query keeps a failed refresh in the query's error state, so this promise never fails.
+    void onRefresh();
   }, [explore, isRefreshing, onRefresh, tab.slug, mediaType]);
 
   const { isReadyToRefresh } = usePullToRefresh({

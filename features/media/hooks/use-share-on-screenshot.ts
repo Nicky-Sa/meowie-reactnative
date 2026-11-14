@@ -26,7 +26,8 @@ export const useShareOnScreenshot = ({ mediaType, id, isVisible }: Args) => {
       if (!canDetectScreenshots || !isVisible) {
         return;
       }
-      const subscription = addScreenshotListener(shareMedia);
+      // shareMedia catches and logs its own errors.
+      const subscription = addScreenshotListener(() => void shareMedia());
       return () => subscription.remove();
     }, [isVisible, shareMedia]),
   );

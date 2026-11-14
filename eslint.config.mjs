@@ -27,6 +27,22 @@ export default defineConfig([
     },
   },
   {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+    rules: {
+      "@typescript-eslint/no-floating-promises": "error",
+      // Handlers passed to props like onPress are left out: most already catch their own errors.
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        { checksVoidReturn: { attributes: false } },
+      ],
+    },
+  },
+  {
     ignores: [
       "dist/*",
       "node_modules/*",

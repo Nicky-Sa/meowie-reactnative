@@ -19,10 +19,13 @@ export const useSessionDestroyed = () => {
         console.error("❌ Error tracking session destroyed: ", error);
       }
     };
-    Emitter.on("sessionDestroyed", handleUnregistration);
+    // handleUnregistration catches its own errors, so its promise is safe to drop.
+    const onSessionDestroyed = () => void handleUnregistration();
+
+    Emitter.on("sessionDestroyed", onSessionDestroyed);
 
     return () => {
-      Emitter.off("sessionDestroyed", handleUnregistration);
+      Emitter.off("sessionDestroyed", onSessionDestroyed);
     };
   }, [posthog]);
 };

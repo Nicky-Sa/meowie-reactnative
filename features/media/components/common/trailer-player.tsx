@@ -112,7 +112,8 @@ export const Player = ({
     let volumeListener: { remove: () => void } | null = null;
     let isMounted = true;
 
-    VolumeManager.getVolume().then(({ volume: initialVolume }) => {
+    // getVolume never fails on iOS: the native side only ever resolves.
+    void VolumeManager.getVolume().then(({ volume: initialVolume }) => {
       if (!isMounted) return; // in case the user left the screen with this component before the promise to fetch the volume resolves
 
       let currentVolume = initialVolume;
@@ -134,12 +135,13 @@ export const Player = ({
     };
   }, [setYtMuted]);
 
-  // Sync mute state to the player
+  // Sync mute state to the player.
+  // The player's calls never fail: each one only sends a message to the player and resolves.
   useEffect(() => {
     if (ytMuted) {
-      player.mute();
+      void player.mute();
     } else {
-      player.unMute();
+      void player.unMute();
     }
   }, [ytMuted, player]);
 
@@ -172,7 +174,7 @@ export const Player = ({
   useEffect(() => {
     if (canNotPlay && retryAttemptRef.current < RETRY_ATTEMPTS) {
       setCanNotPlay(false);
-      player.seekTo(0, true);
+      void player.seekTo(0, true);
       retryAttemptRef.current += 1;
     }
   }, [canNotPlay, player]);
@@ -189,9 +191,9 @@ export const Player = ({
   // Play/pause based on shouldPlay state
   useEffect(() => {
     if (shouldPlay) {
-      player.play();
+      void player.play();
     } else {
-      player.pause();
+      void player.pause();
     }
   }, [shouldPlay, player]);
 
@@ -218,7 +220,7 @@ export const Player = ({
     setUserTriggeredPlay(true);
     onPlay();
     if (isReady) {
-      player.play();
+      void player.play();
     }
   };
 

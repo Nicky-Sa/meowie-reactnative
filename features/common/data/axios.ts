@@ -102,22 +102,17 @@ axiosInstance.interceptors.response.use(
 
       // 1. If refreshing is already in progress, queue this request
       if (isRefreshing) {
-        return new Promise((resolve, reject) => {
+        const token = await new Promise<string | null>((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            if (token) {
-              // Valid token refreshed: Attach it
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-            } else {
-              // Refresh failed / Guest mode: Remove header
-              delete originalRequest.headers.Authorization;
-            }
-            return axiosInstance(originalRequest);
-          })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+        });
+        if (token) {
+          // Valid token refreshed: Attach it
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+        } else {
+          // Refresh failed / Guest mode: Remove header
+          delete originalRequest.headers.Authorization;
+        }
+        return axiosInstance(originalRequest);
       }
 
       // 2. Start the token refresh
