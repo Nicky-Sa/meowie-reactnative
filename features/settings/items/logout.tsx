@@ -9,6 +9,8 @@ import CryingMeowie from "@/assets/images/meowie/crying-meowie.svg";
 import { useLogout } from "@/features/general/data/use-logout";
 import { useRouter } from "expo-router";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import Toast from "react-native-toast-message";
+import { FetcherError } from "@/features/common/data/fetcher";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
@@ -17,8 +19,21 @@ export const Logout = () => {
   const { auth } = useAnalytics();
 
   const handleLogout = async () => {
+    try {
+      await triggerLogout();
+    } catch (error) {
+      console.error("Could not log out:", error);
+      Toast.show({
+        type: "error",
+        text1: "Couldn't log out",
+        text2:
+          error instanceof FetcherError && error.status
+            ? error.message
+            : "Check your connection and try again",
+      });
+      return;
+    }
     auth.trackLogout();
-    await triggerLogout();
     bottomSheetRef.current?.dismiss();
     router.replace("/home");
   };

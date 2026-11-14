@@ -12,4 +12,7 @@
 - **Lint runs `no-floating-promises` and `no-misused-promises`, but skips handlers passed to props like `onPress`.** Most of those handlers already catch their own errors, and checking them would need a wrapper on about 30 of them. The lint takes about 3 seconds longer, because these rules read type information.
 - **A call that can't fail gets `void` and a comment saying why, not a `.catch`.** The trailer player's calls, the volume reading and `useRefreshQuery`'s refresh all only ever resolve, so a `.catch` on them could never run.
 - **A failed Save, rating or Unseen is logged with `console.error` and shown as "Couldn't save your change".** The backend sends its own errors, like "Item is already saved", which mean the app and backend disagree, so PostHog has to see them. The toast's second line is the backend's message when the backend answered, and "Check your connection and try again" only when the request never reached it. The toast is written inline in each handler, like every other toast in the app.
+- **A failed logout keeps the sheet open, and the global `Toast` sits outside `BottomSheetModalProvider`.** The sheet
+  library draws open sheets in a layer after everything inside its provider, so a toast inside it showed dimmed under the
+  sheet's backdrop. Moving the toast out fixes this for every sheet.
 - **The Google and Apple sign-in failure toasts point the person to the email code login.** Both fail on some devices with errors the app can't fix, and the email code still works there.

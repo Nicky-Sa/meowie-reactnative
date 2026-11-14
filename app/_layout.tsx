@@ -223,16 +223,17 @@ function RootLayout() {
 
                                 <Stack.Screen name="+not-found" />
                               </Stack>
-                              <Toast
-                                config={toastConfig}
-                                topOffset={60}
-                                swipeable
-                                visibilityTime={4000}
-                              />
                               <PortalHost name="global-overlay" />
                             </SpotlightTourProvider>
                           </InternetCheck>
                         </BottomSheetModalProvider>
+                        {/* Outside the sheet provider, so a toast shows above an open bottom sheet. */}
+                        <Toast
+                          config={toastConfig}
+                          topOffset={60}
+                          swipeable
+                          visibilityTime={4000}
+                        />
                       </GestureHandlerRootView>
                     </SafeAreaProvider>
                   </KeyboardProvider>

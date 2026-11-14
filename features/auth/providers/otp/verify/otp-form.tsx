@@ -56,6 +56,17 @@ export const OtpForm = ({ email }: Props) => {
     }
   });
 
+  const handleResend = async () => {
+    try {
+      await triggerRequestOtp({ email });
+    } catch (error) {
+      setError("otp", { message: (error as Error).message });
+      return false;
+    }
+    auth.trackOtpResent();
+    return true;
+  };
+
   return (
     <View className={"flex w-full flex-1 flex-col justify-between gap-4"}>
       <View className={"flex flex-col gap-4"}>
@@ -73,12 +84,7 @@ export const OtpForm = ({ email }: Props) => {
           autoComplete={"one-time-code"}
           autoFocus
         />
-        <ResendCode
-          onPress={() => {
-            auth.trackOtpResent();
-            return triggerRequestOtp({ email });
-          }}
-        />
+        <ResendCode onPress={handleResend} />
       </View>
       <Button
         variant={"white"}

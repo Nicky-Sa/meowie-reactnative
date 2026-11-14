@@ -14,7 +14,7 @@ import { Feedback } from "@/features/settings/items/feedback";
 export const Screen = () => {
   const { data } = useCurrentUser();
   const posthog = usePostHog();
-  const isLoggedIn = data?.user !== null;
+  const isLoggedIn = !!data?.user;
 
   return (
     <InnerScreen title={"Settings"}>
