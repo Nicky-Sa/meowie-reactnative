@@ -24,6 +24,15 @@ import { toastConfig } from "@/features/common/ui/toast";
 import { UpdatesListener } from "@/features/general/updates-listener";
 import { SiriListener } from "@/features/general/siri/siri-listener";
 import { tailwind } from "@/lib/tailwind";
+import { ErrorBoundary } from "@/features/general/error-boundary";
+
+// Catches errors outside a screen, like the providers below or the tab bar.
+export { ErrorBoundary };
+
+// Every screen gets its own boundary, so one broken screen doesn't take the app down.
+export const unstable_settings = {
+  screenErrorBoundary: ErrorBoundary,
+};
 
 function RootLayout() {
   const themeConfig = useThemeConfig();

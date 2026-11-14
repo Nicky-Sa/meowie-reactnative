@@ -75,7 +75,10 @@ export const useGoogleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Google",
-          text2: err instanceof FetcherError ? err.message : undefined,
+          text2:
+            err instanceof FetcherError
+              ? err.message
+              : 'Try "Continue with Email" instead',
         });
       }
       throw error;

@@ -4,6 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Expo (React Native) mobile app for Meowie. This file is auto-loaded when working in `meowie-reactnative/`; the monorepo root `../CLAUDE.md` covers the backend.
 
+Meowie is released on iOS only. The Android scripts below still build, but no Android version is released, so there is no need to test or plan for Android.
+
 ## Commands
 
 ```bash
@@ -32,7 +34,9 @@ Path alias: `@/*` → repo root (`tsconfig.json`).
 
 **Routing.** Expo Router, file-based, with typed routes (`app.config.ts` → `experiments.typedRoutes`). Files in `app/` are thin wrappers; the real screens live in `features/`. Every stack screen **and its transition animation** is declared centrally in `app/_layout.tsx` — register new top-level routes there.
 
-**Provider stack** (outer → inner, from `app/_layout.tsx`): `View` → PostHogProvider (+ `UpdatesListener`) → PostHogSurveyProvider → ScreenTracker → EventListenerWrapper → ThemeProvider → QueryClientProvider → KeyboardProvider → SafeAreaProvider → GestureHandlerRootView → BottomSheetModalProvider → InternetCheck → TourGuideProvider → Stack. A global `Toast` and a `PortalHost` named `"global-overlay"` sit alongside the Stack.
+**Error boundaries.** `features/general/error-boundary.tsx` shows `ErrorState` with "Try again" when something throws while drawing. When there is a screen to go back to, it puts the error inside `InnerScreen`, so the back arrow shows. `app/_layout.tsx` sets it as `unstable_settings.screenErrorBoundary`, so a broken screen shows the error and the tab bar and back swipe keep working. It also exports it as the root `ErrorBoundary`, which replaces the whole app for errors outside a screen, like a layout or a provider. React Native logs a caught error with `console.error`, so PostHog already reports it; the boundary must not report it again.
+
+**Provider stack** (outer → inner, from `app/_layout.tsx`): `View` → PostHogProvider (+ `UpdatesListener`, `SiriListener`) → PostHogSurveyProvider → ScreenTracker → EventListenerWrapper → ThemeProvider → QueryClientProvider → KeyboardProvider → SafeAreaProvider → GestureHandlerRootView → BottomSheetModalProvider → InternetCheck → SpotlightTourProvider → Stack. A global `Toast` and a `PortalHost` named `"global-overlay"` sit alongside the Stack.
 
 **Feature modules.** `features/<domain>/` holds that domain's screen(s), sub-components, and a `data/` folder (fetch hooks + a `dto/` subdir of hand-written response types). Shared primitives live in `features/common/` (`ui/`, `layout/`, `posters/`, `tab/`, `form/`, `data/`, `event-emitting/`, `hooks/`).
 
@@ -55,7 +59,7 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Auth / session.** OTP (email) plus Google / Apple sign-in. Tokens live in `expo-secure-store` with an in-memory cache (`features/common/data/utils/token.ts`). `session` / `destroySession` (in `data/utils/`) manage tokens and emit `sessionCreated` / `sessionDestroyed` over a `mitt` bus (`features/common/event-emitting/emitter.ts`), consumed by `EventListenerWrapper`. No tokens = guest mode; the Axios layer downgrades to guest silently when a refresh fails.
 
-**Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. `ScreenTracker` reports navigation.
+**Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. It runs in the preview and production builds; the development build sends analytics and session replay only. An error without a stack trace gets its message as its PostHog fingerprint (`before_send`), so each message has its own issue. `ScreenTracker` reports navigation.
 
 **Adding a PostHog event.** Add its type to `features/general/posthog/events.ts` and a tracker to `features/general/posthog/hook/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 

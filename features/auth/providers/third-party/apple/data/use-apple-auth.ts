@@ -59,7 +59,10 @@ export const useAppleAuth = () => {
         Toast.show({
           type: "error",
           text1: "Failed to sign in with Apple",
-          text2: err instanceof FetcherError ? err.message : undefined,
+          text2:
+            err instanceof FetcherError
+              ? err.message
+              : 'Try "Continue with Email" instead',
         });
       }
       throw e;
