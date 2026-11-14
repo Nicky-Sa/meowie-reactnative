@@ -8,9 +8,10 @@ import { useFetchReleaseNotes } from "@/features/release-notes/data/use-fetch-re
 import { useMarkReleaseNotesSeen } from "@/features/release-notes/data/use-mark-release-notes-seen";
 import { ReleaseNoteResDto } from "@/features/release-notes/data/dto/release-notes.dto";
 import { EmptyState } from "@/features/general/empty-state";
+import { ErrorState } from "@/features/general/error-state";
 
 export const Screen = () => {
-  const { data, isLoading } = useFetchReleaseNotes();
+  const { data, isLoading, error, refetch } = useFetchReleaseNotes();
   const markSeen = useMarkReleaseNotesSeen();
 
   // Opening the screen clears the "new" badge on the logo.
@@ -34,7 +35,9 @@ export const Screen = () => {
         contentContainerClassName={"grow"}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          isLoading ? (
+          error ? (
+            <ErrorState tryAgain={refetch} error={error} />
+          ) : isLoading ? (
             <View className={"flex-1 items-center justify-center"}>
               <Loading />
             </View>

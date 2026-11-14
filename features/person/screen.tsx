@@ -8,14 +8,19 @@ import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { PersonEmptyState } from "@/features/person/elements/empty-state";
+import { ErrorState } from "@/features/general/error-state";
 
 const NUM_COLUMNS = 3;
 
 export const Screen = ({ personId }: { personId: string }) => {
   const { scrollHandler, scrollY } = useScrollPosition();
 
-  const { data: personData, isLoading: personInfoLoading } =
-    useFetchPersonInfo(personId);
+  const {
+    data: personData,
+    isLoading: personInfoLoading,
+    error: personInfoError,
+    refetch: refetchPersonInfo,
+  } = useFetchPersonInfo(personId);
 
   const posterData = useFetchPosters(`/person/${personId}/posters`, {
     personId,
@@ -44,22 +49,26 @@ export const Screen = ({ personId }: { personId: string }) => {
       fullHeight
       fullWidth
     >
-      <PostersList
-        numColumns={NUM_COLUMNS}
-        posterData={posterData}
-        scrollHandler={scrollHandler}
-        onPosterPress={onPosterPress}
-        ListHeaderComponent={
-          <View className={"px-4 pb-4"}>
-            <PersonBrief
-              data={personData}
-              isLoading={personInfoLoading}
-              size={"lg"}
-            />
-          </View>
-        }
-        ListEmptyComponent={<PersonEmptyState />}
-      />
+      {personInfoError ? (
+        <ErrorState tryAgain={refetchPersonInfo} error={personInfoError} />
+      ) : (
+        <PostersList
+          numColumns={NUM_COLUMNS}
+          posterData={posterData}
+          scrollHandler={scrollHandler}
+          onPosterPress={onPosterPress}
+          ListHeaderComponent={
+            <View className={"px-4 pb-4"}>
+              <PersonBrief
+                data={personData}
+                isLoading={personInfoLoading}
+                size={"lg"}
+              />
+            </View>
+          }
+          ListEmptyComponent={<PersonEmptyState />}
+        />
+      )}
     </InnerScreen>
   );
 };

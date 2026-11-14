@@ -76,6 +76,10 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 - **Never use single-letter variable names.** Give every binding a full, readable name
   that says what it holds — `component` not `c`, `series` not `s`, `movie` not `m`.
   The only exception is a conventional loop index `i`/`j` in a plain counting `for` loop.
+- **Every screen and list that loads data handles all its states: loading, error, empty and loaded.** Loading shows a
+  skeleton or `Loading`. A failed load shows `ErrorState` with "Try again"; when a screen's main data fails, `ErrorState`
+  replaces everything under the header, like on the movie, series and person screens. An empty result shows an empty
+  state, like `EmptyState` or the feature's own one. A failed action shows a toast instead.
 - **Never pass a `Button` an `onPress` that can throw or reject.** `Button` (`features/common/ui/button.tsx`)
   runs `onPress` without catching errors, so the handler must catch its own and show feedback (a toast) or log them with `console.error`.
 - **Lint fails on a promise nobody waits for or catches** (`no-floating-promises`, `no-misused-promises`).
