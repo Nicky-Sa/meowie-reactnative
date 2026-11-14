@@ -7,6 +7,8 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useRef, useState } from "react";
+import Toast from "react-native-toast-message";
+import { FetcherError } from "@/features/common/data/fetcher";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
 import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
@@ -78,10 +80,23 @@ export const Seen = ({
   const handleRate = async (rating: number | null) => {
     bottomSheetRef.current?.dismiss();
     const isFirstTime = !isSeen;
-    if (isSeen) {
-      await updateRating(rating);
-    } else {
-      await markAsSeen(rating);
+    try {
+      if (isSeen) {
+        await updateRating(rating);
+      } else {
+        await markAsSeen(rating);
+      }
+    } catch (error) {
+      console.error("Could not save the rating:", error);
+      Toast.show({
+        type: "error",
+        text1: "Couldn't save your change",
+        text2:
+          error instanceof FetcherError && error.status
+            ? error.message
+            : "Check your connection and try again",
+      });
+      return;
     }
 
     if (rating === null) {
@@ -93,7 +108,20 @@ export const Seen = ({
 
   const handleUnseen = async () => {
     bottomSheetRef.current?.dismiss();
-    await removeSeen();
+    try {
+      await removeSeen();
+    } catch (error) {
+      console.error("Could not mark the title as unseen:", error);
+      Toast.show({
+        type: "error",
+        text1: "Couldn't save your change",
+        text2:
+          error instanceof FetcherError && error.status
+            ? error.message
+            : "Check your connection and try again",
+      });
+      return;
+    }
     onRemove();
   };
 

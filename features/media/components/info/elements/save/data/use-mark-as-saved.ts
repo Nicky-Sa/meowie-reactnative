@@ -42,8 +42,9 @@ export const useMarkAsSaved = ({ id, mediaType }: Args) => {
       await mutateAsync({
         method: "PUT",
       });
-    } catch {
+    } catch (error) {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);
+      throw error;
     } finally {
       await queryClient.invalidateQueries({ queryKey: [cacheKey] });
     }

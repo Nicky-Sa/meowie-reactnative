@@ -7,6 +7,7 @@ import { View, Text } from "react-native";
 import { useFetchLibraryStatus } from "@/features/media/components/info/elements/save/data/use-fetch-library-status";
 import { useState, useRef, useEffect, useEffectEvent } from "react";
 import Toast from "react-native-toast-message";
+import { FetcherError } from "@/features/common/data/fetcher";
 import { useLocalSearchParams } from "expo-router";
 import { SaveIcon } from "@/features/media/components/info/elements/save/elements/icon";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
@@ -50,15 +51,30 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       return;
     }
 
-    if (isSaved) {
-      await removeSaved();
-      onPress(false);
-    } else if (isSeen) {
+    if (isSeen && !isSaved) {
       bottomSheetRef.current?.present();
-    } else {
-      await markAsSaved();
-      onPress(true);
+      return;
     }
+
+    try {
+      if (isSaved) {
+        await removeSaved();
+      } else {
+        await markAsSaved();
+      }
+    } catch (error) {
+      console.error("Could not change the saved status:", error);
+      Toast.show({
+        type: "error",
+        text1: "Couldn't save your change",
+        text2:
+          error instanceof FetcherError && error.status
+            ? error.message
+            : "Check your connection and try again",
+      });
+      return;
+    }
+    onPress(!isSaved);
   };
 
   const runSaveAction = useEffectEvent(() => {
@@ -85,7 +101,20 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
 
   const handleConfirmMove = async () => {
     bottomSheetRef.current?.dismiss();
-    await markAsSaved();
+    try {
+      await markAsSaved();
+    } catch (error) {
+      console.error("Could not move the title to saved:", error);
+      Toast.show({
+        type: "error",
+        text1: "Couldn't save your change",
+        text2:
+          error instanceof FetcherError && error.status
+            ? error.message
+            : "Check your connection and try again",
+      });
+      return;
+    }
     onPress(true);
   };
 

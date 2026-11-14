@@ -46,8 +46,9 @@ export const useUpdateRating = ({ id, mediaType }: Args) => {
         method: "PATCH",
         body: { rating },
       });
-    } catch {
+    } catch (error) {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);
+      throw error;
     } finally {
       await queryClient.invalidateQueries({ queryKey: [cacheKey] });
     }

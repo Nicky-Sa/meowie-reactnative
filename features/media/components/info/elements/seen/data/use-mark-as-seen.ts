@@ -49,8 +49,9 @@ export const useMarkAsSeen = ({ id, mediaType }: Args) => {
         method: "PUT",
         body: { rating },
       });
-    } catch {
+    } catch (error) {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);
+      throw error;
     } finally {
       await queryClient.invalidateQueries({ queryKey: [cacheKey] });
     }

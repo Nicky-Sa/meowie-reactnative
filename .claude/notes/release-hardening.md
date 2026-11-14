@@ -157,6 +157,7 @@ A crash comes from an error while a screen draws, or from an error thrown direct
 14. The response interceptor in `axios.ts` reads `error.response?.data.errors`. A failed response with an empty JSON
     body would throw there and hide the real error.
 15. Metro prints two warnings on start: "ImageBackground is deprecated" and a Reanimated warning about dependencies.
+    One run also printed "[Reanimated] Writing to `value` during component render" 120 times, plus one "Reading from `value`". The source is not found yet, and taps took a few seconds to land during that run.
 
 ### Checked and fine
 

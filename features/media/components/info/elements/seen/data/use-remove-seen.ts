@@ -41,8 +41,9 @@ export const useRemoveSeen = ({ id, mediaType }: Args) => {
       await mutateAsync({
         method: "DELETE",
       });
-    } catch {
+    } catch (error) {
       if (previousData) queryClient.setQueryData([cacheKey], previousData);
+      throw error;
     } finally {
       await queryClient.invalidateQueries({ queryKey: [cacheKey] });
     }
