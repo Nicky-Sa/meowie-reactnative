@@ -83,7 +83,7 @@ to track what you've seen."
 - Connection but YouTube is unreachable: a popup with the VPN text and "Ok, understood."
 - Any failed load: an error picture, the error text and "Try again".
 - An urgent update: toast "Update downloaded! 😻", then the app restarts after 3 seconds.
-- A link that matches no screen: "This screen does not exist." and "Go to home screen!"
+- A link that matches no screen: an empty bowl picture, "This screen does not exist." and a "Go to home screen" button that opens `/home`.
 
 ### Ways into the app from outside
 
