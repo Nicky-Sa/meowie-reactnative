@@ -67,5 +67,5 @@ export const tasteAtom = atomPersistedWithImmer<TasteState>(
   true,
 );
 
-// A shared link or Siri request that started the app. It opens once the app has loaded Home.
+// A link or Siri request that started the app. It opens once the app has loaded Home.
 export const linkToOpenAtom = atom<Href | null>(null);
