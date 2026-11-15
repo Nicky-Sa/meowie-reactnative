@@ -57,8 +57,9 @@ function RootLayout() {
                   <KeyboardProvider>
                     <SafeAreaProvider>
                       <GestureHandlerRootView>
-                        <BottomSheetModalProvider>
-                          <InternetCheck>
+                        {/* Outside the sheet provider, so the offline view covers an open bottom sheet too. */}
+                        <InternetCheck>
+                          <BottomSheetModalProvider>
                             <SpotlightTourProvider
                               steps={homeTourSteps}
                               overlayColor={
@@ -225,9 +226,9 @@ function RootLayout() {
                               </Stack>
                               <PortalHost name="global-overlay" />
                             </SpotlightTourProvider>
-                          </InternetCheck>
-                        </BottomSheetModalProvider>
-                        {/* Outside the sheet provider, so a toast shows above an open bottom sheet. */}
+                          </BottomSheetModalProvider>
+                        </InternetCheck>
+                        {/* Outside the sheet provider, so a toast shows above an open bottom sheet and the offline view. */}
                         <Toast
                           config={toastConfig}
                           topOffset={60}

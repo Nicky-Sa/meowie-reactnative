@@ -13,15 +13,14 @@ const BACKEND_CANARY = `${env.EXPO_PUBLIC_BACKEND_URL}/health`;
 
 type ConnectivityStatus =
   | "CHECKING"
-  | "OFFLINE" // Radio is OFF
+  | "OFFLINE" // No network connection
   | "RESTRICTED" // Radio ON, but YouTube is blocked
   | "SERVER_ERROR" // YouTube works, Backend fails
   | "ONLINE";
 
 export const useConnectionCheck = () => {
   const [status, setStatus] = useState<ConnectivityStatus>("CHECKING");
-  const [backendErrorMsg, setBackendErrorMsg] = useState<string | null>(null);
-  const wasOffline = useRef(true);
+  const checkOnReconnect = useRef(true);
   const netInfo = useNetInfo();
   const [, setCountryCode] = useAtom(countryCodeAtom);
 
@@ -33,7 +32,7 @@ export const useConnectionCheck = () => {
 
     if (!state.isConnected) {
       setStatus("OFFLINE");
-      wasOffline.current = true;
+      checkOnReconnect.current = true;
       return;
     }
 
@@ -44,7 +43,7 @@ export const useConnectionCheck = () => {
       timeout = 3000,
     ) => {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), timeout); // 3s Timeout
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
       try {
         // We use 'no-cache' to ensure we aren't reading a stale success from memory and pass a query string to bypass cache.
         const response = await fetch(`${url}?t=${Date.now()}`, {
@@ -52,56 +51,26 @@ export const useConnectionCheck = () => {
           cache: "no-cache",
           signal: controller.signal,
         });
-        clearTimeout(timeoutId);
         // YouTube's 204 endpoint returns 204.
         // Standard APIs might return 200.
-        const alive = response.status === 204 || response.ok;
-
-        let errorBody;
-        if (!alive && method === "GET") {
-          try {
-            const json = await response.json();
-            // Show only the "error" property if it exists (for NestJS Terminus health checks)
-            errorBody = JSON.stringify(json.error || json, null, 2);
-          } catch {
-            try {
-              errorBody = await response.text();
-            } catch {
-              // An unreadable body leaves errorBody empty, so the HTTP status is shown instead.
-            }
-          }
-        }
-
-        return {
-          alive,
-          error: alive ? undefined : errorBody || `HTTP ${response.status}`,
-        };
-      } catch (error) {
+        return response.status === 204 || response.ok;
+      } catch {
+        // A failed or timed-out ping means the service can't be reached.
+        return false;
+      } finally {
         clearTimeout(timeoutId);
-        let errorMsg = "Network Error";
-        if (error instanceof Error) {
-          if (error.name === "AbortError") {
-            errorMsg = `Connection timed out after ${timeout}ms`;
-          } else {
-            errorMsg = error.message;
-          }
-        }
-        return { alive: false, error: errorMsg };
       }
     };
 
-    const [youtubeResult, backendResult] = await Promise.all([
+    const [youtubeAlive, backendAlive] = await Promise.all([
       checkUrl(YOUTUBE_CANARY, "HEAD"),
       checkUrl(BACKEND_CANARY, "GET", GENERAL_TIMEOUT),
     ]);
 
-    const youtubeAlive = youtubeResult.alive;
-    const backendAlive = backendResult.alive;
-
     // 3. Logic Determination
     if (youtubeAlive && backendAlive) {
       setStatus("ONLINE");
-      wasOffline.current = false;
+      checkOnReconnect.current = false;
 
       // 4. IP-based Country Detection (only if online)
       try {
@@ -131,31 +100,29 @@ export const useConnectionCheck = () => {
     } else if (youtubeAlive && !backendAlive) {
       // YouTube works, Backend dead -> Our fault
       setStatus("SERVER_ERROR");
-      setBackendErrorMsg(backendResult.error ?? "Unknown server error");
-      wasOffline.current = true;
+      checkOnReconnect.current = true;
     } else {
       // YouTube is dead (regardless of backend status).
       // Since NetInfo says we have a signal, this is almost certainly a block.
       setStatus("RESTRICTED");
-      wasOffline.current = true;
+      checkOnReconnect.current = true;
     }
   }, [setCountryCode]);
 
-  // Auto-recovery
+  // Going offline mid-use sets the status too, and coming back runs the check again.
   useEffect(() => {
-    if (netInfo.isConnected && wasOffline.current) {
+    if (netInfo.isConnected === false) {
+      setStatus("OFFLINE");
+      checkOnReconnect.current = true;
+    } else if (netInfo.isConnected && checkOnReconnect.current) {
       void checkConnectivity();
     }
   }, [netInfo.isConnected, checkConnectivity]);
 
   return {
     status,
-    backendErrorMsg,
     refresh: checkConnectivity,
-    isChecking: status === "CHECKING",
     isOffline: status === "OFFLINE",
     isRestricted: status === "RESTRICTED",
-    isBackendUnreachable: status === "SERVER_ERROR",
-    isOnline: status === "ONLINE",
   };
 };

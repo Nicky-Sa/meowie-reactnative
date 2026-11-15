@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Keyboard, Text, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { PropsWithChildren, useEffect, useState } from "react";
 import NoInternet from "@/assets/images/errors/no-internet.svg";
@@ -15,31 +15,27 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
     if (isRestricted) setWarningVisible(true);
   }, [isRestricted]);
 
-  // Strictly "No Radio" state
-  if (isOffline) {
-    return (
-      <View className="flex-1 flex-col items-center justify-center gap-8 px-6">
-        <NoInternet />
-        <Text className="body-b1 text-center text-neutral-5-default">
-          Please check your internet settings.
-        </Text>
-        <Button onPress={refresh} variant="white">
-          Try again
-        </Button>
-      </View>
-    );
-  }
+  // iOS draws the keyboard above the app, so it would stay up over the offline view.
+  useEffect(() => {
+    if (isOffline) Keyboard.dismiss();
+  }, [isOffline]);
 
-  // For now, we let other components deal with backend errors
-  // if (isBackendUnreachable) {
-  //   const prefixedMsg = `Backend: ${backendErrorMsg}`;
-  //   return <ErrorState tryAgain={refresh} error={prefixedMsg} />;
-  // }
-
-  // Covers "VPN Needed" AND "Bad WiFi"
   return (
     <>
       {children}
+      {/* Covers the app instead of replacing it, so the open screen is still there when the connection is back. */}
+      {isOffline && (
+        <View className="absolute inset-0 flex-col items-center justify-center gap-8 bg-neutral-15-default px-6">
+          <NoInternet />
+          <Text className="body-b1 text-center text-neutral-5-default">
+            Please check your internet settings.
+          </Text>
+          <Button onPress={refresh} variant="white">
+            Try again
+          </Button>
+        </View>
+      )}
+      {/* Covers "VPN Needed" AND "Bad WiFi" */}
       <InformationModal
         img={VpnWarning}
         informationText={

@@ -143,8 +143,10 @@ A crash comes from an error while a screen draws, or from an error thrown direct
 10. **A cold start from a `meowie://` link skips the splash.** Only the share links go through it. The fonts are loaded
     in the splash screen, and the onboarding check is there too. Seen once on the simulator: the sign-in screen opened
     by link showed the system font.
-11. **Going offline throws away the open screen.** `InternetCheck` draws the offline view in place of the whole app, so
-    coming back online starts again from the splash.
+11. **Going offline shows nothing, and a cold start offline hangs on the splash.** The offline view only appeared when
+    the connection check ran while offline, which happened only after an earlier failed check or a tap on "Try again".
+    React Query pauses every request while NetInfo says offline, so screens kept their skeletons with no message, and
+    the splash waited for a paused `/user/current` forever. When the view did show, it replaced the whole app.
 
 ### No crash guard
 
