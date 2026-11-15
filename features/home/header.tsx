@@ -13,7 +13,7 @@ import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
 import { NotificationBadge } from "@/features/common/ui/notification-badge";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useScrollDownProgress } from "@/features/common/hooks/list/use-scroll-down-progress";
 import { HeaderContainer } from "@/features/common/layout/header-container";
 

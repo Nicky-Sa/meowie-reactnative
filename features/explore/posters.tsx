@@ -14,7 +14,7 @@ import { ExploreTabResDto } from "@/features/explore/data/dto/explore-tab.dto";
 import { EmptyState } from "@/features/general/empty-state";
 import { TabChildProps } from "@/features/common/tab/tab-bar";
 import { tailwind } from "@/lib/tailwind";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Props = TabChildProps & {
   mediaType: MediaType;

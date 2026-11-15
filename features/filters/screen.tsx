@@ -10,7 +10,7 @@ import _ from "lodash";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
 import { useRouter } from "expo-router";
 import { filtersMediaTypeAtom, movieFiltersAtom, tvFiltersAtom } from "@/atoms";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { SlidingToggle } from "@/features/common/ui/sliding-toggle";
 import {
   MediaType,

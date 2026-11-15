@@ -3,7 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 export const Credit = (person: CreditInfo) => {
   const { id, name, profilePath } = person;

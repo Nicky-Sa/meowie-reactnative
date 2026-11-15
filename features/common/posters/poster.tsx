@@ -1,5 +1,5 @@
 import { PosterInfo } from "@/features/common/data/models/poster";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { memo, useCallback, useState } from "react";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";

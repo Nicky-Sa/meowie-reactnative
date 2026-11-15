@@ -8,7 +8,7 @@ import { LoadingTasteSubmission } from "@/features/taste/steps/result/loading";
 import { tasteAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { initialTasteState } from "@/features/taste/state";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 export const Screen = () => {
   const router = useRouter();

@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Genre } from "@/features/common/data/models/genre";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Args = {
   id: ID;

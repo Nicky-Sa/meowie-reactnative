@@ -5,7 +5,7 @@ import { useAppleAuth } from "@/features/auth/providers/third-party/apple/data/u
 import { useState } from "react";
 import Toast from "react-native-toast-message";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useLocalSearchParams } from "expo-router";
 
 export const AppleAuth = () => {

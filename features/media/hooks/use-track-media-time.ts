@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useTimeOnScreen } from "@/features/common/hooks/use-time-on-screen";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Args = {
   mediaId: ID;

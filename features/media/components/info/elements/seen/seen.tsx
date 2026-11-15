@@ -11,7 +11,7 @@ import Toast from "react-native-toast-message";
 import { getErrorText } from "@/features/common/data/error";
 import { LoginWarningModal } from "@/features/auth/components/login-warning-modal";
 import { SeenIcon } from "@/features/media/components/info/elements/seen/elements/icon";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { MediaType } from "@/features/common/data/models/media-type";
 import EmptySeen from "@/assets/images/meowie/empty-seen.svg";

@@ -4,7 +4,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { useRouter } from "expo-router";
 import { ID } from "@/features/common/data/media-query";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Props = {
   id: ID;

@@ -62,7 +62,7 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. It runs in the preview and production builds; the development build sends analytics and session replay only. An error without a stack trace gets its message as its PostHog fingerprint (`before_send`), so each message has its own issue. `ScreenTracker` reports navigation.
 
-**Adding a PostHog event.** Add its type to `features/general/posthog/events.ts` and a tracker to `features/general/posthog/hook/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
+**Adding a PostHog event.** Add its type to `features/general/posthog/events/types.ts` and a tracker to `features/general/posthog/events/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 
 **OTA updates.** EAS Update; `UpdatesListener` (in the provider tree) downloads and reloads updates on launch. `runtimeVersion.policy` is `appVersion`. Update scripts are iOS-only.
 

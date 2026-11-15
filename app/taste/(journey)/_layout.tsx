@@ -11,7 +11,7 @@ import { useFetchJourney } from "@/features/taste/data/use-fetch-journey";
 import { Button } from "@/features/common/ui/button";
 import { useAtomValue } from "jotai";
 import { tasteAtom } from "@/atoms";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 // The submitting screen has no step title or progress bar, so it sits outside this group.
 export default function TasteJourneyLayout() {

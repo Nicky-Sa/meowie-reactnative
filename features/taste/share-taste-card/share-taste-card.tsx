@@ -8,7 +8,7 @@ import shareTastePicture from "@/assets/images/taste/vibe.png";
 import { tailwind } from "@/lib/tailwind";
 import { useEffect } from "react";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 // The box needs a set size: both parents here size themselves to their
 // children, so a percentage on the picture itself would come out as zero.

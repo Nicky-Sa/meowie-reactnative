@@ -4,7 +4,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { tailwind } from "@/lib/tailwind";
 import { SearchResultCard } from "@/features/search/elements/card";
 import { useRecentSearches } from "@/features/search/data/use-recent-searches";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 export const RecentSearches = () => {
   const { recentSearches, add, remove } = useRecentSearches();

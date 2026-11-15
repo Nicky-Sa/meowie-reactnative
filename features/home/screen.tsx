@@ -6,7 +6,7 @@ import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 import { useState } from "react";
 import { SwipeGuide } from "@/features/home/swipe-guide";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 

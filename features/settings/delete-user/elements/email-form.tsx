@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
 import { useDeleteUser } from "@/features/settings/delete-user/data/use-delete-user";
 import { usePostHog } from "posthog-react-native";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { getErrorText } from "@/features/common/data/error";
 
 type Props = {

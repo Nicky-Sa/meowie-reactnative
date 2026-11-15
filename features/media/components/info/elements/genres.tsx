@@ -3,7 +3,7 @@ import { Chip } from "@/features/common/ui/chip";
 import { useRouter } from "expo-router";
 import { Genre } from "@/features/common/data/models/genre";
 import { useCallback } from "react";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import {
   MEDIA_TYPES_PLURALS,
   MediaType,

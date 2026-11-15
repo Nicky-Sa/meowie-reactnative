@@ -9,7 +9,7 @@ import {
   initialSeriesFiltersValue,
 } from "@/features/common/data/media-query";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { ExploreTabBar } from "@/features/explore/tab-bar";
 import { useFetchExploreTabs } from "@/features/explore/data/use-fetch-explore-tabs";

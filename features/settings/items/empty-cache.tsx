@@ -9,7 +9,7 @@ import EmptyCacheSvg from "@/assets/images/meowie/empty-cache.svg";
 import { Image } from "expo-image";
 import { Action } from "@/features/common/ui/action";
 import { useClearQueryCache } from "@/features/general/data/use-clear-query-cache";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 export const EmptyCache = () => {
   const { settings } = useAnalytics();

@@ -5,7 +5,7 @@ import { Icon } from "@/features/common/ui/icon";
 import { NavArrowRight } from "iconoir-react-native";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 
 type Props = {

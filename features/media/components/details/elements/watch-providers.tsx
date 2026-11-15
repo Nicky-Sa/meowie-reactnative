@@ -12,7 +12,7 @@ import Toast from "react-native-toast-message";
 import CryingMeowie from "@/assets/images/meowie/crying-meowie.svg";
 import { ID } from "@/features/common/data/media-query";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Props = {
   providers: WatchProvidersType;

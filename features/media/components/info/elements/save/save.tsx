@@ -16,7 +16,7 @@ import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 
 import { MediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,

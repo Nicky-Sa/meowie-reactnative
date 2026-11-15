@@ -1,4 +1,4 @@
-import { useCaptureEvent } from "@/features/general/posthog/hook/use-capture-event";
+import { useCaptureEvent } from "@/features/general/posthog/events/use-capture-event";
 import {
   MovieFilters,
   ID,
@@ -9,7 +9,7 @@ import { CreditInfo } from "@/features/common/data/models/credit";
 import { ShareTrigger } from "@/features/media/data/share-links";
 import { SiriCommand } from "@/features/general/siri/types";
 import { MultiSearchResults } from "@/features/search/data/models/search-result";
-import { Properties } from "@/features/general/posthog/events";
+import { Properties } from "@/features/general/posthog/events/types";
 import { useMemo } from "react";
 
 /**

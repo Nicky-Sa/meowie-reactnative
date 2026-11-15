@@ -4,7 +4,7 @@ import { useSetAtom } from "jotai";
 import { linkToOpenAtom } from "@/atoms";
 import { isMediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import {
   isSiriCommand,
   SiriCommand,

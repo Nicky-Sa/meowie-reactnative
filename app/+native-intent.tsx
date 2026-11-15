@@ -3,7 +3,7 @@ import { getDefaultStore } from "jotai";
 import { linkToOpenAtom } from "@/atoms";
 import { getSharedMediaFromLink } from "@/features/media/data/share-links";
 import { posthog } from "@/features/general/posthog/client";
-import { Properties } from "@/features/general/posthog/events";
+import { Properties } from "@/features/general/posthog/events/types";
 
 // The scheme part of an app link like `meowie://settings`. Website links only open the app for shared media.
 const APP_LINK_SCHEME = /^[a-z][a-z0-9+.-]*:\/\/+/i;

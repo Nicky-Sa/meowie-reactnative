@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { CreditInfo } from "@/features/common/data/models/credit";
 import { useRouter } from "expo-router";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Props = {
   cast: CreditInfo[];

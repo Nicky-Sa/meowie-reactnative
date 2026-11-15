@@ -1,5 +1,5 @@
 import { Button } from "@/features/common/ui/button";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
 import { useLocalSearchParams } from "expo-router";
 import { useRef } from "react";

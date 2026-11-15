@@ -8,7 +8,7 @@ import { SearchEmptyState } from "@/features/search/elements/empty-state";
 import { RecentSearches } from "@/features/search/elements/recent-searches";
 import { useRecentSearches } from "@/features/search/data/use-recent-searches";
 import { useCallback } from "react";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 type Props = {
   debouncedQuery: string;

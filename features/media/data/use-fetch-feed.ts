@@ -9,7 +9,7 @@ import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { MediaListItemData } from "@/features/media/components/list/types";
 import { FeedResponse } from "@/features/media/data/dto/feed.dto";
 import { MediaType } from "@/features/common/data/models/media-type";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useShareTasteCard } from "@/features/taste/share-taste-card/use-share-taste-card";
 
 type Args = {

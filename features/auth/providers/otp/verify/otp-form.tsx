@@ -8,7 +8,7 @@ import { useVerifyOtp } from "@/features/auth/providers/otp/verify/data/use-veri
 import { useRequestOtp } from "@/features/auth/providers/otp/request/data/use-request-otp";
 import { ResendCode } from "@/features/auth/providers/otp/verify/resend-code";
 import { useDismissScreen } from "@/features/auth/hooks/use-dismiss-screen";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import Toast from "react-native-toast-message";
 import { useLocalSearchParams } from "expo-router";
 import { getErrorText } from "@/features/common/data/error";

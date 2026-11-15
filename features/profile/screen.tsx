@@ -14,7 +14,7 @@ import { SavedList } from "@/features/profile/logged-in/saved/saved-list";
 import { SeenList } from "@/features/profile/logged-in/seen/seen-list";
 import { SavedList as GuestSavedList } from "@/features/profile/guest/saved-list";
 import { SeenList as GuestSeenList } from "@/features/profile/guest/seen-list";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 const tabsConfig: TabConfig[] = [
   {

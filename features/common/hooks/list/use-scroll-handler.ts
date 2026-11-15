@@ -1,7 +1,7 @@
 import { scheduleOnRN } from "react-native-worklets";
 import { useState, useCallback } from "react";
 import { ScrollEvent, useSharedValue } from "react-native-reanimated";
-import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useScrollPosition } from "@/features/common/hooks/list/use-scroll-position";
 
 type Args = {

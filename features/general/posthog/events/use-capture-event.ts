@@ -1,5 +1,5 @@
 import { usePostHog } from "posthog-react-native";
-import { Event, Properties } from "@/features/general/posthog/events";
+import { Event, Properties } from "@/features/general/posthog/events/types";
 import { useCallback } from "react";
 
 type CaptureArgs<E extends Event> =
