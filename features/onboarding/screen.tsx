@@ -26,8 +26,8 @@ import onboarding3Animation from "@/assets/lottie/onboarding/3.json";
 const items = [
   {
     animation: onboarding1Animation,
-    title: "Swipe to Discover",
-    body: "Find movies you’ll love with a simple swipe.",
+    title: "Scroll to Discover",
+    body: "Find movies you’ll love with a simple scroll.",
   },
   {
     animation: onboarding2Animation,

@@ -12,7 +12,7 @@ Labels are copied from the code, so a flow can tap or assert on them. "→" mean
 | Route         | What is on it                                                                               | Where it goes                                                                                            |
 |---------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | `/`           | Splash animation. It stays until the Lato and Mazius fonts and `/user/current` have loaded. | Not onboarded → `/onboarding`. Onboarded → `/home`, then a waiting share link or Siri link opens on top. |
-| `/onboarding` | Three slides: "Swipe to Discover", "Filters", "Saved Favorites". Button "Let's Go".         | "Let's Go" marks the phone as onboarded → `/taste`.                                                      |
+| `/onboarding` | Three slides: "Scroll to Discover", "Filters", "Saved Favorites". Button "Let's Go".        | "Let's Go" marks the phone as onboarded → `/taste`.                                                      |
 
 ### Taste
 
