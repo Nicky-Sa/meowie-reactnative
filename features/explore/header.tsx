@@ -43,6 +43,7 @@ export const Header = ({
     <Animated.View style={style} onLayout={onLayout}>
       <HeaderContainer className="gap-2 pb-4">
         <Button
+          testID="filters"
           onPress={onFilterPress}
           variant="ghost"
           size="md"
@@ -56,6 +57,7 @@ export const Header = ({
           setActiveItem={onLabelChange}
         />
         <Button
+          testID="search"
           onPress={() => router.push("/search")}
           accessibilityLabel="Search"
           variant="ghost"

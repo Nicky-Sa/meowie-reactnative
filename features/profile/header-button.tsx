@@ -7,6 +7,7 @@ export const ProfileHeaderButton = () => {
   const router = useRouter();
   return (
     <Button
+      testID="settings"
       onPress={() => router.push("/settings")}
       variant={"ghost"}
       size={"md"}

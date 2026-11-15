@@ -14,6 +14,7 @@ export const ShareButton = ({ mediaType, id }: Props) => {
 
   return (
     <Button
+      testID="share"
       onPress={shareMedia}
       variant={"ghost"}
       size={"md"}

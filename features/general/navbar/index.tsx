@@ -166,6 +166,7 @@ const CustomTabBar = ({
           return (
             <Pressable
               key={route.key}
+              testID={`tab-${route.name}`}
               onPress={onPress}
               className="h-full flex-1 items-center justify-center"
             >

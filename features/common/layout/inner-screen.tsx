@@ -142,6 +142,7 @@ export const InnerScreen = ({
         >
           <View className={"flex flex-1 flex-row items-center justify-start"}>
             <Button
+              testID="back"
               onPress={handleBack}
               variant={"ghost"}
               size={"md"}

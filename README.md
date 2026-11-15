@@ -109,6 +109,9 @@ that uses the preview environment and backend.
    npm run e2e
    ```
 
+Flows tap buttons with text by their text. Icon-only buttons and posters have a `testID` instead, like `settings`,
+`tab-home` or `poster`, which a flow taps with `id:`.
+
 The build script pulls the preview env into `.env.local`. Run `eas env:pull --environment development` before
 `npm run start` again.
 

@@ -21,6 +21,7 @@ export const Header = memo(({ title, subtitle, rightTopComponent }: Props) => {
     <HeaderContainer className={"absolute z-10 flex-1"}>
       <View className={"flex flex-row items-center"}>
         <Button
+          testID="back"
           onPress={handleBack}
           variant={"ghost"}
           size={"md"}

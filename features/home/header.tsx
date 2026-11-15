@@ -64,6 +64,7 @@ export const Header = ({
         <View className="flex-1 items-start">
           <Link
             href="/release-notes"
+            testID="release-notes"
             onPress={() =>
               interaction.trackReleaseNotesOpened({
                 hasNewNote: hasUnseenReleaseNote,

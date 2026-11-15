@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Badge } from "@/features/common/ui/badge";
 import { GradientOverlay } from "@/features/common/ui/gradient-overlay";
+import { WithTestID } from "@/features/common/test-id";
 
 // Only the bottom overlay changes — the image is sized by the parent.
 type DetailsSize = "small" | "large";
@@ -65,7 +66,7 @@ const DEFAULT_RADIUS = Number(tailwind.theme.borderRadius.lg);
  * child of a GestureDetector, which injects a ref.
  */
 export const PosterCard = memo(
-  forwardRef<ViewInstance, Props>(
+  forwardRef<ViewInstance, WithTestID<Props>>(
     (
       {
         posterUri,
@@ -83,6 +84,7 @@ export const PosterCard = memo(
         subtitle,
         badge,
         pressed = false,
+        testID,
       },
       ref,
     ) => {
@@ -91,6 +93,7 @@ export const PosterCard = memo(
       return (
         <View
           ref={ref}
+          testID={testID}
           className={"relative overflow-hidden bg-neutral-11-default"}
           style={{ width, borderRadius, borderWidth, borderColor }}
         >

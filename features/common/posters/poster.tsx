@@ -77,6 +77,7 @@ export const Poster = memo(
       <>
         <GestureDetector gesture={gesture}>
           <PosterCard
+            testID="poster"
             posterUri={data.posterPath}
             width={width}
             blurhash={data.blurhash}

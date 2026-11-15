@@ -65,6 +65,7 @@ export const Segment = <T extends Primitive = string>({
 
   return (
     <Button
+      testID={String(item.id)}
       variant={isSelected ? "selected-segment" : "unselected-segment"}
       size={"segment"}
       onPress={onPress}
