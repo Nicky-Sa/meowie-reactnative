@@ -16,6 +16,7 @@ import { useMediaTracking } from "@/features/media/hooks/use-media-tracking";
 import { Href, useFocusEffect } from "expo-router";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { TourStep } from "@/features/common/ui/tour/steps";
+import { useSetupTour } from "@/features/common/ui/tour/use-setup-tour";
 import { ScrollableGenres } from "@/features/media/components/common/scrollable-genres";
 import { ScrollableTitle } from "@/features/media/components/common/scrollable-title";
 import { RowInfo } from "@/features/media/components/common/row-info";
@@ -38,6 +39,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
   });
 
   const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
+  useSetupTour(!!tourEnabled && !!data);
   const [, setColor] = useAtom(colorAtom);
   const [autoplay, setAutoplay] = useAtom(autoplayAtom);
   const detailsPath: Href = `/movie/${movieId}/details`;

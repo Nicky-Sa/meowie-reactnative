@@ -8,13 +8,14 @@ import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 // To make sure the tour is the last item to be rendered
 const TOUR_START_DELAY_MS = 0;
 
-export const useSetupTour = () => {
+/** Waits for `isReady`, so the step that points at the first card has a loaded card to point at. */
+export const useSetupTour = (isReady: boolean) => {
   const homeTourSeen = useAtomValue(homeTourSeenAtom);
   const { start } = useSpotlightTour();
   const { tour } = useAnalytics();
 
   useEffect(() => {
-    if (homeTourSeen) return;
+    if (!isReady || homeTourSeen) return;
 
     const timer = setTimeout(() => {
       tour.trackStarted({ totalSteps: homeTourSteps.length });
@@ -22,5 +23,5 @@ export const useSetupTour = () => {
     }, TOUR_START_DELAY_MS);
 
     return () => clearTimeout(timer);
-  }, [homeTourSeen, start, tour]);
+  }, [isReady, homeTourSeen, start, tour]);
 };
