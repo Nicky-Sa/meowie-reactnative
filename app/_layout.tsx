@@ -72,7 +72,8 @@ function RootLayout() {
                                 overlayOpacity={0.7}
                                 motion={"slide"}
                                 shape={{ type: "rectangle", padding: 8 }}
-                                onBackdropPress={"continue"}
+                                // The tour only moves with the tooltip's buttons.
+                                onBackdropPress={() => {}}
                                 onStop={() => setHomeTourSeen(true)}
                                 // Match the tooltip background (bg-neutral-15-default)
                                 // so the arrow reads as part of the tooltip.

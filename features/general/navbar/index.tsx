@@ -3,6 +3,8 @@ import { tailwind } from "@/lib/tailwind";
 import { useWindowDimensions, View, Pressable, StyleSheet } from "react-native";
 import { Icon, SvgImage } from "@/features/common/ui/icon";
 import { Tab } from "@/features/general/navbar/types";
+import { Tourable } from "@/features/common/ui/tour/tourable";
+import { tabTourSteps, TourStep } from "@/features/common/ui/tour/steps";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { BottomTabBarProps } from "expo-router/js-tabs";
 import { createContext, useContext } from "react";
@@ -54,7 +56,12 @@ export const Navbar = ({ tabs }: Props) => {
           options={{
             title: tab.title,
             tabBarIcon: (props) => (
-              <AnimatedTabIcon {...props} icon={tab.icon} index={index} />
+              <AnimatedTabIcon
+                {...props}
+                icon={tab.icon}
+                index={index}
+                tourStep={tabTourSteps[tab.name]}
+              />
             ),
           }}
         />
@@ -63,13 +70,13 @@ export const Navbar = ({ tabs }: Props) => {
   );
 };
 
-const AnimatedTabIcon = ({
-  icon,
-  index,
-}: {
+type AnimatedTabIconProps = {
   icon: SvgImage;
   index: number;
-}) => {
+  tourStep?: TourStep;
+};
+
+const AnimatedTabIcon = ({ icon, index, tourStep }: AnimatedTabIconProps) => {
   const activeColor = tailwind.theme.backgroundColor.neutral[1].default;
   const inactiveColor = tailwind.theme.backgroundColor.neutral[9].default;
 
@@ -83,8 +90,8 @@ const AnimatedTabIcon = ({
     return { opacity: 1 - Math.min(distance, 1) };
   });
 
-  return (
-    <View className="mb-1">
+  const icons = (
+    <View>
       <Icon i={icon} color={inactiveColor} />
       <Animated.View
         style={[StyleSheet.absoluteFill, activeStyle]}
@@ -92,6 +99,18 @@ const AnimatedTabIcon = ({
       >
         <Icon i={icon} color={activeColor} />
       </Animated.View>
+    </View>
+  );
+
+  // The outer View keeps the icon centered, because Tourable's own wrapper
+  // sits at the start of its parent.
+  return (
+    <View className="mb-1">
+      {tourStep === undefined ? (
+        icons
+      ) : (
+        <Tourable step={tourStep}>{icons}</Tourable>
+      )}
     </View>
   );
 };

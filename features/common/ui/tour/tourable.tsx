@@ -20,8 +20,8 @@ export const Tourable = ({
     return children;
   }
 
-  // AttachStep injects ref/onLayout into the child at runtime via cloneElement,
-  // so the wrapped element doesn't need to declare ChildProps itself.
+  // AttachStep puts its own View around the child and measures that View,
+  // so the child doesn't need to take ChildProps' ref itself.
   return (
     <AttachStep index={step} fill={fill}>
       {children as ReactElement<ChildProps>}

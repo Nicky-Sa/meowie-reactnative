@@ -1,52 +1,50 @@
 import type { TourStep as SpotlightStep } from "react-native-spotlight-tour";
 import { TourTooltip } from "@/features/common/ui/tour/tooltip";
+import { TabsName } from "@/features/general/navbar/types";
 
 // Step order for the home tour. The values are the indexes into `homeTourSteps`
 // and the index each Tourable attaches to.
 export enum TourStep {
   HeaderToggle = 0,
-  MediaPoster = 1,
-  MediaDirector = 2,
-  MediaGenres = 3,
-  MediaSave = 4,
-  MediaSeen = 5,
-  MediaDetails = 6,
+  DeepDiving = 1,
+  SearchExplore = 2,
 }
 
-export const tourStepContent: Record<TourStep, string> = {
-  [TourStep.HeaderToggle]:
-    "Switch between Movies and Series to explore different content types.",
-  [TourStep.MediaPoster]:
-    "Tap on the poster to view a high-quality version and more info.",
-  [TourStep.MediaDirector]:
-    "Check out the director and key crew members of this movie.",
-  [TourStep.MediaGenres]:
-    "Explore different genres associated with this media.",
-  [TourStep.MediaSave]:
-    "Save this item to your library to keep track of what you want to watch.",
-  [TourStep.MediaSeen]:
-    "Mark this as seen once you've watched it to organize your library.",
-  [TourStep.MediaDetails]: "See more details on this item here.",
+type StepContent = {
+  text: string;
+  // Points added to the highlight's width and height, half on each side.
+  padding: number;
 };
 
-const TOTAL_STEPS = Object.keys(tourStepContent).length;
+export const tourStepContent: Record<TourStep, StepContent> = {
+  [TourStep.HeaderToggle]: {
+    text: "Switch between Movies and Series to choose what you want to discover.",
+    padding: 8,
+  },
+  [TourStep.DeepDiving]: {
+    text: "Tap different elements to see or discover more.",
+    padding: 8,
+  },
+  [TourStep.SearchExplore]: {
+    text: "Search for any title or person, or explore top lists and new releases.",
+    padding: 24,
+  },
+};
 
-// The steps in the order the tour walks through them. The array index is the
-// value each Tourable attaches to (see TourStep), so this order is the source
-// of truth for both the sequence and which element each step highlights.
-const stepOrder: TourStep[] = [
-  TourStep.HeaderToggle,
-  TourStep.MediaPoster,
-  TourStep.MediaDirector,
-  TourStep.MediaGenres,
-  TourStep.MediaSave,
-  TourStep.MediaSeen,
-  TourStep.MediaDetails,
-];
+// The tab each tour step highlights.
+export const tabTourSteps: Partial<Record<TabsName, TourStep>> = {
+  explore: TourStep.SearchExplore,
+};
 
-export const homeTourSteps: SpotlightStep[] = stepOrder.map((step) => ({
-  shape: { type: "rectangle", padding: 8 },
-  render: (props) => (
-    <TourTooltip {...props} text={tourStepContent[step]} total={TOTAL_STEPS} />
-  ),
-}));
+// Object.values gives number keys in rising order, so the steps come out in
+// TourStep's order.
+const stepContents = Object.values(tourStepContent);
+
+export const homeTourSteps: SpotlightStep[] = stepContents.map(
+  ({ text, padding }) => ({
+    shape: { type: "rectangle", padding },
+    render: (props) => (
+      <TourTooltip {...props} text={text} total={stepContents.length} />
+    ),
+  }),
+);

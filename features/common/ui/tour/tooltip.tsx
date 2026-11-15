@@ -50,7 +50,7 @@ export const TourTooltip = ({
         </View>
 
         <Button onPress={isLast ? stop : next} variant={"primary"} size={"md"}>
-          {isLast ? "Let's Go!" : "Next Step"}
+          {isLast ? "Let's Go!" : "Next step"}
         </Button>
       </View>
     </View>

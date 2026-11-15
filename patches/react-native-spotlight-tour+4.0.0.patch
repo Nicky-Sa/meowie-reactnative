@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-native-spotlight-tour/src/lib/components/tour-overlay/shapes/RectShape.component.tsx b/node_modules/react-native-spotlight-tour/src/lib/components/tour-overlay/shapes/RectShape.component.tsx
+--- a/node_modules/react-native-spotlight-tour/src/lib/components/tour-overlay/shapes/RectShape.component.tsx
++++ b/node_modules/react-native-spotlight-tour/src/lib/components/tour-overlay/shapes/RectShape.component.tsx
+@@ -60,8 +60,8 @@
+       height={size.y}
+       opacity={opacity}
+       fill="black"
+-      rx={4}
+-      ry={4}
++      rx={16}
++      ry={16}
+     />
+   );
+ }, isEqual);

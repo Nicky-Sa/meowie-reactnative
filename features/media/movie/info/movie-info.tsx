@@ -108,55 +108,52 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
         info={[data.screeningStatus, data.certification, data.duration]}
       />
 
-      <View className={"flex w-full flex-row gap-2"}>
-        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaPoster}>
-          <EnlargeableImage
-            source={data.posterPath}
-            blurhash={data.posterProps.blurhash}
-            width={60}
-            onPress={onPosterExpanded}
-          />
-        </Tourable>
-        <View className={"flex flex-1 flex-col gap-3"}>
-          <Link href={detailsPath}>
-            <Text
-              numberOfLines={3}
-              ellipsizeMode="tail"
-              className={"body-b2 text-neutral-6-default"}
-            >
-              {data.overview}
-            </Text>
-          </Link>
-
-          <Tourable tourEnabled={tourEnabled} step={TourStep.MediaGenres} fill>
-            <ScrollableGenres
-              genres={data.genres}
-              mediaType={"movie"}
-              className={"-mr-4 grow-0 pr-4"}
+      <Tourable tourEnabled={tourEnabled} step={TourStep.DeepDiving} fill>
+        <View className={"flex flex-col gap-4"}>
+          <View className={"flex w-full flex-row gap-2"}>
+            <EnlargeableImage
+              source={data.posterPath}
+              blurhash={data.posterProps.blurhash}
+              width={60}
+              onPress={onPosterExpanded}
             />
-          </Tourable>
+            <View className={"flex flex-1 flex-col gap-3"}>
+              <Link href={detailsPath}>
+                <Text
+                  numberOfLines={3}
+                  ellipsizeMode="tail"
+                  className={"body-b2 text-neutral-6-default"}
+                >
+                  {data.overview}
+                </Text>
+              </Link>
+
+              <ScrollableGenres
+                genres={data.genres}
+                mediaType={"movie"}
+                className={"-mr-4 grow-0 pr-4"}
+              />
+            </View>
+          </View>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className={"-mx-4 grow-0 px-4"}
+            contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
+          >
+            <Credit {...data.credits.director} />
+
+            <View className={"h-4 w-[1px] rounded-xl bg-neutral-10-default"} />
+
+            <Credits credits={data.credits.casts.slice(0, 5)} />
+          </ScrollView>
         </View>
-      </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        className={"-mx-4 grow-0 px-4"}
-        contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
-      >
-        <Tourable tourEnabled={tourEnabled} step={TourStep.MediaDirector}>
-          <Credit {...data.credits.director} />
-        </Tourable>
-
-        <View className={"h-4 w-[1px] rounded-xl bg-neutral-10-default"} />
-
-        <Credits credits={data.credits.casts.slice(0, 5)} />
-      </ScrollView>
+      </Tourable>
 
       <Actions
         mediaId={movieId}
         mediaType={"movie"}
-        tourEnabled={tourEnabled}
         onSavePress={onSavePress}
         onSeenPress={onSeenPress}
         onRate={onRate}
