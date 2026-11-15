@@ -61,6 +61,12 @@ export const lastSeenReleaseNoteAtAtom = atomPersisted(
   "",
 );
 
+// The App Store version the person tapped "Later" on, so its popup doesn't show again.
+export const skippedUpdateVersionAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.SKIPPED_UPDATE_VERSION,
+  "",
+);
+
 export const tasteAtom = atomPersistedWithImmer<TasteState>(
   PERSISTED_ATOM_KEYS.TASTE,
   initialTasteState(),

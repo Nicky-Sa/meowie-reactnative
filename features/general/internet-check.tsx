@@ -1,9 +1,10 @@
-import { Keyboard, Text, View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { Button } from "@/features/common/ui/button";
 import { PropsWithChildren, useEffect, useState } from "react";
 import NoInternet from "@/assets/images/errors/no-internet.svg";
 import VpnWarning from "@/assets/images/errors/vpn-warning.svg";
 import { InformationModal } from "@/features/common/information-modal";
+import { InformationBlock } from "@/features/common/information-block";
 import { useConnectionCheck } from "@/hooks/use-connection-check";
 
 export const InternetCheck = ({ children }: PropsWithChildren) => {
@@ -25,14 +26,15 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
       {children}
       {/* Covers the app instead of replacing it, so the open screen is still there when the connection is back. */}
       {isOffline && (
-        <View className="absolute inset-0 flex-col items-center justify-center gap-8 bg-neutral-15-default px-6">
-          <NoInternet />
-          <Text className="body-b1 text-center text-neutral-5-default">
-            Please check your internet settings.
-          </Text>
-          <Button onPress={refresh} variant="white">
-            Try again
-          </Button>
+        <View className="absolute inset-0">
+          <InformationBlock
+            img={NoInternet}
+            text="Please check your internet settings."
+          >
+            <Button onPress={refresh} variant="white">
+              Try again
+            </Button>
+          </InformationBlock>
         </View>
       )}
       {/* Covers "VPN Needed" AND "Bad WiFi" */}

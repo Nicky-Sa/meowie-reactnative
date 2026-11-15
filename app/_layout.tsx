@@ -7,6 +7,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider, PostHogSurveyProvider } from "posthog-react-native";
 import { InternetCheck } from "@/features/general/internet-check";
+import { ForcedUpdate } from "@/features/general/update-check/forced-update";
+import { UpdatePopup } from "@/features/general/update-check/update-popup";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -59,174 +61,177 @@ function RootLayout() {
                       <GestureHandlerRootView>
                         {/* Outside the sheet provider, so the offline view covers an open bottom sheet too. */}
                         <InternetCheck>
-                          <BottomSheetModalProvider>
-                            <SpotlightTourProvider
-                              steps={homeTourSteps}
-                              overlayColor={
-                                tailwind.theme.backgroundColor.brand["1"]
-                                  .default
-                              }
-                              overlayOpacity={0.7}
-                              motion={"slide"}
-                              shape={{ type: "rectangle", padding: 8 }}
-                              onBackdropPress={"continue"}
-                              onStop={() => setHomeTourSeen(true)}
-                              // Match the tooltip background (bg-neutral-15-default)
-                              // so the arrow reads as part of the tooltip.
-                              arrow={{
-                                color:
-                                  tailwind.theme.backgroundColor.neutral[15]
-                                    .default,
-                                size: 12,
-                                corner: 3,
-                              }}
-                            >
-                              <Stack
-                                screenOptions={{
-                                  headerShown: false,
-                                  statusBarStyle: "light",
+                          <ForcedUpdate>
+                            <BottomSheetModalProvider>
+                              <SpotlightTourProvider
+                                steps={homeTourSteps}
+                                overlayColor={
+                                  tailwind.theme.backgroundColor.brand["1"]
+                                    .default
+                                }
+                                overlayOpacity={0.7}
+                                motion={"slide"}
+                                shape={{ type: "rectangle", padding: 8 }}
+                                onBackdropPress={"continue"}
+                                onStop={() => setHomeTourSeen(true)}
+                                // Match the tooltip background (bg-neutral-15-default)
+                                // so the arrow reads as part of the tooltip.
+                                arrow={{
+                                  color:
+                                    tailwind.theme.backgroundColor.neutral[15]
+                                      .default,
+                                  size: 12,
+                                  corner: 3,
                                 }}
                               >
-                                <Stack.Screen
-                                  name="(tabs)"
-                                  options={{
-                                    animation: "slide_from_bottom",
+                                <Stack
+                                  screenOptions={{
+                                    headerShown: false,
+                                    statusBarStyle: "light",
                                   }}
-                                />
+                                >
+                                  <Stack.Screen
+                                    name="(tabs)"
+                                    options={{
+                                      animation: "slide_from_bottom",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="auth"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="auth"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="filters/index"
-                                  options={{
-                                    animation: "fade",
-                                    animationDuration: 300,
-                                    presentation: "card",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="filters/index"
+                                    options={{
+                                      animation: "fade",
+                                      animationDuration: 300,
+                                      presentation: "card",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="discover/posters"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="discover/media-list"
-                                  options={{
-                                    animation: "fade",
-                                    animationDuration: 300,
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="movie/[id]/index"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="series/[id]/index"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="movie/[id]/details"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
-                                <Stack.Screen
-                                  name="series/[id]/details"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="discover/posters"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
+                                  <Stack.Screen
+                                    name="discover/media-list"
+                                    options={{
+                                      animation: "fade",
+                                      animationDuration: 300,
+                                    }}
+                                  />
+                                  <Stack.Screen
+                                    name="movie/[id]/index"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
+                                  <Stack.Screen
+                                    name="series/[id]/index"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
+                                  <Stack.Screen
+                                    name="movie/[id]/details"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
+                                  <Stack.Screen
+                                    name="series/[id]/details"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="onboarding/index"
-                                  options={{
-                                    animation: "slide_from_bottom",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="onboarding/index"
+                                    options={{
+                                      animation: "slide_from_bottom",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="release-notes/index"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="release-notes/index"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="settings/index"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="settings/index"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="settings/delete-user"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="settings/delete-user"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="settings/feedback"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="settings/feedback"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="person/[id]/index"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="person/[id]/index"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="person/[id]/media"
-                                  options={{
-                                    animation: "fade",
-                                    animationDuration: 300,
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="person/[id]/media"
+                                    options={{
+                                      animation: "fade",
+                                      animationDuration: 300,
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="search/index"
-                                  options={{
-                                    animation: "fade",
-                                    animationDuration: 300,
-                                    presentation: "card",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="search/index"
+                                    options={{
+                                      animation: "fade",
+                                      animationDuration: 300,
+                                      presentation: "card",
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="library/[category]"
-                                  options={{
-                                    animation: "fade",
-                                    animationDuration: 300,
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="library/[category]"
+                                    options={{
+                                      animation: "fade",
+                                      animationDuration: 300,
+                                    }}
+                                  />
 
-                                <Stack.Screen
-                                  name="taste"
-                                  options={{
-                                    animation: "slide_from_right",
-                                  }}
-                                />
+                                  <Stack.Screen
+                                    name="taste"
+                                    options={{
+                                      animation: "slide_from_right",
+                                    }}
+                                  />
 
-                                <Stack.Screen name="+not-found" />
-                              </Stack>
-                              <PortalHost name="global-overlay" />
-                            </SpotlightTourProvider>
-                          </BottomSheetModalProvider>
+                                  <Stack.Screen name="+not-found" />
+                                </Stack>
+                                <PortalHost name="global-overlay" />
+                              </SpotlightTourProvider>
+                            </BottomSheetModalProvider>
+                          </ForcedUpdate>
+                          <UpdatePopup />
                         </InternetCheck>
                         {/* Outside the sheet provider, so a toast shows above an open bottom sheet and the offline view. */}
                         <Toast

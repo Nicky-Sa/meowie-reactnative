@@ -1,0 +1,22 @@
+# Update check
+
+## Decisions
+
+- **The app blocks versions under a minimum, because the App Store can't force an update.** iOS auto-update is each person's own setting. A version under the minimum shows a "Please update" screen that can't be closed, and a version under the latest shows a "New version available" popup.
+- **The minimum version comes from the PostHog flag `minimum-app-version`, as its payload.** It can be changed in the PostHog dashboard with no backend deploy and no app release.
+- **The latest version comes from Apple's lookup API.** It updates by itself after every App Store release, so nobody has to change a value by hand.
+- **Apple's lookup runs through React Query (`useQuery`) with `fetch`, not `useQueryConfigured`.** `useQueryConfigured` adds `/v1`, our token and our response format, which Apple doesn't use. React Query retries and loads again when the app comes to the front.
+- **Apple's answer gets its type from `useQuery`'s generic, with no `as` cast and no zod check for now.** No other response in the app is checked at runtime, so a change in Apple's answer would go unnoticed, the same as with our backend.
+- **The update check stays on in the development build.** The simulator runs the dev build, so the check can be tested there. The dev build's version comes from `package.json`, which is the same as the store's or newer, so it doesn't show the screen or the popup by itself.
+- **The "Please update" screen is `ForcedUpdate`, and the "New version available" popup is its own component, `UpdatePopup`.** Both read the result from one hook, `useVersionCheck`, so the version check runs in one place.
+- **The picture, text and button layout shared by the offline view, `ErrorState` and `ForcedUpdate` becomes one component, `InformationBlock`.** It holds the same content as `InformationModal` without the modal, and covering the whole app stays at each place that uses it. Its text is at most 320 points wide (`max-w-xs`), so a text wraps at the same words on every iPhone, and the smallest iPhone still keeps 27 points on each side.
+- **"Later" saves the latest App Store version in `skippedUpdateVersionAtom`, and the popup stays hidden until Apple shows a newer one.** Closing the popup any other way, like tapping outside it, counts as "Later" too. "Update" doesn't hide it, so a person who comes back without updating sees it again.
+- **`openAppStore` lives in `update-check/utils/app-store.ts`, because both `ForcedUpdate` and `UpdatePopup` use it.**
+- **The "Please update" screen sits inside `InternetCheck` and outside `BottomSheetModalProvider`.** It covers an open bottom sheet, and the offline view covers it, because the App Store can't open offline.
+- **"Update" opens the App Store with `Linking.openURL`, not `WebBrowser.openBrowserAsync`.** The in-app browser would show Apple's web page instead of the App Store app.
+- **When the flag hasn't loaded yet, the check is skipped.** The offline view covers the app while the phone is offline, and PostHog's hook updates when the flags arrive, so the "Please update" screen shows a moment after the app goes online. PostHog saves the flags on the phone, so later launches have the minimum right away.
+- **Versions are compared number by number with our own small function, with no new package.** App versions are always plain numbers like `1.3.5`, because `app.config.ts` removes any `v` and `-` part.
+- **The App Store id is written once in `lib/consts.ts`, and both App Store links are built from it.**
+- **PostHog's folder has one folder per job, `events/` and `feature-flags/`, each with its `types.ts` and its hooks next to it.** This copies `features/taste/share-taste-card/`, which keeps one job's files and hook together, and leaves room for more flags. The type files are named `types.ts`, like `siri/types.ts`. The setup files, `client.ts`, `storage.ts` and `screen-tracker.tsx`, stay at the top.
+- **Each payload flag has a check in `isFlagPayload`, in `use-feature-flag-payload.ts`, not in `types.ts`.** The checks are code, not types. Adding a type without its check fails `tsc`. PostHog's hook gives every payload as any JSON, and the app uses no `as` casts, so the check is how TypeScript learns the payload's type. A flag whose payload has the wrong type, like the number `1.3` instead of the text `"1.3"`, gives `undefined`.
+- **A flag with variants will get its own list next to the payload list, with its options written once in a `const` list.** The type and the check are both built from that list. It's left out until a flag needs it.
