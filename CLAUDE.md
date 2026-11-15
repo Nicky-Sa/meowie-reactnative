@@ -19,6 +19,10 @@ npm run android | ios    # expo run:android | run:ios
 npm run eas-build:local-development:{android,ios-simulator,ios-device}
 npm run eas-build:local-preview:{android,ios-device}
 npm run eas-build:testflight-{preview,production}
+npm run eas-build:e2e-test:ios-simulator   # simulator build for the end-to-end tests, preview env
+
+# End-to-end tests (Maestro, see README "End-to-end tests"); needs the e2e-test build on a booted simulator
+npm run e2e              # maestro test .maestro
 
 # OTA updates (iOS only); message is required after `--`
 npm run eas-update:preview:ios -- "what changed"     # or eas-update:production:ios

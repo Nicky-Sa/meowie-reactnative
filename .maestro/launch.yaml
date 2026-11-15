@@ -1,0 +1,7 @@
+appId: com.meowie.app.preview
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Let's Go"
+    timeout: 30000

@@ -11,6 +11,7 @@
     "eas-build:local-development:ios-device": "eas env:pull --environment development && eas build --platform ios --profile local-development --clear-cache --local --output=./local-builds/dev/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
     "eas-build:local-preview:android": "eas env:pull --environment preview && eas build --platform android --profile local-preview --clear-cache --local --output=./local-builds/preview/android/$(date +\"%Y-%m-%d_%H-%M\").apk",
     "eas-build:local-preview:ios-device": "eas env:pull --environment preview && eas build --platform ios --profile local-preview --clear-cache --local --output=./local-builds/preview/ios-device/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
+    "eas-build:e2e-test:ios-simulator": "eas env:pull --environment preview && eas build --platform ios --profile e2e-test --clear-cache --local --output=./local-builds/e2e-test/ios-simulator/$(date +\"%Y-%m-%d_%H-%M\").tar.gz",
     "eas-build:testflight-preview": "eas env:pull --environment preview && eas build --platform ios --profile testflight-preview --local --clear-cache --non-interactive --output=./local-builds/testflight/preview/meowie.ipa",
     "eas-build:testflight-production": "eas env:pull --environment production && eas build --platform ios --profile testflight-production --local --clear-cache --non-interactive --output=./local-builds/testflight/production/meowie.ipa",
     "eas-update:preview:ios": "UPDATE_IS_URGENT=false eas update --channel preview --platform ios --environment preview --message",
@@ -23,7 +24,8 @@
     "generate:api": "orval --config orval/orval.config.ts",
     "firebase-emulators": "npx firebase emulators:start",
     "postinstall": "patch-package",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "e2e": "maestro test .maestro"
   },
   "dependencies": {
     "@expo-google-fonts/lato": "^0.4.1",

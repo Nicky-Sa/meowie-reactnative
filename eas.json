@@ -21,6 +21,16 @@
       "environment": "preview",
       "distribution": "internal"
     },
+    "e2e-test": {
+      "environment": "preview",
+      "withoutCredentials": true,
+      "env": {
+        "E2E_TEST": "true"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
     "testflight-preview": {
       "channel": "preview",
       "environment": "preview",

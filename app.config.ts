@@ -4,6 +4,7 @@ import pkg from "./package.json";
 const APP_VARIANT = process.env.EXPO_PUBLIC_APP_VARIANT;
 const isDevelopment = APP_VARIANT === "development";
 const iosUrlScheme = process.env.EXPO_PUBLIC_GOOGLE_IOS_URL_SCHEME;
+const isE2eTest = process.env.E2E_TEST === "true";
 
 // READ THE VERSION FROM ENV
 // If the CI didn't provide one (local dev), fall back to the version from package.json
@@ -171,6 +172,8 @@ const config: ExpoConfig = {
   owner: "nicky_sa",
   updates: {
     url: "https://u.expo.dev/c041071d-3986-482a-b8ad-ae46ac74dd4a",
+    // End-to-end tests must run the code they were built from, not a published update
+    enabled: !isE2eTest,
   },
   runtimeVersion: {
     policy: "appVersion",

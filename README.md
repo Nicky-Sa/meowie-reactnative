@@ -75,6 +75,43 @@ them [here](https://docs.expo.dev/build-reference/npm-hooks/)
 > Add `export EAS_LOCAL_BUILD_WORKINGDIR="$HOME/tmp/eas-build"` to your `~/.zshrc`. If a build fails mid-way, clean the
 > directory before retrying: `rm -rf ~/tmp/eas-build && mkdir ~/tmp/eas-build`.
 
+## End-to-end tests
+
+The flows in `.maestro/` run with [Maestro](https://docs.maestro.dev) on an iOS simulator, against a simulator build
+that uses the preview environment and backend.
+
+1. Install Maestro from its own Homebrew tap. Homebrew's plain `maestro` is a different app.
+   ```bash
+   brew tap mobile-dev-inc/tap
+   brew install mobile-dev-inc/tap/maestro
+   ```
+2. Maestro needs Java 17 or higher. Use Java 25, the newest long-term version. On Java 27, which the Maestro formula
+   installs, Maestro prints Java warnings on every run. macOS only finds Homebrew's Java through `JAVA_HOME`.
+   ```bash
+   brew install openjdk@25
+   ```
+   Add this to your `~/.zshrc` and open a new terminal:
+   ```bash
+   export JAVA_HOME="$(brew --prefix openjdk@25)/libexec/openjdk.jdk/Contents/Home"
+   ```
+3. Create the test build. It has its own bundle id, `com.meowie.app.preview`, so it sits next to the dev build. It
+   never downloads OTA updates, so the flows always test the code it was built from.
+   ```bash
+   npm run eas-build:e2e-test:ios-simulator
+   ```
+4. Unpack the build and install it on a booted simulator:
+   ```bash
+   tar -xzf ./local-builds/e2e-test/ios-simulator/<date>.tar.gz -C ./local-builds/e2e-test/ios-simulator
+   xcrun simctl install booted ./local-builds/e2e-test/ios-simulator/Meowiepreview.app
+   ```
+5. Run every flow:
+   ```bash
+   npm run e2e
+   ```
+
+The build script pulls the preview env into `.env.local`. Run `eas env:pull --environment development` before
+`npm run start` again.
+
 ## OTA Updates (EAS Update)
 
 This project is configured to use [EAS Update](https://docs.expo.dev/eas-update/introduction/) for over-the-air (OTA)
@@ -89,9 +126,6 @@ To push an update, you must provide a message describing your changes. Use the `
 command:
 
 ```bash
-# For Development (Internal)
-npm run eas-update:development:ios -- "your message"
-
 # For Preview (TestFlight)
 npm run eas-update:preview:ios -- "your message"
 
