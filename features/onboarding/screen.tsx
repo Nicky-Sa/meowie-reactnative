@@ -1,16 +1,13 @@
 import { View } from "react-native";
-import Carousel, {
-  ICarouselInstance,
+import {
+  Carousel,
+  CarouselRef,
   Pagination,
 } from "react-native-reanimated-carousel";
 import { useCallback, useRef } from "react";
 import { OnboardingItem } from "@/features/onboarding/item";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Extrapolation,
-  interpolate,
-  useSharedValue,
-} from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 import { tailwind } from "@/lib/tailwind";
 import { Button } from "@/features/common/ui/button";
 import { NavArrowRight } from "iconoir-react-native";
@@ -44,40 +41,12 @@ const items = [
 export const Screen = () => {
   const router = useRouter();
   const { width } = useScreenDimensions();
-  const ref = useRef<ICarouselInstance>(null);
+  const ref = useRef<CarouselRef>(null);
   const progress = useSharedValue<number>(0);
 
-  const onPressPagination = useCallback(
-    (index: number) => {
-      ref.current?.scrollTo({
-        /**
-         * Calculate the difference between the current index and the target index
-         * to ensure that the carousel scrolls to the nearest index
-         */
-        count: index - progress.value,
-        animated: true,
-      });
-    },
-    [progress],
-  );
-
-  const customReanimatedStyle = useCallback(
-    (progress: number, index: number, length: number) => {
-      let val = Math.abs(progress - index);
-      if (index === 0 && progress > length - 1) {
-        val = Math.abs(progress - length);
-      }
-
-      return {
-        transform: [
-          {
-            translateY: interpolate(val, [0, 1], [0, 0], Extrapolation.CLAMP),
-          },
-        ],
-      };
-    },
-    [],
-  );
+  const onPressPagination = useCallback((index: number) => {
+    ref.current?.scrollTo({ index });
+  }, []);
 
   const onLetsGo = () => {
     appStorage.setItem(APP_STORAGE_KEYS.ONBOARDED, "true");
@@ -91,21 +60,19 @@ export const Screen = () => {
           <Carousel
             loop={false}
             ref={ref}
-            width={width}
-            vertical={false}
-            snapEnabled
-            pagingEnabled
+            style={{ width }}
+            snapMode={"page"}
             data={items}
-            onProgressChange={progress}
+            progress={progress}
             renderItem={({ index }) => <OnboardingItem {...items[index]} />}
           />
 
           <View
             className={"my-0.5 flex flex-row items-center justify-between px-6"}
           >
-            <Pagination.Custom
+            <Pagination
               progress={progress}
-              data={items}
+              count={items.length}
               dotStyle={{
                 borderRadius: 100,
                 width: 8,
@@ -117,16 +84,13 @@ export const Screen = () => {
                 borderRadius: 100,
                 width: 24,
                 height: 8,
-                overflow: "hidden",
                 backgroundColor:
                   tailwind.theme.backgroundColor.neutral[1].default,
               }}
               containerStyle={{
                 gap: 5,
               }}
-              horizontal
               onPress={onPressPagination}
-              customReanimatedStyle={customReanimatedStyle}
             />
             <Button
               size={"lg"}

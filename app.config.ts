@@ -99,6 +99,8 @@ const getPlugins = (): ExpoConfig["plugins"] => {
     "posthog-react-native/expo",
     "expo-apple-authentication",
     "expo-app-intents",
+    "expo-video",
+    "expo-web-browser",
   ];
 
   // conditional plugins
