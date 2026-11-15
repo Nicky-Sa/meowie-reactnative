@@ -112,6 +112,11 @@ that uses the preview environment and backend.
 Flows tap buttons with text by their text. Icon-only buttons and posters have a `testID` instead, like `settings`,
 `tab-home` or `poster`, which a flow taps with `id:`.
 
+The sign-in flow uses the backend's test email, which gets a fixed login code and no email. The code is
+`MAESTRO_E2E_TEST_OTP_CODE` in both the development and preview EAS environments, so `.env.local` always has it.
+`npm run e2e` loads `.env.local`, and Maestro passes every `MAESTRO_` variable on to the flows. The code must match
+`E2E_TEST_OTP_CODE` in the backend's GitHub environment.
+
 The build script pulls the preview env into `.env.local`. Run `eas env:pull --environment development` before
 `npm run start` again.
 

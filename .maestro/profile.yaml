@@ -1,0 +1,36 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn:
+    id: "tab-profile"
+- assertVisible: "Sign in to start building your watchlist."
+- tapOn: "Seen"
+- assertVisible: "Sign in to keep track of what you've seen."
+- tapOn: "Login or Sign Up"
+- tapOn: "Continue with Email"
+- assertVisible: "Enter your email"
+- tapOn:
+    id: "back"
+- tapOn: "Skip"
+- tapOn:
+    id: "settings"
+- assertVisible: "Settings"
+- assertNotVisible: "Logout"
+- assertNotVisible: "Delete account"
+- tapOn: "Send feedback"
+- assertVisible: "Write your feedback here"
+- tapOn:
+    id: "back"
+- tapOn: "Privacy policy"
+- tapOn: "Done"
+- assertVisible: "Settings"
+- tapOn: "Empty cache"
+- tapOn: "Cancel"
+- tapOn: "Empty cache"
+- tapOn:
+    text: "Empty Cache"
+    index: 2
+- extendedWaitUntil:
+    notVisible: "Cancel"
+    timeout: 30000
+- assertVisible: "Settings"

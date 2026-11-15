@@ -1,0 +1,49 @@
+appId: com.meowie.app.preview
+---
+# Saves, rates and unseens the first ${MEDIA_TYPE} on Home, checking Profile after each step. Needs a signed-in account.
+- tapOn:
+    id: "tab-home"
+- tapOn: "${MEDIA_TYPE}"
+- extendedWaitUntil:
+    visible: "Saved?"
+    timeout: 60000
+# An earlier failed run can leave this title saved
+- runFlow:
+    when:
+      visible: "Saved"
+    commands:
+      - tapOn: "Saved"
+- tapOn: "Save"
+- assertVisible: "Saved"
+- tapOn:
+    id: "tab-profile"
+- tapOn: "Saved"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+
+# Rating it moves it from Saved to Seen
+- tapOn:
+    id: "tab-home"
+- tapOn: "Seen"
+- assertVisible: "Rate this ${MEDIA_TYPE}"
+- assertVisible: "This action will remove the item from your saved list and add it to your watched history."
+- tapOn: "Submit"
+- assertVisible: "Save"
+- tapOn:
+    id: "tab-profile"
+- tapOn: "Seen"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+
+# Unseen it, so the test account doesn't fill up
+- tapOn:
+    id: "tab-home"
+- tapOn: "Seen"
+- assertVisible: "Update Rating"
+- tapOn: "Unseen this ${MEDIA_TYPE}"
+- tapOn:
+    id: "tab-profile"

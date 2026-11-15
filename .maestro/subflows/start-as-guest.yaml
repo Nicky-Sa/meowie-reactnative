@@ -1,0 +1,16 @@
+appId: com.meowie.app.preview
+---
+- runFlow: launch.yaml
+- waitForAnimationToEnd
+- tapOn: "Let's Go"
+- extendedWaitUntil:
+    visible:
+      id: "like"
+    timeout: 30000
+- tapOn: "Skip"
+- extendedWaitUntil:
+    visible: "Next step"
+    timeout: 30000
+- tapOn: "Skip"
+- assertVisible:
+    id: "release-notes"

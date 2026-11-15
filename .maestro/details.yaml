@@ -1,0 +1,31 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn: "Details"
+- assertVisible: "Movie Details"
+- tapOn:
+    id: "share"
+- tapOn:
+    id: "PopoverDismissRegion"
+- tapOn: "Save"
+- assertVisible: "Login or Sign Up"
+- tapOn:
+    point: "50%,10%"
+- tapOn: "Seen"
+- assertVisible: "Login or Sign Up"
+- tapOn:
+    point: "50%,10%"
+- assertVisible: "Cast"
+- scrollUntilVisible:
+    element: "See more"
+    direction: DOWN
+- tapOn: "See more"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+- tapOn:
+    id: "poster"
+    index: 0
+- tapOn: "Details"
+- assertVisible: "Movie Details"

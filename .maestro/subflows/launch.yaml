@@ -2,6 +2,8 @@ appId: com.meowie.app.preview
 ---
 - launchApp:
     clearState: true
+    # The login tokens live in the Keychain, which clearState keeps
+    clearKeychain: true
 - extendedWaitUntil:
     visible: "Let's Go"
     timeout: 30000

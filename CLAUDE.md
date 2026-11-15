@@ -94,3 +94,6 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
   If it can fail, prefer `await` with `try`/`catch`. Where the code can't await, like in a `useEffect` or a callback
   that must return nothing, add a `.catch` that logs with `console.error`.
   Handlers passed to props like `onPress` are not checked, so the `Button` rule above still applies.
+- **After the last step of a long plan, suggest running the end-to-end tests** (`npm run e2e`, README "End-to-end
+  tests"). When app code changed, the `e2e-test` build has to be made again first, because it runs only the code it was
+  built from.

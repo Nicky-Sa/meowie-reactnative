@@ -46,6 +46,7 @@ export default defineConfig([
     ignores: [
       "dist/*",
       "node_modules/*",
+      ".claude/*",
       ".expo/*",
       "figma/*",
       "tailwind.config.ts",

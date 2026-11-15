@@ -109,6 +109,8 @@ export const BottomSheet = forwardRef<
         <BottomSheetModal
           index={index}
           ref={bottomSheetRef}
+          // The library reads the whole sheet as one element by default, so VoiceOver and the end-to-end tests can't reach its buttons
+          accessible={false}
           enablePanDownToClose
           enableDynamicSizing={enableDynamicSizing}
           maxDynamicContentSize={maxDynamicContentSize}

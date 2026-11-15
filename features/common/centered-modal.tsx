@@ -20,7 +20,9 @@ export const CenteredModal = ({
         setModalVisible(false);
       }}
     >
+      {/* Without this, iOS reads the popup as one element, so VoiceOver and the end-to-end tests can't reach its buttons */}
       <Pressable
+        accessible={false}
         className={
           "flex-1 items-center justify-center bg-neutral-10-default/80"
         }

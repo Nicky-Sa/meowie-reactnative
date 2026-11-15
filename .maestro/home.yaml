@@ -1,0 +1,30 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn:
+    id: "release-notes"
+- assertVisible: "Release notes"
+- tapOn:
+    id: "back"
+- tapOn: "Series"
+- tapOn: "Details"
+- assertVisible: "Series Details"
+- tapOn:
+    id: "back"
+- tapOn: "Movie"
+- tapOn: "Details"
+- assertVisible: "Movie Details"
+- tapOn:
+    id: "back"
+- tapOn: "Save"
+- tapOn: "Login or Sign Up"
+- assertVisible: "Continue with Email"
+- tapOn: "Skip"
+- tapOn: "Seen"
+- assertVisible: "Login or Sign Up"
+- tapOn:
+    point: "50%,10%"
+- assertNotVisible: "Login or Sign Up"
+- swipe:
+    direction: UP
+- assertVisible: "Details"

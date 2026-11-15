@@ -25,7 +25,7 @@
     "firebase-emulators": "npx firebase emulators:start",
     "postinstall": "patch-package",
     "typecheck": "tsc --noEmit",
-    "e2e": "maestro test .maestro"
+    "e2e": "set -a && . ./.env.local && set +a && JAVA_OPTS=--sun-misc-unsafe-memory-access=allow maestro test .maestro"
   },
   "dependencies": {
     "@expo-google-fonts/lato": "^0.4.1",

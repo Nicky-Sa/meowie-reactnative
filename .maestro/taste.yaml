@@ -1,0 +1,39 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/launch.yaml
+- waitForAnimationToEnd
+- tapOn: "Let's Go"
+- extendedWaitUntil:
+    visible: "\\d+/\\d+ liked"
+    timeout: 30000
+- repeat:
+    while:
+      visible: "\\d+/\\d+ liked"
+    commands:
+      - tapOn:
+          id: "like"
+- assertVisible: "\\d+ liked"
+- tapOn: "Next"
+- extendedWaitUntil:
+    visible:
+      id: "like"
+    timeout: 30000
+- tapOn:
+    id: "like"
+- tapOn:
+    id: "dislike"
+- tapOn: "Next"
+- tapOn: "Submit my taste"
+- extendedWaitUntil:
+    visible: "Continue with Email"
+    timeout: 60000
+- tapOn: "Skip"
+- extendedWaitUntil:
+    visible: "Next step"
+    timeout: 30000
+- tapOn: "Skip"
+- assertVisible:
+    id: "release-notes"
+- tapOn:
+    id: "tab-profile"
+- assertVisible: "Sign in to start building your watchlist."

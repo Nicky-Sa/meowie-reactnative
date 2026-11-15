@@ -1,0 +1,20 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- openLink: "meowie-preview://settings"
+- tapOn:
+    text: "Open"
+    optional: true
+- assertVisible: "Settings"
+- tapOn:
+    id: "back"
+- assertVisible:
+    id: "release-notes"
+- openLink: "meowie-preview://no-such-screen"
+- tapOn:
+    text: "Open"
+    optional: true
+- assertVisible: "This screen does not exist."
+- tapOn: "Go to home screen"
+- assertVisible:
+    id: "release-notes"

@@ -1,0 +1,46 @@
+appId: com.meowie.app.preview
+env:
+  # The backend's E2E_TEST_EMAIL on preview; its fixed code comes from .env.local
+  TEST_EMAIL: "e2e-test@meowie.app"
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn:
+    id: "tab-profile"
+- tapOn: "Login or Sign Up"
+- tapOn: "Continue with Email"
+- tapOn: "Enter your email"
+- inputText: ${TEST_EMAIL}
+- tapOn: "Next"
+- tapOn: "Enter the code"
+- inputText: ${MAESTRO_E2E_TEST_OTP_CODE}
+- tapOn: "Verify code"
+- extendedWaitUntil:
+    visible: "Welcome to Meowie!"
+    timeout: 30000
+- assertNotVisible: "Login or Sign Up"
+
+# Series first, so a stuck movie feed doesn't hide a series problem
+- runFlow:
+    file: subflows/save-and-rate.yaml
+    env:
+      MEDIA_TYPE: "series"
+- runFlow:
+    file: subflows/save-and-rate.yaml
+    env:
+      MEDIA_TYPE: "movie"
+
+# Log out
+- tapOn:
+    id: "settings"
+- tapOn: "Logout"
+- assertVisible: "Are you sure you want to logout?"
+- tapOn:
+    text: "Logout"
+    below: "Are you sure you want to logout?"
+- extendedWaitUntil:
+    visible:
+      id: "release-notes"
+    timeout: 30000
+- tapOn:
+    id: "tab-profile"
+- assertVisible: "Login or Sign Up"

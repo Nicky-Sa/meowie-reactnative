@@ -1,0 +1,49 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn:
+    id: "tab-explore"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+- tapOn:
+    id: "poster"
+    index: 0
+- tapOn: "Details"
+- assertVisible: "(Movie|Series) Details"
+- tapOn:
+    id: "back"
+- tapOn:
+    id: "back"
+- tapOn: "Series"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+- tapOn:
+    id: "poster"
+    index: 0
+- tapOn: "Details"
+- assertVisible: "Series Details"
+- tapOn:
+    id: "back"
+- tapOn:
+    id: "back"
+- tapOn:
+    id: "filters"
+- assertVisible: "Filter"
+- tapOn: "Genre"
+- tapOn: ".* Comedy"
+- tapOn: "Apply"
+- tapOn: "Apply"
+- assertVisible: "Filtered series"
+- extendedWaitUntil:
+    visible:
+      id: "poster"
+    timeout: 30000
+- tapOn:
+    id: "poster"
+    index: 0
+- tapOn: "Details"
+- assertVisible: "Series Details"

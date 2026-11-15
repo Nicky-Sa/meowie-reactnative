@@ -1,0 +1,35 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- tapOn:
+    id: "tab-explore"
+- tapOn:
+    id: "search"
+- tapOn: "Search anything..."
+- inputText: "zzqqxxkkvvjj"
+- extendedWaitUntil:
+    visible: "(?s).*Please try something else\\..*"
+    timeout: 30000
+- eraseText: 20
+- inputText: "Christopher Nolan"
+- extendedWaitUntil:
+    visible: "Christopher Nolan, known for directing"
+    timeout: 30000
+- tapOn: "Christopher Nolan, known for directing"
+- extendedWaitUntil:
+    visible: "known for .*"
+    timeout: 30000
+- tapOn:
+    id: "poster"
+    index: 0
+- tapOn: "Details"
+- assertVisible: "(Movie|Series) Details"
+- tapOn:
+    id: "back"
+- tapOn:
+    id: "back"
+- tapOn:
+    id: "back"
+- tapOn: "Cancel"
+- assertVisible:
+    id: "filters"
