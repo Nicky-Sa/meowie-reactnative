@@ -37,7 +37,7 @@ export const LoginWarningModal = ({
         }}
         variant={"white"}
         size={"md"}
-        className={"w-full"}
+        fullWidth
       >
         Login or Sign Up
       </Button>

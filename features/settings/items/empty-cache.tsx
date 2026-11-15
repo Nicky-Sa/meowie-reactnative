@@ -51,7 +51,7 @@ export const EmptyCache = () => {
             <Button
               variant="black"
               size="lg"
-              className="flex-1"
+              fullWidth
               onPress={() => {
                 bottomSheetRef.current?.dismiss();
               }}
@@ -61,7 +61,7 @@ export const EmptyCache = () => {
             <Button
               variant="white"
               size="lg"
-              className="flex-1"
+              fullWidth
               onPress={handleEmptyCache}
               isLoading={isClearing}
             >

@@ -54,19 +54,14 @@ export const Logout = () => {
             <Button
               variant="black"
               size="lg"
-              className="flex-1"
+              fullWidth
               onPress={() => {
                 bottomSheetRef.current?.dismiss();
               }}
             >
               Cancel
             </Button>
-            <Button
-              variant="white"
-              size="lg"
-              className="flex-1"
-              onPress={handleLogout}
-            >
+            <Button variant="white" size="lg" fullWidth onPress={handleLogout}>
               Logout
             </Button>
           </View>

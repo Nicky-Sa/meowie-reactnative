@@ -118,6 +118,8 @@ type Props = Omit<PressableProps, "onPress"> & {
   iconPosition?: "left" | "right" | "only";
   isLoading?: boolean;
   icon?: ReactNode;
+  /** Fills the free space in its row, shared equally with other full-width buttons. */
+  fullWidth?: boolean;
 };
 
 // A small pop the moment the button turns on, so a button that starts enabled
@@ -146,6 +148,7 @@ export const Button = ({
   isLoading,
   icon,
   iconPosition = "left",
+  fullWidth,
   children,
   ...props
 }: PropsWithChildren<Props>) => {
@@ -185,6 +188,7 @@ export const Button = ({
   return (
     <Pressable
       {...props}
+      className={cn(fullWidth && "flex-1", props.className)}
       hitSlop={
         props.hitSlop ?? (variant === "link" ? LINK_HIT_SLOP : undefined)
       }

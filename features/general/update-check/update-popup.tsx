@@ -25,16 +25,12 @@ export const UpdatePopup = () => {
       setModalVisible={skipThisVersion}
     >
       <View className="flex-1 flex-row gap-4">
-        <View className="flex-1">
-          <Button onPress={skipThisVersion} variant="black" size="lg">
-            Later
-          </Button>
-        </View>
-        <View className="flex-1">
-          <Button onPress={openAppStore} variant="white" size="lg">
-            Update
-          </Button>
-        </View>
+        <Button onPress={skipThisVersion} variant="black" size="lg" fullWidth>
+          Later
+        </Button>
+        <Button onPress={openAppStore} variant="white" size="lg" fullWidth>
+          Update
+        </Button>
       </View>
     </InformationModal>
   );

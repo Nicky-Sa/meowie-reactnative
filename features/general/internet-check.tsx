@@ -54,7 +54,7 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
             }}
             variant="white"
             size="md"
-            className="w-full"
+            fullWidth
           >
             Ok, understood.
           </Button>

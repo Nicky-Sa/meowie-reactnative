@@ -51,20 +51,22 @@ export const SkipAuth = () => {
         enableDynamicSizing
         footer={
           <View className="flex flex-row gap-3">
-            <View className="flex-1">
-              <Button variant="black" size="lg" onPress={onContinueAsGuest}>
-                Continue as guest
-              </Button>
-            </View>
-            <View className="flex-1">
-              <Button
-                variant="white"
-                size="lg"
-                onPress={() => bottomSheetRef.current?.dismiss()}
-              >
-                Let&#39;s login
-              </Button>
-            </View>
+            <Button
+              variant="black"
+              size="lg"
+              fullWidth
+              onPress={onContinueAsGuest}
+            >
+              Continue as guest
+            </Button>
+            <Button
+              variant="white"
+              size="lg"
+              fullWidth
+              onPress={() => bottomSheetRef.current?.dismiss()}
+            >
+              Let&#39;s login
+            </Button>
           </View>
         }
       >
