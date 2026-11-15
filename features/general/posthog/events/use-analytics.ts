@@ -416,6 +416,49 @@ export const useAnalytics = () => {
       },
 
       /**
+       * First-launch tour tracking
+       */
+      tour: {
+        trackStarted: ({ totalSteps }: { totalSteps: number }): void =>
+          capture("tour_started", { total_steps: totalSteps }),
+
+        trackStepViewed: ({
+          step,
+          stepName,
+        }: {
+          step: number;
+          stepName: string;
+        }): void => capture("tour_step_viewed", { step, step_name: stepName }),
+
+        trackNextTapped: ({
+          step,
+          stepName,
+        }: {
+          step: number;
+          stepName: string;
+        }): void => capture("tour_next_tapped", { step, step_name: stepName }),
+
+        trackBackTapped: ({
+          step,
+          stepName,
+        }: {
+          step: number;
+          stepName: string;
+        }): void => capture("tour_back_tapped", { step, step_name: stepName }),
+
+        trackSkipped: ({
+          step,
+          stepName,
+        }: {
+          step: number;
+          stepName: string;
+        }): void => capture("tour_skipped", { step, step_name: stepName }),
+
+        trackCompleted: ({ totalSteps }: { totalSteps: number }): void =>
+          capture("tour_completed", { total_steps: totalSteps }),
+      },
+
+      /**
        * UI and Navigation tracking
        */
       interaction: {

@@ -376,6 +376,52 @@ export type TASTE_SUBMITTED = {
   properties: undefined;
 };
 
+export type TOUR_STARTED = {
+  event: "tour_started";
+  properties: {
+    total_steps: number;
+  };
+};
+
+export type TOUR_STEP_VIEWED = {
+  event: "tour_step_viewed";
+  properties: {
+    step: number;
+    step_name: string;
+  };
+};
+
+export type TOUR_NEXT_TAPPED = {
+  event: "tour_next_tapped";
+  properties: {
+    step: number;
+    step_name: string;
+  };
+};
+
+export type TOUR_BACK_TAPPED = {
+  event: "tour_back_tapped";
+  properties: {
+    step: number;
+    step_name: string;
+  };
+};
+
+export type TOUR_SKIPPED = {
+  event: "tour_skipped";
+  properties: {
+    step: number;
+    step_name: string;
+  };
+};
+
+export type TOUR_COMPLETED = {
+  event: "tour_completed";
+  properties: {
+    total_steps: number;
+  };
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -422,7 +468,13 @@ export type Events =
   | TASTE_CARD_SHOWN
   | TASTE_CARD_CLICKED
   | TASTE_SKIPPED
-  | TASTE_SUBMITTED;
+  | TASTE_SUBMITTED
+  | TOUR_STARTED
+  | TOUR_STEP_VIEWED
+  | TOUR_NEXT_TAPPED
+  | TOUR_BACK_TAPPED
+  | TOUR_SKIPPED
+  | TOUR_COMPLETED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

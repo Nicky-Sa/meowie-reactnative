@@ -12,6 +12,7 @@ export enum TourStep {
 
 type StepContent = {
   text: string;
+  stepName: string;
   // Points added to the highlight's width and height, half on each side.
   padding: number;
 };
@@ -19,14 +20,17 @@ type StepContent = {
 export const tourStepContent: Record<TourStep, StepContent> = {
   [TourStep.HeaderToggle]: {
     text: "Switch between Movies and Series to choose what you want to discover.",
+    stepName: "movies_series_switch",
     padding: 8,
   },
   [TourStep.DeepDiving]: {
     text: "Tap different elements to see or discover more.",
+    stepName: "deep_diving",
     padding: 8,
   },
   [TourStep.SearchExplore]: {
     text: "Search for any title or person, or explore top lists and new releases.",
+    stepName: "search_explore",
     padding: 24,
   },
 };
@@ -41,10 +45,15 @@ export const tabTourSteps: Partial<Record<TabsName, TourStep>> = {
 const stepContents = Object.values(tourStepContent);
 
 export const homeTourSteps: SpotlightStep[] = stepContents.map(
-  ({ text, padding }) => ({
+  ({ text, stepName, padding }) => ({
     shape: { type: "rectangle", padding },
     render: (props) => (
-      <TourTooltip {...props} text={text} total={stepContents.length} />
+      <TourTooltip
+        {...props}
+        text={text}
+        stepName={stepName}
+        total={stepContents.length}
+      />
     ),
   }),
 );
