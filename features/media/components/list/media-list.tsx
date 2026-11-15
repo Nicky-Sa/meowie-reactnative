@@ -90,8 +90,8 @@ export const MediaList = memo(
         key={isWaitingForInitialData ? "loading" : "ready"}
         data={data}
         ref={listRef}
-        keyExtractor={({ mediaType, id, batchIndex }) =>
-          `${mediaType}-${id}-${batchIndex ?? ""}`
+        keyExtractor={({ mediaType, id, deliveryIndex }) =>
+          `${mediaType}-${id}-${deliveryIndex ?? ""}`
         }
         initialScrollIndex={
           isWaitingForInitialData ? undefined : initialScrollIndex

@@ -16,16 +16,19 @@ type Args = {
   mediaType: MediaType;
 };
 
-type FeedBatch = SuccessResponse<FeedResponse>;
+type FeedDelivery = SuccessResponse<FeedResponse>;
 
 const PREPARING_POLL_INTERVAL_MS = 2000;
 const PREPARING_MAX_POLLS = 90;
 
-const getNextBatch = (lastBatch: FeedBatch, batches: FeedBatch[]) => {
-  const titleIds = lastBatch.data.results;
+const getNextDelivery = (
+  lastDelivery: FeedDelivery,
+  deliveries: FeedDelivery[],
+) => {
+  const titleIds = lastDelivery.data.results;
   if (titleIds.length === 0) return undefined;
 
-  return batches.length;
+  return deliveries.length;
 };
 
 export const useFetchFeed = ({ mediaType }: Args) => {
@@ -36,7 +39,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const url = `/feed/${mediaType}`;
   const userId = currentUser?.user?.id ?? null;
   const queryKey = useMemo(() => [url, userId], [url, userId]);
-  const { refresh: resetAndRequestNewBatch, isRefreshing } =
+  const { refresh: resetAndRequestNewDelivery, isRefreshing } =
     useRefreshQuery(queryKey);
 
   const {
@@ -57,9 +60,9 @@ export const useFetchFeed = ({ mediaType }: Args) => {
         },
         { signal },
       ),
-    getNextPageParam: getNextBatch,
+    getNextPageParam: getNextDelivery,
     enabled: !isCheckingUser,
-    // Each GET consumes new titles. Automatic refetching would replace every loaded batch.
+    // Each GET consumes new titles. Automatic refetching would replace every loaded delivery.
     staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
@@ -70,11 +73,11 @@ export const useFetchFeed = ({ mediaType }: Args) => {
   const feedItems = useMemo<MediaListItemData[]>(
     () =>
       withShareTasteCard(
-        (response ?? []).flatMap((batch, batchIndex) =>
-          batch.data.results.map((id) => ({
+        (response ?? []).flatMap((delivery, deliveryIndex) =>
+          delivery.data.results.map((id) => ({
             id,
             mediaType,
-            batchIndex,
+            deliveryIndex,
           })),
         ),
         mediaType,
@@ -86,8 +89,8 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     if (isRefreshing) return;
 
     media.trackFeedRefreshed({ mediaType });
-    return resetAndRequestNewBatch();
-  }, [media, isRefreshing, mediaType, resetAndRequestNewBatch]);
+    return resetAndRequestNewDelivery();
+  }, [media, isRefreshing, mediaType, resetAndRequestNewDelivery]);
 
   return {
     ...query,
@@ -96,7 +99,7 @@ export const useFetchFeed = ({ mediaType }: Args) => {
     isLoading: isCheckingUser || isLoading,
     refetch: query.isFetchNextPageError
       ? query.fetchNextPage
-      : resetAndRequestNewBatch,
+      : resetAndRequestNewDelivery,
     onRefresh,
     isRefreshing,
   };
