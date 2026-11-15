@@ -1,5 +1,8 @@
 import axios, { isAxiosError, create as createAxiosInstance } from "axios";
-import { getAccessToken, getRefreshToken } from "./utils/token";
+import {
+  getAccessToken,
+  getRefreshToken,
+} from "@/features/common/data/utils/token";
 import { env } from "@/lib/env";
 import {
   destroySession,
@@ -9,6 +12,7 @@ import { GENERAL_TIMEOUT } from "@/lib/consts";
 import { getDefaultStore } from "jotai";
 import { countryCodeAtom } from "@/atoms";
 import { posthog } from "@/features/general/posthog/client";
+import { isErrorResponse } from "@/features/common/data/error";
 
 // Create the axios instance
 const axiosInstance = createAxiosInstance({
@@ -85,9 +89,12 @@ axiosInstance.interceptors.response.use(
     }
 
     const originalRequest = error.config;
+    const responseBody: unknown = error.response?.data;
     console.log({
       error,
-      apiErrorMessage: error.response?.data.errors,
+      apiErrorMessage: isErrorResponse(responseBody)
+        ? responseBody.errors
+        : undefined,
       url: error.response?.config?.url,
     });
 

@@ -1,5 +1,5 @@
 import type { TourStep as SpotlightStep } from "react-native-spotlight-tour";
-import { TourTooltip } from "./tooltip";
+import { TourTooltip } from "@/features/common/ui/tour/tooltip";
 
 // Step order for the home tour. The values are the indexes into `homeTourSteps`
 // and the index each Tourable attaches to.

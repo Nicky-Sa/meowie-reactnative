@@ -3,8 +3,8 @@ import { useAnalytics } from "@/features/general/posthog/hook/use-analytics";
 import { memo, useCallback, useState } from "react";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";
-import { PosterPreview } from "./poster-preview";
-import { PosterCard } from "./poster-card";
+import { PosterPreview } from "@/features/common/posters/poster-preview";
+import { PosterCard } from "@/features/common/posters/poster-card";
 import {
   GestureDetector,
   useExclusiveGestures,

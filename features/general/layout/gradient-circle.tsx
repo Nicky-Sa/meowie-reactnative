@@ -35,7 +35,7 @@ const addAlpha = (color: string, opacity: number) => {
 };
 
 const useGradientAnimation = (color: string) => {
-  // Animate color transitions smoothly — triggered during render, not in useEffect
+  // Animate color transitions smoothly
   const progress = useSharedValue(1);
   const prevColor = useRef(color);
 

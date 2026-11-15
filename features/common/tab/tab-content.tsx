@@ -19,9 +19,11 @@ export const TabContent = ({
   children,
 }: Props) => {
   const scroll = useScrollPosition();
+  // Only scrollY goes into the worklet, because Worklets can't copy the scroll handler next to it.
+  const { scrollY } = scroll;
 
   useAnimatedReaction(
-    () => scroll.scrollY.value,
+    () => scrollY.value,
     (current) => {
       scrollPositions.value = {
         ...scrollPositions.value,

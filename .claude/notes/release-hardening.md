@@ -158,8 +158,12 @@ A crash comes from an error while a screen draws, or from an error thrown direct
     last 30 days.
 14. The response interceptor in `axios.ts` reads `error.response?.data.errors`. A failed response with an empty JSON
     body would throw there and hide the real error.
-15. Metro prints two warnings on start: "ImageBackground is deprecated" and a Reanimated warning about dependencies.
-    One run also printed "[Reanimated] Writing to `value` during component render" 120 times, plus one "Reading from `value`". The source is not found yet, and taps took a few seconds to land during that run.
+15. Metro prints warnings that come from libraries. "ImageBackground is deprecated" comes from NativeWind's runtime,
+    `react-native-css-interop`, which sets up `className` for it on load. "Writing to `value` during component render"
+    and part of "Dependencies should only be used on the web" come from NativeWind's `animate-pulse`, which
+    `SkeletonItem` used. The rest of the "Dependencies" warnings come from `react-native-collapsible-tab-view` 8.0.1 on
+    Profile and Explore. One "Reading from `value` during component render" comes from a component inside a `forwardRef`
+    that the stack doesn't name.
 
 ### Checked and fine
 

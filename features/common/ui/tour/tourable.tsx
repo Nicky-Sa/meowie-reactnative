@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from "react";
 import { AttachStep, ChildProps } from "react-native-spotlight-tour";
-import { TourStep } from "./steps";
+import { TourStep } from "@/features/common/ui/tour/steps";
 
 export type TourableProps = PropsWithChildren<{
   step: TourStep;
