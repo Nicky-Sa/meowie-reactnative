@@ -263,8 +263,8 @@ export type MEDIA_SHARED = {
   };
 };
 
-export type MEDIA_SWIPED = {
-  event: "media_swiped";
+export type MEDIA_SCROLLED = {
+  event: "media_scrolled";
   properties: {
     direction: "up" | "down";
     position: number;
@@ -455,7 +455,7 @@ export type Events =
   | MEDIA_DETAILS_CLICKED
   | MEDIA_SHARED
   | FEED_REFRESHED
-  | MEDIA_SWIPED
+  | MEDIA_SCROLLED
   | RELEASE_NOTES_OPENED
   | EXPLORE_TAB_CHANGED
   | EXPLORE_REFRESHED

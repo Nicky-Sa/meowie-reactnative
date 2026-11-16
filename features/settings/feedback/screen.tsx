@@ -86,7 +86,7 @@ export const Screen = () => {
           <View className="flex flex-col gap-6">
             <Text className="body-b1 text-neutral-10-default">
               Have an idea or spotted a bug? We&#39;d love to hear from you to
-              make your swiping experience seamless.
+              make your scrolling experience seamless.
             </Text>
 
             <View className="flex flex-col gap-2">

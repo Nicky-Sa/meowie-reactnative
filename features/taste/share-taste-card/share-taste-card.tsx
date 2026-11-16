@@ -71,7 +71,7 @@ export const ShareTasteCard = ({ mediaType, inScreen }: Props) => {
         </View>
         <View className={"flex flex-col items-center gap-2"}>
           <Text className={"body-b2 text-center text-neutral-6-default"}>
-            or continue swiping
+            or continue scrolling
           </Text>
           <Icon
             i={NavArrowDown}

@@ -16,7 +16,7 @@ export const useScrollHandler = ({ initialIndex = 0 }: Args = {}) => {
   const changeCard = useCallback(
     (newIndex: number, previousIndex: number) => {
       setCurrentIndex(newIndex);
-      media.trackMediaSwiped({
+      media.trackMediaScrolled({
         direction: newIndex > previousIndex ? "up" : "down",
         position: newIndex + 1,
       });

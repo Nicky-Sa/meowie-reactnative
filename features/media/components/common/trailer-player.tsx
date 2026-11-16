@@ -155,7 +155,7 @@ export const Player = ({
     if (state === PlayerState.PLAYING) {
       setHasStartedPlaying(true);
     }
-    // We also play and pause the player when shouldPlay changes (swipe, screen change).
+    // We also play and pause the player when shouldPlay changes (scroll, screen change).
     // Only a change that goes against shouldPlay came from a tap on the video.
     if (state === PlayerState.PLAYING && !shouldPlay) {
       setUserTriggeredPlay(true);

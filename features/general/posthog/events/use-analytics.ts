@@ -268,13 +268,13 @@ export const useAnalytics = () => {
         trackFeedRefreshed: ({ mediaType }: { mediaType: MediaType }): void =>
           capture("feed_refreshed", { media_type: mediaType }),
 
-        trackMediaSwiped: ({
+        trackMediaScrolled: ({
           direction,
           position,
         }: {
-          direction: Properties<"media_swiped">["direction"];
+          direction: Properties<"media_scrolled">["direction"];
           position: number;
-        }): void => capture("media_swiped", { direction, position }),
+        }): void => capture("media_scrolled", { direction, position }),
 
         trackGenreClick: ({
           genreId,
