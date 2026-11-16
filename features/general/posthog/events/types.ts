@@ -422,6 +422,26 @@ export type TOUR_COMPLETED = {
   };
 };
 
+export type SCROLL_HINT_SHOWN = {
+  event: "scroll_hint_shown";
+  properties: undefined;
+};
+
+export type SCROLL_HINT_INTERRUPTED = {
+  event: "scroll_hint_interrupted";
+  properties: {
+    phase: "rest" | "peek" | "settle";
+  };
+};
+
+export type FEED_FIRST_SCROLLED = {
+  event: "feed_first_scrolled";
+  properties: {
+    seconds_since_tour_ended: number | null;
+    hint_shown: boolean;
+  };
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -474,7 +494,10 @@ export type Events =
   | TOUR_NEXT_TAPPED
   | TOUR_BACK_TAPPED
   | TOUR_SKIPPED
-  | TOUR_COMPLETED;
+  | TOUR_COMPLETED
+  | SCROLL_HINT_SHOWN
+  | SCROLL_HINT_INTERRUPTED
+  | FEED_FIRST_SCROLLED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

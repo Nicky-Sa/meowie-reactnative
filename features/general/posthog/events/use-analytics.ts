@@ -459,6 +459,31 @@ export const useAnalytics = () => {
       },
 
       /**
+       * Home feed scroll hint tracking
+       */
+      scrollHint: {
+        trackShown: (): void => capture("scroll_hint_shown"),
+
+        trackInterrupted: ({
+          phase,
+        }: {
+          phase: Properties<"scroll_hint_interrupted">["phase"];
+        }): void => capture("scroll_hint_interrupted", { phase }),
+
+        trackFeedFirstScrolled: ({
+          secondsSinceTourEnded,
+          hintShown,
+        }: {
+          secondsSinceTourEnded: number | null;
+          hintShown: boolean;
+        }): void =>
+          capture("feed_first_scrolled", {
+            seconds_since_tour_ended: secondsSinceTourEnded,
+            hint_shown: hintShown,
+          }),
+      },
+
+      /**
        * UI and Navigation tracking
        */
       interaction: {

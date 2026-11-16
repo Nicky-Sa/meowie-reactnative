@@ -19,7 +19,7 @@ import { EventListenerWrapper } from "@/features/common/event-emitting/event-lis
 import { SpotlightTourProvider } from "react-native-spotlight-tour";
 import { homeTourSteps } from "@/features/common/ui/tour/steps";
 import { useSetAtom } from "jotai";
-import { homeTourSeenAtom } from "@/atoms";
+import { homeTourSeenAtom, tourEndedAtAtom } from "@/atoms";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "@/features/common/ui/toast";
@@ -39,6 +39,7 @@ export const unstable_settings = {
 function RootLayout() {
   const themeConfig = useThemeConfig();
   const setHomeTourSeen = useSetAtom(homeTourSeenAtom);
+  const setTourEndedAt = useSetAtom(tourEndedAtAtom);
 
   return (
     <View className={"flex-1 bg-neutral-15-default"}>
@@ -74,7 +75,10 @@ function RootLayout() {
                                 shape={{ type: "rectangle", padding: 8 }}
                                 // The tour only moves with the tooltip's buttons.
                                 onBackdropPress={() => {}}
-                                onStop={() => setHomeTourSeen(true)}
+                                onStop={() => {
+                                  setHomeTourSeen(true);
+                                  setTourEndedAt(Date.now());
+                                }}
                                 // Match the tooltip background (bg-neutral-15-default)
                                 // so the arrow reads as part of the tooltip.
                                 arrow={{

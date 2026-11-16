@@ -47,6 +47,12 @@ export const scrollHintSeenAtom = atomPersisted(
   PERSISTED_ATOM_KEYS.SCROLL_HINT_SEEN,
   false,
 );
+export const feedFirstScrollTrackedAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.FEED_FIRST_SCROLL_TRACKED,
+  false,
+);
+// Not saved: after a restart, the first scroll is sent without its seconds since the tour.
+export const tourEndedAtAtom = atom<number | null>(null);
 
 // Location and Country (persisted)
 export const countryCodeAtom = atomPersisted(

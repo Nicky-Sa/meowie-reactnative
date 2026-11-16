@@ -27,3 +27,17 @@
 - **The feed list sets `scrollToOverflowEnabled`.** iOS clamps code-driven scrolls to the content, so without it the
   spring's dip past the top was cut off and the bounce didn't show.
 - **Deleting the account resets `scrollHintSeen`, like the tour.**
+
+## PostHog events
+
+- **`feed_first_scrolled` counts its seconds from the moment the tour ends, not from when Home opens, so its property
+  is `seconds_since_tour_ended`.** The peek
+  starts 0.8s after the tour ends, and tour reading time varies a lot without the peek changing it. Old versions send
+  `tour_completed` or `tour_skipped`, so a funnel to the first `media_scrolled` (`media_swiped` before its rename)
+  gives the same number from before.
+- **The tour end time is kept in memory only, and the seconds are sent empty when the first scroll happens in a later
+  launch.** Most new users scroll in the launch where they saw the tour, and saving the time would add another
+  stored value. The tour's `onStop` in `app/_layout.tsx` sets it, because that runs for both finish and skip.
+- **`feed_first_scrolled` has its own saved flag, `feedFirstScrollTracked`.** `scrollHintSeen` can't show it was sent,
+  because it also turns true when the peek plays. Deleting the account resets the flag, like the tour.
+- **`hint_shown` is `scrollHintSeen` read just before the first scroll saves it as seen.**

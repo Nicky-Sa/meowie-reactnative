@@ -33,6 +33,7 @@ export type AppStorageKey =
 export const PERSISTED_ATOM_KEYS = {
   HOME_TOUR_SEEN: "home-tour-seen",
   SCROLL_HINT_SEEN: "scroll-hint-seen",
+  FEED_FIRST_SCROLL_TRACKED: "feed-first-scroll-tracked",
   COUNTRY_CODE: "country-code",
   RECENT_SEARCHES: "recent-searches",
   LAST_SEEN_RELEASE_NOTE_AT: "last-seen-release-note-at",
