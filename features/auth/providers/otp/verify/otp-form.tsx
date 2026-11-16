@@ -80,7 +80,6 @@ export const OtpForm = ({ email }: Props) => {
           keyboardType={"number-pad"}
           autoCapitalize={"none"}
           autoCorrect={false}
-          maskInReplay
           textContentType={"oneTimeCode"}
           autoComplete={"one-time-code"}
           autoFocus

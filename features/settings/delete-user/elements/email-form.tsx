@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useRouter } from "expo-router";
 import { Button } from "@/features/common/ui/button";
 import { useDeleteUser } from "@/features/settings/delete-user/data/use-delete-user";
-import { usePostHog } from "posthog-react-native";
+import { PostHogMaskView, usePostHog } from "posthog-react-native";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { getErrorText } from "@/features/common/data/error";
 
@@ -51,11 +51,15 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
 
   return (
     <View className={"flex flex-col gap-4"}>
-      <Text className={"body-b1 text-neutral-10-default"}>
-        To confirm this action, please type your email,{" "}
-        <Text className={"body-b1-strong text-neutral-5-default"}>{email}</Text>
-        , into the box below.
-      </Text>
+      <PostHogMaskView>
+        <Text className={"body-b1 text-neutral-10-default"}>
+          To confirm this action, please type your email,{" "}
+          <Text className={"body-b1-strong text-neutral-5-default"}>
+            {email}
+          </Text>
+          , into the box below.
+        </Text>
+      </PostHogMaskView>
       <TextInput
         name={"email"}
         control={control}

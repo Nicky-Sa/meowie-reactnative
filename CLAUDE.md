@@ -64,7 +64,7 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 
 **Auth / session.** OTP (email) plus Google / Apple sign-in. Tokens live in `expo-secure-store` with an in-memory cache (`features/common/data/utils/token.ts`). `session` / `destroySession` (in `data/utils/`) manage tokens and emit `sessionCreated` / `sessionDestroyed` over a `mitt` bus (`features/common/event-emitting/emitter.ts`), consumed by `EventListenerWrapper`. No tokens = guest mode; the Axios layer downgrades to guest silently when a refresh fails.
 
-**Observability.** PostHog only — analytics, session replay (10% sample, text inputs and images masked), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. It runs in the preview and production builds; the development build sends analytics and session replay only. An error without a stack trace gets its message as its PostHog fingerprint (`before_send`), so each message has its own issue. `ScreenTracker` reports navigation.
+**Observability.** PostHog only — analytics, session replay (10% sample; text and images show, while text inputs and the user's email are hidden with `PostHogMaskView`), and error tracking. The client and these settings live in `features/general/posthog/client.ts`; `app/_layout.tsx` only mounts `PostHogProvider` with touch and screen autocapture. Error tracking catches uncaught exceptions, unhandled promise rejections and every `console.error` call (ours and libraries'), so log a caught error with `console.error` to report it. It runs in the preview and production builds; the development build sends analytics and session replay only. An error without a stack trace gets its message as its PostHog fingerprint (`before_send`), so each message has its own issue. `ScreenTracker` reports navigation.
 
 **Adding a PostHog event.** Add its type to `features/general/posthog/events/types.ts` and a tracker to `features/general/posthog/events/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 
@@ -94,6 +94,9 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
   If it can fail, prefer `await` with `try`/`catch`. Where the code can't await, like in a `useEffect` or a callback
   that must return nothing, add a `.catch` that logs with `console.error`.
   Handlers passed to props like `onPress` are not checked, so the `Button` rule above still applies.
+- **Wrap any text or image that shows the user's personal data, like their email, name or avatar, in
+  `PostHogMaskView`** (from `posthog-react-native`). Session replay shows all other text and images, so anything not
+  wrapped appears in recordings. Text inputs are already hidden by the shared `TextInput`.
 - **After the last step of a long plan, suggest running the end-to-end tests** (`npm run e2e`, README "End-to-end
   tests"). When app code changed, the `e2e-test` build has to be made again first, because it runs only the code it was
   built from.

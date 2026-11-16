@@ -56,7 +56,6 @@ export const EmailForm = () => {
         autoCapitalize={"none"}
         autoCorrect={false}
         icon={Mail}
-        maskInReplay
         textContentType={"emailAddress"}
         autoComplete={"email"}
         autoFocus

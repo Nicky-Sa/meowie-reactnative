@@ -18,8 +18,9 @@ export const posthog = new PostHog(env.EXPO_PUBLIC_POSTHOG_PROJECT_TOKEN, {
   },
   sessionReplayConfig: {
     sampleRate: 0.1,
-    maskAllTextInputs: true,
-    maskAllImages: true,
+    // Our TextInput and the user's email hide themselves with PostHogMaskView.
+    maskAllTextInputs: false,
+    maskAllImages: false,
   },
   // An error without a stack trace gets its message as fingerprint,
   // so different errors land in separate PostHog issues instead of one.

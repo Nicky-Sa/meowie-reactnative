@@ -24,6 +24,7 @@ import Animated, {
   interpolateColor,
 } from "react-native-reanimated";
 import { useFocusEffect } from "expo-router";
+import { PostHogMaskView } from "posthog-react-native";
 
 const textInputStates = {
   default: {
@@ -87,7 +88,6 @@ type Props<T extends FieldValues> = UseControllerProps<T> & {
   size?: keyof typeof textInputSizes;
   icon?: SvgImage;
   autoFocus?: boolean;
-  maskInReplay?: boolean;
 } & TextInputProps;
 
 export const TextInput = <T extends FieldValues>({
@@ -99,7 +99,6 @@ export const TextInput = <T extends FieldValues>({
   icon,
   size = "lg",
   autoFocus,
-  maskInReplay = false,
   className,
   ...textInputProps
 }: Props<T>) => {
@@ -151,67 +150,68 @@ export const TextInput = <T extends FieldValues>({
               <Text className={"body-b2 text-neutral-10-default"}>{title}</Text>
             )}
 
-            <Animated.View
-              className={"flex flex-row items-center justify-between gap-2"}
-              style={[
-                {
-                  backgroundColor:
-                    textInputStates[currentStateKey].backgroundColor + "b3",
-                  // Static border color (fallback for error/disabled)
-                  borderColor: textInputStates[currentStateKey].borderColor,
-                  borderRadius: textInputSizes[size].borderRadius,
-                  borderWidth: 1,
-                  // We remove vertical padding from the container and apply it to the TextInput
-                  // to maximize the touchable area of the input itself.
-                  paddingVertical: 0,
-                  paddingRight: textInputSizes[size].paddingRight,
-                  paddingLeft: textInputSizes[size].paddingLeft,
-                },
-                shouldUseAnimation ? animatedStyle : undefined,
-              ]}
-            >
-              {icon && <Icon i={icon} />}
-              <RNTextInput
-                {...textInputProps}
-                ref={ref}
-                {...(maskInReplay ? { "ph-no-capture": true } : {})} // posthog prop to mask or not the input
-                className={cn(
-                  "body-b1-text-input flex-1",
-                  isTextArea && "h-32",
-                  className,
-                )}
-                style={{
-                  color: textInputStates[currentStateKey].textColor,
-                  // Vertical padding is applied directly to the TextInput to increase its hit box
-                  paddingVertical: textInputSizes[size].paddingVertical,
-                }}
-                placeholderTextColor={
-                  tailwind.theme.textColor.neutral[3].default
-                }
-                onChangeText={onChangeText}
-                value={value}
-                onFocus={(e) => {
-                  setIsFocused(true);
-                  textInputProps.onFocus?.(e);
-                }}
-                onBlur={(e) => {
-                  setIsFocused(false);
-                  textInputProps.onBlur?.(e);
-                }}
-              />
-
-              {!isTextArea && (
-                <Button
-                  variant={"link"}
-                  iconPosition={"only"}
-                  onPress={() => onChangeText("")}
+            <PostHogMaskView>
+              <Animated.View
+                className={"flex flex-row items-center justify-between gap-2"}
+                style={[
+                  {
+                    backgroundColor:
+                      textInputStates[currentStateKey].backgroundColor + "b3",
+                    // Static border color (fallback for error/disabled)
+                    borderColor: textInputStates[currentStateKey].borderColor,
+                    borderRadius: textInputSizes[size].borderRadius,
+                    borderWidth: 1,
+                    // We remove vertical padding from the container and apply it to the TextInput
+                    // to maximize the touchable area of the input itself.
+                    paddingVertical: 0,
+                    paddingRight: textInputSizes[size].paddingRight,
+                    paddingLeft: textInputSizes[size].paddingLeft,
+                  },
+                  shouldUseAnimation ? animatedStyle : undefined,
+                ]}
+              >
+                {icon && <Icon i={icon} />}
+                <RNTextInput
+                  {...textInputProps}
+                  ref={ref}
                   className={cn(
-                    !!value && isFocused ? "opacity-100" : "opacity-0",
+                    "body-b1-text-input flex-1",
+                    isTextArea && "h-32",
+                    className,
                   )}
-                  icon={<Icon i={Xmark} />}
+                  style={{
+                    color: textInputStates[currentStateKey].textColor,
+                    // Vertical padding is applied directly to the TextInput to increase its hit box
+                    paddingVertical: textInputSizes[size].paddingVertical,
+                  }}
+                  placeholderTextColor={
+                    tailwind.theme.textColor.neutral[3].default
+                  }
+                  onChangeText={onChangeText}
+                  value={value}
+                  onFocus={(e) => {
+                    setIsFocused(true);
+                    textInputProps.onFocus?.(e);
+                  }}
+                  onBlur={(e) => {
+                    setIsFocused(false);
+                    textInputProps.onBlur?.(e);
+                  }}
                 />
-              )}
-            </Animated.View>
+
+                {!isTextArea && (
+                  <Button
+                    variant={"link"}
+                    iconPosition={"only"}
+                    onPress={() => onChangeText("")}
+                    className={cn(
+                      !!value && isFocused ? "opacity-100" : "opacity-0",
+                    )}
+                    icon={<Icon i={Xmark} />}
+                  />
+                )}
+              </Animated.View>
+            </PostHogMaskView>
 
             {error?.message && (
               <View className={"flex flex-row items-center gap-1"}>
