@@ -5,7 +5,7 @@ import Animated, {
   SharedValue,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
+import { useMainScreenContentHeight } from "@/features/common/hooks/use-main-screen-content-style";
 import { MovieInfo } from "@/features/media/movie/info/movie-info";
 import { SeriesInfo } from "@/features/media/series/info/series-info";
 import { MediaListItemData } from "@/features/media/components/list/types";
@@ -22,8 +22,7 @@ type Props = {
 
 export const MediaListItem = memo(
   ({ item, inScreen, index, scrollY }: Props) => {
-    const contentStyle = useMainScreenContentStyle();
-    const { height } = contentStyle;
+    const itemHeight = useMainScreenContentHeight();
     const { id, mediaType, roleInMedia } = item;
     const setCurrentRoleInMedia = useSetAtom(currentRoleInMediaAtom);
 
@@ -36,15 +35,16 @@ export const MediaListItem = memo(
     // Animated styles for scaling and opacity
     const animatedStyle = useAnimatedStyle(() => {
       const inputRange = [
-        (index - 1) * height,
-        index * height,
-        (index + 1) * height,
+        (index - 1) * itemHeight,
+        index * itemHeight,
+        (index + 1) * itemHeight,
       ];
 
       const opacity = interpolate(
         scrollY.value,
         inputRange,
-        [0.1, 1, 0.1], // Fade out as you scroll away
+        // Not 0: a trailer that becomes fully see-through loses its sound
+        [0.0005, 1, 0.0005],
       );
 
       return {
@@ -54,7 +54,7 @@ export const MediaListItem = memo(
     return (
       <Animated.View style={[animatedStyle]} className={"w-full"}>
         <View
-          style={contentStyle}
+          style={{ height: itemHeight }}
           className={"flex items-center justify-center"}
         >
           {item.card === "share-taste" ? (

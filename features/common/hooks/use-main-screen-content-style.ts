@@ -24,3 +24,11 @@ export const useMainScreenContentStyle = ({
     paddingBottom: bottom + extraPaddingBottom,
   };
 };
+
+/**
+ * Height of the space between the header and the navbar
+ */
+export const useMainScreenContentHeight = () => {
+  const { height, paddingTop, paddingBottom } = useMainScreenContentStyle();
+  return height - paddingTop - paddingBottom;
+};

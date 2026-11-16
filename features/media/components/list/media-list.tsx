@@ -1,7 +1,10 @@
 import { ScrollViewProps, View } from "react-native";
 import { ErrorState } from "@/features/general/error-state";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
-import { useMainScreenContentStyle } from "@/features/common/hooks/use-main-screen-content-style";
+import {
+  useMainScreenContentHeight,
+  useMainScreenContentStyle,
+} from "@/features/common/hooks/use-main-screen-content-style";
 import Animated, {
   ScrollHandlerProcessed,
   SharedValue,
@@ -56,7 +59,8 @@ export const MediaList = memo(
     ListEmptyComponent = <EmptyState />,
     isActive = true,
   }: Props) => {
-    const contentStyle = useMainScreenContentStyle();
+    const { paddingTop } = useMainScreenContentStyle();
+    const itemHeight = useMainScreenContentHeight();
     const { onEndReached } = useFetchMore({
       fetchNextPage,
       hasNextPage,
@@ -103,12 +107,21 @@ export const MediaList = memo(
         onScroll={scrollHandler}
         // Pagination Handlers
         onEndReached={onEndReached}
-        onEndReachedThreshold={2} // Triggers when 2 screen height away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
+        onEndReachedThreshold={2} // Triggers when 2 item heights away from bottom: (Page_Size - Expect_Trigger_Position) / On_Screen_Visible_Items
         showsVerticalScrollIndicator={false}
+        // One item tall, so paging moves one item; neighbours still draw behind the header and navbar.
+        // FlashList sets flex 1 and hides overflow on its own views, so both get replaced here.
+        style={{
+          flex: 0,
+          marginTop: paddingTop,
+          height: itemHeight,
+          overflow: "visible",
+        }}
+        overrideProps={{ style: { overflow: "visible" } }}
         contentContainerClassName={"grow px-4"}
         ListEmptyComponent={
           <View
-            style={contentStyle}
+            style={{ height: itemHeight }}
             className={"flex items-center justify-center"}
           >
             {error ? (
@@ -123,7 +136,7 @@ export const MediaList = memo(
         ListFooterComponent={
           !isDataEmpty && error ? (
             <View
-              style={contentStyle}
+              style={{ height: itemHeight }}
               className={"flex items-center justify-center"}
             >
               {isFetchingNextPage ? (
