@@ -17,6 +17,10 @@ env:
 - extendedWaitUntil:
     visible: "Welcome to Meowie!"
     timeout: 30000
+# The toast covers the Movie/Series toggle, so a tap on "series" could land on it
+- extendedWaitUntil:
+    notVisible: "Welcome to Meowie!"
+    timeout: 10000
 - assertNotVisible: "Login or Sign Up"
 
 # Series first, so a stuck movie feed doesn't hide a series problem
