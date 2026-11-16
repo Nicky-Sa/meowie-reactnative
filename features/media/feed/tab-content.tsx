@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Platform, RefreshControl } from "react-native";
+import { Platform, RefreshControl, View } from "react-native";
 import { useFetchFeed } from "@/features/media/data/use-fetch-feed";
 import { MediaList } from "@/features/media/components/list/media-list";
 import { MediaListItemData } from "@/features/media/components/list/types";
@@ -8,6 +8,7 @@ import { useListRef } from "@/features/common/hooks/list/use-list-ref";
 import { usePullToRefresh } from "@/features/common/hooks/list/use-pull-to-refresh";
 import { RefreshIndicator } from "@/features/common/ui/refresh-indicator";
 import { ScrollHandlerProcessed, SharedValue } from "react-native-reanimated";
+import { useScrollHint } from "@/features/media/feed/use-scroll-hint";
 
 type Props = {
   mediaType: MediaType;
@@ -42,6 +43,11 @@ export const TabContent = ({
     isRefreshing,
   } = useFetchFeed({ mediaType });
   const listRef = useListRef<MediaListItemData>();
+  const { stopScrollHint } = useScrollHint({
+    listRef,
+    hasNextItem: data.length > 1,
+    currentIndex,
+  });
 
   const handleRefresh = useCallback(() => {
     if (isRefreshing) return;
@@ -61,7 +67,7 @@ export const TabContent = ({
   });
 
   return (
-    <>
+    <View className={"flex-1"} onTouchStart={stopScrollHint}>
       <MediaList
         data={data}
         isLoading={isLoading}
@@ -91,6 +97,6 @@ export const TabContent = ({
       {(isReadyToRefresh || isRefreshing) && (
         <RefreshIndicator top={headerHeight} />
       )}
-    </>
+    </View>
   );
 };

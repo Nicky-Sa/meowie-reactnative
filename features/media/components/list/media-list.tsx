@@ -102,6 +102,8 @@ export const MediaList = memo(
         }
         renderItem={renderItem}
         pagingEnabled
+        // Lets the scroll hint's spring go past the top, so its bounce shows
+        scrollToOverflowEnabled
         refreshControl={refreshControl}
         // Animation Handler
         onScroll={scrollHandler}

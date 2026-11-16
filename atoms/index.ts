@@ -43,8 +43,8 @@ export const homeTourSeenAtom = atomPersisted(
   PERSISTED_ATOM_KEYS.HOME_TOUR_SEEN,
   false,
 );
-export const swipeGuideSeenAtom = atomPersisted(
-  PERSISTED_ATOM_KEYS.SWIPE_GUIDE_SEEN,
+export const scrollHintSeenAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.SCROLL_HINT_SEEN,
   false,
 );
 

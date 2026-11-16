@@ -32,7 +32,7 @@ The bottom bar has Home, Explore and Profile.
 
 | Route      | What is on it                                                                                                                                                                                                                                                                              | Where it goes                                                                                                      |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| `/home`    | Logo at the top left with a badge when there is a new release note. Toggle "Movie" / "Series". A full-screen feed, one title per page: trailer, "Save", "Seen", "Details", genres. Pull down to refresh. First visit shows the spotlight tour and "Swipe to navigate".                     | Logo → `/release-notes`. "Details" → `/movie/[id]/details` or `/series/[id]/details`. Genre → `/discover/posters`. |
+| `/home`    | Logo at the top left with a badge when there is a new release note. Toggle "Movie" / "Series". A full-screen feed, one title per page: trailer, "Save", "Seen", "Details", genres. Pull down to refresh. First visit shows the spotlight tour, then the feed peeks at the next title once. | Logo → `/release-notes`. "Details" → `/movie/[id]/details` or `/series/[id]/details`. Genre → `/discover/posters`. |
 | `/explore` | Filter icon, toggle "Movie" / "Series", search icon (the only control with an accessibility label, "Search"). Tabs come from the backend. Each tab is a poster grid.                                                                                                                       | Filter icon → `/filters`. Search icon → `/search`. Poster → `/discover/media-list`.                                |
 | `/profile` | Logo and a settings icon. Tabs "Saved" and "Seen". Guest: "Sign in to start building your watchlist." or "Sign in to keep track of what you've seen.", with "Login or Sign Up". Logged in: poster lists, or "You haven't saved anything yet." / "You haven't marked anything as seen yet." | Settings icon → `/settings`. "Login or Sign Up" → `/auth`. Poster → `/library/[category]`.                         |
 
@@ -100,7 +100,7 @@ to track what you've seen."
 - Email login needs a code from an email.
 - "Continue with Apple" fails on a simulator that has no Apple Account. "Continue with Google" opens a web page.
 - The taste result screen always waits 5 seconds. "Resend code" is disabled for 120 seconds.
-- The tour and "Swipe to navigate" show only on the first visit to Home.
+- The tour and the scroll peek play only on the first visit to Home.
 
 ## Part 2: Findings
 
