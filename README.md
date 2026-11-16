@@ -99,10 +99,10 @@ that uses the preview environment and backend.
    ```bash
    npm run eas-build:e2e-test:ios-simulator
    ```
-4. Unpack the build and install it on a booted simulator:
+4. Install the build on a simulator. The command unpacks the build itself, asks which simulator to use and opens the
+   app:
    ```bash
-   tar -xzf ./local-builds/e2e-test/ios-simulator/<date>.tar.gz -C ./local-builds/e2e-test/ios-simulator
-   xcrun simctl install booted ./local-builds/e2e-test/ios-simulator/Meowiepreview.app
+   npx eas build:run --platform ios --path ./local-builds/e2e-test/ios-simulator/<date>.tar.gz
    ```
 5. Run every flow:
    ```bash
