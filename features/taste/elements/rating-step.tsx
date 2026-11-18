@@ -7,6 +7,7 @@ import {
 import { RatingButtons } from "@/features/taste/elements/rating-buttons";
 import { Title } from "@/features/taste/data/dto/journey.dto";
 import { TitleAnswer, TitleRatings } from "@/features/taste/data/dto/taste.dto";
+import { startIndexForDeck } from "@/features/taste/state";
 
 type Props = {
   items: Title[];
@@ -20,7 +21,9 @@ const PAUSE_AFTER_RATING = 250;
 /** The deck plus its three buttons — the shared body of the movies and series steps. */
 export const RatingStep = ({ items, ratings, onRate }: Props) => {
   const deck = useRef<PosterDeckHandle>(null);
-  const [shownIndex, setShownIndex] = useState(0);
+  // Read once, so answering a card doesn't move the deck's start under the user.
+  const [startIndex] = useState(() => startIndexForDeck(items, ratings));
+  const [shownIndex, setShownIndex] = useState(startIndex);
   const [isMovingOn, setIsMovingOn] = useState(false);
   const shown = items[shownIndex];
 
@@ -51,7 +54,12 @@ export const RatingStep = ({ items, ratings, onRate }: Props) => {
 
   return (
     <View className={"flex flex-1 flex-col gap-4"}>
-      <PosterDeck ref={deck} items={items} onShow={showCard} />
+      <PosterDeck
+        ref={deck}
+        items={items}
+        startIndex={startIndex}
+        onShow={showCard}
+      />
       <RatingButtons answer={shown && ratings[shown.tmdbId]} onRate={rate} />
     </View>
   );

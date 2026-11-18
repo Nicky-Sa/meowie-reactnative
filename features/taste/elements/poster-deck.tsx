@@ -40,16 +40,17 @@ export type PosterDeckHandle = { showNext: () => void };
 
 type Props = {
   items: Title[];
+  startIndex: number;
   onShow: (index: number) => void;
 };
 
 // `position` is where the deck sits measured in cards: 3.4 is being dragged
 // from the fourth poster to the fifth. `topIndex` only picks what's mounted.
 export const PosterDeck = forwardRef<PosterDeckHandle, Props>(
-  ({ items, onShow }, ref) => {
-    const [topIndex, setTopIndex] = useState(0);
+  ({ items, startIndex, onShow }, ref) => {
+    const [topIndex, setTopIndex] = useState(startIndex);
     const [area, setArea] = useState({ width: 0, height: 0 });
-    const position = useSharedValue(0);
+    const position = useSharedValue(startIndex);
     const dragStart = useSharedValue(0);
 
     const stackHeight = PEEK_STEP * CARDS_BEHIND;
