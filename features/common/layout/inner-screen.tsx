@@ -11,7 +11,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { useRouter } from "expo-router";
+import { useCanGoBack, useRouter } from "expo-router";
 import Animated, {
   interpolate,
   SharedValue,
@@ -57,6 +57,7 @@ export const InnerScreen = ({
   children,
 }: PropsWithChildren<Props>) => {
   const router = useRouter();
+  const canGoBack = useCanGoBack();
 
   // 1. Store the latest onBack in a ref.
   // This allows us to access it inside useEffect cleanup without adding it to dependencies.
@@ -138,17 +139,20 @@ export const InnerScreen = ({
           className={cn(
             "flex flex-row items-center justify-between",
             !fullWidth && "-mx-4", // the fullWidth prop should have no effect on the back button
+            !canGoBack && "pl-4",
           )}
         >
           <View className={"flex flex-1 flex-row items-center justify-start"}>
-            <Button
-              testID="back"
-              onPress={handleBack}
-              variant={"ghost"}
-              size={"md"}
-              iconPosition={"only"}
-              icon={<Icon i={NavArrowLeft} />}
-            />
+            {canGoBack && (
+              <Button
+                testID="back"
+                onPress={handleBack}
+                variant={"ghost"}
+                size={"md"}
+                iconPosition={"only"}
+                icon={<Icon i={NavArrowLeft} />}
+              />
+            )}
             <View className={"relative flex-1 justify-center"}>
               <Animated.Text
                 style={[titleAnimatedStyle]}
