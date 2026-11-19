@@ -24,6 +24,9 @@ import {
   RatingSlider,
 } from "@/features/media/components/info/elements/seen/elements/rating-slider";
 import { RatingSliderLottie } from "@/features/media/components/info/elements/seen/elements/rating-slider-lottie";
+import { useAskForReview } from "@/features/media/components/info/elements/use-ask-for-review";
+
+const LOWEST_RATING_FOR_REVIEW = 8;
 
 type Props = {
   id: ID;
@@ -59,6 +62,7 @@ export const Seen = ({
     DEFAULT_RATING,
   );
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const askForReview = useAskForReview();
 
   const handlePress = async () => {
     if (!currentUser?.user) {
@@ -98,9 +102,11 @@ export const Seen = ({
 
     if (rating === null) {
       onSkip(isFirstTime);
-    } else {
-      onRate(rating, isFirstTime);
+      return;
     }
+
+    onRate(rating, isFirstTime);
+    if (rating >= LOWEST_RATING_FOR_REVIEW) await askForReview();
   };
 
   const handleUnseen = async () => {
