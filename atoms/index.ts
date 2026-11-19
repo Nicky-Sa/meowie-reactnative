@@ -54,6 +54,12 @@ export const feedFirstScrollTrackedAtom = atomPersisted(
 // Not saved: after a restart, the first scroll is sent without its seconds since the tour.
 export const tourEndedAtAtom = atom<number | null>(null);
 
+// App Store review prompt — ISO time Meowie last asked. Empty means never.
+export const reviewAskedAtAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.REVIEW_ASKED_AT,
+  "",
+);
+
 // Location and Country (persisted)
 export const countryCodeAtom = atomPersisted(
   PERSISTED_ATOM_KEYS.COUNTRY_CODE,

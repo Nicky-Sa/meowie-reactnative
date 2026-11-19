@@ -17,6 +17,7 @@ import EmptySaved from "@/assets/images/meowie/empty-saved.svg";
 import { MediaType } from "@/features/common/data/models/media-type";
 import { MediaAction } from "@/features/media/data/media-actions";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
+import { useAskForReview } from "@/features/media/components/info/elements/use-ask-for-review";
 import {
   BottomSheet,
   ExposedBottomSheetModalRef,
@@ -42,6 +43,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const { auth } = useAnalytics();
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
+  const askForReview = useAskForReview();
 
   const handlePress = async () => {
     if (!currentUser?.user) {
@@ -72,6 +74,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       return;
     }
     onPress(!isSaved);
+    if (!isSaved) await askForReview();
   };
 
   const runSaveAction = useEffectEvent(() => {
@@ -110,6 +113,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       return;
     }
     onPress(true);
+    await askForReview();
   };
 
   return (
