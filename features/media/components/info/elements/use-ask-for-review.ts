@@ -1,6 +1,10 @@
 import * as StoreReview from "expo-store-review";
 import { useAtom } from "jotai";
 import { reviewAskedAtAtom } from "@/atoms";
+import { ID } from "@/features/common/data/media-query";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { Properties } from "@/features/general/posthog/events/types";
+import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 
 const ASK_AGAIN_AFTER_DAYS = 90;
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -12,8 +16,17 @@ export const isReviewDue = (askedAt: string, now: Date) =>
 /** Asks for Apple's rating popup at most once every 90 days. Apple still decides whether it shows. */
 export const useAskForReview = () => {
   const [askedAt, setAskedAt] = useAtom(reviewAskedAtAtom);
+  const { interaction } = useAnalytics();
 
-  return async () => {
+  return async ({
+    reason,
+    mediaId,
+    mediaType,
+  }: {
+    reason: Properties<"review_requested">["reason"];
+    mediaId: ID;
+    mediaType: MediaType;
+  }) => {
     const now = new Date();
     if (!isReviewDue(askedAt, now)) return;
     setAskedAt(now.toISOString());
@@ -22,6 +35,7 @@ export const useAskForReview = () => {
     try {
       if (await StoreReview.isAvailableAsync()) {
         await StoreReview.requestReview();
+        interaction.trackReviewRequested({ reason, mediaId, mediaType });
       }
     } catch (error) {
       console.error("Could not ask for an App Store review:", error);

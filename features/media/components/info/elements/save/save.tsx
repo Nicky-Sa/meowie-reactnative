@@ -74,7 +74,9 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       return;
     }
     onPress(!isSaved);
-    if (!isSaved) await askForReview();
+    if (!isSaved) {
+      await askForReview({ reason: "save", mediaId: id, mediaType });
+    }
   };
 
   const runSaveAction = useEffectEvent(() => {
@@ -113,7 +115,7 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
       return;
     }
     onPress(true);
-    await askForReview();
+    await askForReview({ reason: "save", mediaId: id, mediaType });
   };
 
   return (

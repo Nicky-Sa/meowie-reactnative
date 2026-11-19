@@ -337,6 +337,15 @@ export type LOGIN_PROMPT_SHOWN = {
   };
 };
 
+export type REVIEW_REQUESTED = {
+  event: "review_requested";
+  properties: {
+    reason: "save" | "rating";
+    media_id: ID;
+    media_type: MediaType;
+  };
+};
+
 export type MEDIA_TYPE_TOGGLED = {
   event: "media_type_toggled";
   properties: {
@@ -484,6 +493,7 @@ export type Events =
   | SEARCH_RESULT_CLICKED
   | SIRI_COMMAND_RECEIVED
   | LOGIN_PROMPT_SHOWN
+  | REVIEW_REQUESTED
   | MEDIA_TYPE_TOGGLED
   | OTP_RESENT
   | TASTE_CARD_SHOWN

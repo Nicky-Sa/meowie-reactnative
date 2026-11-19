@@ -13,8 +13,14 @@
   The phone only knows about asks after this update, so everyone gets one ask at their next happy moment.
 - **Apple still decides whether the popup shows**, at most 3 times in any 365 days. Apple doesn't tell the app whether
   it showed or what the person tapped, so "Not Now" can't be recorded.
-- **`useAskForReview` in `../../features/media/components/info/elements/use-ask-for-review.ts` is the one place that asks**, used by both
-  `seen.tsx` and `save.tsx`.
+- **Meowie doesn't try to skip people who already rated.** Apple's guidelines say the system checks for earlier
+  feedback and shows the popup only when there is none, so asking again after 90 days doesn't bother them.
+- **PostHog gets a `review_requested` event each time Meowie asks Apple**, with `reason` (`save` or `rating`) and the
+  title. It means "Meowie asked", not "the popup showed". No event is sent when the 90 days aren't up, or when Apple
+  doesn't allow the popup, like in TestFlight. Whether the asks work shows in the App Store Connect rating count.
+- **`useAskForReview` in `features/media/components/info/elements/use-ask-for-review.ts` is the one place that asks**,
+  used by both `seen.tsx` and `save.tsx`.
 - **The check is `isAvailableAsync`, not `hasAction`.** `hasAction` is also true when an `appStoreUrl` is set, and then
   `requestReview` opens the App Store instead of the popup, like in TestFlight.
-- **The e2e flow that rates a title dismisses the popup if it shows**, because it saves the default 10.
+- **The e2e flow taps "Not Now" if the popup shows after the first save.** Each run starts with `clearState`, so the
+  first save always asks, and the 90-day limit stops the rating and the second run from asking again.
