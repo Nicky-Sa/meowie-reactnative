@@ -50,11 +50,18 @@ export const queryClient = new QueryClient({
       staleTime: 10 * 60 * 1000, // 10 minutes
       gcTime: 30 * 60 * 1000, // 30 minutes
       retry: (failureCount, error) => {
-        // 1. NEVER retry on 401 (Unauthorized)
-        //    Axios already tried to refresh. If we are here, it's over.
-        if (error instanceof APICallError && error.status === 401) return false;
+        const status = error instanceof APICallError ? error.status : undefined;
+        // A 4xx is the backend's final answer, like a 404 or a 401 after Axios already tried to refresh.
+        // 429 is the exception: the rate limit lets a later try through.
+        if (
+          status !== undefined &&
+          status >= 400 &&
+          status < 500 &&
+          status !== 429
+        ) {
+          return false;
+        }
 
-        // 2. Stop if we hit the limit (3 retries)
         return failureCount < 3;
       },
       retryDelay: 3000, // 3 seconds
