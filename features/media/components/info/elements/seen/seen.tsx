@@ -106,7 +106,9 @@ export const Seen = ({
     }
 
     onRate(rating, isFirstTime);
-    if (rating >= LOWEST_RATING_FOR_REVIEW) await askForReview();
+    if (rating >= LOWEST_RATING_FOR_REVIEW) {
+      await askForReview({ reason: "rating", mediaId: id, mediaType });
+    }
   };
 
   const handleUnseen = async () => {

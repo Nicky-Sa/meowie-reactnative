@@ -505,6 +505,21 @@ export const useAnalytics = () => {
           mediaType: MediaType;
         }): void =>
           capture("media_type_toggled", { screen, media_type: mediaType }),
+
+        trackReviewRequested: ({
+          reason,
+          mediaId,
+          mediaType,
+        }: {
+          reason: Properties<"review_requested">["reason"];
+          mediaId: ID;
+          mediaType: MediaType;
+        }): void =>
+          capture("review_requested", {
+            reason,
+            media_id: mediaId,
+            media_type: mediaType,
+          }),
       },
 
       /**
