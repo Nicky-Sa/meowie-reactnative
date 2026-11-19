@@ -38,7 +38,7 @@ Path alias: `@/*` → repo root (`tsconfig.json`).
 
 **Routing.** Expo Router, file-based, with typed routes (`app.config.ts` → `experiments.typedRoutes`). Files in `app/` are thin wrappers; the real screens live in `features/`. Every stack screen **and its transition animation** is declared centrally in `app/_layout.tsx` — register new top-level routes there.
 
-**Error boundaries.** `features/general/error-boundary.tsx` shows `ErrorState` with "Try again" when something throws while drawing. When there is a screen to go back to, it puts the error inside `InnerScreen`, so the back arrow shows. `app/_layout.tsx` sets it as `unstable_settings.screenErrorBoundary`, so a broken screen shows the error and the tab bar and back swipe keep working. It also exports it as the root `ErrorBoundary`, which replaces the whole app for errors outside a screen, like a layout or a provider. React Native logs a caught error with `console.error`, so PostHog already reports it; the boundary must not report it again.
+**Error boundaries.** `features/general/error-boundary.tsx` shows `ErrorState` with "Try again" when something throws while drawing. When there is a screen to go back to, it puts the error inside `InnerScreen`, so the back arrow shows. Otherwise it gives the error the app's dark background, because the root layout's background is gone when the whole app breaks. `app/_layout.tsx` sets it as `unstable_settings.screenErrorBoundary`, so a broken screen shows the error and the tab bar and back swipe keep working. It also exports it as the root `ErrorBoundary`, which replaces the whole app for errors outside a screen, like a layout or a provider. React Native logs a caught error with `console.error`, so PostHog already reports it; the boundary must not report it again.
 
 **Provider stack** (outer → inner, from `app/_layout.tsx`): `View` → PostHogProvider (+ `UpdatesListener`, `SiriListener`) → PostHogSurveyProvider → ScreenTracker → EventListenerWrapper → ThemeProvider → QueryClientProvider → KeyboardProvider → SafeAreaProvider → GestureHandlerRootView → InternetCheck (+ `UpdatePopup`) → ForcedUpdate → BottomSheetModalProvider → SpotlightTourProvider → Stack. A `PortalHost` named `"global-overlay"` sits alongside the Stack. `InternetCheck` and `ForcedUpdate` sit outside BottomSheetModalProvider, so the offline view and the "Please update" screen cover an open bottom sheet, and the offline view covers the "Please update" screen. The global `Toast` sits right after `InternetCheck`, so a toast shows above all of them.
 
@@ -52,7 +52,7 @@ Path alias: `@/*` → repo root (`tsconfig.json`).
 - `features/common/data/error.ts` — `APICallError`, and `getErrorText(error)`, which turns any error into the text to show the person: the backend's message, "We couldn't reach Meowie…", or "Something went wrong…". A second argument replaces that last text, like the sign-in toasts' 'Try "Continue with Email" instead'. Use it for toasts, form errors and `ErrorState`, never `error.message` or `error as Error`.
 - `features/common/data/query/hooks.ts` — the hooks features actually use: `useQueryConfigured`, `useQueryPaginatedConfigured`, `useMutationConfigured`, `useInvalidateByPattern`. Query keys are `[url]`.
 - Per-feature hooks (e.g. `features/media/movie/data/use-fetch-movie-info.ts`) call those with a URL + a DTO type from `features/<domain>/data/dto/`, then return `response.data`.
-- `features/common/data/query/client.ts` — the `QueryClient` (staleTime 10m, gcTime 30m; never retries 401, otherwise up to 3 with a 3s delay) and wires React Query's `focusManager`/`onlineManager` to RN `AppState` + NetInfo so queries refetch on app-foreground and reconnect.
+- `features/common/data/query/client.ts` — the `QueryClient` (staleTime 10m, gcTime 30m; never retries a 4xx answer from the backend except 429, otherwise up to 3 with a 3s delay) and wires React Query's `focusManager`/`onlineManager` to RN `AppState` + NetInfo so queries refetch on app-foreground and reconnect.
 
 Backend response envelope (`features/common/data/transformers.ts`): success `{ success: true, statusCode, data, timestamp }`, error `{ success: false, statusCode, errors, timestamp }`.
 
@@ -84,8 +84,13 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
   The only exception is a conventional loop index `i`/`j` in a plain counting `for` loop.
 - **Every screen and list that loads data handles all its states: loading, error, empty and loaded.** Loading shows a
   skeleton or `Loading`. A failed load shows `ErrorState` with "Try again"; when a screen's main data fails, `ErrorState`
-  replaces everything under the header, like on the movie, series and person screens. An empty result shows an empty
-  state, like `EmptyState` or the feature's own one. A failed action shows a toast instead.
+  replaces everything under the header, like on the movie, series and person screens. An empty result shows `EmptyState`,
+  passing its own `img` and `text` when the default "No data to show." doesn't fit. A failed action shows a toast
+  instead.
+- **Build every error, empty and picture-with-message screen on `InformationBlock`** (`features/common/information-block.tsx`),
+  passing the picture and text, and any button as its child. Never lay out a picture and text by hand.
+- **`InformationBlock` has no background of its own**, so the screen's gradient shows through without boxes. A cover drawn
+  over the app, like the offline view, must give its wrapper `bg-neutral-15-default` by hand.
 - **Never pass a `Button` an `onPress` that can throw or reject.** `Button` (`features/common/ui/button.tsx`)
   runs `onPress` without catching errors, so the handler must catch its own and show feedback (a toast) or log them with `console.error`.
 - **Lint fails on a promise nobody waits for or catches** (`no-floating-promises`, `no-misused-promises`).

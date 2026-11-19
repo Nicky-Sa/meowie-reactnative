@@ -12,7 +12,7 @@ export const InformationBlock = ({
   children,
 }: PropsWithChildren<Props>) => {
   return (
-    <View className="flex-1 flex-col items-center justify-center gap-8 bg-neutral-15-default">
+    <View className="flex-1 flex-col items-center justify-center gap-8">
       <ImageComponent />
       <Text className="body-b1 max-w-xs text-center text-neutral-5-default">
         {text}

@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import { ErrorBoundaryProps, useCanGoBack } from "expo-router";
 import { ErrorState } from "@/features/general/error-state";
 import { InnerScreen } from "@/features/common/layout/inner-screen";
@@ -14,6 +15,9 @@ export const ErrorBoundary = ({ error, retry }: Props) => {
       <ErrorState tryAgain={retry} error={error} />
     </InnerScreen>
   ) : (
-    <ErrorState tryAgain={retry} error={error} />
+    // When the whole app breaks, the root layout's background is gone too.
+    <View className={"flex-1 bg-neutral-15-default"}>
+      <ErrorState tryAgain={retry} error={error} />
+    </View>
   );
 };

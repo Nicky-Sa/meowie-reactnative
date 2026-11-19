@@ -119,11 +119,11 @@ export const Screen = () => {
           />
         </View>
         {topBarHeight === 0 ? null : error && !tabs ? (
-          <View className={"flex-1 px-4"} style={{ paddingTop: topBarHeight }}>
+          <View className={"flex-1"}>
             <ErrorState error={error} tryAgain={refetch} />
           </View>
         ) : tabs?.length === 0 ? (
-          <View className={"flex-1 px-4"} style={{ paddingTop: topBarHeight }}>
+          <View className={"flex-1"}>
             <EmptyState />
           </View>
         ) : tabs ? (

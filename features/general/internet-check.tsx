@@ -26,7 +26,7 @@ export const InternetCheck = ({ children }: PropsWithChildren) => {
       {children}
       {/* Covers the app instead of replacing it, so the open screen is still there when the connection is back. */}
       {isOffline && (
-        <View className="absolute inset-0">
+        <View className="absolute inset-0 bg-neutral-15-default">
           <InformationBlock
             img={NoInternet}
             text="Please check your internet settings."

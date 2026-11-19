@@ -4,7 +4,8 @@ import { View } from "react-native";
 import { SkeletonItem } from "@/features/common/ui/skeleton-item";
 import { FlashList } from "@shopify/flash-list";
 import { ErrorState } from "@/features/general/error-state";
-import { SearchEmptyState } from "@/features/search/elements/empty-state";
+import NoMatchSearch from "@/assets/images/errors/no-match-search.svg";
+import { EmptyState } from "@/features/general/empty-state";
 import { RecentSearches } from "@/features/search/elements/recent-searches";
 import { useRecentSearches } from "@/features/search/data/use-recent-searches";
 import { useCallback } from "react";
@@ -71,7 +72,10 @@ export const SearchResultList = ({
             <RecentSearches />
           ) : (
             <View className="mt-32">
-              <SearchEmptyState />
+              <EmptyState
+                img={NoMatchSearch}
+                text={"Nothing matched your input!\nPlease try something else."}
+              />
             </View>
           )
         }

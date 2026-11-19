@@ -89,6 +89,14 @@ export const MediaList = memo(
       [currentIndex, isActive, scrollY],
     );
 
+    if (error && isDataEmpty) {
+      return (
+        <View className={"flex-1"}>
+          <ErrorState tryAgain={refetch} error={error} />
+        </View>
+      );
+    }
+
     return (
       <AnimatedFlashList
         key={isWaitingForInitialData ? "loading" : "ready"}
@@ -126,13 +134,7 @@ export const MediaList = memo(
             style={{ height: itemHeight }}
             className={"flex items-center justify-center"}
           >
-            {error ? (
-              <ErrorState tryAgain={refetch} error={error} />
-            ) : isInitialLoad ? (
-              <MediaInfoSkeleton />
-            ) : (
-              ListEmptyComponent
-            )}
+            {isInitialLoad ? <MediaInfoSkeleton /> : ListEmptyComponent}
           </View>
         }
         ListFooterComponent={

@@ -1,0 +1,35 @@
+appId: com.meowie.app.preview
+---
+- runFlow: subflows/start-as-guest.yaml
+- openLink: "meowie-preview://movie/999999999/details"
+- tapOn:
+    text: "Open"
+    optional: true
+- extendedWaitUntil:
+    visible: "Could not find what you were looking for."
+    timeout: 30000
+- assertVisible: "Try again"
+- tapOn:
+    id: "back"
+- openLink: "meowie-preview://series/999999999/details"
+- tapOn:
+    text: "Open"
+    optional: true
+- extendedWaitUntil:
+    visible: "Could not find what you were looking for."
+    timeout: 30000
+- assertVisible: "Try again"
+- tapOn:
+    id: "back"
+- openLink: "meowie-preview://person/999999999"
+- tapOn:
+    text: "Open"
+    optional: true
+- extendedWaitUntil:
+    visible: "Could not find what you were looking for."
+    timeout: 30000
+- assertVisible: "Try again"
+- tapOn:
+    id: "back"
+- assertVisible:
+    id: "release-notes"

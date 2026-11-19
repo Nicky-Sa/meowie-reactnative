@@ -7,7 +7,7 @@ import { PersonBrief } from "@/features/person/elements/brief";
 import { PostersList } from "@/features/common/posters/posters-list";
 import { useCallback } from "react";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
-import { PersonEmptyState } from "@/features/person/elements/empty-state";
+import { EmptyState } from "@/features/general/empty-state";
 import { ErrorState } from "@/features/general/error-state";
 
 const NUM_COLUMNS = 3;
@@ -66,7 +66,9 @@ export const Screen = ({ personId }: { personId: string }) => {
               />
             </View>
           }
-          ListEmptyComponent={<PersonEmptyState />}
+          ListEmptyComponent={
+            <EmptyState text={"This person has no known media!"} />
+          }
         />
       )}
     </InnerScreen>

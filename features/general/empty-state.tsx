@@ -1,11 +1,15 @@
-import { View, Text } from "react-native";
+import { ComponentType } from "react";
+import NoMatch from "@/assets/images/errors/no-match.svg";
+import { InformationBlock } from "@/features/common/information-block";
 
-export const EmptyState = () => {
-  return (
-    <View className={"flex-1 flex-col items-center justify-center gap-8"}>
-      <Text className={"body-b1 text-center text-neutral-5-default"}>
-        No data to show.
-      </Text>
-    </View>
-  );
+type Props = {
+  img?: ComponentType;
+  text?: string;
+};
+
+export const EmptyState = ({
+  img = NoMatch,
+  text = "No data to show.",
+}: Props) => {
+  return <InformationBlock img={img} text={text} />;
 };

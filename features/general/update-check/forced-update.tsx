@@ -13,7 +13,7 @@ export const ForcedUpdate = ({ children }: PropsWithChildren) => {
     <>
       {children}
       {updateState === "required" && (
-        <View className="absolute inset-0">
+        <View className="absolute inset-0 bg-neutral-15-default">
           <InformationBlock
             img={CoolMeowie}
             text="This version of Meowie is no longer supported. Please update to benefit from the latest features."
