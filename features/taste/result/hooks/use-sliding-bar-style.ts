@@ -7,8 +7,8 @@ import {
   withTiming,
 } from "react-native-reanimated";
 
-const TRACK_WIDTH = 208;
-const BAR_WIDTH = 84;
+const TRACK_WIDTH = 164;
+const BAR_WIDTH = 90;
 
 /** Slides the bar across its track again and again, because the request has no measured progress to show. */
 export const useSlidingBarStyle = () => {

@@ -68,7 +68,7 @@ export const Screen = () => {
           }
         />
       ) : (
-        <LoadingTasteSubmission />
+        <LoadingTasteSubmission picks={picksToSubmit} />
       )}
     </SafeAreaView>
   );

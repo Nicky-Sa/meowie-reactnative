@@ -48,3 +48,13 @@ The backend's decisions for this ticket are in `meowie-backend/.claude/decisions
 - **A disabled `Button` uses each colour token's own `disable` value, as Figma shows.** Every variant keeps whole
   tokens and picks `default` or `disable`, so ghost and link buttons stay without a box. The old 50% fade is gone,
   because grey at half strength would almost disappear.
+- **The building screen shows for at least 5 seconds, not the 2 that Figma and the ticket first had.** The feed is
+  built while it shows, so 5 seconds gives the first feed time to be ready. The ticket now says 5.
+- **The building screen shows 3 random picks in Figma's fan.** Picks only hold an id and a type, so the posters come
+  from the journey the grid already loaded.
+- **The 3 posters start stacked, with the middle one at 1.5×, and fan out after it shrinks.** After a 0.5 second
+  wait, so the screen has finished appearing, the middle poster shrinks to its size over 0.7 seconds. Then the side
+  ones slide out and tilt to Figma's ±10° over 0.6 seconds. The moves and tilts are numbers in the animation,
+  measured from the middle poster, because a class can't animate.
+- **The building screen is built from plain `View` and `Text`, like `ShareTasteCard`, not on `InformationBlock`.**
+  It needs a title, the picked posters and Figma's 16pt gaps, which `InformationBlock` doesn't have.
