@@ -2,6 +2,8 @@
 
 Ticket: https://app.notion.com/p/41eb1b85bdfe811da910e2b5d4655581
 
+Sessions: d1958063-9042-4a82-ba78-537f5c89fdcd
+
 The backend's decisions for this ticket are in `meowie-backend/.claude/decisions/taste-pick-grid.md`.
 
 ## Decisions
@@ -43,3 +45,6 @@ The backend's decisions for this ticket are in `meowie-backend/.claude/decisions
   almost the same, so the genre is now the subtitle and keeps its `neutral-6`.
 - **A failed load shows the shared error text.** `ErrorState` gets the error itself, so the backend's message or
   "We couldn't reach Meowie…" shows, like other screens.
+- **A disabled `Button` uses each colour token's own `disable` value, as Figma shows.** Every variant keeps whole
+  tokens and picks `default` or `disable`, so ghost and link buttons stay without a box. The old 50% fade is gone,
+  because grey at half strength would almost disappear.

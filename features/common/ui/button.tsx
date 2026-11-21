@@ -30,49 +30,51 @@ const WAKE_UP_SPRING = { damping: 10, stiffness: 260, mass: 0.6 };
 // Link buttons have no padding, so their tap area would only be the text itself.
 const LINK_HIT_SLOP = 20;
 
+const TRANSPARENT = { default: "transparent", disable: "transparent" };
+
 const buttonVariants = {
   primary: {
-    backgroundColor: tailwind.theme.backgroundColor.info[1].default,
-    borderColor: tailwind.theme.borderColor.brand[1].default,
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: tailwind.theme.backgroundColor.info[1],
+    borderColor: tailwind.theme.borderColor.brand[1],
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 1,
   },
   white: {
-    backgroundColor: tailwind.theme.backgroundColor.neutral[1].default,
-    borderColor: tailwind.theme.borderColor.neutral[7].default,
-    textColor: tailwind.theme.textColor.neutral[1].default,
+    backgroundColor: tailwind.theme.backgroundColor.neutral[1],
+    borderColor: tailwind.theme.borderColor.neutral[7],
+    textColor: tailwind.theme.textColor.neutral[1],
     borderWidth: 1,
   },
   black: {
-    backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
-    borderColor: tailwind.theme.borderColor.neutral[3].default,
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: tailwind.theme.backgroundColor.neutral[14],
+    borderColor: tailwind.theme.borderColor.neutral[3],
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 1,
   },
   ghost: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: TRANSPARENT,
+    borderColor: TRANSPARENT,
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 0,
   },
   // for links, with no padding, no text direction
   link: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: TRANSPARENT,
+    borderColor: TRANSPARENT,
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 0,
   },
   // for segments in selectable
   "unselected-segment": {
-    backgroundColor: tailwind.theme.backgroundColor.neutral[15].default,
-    borderColor: tailwind.theme.borderColor.neutral[3].default,
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: tailwind.theme.backgroundColor.neutral[15],
+    borderColor: tailwind.theme.borderColor.neutral[3],
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 2,
   },
   "selected-segment": {
-    backgroundColor: tailwind.theme.backgroundColor.neutral[14].default,
-    borderColor: tailwind.theme.borderColor.brand[1].default,
-    textColor: tailwind.theme.textColor.neutral[10].default,
+    backgroundColor: tailwind.theme.backgroundColor.neutral[14],
+    borderColor: tailwind.theme.borderColor.brand[1],
+    textColor: tailwind.theme.textColor.neutral[10],
     borderWidth: 2,
   },
 } as const;
@@ -157,21 +159,23 @@ export const Button = ({
   const iconOnly = iconPosition === "only";
 
   const animatedOpacity = useDerivedValue(() => {
-    return withTiming(props.disabled ? 0.5 : focused ? 0.7 : 1, {
+    return withTiming(focused ? 0.7 : 1, {
       duration: 150,
     });
   });
 
   const wakeUpScale = useWakeUpScale(props.disabled);
+  const colorState = props.disabled ? "disable" : "default";
+  const colors = buttonVariants[variant];
 
   const animatedBg = useDerivedValue(() => {
-    return withTiming(buttonVariants[variant].backgroundColor, {
+    return withTiming(colors.backgroundColor[colorState], {
       duration: 150,
     });
   });
 
   const animatedBorder = useDerivedValue(() => {
-    return withTiming(buttonVariants[variant].borderColor, {
+    return withTiming(colors.borderColor[colorState], {
       duration: 150,
     });
   });
@@ -248,7 +252,7 @@ export const Button = ({
               (textOnly ? (
                 <Text
                   style={{
-                    color: buttonVariants[variant].textColor,
+                    color: colors.textColor[colorState],
                   }}
                   className={cn({
                     "text-center": variant !== "link",
