@@ -1,12 +1,12 @@
-export type TitleAnswer = "like" | "dislike" | "not-seen";
+import { MediaType } from "@/features/common/data/models/media-type";
 
-// TMDB id → what the user said about it in the poster deck.
-export type TitleRatings = Record<number, TitleAnswer>;
+export type TitlePick = {
+  tmdbId: number;
+  mediaType: MediaType;
+};
 
 export type SubmitTasteReqDto = {
-  movieRatings: TitleRatings;
-  seriesRatings: TitleRatings;
-  avoid: string[];
+  picks: TitlePick[];
 };
 
 export type SubmitTasteResDto = {

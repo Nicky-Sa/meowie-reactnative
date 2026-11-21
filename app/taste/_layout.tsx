@@ -56,7 +56,7 @@ export default function TasteLayout() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(journey)" />
+      <Stack.Screen name="index" />
       <Stack.Screen
         name="result"
         options={{ animation: "fade", gestureEnabled: false }}

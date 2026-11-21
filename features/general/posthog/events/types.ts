@@ -367,7 +367,8 @@ export type TASTE_CARD_CLICKED = {
 export type TASTE_SKIPPED = {
   event: "taste_skipped";
   properties: {
-    movie_answer_count: number;
+    movie_pick_count: number;
+    series_pick_count: number;
   };
 };
 

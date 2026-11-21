@@ -11,7 +11,7 @@ export const useAfterLogin = () => {
   const afterLogin = useCallback(async () => {
     if (!taste.completed) return;
 
-    await submitTaste(taste.answers);
+    await submitTaste({ picks: taste.picks });
     setTaste(initialTasteState());
   }, [taste, submitTaste, setTaste]);
 

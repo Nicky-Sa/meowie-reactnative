@@ -1,4 +1,4 @@
-import { Screen } from "@/features/taste/steps/result/screen";
+import { Screen } from "@/features/taste/result/screen";
 
 export default function TasteResult() {
   return <Screen />;

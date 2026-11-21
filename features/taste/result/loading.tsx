@@ -2,7 +2,7 @@ import { View } from "react-native";
 import Animated from "react-native-reanimated";
 import SleepingMeowie from "@/assets/images/meowie/sleeping-meowie.svg";
 import { InformationBlock } from "@/features/common/information-block";
-import { useSlidingBarStyle } from "@/features/taste/steps/result/hooks/use-sliding-bar-style";
+import { useSlidingBarStyle } from "@/features/taste/result/hooks/use-sliding-bar-style";
 
 export const LoadingTasteSubmission = () => {
   const barStyle = useSlidingBarStyle();

@@ -1,18 +1,16 @@
-import { Option } from "@/features/common/option";
+import { MediaType } from "@/features/common/data/models/media-type";
 
-// Wire types for GET /taste/journey — the one-shot bootstrap payload the
-// journey steps render from. Mirrors the backend's taste constants.
+// Wire types for GET /taste/journey: the mixed grid of titles to pick from.
 
-export type Title = {
+export type PickTitle = {
   title: string;
   year: number;
   tmdbId: number;
   poster: string;
+  mediaType: MediaType;
 };
 
 export type JourneyResDto = {
-  movies: Title[];
-  series: Title[];
-  avoidChips: Option[];
-  minMoviesToLike: number;
+  titles: PickTitle[];
+  minPicks: number;
 };

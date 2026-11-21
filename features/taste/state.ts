@@ -1,35 +1,35 @@
-import {
-  SubmitTasteReqDto,
-  TitleAnswer,
-  TitleRatings,
-} from "@/features/taste/data/dto/taste.dto";
-import { Title } from "@/features/taste/data/dto/journey.dto";
+import { MediaType } from "@/features/common/data/models/media-type";
+import { TitlePick } from "@/features/taste/data/dto/taste.dto";
+import { PickTitle } from "@/features/taste/data/dto/journey.dto";
 
 export type TasteState = {
-  answers: SubmitTasteReqDto;
+  picks: TitlePick[];
   completed: boolean;
 };
 
 export const initialTasteState = (): TasteState => ({
-  answers: {
-    movieRatings: {},
-    seriesRatings: {},
-    avoid: [],
-  },
+  picks: [],
   completed: false,
 });
 
-// "Haven't seen it" says nothing about their taste, so it doesn't count.
-export const countOpinions = (ratings: TitleRatings) =>
-  Object.values(ratings).filter((answer) => answer !== "not-seen").length;
+// A movie and a series can share a TMDB id, so a pick is only unique with its type.
+export const pickKey = ({ tmdbId, mediaType }: TitlePick) =>
+  `${mediaType}:${tmdbId}`;
 
-export const countAnswer = (
-  ratings: TitleRatings,
-  answerToCount: TitleAnswer,
-) => Object.values(ratings).filter((answer) => answer === answerToCount).length;
+export const countPicks = (picks: TitlePick[], mediaType: MediaType) =>
+  picks.filter((pick) => pick.mediaType === mediaType).length;
 
-// Opens just past the furthest answer, so skipped cards stay behind the user.
-export const startIndexForDeck = (items: Title[], ratings: TitleRatings) => {
-  const lastAnswered = items.findLastIndex((item) => item.tmdbId in ratings);
-  return Math.min(lastAnswered + 1, items.length - 1);
+export const continueLabel = (pickCount: number, minPicks: number) => {
+  if (pickCount === 0) return `Pick ${minPicks} to continue`;
+  if (pickCount < minPicks) return `Continue (${pickCount}/${minPicks})`;
+  return `Continue (${pickCount} picked)`;
+};
+
+export const posterSubtitle = ({ mediaType, year }: PickTitle) => {
+  switch (mediaType) {
+    case "movie":
+      return `${year}`;
+    case "series":
+      return `Series · ${year}`;
+  }
 };

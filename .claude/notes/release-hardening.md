@@ -18,13 +18,11 @@ Labels are copied from the code, so a flow can tap or assert on them. "→" mean
 
 | Route                | What is on it                                                                                                                                                                                       | Where it goes                                               |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| `/taste`             | Step title, progress bar, "Skip" at the top right on this step only. A deck of movie posters to like or dislike. Label "0/N liked", then "N liked". "Next" stays disabled until N movies are liked. | "Skip" → `/home`. "Next" → `/taste/series`.                 |
-| `/taste/series`      | Same deck with series. "Next".                                                                                                                                                                      | → `/taste/preferences`                                      |
-| `/taste/preferences` | "Anything to avoid?" with chips. "Submit my taste".                                                                                                                                                 | → `/taste/result`                                           |
+| `/taste`             | "Your taste" with "Skip" at the top right, and a back arrow only when there is a screen to go back to. A 3-column grid of movies and series to pick. The button says "Pick N to continue", then "Continue (1/N)" and stays disabled until N picks, then "Continue (N picked)". | "Skip" → `/home`. "Continue" → `/taste/result`.            |
 | `/taste/result`      | Loading animation for at least 5 seconds while the taste is sent.                                                                                                                                   | Guest → `/auth` with `returnTo=/home`. Logged in → `/home`. |
 
-Error texts: "We couldn't load the taste journey. Check your connection and try again." and "We couldn't save your
-taste. Check your connection and try again.", both with "Try again".
+Error texts: the grid shows the shared load error, like "We couldn't reach Meowie…", and the result screen shows "We
+couldn't save your taste. Check your connection and try again.", both with "Try again".
 
 ### Tabs
 

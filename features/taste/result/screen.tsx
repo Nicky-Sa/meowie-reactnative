@@ -4,7 +4,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ErrorState } from "@/features/general/error-state";
 import { useSubmitTaste } from "@/features/taste/data/use-submit-taste";
-import { LoadingTasteSubmission } from "@/features/taste/steps/result/loading";
+import { LoadingTasteSubmission } from "@/features/taste/result/loading";
 import { tasteAtom } from "@/atoms";
 import { useCurrentUser } from "@/features/general/data/use-current-user";
 import { initialTasteState } from "@/features/taste/state";
@@ -14,7 +14,7 @@ export const Screen = () => {
   const router = useRouter();
   const state = useAtomValue(tasteAtom);
   const setTaste = useSetAtom(tasteAtom);
-  const [tasteToSubmit] = useState(state.answers);
+  const [picksToSubmit] = useState(state.picks);
   const {
     data,
     isPending: isCurrentUserPending,
@@ -28,7 +28,7 @@ export const Screen = () => {
   const submitTaste = useCallback(async () => {
     try {
       await Promise.all([
-        trigger(tasteToSubmit),
+        trigger({ picks: picksToSubmit }),
         new Promise<void>((finish) => setTimeout(finish, 5000)), // for the loading animation
       ]);
     } catch {
@@ -49,7 +49,7 @@ export const Screen = () => {
       setTaste(initialTasteState());
       router.replace("/home");
     }
-  }, [userId, setTaste, tasteToSubmit, trigger, router, taste]);
+  }, [userId, setTaste, picksToSubmit, trigger, router, taste]);
 
   useEffect(() => {
     if (!isCurrentUserPending && !currentUserError) void submitTaste();

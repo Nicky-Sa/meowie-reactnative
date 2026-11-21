@@ -546,11 +546,16 @@ export const useAnalytics = () => {
           capture("taste_card_clicked", { media_type: mediaType }),
 
         trackSkipped: ({
-          movieAnswerCount,
+          moviePickCount,
+          seriesPickCount,
         }: {
-          movieAnswerCount: number;
+          moviePickCount: number;
+          seriesPickCount: number;
         }): void =>
-          capture("taste_skipped", { movie_answer_count: movieAnswerCount }),
+          capture("taste_skipped", {
+            movie_pick_count: moviePickCount,
+            series_pick_count: seriesPickCount,
+          }),
 
         trackSubmitted: (): void => capture("taste_submitted"),
       },
