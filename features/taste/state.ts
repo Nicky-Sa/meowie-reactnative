@@ -1,6 +1,5 @@
 import { MediaType } from "@/features/common/data/models/media-type";
 import { TitlePick } from "@/features/taste/data/dto/taste.dto";
-import { PickTitle } from "@/features/taste/data/dto/journey.dto";
 
 export type TasteState = {
   picks: TitlePick[];
@@ -18,18 +17,3 @@ export const pickKey = ({ tmdbId, mediaType }: TitlePick) =>
 
 export const countPicks = (picks: TitlePick[], mediaType: MediaType) =>
   picks.filter((pick) => pick.mediaType === mediaType).length;
-
-export const continueLabel = (pickCount: number, minPicks: number) => {
-  if (pickCount === 0) return `Pick ${minPicks} to continue`;
-  if (pickCount < minPicks) return `Continue (${pickCount}/${minPicks})`;
-  return `Continue (${pickCount} picked)`;
-};
-
-export const posterSubtitle = ({ mediaType, year }: PickTitle) => {
-  switch (mediaType) {
-    case "movie":
-      return `${year}`;
-    case "series":
-      return `Series · ${year}`;
-  }
-};
