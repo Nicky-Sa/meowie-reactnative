@@ -1,8 +1,10 @@
 # Package updates
 
+Sessions: `8e11f7be-e953-429e-884b-578c8fe9cbca`
+
 ## Decisions
 
-- **Packages that Expo fixes for SDK 58 stay at Expo's versions.** These are `react`, `react-dom`, `lottie-react-native`, `@shopify/flash-list`, `react-native-gesture-handler`, `react-native-keyboard-controller`, `react-native-pager-view`, `react-native-svg` and `react-native-worklets`. Their versions come from `expo/bundledNativeModules.json`, and `npx expo install --check` must stay clean.
+- **Packages that Expo sets a version for only move to the version Expo approves.** Expo's list is `expo/bundledNativeModules.json`, so these packages are updated with `npx expo install --fix`, and `npx expo install --check` must stay clean.
 - **`eslint` and `@eslint/js` stay on 9.** `eslint-plugin-react` supports ESLint only up to 9.
 - **`typescript` stays on 6.0.** `typescript-eslint` supports TypeScript only below 6.1.
 - **`tailwindcss` stays on 3.** NativeWind v4 is built for Tailwind 3.
