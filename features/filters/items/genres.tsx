@@ -2,7 +2,7 @@ import { BottomSheetWrapper } from "@/features/filters/bottom-sheet-wrapper";
 import { View } from "react-native";
 import { SegmentItem, Segment } from "@/features/common/ui/segment";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { Genre } from "@/features/common/data/models/genre";
+import { Genre, genreLabel } from "@/features/common/data/models/genre";
 import { useMemo } from "react";
 
 type Props = {
@@ -23,7 +23,7 @@ export const Genres = ({
   const activeGenres: SegmentItem[] = useMemo(() => {
     return genres.map((genre) => ({
       id: String(genre.id),
-      label: `${genre.emoji} ${genre.name}`,
+      label: genreLabel(genre),
     }));
   }, [genres]);
 

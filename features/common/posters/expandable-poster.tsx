@@ -4,7 +4,7 @@ import { memo, useCallback, useState } from "react";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";
 import { PosterPreview } from "@/features/common/posters/poster-preview";
-import { PosterCard } from "@/features/common/posters/poster-card";
+import { PlainPoster } from "@/features/common/posters/plain-poster";
 import {
   GestureDetector,
   useExclusiveGestures,
@@ -15,13 +15,14 @@ import { scheduleOnRN } from "react-native-worklets";
 
 type Props = {
   data: PosterInfo;
-  width: number;
-  showExtraDetails?: boolean;
+  width?: number;
+  title?: string;
+  subtitle?: string;
   onPress: () => void;
 };
 
-export const Poster = memo(
-  ({ data, width, showExtraDetails, onPress }: Props) => {
+export const ExpandablePoster = memo(
+  ({ data, width, title, subtitle, onPress }: Props) => {
     const { media } = useAnalytics();
     const [isPreviewVisible, setIsPreviewVisible] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
@@ -71,23 +72,18 @@ export const Poster = memo(
 
     const gesture = useExclusiveGestures(longPressGesture, tapGesture);
 
-    const firstGenre = data.preview.genres[0];
-
     return (
       <>
         <GestureDetector gesture={gesture}>
-          <PosterCard
-            testID="poster"
+          <PlainPoster
+            testID="expandable-poster"
             posterUri={data.posterPath}
             width={width}
             blurhash={data.blurhash}
             recyclingKey={data.posterPath}
             transition={400}
-            showDetails={showExtraDetails}
-            title={data.preview.title}
-            badge={
-              firstGenre ? `${firstGenre.emoji} ${firstGenre.name}` : undefined
-            }
+            title={title}
+            subtitle={subtitle}
             pressed={isPressed}
           />
         </GestureDetector>
@@ -102,4 +98,4 @@ export const Poster = memo(
   },
 );
 
-Poster.displayName = "Poster";
+ExpandablePoster.displayName = "ExpandablePoster";

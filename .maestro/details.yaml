@@ -22,10 +22,10 @@ appId: com.meowie.app.preview
 - tapOn: "See more"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 - tapOn:
-    id: "poster"
+    id: "expandable-poster"
     index: 0
 - tapOn: "Details"
 - assertVisible: "Movie Details"

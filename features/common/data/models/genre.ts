@@ -3,3 +3,5 @@ export type Genre = {
   name: string;
   emoji: string;
 };
+
+export const genreLabel = ({ emoji, name }: Genre) => `${emoji} ${name}`;

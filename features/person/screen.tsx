@@ -10,8 +10,6 @@ import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
 import { EmptyState } from "@/features/general/empty-state";
 import { ErrorState } from "@/features/general/error-state";
 
-const NUM_COLUMNS = 3;
-
 export const Screen = ({ personId }: { personId: string }) => {
   const { scrollHandler, scrollY } = useScrollPosition();
 
@@ -53,7 +51,6 @@ export const Screen = ({ personId }: { personId: string }) => {
         <ErrorState tryAgain={refetchPersonInfo} error={personInfoError} />
       ) : (
         <PostersList
-          numColumns={NUM_COLUMNS}
           posterData={posterData}
           scrollHandler={scrollHandler}
           onPosterPress={onPosterPress}

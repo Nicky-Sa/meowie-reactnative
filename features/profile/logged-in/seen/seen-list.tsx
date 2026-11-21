@@ -9,8 +9,6 @@ import { SeenEmptyState } from "@/features/profile/logged-in/seen/seen-empty-sta
 import { useInvalidateByPattern } from "@/features/common/data/query/hooks";
 import { tailwind } from "@/lib/tailwind";
 
-const NUM_COLUMNS = 3;
-
 type Props = TabChildProps & {
   headerHeight: number;
 };
@@ -46,7 +44,6 @@ export const SeenList = ({ scrollHandler, headerHeight }: Props) => {
   return (
     <View className={"flex-1"}>
       <PostersList
-        numColumns={NUM_COLUMNS}
         posterData={posterData}
         scrollHandler={scrollHandler}
         onPosterPress={onPosterPress}

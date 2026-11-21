@@ -70,7 +70,6 @@ export const ExplorePosters = ({
   return (
     <>
       <PostersList
-        numColumns={3}
         posterData={posterData}
         listRef={listRef}
         onPosterPress={onPosterPress}

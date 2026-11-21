@@ -110,7 +110,7 @@ that uses the preview environment and backend.
    ```
 
 Flows tap buttons with text by their text. Icon-only buttons and posters have a `testID` instead, like `settings`,
-`tab-home` or `poster`, which a flow taps with `id:`.
+`tab-home` or `expandable-poster`, which a flow taps with `id:`.
 
 The sign-in flow uses the backend's test email, which gets a fixed login code and no email. The code is
 `MAESTRO_E2E_TEST_OTP_CODE` in both the development and preview EAS environments, so `.env.local` always has it.

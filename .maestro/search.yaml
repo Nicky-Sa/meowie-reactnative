@@ -20,7 +20,7 @@ appId: com.meowie.app.preview
     visible: "known for .*"
     timeout: 30000
 - tapOn:
-    id: "poster"
+    id: "expandable-poster"
     index: 0
 - tapOn: "Details"
 - assertVisible: "(Movie|Series) Details"

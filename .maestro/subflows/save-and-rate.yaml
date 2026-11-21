@@ -20,7 +20,7 @@ appId: com.meowie.app.preview
 - tapOn: "Saved"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 
 # Rating it moves it from Saved to Seen
@@ -36,7 +36,7 @@ appId: com.meowie.app.preview
 - tapOn: "Seen"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 
 # Unseen it, so the test account doesn't fill up

@@ -5,10 +5,10 @@ appId: com.meowie.app.preview
     id: "tab-explore"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 - tapOn:
-    id: "poster"
+    id: "expandable-poster"
     index: 0
 - tapOn: "Details"
 - assertVisible: "(Movie|Series) Details"
@@ -19,10 +19,10 @@ appId: com.meowie.app.preview
 - tapOn: "Series"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 - tapOn:
-    id: "poster"
+    id: "expandable-poster"
     index: 0
 - tapOn: "Details"
 - assertVisible: "Series Details"
@@ -40,10 +40,10 @@ appId: com.meowie.app.preview
 - assertVisible: "Filtered series"
 - extendedWaitUntil:
     visible:
-      id: "poster"
+      id: "expandable-poster"
     timeout: 30000
 - tapOn:
-    id: "poster"
+    id: "expandable-poster"
     index: 0
 - tapOn: "Details"
 - assertVisible: "Series Details"

@@ -8,8 +8,6 @@ import { PostersUrl } from "@/features/common/posters/types";
 import { FilterIndicator } from "@/features/filters/filter-indicator";
 import { EmptyState } from "@/features/general/empty-state";
 
-const NUM_COLUMNS = 3;
-
 type Params = {
   title: string;
   endpoint: PostersUrl;
@@ -54,7 +52,6 @@ export const Screen = ({
       }
     >
       <PostersList
-        numColumns={NUM_COLUMNS}
         posterData={posterData}
         onPosterPress={onPosterPress}
         ListEmptyComponent={

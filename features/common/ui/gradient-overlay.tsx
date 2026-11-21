@@ -1,5 +1,5 @@
 import { View, LayoutChangeEvent, DimensionValue } from "react-native";
-import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
+import { Canvas, Fill, LinearGradient, vec } from "@shopify/react-native-skia";
 import { useState, memo } from "react";
 
 type Props = {
@@ -20,11 +20,11 @@ export const GradientOverlay = memo(
     positions = [0, 0.5, 1],
     className,
   }: Props) => {
-    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const [size, setSize] = useState({ width: 0, height: 0 });
 
     const onLayout = (event: LayoutChangeEvent) => {
-      const { width, height: h } = event.nativeEvent.layout;
-      setDimensions({ width, height: h });
+      const { width, height: layoutHeight } = event.nativeEvent.layout;
+      setSize({ width, height: layoutHeight });
     };
 
     return (
@@ -34,15 +34,21 @@ export const GradientOverlay = memo(
         onLayout={onLayout}
         pointerEvents="none"
       >
-        <Canvas style={{ width: "100%", height: "100%" }}>
-          <Rect x={0} y={0} width={dimensions.width} height={dimensions.height}>
+        {/* Skia drops the part of a point from its drawing size, so the canvas is rounded up to cover the edge. */}
+        <Canvas
+          style={{
+            width: Math.ceil(size.width),
+            height: Math.ceil(size.height),
+          }}
+        >
+          <Fill>
             <LinearGradient
               start={vec(0, 0)}
-              end={vec(0, dimensions.height)}
+              end={vec(0, size.height)}
               colors={colors}
               positions={positions}
             />
-          </Rect>
+          </Fill>
         </Canvas>
       </View>
     );

@@ -10,6 +10,7 @@ import Animated, {
 import { tailwind } from "@/lib/tailwind";
 import { capitalize } from "@/lib/utils/strings";
 import { Badge } from "@/features/common/ui/badge";
+import { genreLabel } from "@/features/common/data/models/genre";
 
 type Props = {
   data: PosterInfo;
@@ -63,7 +64,7 @@ export const PosterPreview = ({ data }: Props) => {
             {data.preview.genres.map((genre) => (
               <Badge
                 key={genre.id}
-                text={`${genre.emoji} ${genre.name}`}
+                text={genreLabel(genre)}
                 variant={"ghost"}
                 size={"unset"}
               />

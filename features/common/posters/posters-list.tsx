@@ -1,23 +1,19 @@
-import { Poster } from "@/features/common/posters/poster";
-import { ErrorState } from "@/features/general/error-state";
-import { PostersSkeletons } from "@/features/common/posters/poster-skeletons";
-import Animated, { ScrollHandlerProcessed } from "react-native-reanimated";
-import { FlashList, FlashListProps, FlashListRef } from "@shopify/flash-list";
+import { ExpandablePoster } from "@/features/common/posters/expandable-poster";
+import {
+  GridPoster,
+  PostersGrid,
+} from "@/features/common/posters/posters-grid";
+import { ScrollHandlerProcessed } from "react-native-reanimated";
+import { FlashListProps, FlashListRef } from "@shopify/flash-list";
 import { PosterInfo } from "@/features/common/data/models/poster";
-import { useGridItemWidth } from "@/features/common/hooks/list/use-grid-item-width";
 import { useFetchMore } from "@/features/common/hooks/list/use-fetch-more";
 import { ReactElement, RefObject, useCallback, memo } from "react";
 import { Loading } from "@/features/common/ui/loading";
-import { ScrollViewProps, StyleProp, ViewStyle, View } from "react-native";
+import { ScrollViewProps, StyleProp, ViewStyle } from "react-native";
 import { PosterHookResult } from "@/features/common/posters/types";
-import { tailwind } from "@/lib/tailwind";
-
-const AnimatedFlashList = Animated.createAnimatedComponent(
-  FlashList<PosterInfo>,
-);
 
 type Props = {
-  numColumns: number;
+  numColumns?: number;
   onPosterPress: (index: number) => void;
   posterData: PosterHookResult;
   scrollHandler?: ScrollHandlerProcessed;
@@ -30,6 +26,7 @@ type Props = {
   maintainVisibleContentPosition?: FlashListProps<PosterInfo>["maintainVisibleContentPosition"];
 };
 
+/** The poster grid for pages of posters: loads the next page near the end, and a tap opens the title. */
 export const PostersList = memo(
   ({
     numColumns,
@@ -39,18 +36,11 @@ export const PostersList = memo(
     ListHeaderComponent,
     ListEmptyComponent,
     contentContainerStyle,
-    contentInsetAdjustmentBehavior = "automatic",
+    contentInsetAdjustmentBehavior,
     refreshControl,
     listRef,
     maintainVisibleContentPosition,
   }: Props) => {
-    const gap = Number(tailwind.theme.spacing["2"]);
-    const { itemWidth } = useGridItemWidth({
-      numColumns,
-      gap,
-      horizontalPadding: gap * 2,
-    });
-
     const {
       data,
       isLoading,
@@ -68,51 +58,36 @@ export const PostersList = memo(
       isLoading,
     });
 
-    const isInitialLoad = isLoading && (!data || data.length === 0);
+    const isInitialLoad = isLoading && data.length === 0;
 
-    const renderItem = useCallback(
-      ({ item, index }: { item: PosterInfo; index: number }) => (
-        <View className={"px-1"}>
-          <Poster
-            data={item}
-            width={itemWidth}
-            onPress={() => onPosterPress(index)}
-          />
-        </View>
+    const renderPoster = useCallback(
+      ({ item, index }: GridPoster<PosterInfo>) => (
+        <ExpandablePoster data={item} onPress={() => onPosterPress(index)} />
       ),
-      [onPosterPress, itemWidth],
+      [onPosterPress],
     );
 
     return (
-      <AnimatedFlashList
-        ref={listRef}
+      <PostersGrid
         data={data}
-        keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
-        renderItem={renderItem}
         numColumns={numColumns}
-        onScroll={scrollHandler}
-        onEndReachedThreshold={0.5}
+        keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
+        renderPoster={renderPoster}
+        isLoading={isInitialLoad}
+        error={error}
+        refetch={refetch}
         onEndReached={onEndReached}
-        showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
-        refreshControl={refreshControl}
-        maintainVisibleContentPosition={maintainVisibleContentPosition}
-        contentContainerClassName={"grow px-1"}
-        contentContainerStyle={contentContainerStyle}
-        ItemSeparatorComponent={() => <View className={"h-2"} />}
-        ListEmptyComponent={
-          error ? (
-            <ErrorState tryAgain={refetch} error={error} />
-          ) : isInitialLoad ? (
-            <PostersSkeletons width={itemWidth} number={numColumns * 4} />
-          ) : (
-            ListEmptyComponent
-          )
-        }
+        scrollHandler={scrollHandler}
+        listRef={listRef}
         ListHeaderComponent={ListHeaderComponent}
+        ListEmptyComponent={ListEmptyComponent}
         ListFooterComponent={
           isFetchingNextPage && !isInitialLoad ? <Loading /> : null
         }
+        contentContainerStyle={contentContainerStyle}
+        contentInsetAdjustmentBehavior={contentInsetAdjustmentBehavior}
+        refreshControl={refreshControl}
+        maintainVisibleContentPosition={maintainVisibleContentPosition}
       />
     );
   },

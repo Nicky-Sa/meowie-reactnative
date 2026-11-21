@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import { Poster } from "@/features/common/posters/poster";
+import { ExpandablePoster } from "@/features/common/posters/expandable-poster";
 import { useRouter } from "expo-router";
 import { Icon } from "@/features/common/ui/icon";
 import { NavArrowRight } from "iconoir-react-native";
@@ -7,6 +7,7 @@ import { MediaType } from "@/features/common/data/models/media-type";
 import { Button } from "@/features/common/ui/button";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { useFetchPosters } from "@/features/common/posters/use-fetch-posters";
+import { genreLabel } from "@/features/common/data/models/genre";
 
 type Props = {
   title: string;
@@ -57,23 +58,27 @@ export const Recommendations = ({ title, mediaId, mediaType }: Props) => {
         showsHorizontalScrollIndicator={false}
         contentContainerClassName={"px-4 gap-3"}
       >
-        {displayResults.map((item) => (
-          <Poster
-            key={item.id}
-            data={item}
-            width={140}
-            showExtraDetails
-            onPress={() =>
-              router.push({
-                pathname:
-                  item.mediaType === "movie"
-                    ? "/movie/[id]/details"
-                    : "/series/[id]/details",
-                params: { id: item.id.toString() },
-              })
-            }
-          />
-        ))}
+        {displayResults.map((item) => {
+          const firstGenre = item.preview.genres[0];
+          return (
+            <ExpandablePoster
+              key={item.id}
+              data={item}
+              width={140}
+              title={item.preview.title}
+              subtitle={firstGenre ? genreLabel(firstGenre) : undefined}
+              onPress={() =>
+                router.push({
+                  pathname:
+                    item.mediaType === "movie"
+                      ? "/movie/[id]/details"
+                      : "/series/[id]/details",
+                  params: { id: item.id.toString() },
+                })
+              }
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );
