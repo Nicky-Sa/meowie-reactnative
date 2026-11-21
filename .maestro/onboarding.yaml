@@ -5,16 +5,12 @@ appId: com.meowie.app.preview
 - tapOn: "Let's Go"
 - extendedWaitUntil:
     visible:
-      id: "like"
+      id: "selectable-poster"
     timeout: 30000
 - tapOn:
-    id: "like"
-- assertVisible: "1/\\d+ liked"
-- tapOn:
-    id: "dislike"
-- tapOn:
-    id: "not-seen"
-- assertVisible: "1/\\d+ liked"
+    id: "selectable-poster"
+    index: 0
+- assertVisible: "Continue \\(1/5\\)"
 - tapOn: "Skip"
 - extendedWaitUntil:
     visible: "Next step"

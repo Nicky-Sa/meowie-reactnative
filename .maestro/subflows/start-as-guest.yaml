@@ -5,7 +5,7 @@ appId: com.meowie.app.preview
 - tapOn: "Let's Go"
 - extendedWaitUntil:
     visible:
-      id: "like"
+      id: "selectable-poster"
     timeout: 30000
 - tapOn: "Skip"
 - extendedWaitUntil:

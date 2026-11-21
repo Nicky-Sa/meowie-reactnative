@@ -4,26 +4,35 @@ appId: com.meowie.app.preview
 - waitForAnimationToEnd
 - tapOn: "Let's Go"
 - extendedWaitUntil:
-    visible: "\\d+/\\d+ liked"
+    visible: "Pick 5 or more you like"
     timeout: 30000
-- repeat:
-    while:
-      visible: "\\d+/\\d+ liked"
-    commands:
-      - tapOn:
-          id: "like"
-- assertVisible: "\\d+ liked"
-- tapOn: "Next"
-- extendedWaitUntil:
-    visible:
-      id: "like"
-    timeout: 30000
+- assertVisible: "Pick 5 to continue"
 - tapOn:
-    id: "like"
+    id: "selectable-poster"
+    index: 0
 - tapOn:
-    id: "dislike"
-- tapOn: "Next"
-- tapOn: "Submit my taste"
+    id: "selectable-poster"
+    index: 1
+- tapOn:
+    id: "selectable-poster"
+    index: 2
+- assertVisible: "Continue \\(3/5\\)"
+# A second tap on a picked poster takes the pick back
+- tapOn:
+    id: "selectable-poster"
+    index: 2
+- assertVisible: "Continue \\(2/5\\)"
+- tapOn:
+    id: "selectable-poster"
+    index: 2
+- tapOn:
+    id: "selectable-poster"
+    index: 3
+- tapOn:
+    id: "selectable-poster"
+    index: 4
+- tapOn: "Continue \\(5 picked\\)"
+- assertVisible: "Great picks!"
 - extendedWaitUntil:
     visible: "Continue with Email"
     timeout: 60000
