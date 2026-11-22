@@ -46,7 +46,7 @@ export const TrailerPlayer = ({
   backdropPath,
 }: Props) => {
   return (
-    <View className={"h-[200px] w-full"}>
+    <View className={"max-h-[280px] min-h-[200px] w-full flex-1"}>
       <Player
         key={YTKey}
         YTKey={YTKey}
@@ -62,6 +62,11 @@ export const TrailerPlayer = ({
 };
 
 const RETRY_ATTEMPTS = 1;
+
+// Zooming until a 2.39:1 picture fills the box hides the black bars many trailers have.
+// EXTRA_ZOOM crops a little more on top, picked by eye on a phone.
+const WIDE_TRAILER_RATIO = 2.39;
+const EXTRA_ZOOM = 1.03;
 
 /**
  * The player itself.
@@ -199,6 +204,8 @@ export const Player = ({
 
   const { width: w } = useScreenDimensions();
   const width = fullWidth ? w : w - 2 * Number(tailwind.theme.spacing[4]); // * 2 for both side padding
+  const [boxHeight, setBoxHeight] = useState(0);
+  const zoom = (boxHeight * WIDE_TRAILER_RATIO * EXTRA_ZOOM) / width;
 
   const placeholderOpacity = useSharedValue(1);
 
@@ -232,8 +239,9 @@ export const Player = ({
         ) : (
           <View
             style={{ width }}
+            onLayout={(event) => setBoxHeight(event.nativeEvent.layout.height)}
             className={cn(
-              "h-[200px] items-center justify-center overflow-hidden",
+              "h-full items-center justify-center overflow-hidden",
               fullWidth ? "rounded-none" : "rounded-xl",
             )}
           >
@@ -244,7 +252,7 @@ export const Player = ({
               style={{
                 width,
                 height: 340,
-                transform: [{ scale: 1.35 }],
+                transform: [{ scale: zoom }],
               }}
               webViewProps={{
                 injectedJavaScript: `
@@ -266,7 +274,7 @@ export const Player = ({
       <Animated.View
         style={placeholderStyle}
         pointerEvents={isVideoVisible ? "none" : "auto"}
-        className="absolute inset-0 z-10 h-full w-full"
+        className="absolute inset-0 h-full w-full"
       >
         <TrailerPlaceholder
           fullWidth={fullWidth}

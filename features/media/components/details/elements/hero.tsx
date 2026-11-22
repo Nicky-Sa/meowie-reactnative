@@ -55,30 +55,28 @@ export const Hero = ({
         />
         {/* Dark gradient overlay */}
         <GradientOverlay
-          height={110}
-          colors={["transparent", "rgba(10,10,10,0.9)", "rgba(10,10,10,1)"]}
+          height={72}
+          colors={["transparent", "rgba(10,10,10,0.8)", "rgba(10,10,10,1)"]}
           positions={[0, 0.55, 1]}
           className={"absolute bottom-0"}
         />
       </View>
 
-      <View className={"-mt-20 flex flex-1 flex-row gap-4 pl-4"}>
+      <View className={"-mt-16 flex flex-1 flex-row gap-4 pl-4"}>
         <EnlargeableImage
           source={posterPath}
           blurhash={posterProps.blurhash}
-          width={90}
+          width={80}
           onPress={onPosterExpanded}
         />
-        <View className={"flex flex-1 flex-col justify-center gap-3"}>
-          <View className={"gap-3"}>
-            <ScrollableTitle title={title} />
-            <RowInfo info={[year, certification, duration]} />
-            <ScrollableGenres
-              genres={genres}
-              mediaType={mediaType}
-              className={"-ml-1 grow-0"}
-            />
-          </View>
+        <View className={"flex flex-1 flex-col justify-center gap-2"}>
+          <ScrollableTitle title={title} />
+          <RowInfo info={[year, certification, duration]} />
+          <ScrollableGenres
+            genres={genres}
+            mediaType={mediaType}
+            className={"-ml-1 grow-0"}
+          />
         </View>
       </View>
     </View>

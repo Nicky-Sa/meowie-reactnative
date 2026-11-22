@@ -86,7 +86,7 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
   ) : isLoading || !data ? (
     <MediaInfoSkeleton />
   ) : (
-    <View className={"flex w-full flex-col gap-4"}>
+    <View className={"flex w-full flex-1 flex-col justify-center gap-4 py-2"}>
       <TrailerPlayer
         YTKey={data.trailerKey}
         inScreen={inScreen}
