@@ -15,7 +15,7 @@ import { posthog } from "@/features/general/posthog/client";
 import { isErrorResponse } from "@/features/common/data/error";
 
 // Create the axios instance
-const axiosInstance = createAxiosInstance({
+export const axiosInstance = createAxiosInstance({
   baseURL: env.EXPO_PUBLIC_BACKEND_URL,
   timeout: GENERAL_TIMEOUT, // requests hanging beyond this will throw an ECONNABORTED error
 });
@@ -82,7 +82,7 @@ axiosInstance.interceptors.response.use(
   // Any 2xx or 3xx status code triggers this
   (response) => response,
 
-  // Any 4xx/5xx status code triggers this
+  // Any 4xx/5xx status code, timeout or network error triggers this
   async (error) => {
     if (!isAxiosError(error)) {
       return Promise.reject(error);
@@ -95,7 +95,7 @@ axiosInstance.interceptors.response.use(
       apiErrorMessage: isErrorResponse(responseBody)
         ? responseBody.errors
         : undefined,
-      url: error.response?.config?.url,
+      url: originalRequest?.url,
     });
 
     // Check for 401 Unauthorized
@@ -200,5 +200,3 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-export default axiosInstance;

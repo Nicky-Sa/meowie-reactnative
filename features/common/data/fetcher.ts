@@ -3,7 +3,7 @@ import {
   ErrorResponse,
   SuccessResponse,
 } from "@/features/common/data/transformers";
-import axiosInstance from "@/features/common/data/axios";
+import { axiosInstance } from "@/features/common/data/axios";
 import { isErrorResponse, APICallError } from "@/features/common/data/error";
 
 export type MutationArg<REQ> = {
