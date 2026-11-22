@@ -24,6 +24,7 @@
     "generate:api": "orval --config orval/orval.config.ts",
     "firebase-emulators": "npx firebase emulators:start",
     "postinstall": "patch-package",
+    "dependencies": "pod repo update",
     "typecheck": "tsc --noEmit",
     "e2e": "set -a && . ./.env.local && set +a && JAVA_OPTS=--sun-misc-unsafe-memory-access=allow maestro test .maestro"
   },
