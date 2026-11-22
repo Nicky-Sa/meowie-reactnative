@@ -101,6 +101,7 @@ const getPlugins = (): ExpoConfig["plugins"] => {
     "expo-app-intents",
     "expo-video",
     "expo-web-browser",
+    "expo-notifications",
   ];
 
   // conditional plugins
