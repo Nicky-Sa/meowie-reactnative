@@ -133,7 +133,6 @@ export const Seen = ({
         variant={"black"}
         size={"md"}
         onPress={handlePress}
-        disabled={isLibraryStatusLoading}
         style={{ overflow: "visible" }}
         className={"min-w-20"}
         icon={
@@ -143,7 +142,7 @@ export const Seen = ({
         }
       >
         {isLibraryStatusLoading ? (
-          <SkeletonItem className={"h-6 w-16"} />
+          <SkeletonItem className={"mx-auto h-6 w-16"} />
         ) : (
           "Seen"
         )}

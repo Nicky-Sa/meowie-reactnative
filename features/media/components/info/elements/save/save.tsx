@@ -124,12 +124,11 @@ export const Save = ({ id, mediaType, onPress }: Props) => {
         variant={"black"}
         size={"md"}
         onPress={handlePress}
-        disabled={isLibraryStatusLoading}
         icon={isLibraryStatusLoading ? null : <SaveIcon isSaved={isSaved} />}
         className={"min-w-20"}
       >
         {isLibraryStatusLoading ? (
-          <SkeletonItem className={"h-6 w-16"} />
+          <SkeletonItem className={"mx-auto h-6 w-16"} />
         ) : (
           <Text
             className={
