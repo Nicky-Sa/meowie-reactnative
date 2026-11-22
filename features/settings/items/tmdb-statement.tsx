@@ -5,7 +5,7 @@ export const TMDBStatement = () => {
   return (
     <View
       className={
-        "mx-auto flex w-[70%] flex-row items-center justify-center gap-3"
+        "mx-auto flex w-[90%] flex-row items-center justify-center gap-3"
       }
     >
       <TMDBGrayLogo />

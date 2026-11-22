@@ -1,27 +1,30 @@
+import { useContext } from "react";
+import { BottomTabBarHeightContext } from "expo-router/js-tabs";
 import { useScreenDimensions } from "@/hooks/use-screen-dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type Args = Partial<{
-  hasHeader: boolean;
-  hasNavbar: boolean;
-}>;
+type Args = {
+  headerHeight?: number;
+};
 
 /**
  * For the style of main screens with header and navbar
  */
 export const useMainScreenContentStyle = ({
-  hasHeader = true,
-  hasNavbar = true,
+  headerHeight = 56, // 56 is the typical header height
 }: Args = {}) => {
   const { height } = useScreenDimensions();
   const { top, bottom } = useSafeAreaInsets();
-  const extraPaddingTop = hasHeader ? 80 : 20; // 80 is to account for the header, 20 is to account for the safe area top in case there is no header
-  const extraPaddingBottom = hasNavbar ? 90 : 0; // 90 is to account for the navbar
+  // Only screens inside the tab navigator get a value from this context
+  const hasNavbar = useContext(BottomTabBarHeightContext) !== undefined;
+  const extraPaddingTop = headerHeight;
+  // The navbar is 70pt tall and sits 28pt above the bottom edge on every phone, whatever the safe area
+  const paddingBottom = hasNavbar ? 98 : bottom;
 
   return {
     height,
     paddingTop: top + extraPaddingTop,
-    paddingBottom: bottom + extraPaddingBottom,
+    paddingBottom,
   };
 };
 

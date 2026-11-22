@@ -91,7 +91,11 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
   ) : isLoading || !data ? (
     <MediaInfoSkeleton />
   ) : (
-    <View className={"flex w-full flex-1 flex-col justify-center gap-4 py-2"}>
+    <View
+      className={
+        "flex w-full flex-1 flex-col justify-center gap-2 py-2 tall-sm:gap-4 tall-sm:py-6"
+      }
+    >
       <TrailerPlayer
         YTKey={data.trailerKey}
         inScreen={inScreen}
@@ -111,7 +115,7 @@ export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
       />
 
       <Tourable tourEnabled={tourEnabled} step={TourStep.DeepDiving} fill>
-        <View className={"flex flex-col gap-4"}>
+        <View className={"flex flex-col gap-2 tall-sm:gap-4"}>
           <View className={"flex w-full flex-row gap-2"}>
             <EnlargeableImage
               source={data.posterPath}

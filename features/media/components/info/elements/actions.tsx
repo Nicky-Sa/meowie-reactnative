@@ -25,7 +25,7 @@ export const Actions = ({
   onRemoveSeen,
 }: Props) => {
   return (
-    <View className={"mt-4 flex flex-row items-center justify-between"}>
+    <View className={"flex flex-row items-center justify-between"}>
       <View className={"flex flex-row items-center justify-start gap-2"}>
         <Save id={mediaId} mediaType={mediaType} onPress={onSavePress} />
         <Seen

@@ -46,7 +46,7 @@ export const TrailerPlayer = ({
   backdropPath,
 }: Props) => {
   return (
-    <View className={"max-h-[280px] min-h-[200px] w-full flex-1"}>
+    <View className={"max-h-[230px] w-full flex-1 tall-sm:max-h-[280px]"}>
       <Player
         key={YTKey}
         YTKey={YTKey}

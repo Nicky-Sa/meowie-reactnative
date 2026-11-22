@@ -1006,6 +1006,8 @@ export default {
       },
       screens: {
         xs: "350px",
+        // Height steps: phones differ far more in height than in width.
+        "tall-sm": { raw: "(min-height: 830px)" },
       },
     },
   },
