@@ -33,12 +33,21 @@ type Props = {
   text: string | number;
   variant?: keyof typeof badgeVariants;
   size?: keyof typeof badgeSizes;
+  faint?: boolean;
 };
 
-export const Badge = ({ text, variant = "dark", size = "regular" }: Props) => {
+export const Badge = ({
+  text,
+  variant = "dark",
+  size = "regular",
+  faint,
+}: Props) => {
   return (
     <View
-      className={cn("flex h-6 items-center justify-center rounded-full")}
+      className={cn(
+        "flex h-6 items-center justify-center rounded-full",
+        faint && "opacity-80",
+      )}
       style={{
         paddingHorizontal: badgeSizes[size].paddingHorizontal,
         backgroundColor: badgeVariants[variant].backgroundColor,

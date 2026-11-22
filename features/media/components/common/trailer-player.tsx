@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { View, Pressable, ActivityIndicator } from "react-native";
 import {
   YoutubeView,
   useYouTubePlayer,
@@ -10,9 +10,9 @@ import { useAtom } from "jotai";
 import { allowYTPlayingAtom, ytMutedAtom } from "@/atoms";
 import { VolumeManager } from "react-native-volume-manager";
 import { useAppState } from "@/hooks/use-app-state";
-import NoTrailer from "@/assets/images/errors/no-trailer.svg";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Icon } from "@/features/common/ui/icon";
+import { Badge } from "@/features/common/ui/badge";
 import PlayIcon from "@/assets/icons/play.svg";
 import Animated, {
   useAnimatedStyle,
@@ -31,6 +31,7 @@ type Props = {
   onPause: () => void;
   fullWidth?: boolean;
   backdropPath: string | undefined;
+  errorMessagePlacement?: "top" | "bottom";
 };
 
 /**
@@ -44,6 +45,7 @@ export const TrailerPlayer = ({
   onPause,
   fullWidth = false,
   backdropPath,
+  errorMessagePlacement = "bottom",
 }: Props) => {
   return (
     <View className={"max-h-[230px] w-full flex-1 tall-sm:max-h-[280px]"}>
@@ -56,6 +58,7 @@ export const TrailerPlayer = ({
         fullWidth={fullWidth}
         inScreen={inScreen}
         backdropPath={backdropPath}
+        errorMessagePlacement={errorMessagePlacement}
       />
     </View>
   );
@@ -79,6 +82,7 @@ export const Player = ({
   fullWidth,
   inScreen,
   backdropPath,
+  errorMessagePlacement = "bottom",
 }: Props) => {
   const [ytMuted, setYtMuted] = useAtom(ytMutedAtom);
   const appState = useAppState();
@@ -97,7 +101,7 @@ export const Player = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
   const [userTriggeredPlay, setUserTriggeredPlay] = useState(false);
-  const retryAttemptRef = useRef(0);
+  const [retryCount, setRetryCount] = useState(0);
   const isFocused = useIsFocused();
 
   const willAutoplay = autoplay && allowYTPlaying;
@@ -171,27 +175,23 @@ export const Player = ({
     }
   });
 
-  useYouTubeEvent(player, "error", () => {
-    setCanNotPlay(true);
-  });
-
-  // Handle retries
-  useEffect(() => {
-    if (canNotPlay && retryAttemptRef.current < RETRY_ATTEMPTS) {
-      setCanNotPlay(false);
-      void player.seekTo(0, true);
-      retryAttemptRef.current += 1;
+  // A retry changes the YouTube view's key, which loads the player again.
+  const retryOrGiveUp = useCallback(() => {
+    if (retryCount < RETRY_ATTEMPTS) {
+      setRetryCount(retryCount + 1);
+      return;
     }
-  }, [canNotPlay, player]);
+    setCanNotPlay(true);
+  }, [retryCount]);
+
+  useYouTubeEvent(player, "error", retryOrGiveUp);
 
   // Fallback timeout in case isReady never fires
   useEffect(() => {
     if (isReady || canNotPlay) return;
-    const timer = setTimeout(() => {
-      setCanNotPlay(true);
-    }, 5_000);
+    const timer = setTimeout(retryOrGiveUp, 5_000);
     return () => clearTimeout(timer);
-  }, [isReady, canNotPlay]);
+  }, [isReady, canNotPlay, retryOrGiveUp]);
 
   // Play/pause based on shouldPlay state
   useEffect(() => {
@@ -210,7 +210,7 @@ export const Player = ({
   const placeholderOpacity = useSharedValue(1);
 
   const isVideoVisible =
-    canNotPlay || (isReady && (hasStartedPlaying || isPlaying));
+    !canNotPlay && isReady && (hasStartedPlaying || isPlaying);
 
   useEffect(() => {
     placeholderOpacity.value = withTiming(isVideoVisible ? 0 : 1, {
@@ -234,9 +234,7 @@ export const Player = ({
   return (
     <View className="relative h-full w-full">
       <View className="flex h-full w-full items-center justify-center">
-        {canNotPlay ? (
-          <TrailerError fullWidth={fullWidth} />
-        ) : (
+        {!canNotPlay && (
           <View
             style={{ width }}
             onLayout={(event) => setBoxHeight(event.nativeEvent.layout.height)}
@@ -246,6 +244,7 @@ export const Player = ({
             )}
           >
             <YoutubeView
+              key={retryCount}
               player={player}
               height={340}
               width={width}
@@ -279,16 +278,29 @@ export const Player = ({
         <TrailerPlaceholder
           fullWidth={fullWidth}
           backdropPath={backdropPath}
-          showLogo={
+          showPlayIcon={
+            !canNotPlay &&
             isReady &&
             Boolean(backdropPath) &&
             !hasStartedPlaying &&
             !wantsToPlay
           }
-          isLoading={!isReady}
-          onPress={handlePlaceholderPress}
+          isLoading={!canNotPlay && !isReady}
+          onPress={canNotPlay ? undefined : handlePlaceholderPress}
         />
       </Animated.View>
+
+      {canNotPlay && (
+        <View
+          className={cn(
+            "absolute inset-x-0 items-center",
+            errorMessagePlacement === "top" && "top-4",
+            errorMessagePlacement === "bottom" && "bottom-4",
+          )}
+        >
+          <Badge text="There is no trailer :(" variant={"dirty"} faint />
+        </View>
+      )}
     </View>
   );
 };
@@ -296,7 +308,7 @@ export const Player = ({
 type TrailerPlaceholderProps = {
   backdropPath: string | undefined;
   fullWidth: boolean | undefined;
-  showLogo: boolean | undefined;
+  showPlayIcon: boolean | undefined;
   isLoading?: boolean | undefined;
   onPress: (() => void) | undefined;
 };
@@ -304,7 +316,7 @@ type TrailerPlaceholderProps = {
 const TrailerPlaceholder = ({
   backdropPath,
   fullWidth = false,
-  showLogo = false,
+  showPlayIcon = false,
   isLoading = false,
   onPress,
 }: TrailerPlaceholderProps) => {
@@ -322,36 +334,13 @@ const TrailerPlaceholder = ({
           transition={300}
           style={{ width: "100%", height: "100%" }}
         />
-        {(showLogo || isLoading) && (
+        {(showPlayIcon || isLoading) && (
           <View className="absolute h-full w-full items-center justify-center bg-neutral-15-default/30">
-            {isLoading ? (
-              <ActivityIndicator size="large" color="white" />
-            ) : (
-              <Icon i={PlayIcon} width={64} height={64} />
-            )}
+            {isLoading && <ActivityIndicator size="large" color="white" />}
+            {showPlayIcon && <Icon i={PlayIcon} width={64} height={64} />}
           </View>
         )}
       </View>
     </Pressable>
-  );
-};
-
-type TrailerErrorProps = {
-  fullWidth: boolean | undefined;
-};
-
-const TrailerError = ({ fullWidth }: TrailerErrorProps) => {
-  return (
-    <View
-      className={cn(
-        "flex h-full w-full flex-col items-center justify-center gap-3 bg-brand-10",
-        !fullWidth && "rounded-xl",
-      )}
-    >
-      <NoTrailer />
-      <Text className={"body-b1 text-neutral-6-default"}>
-        There is no trailer :(
-      </Text>
-    </View>
   );
 };

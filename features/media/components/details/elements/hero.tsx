@@ -52,6 +52,8 @@ export const Hero = ({
           onPause={onPause}
           fullWidth
           backdropPath={backdropPath}
+          // The poster and title below cover the bottom of the trailer.
+          errorMessagePlacement="top"
         />
         {/* Dark gradient overlay */}
         <GradientOverlay
