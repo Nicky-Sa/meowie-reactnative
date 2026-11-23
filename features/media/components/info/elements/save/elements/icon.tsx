@@ -62,7 +62,7 @@ export const SaveIcon = ({ isSaved }: Props) => {
         resizeMode={"cover"}
         loop={false}
         autoPlay={false}
-        onAnimationLoaded={initializeAnimationState}
+        onLayout={initializeAnimationState}
         style={{
           width: 24,
           height: 24,
