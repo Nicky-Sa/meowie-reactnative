@@ -14,7 +14,7 @@ import { useMemo } from "react";
 
 /**
  * Unified analytics hook for tracking PostHog events.
- * Organizes events into logical domains (media, explore, filters, search, auth, interaction, profile, settings, siri, taste).
+ * Organizes events into logical domains (media, explore, filters, search, auth, interaction, profile, settings, siri, taste, notifications).
  */
 export const useAnalytics = () => {
   const { capture } = useCaptureEvent();
@@ -481,6 +481,16 @@ export const useAnalytics = () => {
             seconds_since_tour_ended: secondsSinceTourEnded,
             hint_shown: hintShown,
           }),
+      },
+
+      /**
+       * Notifications sheet tracking
+       */
+      notifications: {
+        trackSheetShown: (): void => capture("notifications_sheet_shown"),
+
+        trackSheetAnswered: ({ turnedOn }: { turnedOn: boolean }): void =>
+          capture("notifications_sheet_answered", { turned_on: turnedOn }),
       },
 
       /**

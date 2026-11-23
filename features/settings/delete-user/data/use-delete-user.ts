@@ -5,15 +5,7 @@ import {
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { destroySession } from "@/features/common/data/utils/session";
 import { queryClient } from "@/features/common/data/query/client";
-import { useSetAtom } from "jotai";
-import { RESET } from "jotai/utils";
-import {
-  feedFirstScrollTrackedAtom,
-  homeTourSeenAtom,
-  scrollHintSeenAtom,
-} from "@/atoms";
-import { appStorage } from "@/features/common/data/utils/app-storage";
-import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
+import { useResetFirstUseState } from "@/features/settings/delete-user/hooks/use-reset-first-use-state";
 import Toast from "react-native-toast-message";
 
 export const useDeleteUser = () => {
@@ -24,9 +16,7 @@ export const useDeleteUser = () => {
     DeleteUserResDto
   >(url);
 
-  const setHomeTourSeen = useSetAtom(homeTourSeenAtom);
-  const setScrollHintSeen = useSetAtom(scrollHintSeenAtom);
-  const setFeedFirstScrollTracked = useSetAtom(feedFirstScrollTrackedAtom);
+  const resetFirstUseState = useResetFirstUseState();
 
   const trigger = async (body: DeleteUserReqDto) => {
     const response = await mutateAsync({ method: "DELETE", body });
@@ -34,10 +24,7 @@ export const useDeleteUser = () => {
     queryClient.clear();
 
     // resetting user-related items
-    setHomeTourSeen(RESET);
-    setScrollHintSeen(RESET);
-    setFeedFirstScrollTracked(RESET);
-    appStorage.removeItem(APP_STORAGE_KEYS.ONBOARDED);
+    resetFirstUseState();
 
     Toast.show({
       type: "info",

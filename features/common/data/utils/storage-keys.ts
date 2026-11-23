@@ -40,4 +40,6 @@ export const PERSISTED_ATOM_KEYS = {
   TASTE: "taste-picks",
   SKIPPED_UPDATE_VERSION: "skipped-update-version",
   REVIEW_ASKED_AT: "review-asked-at",
+  NOTIFICATIONS_SHEET_SHOWN: "notifications-sheet-shown",
+  EXPLORE_VISIT_COUNT: "explore-visit-count",
 } as const;

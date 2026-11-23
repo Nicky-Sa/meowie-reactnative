@@ -6,6 +6,7 @@ import { SlidingContent } from "@/features/common/ui/sliding-content";
 import { MEDIA_TYPES } from "@/features/common/data/models/media-type";
 import { useState } from "react";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
+import { useNotificationsSheetAfterScrolls } from "@/features/general/notifications/hooks/use-notifications-sheet-after-scrolls";
 
 const mediaTypes = MEDIA_TYPES.map((m) => m.label);
 
@@ -16,6 +17,7 @@ export const Screen = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
 
   const { interaction } = useAnalytics();
+  useNotificationsSheetAfterScrolls(currentIndex);
 
   const handleMediaTypeChange = (type: string) => {
     const mediaType = MEDIA_TYPES.find((item) => item.label === type)?.value;

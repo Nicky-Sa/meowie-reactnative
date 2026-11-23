@@ -60,6 +60,18 @@ export const reviewAskedAtAtom = atomPersisted(
   "",
 );
 
+// Notifications sheet: shows once per phone, at the sixth feed card or the second Explore visit
+export const notificationsSheetShownAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.NOTIFICATIONS_SHEET_SHOWN,
+  false,
+);
+export const exploreVisitCountAtom = atomPersisted(
+  PERSISTED_ATOM_KEYS.EXPLORE_VISIT_COUNT,
+  0,
+);
+// Not saved: set by the feed or Explore, and the sheet checks whether it may still show.
+export const notificationsSheetRequestedAtom = atom(false);
+
 // Location and Country (persisted)
 export const countryCodeAtom = atomPersisted(
   PERSISTED_ATOM_KEYS.COUNTRY_CODE,

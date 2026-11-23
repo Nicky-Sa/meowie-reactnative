@@ -9,6 +9,7 @@ import { PostHogProvider, PostHogSurveyProvider } from "posthog-react-native";
 import { InternetCheck } from "@/features/general/internet-check";
 import { ForcedUpdate } from "@/features/general/update-check/forced-update";
 import { UpdatePopup } from "@/features/general/update-check/update-popup";
+import { NotificationsSheet } from "@/features/general/notifications/notifications-sheet";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -233,6 +234,7 @@ function RootLayout() {
                                   <Stack.Screen name="+not-found" />
                                 </Stack>
                                 <PortalHost name="global-overlay" />
+                                <NotificationsSheet />
                               </SpotlightTourProvider>
                             </BottomSheetModalProvider>
                           </ForcedUpdate>

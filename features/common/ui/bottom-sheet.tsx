@@ -14,15 +14,18 @@ import {
   BottomSheetFooter,
   BottomSheetFooterProps,
   BottomSheetModal,
-  BottomSheetView,
+  BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { tailwind, cn } from "@/lib/tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useScrollOnlyWhenNeeded } from "@/features/common/hooks/use-scroll-only-when-needed";
 
 type Props = {
-  title: string;
+  title?: string;
   footer?: ReactNode;
   enableContentPanningGesture?: boolean;
+  /** false keeps the sheet open on a swipe down or a tap outside, so only its own buttons close it */
+  canClose?: boolean;
   enableDynamicSizing?: boolean;
   maxDynamicContentSize?: number;
   index?: number;
@@ -46,6 +49,7 @@ export const BottomSheet = forwardRef<
       title,
       footer,
       enableContentPanningGesture = true,
+      canClose = true,
       enableDynamicSizing = false,
       maxDynamicContentSize,
       index,
@@ -111,8 +115,12 @@ export const BottomSheet = forwardRef<
           ref={bottomSheetRef}
           // The library reads the whole sheet as one element by default, so VoiceOver and the end-to-end tests can't reach its buttons
           accessible={false}
-          enablePanDownToClose
+          enablePanDownToClose={canClose}
+          // A handle invites a swipe down, which does nothing when the sheet can't close
+          handleComponent={canClose ? undefined : null}
           enableDynamicSizing={enableDynamicSizing}
+          // Stops a sheet taller than the screen below the status bar, and its content scrolls instead
+          topInset={insets.top}
           maxDynamicContentSize={maxDynamicContentSize}
           enableContentPanningGesture={enableContentPanningGesture}
           snapPoints={enableDynamicSizing ? undefined : snapPoints}
@@ -137,7 +145,7 @@ export const BottomSheet = forwardRef<
               appearsOnIndex={0}
               disappearsOnIndex={-1}
               opacity={0.8}
-              pressBehavior="close"
+              pressBehavior={canClose ? "close" : "none"}
               enableTouchThrough={false}
               animatedIndex={props.animatedIndex}
               style={{
@@ -147,19 +155,14 @@ export const BottomSheet = forwardRef<
               }}
             />
           )}
-          // When dynamic sizing is enabled, we render the footer INSIDE
-          // the content (BottomSheetView) so the library measures
-          // content + footer in a single synchronous pass.
-          // When dynamic sizing is disabled, we use footerComponent
-          // since snap points determine the height, not content measurement.
-          footerComponent={enableDynamicSizing ? undefined : renderFooter}
+          // The footer stays fixed at the bottom, so its buttons show even while the content scrolls
+          footerComponent={renderFooter}
         >
           <BottomSheetInner
             title={title}
-            footer={enableDynamicSizing ? footer : undefined}
             footerHeight={footerHeight}
             enableDynamicSizing={enableDynamicSizing}
-            insets={insets}
+            canClose={canClose}
           >
             {children}
           </BottomSheetInner>
@@ -172,29 +175,30 @@ export const BottomSheet = forwardRef<
 BottomSheet.displayName = "BottomSheet";
 
 type BottomSheetInnerProps = {
-  title: string;
+  title?: string;
   children: ReactNode;
-  footer?: ReactNode;
   footerHeight: number;
   enableDynamicSizing: boolean;
-  insets: { bottom: number };
+  canClose: boolean;
 };
 
 const BottomSheetInner = ({
   title,
   children,
-  footer,
   footerHeight,
   enableDynamicSizing,
-  insets,
+  canClose,
 }: BottomSheetInnerProps) => {
-  const Container = enableDynamicSizing ? BottomSheetView : View;
+  const { scrollEnabled, onLayout, onContentSizeChange } =
+    useScrollOnlyWhenNeeded();
 
-  return (
-    <Container
+  const content = (
+    <View
       className={cn(
-        "flex flex-col bg-neutral-15-default px-4",
+        "flex flex-col px-4",
         !enableDynamicSizing && "flex-1",
+        // Stands in for the space the handle takes when it's hidden
+        !canClose && "pt-4",
       )}
       style={
         // When NOT using dynamic sizing, we need paddingBottom to
@@ -202,27 +206,27 @@ const BottomSheetInner = ({
         !enableDynamicSizing ? { paddingBottom: footerHeight + 16 } : undefined
       }
     >
-      <View className="flex w-full flex-row items-center justify-between pb-4">
-        <Text className="title-t2 text-neutral-10-default">{title}</Text>
-      </View>
-      {children}
-      {/* When dynamic sizing is enabled, render footer inline so the
-          library measures everything in one pass — no async onLayout race */}
-      {enableDynamicSizing && footer && (
-        <View
-          className="w-full pt-4"
-          style={{
-            paddingBottom:
-              insets.bottom +
-              Platform.select({
-                android: Number(tailwind.theme.spacing["2"]),
-                default: 0,
-              }),
-          }}
-        >
-          {footer}
+      {title && (
+        <View className="flex w-full flex-row items-center justify-between pb-4">
+          <Text className="title-t2 text-neutral-10-default">{title}</Text>
         </View>
       )}
-    </Container>
+      {children}
+    </View>
+  );
+
+  return enableDynamicSizing ? (
+    // Adds the footer's height below the content, so the sheet sizes to both
+    <BottomSheetScrollView
+      enableFooterMarginAdjustment
+      showsVerticalScrollIndicator={false}
+      scrollEnabled={scrollEnabled}
+      onLayout={onLayout}
+      onContentSizeChange={onContentSizeChange}
+    >
+      {content}
+    </BottomSheetScrollView>
+  ) : (
+    content
   );
 };

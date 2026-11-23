@@ -104,11 +104,15 @@ export const Player = ({
   const [retryCount, setRetryCount] = useState(0);
   const isFocused = useIsFocused();
 
-  const willAutoplay = autoplay && allowYTPlaying;
-  const wantsToPlay = willAutoplay || userTriggeredPlay;
+  const wantsToPlay = autoplay || userTriggeredPlay;
 
   const shouldPlay =
-    isReady && isFocused && appState === "active" && inScreen && wantsToPlay;
+    isReady &&
+    isFocused &&
+    appState === "active" &&
+    inScreen &&
+    allowYTPlaying &&
+    wantsToPlay;
 
   useEffect(() => {
     if (!inScreen || !isFocused || appState !== "active") {

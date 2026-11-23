@@ -452,6 +452,18 @@ export type FEED_FIRST_SCROLLED = {
   };
 };
 
+export type NOTIFICATIONS_SHEET_SHOWN = {
+  event: "notifications_sheet_shown";
+  properties: undefined;
+};
+
+export type NOTIFICATIONS_SHEET_ANSWERED = {
+  event: "notifications_sheet_answered";
+  properties: {
+    turned_on: boolean;
+  };
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -508,7 +520,9 @@ export type Events =
   | TOUR_COMPLETED
   | SCROLL_HINT_SHOWN
   | SCROLL_HINT_INTERRUPTED
-  | FEED_FIRST_SCROLLED;
+  | FEED_FIRST_SCROLLED
+  | NOTIFICATIONS_SHEET_SHOWN
+  | NOTIFICATIONS_SHEET_ANSWERED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<

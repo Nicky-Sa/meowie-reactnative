@@ -6,6 +6,7 @@ import { Tab } from "@/features/general/navbar/types";
 import { Tourable } from "@/features/common/ui/tour/tourable";
 import { tabTourSteps, TourStep } from "@/features/common/ui/tour/steps";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
+import { useCountExploreVisit } from "@/features/general/notifications/hooks/use-count-explore-visit";
 import { BottomTabBarProps } from "expo-router/js-tabs";
 import { createContext, useContext } from "react";
 import Animated, {
@@ -32,18 +33,17 @@ type Props = {
 
 export const Navbar = ({ tabs }: Props) => {
   const { interaction } = useAnalytics();
+  const countExploreVisit = useCountExploreVisit();
+
+  const onTabPress = (name: string) => {
+    interaction.trackNavigation({ destination: name });
+    if (name === "explore") countExploreVisit();
+  };
 
   return (
     <Tabs
       safeAreaInsets={{ bottom: 15 }}
-      tabBar={(props) => (
-        <CustomTabBar
-          {...props}
-          onTabPress={(name) =>
-            interaction.trackNavigation({ destination: name })
-          }
-        />
-      )}
+      tabBar={(props) => <CustomTabBar {...props} onTabPress={onTabPress} />}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
