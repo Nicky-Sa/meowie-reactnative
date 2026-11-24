@@ -34,14 +34,14 @@ export const EmailForm = ({ email, churnReasonId, onInputFocus }: Props) => {
       },
     });
   const router = useRouter();
-  const { trigger, isMutating } = useDeleteUser();
+  const { deleteUser, isMutating } = useDeleteUser();
   const posthog = usePostHog();
   const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (data: EmailFormData) => {
     try {
       auth.trackAccountDeleted({ churnReasonId });
-      await trigger({ ...data, churnReasonId });
+      await deleteUser({ ...data, churnReasonId });
       posthog.reset();
       router.replace("/onboarding");
     } catch (error) {

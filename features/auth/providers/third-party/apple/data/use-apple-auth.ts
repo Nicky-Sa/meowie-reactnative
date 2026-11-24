@@ -10,7 +10,7 @@ import { AuthResDto, ThirdPartyAuthReqDto } from "@/features/auth/dto/auth.dto";
 export const useAppleAuth = () => {
   const { revalidateAuth } = useRevalidateAuth();
 
-  const { mutateAsync: mutateApple } = useMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     ThirdPartyAuthReqDto,
     AuthResDto
   >("/auth/apple");
@@ -31,7 +31,7 @@ export const useAppleAuth = () => {
       }
 
       // Send to backend
-      const response = await mutateApple({
+      const response = await mutateAsync({
         method: "POST",
         body: { token: identityToken },
       });
@@ -64,7 +64,7 @@ export const useAppleAuth = () => {
       }
       throw error;
     }
-  }, [mutateApple, revalidateAuth]);
+  }, [mutateAsync, revalidateAuth]);
 
-  return { loginWithApple };
+  return { loginWithApple, ...rest };
 };

@@ -50,6 +50,10 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   code only to avoid a direct call.
 - **`useSessionCreated` and `useSessionDestroyed` call `savePushToken()` until the guest tokens step.** The call sets or
   empties `userId` on the phone's row. Moving that into the backend's sign in and logout is discussed in that step.
+- **Every `useMutationConfigured` hook returns a named function plus `...rest`, like `{ submitTaste, ...rest }`.**
+  `useSavePushToken` follows the media hooks, so the older `trigger` hooks and the sign in hooks now match them too.
+- **The taste result screen's own wrapper is `finishTaste`.** It submits, waits for the animation and moves on, so it
+  can't share the hook's `submitTaste` name.
 - **React Query's own `AppState` listener in `client.ts` moves to its own hook in a separate ticket.** It needs every
   state change, so it doesn't belong in `useAppEnteredForeground`.
 - **Every phone saves its row, even without permission for notifications.** It sends `pushToken: null` then, so the

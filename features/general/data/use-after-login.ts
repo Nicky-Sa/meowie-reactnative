@@ -6,7 +6,7 @@ import { initialTasteState } from "@/features/taste/state";
 
 export const useAfterLogin = () => {
   const [taste, setTaste] = useAtom(tasteAtom);
-  const { trigger: submitTaste } = useSubmitTaste();
+  const { submitTaste } = useSubmitTaste();
 
   const afterLogin = useCallback(async () => {
     if (!taste.completed) return;

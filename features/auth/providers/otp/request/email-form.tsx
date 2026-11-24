@@ -26,7 +26,7 @@ export const EmailForm = () => {
         email: "",
       },
     });
-  const { trigger, isMutating } = useRequestOtp();
+  const { requestOtp, isMutating } = useRequestOtp();
   const router = useRouter();
   const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const { auth } = useAnalytics();
@@ -34,7 +34,7 @@ export const EmailForm = () => {
   const onSubmit = handleSubmit(async (data: LoginFormData) => {
     try {
       auth.trackOtpRequested();
-      await trigger(data);
+      await requestOtp(data);
       router.push({
         pathname: "/auth/otp/verify",
         params: { ...data, returnTo },

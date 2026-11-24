@@ -22,13 +22,13 @@ export const Screen = () => {
     refetch: refetchCurrentUSer,
   } = useCurrentUser();
   const userId = data?.user?.id ?? null;
-  const { trigger, error: submitTasteError } = useSubmitTaste();
+  const { submitTaste, error: submitTasteError } = useSubmitTaste();
   const { taste } = useAnalytics();
 
-  const submitTaste = useCallback(async () => {
+  const finishTaste = useCallback(async () => {
     try {
       await Promise.all([
-        trigger({ picks: picksToSubmit }),
+        submitTaste({ picks: picksToSubmit }),
         new Promise<void>((finish) => setTimeout(finish, 5000)), // for the loading animation
       ]);
     } catch {
@@ -49,11 +49,11 @@ export const Screen = () => {
       setTaste(initialTasteState());
       router.replace("/home");
     }
-  }, [userId, setTaste, picksToSubmit, trigger, router, taste]);
+  }, [userId, setTaste, picksToSubmit, submitTaste, router, taste]);
 
   useEffect(() => {
-    if (!isCurrentUserPending && !currentUserError) void submitTaste();
-  }, [isCurrentUserPending, currentUserError, submitTaste]);
+    if (!isCurrentUserPending && !currentUserError) void finishTaste();
+  }, [isCurrentUserPending, currentUserError, finishTaste]);
 
   return (
     <SafeAreaView
@@ -62,7 +62,7 @@ export const Screen = () => {
     >
       {submitTasteError || currentUserError ? (
         <ErrorState
-          tryAgain={currentUserError ? refetchCurrentUSer : submitTaste}
+          tryAgain={currentUserError ? refetchCurrentUSer : finishTaste}
           error={
             "We couldn't save your taste. Check your connection and try again."
           }

@@ -27,12 +27,12 @@ export const useSubmitTaste = () => {
     },
   });
 
-  const trigger = useCallback(
+  const submitTaste = useCallback(
     async (body: SubmitTasteReqDto) => {
       await mutateAsync({ method: "POST", body });
     },
     [mutateAsync],
   );
 
-  return { trigger, ...rest };
+  return { submitTaste, ...rest };
 };

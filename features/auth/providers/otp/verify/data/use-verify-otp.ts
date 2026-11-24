@@ -12,7 +12,7 @@ export const useVerifyOtp = () => {
   >(url);
   const { revalidateAuth } = useRevalidateAuth();
 
-  const trigger = async (body: VerifyOtpReqDto) => {
+  const verifyOtp = async (body: VerifyOtpReqDto) => {
     const response = await mutateAsync({ method: "POST", body });
     await createSession({
       accessToken: response.data.accessToken,
@@ -22,5 +22,5 @@ export const useVerifyOtp = () => {
 
     return response.data;
   };
-  return { trigger, ...rest };
+  return { verifyOtp, ...rest };
 };

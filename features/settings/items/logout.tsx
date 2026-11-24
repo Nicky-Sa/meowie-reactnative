@@ -14,13 +14,13 @@ import { getErrorText } from "@/features/common/data/error";
 
 export const Logout = () => {
   const bottomSheetRef = useRef<ExposedBottomSheetModalRef>(null);
-  const { trigger: triggerLogout } = useLogout();
+  const { logout } = useLogout();
   const router = useRouter();
   const { auth } = useAnalytics();
 
   const handleLogout = async () => {
     try {
-      await triggerLogout();
+      await logout();
     } catch (error) {
       console.error("Could not log out:", error);
       Toast.show({

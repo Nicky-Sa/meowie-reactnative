@@ -35,17 +35,15 @@ export const OtpForm = ({ email }: Props) => {
     },
   );
 
-  const { trigger: triggerVerifyOtp, isMutating: isMutatingVerifyOtp } =
-    useVerifyOtp();
-  const { trigger: triggerRequestOtp, isMutating: isMutatingRequestOtp } =
-    useRequestOtp();
+  const { verifyOtp, isMutating: isMutatingVerifyOtp } = useVerifyOtp();
+  const { requestOtp, isMutating: isMutatingRequestOtp } = useRequestOtp();
   const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const { dismissScreen } = useDismissScreen({ returnTo });
   const { auth } = useAnalytics();
 
   const onSubmit = handleSubmit(async (formData: OtpFormData) => {
     try {
-      const data = await triggerVerifyOtp({ ...formData, email });
+      const data = await verifyOtp({ ...formData, email });
       auth.trackLogin({ isNewUser: data.isNewUser, method: "email" });
       dismissScreen();
       Toast.show({
@@ -59,7 +57,7 @@ export const OtpForm = ({ email }: Props) => {
 
   const handleResend = async () => {
     try {
-      await triggerRequestOtp({ email });
+      await requestOtp({ email });
     } catch (error) {
       setError("otp", { message: getErrorText(error) });
       return false;

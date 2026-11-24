@@ -21,7 +21,7 @@ GoogleSignin.configure({
 export const useGoogleAuth = () => {
   const { revalidateAuth } = useRevalidateAuth();
 
-  const { mutateAsync: mutateGoogle } = useMutationConfigured<
+  const { mutateAsync, ...rest } = useMutationConfigured<
     ThirdPartyAuthReqDto,
     AuthResDto
   >("/auth/google");
@@ -43,7 +43,7 @@ export const useGoogleAuth = () => {
       }
 
       // Send to backend
-      const response = await mutateGoogle({
+      const response = await mutateAsync({
         method: "POST",
         body: { token: idToken },
       });
@@ -81,7 +81,7 @@ export const useGoogleAuth = () => {
       }
       throw error;
     }
-  }, [mutateGoogle, revalidateAuth]);
+  }, [mutateAsync, revalidateAuth]);
 
-  return { loginWithGoogle };
+  return { loginWithGoogle, ...rest };
 };

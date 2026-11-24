@@ -9,8 +9,8 @@ export const useRequestOtp = () => {
     undefined
   >(url);
 
-  const trigger = async (body: RequestOtpReqDto) => {
+  const requestOtp = async (body: RequestOtpReqDto) => {
     return mutateAsync({ method: "POST", body });
   };
-  return { trigger, ...rest };
+  return { requestOtp, ...rest };
 };

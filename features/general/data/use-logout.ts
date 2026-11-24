@@ -13,10 +13,10 @@ export const useLogout = () => {
     LogoutResDto
   >(url);
 
-  const trigger = async () => {
+  const logout = async () => {
     const response = await mutateAsync({ method: "POST" });
     await destroySession();
     return response.data;
   };
-  return { trigger, ...rest };
+  return { logout, ...rest };
 };

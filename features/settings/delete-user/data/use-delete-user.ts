@@ -18,7 +18,7 @@ export const useDeleteUser = () => {
 
   const resetFirstUseState = useResetFirstUseState();
 
-  const trigger = async (body: DeleteUserReqDto) => {
+  const deleteUser = async (body: DeleteUserReqDto) => {
     const response = await mutateAsync({ method: "DELETE", body });
     await destroySession();
     queryClient.clear();
@@ -33,5 +33,5 @@ export const useDeleteUser = () => {
 
     return response.data;
   };
-  return { trigger, ...rest };
+  return { deleteUser, ...rest };
 };
