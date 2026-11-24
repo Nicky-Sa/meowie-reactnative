@@ -9,6 +9,7 @@ import {
 import { ExposedBottomSheetModalRef } from "@/features/common/ui/bottom-sheet";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { toNotificationsState } from "@/features/general/notifications/utils/permission";
+import { useSavePushToken } from "@/features/general/notifications/data/use-save-push-token";
 
 /** Opens the sheet once per phone when asked for, and only while iOS hasn't asked about notifications yet. */
 export const useNotificationsSheet = () => {
@@ -19,6 +20,7 @@ export const useNotificationsSheet = () => {
   const [sheetShown, setSheetShown] = useAtom(notificationsSheetShownAtom);
   const setAllowYTPlaying = useSetAtom(allowYTPlayingAtom);
   const { notifications } = useAnalytics();
+  const { savePushToken } = useSavePushToken();
 
   useEffect(() => {
     if (!sheetRequested || sheetShown) return;
@@ -58,11 +60,11 @@ export const useNotificationsSheet = () => {
     close();
     try {
       const { status } = await Notifications.requestPermissionsAsync();
+      const granted = status === Notifications.PermissionStatus.GRANTED;
       notifications.trackSheetAnswered({
-        after: toNotificationsState(
-          status === Notifications.PermissionStatus.GRANTED,
-        ),
+        after: toNotificationsState(granted),
       });
+      if (granted) await savePushToken();
     } catch (error) {
       console.error("Could not ask for the notification permission:", error);
     }

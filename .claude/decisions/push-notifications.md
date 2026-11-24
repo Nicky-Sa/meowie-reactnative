@@ -1,7 +1,7 @@
 # Push notifications
 
 Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c5b3711d`,
-`b57f03af-6fc5-4808-93c9-d6f1df912b82`
+`b57f03af-6fc5-4808-93c9-d6f1df912b82`, `2393394e-44d3-4470-9f42-36851f5e27a0`
 
 ## Decisions
 
@@ -11,8 +11,10 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
 - **The plugin uses its default settings.** Remote notifications are on by default, which adds the iOS push
   entitlement. The other options are Android-only or not needed yet.
 - **This work covers setup only, not what the notifications say.** The content is decided separately.
-- **The app sends the user's time zone together with the push token.** Without it, the backend can't send at a set
-  local time like 7pm.
+- **The app sends the phone's time zone to the backend.** Without it, the backend can't send at a set local time like
+  7pm.
+- **The time zone goes on every request as the `x-time-zone` header, like `x-device-code`.** It describes the phone the
+  request comes from, and other endpoints will likely need it later.
 - **The notifications sheet shows at whichever comes first: the sixth card in the Movies or Series feed, or the second
   visit to the Explore tab.** By then the user has seen what Meowie offers, so it's easier to see why notifications
   help. The feed already knows its current card, and the Explore visits are counted on the phone.
@@ -37,6 +39,19 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   `users` means guests have it too.
 - **The app saves its `devices` row on every open and every return to the front, with no separate last-open call.**
   The backend sets `lastOpenedAt` in the same save, so one request covers the token, the time zone and the last open.
+- **The app's save is `savePushToken`, and it calls `PUT /v1/device/current/push-token`.** The sheet and the Settings
+  toggle call it right after "Allow", so the name says what changed. Saving the phone's row itself may move elsewhere
+  later, like when guest tokens are issued.
+- **The start screen calls `savePushToken()` directly on a fresh open.** `AppState` sends no change when the app starts,
+  because it is already active before the listeners start.
+- **`useAppEnteredForeground` saves only when the app goes from "background" to "active".** iOS popups, like the
+  permission question, move the app through "inactive" only, so they don't cause a save.
+- **The sheet and the Settings toggle call `savePushToken()` right after "Allow", with no event.** An event would add
+  code only to avoid a direct call.
+- **`useSessionCreated` and `useSessionDestroyed` call `savePushToken()` until the guest tokens step.** The call sets or
+  empties `userId` on the phone's row. Moving that into the backend's sign in and logout is discussed in that step.
+- **React Query's own `AppState` listener in `client.ts` moves to its own hook in a separate ticket.** It needs every
+  state change, so it doesn't belong in `useAppEnteredForeground`.
 - **Every phone saves its row, even without permission for notifications.** It sends `pushToken: null` then, so the
   backend still has its time zone and last open, and a later "Allow" in the iPhone Settings app fills the token on the
   next open.

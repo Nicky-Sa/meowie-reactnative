@@ -1,9 +1,11 @@
 import { Emitter } from "@/features/common/event-emitting/emitter";
 import { usePostHog } from "posthog-react-native";
 import { useEffect } from "react";
+import { useSavePushToken } from "@/features/general/notifications/data/use-save-push-token";
 
 export const useSessionCreated = () => {
   const posthog = usePostHog();
+  const { savePushToken } = useSavePushToken();
 
   useEffect(() => {
     const handleRegistration = async () => {
@@ -15,6 +17,8 @@ export const useSessionCreated = () => {
       } catch (error) {
         console.error("❌ Error tracking session created: ", error);
       }
+
+      await savePushToken();
     };
 
     // handleRegistration catches its own errors, so its promise is safe to drop.
@@ -25,5 +29,5 @@ export const useSessionCreated = () => {
     return () => {
       Emitter.off("sessionCreated", onSessionCreated);
     };
-  }, [posthog]);
+  }, [posthog, savePushToken]);
 };

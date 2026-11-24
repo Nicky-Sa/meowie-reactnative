@@ -5,6 +5,7 @@ import { useAppState } from "@/hooks/use-app-state";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
 import { NOTIFICATION_SETTINGS_URL } from "@/lib/consts";
 import { toNotificationsState } from "@/features/general/notifications/utils/permission";
+import { useSavePushToken } from "@/features/general/notifications/data/use-save-push-token";
 
 /** Shows whether iOS allows Meowie's notifications, and changes it through the iOS popup or the iPhone Settings app. */
 export const useNotificationsToggle = () => {
@@ -13,6 +14,7 @@ export const useNotificationsToggle = () => {
   // The permission when the toggle sent the user to the iPhone Settings app, or null when they aren't there
   const permissionBeforeSettings = useRef<boolean | null>(null);
   const { notifications } = useAnalytics();
+  const { savePushToken } = useSavePushToken();
 
   // Reads the permission on every return to the app, because the user can change it in the iPhone Settings app
   useEffect(() => {
@@ -50,6 +52,7 @@ export const useNotificationsToggle = () => {
           before: toNotificationsState(granted),
           after: toNotificationsState(answer.granted),
         });
+        if (answer.granted) await savePushToken();
         return;
       }
 

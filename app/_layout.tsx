@@ -55,9 +55,9 @@ function RootLayout() {
         <SiriListener />
         <PostHogSurveyProvider>
           <ScreenTracker>
-            <EventListenerWrapper>
-              <ThemeProvider value={themeConfig}>
-                <QueryClientProvider client={queryClient}>
+            <ThemeProvider value={themeConfig}>
+              <QueryClientProvider client={queryClient}>
+                <EventListenerWrapper>
                   <KeyboardProvider>
                     <SafeAreaProvider>
                       <GestureHandlerRootView>
@@ -250,9 +250,9 @@ function RootLayout() {
                       </GestureHandlerRootView>
                     </SafeAreaProvider>
                   </KeyboardProvider>
-                </QueryClientProvider>
-              </ThemeProvider>
-            </EventListenerWrapper>
+                </EventListenerWrapper>
+              </QueryClientProvider>
+            </ThemeProvider>
           </ScreenTracker>
         </PostHogSurveyProvider>
       </PostHogProvider>
