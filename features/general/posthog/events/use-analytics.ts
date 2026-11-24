@@ -504,6 +504,12 @@ export const useAnalytics = () => {
           before: Properties<"notifications_toggled">["before"];
           after: Properties<"notifications_toggled">["after"];
         }): void => capture("notifications_toggled", { before, after }),
+
+        trackPushNotificationOpened: ({
+          path,
+        }: {
+          path: Properties<"push_notification_opened">["path"];
+        }): void => capture("push_notification_opened", { path }),
       },
 
       /**

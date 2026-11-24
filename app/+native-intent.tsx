@@ -1,9 +1,10 @@
-import { Href, NativeIntent } from "expo-router";
+import { NativeIntent } from "expo-router";
 import { getDefaultStore } from "jotai";
 import { linkToOpenAtom } from "@/atoms";
 import { getSharedMediaFromLink } from "@/features/media/data/share-links";
 import { posthog } from "@/features/general/posthog/client";
 import { Properties } from "@/features/general/posthog/events/types";
+import { isAppPath } from "@/lib/utils/query";
 
 // The scheme part of an app link like `meowie://settings`. Website links only open the app for shared media.
 const APP_LINK_SCHEME = /^[a-z][a-z0-9+.-]*:\/\/+/i;
@@ -33,9 +34,13 @@ export const redirectSystemPath: NativeIntent["redirectSystemPath"] = ({
 
   // On a cold start, the splash loads the fonts and checks onboarding first,
   // and Home loads under the link, so Back has somewhere to go.
-  if (initial && screenPath !== "/" && !isDevLauncherLink) {
-    // A link from outside can name any path; one that matches no screen opens the not-found screen.
-    getDefaultStore().set(linkToOpenAtom, screenPath as Href);
+  if (
+    initial &&
+    isAppPath(screenPath) &&
+    screenPath !== "/" &&
+    !isDevLauncherLink
+  ) {
+    getDefaultStore().set(linkToOpenAtom, screenPath);
     return "/";
   }
 

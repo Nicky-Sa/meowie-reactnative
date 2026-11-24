@@ -1,3 +1,5 @@
+import { Href } from "expo-router";
+
 export const isUrl = (text: string): boolean => {
   try {
     const url = new URL(text);
@@ -24,3 +26,7 @@ export const searchParamsToQuery = (
     })
     .join("&");
 };
+
+/** A link from outside can name any path; one that matches no screen opens the not-found screen. */
+export const isAppPath = (value: unknown): value is Href & string =>
+  typeof value === "string" && value.startsWith("/");

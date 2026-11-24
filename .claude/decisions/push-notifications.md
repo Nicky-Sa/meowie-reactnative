@@ -40,14 +40,13 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
 - **The app saves its `devices` row on every open and every return to the front, with no separate last-open call.**
   The backend sets `lastOpenedAt` in the same save, so one request covers the token, the time zone and the last open.
 - **The app's save is `savePushToken`, and it calls `PUT /v1/device/current/push-token`.** The sheet and the Settings
-  toggle call it right after "Allow", so the name says what changed. Saving the phone's row itself may move elsewhere
-  later, like when guest tokens are issued.
+  toggle call it directly right after "Allow", with no event, so the name says what changed. An event would add code
+  only to avoid a direct call. Saving the phone's row itself may move elsewhere later, like when guest tokens are
+  issued.
 - **The start screen calls `savePushToken()` directly on a fresh open.** `AppState` sends no change when the app starts,
   because it is already active before the listeners start.
 - **`useAppEnteredForeground` saves only when the app goes from "background" to "active".** iOS popups, like the
   permission question, move the app through "inactive" only, so they don't cause a save.
-- **The sheet and the Settings toggle call `savePushToken()` right after "Allow", with no event.** An event would add
-  code only to avoid a direct call.
 - **`useSessionCreated` and `useSessionDestroyed` call `savePushToken()` until the guest tokens step.** The call sets or
   empties `userId` on the phone's row. Moving that into the backend's sign in and logout is discussed in that step.
 - **Every `useMutationConfigured` hook returns a named function plus `...rest`, like `{ submitTaste, ...rest }`.**
@@ -67,7 +66,14 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   off.
 - **The toggle shows whether iOS allows Meowie's notifications.** While iOS can still ask, a tap shows the iOS popup.
   Otherwise a tap opens Meowie's notification settings in the iPhone Settings app, because an app can't turn its own
-  permission on or off, and iOS never shows the popup again after "Don't Allow". The toggle reads the permission again when the user
-  comes back.
+  permission on or off, and iOS never shows the popup again after "Don't Allow". The toggle reads the permission
+  again when the user comes back.
 - **On phones shorter than `tall-sm`, the notifications sheet uses a smaller cat and smaller gaps.** At full size the
   sheet is taller than an iPhone SE, which cuts off its top and the "Skip for now" button.
+- **A tap on a push notification opens the app path in its `data.url`, like `/movie/27205/details`.** It works like a
+  Siri link: on the start screen it goes through `linkToOpenAtom`, so Home loads under it, and elsewhere it uses
+  `router.push`.
+- **`useNotificationTapped` in `useEventListener` handles the tap, and also reads the last tap when it starts.** A tap
+  that opened a fully closed app comes before the listener exists.
+- **`isAppPath` checks that a link is an app path, instead of an `as Href` cast.** `+native-intent.tsx` uses it too.
+- **A tap sends the PostHog event `push_notification_opened` with the opened path.**

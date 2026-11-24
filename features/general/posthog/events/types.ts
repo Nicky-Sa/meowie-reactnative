@@ -479,6 +479,14 @@ export type NOTIFICATIONS_TOGGLED = {
   };
 };
 
+export type PUSH_NOTIFICATION_OPENED = {
+  event: "push_notification_opened";
+  properties: {
+    // null when the push notification names no screen to open
+    path: string | null;
+  };
+};
+
 export type Events =
   | TRAILER_PAUSED
   | TRAILER_PLAYED
@@ -539,7 +547,8 @@ export type Events =
   | NOTIFICATIONS_SHEET_SHOWN
   | NOTIFICATIONS_SHEET_SKIPPED
   | NOTIFICATIONS_SHEET_ANSWERED
-  | NOTIFICATIONS_TOGGLED;
+  | NOTIFICATIONS_TOGGLED
+  | PUSH_NOTIFICATION_OPENED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
