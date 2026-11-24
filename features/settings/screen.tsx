@@ -10,6 +10,7 @@ import { TMDBStatement } from "@/features/settings/items/tmdb-statement";
 import { usePostHog } from "posthog-react-native";
 import { env } from "@/lib/env";
 import { Feedback } from "@/features/settings/items/feedback";
+import { NotificationsToggle } from "@/features/settings/items/notifications-toggle";
 
 export const Screen = () => {
   const { data } = useCurrentUser();
@@ -24,6 +25,7 @@ export const Screen = () => {
             <Title>App</Title>
             <Feedback />
             <EmptyCache />
+            <NotificationsToggle />
           </View>
           <View className={"flex flex-col gap-2"}>
             <Title>Other</Title>

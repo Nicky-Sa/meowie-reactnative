@@ -37,7 +37,7 @@ export const Switch = ({ value, onValueChange }: Props) => {
 
   // Animate the thumb's position
   const animatedThumbStyle = useAnimatedStyle(() => {
-    // The thumb travels 24px
+    // The thumb travels 24px: the 56px track minus 2px padding on each side and the 28px thumb
     return {
       transform: [{ translateX: offset.value * 24 }],
     };
@@ -50,12 +50,12 @@ export const Switch = ({ value, onValueChange }: Props) => {
     >
       <Animated.View
         // Track styles
-        className="h-6 w-12 justify-center rounded-full p-1"
+        className="h-8 w-14 justify-center rounded-full p-0.5"
         style={animatedTrackStyle}
       >
         <Animated.View
           // Thumb styles
-          className="h-4 w-4 rounded-full bg-neutral-1-default shadow-sm"
+          className="size-7 rounded-full bg-neutral-1-default shadow-sm"
           style={animatedThumbStyle}
         />
       </Animated.View>

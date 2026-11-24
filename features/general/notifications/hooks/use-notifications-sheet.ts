@@ -8,6 +8,7 @@ import {
 } from "@/atoms";
 import { ExposedBottomSheetModalRef } from "@/features/common/ui/bottom-sheet";
 import { useAnalytics } from "@/features/general/posthog/events/use-analytics";
+import { toNotificationsState } from "@/features/general/notifications/utils/permission";
 
 /** Opens the sheet once per phone when asked for, and only while iOS hasn't asked about notifications yet. */
 export const useNotificationsSheet = () => {
@@ -48,7 +49,7 @@ export const useNotificationsSheet = () => {
   const onDismiss = () => {
     setAllowYTPlaying(true);
     if (!isTurningOn.current) {
-      notifications.trackSheetAnswered({ turnedOn: false });
+      notifications.trackSheetSkipped();
     }
   };
 
@@ -58,7 +59,9 @@ export const useNotificationsSheet = () => {
     try {
       const { status } = await Notifications.requestPermissionsAsync();
       notifications.trackSheetAnswered({
-        turnedOn: status === Notifications.PermissionStatus.GRANTED,
+        after: toNotificationsState(
+          status === Notifications.PermissionStatus.GRANTED,
+        ),
       });
     } catch (error) {
       console.error("Could not ask for the notification permission:", error);

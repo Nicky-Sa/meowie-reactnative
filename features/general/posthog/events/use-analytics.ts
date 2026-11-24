@@ -484,13 +484,26 @@ export const useAnalytics = () => {
       },
 
       /**
-       * Notifications sheet tracking
+       * Notifications sheet and Settings toggle tracking
        */
       notifications: {
         trackSheetShown: (): void => capture("notifications_sheet_shown"),
 
-        trackSheetAnswered: ({ turnedOn }: { turnedOn: boolean }): void =>
-          capture("notifications_sheet_answered", { turned_on: turnedOn }),
+        trackSheetSkipped: (): void => capture("notifications_sheet_skipped"),
+
+        trackSheetAnswered: ({
+          after,
+        }: {
+          after: Properties<"notifications_sheet_answered">["after"];
+        }): void => capture("notifications_sheet_answered", { after }),
+
+        trackToggled: ({
+          before,
+          after,
+        }: {
+          before: Properties<"notifications_toggled">["before"];
+          after: Properties<"notifications_toggled">["after"];
+        }): void => capture("notifications_toggled", { before, after }),
       },
 
       /**

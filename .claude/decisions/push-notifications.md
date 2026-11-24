@@ -1,6 +1,7 @@
 # Push notifications
 
-Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`
+Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c5b3711d`,
+`b57f03af-6fc5-4808-93c9-d6f1df912b82`
 
 ## Decisions
 
@@ -34,3 +35,20 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`
 - **The backend stores when the app was last opened, in `lastOpenedAt` on `devices`.** PostHog records app opens, but
   the backend can't easily use PostHog data when it decides what to send. Keeping it on the phone's row instead of on
   `users` means guests have it too.
+- **The app saves its `devices` row on every open and every return to the front, with no separate last-open call.**
+  The backend sets `lastOpenedAt` in the same save, so one request covers the token, the time zone and the last open.
+- **Every phone saves its row, even without permission for notifications.** It sends `pushToken: null` then, so the
+  backend still has its time zone and last open, and a later "Allow" in the iPhone Settings app fills the token on the
+  next open.
+- **Guests keep getting pushes until guest tokens exist.** Faking a phone needs a device code leaked from PostHog or
+  the server logs, and it only hurts if a push shows personal details, so the risk is low.
+- **The trailer pauses while the notifications sheet is open.** The sheet turns off `allowYTPlayingAtom`, and closing
+  it turns it back on. A trailer the user paused stays paused after the sheet closes.
+- **Settings gets a toggle for notifications.** A tap on it sends a PostHog event that says whether it turned on or
+  off.
+- **The toggle shows whether iOS allows Meowie's notifications.** While iOS can still ask, a tap shows the iOS popup.
+  Otherwise a tap opens Meowie's notification settings in the iPhone Settings app, because an app can't turn its own
+  permission on or off, and iOS never shows the popup again after "Don't Allow". The toggle reads the permission again when the user
+  comes back.
+- **On phones shorter than `tall-sm`, the notifications sheet uses a smaller cat and smaller gaps.** At full size the
+  sheet is taller than an iPhone SE, which cuts off its top and the "Skip for now" button.

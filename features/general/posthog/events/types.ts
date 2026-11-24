@@ -457,10 +457,25 @@ export type NOTIFICATIONS_SHEET_SHOWN = {
   properties: undefined;
 };
 
+export type NOTIFICATIONS_SHEET_SKIPPED = {
+  event: "notifications_sheet_skipped";
+  properties: undefined;
+};
+
+export type NotificationsState = "on" | "off";
+
 export type NOTIFICATIONS_SHEET_ANSWERED = {
   event: "notifications_sheet_answered";
   properties: {
-    turned_on: boolean;
+    after: NotificationsState;
+  };
+};
+
+export type NOTIFICATIONS_TOGGLED = {
+  event: "notifications_toggled";
+  properties: {
+    before: NotificationsState;
+    after: NotificationsState;
   };
 };
 
@@ -522,7 +537,9 @@ export type Events =
   | SCROLL_HINT_INTERRUPTED
   | FEED_FIRST_SCROLLED
   | NOTIFICATIONS_SHEET_SHOWN
-  | NOTIFICATIONS_SHEET_ANSWERED;
+  | NOTIFICATIONS_SHEET_SKIPPED
+  | NOTIFICATIONS_SHEET_ANSWERED
+  | NOTIFICATIONS_TOGGLED;
 
 export type Event = Events["event"];
 export type Properties<E extends Event> = Extract<
