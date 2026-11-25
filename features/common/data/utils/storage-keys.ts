@@ -19,6 +19,8 @@ export const STORAGE_IDS = {
 export const SECURE_STORE_KEYS = {
   ACCESS_TOKEN: "access-token",
   REFRESH_TOKEN: "refresh-token",
+  DEVICE_CODE: "device-code",
+  DEVICE_SECRET: "device-secret",
 } as const;
 
 /** Keys in the general-purpose appStorage MMKV store. */

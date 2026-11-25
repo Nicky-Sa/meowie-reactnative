@@ -9,11 +9,9 @@ import {
   createSession,
 } from "@/features/common/data/utils/session";
 import { GENERAL_TIMEOUT } from "@/lib/consts";
-import { getDefaultStore } from "jotai";
-import { getCalendars } from "expo-localization";
-import { countryCodeAtom } from "@/atoms";
-import { posthog } from "@/features/general/posthog/client";
 import { isErrorResponse } from "@/features/common/data/error";
+import { getAppHeaders } from "@/features/common/data/headers";
+import { registerDevice } from "@/features/common/data/utils/device";
 
 // Create the axios instance
 export const axiosInstance = createAxiosInstance({
@@ -37,19 +35,10 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    config.headers["x-device-code"] = posthog.getDeviceId();
 
-    // 3. Attach country code for localized content
-    const countryCode = getDefaultStore().get(countryCodeAtom);
-    if (countryCode) {
-      config.headers["x-user-country"] = countryCode;
-    }
-
-    // Only null on the web
-    const timeZone = getCalendars()[0].timeZone;
-    if (timeZone) {
-      config.headers["x-time-zone"] = timeZone;
-    }
+    // 3. Register the phone once per launch, then attach its x- headers
+    await registerDevice();
+    config.headers.set(await getAppHeaders());
 
     return config;
   },
@@ -144,6 +133,7 @@ axiosInstance.interceptors.response.use(
         const refreshResponse = await axios.post(
           `${env.EXPO_PUBLIC_BACKEND_URL}/v1/auth/refresh-token`,
           { refreshToken },
+          { headers: await getAppHeaders() },
         );
 
         const { accessToken, refreshToken: newRefreshToken } =
