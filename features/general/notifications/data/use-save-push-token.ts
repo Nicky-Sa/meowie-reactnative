@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
+import * as Device from "expo-device";
 import { useMutationConfigured } from "@/features/common/data/query/hooks";
 import { SavePushTokenReqDto } from "@/features/general/notifications/data/dto/save-push-token.dto";
 
@@ -10,6 +11,8 @@ const getPushToken = async (): Promise<string | null> => {
 
   const { data } = await Notifications.getExpoPushTokenAsync({
     projectId: Constants.easConfig?.projectId,
+    // A simulator build has no provisioning profile, so Expo can't tell its token is for Apple's test server
+    development: !Device.isDevice,
   });
   return data;
 };

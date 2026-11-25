@@ -77,3 +77,5 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   that opened a fully closed app comes before the listener exists.
 - **`isAppPath` checks that a link is an app path, instead of an `as Href` cast.** `+native-intent.tsx` uses it too.
 - **A tap sends the PostHog event `push_notification_opened` with the opened path.**
+- **On the simulator, the app asks Expo for a token on Apple's test server.** A simulator build has no provisioning
+  profile, so Expo would pick the live server, and Apple would reject the token with `BadDeviceToken`.
