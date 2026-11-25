@@ -1,9 +1,12 @@
 # Update check
 
+Sessions: `2393394e-44d3-4470-9f42-36851f5e27a0`
+
 ## Decisions
 
 - **The app blocks versions under a minimum, because the App Store can't force an update.** iOS auto-update is each person's own setting. A version under the minimum shows a "Please update" screen that can't be closed, and a version under the latest shows a "New version available" popup.
 - **The minimum version comes from the PostHog flag `minimum-app-version`, as its payload.** It can be changed in the PostHog dashboard with no backend deploy and no app release.
+- **Preview and development builds read `minimum-app-version-preview` instead.** All builds share one PostHog project, so a separate flag lets a preview build force an update without touching production.
 - **The latest version comes from Apple's lookup API.** It updates by itself after every App Store release, so nobody has to change a value by hand.
 - **Apple's lookup runs through React Query (`useQuery`) with `fetch`, not `useQueryConfigured`.** `useQueryConfigured` adds `/v1`, our token and our response format, which Apple doesn't use. React Query retries and loads again when the app comes to the front.
 - **Apple's answer gets its type from `useQuery`'s generic, with no `as` cast and no zod check for now.** No other response in the app is checked at runtime, so a change in Apple's answer would go unnoticed, the same as with our backend.

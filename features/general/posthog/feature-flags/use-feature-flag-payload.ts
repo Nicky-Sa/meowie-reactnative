@@ -10,6 +10,8 @@ const isFlagPayload: {
 } = {
   "minimum-app-version": (payload): payload is string =>
     typeof payload === "string",
+  "minimum-app-version-preview": (payload): payload is string =>
+    typeof payload === "string",
 };
 
 /** Returns undefined while flags load, when the flag is off, or when its payload has the wrong type. */
