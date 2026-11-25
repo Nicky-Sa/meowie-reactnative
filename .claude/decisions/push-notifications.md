@@ -39,9 +39,13 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
 - **`getAppHeaders` in `features/common/data/headers.ts` builds every `x-` header, and every request to the backend
   sends all of them.** That includes the token refresh and the registration, which skip the axios instance, so no
   request misses a header the backend may need.
-- **The axios request interceptor registers the phone once per launch with `registerDevice`, and every request waits
-  for it.** A call on the start screen would miss requests that go out before it, like a token refresh or the
-  push-token save. `getAppHeaders` only reads the headers and registers nothing.
+- **The axios request interceptor calls `registerDevice` before every request, and it registers only once per device
+  code.** A call on the start screen would miss requests that go out before it, like a token refresh or the
+  push-token save. A yes/no mark in `appStorage` saves a request on every later launch, and a reinstall clears it
+  together with PostHog's device id. `getAppHeaders` only reads the headers and registers nothing.
+- **A `428` in the backend's own error format makes the app register again with the same secret and repeat the
+  request once, also for the token refresh.** A phone whose row
+  the backend lost would otherwise fail every request, and a refresh would sign the person out.
 - **The secret is 32 random bytes from `expo-crypto`, saved in SecureStore next to the device code it belongs to.** The
   keychain outlives a reinstall, but PostHog's device id doesn't, so a new device code gets a new secret.
 - **App Attest waits for a later release.** It needs a new App ID capability, a challenge endpoint and checks against

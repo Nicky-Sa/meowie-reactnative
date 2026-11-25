@@ -26,6 +26,7 @@ export const SECURE_STORE_KEYS = {
 /** Keys in the general-purpose appStorage MMKV store. */
 export const APP_STORAGE_KEYS = {
   ONBOARDED: "onboarded",
+  DEVICE_REGISTERED: "device-registered",
 } as const;
 
 export type AppStorageKey =

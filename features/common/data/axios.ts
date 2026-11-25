@@ -12,6 +12,8 @@ import { GENERAL_TIMEOUT } from "@/lib/consts";
 import { isErrorResponse } from "@/features/common/data/error";
 import { getAppHeaders } from "@/features/common/data/headers";
 import { registerDevice } from "@/features/common/data/utils/device";
+import { appStorage } from "@/features/common/data/utils/app-storage";
+import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 
 // Create the axios instance
 export const axiosInstance = createAxiosInstance({
@@ -36,8 +38,10 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // 3. Register the phone once per launch, then attach its x- headers
-    await registerDevice();
+    // 3. Register the phone the first time, then attach its x- headers
+    if (!appStorage.getItem(APP_STORAGE_KEYS.DEVICE_REGISTERED)) {
+      await registerDevice();
+    }
     config.headers.set(await getAppHeaders());
 
     return config;
@@ -48,6 +52,29 @@ axiosInstance.interceptors.request.use(
 // Thrown when there is no refresh token to try. The session cannot recover,
 // so it is handled like a rejected token rather than a transient failure.
 class NoRefreshTokenError extends Error {}
+
+// Only DeviceGuard answers 428, when it has no row for this phone or a different secret.
+// The body must be the backend's own error format, so a 428 from anything in front of it is ignored.
+const isUnregisteredPhone = (error: unknown) =>
+  isAxiosError(error) &&
+  isErrorResponse(error.response?.data) &&
+  error.response.data.statusCode === 428;
+
+const requestNewTokens = async (refreshToken: string) => {
+  const sendRefresh = async () =>
+    axios.post(
+      `${env.EXPO_PUBLIC_BACKEND_URL}/v1/auth/refresh-token`,
+      { refreshToken },
+      { headers: await getAppHeaders() },
+    );
+  try {
+    return await sendRefresh();
+  } catch (error) {
+    if (!isUnregisteredPhone(error)) throw error;
+    await registerDevice();
+    return sendRefresh();
+  }
+};
 
 // Flag to prevent multiple refresh attempts
 let isRefreshing = false;
@@ -94,6 +121,17 @@ axiosInstance.interceptors.response.use(
       url: originalRequest?.url,
     });
 
+    // The backend lost this phone's row, like after a database restore, so register again and repeat the request once
+    if (
+      isUnregisteredPhone(error) &&
+      originalRequest &&
+      !originalRequest._registeredAgain
+    ) {
+      originalRequest._registeredAgain = true;
+      await registerDevice();
+      return axiosInstance(originalRequest);
+    }
+
     // Check for 401 Unauthorized
     if (error.response?.status === 401 && originalRequest) {
       // Prevent infinite 401 loops
@@ -130,11 +168,7 @@ axiosInstance.interceptors.response.use(
         }
 
         // Scenario B: Attempt to refresh
-        const refreshResponse = await axios.post(
-          `${env.EXPO_PUBLIC_BACKEND_URL}/v1/auth/refresh-token`,
-          { refreshToken },
-          { headers: await getAppHeaders() },
-        );
+        const refreshResponse = await requestNewTokens(refreshToken);
 
         const { accessToken, refreshToken: newRefreshToken } =
           refreshResponse.data.data;

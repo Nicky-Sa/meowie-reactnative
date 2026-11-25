@@ -7,8 +7,10 @@ import {
   getDeviceSecret,
   saveNewDeviceSecret,
 } from "@/features/common/data/utils/device-secret";
+import { appStorage } from "@/features/common/data/utils/app-storage";
+import { APP_STORAGE_KEYS } from "@/features/common/data/utils/storage-keys";
 
-// Shared by every request, so requests sent together at launch don't each make their own secret or registration
+// Shared by every request, so requests sent together don't each send their own registration
 let registration: Promise<void> | null = null;
 
 const sendRegistration = async () => {
@@ -23,14 +25,14 @@ const sendRegistration = async () => {
       { secret },
       { headers: await getAppHeaders(), timeout: GENERAL_TIMEOUT },
     );
-  } catch (error) {
-    // Lets the next request try again, like after the phone was offline
+    // Saves the mark in app storage, so a reinstall, which also gives PostHog a new device code, clears it
+    appStorage.setItem(APP_STORAGE_KEYS.DEVICE_REGISTERED, "true");
+  } finally {
     registration = null;
-    throw error;
   }
 };
 
-/** Registers the phone with the backend once per app launch. */
+/** Registers the phone with the backend, also when it registered before. */
 export const registerDevice = async () => {
   registration ??= sendRegistration();
   await registration;
