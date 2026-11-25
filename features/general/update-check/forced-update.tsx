@@ -9,21 +9,19 @@ import { useVersionCheck } from "@/features/general/update-check/hooks/use-versi
 export const ForcedUpdate = ({ children }: PropsWithChildren) => {
   const { updateState } = useVersionCheck();
 
+  // Replaces the app instead of covering it, so no screen keeps sending requests to the backend
+  if (updateState !== "required") return children;
+
   return (
-    <>
-      {children}
-      {updateState === "required" && (
-        <View className="absolute inset-0 bg-neutral-15-default">
-          <InformationBlock
-            img={CoolMeowie}
-            text="This version of Meowie is no longer supported. Please update to benefit from the latest features."
-          >
-            <Button onPress={openAppStore} variant="white">
-              Update
-            </Button>
-          </InformationBlock>
-        </View>
-      )}
-    </>
+    <View className="flex-1 bg-neutral-15-default">
+      <InformationBlock
+        img={CoolMeowie}
+        text="This version of Meowie is no longer supported. Please update to benefit from the latest features."
+      >
+        <Button onPress={openAppStore} variant="white">
+          Update
+        </Button>
+      </InformationBlock>
+    </View>
   );
 };
