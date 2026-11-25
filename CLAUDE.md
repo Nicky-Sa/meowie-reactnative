@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Expo (React Native) mobile app for Meowie. This file is auto-loaded when working in `meowie-reactnative/`; the monorepo root `../CLAUDE.md` covers the backend.
+Expo (React Native) mobile app for Meowie. This file is auto-loaded when working in `meowie-reactnative/`; `../meowie-backend/CLAUDE.md` covers the backend.
 
 Meowie is released on iOS only. The Android scripts below still build, but no Android version is released, so there is no need to test or plan for Android.
 
@@ -84,6 +84,8 @@ Backend response envelope (`features/common/data/transformers.ts`): success `{ s
 **Adding a PostHog event.** Add its type to `features/general/posthog/events/types.ts` and a tracker to `features/general/posthog/events/use-analytics.ts`. Then add a row for it in the Notion table "🐾 Tracking Event - Posthog" (https://app.notion.com/p/358b1b85bdfe801696bdebf656b666d8), following the other rows' style. When you rename or remove an event, update its row too.
 
 **Adding a PostHog feature flag.** Add its payload type to `FeatureFlagPayloads` in `features/general/posthog/feature-flags/types.ts`, and a check for that type to `isFlagPayload` in `features/general/posthog/feature-flags/use-feature-flag-payload.ts`. Read it with `useFeatureFlagPayload` from that same file. PostHog gives every payload as any JSON, so the check is how TypeScript learns its type without an `as` cast.
+
+**Push notifications.** `expo-notifications`; the backend decides what to send. `useSavePushToken` saves the phone's push token, or `null` without permission, with `PUT /v1/device/current/push-token`. The notifications sheet and the Settings toggle call it right after "Allow". A tap on a notification opens the app path in its `data.url`, checked with `isAppPath`, through `useNotificationTapped`, which also reads the tap that started the app. A simulator build has no provisioning profile, so the app asks Expo for a token on Apple's test server there (`development: !Device.isDevice`).
 
 **OTA updates.** EAS Update; `UpdatesListener` (in the provider tree) downloads and reloads updates on launch. `runtimeVersion.policy` is `appVersion`. Update scripts are iOS-only.
 

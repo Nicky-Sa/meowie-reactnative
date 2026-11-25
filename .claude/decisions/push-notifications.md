@@ -77,5 +77,13 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   that opened a fully closed app comes before the listener exists.
 - **`isAppPath` checks that a link is an app path, instead of an `as Href` cast.** `+native-intent.tsx` uses it too.
 - **A tap sends the PostHog event `push_notification_opened` with the opened path.**
+- **App Store Connect lists Device ID as linked to the user.** The `devices` row keeps the device code and push token
+  with `userId` while someone is signed in.
+- **The App Review notes explain when the notifications sheet shows and that notifications are optional.** The old
+  notes said the app has no push notifications.
+- **The store description has a NOTIFICATIONS section, and What's New for 1.3.7 has a notifications line.** Both use
+  the sheet's three benefits: new collections, big releases and top matches.
+- **Device ID stays "not used for tracking".** PostHog only measures how Meowie itself is used, and Apple counts only
+  ads that use other companies' data, or sharing with data brokers, as tracking.
 - **On the simulator, the app asks Expo for a token on Apple's test server.** A simulator build has no provisioning
   profile, so Expo would pick the live server, and Apple would reject the token with `BadDeviceToken`.
