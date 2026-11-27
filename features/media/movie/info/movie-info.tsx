@@ -28,6 +28,7 @@ import { Link } from "@/features/common/ui/link";
 type Props = {
   movieId: ID;
   inScreen: boolean;
+  tag?: string;
   tourEnabled?: boolean;
 };
 

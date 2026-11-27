@@ -25,6 +25,7 @@ import { Link } from "@/features/common/ui/link";
 type Props = {
   seriesId: ID;
   inScreen: boolean;
+  tag?: string;
 };
 
 export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {

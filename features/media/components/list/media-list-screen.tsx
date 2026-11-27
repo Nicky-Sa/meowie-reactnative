@@ -40,6 +40,7 @@ export const MediaListScreen = ({
         id: item.id,
         mediaType: item.mediaType,
         roleInMedia: item.role,
+        tag: item.tag,
       })) || []
     );
   }, [rawPosterData]);

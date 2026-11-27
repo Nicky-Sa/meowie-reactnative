@@ -23,7 +23,7 @@ type Props = {
 export const MediaListItem = memo(
   ({ item, inScreen, index, scrollY }: Props) => {
     const itemHeight = useMainScreenContentHeight();
-    const { id, mediaType, roleInMedia } = item;
+    const { id, mediaType, roleInMedia, tag } = item;
     const setCurrentRoleInMedia = useSetAtom(currentRoleInMediaAtom);
 
     useEffect(() => {
@@ -63,10 +63,11 @@ export const MediaListItem = memo(
             <MovieInfo
               movieId={id}
               inScreen={inScreen}
+              tag={tag}
               tourEnabled={index === 0} // first item
             />
           ) : mediaType === "series" ? (
-            <SeriesInfo seriesId={id} inScreen={inScreen} />
+            <SeriesInfo seriesId={id} inScreen={inScreen} tag={tag} />
           ) : null}
         </View>
       </Animated.View>

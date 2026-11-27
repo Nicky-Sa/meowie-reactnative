@@ -12,6 +12,7 @@ export type PosterInfo = {
   blurhash: string;
   mediaType: MediaType;
   role?: string;
+  tag?: string;
   preview: {
     title: string;
     genres: Genre[];

@@ -5,6 +5,7 @@ export type MediaListItemData = {
   mediaType: MediaType;
   deliveryIndex?: number;
   roleInMedia?: string;
+  tag?: string;
   // Non-media page injected into the list.
   card?: "share-taste";
 };
