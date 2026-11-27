@@ -63,9 +63,7 @@ export const Screen = () => {
       {submitTasteError || currentUserError ? (
         <ErrorState
           tryAgain={currentUserError ? refetchCurrentUSer : finishTaste}
-          error={
-            "We couldn't save your taste. Check your connection and try again."
-          }
+          error={`We couldn't save your taste.\nCheck your connection and try again.`}
         />
       ) : (
         <LoadingTasteSubmission picks={picksToSubmit} />

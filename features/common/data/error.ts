@@ -30,5 +30,5 @@ export const getErrorText = (
 ) => {
   if (!(error instanceof APICallError)) return fallbackText;
   if (error.status) return error.message;
-  return "We couldn't reach Meowie. Check your connection and try again.";
+  return `We couldn't reach Meowie.\nCheck your connection and try again.`;
 };
