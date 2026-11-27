@@ -96,6 +96,8 @@ Sessions: `46b1f770-311e-4d3e-83a2-21fe633a44b8`, `9d355021-08e0-4033-b2ea-25b1c
   with `userId` while someone is signed in.
 - **The App Review notes explain when the notifications sheet shows and that notifications are optional.** The old
   notes said the app has no push notifications.
+- **The App Review notes don't ask the reviewer to receive a notification.** During review the live backend only
+  answers the device calls with stubs, so it saves no push token and sends nothing.
 - **The store description has a NOTIFICATIONS section, and What's New for 1.3.7 has a notifications line.** Both use
   the sheet's three benefits: new collections, big releases and top matches.
 - **Device ID stays "not used for tracking".** PostHog only measures how Meowie itself is used, and Apple counts only
