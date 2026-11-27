@@ -85,7 +85,7 @@ export const lastSeenReleaseNoteAtAtom = atomPersisted(
   "",
 );
 
-// The App Store version the person tapped "Later" on, so its popup doesn't show again.
+// The App Store version the person tapped "Later" on, so its sheet doesn't show again.
 export const skippedUpdateVersionAtom = atomPersisted(
   PERSISTED_ATOM_KEYS.SKIPPED_UPDATE_VERSION,
   "",

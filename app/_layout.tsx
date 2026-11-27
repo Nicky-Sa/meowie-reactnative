@@ -8,7 +8,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PostHogProvider, PostHogSurveyProvider } from "posthog-react-native";
 import { InternetCheck } from "@/features/general/internet-check";
 import { ForcedUpdate } from "@/features/general/update-check/forced-update";
-import { UpdatePopup } from "@/features/general/update-check/update-popup";
+import { UpdateSheet } from "@/features/general/update-check/update-sheet";
 import { NotificationsSheet } from "@/features/general/notifications/notifications-sheet";
 import { PortalHost } from "@gorhom/portal";
 import { queryClient } from "@/features/common/data/query/client";
@@ -235,10 +235,10 @@ function RootLayout() {
                                 </Stack>
                                 <PortalHost name="global-overlay" />
                                 <NotificationsSheet />
+                                <UpdateSheet />
                               </SpotlightTourProvider>
                             </BottomSheetModalProvider>
                           </ForcedUpdate>
-                          <UpdatePopup />
                         </InternetCheck>
                         {/* Outside the sheet provider, so a toast shows above an open bottom sheet and the offline view. */}
                         <Toast

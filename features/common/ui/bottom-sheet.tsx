@@ -92,8 +92,9 @@ export const BottomSheet = forwardRef<
             <View
               className="w-full bg-neutral-15-default p-4"
               style={{
+                // Phones with a home button have no bottom inset, so the footer keeps its own 16 points there
                 paddingBottom:
-                  insets.bottom +
+                  Math.max(insets.bottom, Number(tailwind.theme.spacing["4"])) +
                   Platform.select({
                     android: Number(tailwind.theme.spacing["2"]),
                     default: 0,

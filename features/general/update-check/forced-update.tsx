@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
 import { View } from "react-native";
-import CoolMeowie from "@/assets/images/meowie/cool-meowie.svg";
 import { Button } from "@/features/common/ui/button";
 import { InformationBlock } from "@/features/common/information-block";
+import { UpdateAnimation } from "@/features/general/update-check/update-animation";
 import { openAppStore } from "@/features/general/update-check/utils/app-store";
 import { useVersionCheck } from "@/features/general/update-check/hooks/use-version-check";
 
@@ -15,8 +15,9 @@ export const ForcedUpdate = ({ children }: PropsWithChildren) => {
   return (
     <View className="flex-1 bg-neutral-15-default">
       <InformationBlock
-        img={CoolMeowie}
-        text="This version of Meowie is no longer supported. Please update to benefit from the latest features."
+        img={UpdateAnimation}
+        title="Update required"
+        text={`This version of Meowie is no longer supported.\nPlease update to benefit from the latest features.`}
       >
         <Button onPress={openAppStore} variant="white">
           Update
