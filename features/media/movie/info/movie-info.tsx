@@ -32,143 +32,148 @@ type Props = {
   tourEnabled?: boolean;
 };
 
-export const MovieInfo = memo(({ movieId, inScreen, tourEnabled }: Props) => {
-  useTrackMediaTime({
-    mediaId: movieId,
-    mediaType: "movie",
-    isVisible: inScreen,
-  });
+export const MovieInfo = memo(
+  ({ movieId, inScreen, tag, tourEnabled }: Props) => {
+    useTrackMediaTime({
+      mediaId: movieId,
+      mediaType: "movie",
+      isVisible: inScreen,
+    });
 
-  const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
-  useSetupTour(!!tourEnabled && !!data);
-  const [, setColor] = useAtom(colorAtom);
-  const [autoplay, setAutoplay] = useAtom(autoplayAtom);
-  const detailsPath: Href = `/movie/${movieId}/details`;
+    const { data, isLoading, error, refetch } = useFetchMovieDetails(movieId);
+    useSetupTour(!!tourEnabled && !!data);
+    const [, setColor] = useAtom(colorAtom);
+    const [autoplay, setAutoplay] = useAtom(autoplayAtom);
+    const detailsPath: Href = `/movie/${movieId}/details`;
 
-  const {
-    onTrailerPlay,
-    onTrailerPause,
-    onPosterExpanded,
-    onSavePress,
-    onSeenPress,
-    onRate,
-    onSkipRating,
-    onRemoveSeen,
-  } = useMediaTracking({
-    id: movieId,
-    mediaType: "movie",
-    title: data?.title,
-    genres: data?.genres,
-  });
+    const {
+      onTrailerPlay,
+      onTrailerPause,
+      onPosterExpanded,
+      onSavePress,
+      onSeenPress,
+      onRate,
+      onSkipRating,
+      onRemoveSeen,
+    } = useMediaTracking({
+      id: movieId,
+      mediaType: "movie",
+      title: data?.title,
+      genres: data?.genres,
+    });
 
-  const handleTrailerPlay = useCallback(() => {
-    onTrailerPlay();
-    setAutoplay(true);
-  }, [onTrailerPlay, setAutoplay]);
+    const handleTrailerPlay = useCallback(() => {
+      onTrailerPlay();
+      setAutoplay(true);
+    }, [onTrailerPlay, setAutoplay]);
 
-  const handleTrailerPause = useCallback(() => {
-    onTrailerPause();
-    setAutoplay(false);
-  }, [onTrailerPause, setAutoplay]);
+    const handleTrailerPause = useCallback(() => {
+      onTrailerPause();
+      setAutoplay(false);
+    }, [onTrailerPause, setAutoplay]);
 
-  useShareOnScreenshot({
-    mediaType: "movie",
-    id: movieId,
-    isVisible: inScreen,
-  });
+    useShareOnScreenshot({
+      mediaType: "movie",
+      id: movieId,
+      isVisible: inScreen,
+    });
 
-  useFocusEffect(
-    useCallback(() => {
-      if (inScreen) {
-        if (data?.posterProps.primaryColorHex) {
-          setColor(data.posterProps.primaryColorHex);
+    useFocusEffect(
+      useCallback(() => {
+        if (inScreen) {
+          if (data?.posterProps.primaryColorHex) {
+            setColor(data.posterProps.primaryColorHex);
+          }
         }
-      }
-    }, [data?.posterProps.primaryColorHex, inScreen, setColor]),
-  );
+      }, [data?.posterProps.primaryColorHex, inScreen, setColor]),
+    );
 
-  return error ? (
-    <ErrorState tryAgain={refetch} error={error} />
-  ) : isLoading || !data ? (
-    <MediaInfoSkeleton />
-  ) : (
-    <View
-      className={
-        "flex w-full flex-1 flex-col justify-center gap-2 py-2 tall-sm:gap-4 tall-sm:py-6"
-      }
-    >
-      <TrailerPlayer
-        YTKey={data.trailerKey}
-        inScreen={inScreen}
-        autoplay={autoplay}
-        onPlay={handleTrailerPlay}
-        onPause={handleTrailerPause}
-        backdropPath={data.backdropPath}
-      />
+    return error ? (
+      <ErrorState tryAgain={refetch} error={error} />
+    ) : isLoading || !data ? (
+      <MediaInfoSkeleton />
+    ) : (
+      <View
+        className={
+          "flex w-full flex-1 flex-col justify-center gap-2 py-2 tall-sm:gap-4 tall-sm:py-6"
+        }
+      >
+        <TrailerPlayer
+          YTKey={data.trailerKey}
+          inScreen={inScreen}
+          autoplay={autoplay}
+          onPlay={handleTrailerPlay}
+          onPause={handleTrailerPause}
+          backdropPath={data.backdropPath}
+          tag={tag}
+        />
 
-      <View className={"flex flex-col gap-2"}>
-        <ScrollableTitle title={data.title} href={detailsPath} />
-        <Ratings ratings={data.ratings} />
-      </View>
-
-      <RowInfo
-        info={[data.screeningStatus, data.certification, data.duration]}
-      />
-
-      <Tourable tourEnabled={tourEnabled} step={TourStep.DeepDiving} fill>
-        <View className={"flex flex-col gap-2 tall-sm:gap-4"}>
-          <View className={"flex w-full flex-row gap-2"}>
-            <EnlargeableImage
-              source={data.posterPath}
-              blurhash={data.posterProps.blurhash}
-              width={60}
-              onPress={onPosterExpanded}
-            />
-            <View className={"flex flex-1 flex-col gap-3"}>
-              <Link href={detailsPath}>
-                <Text
-                  numberOfLines={3}
-                  ellipsizeMode="tail"
-                  className={"body-b2 text-neutral-6-default"}
-                >
-                  {data.overview}
-                </Text>
-              </Link>
-
-              <ScrollableGenres
-                genres={data.genres}
-                mediaType={"movie"}
-                className={"-mr-4 grow-0 pr-4"}
-              />
-            </View>
-          </View>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className={"-mx-4 grow-0 px-4"}
-            contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
-          >
-            <Credit {...data.credits.director} />
-
-            <View className={"h-4 w-[1px] rounded-xl bg-neutral-10-default"} />
-
-            <Credits credits={data.credits.casts.slice(0, 5)} />
-          </ScrollView>
+        <View className={"flex flex-col gap-2"}>
+          <ScrollableTitle title={data.title} href={detailsPath} />
+          <Ratings ratings={data.ratings} />
         </View>
-      </Tourable>
 
-      <Actions
-        mediaId={movieId}
-        mediaType={"movie"}
-        onSavePress={onSavePress}
-        onSeenPress={onSeenPress}
-        onRate={onRate}
-        onSkipRating={onSkipRating}
-        onRemoveSeen={onRemoveSeen}
-      />
-    </View>
-  );
-});
+        <RowInfo
+          info={[data.screeningStatus, data.certification, data.duration]}
+        />
+
+        <Tourable tourEnabled={tourEnabled} step={TourStep.DeepDiving} fill>
+          <View className={"flex flex-col gap-2 tall-sm:gap-4"}>
+            <View className={"flex w-full flex-row gap-2"}>
+              <EnlargeableImage
+                source={data.posterPath}
+                blurhash={data.posterProps.blurhash}
+                width={60}
+                onPress={onPosterExpanded}
+              />
+              <View className={"flex flex-1 flex-col gap-3"}>
+                <Link href={detailsPath}>
+                  <Text
+                    numberOfLines={3}
+                    ellipsizeMode="tail"
+                    className={"body-b2 text-neutral-6-default"}
+                  >
+                    {data.overview}
+                  </Text>
+                </Link>
+
+                <ScrollableGenres
+                  genres={data.genres}
+                  mediaType={"movie"}
+                  className={"-mr-4 grow-0 pr-4"}
+                />
+              </View>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className={"-mx-4 grow-0 px-4"}
+              contentContainerClassName={"min-w-full h-7 gap-4 items-center"}
+            >
+              <Credit {...data.credits.director} />
+
+              <View
+                className={"h-4 w-[1px] rounded-xl bg-neutral-10-default"}
+              />
+
+              <Credits credits={data.credits.casts.slice(0, 5)} />
+            </ScrollView>
+          </View>
+        </Tourable>
+
+        <Actions
+          mediaId={movieId}
+          mediaType={"movie"}
+          onSavePress={onSavePress}
+          onSeenPress={onSeenPress}
+          onRate={onRate}
+          onSkipRating={onSkipRating}
+          onRemoveSeen={onRemoveSeen}
+        />
+      </View>
+    );
+  },
+);
 
 MovieInfo.displayName = "MovieInfo";

@@ -13,6 +13,7 @@ import { useAppState } from "@/hooks/use-app-state";
 import { cn, tailwind } from "@/lib/tailwind";
 import { Icon } from "@/features/common/ui/icon";
 import { Badge } from "@/features/common/ui/badge";
+import { PawTag } from "@/features/media/components/common/paw-tag";
 import PlayIcon from "@/assets/icons/play.svg";
 import Animated, {
   useAnimatedStyle,
@@ -32,6 +33,7 @@ type Props = {
   fullWidth?: boolean;
   backdropPath: string | undefined;
   errorMessagePlacement?: "top" | "bottom";
+  tag?: string;
 };
 
 /**
@@ -46,9 +48,11 @@ export const TrailerPlayer = ({
   fullWidth = false,
   backdropPath,
   errorMessagePlacement = "bottom",
+  tag,
 }: Props) => {
   return (
     <View className={"max-h-[230px] w-full flex-1 tall-sm:max-h-[280px]"}>
+      {tag ? <PawTag text={tag} inScreen={inScreen} /> : null}
       <Player
         key={YTKey}
         YTKey={YTKey}

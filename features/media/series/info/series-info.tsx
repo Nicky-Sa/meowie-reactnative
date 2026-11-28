@@ -28,7 +28,7 @@ type Props = {
   tag?: string;
 };
 
-export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
+export const SeriesInfo = memo(({ seriesId, inScreen, tag }: Props) => {
   useTrackMediaTime({
     mediaId: seriesId,
     mediaType: "series",
@@ -99,6 +99,7 @@ export const SeriesInfo = memo(({ seriesId, inScreen }: Props) => {
         onPlay={handleTrailerPlay}
         onPause={handleTrailerPause}
         backdropPath={data.backdropPath}
+        tag={tag}
       />
 
       <View className={"flex flex-col gap-2"}>
